@@ -1,0 +1,301 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="CTSTools.master.cs" Inherits="CTSTools.WEB.App.Features.MasterPage.CTSTools" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <title>CTS Tools</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <link rel="icon" type="image/x-icon" href="/App/Common/Assets/img/favicon.ico">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <!-- ================== BEGIN core-css ================== -->
+    <link href="~/App/Common/Assets/css/ColorAdmin5CSS/vendor.min.css" rel="stylesheet" />
+    <link href="~/App/Common/Assets/css/ColorAdmin5CSS/app.min.css" rel="stylesheet" />
+    <link href="~/App/Common/Assets/css/ColorAdmin5CSS/plugins/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/App/Common/Assets/css/toastr/toastr.min.css" rel="stylesheet" />
+    <!-- ================== END core-css ================== -->
+    <link href="CTSTools.Master.css" rel="stylesheet" />
+    <link href="~/App/Common/Assets/css/DevExtreme/dx.common.css" rel="stylesheet" />
+    <%--<link href="~/App/Common/Assets/css/DevExtreme/dx.material.css" rel="stylesheet" />--%>
+    <link href="~/App/Common/Assets/css/DevExtreme/dx.material-teal.css" rel="stylesheet" />
+    <link href="~/App/Common/Assets/css/Custom/custom.css" rel="stylesheet" />
+    <%-- <link href="~/App/Common/Assets/css/Custom/valentines.css" rel="stylesheet" />--%>
+</head>
+<body class="theme-teal">
+    <div id="dxLoader"></div>
+    <!-- BEGIN #app -->
+    <div id="app" class="app app-header-fixed app-sidebar-fixed app-with-wide-sidebar">
+        <!-- BEGIN #header -->
+        <div id="header" class="app-header h-49px">
+            <!-- BEGIN navbar-header -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-desktop-toggler" data-toggle="app-sidebar-minify">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand">
+                    <i class="fas fa-crown me-2"></i><b class="me-1">CTS Tools</b>
+                </a>
+                <button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- END navbar-header -->
+            <!-- BEGIN header-nav -->
+            <div class="navbar-nav">
+                <div class="navbar-item navbar-form">
+                    <form action="" method="POST" name="search">
+                        <%--<div class="form-group">
+                            <input type="text" class="form-control" placeholder='' />
+                            <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+                        </div>--%>
+                    </form>
+                </div>
+                <div class="navbar-item navbar-user dropdown">
+                    <a href="#" class="navbar-link dropdown-toggle d-flex align-items-center">
+                        <span class="d-none d-md-inline"><%= Session["_userLogin"].ToString() %></span>
+                    </a>
+                </div>
+            </div>
+            <!-- END header-nav -->
+        </div>
+        <!-- END #header -->
+
+        <!-- BEGIN #sidebar -->
+        <div id="sidebar" class="app-sidebar">
+            <!-- BEGIN scrollbar -->
+            <div class="app-sidebar-content menu-background" data-scrollbar="true" data-height="100%">
+                <!-- BEGIN menu -->
+                <div class="menu">
+                    <%--<div class="menu-profile">
+                        <a href="#" style="padding: 0px !important">
+                            <iframe src="http://project/Navbar.aspx?ProjectID=26" width="100%" height="275px" frameborder="0" style="max-height: 275px;"></iframe>
+                        </a>
+                    </div>--%>
+                    <div class="menu-search mb-n3">
+                        <input type="text" class="form-control" placeholder="Search..." data-sidebar-search="true">
+                    </div>
+                    <div class="menu-header">Navigation</div>
+                    <div class="menu-item">
+                        <a href="/" class="menu-link theme-teal">
+                            <div class="menu-icon">
+                                <i class="fas fa-house"></i>
+                            </div>
+                            <div class="menu-text">Home</div>
+                        </a>
+                    </div>
+                    <div class="menu-item has-sub">
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <div class="menu-text">Engineering</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div class="menu-item has-sub">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-icon">
+                                        <i class="fa-solid fa-hashtag"></i>
+                                    </div>
+                                    <div class="menu-text">ComponentID</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div class="menu-item">
+                                        <a href="/App/Features/Engineering/ComponentID/PartManagement/PartCreator.aspx" class="menu-link">
+                                            <div class="menu-text">Part Creator</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/Engineering/ComponentID/PartManagement/PartList.aspx" class="menu-link">
+                                            <div class="menu-text">Part List</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/Engineering/ComponentID/DecoderManagement/DecoderCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Decoders</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/Engineering/ComponentID/AttributeManagement/ClassAdministration.aspx" class="menu-link">
+                                            <div class="menu-text">Class & Subs</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/Engineering/ComponentID/AttributeManagement/AttributeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Attributes</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Suppliers</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item has-sub">
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fas fa-sliders"></i>
+                            </div>
+                            <div class="menu-text">Advanced Settings</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div class="menu-item has-sub">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Org Management</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div class="menu-item">
+                                        <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Users</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/AdvancedSettings/UserManagement/DomainCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Domains</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/AdvancedSettings/SecurityManagement/RoleAdministration.aspx" class="menu-link">
+                                            <div class="menu-text">Roles</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Locations</div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <a href="/App/Features/AdvancedSettings/MailGroupManagement/MailGroupCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Mail Groups </div>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
+                                    <div class="menu-text">Status</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item has-sub">
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fas fa-circle-question"></i>
+                            </div>
+                            <div class="menu-text">Help</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <%--<div class="menu-item">
+                                <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20usuario.pdf" class="menu-link">
+                                    <div class="menu-text">Guia de usuario</div>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20de%20grupo%20de%20soporte.pdf" class="menu-link">
+                                    <div class="menu-text">Guia de grupo de soporte</div>
+                                </a>
+                            </div>--%>
+                        </div>
+                        <%--<div class="menu-item has-sub">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Spanish</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div class="menu-item">
+                                        <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20usuario.pdf" class="menu-link">
+                                            <div class="menu-text">Guia de usuario</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20de%20grupo%20de%20soporte.pdf" class="menu-link">
+                                            <div class="menu-text">Guia de grupo de soporte</div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="menu-item has-sub">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">English</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div class="menu-item">
+                                        <a href="#" class="menu-link">
+                                            <div class="menu-text">User Guide</div>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a href="#" class="menu-link">
+                                            <div class="menu-text">Support Group Guide</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+                    </div>
+
+                </div>
+                <!-- END menu -->
+            </div>
+            <!-- END scrollbar -->
+        </div>
+        <div class="app-sidebar-bg"></div>
+        <div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
+        <!-- END #sidebar -->
+        <div id="content" class="app-content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <!-- BEGIN scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
+        <!-- END scroll to top btn -->
+        <input hidden id="hiddenUserID" type="hidden" value="<%= Session["_userID"].ToString() %>" />
+    </div>
+
+    <!-- END #app -->
+
+
+    <!-- ================== BEGIN core-js ================== -->
+    <script src="/App/Features/MasterPage/CTSToolsMaster.js?v=1" type="module"></script>
+    <script src="/App/Common/Assets/js/devextreme/jszip.min.js"></script>
+    <script src="/App/Common/Assets/js/ColorAdmin5JS/vendor.min.js"></script>
+    <script src="/App/Common/Assets/js/ColorAdmin5JS/app.min.js"></script>
+    <script src="/App/Common/Assets/js/ColorAdmin5JS/plugins/sweetalert/sweetalert2.min.js"></script>
+    <script src="/App/Common/Assets/js/toastr/toastr.min.js"></script>
+    <!-- ================== END core-js ================== -->
+    <script src="/App/Common/Assets/js/devextreme/dx.viz-web.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/cldr.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/cldr/event.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/cldr/supplemental.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/event.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/globalize.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/globalize/message.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/globalize/currency.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/globalize/date.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/globalize/number.min.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/localization/dx.messages.es.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/dx.aspnet.data.js"></script>
+    <script src="/App/Common/Assets/js/devextreme/dx.aspnet.mvc.js"></script>
+
+
+</body>
+</html>
+

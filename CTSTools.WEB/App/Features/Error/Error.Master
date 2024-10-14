@@ -1,0 +1,20 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Error.master.cs" Inherits="CTSTools.WEB.App.Features.Error.Error" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Error 401</title>
+    <link rel="stylesheet" href="Error.css" />
+    <link href="~/App/Common/Assets/css/ColorAdmin5CSS/vendor.min.css" rel="stylesheet" />
+    <link href="~/App/Common/Assets/css/ColorAdmin5CSS/app.min.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div id="notfound">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+</body>
+</html>

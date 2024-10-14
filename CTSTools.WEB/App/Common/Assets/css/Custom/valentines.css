@@ -1,0 +1,12 @@
+﻿.navbar-brand::after {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-image: url('../../img/Festive/cupid.gif');
+    background-size: cover;
+    margin-left:5px
+}
+.navbar-brand {
+    color: #FF70A7 !important;
+}

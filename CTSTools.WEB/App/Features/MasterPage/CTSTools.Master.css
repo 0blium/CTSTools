@@ -1,0 +1,250 @@
+﻿/*#region Header Nav Bar*/
+@import url('ctstools.master.css');
+.app-header {
+    background-color: #263238;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+}
+
+.navbar-desktop-toggler .icon-bar {
+    background: #ffffff !important;
+}
+
+.app-header .navbar-nav .navbar-item .navbar-link {
+    color: #ffffff;
+}
+
+.h-49px {
+    height: 49px;
+}
+/*#endregion*/
+
+/*#region Body - Main Content*/
+body {
+    background-color: #E4E7E8;
+}
+
+.app-content {
+    /*padding: 0px 30px;*/
+    padding-top: 0px;
+}
+
+@media (min-width: 768px) {
+    .app-with-wide-sidebar .app-content {
+        margin-left: 228px
+    }
+}
+/*#endregion*/
+
+/*#region Sidebar Menu*/
+.theme-teal {
+    --bs-app-theme: #263238 !important;
+    --bs-app-theme-rgb: 47, 107, 104 !important;
+    --bs-app-theme-teal: #2F6B68 !important;
+}
+
+.app-sidebar-minified:not(.app-without-sidebar) .app-sidebar:not(.app-sidebar-end) .menu > .menu-item.active > .menu-link {
+    background: rgba(var(--bs-app-theme-rgb),.15);
+}
+
+.menu-background, .form-control {
+    background-color: #F4FFFF !important;
+}
+
+.app-sidebar .menu .menu-profile {
+    padding: 0px;
+}
+
+.app-sidebar {
+    /*box-shadow: 0px 3px 15px rgba(0,0,0,0.2);*/
+    /*box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;*/
+    /*box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;*/
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    padding-top: 49px;
+}
+
+    .app-sidebar .menu .menu-item .menu-icon {
+        font-size: 15px;
+    }
+
+.app-with-wide-sidebar .app-sidebar, .app-with-wide-sidebar .app-sidebar-bg {
+    width: 220px;
+}
+
+/*#endregion*/
+
+/*#region Catalogs*/
+.btn-success, .nav-link.active {
+    --bs-btn-bg: #265755;
+    background-color: #265755 !important;
+}
+
+.background-teal {
+    background-color: #2F6B68;
+}
+
+.panel.panel-inverse > .panel-heading {
+    background: var(--bs-app-theme);
+}
+/*#endregion*/
+
+/*#region DevExtreme*/
+.dx-datagrid-rowsview .dx-row-focused.dx-data-row .dx-command-edit:not(.dx-focused) .dx-link,
+.dx-datagrid-rowsview .dx-row-focused.dx-data-row > td:not(.dx-focused),
+.dx-datagrid-rowsview .dx-row-focused.dx-data-row > tr > td:not(.dx-focused) {
+    background-color: #d7e9e8 !important;
+    color: #2f6b68 !important;
+}
+
+.dx-data-row.dx-state-hover:not(.dx-selection):not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row) > td:not(.dx-focused) {
+    background-color: #d7e9e8 !important;
+    color: unset !important;
+}
+
+.dx-datagrid-group-closed, .dx-datagrid-group-opened {
+    color: #2f6b68 !important;
+}
+
+.dx-menu-item {
+    color: #333333 !important;
+}
+
+/*Item_Header Attachments*/
+.dx-fileuploader-wrapper {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.dx-button-text {
+    text-transform: unset !important;
+    letter-spacing: normal !important;
+}
+
+.dx-fileuploader-button {
+    float: left;
+}
+
+.dx-calendar-cell span {
+    display: inline-flex !important;
+    /*    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    border-radius: 50%;*/
+    width: 2em !important;
+    height: 2em !important;
+}
+/*#endregion*/
+.card-img-overlay {
+    padding-top: 4px;
+    padding-left: 6px;
+}
+
+workflow-wizard {
+    flex-wrap: inherit;
+    display: flex;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+    align-items: center;
+    justify-content: center !important;
+}
+
+.workflow-wizard .item {
+    display: flex;
+}
+
+    .workflow-wizard .item a {
+        display: flex;
+        text-decoration: none;
+    }
+
+    .workflow-wizard .item .nav-no {
+        width: 40px;
+        float: left;
+        height: 40px;
+        padding: 20px;
+        margin: 0 auto;
+        background: 0 0;
+        position: relative;
+        z-index: 10;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .2s linear;
+        background-color: white;
+        color: #000;
+        font-weight: bold;
+        /*font-size: 1.275em;*/
+    }
+
+    .workflow-wizard .item .nav-text {
+        width: 100%;
+        margin: 0 20px;
+        background: 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #535353;
+        /*font-size: 1.175em;*/
+    }
+
+    .workflow-wizard .item .active .nav-text {
+        margin: 0 20px;
+        background: 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #373737;
+        /*font-size: 1.175em;*/
+    }
+
+    .workflow-wizard .item .active .nav-no {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto;
+        background: 0 0;
+        /*border: 2px solid var(--app-component-border-color);*/
+        position: relative;
+        z-index: 10;
+        font-size: .875rem;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .2s linear;
+        background-color: #265755;
+        font-weight: bold;
+        color: white;
+        font-size: 1.275em;
+    }
+
+    .workflow-wizard .item:not(:last-child)::after {
+        content: '';
+        width: 80px;
+        text-align: center;
+        border-bottom: 4px solid #fff;
+        line-height: 0.1em;
+        margin: 20px 20px 20px 0px;
+    }
+
+    .workflow-wizard .item:has(a.active):not(:last-child)::after {
+        border-color: #265755;
+    }
+
+.custom-tooltip {
+    --bs-tooltip-bg: #e4e7e8;
+    --bs-tooltip-color: #000;
+}
+.app-sidebar .menu .menu-item.active:not(.has-sub) > .menu-link .menu-icon {
+    color: #2F6B68 !important;
+}
+.menu .menu-item.active .menu-link {
+    color: #2F6B68 !important;
+    font-weight: 400 !important;
+}
