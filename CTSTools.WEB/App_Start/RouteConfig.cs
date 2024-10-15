@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.AspNet.FriendlyUrls;
 
-namespace CTSTools
+namespace CTSTools.WEB
 {
     public static class RouteConfig
     {

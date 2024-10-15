@@ -218,7 +218,67 @@
     <Content Include="App\Common\Utils\SearchParamsService.js" />
     <Content Include="App\Common\Utils\Utils.js" />
     <Content Include="App\Common\Utils\ValidationResultDTO.js" />
+    <Content Include="App\Features\AdvancedSettings\LocationManagement\Department\Department_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\Action\Action_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\Permission\Permission_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_Enum.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\Role\Role_Enum.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\Role\Role_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_Permission_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\StatusAdministration.aspx" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\StatusAdministration.js" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\StatusType\StatusType_Enum.js" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\StatusType\StatusType_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\Status\Status_Enum.js" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\Status\Status_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\Domain\Domain_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\User\User_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\User_Permission\User_Permission_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\UserManagement\User_Role\User_Role_Service.js" />
     <Content Include="App\Features\Default.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\AttributeCatalog.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\AttributeCatalog.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Attribute\Attribute_Enum.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Attribute\Attribute_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ClassAdministration.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ClassAdministration.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Class\Class_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\SubClass\SubClass_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLinker.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLinker.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Enum.js" />
+    <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.js" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderConfigurator.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderConfigurator.js" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructure_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_Supplier.js" />
+    <Content Include="App\Features\Engineering\ComponentID\PartManagement\PartCreator.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\PartManagement\PartCreator.js" />
+    <Content Include="App\Features\Engineering\ComponentID\PartManagement\PartList.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\PartManagement\PartList.js" />
+    <Content Include="App\Features\Engineering\ComponentID\PartManagement\Part\Part_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.js" />
+    <Content Include="App\Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Service.js" />
     <Content Include="App\Features\Error\Error.css" />
     <Content Include="App\Features\Error\Error.js" />
     <Content Include="App\Features\Error\ErrorPage.aspx" />
@@ -347,6 +407,64 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Features\AdvancedSettings\LocationManagement\Department\DepartmentController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\LocationManagement\Facility\FacilityController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.aspx.cs">
+      <DependentUpon>LocationsCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.aspx.designer.cs">
+      <DependentUpon>LocationsCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupCatalog.aspx.cs">
+      <DependentUpon>MailGroupCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupCatalog.aspx.designer.cs">
+      <DependentUpon>MailGroupCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMemberController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroupController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Action\ActionController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Permission\PermissionController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx.cs">
+      <DependentUpon>RoleAdministration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx.designer.cs">
+      <DependentUpon>RoleAdministration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\RoleType\RoleTypeController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Role\RoleController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_PermissionController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\StatusManagement\StatusAdministration.aspx.cs">
+      <DependentUpon>StatusAdministration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\StatusManagement\StatusAdministration.aspx.designer.cs">
+      <DependentUpon>StatusAdministration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\StatusManagement\StatusType\StatusTypeController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\StatusManagement\Status\StatusController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusTypeController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.aspx.cs">
+      <DependentUpon>DomainCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.aspx.designer.cs">
+      <DependentUpon>DomainCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\Domain\DomainController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.aspx.cs">
+      <DependentUpon>UserCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.aspx.designer.cs">
+      <DependentUpon>UserCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\User\UserController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\User_Permission\User_PermissionController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\UserManagement\User_Role\User_RoleController.cs" />
     <Compile Include="App\Features\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -354,6 +472,72 @@
     <Compile Include="App\Features\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\AttributeCatalog.aspx.cs">
+      <DependentUpon>AttributeCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\AttributeCatalog.aspx.designer.cs">
+      <DependentUpon>AttributeCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\Attribute\Attribute_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ClassAdministration.aspx.cs">
+      <DependentUpon>ClassAdministration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ClassAdministration.aspx.designer.cs">
+      <DependentUpon>ClassAdministration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\Class\Class_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\SubClass\SubClass_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLinker.aspx.cs">
+      <DependentUpon>ValueLinker.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLinker.aspx.designer.cs">
+      <DependentUpon>ValueLinker.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.aspx.cs">
+      <DependentUpon>DecoderCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.aspx.designer.cs">
+      <DependentUpon>DecoderCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderConfigurator.aspx.cs">
+      <DependentUpon>DecoderConfigurator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderConfigurator.aspx.designer.cs">
+      <DependentUpon>DecoderConfigurator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructure_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_SupplierController.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\PartManagement\PartCreator.aspx.cs">
+      <DependentUpon>PartCreator.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\PartManagement\PartCreator.aspx.designer.cs">
+      <DependentUpon>PartCreator.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\PartManagement\PartList.aspx.cs">
+      <DependentUpon>PartList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\PartManagement\PartList.aspx.designer.cs">
+      <DependentUpon>PartList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\PartManagement\Part\Part_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.aspx.cs">
+      <DependentUpon>SupplierCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.aspx.designer.cs">
+      <DependentUpon>SupplierCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Controller.cs" />
     <Compile Include="App\Features\Error\Error.Master.cs">
       <DependentUpon>Error.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -445,6 +629,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

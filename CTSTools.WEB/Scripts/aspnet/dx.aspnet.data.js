@@ -57,7 +57,7 @@
         var keyExpr = options.key,
             loadUrl = options.loadUrl,
             loadMethod = options.loadMethod || "GET",
-            loadParCTSTools = options.loadParCTSTools,
+            loadParams = options.loadParams,
             isRawLoadMode = options.loadMode === "raw",
             updateUrl = options.updateUrl,
             insertUrl = options.insertUrl,
@@ -129,7 +129,7 @@
             });
         }
 
-        function loadOptionsToActionParCTSTools(options, isCountQuery) {
+        function loadOptionsToActionParams(options, isCountQuery) {
             var result = {};
 
             if(isCountQuery)
@@ -175,7 +175,7 @@
                 }
             }
 
-            extend(result, loadParCTSTools);
+            extend(result, loadParams);
 
             return result;
         }
@@ -197,7 +197,7 @@
                     {
                         url: loadUrl,
                         method: loadMethod,
-                        data: loadOptionsToActionParCTSTools(loadOptions)
+                        data: loadOptionsToActionParams(loadOptions)
                     },
                     function(d, res) {
                         processLoadResponse(d, res, function(res) {
@@ -214,7 +214,7 @@
                     {
                         url: loadUrl,
                         method: loadMethod,
-                        data: loadOptionsToActionParCTSTools(loadOptions, true)
+                        data: loadOptionsToActionParams(loadOptions, true)
                     },
                     function(d, res) {
                         processLoadResponse(d, res, function(res) {
@@ -231,7 +231,7 @@
                     {
                         url: loadUrl,
                         method: loadMethod,
-                        data: loadOptionsToActionParCTSTools({ filter: filterByKey(key) })
+                        data: loadOptionsToActionParams({ filter: filterByKey(key) })
                     },
                     function(d, res) {
                         processLoadResponse(d, res, function(res) {

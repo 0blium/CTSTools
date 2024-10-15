@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="CTSTools.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="CTSTools.WEB.Global" Language="C#" %>

@@ -3237,7 +3237,7 @@
       //
       // In order to prevent cyclic dependencies (which Adobe Reader doesn't like),
       // we only put all oids that are smaller than the oid of the object the
-      // resource dict belongs to. This is correct behavior, since the streCTSTools
+      // resource dict belongs to. This is correct behavior, since the streams
       // may only use other objects that have already been defined and thus appear
       // earlier in their respective collection.
       // Currently, this only affects tiling patterns, but a (more) correct
@@ -3487,7 +3487,7 @@
        * There is still a benefit to to8bitStream - PDF simply cannot handle 16bit chars,
        * which JavaScript Strings are happy to provide. So, while we still cannot display
        * 2-byte characters property, at least CONDITIONALLY converting (entire string containing)
-       * 16bit chars to (USC-2-BE) 2-bytes per char + BOM streCTSTools we ensure that entire PDF
+       * 16bit chars to (USC-2-BE) 2-bytes per char + BOM streams we ensure that entire PDF
        * is still parseable.
        * This will allow immediate support for unicode in document properties strings.
        */
@@ -6378,9 +6378,9 @@
       // The user can set the output target to a new form object. Nested form objects are possible.
       // Currently, they use the resource dictionary of the surrounding stream. This should be changed, as
       // the PDF-Spec states:
-      // "In PDF 1.2 and later versions, form XObjects may be independent of the content streCTSTools in which
+      // "In PDF 1.2 and later versions, form XObjects may be independent of the content streams in which
       // they appear, and this is strongly recommended although not requiredIn PDF 1.2 and later versions,
-      // form XObjects may be independent of the content streCTSTools in which they appear, and this is strongly
+      // form XObjects may be independent of the content streams in which they appear, and this is strongly
       // recommended although not required"
       beginNewRenderTarget(x, y, width, height, matrix);
       return this;
@@ -7174,13 +7174,13 @@
 
 
         if (fieldObject.appearanceStreamContent) {
-          var appearanceStreCTSToolstring = ""; // Iterate over N,R and D
+          var appearanceStreamstring = ""; // Iterate over N,R and D
 
           for (var k in fieldObject.appearanceStreamContent) {
             if (fieldObject.appearanceStreamContent.hasOwnProperty(k)) {
               var value = fieldObject.appearanceStreamContent[k];
-              appearanceStreCTSToolstring += "/" + k + " ";
-              appearanceStreCTSToolstring += "<<";
+              appearanceStreamstring += "/" + k + " ";
+              appearanceStreamstring += "<<";
 
               if (Object.keys(value).length >= 1 || Array.isArray(value)) {
                 // appearanceStream is an Array or Object!
@@ -7194,7 +7194,7 @@
                       obj = obj.call(scope, fieldObject);
                     }
 
-                    appearanceStreCTSToolstring += "/" + i + " " + obj + " "; // In case the XForm is already used, e.g. OffState
+                    appearanceStreamstring += "/" + i + " " + obj + " "; // In case the XForm is already used, e.g. OffState
                     // of CheckBoxes, don't add it
 
                     if (!(scope.internal.acroformPlugin.xForms.indexOf(obj) >= 0)) scope.internal.acroformPlugin.xForms.push(obj);
@@ -7209,18 +7209,18 @@
                   obj = obj.call(scope, fieldObject);
                 }
 
-                appearanceStreCTSToolstring += "/" + i + " " + obj;
+                appearanceStreamstring += "/" + i + " " + obj;
                 if (!(scope.internal.acroformPlugin.xForms.indexOf(obj) >= 0)) scope.internal.acroformPlugin.xForms.push(obj);
               }
 
-              appearanceStreCTSToolstring += ">>";
+              appearanceStreamstring += ">>";
             }
           } // appearance stream is a normal Object..
 
 
           keyValueList.push({
             key: "AP",
-            value: "<<\n" + appearanceStreCTSToolstring + ">>"
+            value: "<<\n" + appearanceStreamstring + ">>"
           });
         }
 
@@ -8724,7 +8724,7 @@
       }
     });
     /**
-     * (Required if the appearance dictionary AP contains one or more subdictionaries; PDF 1.2) The annotation's appearance state, which selects the applicable appearance stream from an appearance subdictionary (see Section 12.5.5, "Appearance StreCTSTools")
+     * (Required if the appearance dictionary AP contains one or more subdictionaries; PDF 1.2) The annotation's appearance state, which selects the applicable appearance stream from an appearance subdictionary (see Section 12.5.5, "Appearance Streams")
      *
      * @name AcroFormButton#appearanceState
      * @type {any}
@@ -8884,7 +8884,7 @@
       }
     });
     /**
-     * (Required if the appearance dictionary AP contains one or more subdictionaries; PDF 1.2) The annotation's appearance state, which selects the applicable appearance stream from an appearance subdictionary (see Section 12.5.5, "Appearance StreCTSTools")
+     * (Required if the appearance dictionary AP contains one or more subdictionaries; PDF 1.2) The annotation's appearance state, which selects the applicable appearance stream from an appearance subdictionary (see Section 12.5.5, "Appearance Streams")
      *
      * @name AcroFormButton#appearanceState
      * @type {any}
@@ -17708,7 +17708,7 @@
      * @see http://www.w3.org/TR/PNG-Filters.html
      * @see http://www.libpng.org/pub/png/book/chapter09.html
      *
-     * This is what the value 'Predictor' in decode parCTSTools relates to
+     * This is what the value 'Predictor' in decode params relates to
      *
      * 15 is "optimal prediction", which means the prediction algorithm can change from line to line.
      * In that case, you actually have to read the first byte off each line for the prediction algorthim (which should be 0-4, corresponding to PDF 10-14) and select the appropriate unprediction algorithm based on that byte.
@@ -26468,7 +26468,7 @@
       //
 
 
-      var _computeLevels = function _computeLevels(chars, levels, parCTSTools) {
+      var _computeLevels = function _computeLevels(chars, levels, params) {
         var action,
             condition,
             i,
@@ -26529,7 +26529,7 @@
             levels[index] = 0;
           }
 
-          parCTSTools.hiLevel |= newLevel;
+          params.hiLevel |= newLevel;
         }
 
         if (_hasUbatS) {
@@ -26539,8 +26539,8 @@
       //
 
 
-      var _invertByLevel = function _invertByLevel(level, charArray, sourceToTargetMap, levels, parCTSTools) {
-        if (parCTSTools.hiLevel < level) {
+      var _invertByLevel = function _invertByLevel(level, charArray, sourceToTargetMap, levels, params) {
+        if (params.hiLevel < level) {
           return;
         }
 
@@ -26586,8 +26586,8 @@
       //
 
 
-      var _symmetricSwap = function _symmetricSwap(charArray, levels, parCTSTools) {
-        if (parCTSTools.hiLevel !== 0 && _isSymmetricSwapping) {
+      var _symmetricSwap = function _symmetricSwap(charArray, levels, params) {
+        if (params.hiLevel !== 0 && _isSymmetricSwapping) {
           for (var i = 0, index; i < charArray.length; i++) {
             if (levels[i] === 1) {
               index = _SWAP_TABLE.indexOf(charArray[i]);
@@ -26602,7 +26602,7 @@
 
       var _reorder = function _reorder(text, sourceToTargetMap, levels) {
         var charArray = text.split(""),
-            parCTSTools = {
+            params = {
           hiLevel: _dir
         };
 
@@ -26610,13 +26610,13 @@
           levels = [];
         }
 
-        _computeLevels(charArray, levels, parCTSTools);
+        _computeLevels(charArray, levels, params);
 
-        _symmetricSwap(charArray, levels, parCTSTools);
+        _symmetricSwap(charArray, levels, params);
 
-        _invertByLevel(DIR_RTL + 1, charArray, sourceToTargetMap, levels, parCTSTools);
+        _invertByLevel(DIR_RTL + 1, charArray, sourceToTargetMap, levels, params);
 
-        _invertByLevel(DIR_RTL, charArray, sourceToTargetMap, levels, parCTSTools);
+        _invertByLevel(DIR_RTL, charArray, sourceToTargetMap, levels, params);
 
         return charArray.join("");
       }; // doBidiReorder( text, sourceToTargetMap, levels )

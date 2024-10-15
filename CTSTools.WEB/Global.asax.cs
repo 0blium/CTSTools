@@ -2,16 +2,15 @@
 using System.Web;
 using System.Web.Http;
 
-namespace CTSTools
+namespace CTSTools.WEB;
+
+public class Global : HttpApplication
 {
-    public class Global : HttpApplication
+    protected void Application_Start(object sender, EventArgs e)
     {
-        protected void Application_Start(object sender, EventArgs e)
-        {
-            //// Code that runs on application startup
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            //// Update ORM/DB Schema
-            //BLL.Features.XPO.ORM_Helper.UpdateSchema();
-        }
+        //// Code that runs on application startup
+        GlobalConfiguration.Configure(WebApiConfig.Register);
+        //// Update ORM/DB Schema
+        //BLL.Features.XPO.ORM_Helper.UpdateSchema();
     }
 }

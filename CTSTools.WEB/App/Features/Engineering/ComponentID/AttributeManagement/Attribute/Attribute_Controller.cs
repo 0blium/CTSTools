@@ -1,0 +1,69 @@
+﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.WEB.App_Start;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
+using System.Linq;
+using System.Web.Http;
+
+namespace CTSTools.WEB.App.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+
+public class Attribute_Controller : ApiController
+{
+
+    [HttpGet]
+    [Route("api/Attribute/GetPagedList")]
+    public IHttpActionResult Get(DataSourceLoadOptions loadOptions, [FromUri] AttributeDTO AttributeDTO)
+    {
+
+        var _pagedAttributeDTO = new PagedResultDTO<AttributeDTO>()
+        {
+            Skip = loadOptions.Skip,
+            Take = loadOptions.Take,
+            dxFilters = loadOptions.Filter,
+            SortDescending = loadOptions.Sort?[0]?.Desc,
+            SortPropertyName = loadOptions.Sort?[0].Selector.Replace("DTO", ""),
+            Filter = AttributeDTO,
+        };
+        _pagedAttributeDTO.DataList = Attribute_Service.GetAttributeList_Global(AttributeDTO, _pagedAttributeDTO);
+        loadOptions.Skip = 0;
+
+        var _dsLoader = DataSourceLoader.Load(_pagedAttributeDTO.DataList, loadOptions);
+        _dsLoader.totalCount = Attribute_Service.GetAttributeTotalCount(_pagedAttributeDTO);
+        return Json(_dsLoader);
+    }
+    [HttpGet]
+    [Route("api/Attribute/GetList")]
+    public IHttpActionResult GetAttributeList([FromUri] AttributeDTO AttributeDTO)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        _validationResultDTO.Data = Attribute_Service.GetAttributeList_Global(AttributeDTO);
+        return Json(_validationResultDTO);
+    }
+
+    [HttpPost]
+    [Route("api/Attribute/Create")]
+    public IHttpActionResult CreateAttribute([FromBody] AttributeDTO AttributeDTO)
+    {
+
+        AttributeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+        var _validationResultDTO = Attribute_Service.CreateAttribute_Global(AttributeDTO);
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
+    [Route("api/Attribute/Update")]
+    public IHttpActionResult UpdateAttribute([FromBody] AttributeDTO AttributeDTO)
+    {
+
+        AttributeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+        var _validationResultDTO = Attribute_Service.UpdateAttribute_Global(AttributeDTO);
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
+    [Route("api/Attribute/Delete")]
+    public IHttpActionResult DeleteAttribute([FromBody] AttributeDTO AttributeDTO)
+    {
+        var _validationResultDTO = Attribute_Service.DeleteAttribute_Global(AttributeDTO);
+        return Json(_validationResultDTO);
+    }
+}

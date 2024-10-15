@@ -103,9 +103,9 @@ var Browser = (function () {
                     platform = platformIdentStrings[identStr];
                 }
             }
-            var sCTSToolsungPattern = 'SM-[A-Z]';
-            var m = userAgent.toUpperCase().match(sCTSToolsungPattern);
-            var isSCTSToolsungAndroidDevice = m && m.length > 0;
+            var samsungPattern = 'SM-[A-Z]';
+            var m = userAgent.toUpperCase().match(samsungPattern);
+            var isSamsungAndroidDevice = m && m.length > 0;
             if (platform === 'WinPhone' && version < 9)
                 version = Math.floor(Browser.getVersionFromTrident(userAgent, 'trident' + optSlashOrSpace + optVersion));
             if (!ignoreDocumentMode && browserType === 'IE' && version > 7 && document.documentMode < version)
@@ -116,7 +116,7 @@ var Browser = (function () {
                 platform = defaultPlatform;
             if (platform === platformIdentStrings['cpu os'] && !browserVersionDetected)
                 version = 4;
-            Browser.fillUserAgentInfo(browserTypesOrderedList, browserType, version, platform, isSCTSToolsungAndroidDevice);
+            Browser.fillUserAgentInfo(browserTypesOrderedList, browserType, version, platform, isSamsungAndroidDevice);
         }
         catch (e) {
             Browser.fillUserAgentInfo(browserTypesOrderedList, defaultBrowserType, defaultVersions[defaultBrowserType], defaultPlatform);
@@ -155,8 +155,8 @@ var Browser = (function () {
     Browser.hasNavigator = function () {
         return typeof navigator !== 'undefined';
     };
-    Browser.fillUserAgentInfo = function (browserTypesOrderedList, browserType, version, platform, isSCTSToolsungAndroidDevice) {
-        if (isSCTSToolsungAndroidDevice === void 0) { isSCTSToolsungAndroidDevice = false; }
+    Browser.fillUserAgentInfo = function (browserTypesOrderedList, browserType, version, platform, isSamsungAndroidDevice) {
+        if (isSamsungAndroidDevice === void 0) { isSamsungAndroidDevice = false; }
         for (var i = 0; i < browserTypesOrderedList.length; i++) {
             var type = browserTypesOrderedList[i];
             Browser[type] = type === browserType;
@@ -177,8 +177,8 @@ var Browser = (function () {
         Browser.MobileUI = Browser.WebKitTouchUI || Browser.WindowsPhonePlatform;
         Browser.AndroidDefaultBrowser = Browser.AndroidMobilePlatform && !Browser.Chrome;
         Browser.AndroidChromeBrowser = Browser.AndroidMobilePlatform && Browser.Chrome;
-        if (isSCTSToolsungAndroidDevice)
-            Browser.SCTSToolsungAndroidDevice = isSCTSToolsungAndroidDevice;
+        if (isSamsungAndroidDevice)
+            Browser.SamsungAndroidDevice = isSamsungAndroidDevice;
         if (Browser.MSTouchUI) {
             var isARMArchitecture = Browser.UserAgent.toLowerCase().indexOf('arm;') > -1;
             Browser.VirtualKeyboardSupported = isARMArchitecture || Browser.WindowsPhonePlatform;
@@ -3948,15 +3948,15 @@ var DialogBase = (function (_super) {
     };
     DialogBase.prototype.showDialog = function (options) {
         var _this = this;
-        var parCTSTools = this.createParameters(options);
-        var initParCTSTools = parCTSTools.clone();
-        if (!this.onBeforeDialogShow(parCTSTools))
+        var params = this.createParameters(options);
+        var initParams = params.clone();
+        if (!this.onBeforeDialogShow(params))
             return false;
         DialogBase.activeInstance = this;
-        this.control.showDialog(this.getDialogName(), parCTSTools, function (result) {
+        this.control.showDialog(this.getDialogName(), params, function (result) {
             if (result) {
                 _this._canRefresh = false;
-                _this.applyParameters(result, initParCTSTools);
+                _this.applyParameters(result, initParams);
                 _this._canRefresh = true;
             }
         }, function () {
@@ -3965,7 +3965,7 @@ var DialogBase = (function (_super) {
         });
         return true;
     };
-    DialogBase.prototype.onBeforeDialogShow = function (parCTSTools) {
+    DialogBase.prototype.onBeforeDialogShow = function (params) {
         return true;
     };
     DialogBase.prototype.applyParameters = function (_newParameters, _oldParameters) {
@@ -4187,9 +4187,9 @@ var ResourcesDialogCommand = (function (_super) {
         _this.resourcesForDelete = [];
         return _this;
     }
-    ResourcesDialogCommand.prototype.onBeforeDialogShow = function (parCTSTools) {
-        return this.modelManipulator.dispatcher.raiseResourceManagerDialogShowing(parCTSTools, function (args) {
-            parCTSTools.resources = args.values.resources;
+    ResourcesDialogCommand.prototype.onBeforeDialogShow = function (params) {
+        return this.modelManipulator.dispatcher.raiseResourceManagerDialogShowing(params, function (args) {
+            params.resources = args.values.resources;
         });
     };
     ResourcesDialogCommand.prototype.applyParameters = function (newParameters, oldParameters) {
@@ -4264,15 +4264,15 @@ var TaskEditDialogCommand = (function (_super) {
     function TaskEditDialogCommand() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    TaskEditDialogCommand.prototype.onBeforeDialogShow = function (parCTSTools) {
-        return this.modelManipulator.dispatcher.raiseTaskTaskEditDialogShowing(parCTSTools, function (args) {
+    TaskEditDialogCommand.prototype.onBeforeDialogShow = function (params) {
+        return this.modelManipulator.dispatcher.raiseTaskTaskEditDialogShowing(params, function (args) {
             var newValues = args.values;
-            parCTSTools.start = newValues.start;
-            parCTSTools.end = newValues.end;
-            parCTSTools.progress = newValues.progress;
-            parCTSTools.title = newValues.title;
-            parCTSTools.readOnlyFields = args.readOnlyFields;
-            parCTSTools.hiddenFields = args.hiddenFields;
+            params.start = newValues.start;
+            params.end = newValues.end;
+            params.progress = newValues.progress;
+            params.title = newValues.title;
+            params.readOnlyFields = args.readOnlyFields;
+            params.hiddenFields = args.hiddenFields;
         });
     };
     TaskEditDialogCommand.prototype.applyParameters = function (newParameters, oldParameters) {
@@ -8731,8 +8731,8 @@ var ModelChangesDispatcher = (function () {
         }
         return false;
     };
-    ModelChangesDispatcher.prototype.raiseTaskTaskEditDialogShowing = function (parCTSTools, callback) {
-        var args = new TaskEditDialogShowingArguments_1.TaskEditDialogShowingArguments(parCTSTools);
+    ModelChangesDispatcher.prototype.raiseTaskTaskEditDialogShowing = function (params, callback) {
+        var args = new TaskEditDialogShowingArguments_1.TaskEditDialogShowingArguments(params);
         this.notifyTaskEditDialogShowing(args);
         if (!args.cancel) {
             callback(args);
@@ -8740,8 +8740,8 @@ var ModelChangesDispatcher = (function () {
         }
         return false;
     };
-    ModelChangesDispatcher.prototype.raiseResourceManagerDialogShowing = function (parCTSTools, callback) {
-        var args = new ResourceManagerDialogShowingArguments_1.ResourceManagerDialogShowingArguments(parCTSTools);
+    ModelChangesDispatcher.prototype.raiseResourceManagerDialogShowing = function (params, callback) {
+        var args = new ResourceManagerDialogShowingArguments_1.ResourceManagerDialogShowingArguments(params);
         this.notifyResourceManagerDialogShowing(args);
         if (!args.cancel) {
             callback(args);
@@ -9109,9 +9109,9 @@ var tslib_1 = __webpack_require__(655);
 var BaseArguments_1 = __webpack_require__(8774);
 var ResourceManagerDialogShowingArguments = (function (_super) {
     tslib_1.__extends(ResourceManagerDialogShowingArguments, _super);
-    function ResourceManagerDialogShowingArguments(parCTSTools) {
+    function ResourceManagerDialogShowingArguments(params) {
         var _this = _super.call(this, undefined) || this;
-        _this.values.resources = parCTSTools.resources;
+        _this.values.resources = params.resources;
         return _this;
     }
     return ResourceManagerDialogShowingArguments;
@@ -9131,16 +9131,16 @@ var tslib_1 = __webpack_require__(655);
 var BaseArguments_1 = __webpack_require__(8774);
 var TaskEditDialogShowingArguments = (function (_super) {
     tslib_1.__extends(TaskEditDialogShowingArguments, _super);
-    function TaskEditDialogShowingArguments(parCTSTools) {
-        var _this = _super.call(this, parCTSTools.id) || this;
+    function TaskEditDialogShowingArguments(params) {
+        var _this = _super.call(this, params.id) || this;
         _this.values = {
-            start: parCTSTools.start,
-            end: parCTSTools.end,
-            title: parCTSTools.title,
-            progress: parCTSTools.progress
+            start: params.start,
+            end: params.end,
+            title: params.title,
+            progress: params.progress
         };
-        _this.hiddenFields = parCTSTools.hiddenFields;
-        _this.readOnlyFields = parCTSTools.readOnlyFields;
+        _this.hiddenFields = params.hiddenFields;
+        _this.readOnlyFields = params.readOnlyFields;
         return _this;
     }
     return TaskEditDialogShowingArguments;

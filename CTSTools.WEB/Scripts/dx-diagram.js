@@ -102,9 +102,9 @@ var Browser = (function () {
                     platform = platformIdentStrings[identStr];
                 }
             }
-            var sCTSToolsungPattern = 'SM-[A-Z]';
-            var m = userAgent.toUpperCase().match(sCTSToolsungPattern);
-            var isSCTSToolsungAndroidDevice = m && m.length > 0;
+            var samsungPattern = 'SM-[A-Z]';
+            var m = userAgent.toUpperCase().match(samsungPattern);
+            var isSamsungAndroidDevice = m && m.length > 0;
             if (platform === 'WinPhone' && version < 9)
                 version = Math.floor(Browser.getVersionFromTrident(userAgent, 'trident' + optSlashOrSpace + optVersion));
             if (!ignoreDocumentMode && browserType === 'IE' && version > 7 && document.documentMode < version)
@@ -115,7 +115,7 @@ var Browser = (function () {
                 platform = defaultPlatform;
             if (platform === platformIdentStrings['cpu os'] && !browserVersionDetected)
                 version = 4;
-            Browser.fillUserAgentInfo(browserTypesOrderedList, browserType, version, platform, isSCTSToolsungAndroidDevice);
+            Browser.fillUserAgentInfo(browserTypesOrderedList, browserType, version, platform, isSamsungAndroidDevice);
         }
         catch (e) {
             Browser.fillUserAgentInfo(browserTypesOrderedList, defaultBrowserType, defaultVersions[defaultBrowserType], defaultPlatform);
@@ -154,8 +154,8 @@ var Browser = (function () {
     Browser.hasNavigator = function () {
         return typeof navigator !== 'undefined';
     };
-    Browser.fillUserAgentInfo = function (browserTypesOrderedList, browserType, version, platform, isSCTSToolsungAndroidDevice) {
-        if (isSCTSToolsungAndroidDevice === void 0) { isSCTSToolsungAndroidDevice = false; }
+    Browser.fillUserAgentInfo = function (browserTypesOrderedList, browserType, version, platform, isSamsungAndroidDevice) {
+        if (isSamsungAndroidDevice === void 0) { isSamsungAndroidDevice = false; }
         for (var i = 0; i < browserTypesOrderedList.length; i++) {
             var type = browserTypesOrderedList[i];
             Browser[type] = type === browserType;
@@ -176,8 +176,8 @@ var Browser = (function () {
         Browser.MobileUI = Browser.WebKitTouchUI || Browser.WindowsPhonePlatform;
         Browser.AndroidDefaultBrowser = Browser.AndroidMobilePlatform && !Browser.Chrome;
         Browser.AndroidChromeBrowser = Browser.AndroidMobilePlatform && Browser.Chrome;
-        if (isSCTSToolsungAndroidDevice)
-            Browser.SCTSToolsungAndroidDevice = isSCTSToolsungAndroidDevice;
+        if (isSamsungAndroidDevice)
+            Browser.SamsungAndroidDevice = isSamsungAndroidDevice;
         if (Browser.MSTouchUI) {
             var isARMArchitecture = Browser.UserAgent.toLowerCase().indexOf('arm;') > -1;
             Browser.VirtualKeyboardSupported = isARMArchitecture || Browser.WindowsPhonePlatform;
@@ -1073,7 +1073,7 @@ var RectangleDeviation = (function () {
             this.deviation.set(HitTestDeviation.Bottom, true);
         return this;
     };
-    RectangleDeviation.prototype.calcAdditionalParCTSTools = function () {
+    RectangleDeviation.prototype.calcAdditionalParams = function () {
         this.insidePoint = this.initPoint.clone();
         this.offsetToInside = new point_1.Point(0, 0);
         if (this.deviation.get(HitTestDeviation.Left)) {
@@ -10606,7 +10606,7 @@ var DiagramControl = (function () {
         this.reloadContentParameters = new ReloadContentParameters_1.ReloadContentParameters();
         this.reloadContentByExternalChangesParameters = new ReloadContentParameters_1.ReloadContentParameters();
         this.instanceId = math_1.MathUtils.generateGuid();
-        this.settings = new Settings_1.DiagrCTSToolsettings();
+        this.settings = new Settings_1.Diagramsettings();
         this.shapeDescriptionManager = new ShapeDescriptionManager_1.ShapeDescriptionManager();
         this.shapeDescriptionManager.onShapeDecriptionChanged.add(this);
         this.model = new Model_1.DiagramModel();
@@ -12154,17 +12154,17 @@ var MouseHandler = (function () {
     MouseHandler.prototype.unlockPermissions = function () {
         this.permissionsProvider.unlockPermissions();
     };
-    MouseHandler.prototype.canPerformChangeConnection = function (connector, operationParCTSTools) {
+    MouseHandler.prototype.canPerformChangeConnection = function (connector, operationParams) {
         var allowed = true;
         if (connector)
-            allowed = this.permissionsProvider.canChangeConnection(connector, operationParCTSTools.item, operationParCTSTools.oldItem, operationParCTSTools.position, operationParCTSTools.connectionPointIndex);
-        else if (operationParCTSTools.item)
-            allowed = this.permissionsProvider.canChangeConnection(undefined, operationParCTSTools.item, operationParCTSTools.oldItem, operationParCTSTools.position, operationParCTSTools.connectionPointIndex);
+            allowed = this.permissionsProvider.canChangeConnection(connector, operationParams.item, operationParams.oldItem, operationParams.position, operationParams.connectionPointIndex);
+        else if (operationParams.item)
+            allowed = this.permissionsProvider.canChangeConnection(undefined, operationParams.item, operationParams.oldItem, operationParams.position, operationParams.connectionPointIndex);
         return allowed;
     };
-    MouseHandler.prototype.canPerformChangeConnectionOnUpdateUI = function (connector, operationParCTSTools) {
+    MouseHandler.prototype.canPerformChangeConnectionOnUpdateUI = function (connector, operationParams) {
         this.permissionsProvider.beginUpdateUI();
-        var allowed = this.canPerformChangeConnection(connector, operationParCTSTools);
+        var allowed = this.canPerformChangeConnection(connector, operationParams);
         this.permissionsProvider.endUpdateUI();
         return allowed;
     };
@@ -18216,9 +18216,9 @@ var Exporter = (function () {
         result["y"] = shape.position.y;
         result["width"] = shape.size.width;
         result["height"] = shape.size.height;
-        var parCTSToolsObj = shape.parameters.toObject();
-        if (parCTSToolsObj)
-            result["parameters"] = parCTSToolsObj;
+        var paramsObj = shape.parameters.toObject();
+        if (paramsObj)
+            result["parameters"] = paramsObj;
         var styleObj = shape.style.toObject();
         if (styleObj)
             result["style"] = styleObj;
@@ -18699,7 +18699,7 @@ var XmlImporter = (function (_super) {
     };
     XmlImporter.prototype.getShapeObjects = function (obj) {
         var shapeObjs = [];
-        this.doc.querySelectorAll("[ItemKind='DiagramRoot'] > Children > [ItemKind='DiagrCTSToolshape']").forEach(function (obj) { shapeObjs.push(obj); });
+        this.doc.querySelectorAll("[ItemKind='DiagramRoot'] > Children > [ItemKind='Diagramshape']").forEach(function (obj) { shapeObjs.push(obj); });
         this.doc.querySelectorAll("[ItemKind='DiagramRoot'] > Children > [ItemKind='DiagramContainer']").forEach(function (obj) { shapeObjs.push(obj); });
         return shapeObjs;
     };
@@ -18744,7 +18744,7 @@ var XmlImporter = (function (_super) {
     XmlImporter.prototype.importShapeChildren = function (shapeObj, shape) {
         var childShapeObjs = [];
         shapeObj.setAttribute("dxDiagram", "");
-        this.doc.querySelectorAll("[dxDiagram] > Children > [ItemKind='DiagrCTSToolshape']").forEach(function (obj) { childShapeObjs.push(obj); });
+        this.doc.querySelectorAll("[dxDiagram] > Children > [ItemKind='Diagramshape']").forEach(function (obj) { childShapeObjs.push(obj); });
         this.doc.querySelectorAll("[dxDiagram] > Children > [ItemKind='DiagramContainer']").forEach(function (obj) { childShapeObjs.push(obj); });
         shapeObj.removeAttribute("dxDiagram");
         var result = [];
@@ -38777,13 +38777,13 @@ exports.Selection = Selection;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ConnectorRoutingMode = exports.AutoZoomMode = exports.DiagrCTSToolsettings = void 0;
+exports.ConnectorRoutingMode = exports.AutoZoomMode = exports.Diagramsettings = void 0;
 var Utils_1 = __webpack_require__(8675);
 var size_1 = __webpack_require__(6353);
 var Enums_1 = __webpack_require__(5383);
 var ModelUtils_1 = __webpack_require__(4867);
-var DiagrCTSToolsettings = (function () {
-    function DiagrCTSToolsettings() {
+var Diagramsettings = (function () {
+    function Diagramsettings() {
         this.onZoomChanged = new Utils_1.EventDispatcher();
         this.onViewChanged = new Utils_1.EventDispatcher();
         this.onReadOnlyChanged = new Utils_1.EventDispatcher();
@@ -38818,11 +38818,11 @@ var DiagrCTSToolsettings = (function () {
         this._reloadInsertedItemRequired = false;
         this._useCanvgForExportToImage = true;
     }
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "zoomLevel", {
+    Object.defineProperty(Diagramsettings.prototype, "zoomLevel", {
         get: function () { return this._zoomLevel; },
         set: function (value) {
             var _this = this;
-            value = DiagrCTSToolsettings.correctZoomLevel(value);
+            value = Diagramsettings.correctZoomLevel(value);
             if (value !== this._zoomLevel) {
                 this._zoomLevel = value;
                 this._zoomLevelWasChanged = true;
@@ -38832,22 +38832,22 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "zoomLevelWasChanged", {
+    Object.defineProperty(Diagramsettings.prototype, "zoomLevelWasChanged", {
         get: function () { return this._zoomLevelWasChanged; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "zoomLevelItems", {
+    Object.defineProperty(Diagramsettings.prototype, "zoomLevelItems", {
         get: function () { return this._zoomLevelItems; },
         set: function (value) {
-            value = value.map(function (l) { return DiagrCTSToolsettings.correctZoomLevel(l); });
+            value = value.map(function (l) { return Diagramsettings.correctZoomLevel(l); });
             if (value !== this._zoomLevelItems)
                 this._zoomLevelItems = value;
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "autoZoom", {
+    Object.defineProperty(Diagramsettings.prototype, "autoZoom", {
         get: function () { return this._autoZoom; },
         set: function (value) {
             var _this = this;
@@ -38859,7 +38859,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "simpleView", {
+    Object.defineProperty(Diagramsettings.prototype, "simpleView", {
         get: function () { return this._simpleView; },
         set: function (value) {
             if (value !== this._simpleView) {
@@ -38870,7 +38870,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "readOnly", {
+    Object.defineProperty(Diagramsettings.prototype, "readOnly", {
         get: function () { return this._readOnly; },
         set: function (value) {
             if (value !== this._readOnly) {
@@ -38881,19 +38881,19 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "fullscreen", {
+    Object.defineProperty(Diagramsettings.prototype, "fullscreen", {
         get: function () { return this._fullscreen; },
         set: function (value) { this._fullscreen = value; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "snapToGrid", {
+    Object.defineProperty(Diagramsettings.prototype, "snapToGrid", {
         get: function () { return this._snapToGrid; },
         set: function (value) { this._snapToGrid = value; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "showGrid", {
+    Object.defineProperty(Diagramsettings.prototype, "showGrid", {
         get: function () { return this._showGrid; },
         set: function (value) {
             var _this = this;
@@ -38905,7 +38905,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "contextMenuEnabled", {
+    Object.defineProperty(Diagramsettings.prototype, "contextMenuEnabled", {
         get: function () { return this._contextMenuEnabled; },
         set: function (value) {
             this._contextMenuEnabled = value;
@@ -38913,7 +38913,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "gridSize", {
+    Object.defineProperty(Diagramsettings.prototype, "gridSize", {
         get: function () { return this._gridSize; },
         set: function (value) {
             var _this = this;
@@ -38925,7 +38925,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "gridSizeItems", {
+    Object.defineProperty(Diagramsettings.prototype, "gridSizeItems", {
         get: function () { return this._gridSizeItems; },
         set: function (value) {
             if (value !== this._gridSizeItems)
@@ -38934,7 +38934,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "pageSizeItems", {
+    Object.defineProperty(Diagramsettings.prototype, "pageSizeItems", {
         get: function () { return this._pageSizeItems; },
         set: function (value) {
             if (value !== this._pageSizeItems)
@@ -38943,13 +38943,13 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "viewUnits", {
+    Object.defineProperty(Diagramsettings.prototype, "viewUnits", {
         get: function () { return this._viewUnits; },
         set: function (value) { this._viewUnits = value; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "connectorRoutingMode", {
+    Object.defineProperty(Diagramsettings.prototype, "connectorRoutingMode", {
         get: function () { return this._connectorRoutingMode; },
         set: function (value) {
             if (value !== this._connectorRoutingMode) {
@@ -38960,7 +38960,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "reloadInsertedItemRequired", {
+    Object.defineProperty(Diagramsettings.prototype, "reloadInsertedItemRequired", {
         get: function () { return this._reloadInsertedItemRequired; },
         set: function (value) {
             this._reloadInsertedItemRequired = value;
@@ -38968,7 +38968,7 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "useCanvgForExportToImage", {
+    Object.defineProperty(Diagramsettings.prototype, "useCanvgForExportToImage", {
         get: function () { return this._useCanvgForExportToImage; },
         set: function (value) {
             this._useCanvgForExportToImage = value;
@@ -38976,31 +38976,31 @@ var DiagrCTSToolsettings = (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "shapeMinWidth", {
+    Object.defineProperty(Diagramsettings.prototype, "shapeMinWidth", {
         get: function () { return this._shapeMinWidth; },
         set: function (value) { this._shapeMinWidth = value; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "shapeMinHeight", {
+    Object.defineProperty(Diagramsettings.prototype, "shapeMinHeight", {
         get: function () { return this._shapeMinHeight; },
         set: function (value) { this._shapeMinHeight = value; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "shapeMaxWidth", {
+    Object.defineProperty(Diagramsettings.prototype, "shapeMaxWidth", {
         get: function () { return this._shapeMaxWidth; },
         set: function (value) { this._shapeMaxWidth = value; },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(DiagrCTSToolsettings.prototype, "shapeMaxHeight", {
+    Object.defineProperty(Diagramsettings.prototype, "shapeMaxHeight", {
         get: function () { return this._shapeMaxHeight; },
         set: function (value) { this._shapeMaxHeight = value; },
         enumerable: false,
         configurable: true
     });
-    DiagrCTSToolsettings.prototype.applyShapeSizeSettings = function (settings, units) {
+    Diagramsettings.prototype.applyShapeSizeSettings = function (settings, units) {
         if (!settings)
             return;
         if (typeof (settings.shapeMaxHeight) === "number")
@@ -39012,16 +39012,16 @@ var DiagrCTSToolsettings = (function () {
         if (typeof (settings.shapeMinWidth) === "number")
             this.shapeMinWidth = ModelUtils_1.ModelUtils.getTwipsValue(units, settings.shapeMinWidth);
     };
-    DiagrCTSToolsettings.prototype.notifyViewChanged = function () {
+    Diagramsettings.prototype.notifyViewChanged = function () {
         var _this = this;
         this.onViewChanged.raise1(function (listener) { return listener.notifyViewChanged(_this._simpleView); });
     };
-    DiagrCTSToolsettings.correctZoomLevel = function (level) {
+    Diagramsettings.correctZoomLevel = function (level) {
         return Math.min(10, Math.max(level, 0.01));
     };
-    return DiagrCTSToolsettings;
+    return Diagramsettings;
 }());
-exports.DiagrCTSToolsettings = DiagrCTSToolsettings;
+exports.Diagramsettings = Diagramsettings;
 var AutoZoomMode;
 (function (AutoZoomMode) {
     AutoZoomMode[AutoZoomMode["Disabled"] = 0] = "Disabled";

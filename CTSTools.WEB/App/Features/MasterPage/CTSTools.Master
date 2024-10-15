@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="CTSTools.master.cs" Inherits="CTSTools.WEB.App.Features.MasterPage.CTSTools" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="CTSTools.Master.cs" Inherits="CTSTools.WEB.App.Features.MasterPage.CTSTools" %>
 
 <!DOCTYPE html>
 

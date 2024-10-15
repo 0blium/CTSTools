@@ -6072,7 +6072,7 @@ module.exports = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             // TODO: Remove once node v8 is deprecated
-            // Detect and upgrade old streCTSTools
+            // Detect and upgrade old streams
             if (iterable.pipe && !iterable[Symbol.asyncIterator]) {
               iterable = iterable.pipe(new PassThrough());
             }
@@ -6460,7 +6460,7 @@ var StreamBuf = function StreamBuf(options) {
 
   this.inPos = 0; // where in the current readable buffer we've read up to
 
-  this.outPos = 0; // consuming pipe streCTSTools go here
+  this.outPos = 0; // consuming pipe streams go here
 
   this.pipes = []; // controls emit('data')
 
@@ -24394,7 +24394,7 @@ var XLSX = /*#__PURE__*/function () {
             switch (_context11.prev = _context11.next) {
               case 0:
                 // TODO: Remove once node v8 is deprecated
-                // Detect and upgrade old streCTSTools
+                // Detect and upgrade old streams
                 if (!stream[Symbol.asyncIterator] && stream.pipe) {
                   stream = stream.pipe(new PassThrough());
                 }
@@ -38448,10 +38448,10 @@ function ecSign(hash, priv) {
 }
 
 function dsaSign(hash, priv, algo) {
-  var x = priv.parCTSTools.priv_key;
-  var p = priv.parCTSTools.p;
-  var q = priv.parCTSTools.q;
-  var g = priv.parCTSTools.g;
+  var x = priv.params.priv_key;
+  var p = priv.params.p;
+  var q = priv.params.q;
+  var g = priv.params.g;
   var r = new BN(0);
   var k;
   var H = bits2int(hash, q).mod(q);
@@ -48194,18 +48194,18 @@ var parseBytes = utils.parseBytes;
 var cachedProperty = utils.cachedProperty;
 /**
 * @param {EDDSA} eddsa - instance
-* @param {Object} parCTSTools - public/private key parameters
+* @param {Object} params - public/private key parameters
 *
-* @param {Array<Byte>} [parCTSTools.secret] - secret seed bytes
-* @param {Point} [parCTSTools.pub] - public key point (aka `A` in eddsa terms)
-* @param {Array<Byte>} [parCTSTools.pub] - public key point encoded as bytes
+* @param {Array<Byte>} [params.secret] - secret seed bytes
+* @param {Point} [params.pub] - public key point (aka `A` in eddsa terms)
+* @param {Array<Byte>} [params.pub] - public key point encoded as bytes
 *
 */
 
-function KeyPair(eddsa, parCTSTools) {
+function KeyPair(eddsa, params) {
   this.eddsa = eddsa;
-  this._secret = parseBytes(parCTSTools.secret);
-  if (eddsa.isPoint(parCTSTools.pub)) this._pub = parCTSTools.pub;else this._pubBytes = parseBytes(parCTSTools.pub);
+  this._secret = parseBytes(params.secret);
+  if (eddsa.isPoint(params.pub)) this._pub = params.pub;else this._pubBytes = parseBytes(params.pub);
 }
 
 KeyPair.fromPublic = function fromPublic(eddsa, pub) {
@@ -61836,8 +61836,8 @@ var Z_DEFLATED = 8;
  * new Deflate(options)
  * - options (Object): zlib deflate options.
  *
- * Creates new deflator instance with specified parCTSTools. Throws exception
- * on bad parCTSTools. Supported options:
+ * Creates new deflator instance with specified params. Throws exception
+ * on bad params. Supported options:
  *
  * - `level`
  * - `windowBits`
@@ -62220,8 +62220,8 @@ var toString = Object.prototype.toString;
  * new Inflate(options)
  * - options (Object): zlib inflate options.
  *
- * Creates new inflator instance with specified parCTSTools. Throws exception
- * on bad parCTSTools. Supported options:
+ * Creates new inflator instance with specified params. Throws exception
+ * on bad params. Supported options:
  *
  * - `windowBits`
  * - `dictionary`
@@ -65243,7 +65243,7 @@ exports.deflateInfo = 'pako deflate (from Nodeca project)';
 /* Not implemented
 exports.deflateBound = deflateBound;
 exports.deflateCopy = deflateCopy;
-exports.deflateParCTSTools = deflateParCTSTools;
+exports.deflateParams = deflateParams;
 exports.deflatePending = deflatePending;
 exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
@@ -69966,14 +69966,14 @@ var PublicKey = asn1.define('SubjectPublicKeyInfo', function () {
 });
 exports.PublicKey = PublicKey;
 var AlgorithmIdentifier = asn1.define('AlgorithmIdentifier', function () {
-  this.seq().obj(this.key('algorithm').objid(), this.key('none').null_().optional(), this.key('curve').objid().optional(), this.key('parCTSTools').seq().obj(this.key('p').int(), this.key('q').int(), this.key('g').int()).optional());
+  this.seq().obj(this.key('algorithm').objid(), this.key('none').null_().optional(), this.key('curve').objid().optional(), this.key('params').seq().obj(this.key('p').int(), this.key('q').int(), this.key('g').int()).optional());
 });
 var PrivateKeyInfo = asn1.define('PrivateKeyInfo', function () {
   this.seq().obj(this.key('version').int(), this.key('algorithm').use(AlgorithmIdentifier), this.key('subjectPrivateKey').octstr());
 });
 exports.PrivateKey = PrivateKeyInfo;
 var EncryptedPrivateKeyInfo = asn1.define('EncryptedPrivateKeyInfo', function () {
-  this.seq().obj(this.key('algorithm').seq().obj(this.key('id').objid(), this.key('decrypt').seq().obj(this.key('kde').seq().obj(this.key('id').objid(), this.key('kdeparCTSTools').seq().obj(this.key('salt').octstr(), this.key('iters').int())), this.key('cipher').seq().obj(this.key('algo').objid(), this.key('iv').octstr()))), this.key('subjectPrivateKey').octstr());
+  this.seq().obj(this.key('algorithm').seq().obj(this.key('id').objid(), this.key('decrypt').seq().obj(this.key('kde').seq().obj(this.key('id').objid(), this.key('kdeparams').seq().obj(this.key('salt').octstr(), this.key('iters').int())), this.key('cipher').seq().obj(this.key('algo').objid(), this.key('iv').octstr()))), this.key('subjectPrivateKey').octstr());
 });
 exports.EncryptedPrivateKey = EncryptedPrivateKeyInfo;
 var DSAPrivateKey = asn1.define('DSAPrivateKey', function () {
@@ -70144,10 +70144,10 @@ function parseKeys(buffer) {
           };
 
         case '1.2.840.10040.4.1':
-          ndata.algorithm.parCTSTools.pub_key = asn1.DSAparam.decode(ndata.subjectPublicKey.data, 'der');
+          ndata.algorithm.params.pub_key = asn1.DSAparam.decode(ndata.subjectPublicKey.data, 'der');
           return {
             type: 'dsa',
-            data: ndata.algorithm.parCTSTools
+            data: ndata.algorithm.params
           };
 
         default:
@@ -70176,10 +70176,10 @@ function parseKeys(buffer) {
           };
 
         case '1.2.840.10040.4.1':
-          ndata.algorithm.parCTSTools.priv_key = asn1.DSAparam.decode(ndata.subjectPrivateKey, 'der');
+          ndata.algorithm.params.priv_key = asn1.DSAparam.decode(ndata.subjectPrivateKey, 'der');
           return {
             type: 'dsa',
-            parCTSTools: ndata.algorithm.parCTSTools
+            params: ndata.algorithm.params
           };
 
         default:
@@ -70197,7 +70197,7 @@ function parseKeys(buffer) {
     case 'DSA PRIVATE KEY':
       return {
         type: 'dsa',
-        parCTSTools: asn1.DSAPrivateKey.decode(data, 'der')
+        params: asn1.DSAPrivateKey.decode(data, 'der')
       };
 
     case 'EC PRIVATE KEY':
@@ -70215,8 +70215,8 @@ function parseKeys(buffer) {
 parseKeys.signature = asn1.signature;
 
 function decrypt(data, password) {
-  var salt = data.algorithm.decrypt.kde.kdeparCTSTools.salt;
-  var iters = parseInt(data.algorithm.decrypt.kde.kdeparCTSTools.iters.toString(), 10);
+  var salt = data.algorithm.decrypt.kde.kdeparams.salt;
+  var iters = parseInt(data.algorithm.decrypt.kde.kdeparams.iters.toString(), 10);
   var algo = aesid[data.algorithm.decrypt.cipher.algo.join('.')];
   var iv = data.algorithm.decrypt.cipher.iv;
   var cipherText = data.subjectPrivateKey;
@@ -71661,7 +71661,7 @@ var EElistenerCount = function EElistenerCount(emitter, type) {
 /*<replacement>*/
 
 
-var Stream = require('./internal/streCTSTools/stream');
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 
@@ -71691,11 +71691,11 @@ if (debugUtil && debugUtil.debuglog) {
 /*</replacement>*/
 
 
-var BufferList = require('./internal/streCTSTools/buffer_list');
+var BufferList = require('./internal/streams/buffer_list');
 
-var destroyImpl = require('./internal/streCTSTools/destroy');
+var destroyImpl = require('./internal/streams/destroy');
 
-var _require = require('./internal/streCTSTools/state'),
+var _require = require('./internal/streams/state'),
     getHighWaterMark = _require.getHighWaterMark;
 
 var _require$codes = require('../errors').codes,
@@ -71727,7 +71727,7 @@ function prependListener(emitter, event, fn) {
 
 function ReadableState(options, stream, isDuplex) {
   Duplex = Duplex || require('./_stream_duplex');
-  options = options || {}; // Duplex streCTSTools are both readable and writable, but share
+  options = options || {}; // Duplex streams are both readable and writable, but share
   // the same options object.
   // However, some cases require setting options to different
   // values for the readable and the writable sides of the duplex stream.
@@ -72033,7 +72033,7 @@ Readable.prototype.read = function (n) {
     return null;
   } // All the actual chunk generation logic needs to be
   // *below* the call to _read.  The reason is that in certain
-  // synthetic stream cases, such as passthrough streCTSTools, _read
+  // synthetic stream cases, such as passthrough streams, _read
   // may be a completely synchronous operation which may change
   // the state of the read buffer, providing enough data when
   // before there was *not* enough.
@@ -72045,7 +72045,7 @@ Readable.prototype.read = function (n) {
   // 2. If that resulting state will trigger a _read, then call _read.
   // Note that this may be asynchronous, or synchronous.  Yes, it is
   // deeply ugly to write APIs this way, but that still doesn't mean
-  // that the Readable class should behave improperly, as streCTSTools are
+  // that the Readable class should behave improperly, as streams are
   // designed to be sync/async agnostic.
   // Take note if the _read call is sync or async (ie, if the read call
   // has returned yet), so that we know whether or not it's safe to emit
@@ -72219,7 +72219,7 @@ function maybeReadMore_(stream, state) {
   state.readingMore = false;
 } // abstract method.  to be overridden in specific implementation classes.
 // call cb(er, data) where data is <= n in length.
-// for virtual (non-string, non-buffer) streCTSTools, "length" is somewhat
+// for virtual (non-string, non-buffer) streams, "length" is somewhat
 // arbitrary, and perhaps not very meaningful.
 
 
@@ -72628,7 +72628,7 @@ Readable.prototype.wrap = function (stream) {
 if (typeof Symbol === 'function') {
   Readable.prototype[Symbol.asyncIterator] = function () {
     if (createReadableStreamAsyncIterator === undefined) {
-      createReadableStreamAsyncIterator = require('./internal/streCTSTools/async_iterator');
+      createReadableStreamAsyncIterator = require('./internal/streams/async_iterator');
     }
 
     return createReadableStreamAsyncIterator(this);
@@ -72716,7 +72716,7 @@ function endReadableNT(state, stream) {
     stream.emit('end');
 
     if (state.autoDestroy) {
-      // In case of duplex streCTSTools we need a way to detect
+      // In case of duplex streams we need a way to detect
       // if the writable side is ready for autoDestroy as well
       var wState = stream._writableState;
 
@@ -72730,7 +72730,7 @@ function endReadableNT(state, stream) {
 if (typeof Symbol === 'function') {
   Readable.from = function (iterable, opts) {
     if (from === undefined) {
-      from = require('./internal/streCTSTools/from');
+      from = require('./internal/streams/from');
     }
 
     return from(Readable, iterable, opts);
@@ -72747,7 +72747,7 @@ function indexOf(xs, x) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"../errors":477,"./_stream_duplex":478,"./internal/streCTSTools/async_iterator":483,"./internal/streCTSTools/buffer_list":484,"./internal/streCTSTools/destroy":485,"./internal/streCTSTools/from":487,"./internal/streCTSTools/state":489,"./internal/streCTSTools/stream":490,"_process":467,"buffer":216,"events":367,"inherits":387,"string_decoder/":520,"util":185}],481:[function(require,module,exports){
+},{"../errors":477,"./_stream_duplex":478,"./internal/streams/async_iterator":483,"./internal/streams/buffer_list":484,"./internal/streams/destroy":485,"./internal/streams/from":487,"./internal/streams/state":489,"./internal/streams/stream":490,"_process":467,"buffer":216,"events":367,"inherits":387,"string_decoder/":520,"util":185}],481:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -72972,7 +72972,7 @@ function done(stream, er, data) {
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-// A bit simpler than readable streCTSTools.
+// A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
 'use strict';
@@ -73017,7 +73017,7 @@ var internalUtil = {
 
 /*<replacement>*/
 
-var Stream = require('./internal/streCTSTools/stream');
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 
@@ -73033,9 +73033,9 @@ function _isUint8Array(obj) {
   return Buffer.isBuffer(obj) || obj instanceof OurUint8Array;
 }
 
-var destroyImpl = require('./internal/streCTSTools/destroy');
+var destroyImpl = require('./internal/streams/destroy');
 
-var _require = require('./internal/streCTSTools/state'),
+var _require = require('./internal/streams/state'),
     getHighWaterMark = _require.getHighWaterMark;
 
 var _require$codes = require('../errors').codes,
@@ -73056,7 +73056,7 @@ function nop() {}
 
 function WritableState(options, stream, isDuplex) {
   Duplex = Duplex || require('./_stream_duplex');
-  options = options || {}; // Duplex streCTSTools are both readable and writable, but share
+  options = options || {}; // Duplex streams are both readable and writable, but share
   // the same options object.
   // However, some cases require setting options to different
   // values for the readable and the writable sides of the duplex stream,
@@ -73083,7 +73083,7 @@ function WritableState(options, stream, isDuplex) {
   this.finished = false; // has it been destroyed
 
   this.destroyed = false; // should we decode strings into buffers before passing to _write?
-  // this is here so that some node-core streCTSTools can optimize string
+  // this is here so that some node-core streams can optimize string
   // handling at a lower level.
 
   var noDecode = options.decodeStrings === false;
@@ -73123,7 +73123,7 @@ function WritableState(options, stream, isDuplex) {
   // this must be 0 before 'finish' can be emitted
 
   this.pendingcb = 0; // emit prefinish if the only thing we're waiting for is _write cbs
-  // This is relevant for synchronous Transform streCTSTools
+  // This is relevant for synchronous Transform streams
 
   this.prefinished = false; // True if the error was already emitted and should not be thrown again
 
@@ -73159,7 +73159,7 @@ WritableState.prototype.getBuffer = function getBuffer() {
       }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' + 'instead.', 'DEP0003')
     });
   } catch (_) {}
-})(); // Test _writableState for inheritance to account for Duplex streCTSTools,
+})(); // Test _writableState for inheritance to account for Duplex streams,
 // whose prototype chain only points to Readable.
 
 
@@ -73204,7 +73204,7 @@ function Writable(options) {
   }
 
   Stream.call(this);
-} // Otherwise people can pipe Writable streCTSTools, which is just wrong.
+} // Otherwise people can pipe Writable streams, which is just wrong.
 
 
 Writable.prototype.pipe = function () {
@@ -73578,7 +73578,7 @@ function finishMaybe(stream, state) {
       stream.emit('finish');
 
       if (state.autoDestroy) {
-        // In case of duplex streCTSTools we need a way to detect
+        // In case of duplex streams we need a way to detect
         // if the readable side is ready for autoDestroy as well
         var rState = stream._readableState;
 
@@ -73652,7 +73652,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"../errors":477,"./_stream_duplex":478,"./internal/streCTSTools/destroy":485,"./internal/streCTSTools/state":489,"./internal/streCTSTools/stream":490,"_process":467,"buffer":216,"inherits":387,"util-deprecate":522}],483:[function(require,module,exports){
+},{"../errors":477,"./_stream_duplex":478,"./internal/streams/destroy":485,"./internal/streams/state":489,"./internal/streams/stream":490,"_process":467,"buffer":216,"inherits":387,"util-deprecate":522}],483:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -74337,7 +74337,7 @@ function eos(stream, opts, callback) {
     stream.on('abort', onclose);
     if (stream.req) onrequest();else stream.on('request', onrequest);
   } else if (writable && !stream._writableState) {
-    // legacy streCTSTools
+    // legacy streams
     stream.on('end', onlegacyfinish);
     stream.on('close', onlegacyfinish);
   }
@@ -74433,27 +74433,27 @@ function pipe(from, to) {
   return from.pipe(to);
 }
 
-function popCallback(streCTSTools) {
-  if (!streCTSTools.length) return noop;
-  if (typeof streCTSTools[streCTSTools.length - 1] !== 'function') return noop;
-  return streCTSTools.pop();
+function popCallback(streams) {
+  if (!streams.length) return noop;
+  if (typeof streams[streams.length - 1] !== 'function') return noop;
+  return streams.pop();
 }
 
 function pipeline() {
-  for (var _len = arguments.length, streCTSTools = new Array(_len), _key = 0; _key < _len; _key++) {
-    streCTSTools[_key] = arguments[_key];
+  for (var _len = arguments.length, streams = new Array(_len), _key = 0; _key < _len; _key++) {
+    streams[_key] = arguments[_key];
   }
 
-  var callback = popCallback(streCTSTools);
-  if (Array.isArray(streCTSTools[0])) streCTSTools = streCTSTools[0];
+  var callback = popCallback(streams);
+  if (Array.isArray(streams[0])) streams = streams[0];
 
-  if (streCTSTools.length < 2) {
-    throw new ERR_MISSING_ARGS('streCTSTools');
+  if (streams.length < 2) {
+    throw new ERR_MISSING_ARGS('streams');
   }
 
   var error;
-  var destroys = streCTSTools.map(function (stream, i) {
-    var reading = i < streCTSTools.length - 1;
+  var destroys = streams.map(function (stream, i) {
+    var reading = i < streams.length - 1;
     var writing = i > 0;
     return destroyer(stream, reading, writing, function (err) {
       if (!error) error = err;
@@ -74463,7 +74463,7 @@ function pipeline() {
       callback(error);
     });
   });
-  return streCTSTools.reduce(pipe);
+  return streams.reduce(pipe);
 }
 
 module.exports = pipeline;
@@ -74512,10 +74512,10 @@ exports.Writable = require('./lib/_stream_writable.js');
 exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
-exports.finished = require('./lib/internal/streCTSTools/end-of-stream.js');
-exports.pipeline = require('./lib/internal/streCTSTools/pipeline.js');
+exports.finished = require('./lib/internal/streams/end-of-stream.js');
+exports.pipeline = require('./lib/internal/streams/pipeline.js');
 
-},{"./lib/_stream_duplex.js":478,"./lib/_stream_passthrough.js":479,"./lib/_stream_readable.js":480,"./lib/_stream_transform.js":481,"./lib/_stream_writable.js":482,"./lib/internal/streCTSTools/end-of-stream.js":486,"./lib/internal/streCTSTools/pipeline.js":488}],492:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":478,"./lib/_stream_passthrough.js":479,"./lib/_stream_readable.js":480,"./lib/_stream_transform.js":481,"./lib/_stream_writable.js":482,"./lib/internal/streams/end-of-stream.js":486,"./lib/internal/streams/pipeline.js":488}],492:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -78906,7 +78906,7 @@ Stream.Duplex = require('readable-stream/duplex.js');
 Stream.Transform = require('readable-stream/transform.js');
 Stream.PassThrough = require('readable-stream/passthrough.js'); // Backwards-compat with node 0.4.x
 
-Stream.Stream = Stream; // old-style streCTSTools.  Note that the pipe method (the only relevant
+Stream.Stream = Stream; // old-style streams.  Note that the pipe method (the only relevant
 // part of this class) is overridden in the Readable class.
 
 function Stream() {
@@ -79222,7 +79222,7 @@ var EElistenerCount = function EElistenerCount(emitter, type) {
 /*<replacement>*/
 
 
-var Stream = require('./internal/streCTSTools/stream');
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 /*<replacement>*/
@@ -79262,9 +79262,9 @@ if (debugUtil && debugUtil.debuglog) {
 /*</replacement>*/
 
 
-var BufferList = require('./internal/streCTSTools/BufferList');
+var BufferList = require('./internal/streams/BufferList');
 
-var destroyImpl = require('./internal/streCTSTools/destroy');
+var destroyImpl = require('./internal/streams/destroy');
 
 var StringDecoder;
 util.inherits(Readable, Stream);
@@ -79283,7 +79283,7 @@ function prependListener(emitter, event, fn) {
 
 function ReadableState(options, stream) {
   Duplex = Duplex || require('./_stream_duplex');
-  options = options || {}; // Duplex streCTSTools are both readable and writable, but share
+  options = options || {}; // Duplex streams are both readable and writable, but share
   // the same options object.
   // However, some cases require setting options to different
   // values for the readable and the writable sides of the duplex stream.
@@ -79571,7 +79571,7 @@ Readable.prototype.read = function (n) {
     return null;
   } // All the actual chunk generation logic needs to be
   // *below* the call to _read.  The reason is that in certain
-  // synthetic stream cases, such as passthrough streCTSTools, _read
+  // synthetic stream cases, such as passthrough streams, _read
   // may be a completely synchronous operation which may change
   // the state of the read buffer, providing enough data when
   // before there was *not* enough.
@@ -79583,7 +79583,7 @@ Readable.prototype.read = function (n) {
   // 2. If that resulting state will trigger a _read, then call _read.
   // Note that this may be asynchronous, or synchronous.  Yes, it is
   // deeply ugly to write APIs this way, but that still doesn't mean
-  // that the Readable class should behave improperly, as streCTSTools are
+  // that the Readable class should behave improperly, as streams are
   // designed to be sync/async agnostic.
   // Take note if the _read call is sync or async (ie, if the read call
   // has returned yet), so that we know whether or not it's safe to emit
@@ -79706,7 +79706,7 @@ function maybeReadMore_(stream, state) {
   state.readingMore = false;
 } // abstract method.  to be overridden in specific implementation classes.
 // call cb(er, data) where data is <= n in length.
-// for virtual (non-string, non-buffer) streCTSTools, "length" is somewhat
+// for virtual (non-string, non-buffer) streams, "length" is somewhat
 // arbitrary, and perhaps not very meaningful.
 
 
@@ -80212,7 +80212,7 @@ function indexOf(xs, x) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./_stream_duplex":508,"./internal/streCTSTools/BufferList":513,"./internal/streCTSTools/destroy":514,"./internal/streCTSTools/stream":515,"_process":467,"core-util-is":328,"events":367,"inherits":387,"isarray":389,"process-nextick-args":466,"safe-buffer":494,"string_decoder/":520,"util":185}],511:[function(require,module,exports){
+},{"./_stream_duplex":508,"./internal/streams/BufferList":513,"./internal/streams/destroy":514,"./internal/streams/stream":515,"_process":467,"core-util-is":328,"events":367,"inherits":387,"isarray":389,"process-nextick-args":466,"safe-buffer":494,"string_decoder/":520,"util":185}],511:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -80440,7 +80440,7 @@ function done(stream, er, data) {
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-// A bit simpler than readable streCTSTools.
+// A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
 'use strict';
@@ -80501,7 +80501,7 @@ var internalUtil = {
 
 /*<replacement>*/
 
-var Stream = require('./internal/streCTSTools/stream');
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 /*<replacement>*/
@@ -80521,7 +80521,7 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 
-var destroyImpl = require('./internal/streCTSTools/destroy');
+var destroyImpl = require('./internal/streams/destroy');
 
 util.inherits(Writable, Stream);
 
@@ -80529,7 +80529,7 @@ function nop() {}
 
 function WritableState(options, stream) {
   Duplex = Duplex || require('./_stream_duplex');
-  options = options || {}; // Duplex streCTSTools are both readable and writable, but share
+  options = options || {}; // Duplex streams are both readable and writable, but share
   // the same options object.
   // However, some cases require setting options to different
   // values for the readable and the writable sides of the duplex stream.
@@ -80561,7 +80561,7 @@ function WritableState(options, stream) {
   this.finished = false; // has it been destroyed
 
   this.destroyed = false; // should we decode strings into buffers before passing to _write?
-  // this is here so that some node-core streCTSTools can optimize string
+  // this is here so that some node-core streams can optimize string
   // handling at a lower level.
 
   var noDecode = options.decodeStrings === false;
@@ -80601,7 +80601,7 @@ function WritableState(options, stream) {
   // this must be 0 before 'finish' can be emitted
 
   this.pendingcb = 0; // emit prefinish if the only thing we're waiting for is _write cbs
-  // This is relevant for synchronous Transform streCTSTools
+  // This is relevant for synchronous Transform streams
 
   this.prefinished = false; // True if the error was already emitted and should not be thrown again
 
@@ -80633,7 +80633,7 @@ WritableState.prototype.getBuffer = function getBuffer() {
       }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' + 'instead.', 'DEP0003')
     });
   } catch (_) {}
-})(); // Test _writableState for inheritance to account for Duplex streCTSTools,
+})(); // Test _writableState for inheritance to account for Duplex streams,
 // whose prototype chain only points to Readable.
 
 
@@ -80678,7 +80678,7 @@ function Writable(options) {
   }
 
   Stream.call(this);
-} // Otherwise people can pipe Writable streCTSTools, which is just wrong.
+} // Otherwise people can pipe Writable streams, which is just wrong.
 
 
 Writable.prototype.pipe = function () {
@@ -81098,7 +81098,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 
-},{"./_stream_duplex":508,"./internal/streCTSTools/destroy":514,"./internal/streCTSTools/stream":515,"_process":467,"core-util-is":328,"inherits":387,"process-nextick-args":466,"safe-buffer":494,"timers":521,"util-deprecate":522}],513:[function(require,module,exports){
+},{"./_stream_duplex":508,"./internal/streams/destroy":514,"./internal/streams/stream":515,"_process":467,"core-util-is":328,"inherits":387,"process-nextick-args":466,"safe-buffer":494,"timers":521,"util-deprecate":522}],513:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) {

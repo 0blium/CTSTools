@@ -6133,7 +6133,7 @@
                     }
                 }
 
-                function getLicenseCheckParCTSTools(_ref2) {
+                function getLicenseCheckParams(_ref2) {
                     let {
                         licenseKey: licenseKey,
                         version: version
@@ -6196,7 +6196,7 @@
                         preview: preview,
                         internal: internal,
                         error: error
-                    } = getLicenseCheckParCTSTools({
+                    } = getLicenseCheckParams({
                         licenseKey: licenseKey,
                         version: version
                     });
@@ -7618,9 +7618,9 @@
                         this.callBase(args)
                     }
                 };
-                const onGroupingMenuItemClick = function(column, parCTSTools) {
+                const onGroupingMenuItemClick = function(column, params) {
                     const columnsController = this._columnsController;
-                    switch (parCTSTools.itemData.value) {
+                    switch (params.itemData.value) {
                         case "group": {
                             const groups = columnsController._dataSource.group() || [];
                             columnsController.columnOption(column.dataField, "groupIndex", groups.length);
@@ -8142,7 +8142,7 @@
                                             group: groups
                                         }),
                                         select: options.storeLoadOptions.select,
-                                        langParCTSTools: null === (_a = options.storeLoadOptions) || void 0 === _a ? void 0 : _a.langParCTSTools
+                                        langParams: null === (_a = options.storeLoadOptions) || void 0 === _a ? void 0 : _a.langParams
                                     };
                                     if (0 === expandedItemIndex) {
                                         loadOptions.skip = expandedInfo.skip || 0
@@ -10871,9 +10871,9 @@
                                         })
                                     }
                                 },
-                                _addChange(parCTSTools) {
+                                _addChange(params) {
                                     const result = this.callBase.apply(this, arguments);
-                                    if (parCTSTools.type) {
+                                    if (params.type) {
                                         this._refreshSummary()
                                     }
                                     return result
@@ -12982,8 +12982,8 @@
                         let items = this.callBase(options);
                         if (options.row && "header" === options.row.rowType) {
                             if (true === columnFixingOptions.enabled && column && column.allowFixing) {
-                                const onItemClick = parCTSTools => {
-                                    switch (parCTSTools.itemData.value) {
+                                const onItemClick = params => {
+                                    switch (params.itemData.value) {
                                         case "none":
                                             this._columnsController.columnOption(column.index, "fixed", false);
                                             break;
@@ -13863,9 +13863,9 @@
                                     if (options.row && ("header" === options.row.rowType || "detailAdaptive" === options.row.rowType)) {
                                         const sortingOptions = that.option("sorting");
                                         if (sortingOptions && "none" !== sortingOptions.mode && column && column.allowSorting) {
-                                            const onItemClick = function(parCTSTools) {
+                                            const onItemClick = function(params) {
                                                 setTimeout(() => {
-                                                    that._columnsController.changeSortOrder(column.index, parCTSTools.itemData.value)
+                                                    that._columnsController.changeSortOrder(column.index, params.itemData.value)
                                                 })
                                             };
                                             return [{
@@ -16785,12 +16785,12 @@
                         this.element().addClass("".concat(this.addWidgetPrefix("drag-header"), " ").concat(this.addWidgetPrefix("text-content"), " ").concat("dx-widget")).hide()
                     };
                     _proto5._resetTargetColumnOptions = function() {
-                        const parCTSTools = this._dropOptions;
-                        parCTSTools.targetColumnIndex = -1;
-                        delete parCTSTools.targetColumnElement;
-                        delete parCTSTools.isLast;
-                        delete parCTSTools.posX;
-                        delete parCTSTools.posY
+                        const params = this._dropOptions;
+                        params.targetColumnIndex = -1;
+                        delete params.targetColumnElement;
+                        delete params.isLast;
+                        delete params.posX;
+                        delete params.posY
                     };
                     _proto5._getVisibleIndexObject = function(rowIndex, visibleIndex) {
                         if ((0, _type.isDefined)(rowIndex)) {
@@ -16880,7 +16880,7 @@
                         const that = this;
                         const targetDraggingPanel = that._getDraggingPanelByPos(eventData);
                         const controller = that._controller;
-                        const parCTSTools = that._dropOptions;
+                        const params = that._dropOptions;
                         const dragOptions = that._dragOptions;
                         if (targetDraggingPanel) {
                             const rtlEnabled = that.option("rtlEnabled");
@@ -16901,28 +16901,28 @@
                                 startColumnIndex: "headers" === targetLocation && (0, _renderer.default)(columnElements[0]).index()
                             }));
                             pointsByTarget[targetLocation] = pointsByColumns;
-                            parCTSTools.targetLocation = targetLocation;
+                            params.targetLocation = targetLocation;
                             if (pointsByColumns.length > 0) {
                                 for (let i = 0; i < pointsByColumns.length; i++) {
                                     const centerPosition = pointsByColumns[i + 1] && (pointsByColumns[i][axisName] + pointsByColumns[i + 1][axisName]) / 2;
                                     if (void 0 === centerPosition || (rtlEnabled && "x" === axisName ? eventData[axisName] > centerPosition : eventData[axisName] < centerPosition)) {
-                                        parCTSTools.targetColumnIndex = that._getVisibleIndexObject(rowIndex, pointsByColumns[i].columnIndex);
+                                        params.targetColumnIndex = that._getVisibleIndexObject(rowIndex, pointsByColumns[i].columnIndex);
                                         if (columnElements[i]) {
-                                            parCTSTools.targetColumnElement = columnElements.eq(i);
-                                            parCTSTools.isLast = false
+                                            params.targetColumnElement = columnElements.eq(i);
+                                            params.isLast = false
                                         } else {
-                                            parCTSTools.targetColumnElement = columnElements.last();
-                                            parCTSTools.isLast = true
+                                            params.targetColumnElement = columnElements.last();
+                                            params.isLast = true
                                         }
-                                        parCTSTools.posX = pointsByColumns[i].x;
-                                        parCTSTools.posY = pointsByColumns[i].y;
-                                        controller.dock(parCTSTools);
+                                        params.posX = pointsByColumns[i].x;
+                                        params.posY = pointsByColumns[i].y;
+                                        controller.dock(params);
                                         break
                                     }
                                 }
                             } else {
                                 that._resetTargetColumnOptions();
-                                controller.dock(parCTSTools)
+                                controller.dock(params)
                             }
                         }
                     };
@@ -17372,7 +17372,7 @@
                     }
                     var _proto7 = TablePositionViewController.prototype;
                     _proto7.update = function(top) {
-                        const parCTSTools = {};
+                        const params = {};
                         const $element = this._columnHeadersView.element();
                         const offset = $element && $element.offset();
                         const offsetTop = offset && offset.top || 0;
@@ -17382,15 +17382,15 @@
                         const rowsHeight = this._rowsView ? this._rowsView.height() - scrollBarWidth : 0;
                         const columnsResizerController = this.component.getController("columnsResizer");
                         const draggingHeaderView = this.component.getView("draggingHeaderView");
-                        parCTSTools.height = columnsHeadersHeight;
+                        params.height = columnsHeadersHeight;
                         const isDraggingOrResizing = columnsResizerController.isResizing() || draggingHeaderView.isDragging();
                         if (isDraggingOrResizing) {
-                            parCTSTools.height += rowsHeight - diffOffsetTop
+                            params.height += rowsHeight - diffOffsetTop
                         }
                         if (null !== top && $element && $element.length) {
-                            parCTSTools.top = $element[0].offsetTop + diffOffsetTop
+                            params.top = $element[0].offsetTop + diffOffsetTop
                         }
-                        this.positionChanged.fire(parCTSTools)
+                        this.positionChanged.fire(params)
                     };
                     _proto7.init = function() {
                         const that = this;
@@ -17770,8 +17770,8 @@
                                     actionArgs.cancel = true
                                 }
                             },
-                            onItemClick(parCTSTools) {
-                                parCTSTools.itemData.onItemClick && parCTSTools.itemData.onItemClick(parCTSTools)
+                            onItemClick(params) {
+                                params.itemData.onItemClick && params.itemData.onItemClick(params)
                             },
                             cssClass: that.getWidgetContainerClass(),
                             target: that.component.$element()
@@ -19573,7 +19573,7 @@
                                 skip: !remoteOperations.paging,
                                 take: !remoteOperations.paging,
                                 requireTotalCount: cachedExtra && "totalCount" in cachedExtra || !remoteOperations.paging,
-                                langParCTSTools: !remoteOperations.filtering || !remoteOperations.sorting
+                                langParams: !remoteOperations.filtering || !remoteOperations.sorting
                             };
                             (0, _iterator.each)(options.storeLoadOptions, (optionName, optionValue) => {
                                 if (localLoadOptionNames[optionName]) {
@@ -19828,7 +19828,7 @@
                                 const dataSourceLoadOptions = dataSource.loadOptions();
                                 const loadResult = {
                                     storeLoadOptions: (0, _extend.extend)({}, options, {
-                                        langParCTSTools: null === dataSourceLoadOptions || void 0 === dataSourceLoadOptions ? void 0 : dataSourceLoadOptions.langParCTSTools
+                                        langParams: null === dataSourceLoadOptions || void 0 === dataSourceLoadOptions ? void 0 : dataSourceLoadOptions.langParams
                                     }),
                                     isCustomLoading: true
                                 };
@@ -20233,13 +20233,13 @@
                     _proto._getInternalData = function(key) {
                         return this._internalState.filter(item => (0, _common.equalByValue)(item.key, key))[0]
                     };
-                    _proto._addInternalData = function(parCTSTools) {
-                        const internalData = this._getInternalData(parCTSTools.key);
+                    _proto._addInternalData = function(params) {
+                        const internalData = this._getInternalData(params.key);
                         if (internalData) {
-                            return (0, _extend.extend)(internalData, parCTSTools)
+                            return (0, _extend.extend)(internalData, params)
                         }
-                        this._internalState.push(parCTSTools);
-                        return parCTSTools
+                        this._internalState.push(params);
+                        return params
                     };
                     _proto._getOldData = function(key) {
                         var _a;
@@ -20504,7 +20504,7 @@
                         }
                         this._refreshCore.apply(this, arguments)
                     };
-                    _proto._refreshCore = function(parCTSTools) {};
+                    _proto._refreshCore = function(params) {};
                     _proto.isEditing = function() {
                         const isEditRowKeyDefined = (0, _type.isDefined)(this.option(_const.EDITING_EDITROWKEY_OPTION_NAME));
                         return isEditRowKeyDefined
@@ -20814,7 +20814,7 @@
                         }).fail(deferred.reject);
                         return deferred.promise()
                     };
-                    _proto._allowRowAdding = function(parCTSTools) {
+                    _proto._allowRowAdding = function(params) {
                         const insertIndex = this._getInsertIndex();
                         if (insertIndex > 1) {
                             return false
@@ -20967,7 +20967,7 @@
                         const dataController = this._dataController;
                         const items = dataController.items();
                         const item = items[rowIndex];
-                        const parCTSTools = {
+                        const params = {
                             data: item && item.data,
                             cancel: false
                         };
@@ -20983,9 +20983,9 @@
                             return
                         }
                         if (!item.isNewRow) {
-                            parCTSTools.key = item.key
+                            params.key = item.key
                         }
-                        if (this._isEditingStart(parCTSTools)) {
+                        if (this._isEditingStart(params)) {
                             return
                         }
                         this.resetChanges();
@@ -21221,15 +21221,15 @@
                         }
                     };
                     _proto._fireOnSaving = function() {
-                        const onSavingParCTSTools = {
+                        const onSavingParams = {
                             cancel: false,
                             promise: null,
                             changes: [...this.getChanges()]
                         };
-                        this.executeAction("onSaving", onSavingParCTSTools);
+                        this.executeAction("onSaving", onSavingParams);
                         const d = new _deferred.Deferred;
-                        (0, _deferred.when)((0, _deferred.fromPromise)(onSavingParCTSTools.promise)).done(() => {
-                            d.resolve(onSavingParCTSTools)
+                        (0, _deferred.when)((0, _deferred.fromPromise)(onSavingParams.promise)).done(() => {
+                            d.resolve(onSavingParams)
                         }).fail(arg => {
                             (0, _m_editing_utils.createFailureHandler)(d);
                             this._fireDataErrorOccurred(arg);
@@ -21239,19 +21239,19 @@
                         });
                         return d
                     };
-                    _proto._executeEditingAction = function(actionName, parCTSTools, func) {
+                    _proto._executeEditingAction = function(actionName, params, func) {
                         if (this.component._disposed) {
                             return null
                         }
                         const deferred = new _deferred.Deferred;
-                        this.executeAction(actionName, parCTSTools);
-                        (0, _deferred.when)((0, _deferred.fromPromise)(parCTSTools.cancel)).done(cancel => {
+                        this.executeAction(actionName, params);
+                        (0, _deferred.when)((0, _deferred.fromPromise)(params.cancel)).done(cancel => {
                             if (cancel) {
                                 setTimeout(() => {
                                     deferred.resolve("cancel")
                                 })
                             } else {
-                                func(parCTSTools).done(deferred.resolve).fail((0, _m_editing_utils.createFailureHandler)(deferred))
+                                func(params).done(deferred.resolve).fail((0, _m_editing_utils.createFailureHandler)(deferred))
                             }
                         }).fail((0, _m_editing_utils.createFailureHandler)(deferred));
                         return deferred
@@ -21266,18 +21266,18 @@
                             } = change;
                             const changeCopy = _extends({}, change);
                             let deferred;
-                            let parCTSTools;
+                            let params;
                             if (this._beforeSaveEditData(change, index)) {
                                 return
                             }
                             switch (type) {
                                 case _const.DATA_EDIT_DATA_REMOVE_TYPE:
-                                    parCTSTools = {
+                                    params = {
                                         data: oldData,
                                         key: change.key,
                                         cancel: false
                                     };
-                                    deferred = this._executeEditingAction("onRowRemoving", parCTSTools, () => store.remove(change.key).done(key => {
+                                    deferred = this._executeEditingAction("onRowRemoving", params, () => store.remove(change.key).done(key => {
                                         dataChanges.push({
                                             type: "remove",
                                             key: key
@@ -21285,15 +21285,15 @@
                                     }));
                                     break;
                                 case _const.DATA_EDIT_DATA_INSERT_TYPE:
-                                    parCTSTools = {
+                                    params = {
                                         data: data,
                                         cancel: false
                                     };
-                                    deferred = this._executeEditingAction("onRowInserting", parCTSTools, () => store.insert(parCTSTools.data).done((data, key) => {
+                                    deferred = this._executeEditingAction("onRowInserting", params, () => store.insert(params.data).done((data, key) => {
                                         if ((0, _type.isDefined)(key)) {
                                             changeCopy.key = key
                                         }
-                                        if (data && (0, _type.isObject)(data) && data !== parCTSTools.data) {
+                                        if (data && (0, _type.isObject)(data) && data !== params.data) {
                                             changeCopy.data = data
                                         }
                                         dataChanges.push({
@@ -21304,14 +21304,14 @@
                                     }));
                                     break;
                                 case _const.DATA_EDIT_DATA_UPDATE_TYPE:
-                                    parCTSTools = {
+                                    params = {
                                         newData: data,
                                         oldData: oldData,
                                         key: change.key,
                                         cancel: false
                                     };
-                                    deferred = this._executeEditingAction("onRowUpdating", parCTSTools, () => store.update(change.key, parCTSTools.newData).done((data, key) => {
-                                        if (data && (0, _type.isObject)(data) && data !== parCTSTools.newData) {
+                                    deferred = this._executeEditingAction("onRowUpdating", params, () => store.update(change.key, params.newData).done((data, key) => {
+                                        if (data && (0, _type.isObject)(data) && data !== params.newData) {
                                             changeCopy.data = data
                                         }
                                         dataChanges.push({
@@ -21395,24 +21395,24 @@
                             const internalData = this._addInternalData({
                                 key: key
                             });
-                            const parCTSTools = {
+                            const params = {
                                 key: key,
                                 data: data
                             };
                             if (internalData.error) {
-                                parCTSTools.error = internalData.error
+                                params.error = internalData.error
                             }
                             switch (type) {
                                 case _const.DATA_EDIT_DATA_REMOVE_TYPE:
-                                    this.executeAction("onRowRemoved", (0, _extend.extend)({}, parCTSTools, {
+                                    this.executeAction("onRowRemoved", (0, _extend.extend)({}, params, {
                                         data: internalData.oldData
                                     }));
                                     break;
                                 case _const.DATA_EDIT_DATA_INSERT_TYPE:
-                                    this.executeAction("onRowInserted", parCTSTools);
+                                    this.executeAction("onRowInserted", params);
                                     break;
                                 case _const.DATA_EDIT_DATA_UPDATE_TYPE:
-                                    this.executeAction("onRowUpdated", parCTSTools)
+                                    this.executeAction("onRowUpdated", params)
                             }
                         });
                         this.executeAction("onSaved", {
@@ -21570,12 +21570,12 @@
                     _proto._beforeCloseEditCellInBatchMode = function(rowIndices) {};
                     _proto.cancelEditData = function() {
                         const changes = this.getChanges();
-                        const parCTSTools = {
+                        const params = {
                             cancel: false,
                             changes: changes
                         };
-                        this.executeAction("onEditCanceling", parCTSTools);
-                        if (!parCTSTools.cancel) {
+                        this.executeAction("onEditCanceling", params);
+                        if (!params.cancel) {
                             this._cancelEditDataCore();
                             this.executeAction("onEditCanceled", {
                                 changes: changes
@@ -21671,8 +21671,8 @@
                             this._dataController.fireError("E1043")
                         }
                         if (options.column.setCellValue) {
-                            this._prepareChange(options, value, text).done(parCTSTools => {
-                                (0, _deferred.when)(this._applyChange(options, parCTSTools, forceUpdateRow)).always(() => {
+                            this._prepareChange(options, value, text).done(params => {
+                                (0, _deferred.when)(this._applyChange(options, params, forceUpdateRow)).always(() => {
                                     deferred.resolve()
                                 })
                             })
@@ -21697,11 +21697,11 @@
                         const isCustomCalculateCellValue = visibleColumns.some(visibleColumn => visibleColumn.calculateCellValue !== visibleColumn.defaultCalculateCellValue);
                         return isCustomSetCellValue || isCustomCalculateCellValue
                     };
-                    _proto._applyChange = function(options, parCTSTools, forceUpdateRow) {
+                    _proto._applyChange = function(options, params, forceUpdateRow) {
                         const changeOptions = _extends(_extends({}, options), {
                             forceUpdateRow: forceUpdateRow
                         });
-                        this._addChange(parCTSTools, changeOptions);
+                        this._addChange(params, changeOptions);
                         this._updateEditButtons();
                         return this._applyChangeCore(options, changeOptions.forceUpdateRow)
                     };
@@ -21766,31 +21766,31 @@
                         })
                     };
                     _proto._validateEditFormAfterUpdate = function() {};
-                    _proto._addChange = function(changeParCTSTools, options) {
+                    _proto._addChange = function(changeParams, options) {
                         var _a;
                         const row = null === options || void 0 === options ? void 0 : options.row;
                         const changes = [...this.getChanges()];
-                        let index = _m_utils.default.getIndexByKey(changeParCTSTools.key, changes);
+                        let index = _m_utils.default.getIndexByKey(changeParams.key, changes);
                         if (index < 0) {
                             index = changes.length;
                             this._addInternalData({
-                                key: changeParCTSTools.key,
-                                oldData: changeParCTSTools.oldData
+                                key: changeParams.key,
+                                oldData: changeParams.oldData
                             });
-                            delete changeParCTSTools.oldData;
-                            changes.push(changeParCTSTools)
+                            delete changeParams.oldData;
+                            changes.push(changeParams)
                         }
                         const change = _extends({}, changes[index]);
                         if (change) {
-                            if (changeParCTSTools.data) {
-                                change.data = (0, _array_utils.createObjectWithChanges)(change.data, changeParCTSTools.data)
+                            if (changeParams.data) {
+                                change.data = (0, _array_utils.createObjectWithChanges)(change.data, changeParams.data)
                             }
-                            if ((!change.type || !changeParCTSTools.data) && changeParCTSTools.type) {
-                                change.type = changeParCTSTools.type
+                            if ((!change.type || !changeParams.data) && changeParams.type) {
+                                change.type = changeParams.type
                             }
                             if (row) {
                                 row.oldData = this._getOldData(row.key);
-                                row.data = (0, _array_utils.createObjectWithChanges)(row.data, changeParCTSTools.data)
+                                row.data = (0, _array_utils.createObjectWithChanges)(row.data, changeParams.data)
                             }
                         }
                         changes[index] = change;
@@ -21941,8 +21941,8 @@
                         }
                         return buttonItems
                     };
-                    _proto.highlightDataCell = function($cell, parCTSTools) {
-                        this.shouldHighlightCell(parCTSTools) && $cell.addClass(_const.CELL_MODIFIED)
+                    _proto.highlightDataCell = function($cell, params) {
+                        this.shouldHighlightCell(params) && $cell.addClass(_const.CELL_MODIFIED)
                     };
                     _proto._afterInsertRow = function() {};
                     _proto._beforeSaveEditData = function(change) {
@@ -22552,7 +22552,7 @@
                                         column: column,
                                         item: item
                                     } = this._getNormalizedEditCellOptions(options);
-                                    const parCTSTools = {
+                                    const params = {
                                         data: null === item || void 0 === item ? void 0 : item.data,
                                         cancel: false,
                                         column: column
@@ -22570,7 +22570,7 @@
                                             if (cancel) {
                                                 return
                                             }
-                                            if (!this._prepareEditCell(parCTSTools, item, columnIndex, editRowIndex)) {
+                                            if (!this._prepareEditCell(params, item, columnIndex, editRowIndex)) {
                                                 this._processCanceledEditingCell()
                                             }
                                         })
@@ -22626,18 +22626,18 @@
                                         item: item
                                     }
                                 };
-                                _proto._prepareEditCell = function(parCTSTools, item, editColumnIndex, editRowIndex) {
+                                _proto._prepareEditCell = function(params, item, editColumnIndex, editRowIndex) {
                                     var _a;
                                     if (!item.isNewRow) {
-                                        parCTSTools.key = item.key
+                                        params.key = item.key
                                     }
-                                    if (this._isEditingStart(parCTSTools)) {
+                                    if (this._isEditingStart(params)) {
                                         return false
                                     }
                                     this._pageIndex = this._dataController.pageIndex();
                                     this._setEditRowKey(item.key);
                                     this._setEditColumnNameByIndex(editColumnIndex);
-                                    if (!parCTSTools.column.showEditorAlways) {
+                                    if (!params.column.showEditorAlways) {
                                         this._addInternalData({
                                             key: item.key,
                                             oldData: null !== (_a = item.oldData) && void 0 !== _a ? _a : item.data
@@ -22774,10 +22774,10 @@
                                         _Base.prototype._checkAndDeleteRow.call(this, rowIndex)
                                     }
                                 };
-                                _proto._refreshCore = function(parCTSTools) {
+                                _proto._refreshCore = function(params) {
                                     const {
                                         isPageChanged: isPageChanged
-                                    } = null !== parCTSTools && void 0 !== parCTSTools ? parCTSTools : {};
+                                    } = null !== params && void 0 !== params ? params : {};
                                     const needResetIndexes = this.isBatchEditMode() || isPageChanged && "virtual" !== this.option("scrolling.mode");
                                     if (this.isCellOrBatchEditMode()) {
                                         if (needResetIndexes) {
@@ -22785,14 +22785,14 @@
                                             this._resetEditRowKey()
                                         }
                                     } else {
-                                        _Base.prototype._refreshCore.call(this, parCTSTools)
+                                        _Base.prototype._refreshCore.call(this, params)
                                     }
                                 };
-                                _proto._allowRowAdding = function(parCTSTools) {
+                                _proto._allowRowAdding = function(params) {
                                     if (this.isBatchEditMode()) {
                                         return true
                                     }
-                                    return _Base.prototype._allowRowAdding.call(this, parCTSTools)
+                                    return _Base.prototype._allowRowAdding.call(this, params)
                                 };
                                 _proto._afterDeleteRow = function(rowIndex, oldEditRowIndex) {
                                     const dataController = this._dataController;
@@ -22870,7 +22870,7 @@
                                     }
                                     return _Base.prototype._saveEditDataInner.call(this).always(null === deferred || void 0 === deferred ? void 0 : deferred.resolve)
                                 };
-                                _proto._applyChange = function(options, parCTSTools, forceUpdateRow) {
+                                _proto._applyChange = function(options, params, forceUpdateRow) {
                                     const isUpdateInCellMode = this.isCellEditMode() && options.row && !options.row.isNewRow;
                                     const {
                                         showEditorAlways: showEditorAlways
@@ -22882,7 +22882,7 @@
                                         this._updateEditRow(options.row, true, isCustomSetCellValue);
                                         return
                                     }
-                                    return _Base.prototype._applyChange.call(this, options, parCTSTools, forceUpdateRow)
+                                    return _Base.prototype._applyChange.call(this, options, params, forceUpdateRow)
                                 };
                                 _proto._applyChangeCore = function(options, forceUpdateRow) {
                                     const {
@@ -23556,16 +23556,16 @@
                                     }
                                     _Base.prototype._cancelSaving.call(this, result)
                                 };
-                                _proto._refreshCore = function(parCTSTools) {
+                                _proto._refreshCore = function(params) {
                                     const {
                                         allowCancelEditing: allowCancelEditing
-                                    } = null !== parCTSTools && void 0 !== parCTSTools ? parCTSTools : {};
+                                    } = null !== params && void 0 !== params ? params : {};
                                     if (this.isRowBasedEditMode()) {
                                         const hasUpdateChanges = this.getChanges().filter(it => "update" === it.type).length > 0;
                                         this.init();
                                         allowCancelEditing && hasUpdateChanges && this._cancelEditDataCore()
                                     }
-                                    _Base.prototype._refreshCore.call(this, parCTSTools)
+                                    _Base.prototype._refreshCore.call(this, params)
                                 };
                                 _proto._isEditColumnVisible = function() {
                                     const result = _Base.prototype._isEditColumnVisible.call(this);
@@ -29809,11 +29809,11 @@
                                         }
                                     }
                                 },
-                                renderFocusState(parCTSTools) {
+                                renderFocusState(params) {
                                     const {
                                         preventScroll: preventScroll,
                                         pageSizeChanged: pageSizeChanged
-                                    } = null !== parCTSTools && void 0 !== parCTSTools ? parCTSTools : {};
+                                    } = null !== params && void 0 !== params ? params : {};
                                     const $rowsViewElement = this.element();
                                     if ($rowsViewElement && !(0, _selectors.focused)($rowsViewElement)) {
                                         $rowsViewElement.attr("tabindex", null)
@@ -32430,7 +32430,7 @@
                             rowsView: {
                                 init() {
                                     this.callBase.apply(this, arguments);
-                                    this._searchParCTSTools = [];
+                                    this._searchParams = [];
                                     this._dataController = this.getController("data")
                                 },
                                 _getFormattedSearchText(column, searchText) {
@@ -32442,8 +32442,8 @@
                                     var _a, _b, _c, _d;
                                     const isCaseSensitive = this.option("searchPanel.highlightCaseSensitive");
                                     const dataSource = null === (_b = null === (_a = this._dataController) || void 0 === _a ? void 0 : _a.getDataSource) || void 0 === _b ? void 0 : _b.call(_a);
-                                    const langParCTSTools = null === (_d = null === (_c = null === dataSource || void 0 === dataSource ? void 0 : dataSource.loadOptions) || void 0 === _c ? void 0 : _c.call(dataSource)) || void 0 === _d ? void 0 : _d.langParCTSTools;
-                                    return str => (0, _data.toComparable)(str, isCaseSensitive, langParCTSTools)
+                                    const langParams = null === (_d = null === (_c = null === dataSource || void 0 === dataSource ? void 0 : dataSource.loadOptions) || void 0 === _c ? void 0 : _c.call(dataSource)) || void 0 === _d ? void 0 : _d.langParams;
+                                    return str => (0, _data.toComparable)(str, isCaseSensitive, langParams)
                                 },
                                 _findHighlightingTextNodes(column, cellElement, searchText) {
                                     const that = this;
@@ -32537,16 +32537,16 @@
                                     const isEquals = "string" !== dataType;
                                     if (allowSearch(column) && !parameters.isOnForm) {
                                         if (this.option("templatesRenderAsynchronously")) {
-                                            if (!this._searchParCTSTools.length) {
+                                            if (!this._searchParams.length) {
                                                 clearTimeout(this._highlightTimer);
                                                 this._highlightTimer = setTimeout(() => {
-                                                    this._searchParCTSTools.forEach(parCTSTools => {
-                                                        this._highlightSearchText.apply(this, parCTSTools)
+                                                    this._searchParams.forEach(params => {
+                                                        this._highlightSearchText.apply(this, params)
                                                     });
-                                                    this._searchParCTSTools = []
+                                                    this._searchParams = []
                                                 })
                                             }
-                                            this._searchParCTSTools.push([$cell, isEquals, column])
+                                            this._searchParams.push([$cell, isEquals, column])
                                         } else {
                                             this._highlightSearchText($cell, isEquals, column)
                                         }
@@ -34482,11 +34482,11 @@
                         return this._currentCellValidator && (0, _common.equalByValue)(this._currentCellValidator.option("validationGroup").key, rowKey) && this._currentCellValidator.option("dataGetter")().column.index === columnIndex
                     },
                     validateCell(validator) {
-                        const cellParCTSTools = {
+                        const cellParams = {
                             rowKey: validator.option("validationGroup").key,
                             columnIndex: validator.option("dataGetter")().column.index
                         };
-                        let validationResult = this.getCellValidationResult(cellParCTSTools);
+                        let validationResult = this.getCellValidationResult(cellParams);
                         const stateRestored = validationResultIsValid(validationResult);
                         const adapter = validator.option("adapter");
                         if (!stateRestored) {
@@ -34499,7 +34499,7 @@
                         }
                         const deferred = new _deferred.Deferred;
                         if (stateRestored && validationResult.status === VALIDATION_STATUS_pending) {
-                            this.updateCellValidationResult(cellParCTSTools);
+                            this.updateCellValidationResult(cellParams);
                             adapter.applyValidationResults(validationResult)
                         }(0, _deferred.when)(validationResult.complete || validationResult).done(validationResult => {
                             stateRestored && adapter.applyValidationResults(validationResult);
@@ -34639,10 +34639,10 @@
                     extenders: {
                         controllers: {
                             editing: {
-                                _addChange(changeParCTSTools) {
+                                _addChange(changeParams) {
                                     const change = this.callBase.apply(this, arguments);
                                     const validatingController = this.getController("validating");
-                                    if (change && "remove" !== changeParCTSTools.type) {
+                                    if (change && "remove" !== changeParams.type) {
                                         validatingController.updateValidationState(change)
                                     }
                                     return change
@@ -34690,12 +34690,12 @@
                                     }
                                     this.callBase.apply(this, arguments)
                                 },
-                                _prepareEditCell(parCTSTools) {
+                                _prepareEditCell(params) {
                                     const isNotCanceled = this.callBase.apply(this, arguments);
                                     const validatingController = this.getController("validating");
-                                    if (isNotCanceled && parCTSTools.column.showEditorAlways) {
+                                    if (isNotCanceled && params.column.showEditorAlways) {
                                         validatingController.updateValidationState({
-                                            key: parCTSTools.key
+                                            key: params.key
                                         })
                                     }
                                     return isNotCanceled
@@ -39768,7 +39768,7 @@
                                         if (this._rowsScrollController && isVirtualPaging(this)) {
                                             const {
                                                 loadPageCount: loadPageCount
-                                            } = (0, _type.isDefined)(this._loadViewportParCTSTools) ? this.getLoadPageParCTSTools(): {
+                                            } = (0, _type.isDefined)(this._loadViewportParams) ? this.getLoadPageParams(): {
                                                 loadPageCount: void 0
                                             };
                                             loadPageCount >= 1 && (null === (_a = this._dataSource) || void 0 === _a ? void 0 : _a.loadPageCount(loadPageCount))
@@ -39813,7 +39813,7 @@
                                     initVirtualRows() {
                                         const virtualRowsRendering = _m_utils.default.isVirtualRowRendering(this);
                                         this._allItems = null;
-                                        this._loadViewportParCTSTools = null;
+                                        this._loadViewportParams = null;
                                         if ("virtual" !== this.option("scrolling.mode") && !virtualRowsRendering || !virtualRowsRendering || false !== this.option(LEGACY_SCROLLING_MODE) && !this.option("scrolling.rowPageSize")) {
                                             this._visibleItems = null;
                                             this._rowsScrollController = null;
@@ -39838,7 +39838,7 @@
                                             })
                                         }
                                         if (false === this.option(LEGACY_SCROLLING_MODE)) {
-                                            this._updateLoadViewportParCTSTools()
+                                            this._updateLoadViewportParams()
                                         }
                                         if (this.isLoaded() && false !== this.option(LEGACY_SCROLLING_MODE)) {
                                             this._rowsScrollController.load()
@@ -39994,14 +39994,14 @@
                                             }
                                         }
                                     },
-                                    _updateLoadViewportParCTSTools() {
-                                        const viewportParCTSTools = this._rowsScrollController.getViewportParCTSTools();
+                                    _updateLoadViewportParams() {
+                                        const viewportParams = this._rowsScrollController.getViewportParams();
                                         const pageSize = this.pageSize();
-                                        if (viewportParCTSTools && !isVirtualPaging(this) && pageSize > 0) {
+                                        if (viewportParams && !isVirtualPaging(this) && pageSize > 0) {
                                             const pageOffset = this.pageIndex() * pageSize;
-                                            viewportParCTSTools.skip += pageOffset
+                                            viewportParams.skip += pageOffset
                                         }
-                                        this._loadViewportParCTSTools = viewportParCTSTools
+                                        this._loadViewportParams = viewportParams
                                     },
                                     _processItems() {
                                         var _a;
@@ -40051,18 +40051,18 @@
                                     },
                                     _afterProcessItems(items) {
                                         this._itemCount = items.filter(item => isItemCountableByDataSource(item, this._dataSource)).length;
-                                        if ((0, _type.isDefined)(this._loadViewportParCTSTools)) {
-                                            this._updateLoadViewportParCTSTools();
+                                        if ((0, _type.isDefined)(this._loadViewportParams)) {
+                                            this._updateLoadViewportParams();
                                             let result = items;
                                             this._allItems = items;
                                             if (items.length) {
                                                 const {
                                                     skipForCurrentPage: skipForCurrentPage
-                                                } = this.getLoadPageParCTSTools(true);
+                                                } = this.getLoadPageParams(true);
                                                 const skip = items[0].loadIndex + skipForCurrentPage;
                                                 const {
                                                     take: take
-                                                } = this._loadViewportParCTSTools;
+                                                } = this._loadViewportParams;
                                                 result = items.filter(it => {
                                                     const isNewRowInEmptyData = it.isNewRow && it.loadIndex === skip && 0 === take;
                                                     const isLoadIndexGreaterStart = it.loadIndex >= skip;
@@ -40128,11 +40128,11 @@
                                         const newMode = false === this.option(LEGACY_SCROLLING_MODE);
                                         const virtualPaging = isVirtualPaging(this);
                                         if (rowsScrollController && !byLoadedRows) {
-                                            if (newMode && (0, _type.isDefined)(this._loadViewportParCTSTools)) {
+                                            if (newMode && (0, _type.isDefined)(this._loadViewportParams)) {
                                                 const {
                                                     skipForCurrentPage: skipForCurrentPage,
                                                     pageIndex: pageIndex
-                                                } = this.getLoadPageParCTSTools(true);
+                                                } = this.getLoadPageParams(true);
                                                 const items = this.items(true);
                                                 offset = virtualPaging ? pageIndex * this.pageSize() : 0;
                                                 if (items.length) {
@@ -40210,10 +40210,10 @@
                                         const viewportSize = this.viewportSize();
                                         return preloadEnabled ? 2 * viewportSize : viewportSize
                                     },
-                                    getLoadPageParCTSTools(byLoadedPage) {
+                                    getLoadPageParams(byLoadedPage) {
                                         var _a, _b;
                                         const pageSize = this.pageSize();
-                                        const viewportParCTSTools = this._loadViewportParCTSTools;
+                                        const viewportParams = this._loadViewportParams;
                                         const lastLoadOptions = null === (_a = this._dataSource) || void 0 === _a ? void 0 : _a.lastLoadOptions();
                                         const loadedPageIndex = (null === lastLoadOptions || void 0 === lastLoadOptions ? void 0 : lastLoadOptions.pageIndex) || 0;
                                         const loadedTake = (null === lastLoadOptions || void 0 === lastLoadOptions ? void 0 : lastLoadOptions.take) || 0;
@@ -40221,11 +40221,11 @@
                                         const topPreloadCount = isScrollingBack ? this.getPreloadedRowCount() : 0;
                                         const bottomPreloadCount = isScrollingBack ? 0 : this.getPreloadedRowCount();
                                         const totalCountCorrection = (null === (_b = this._dataSource) || void 0 === _b ? void 0 : _b.totalCountCorrection()) || 0;
-                                        const skipWithPreload = Math.max(0, viewportParCTSTools.skip - topPreloadCount);
+                                        const skipWithPreload = Math.max(0, viewportParams.skip - topPreloadCount);
                                         const pageIndex = byLoadedPage ? loadedPageIndex : Math.floor(pageSize ? skipWithPreload / pageSize : 0);
                                         const pageOffset = pageIndex * pageSize;
-                                        const skipForCurrentPage = viewportParCTSTools.skip - pageOffset;
-                                        const loadingTake = viewportParCTSTools.take + skipForCurrentPage + bottomPreloadCount - totalCountCorrection;
+                                        const skipForCurrentPage = viewportParams.skip - pageOffset;
+                                        const loadingTake = viewportParams.take + skipForCurrentPage + bottomPreloadCount - totalCountCorrection;
                                         const take = byLoadedPage ? loadedTake : loadingTake;
                                         const loadPageCount = Math.ceil(pageSize ? take / pageSize : 0);
                                         return {
@@ -40252,15 +40252,15 @@
                                             })
                                         }
                                     },
-                                    _getChangedLoadParCTSTools() {
-                                        const loadedPageParCTSTools = this.getLoadPageParCTSTools(true);
+                                    _getChangedLoadParams() {
+                                        const loadedPageParams = this.getLoadPageParams(true);
                                         const {
                                             pageIndex: pageIndex,
                                             loadPageCount: loadPageCount
-                                        } = this.getLoadPageParCTSTools();
+                                        } = this.getLoadPageParams();
                                         const pageIndexIsValid = this._pageIndexIsValid(pageIndex);
                                         let result = null;
-                                        if (!this._isLoading && pageIndexIsValid && (pageIndex !== loadedPageParCTSTools.pageIndex || loadPageCount !== loadedPageParCTSTools.loadPageCount)) {
+                                        if (!this._isLoading && pageIndexIsValid && (pageIndex !== loadedPageParams.pageIndex || loadPageCount !== loadedPageParams.loadPageCount)) {
                                             result = {
                                                 pageIndex: pageIndex,
                                                 loadPageCount: loadPageCount
@@ -40279,14 +40279,14 @@
                                         var _a, _b;
                                         const virtualPaging = isVirtualPaging(this);
                                         const dataSourceAdapter = this._dataSource;
-                                        const changedParCTSTools = this._getChangedLoadParCTSTools();
+                                        const changedParams = this._getChangedLoadParams();
                                         const currentLoadPageCount = null !== (_a = null === dataSourceAdapter || void 0 === dataSourceAdapter ? void 0 : dataSourceAdapter.loadPageCount()) && void 0 !== _a ? _a : 0;
                                         const lastRequiredItemCount = this.pageSize() * currentLoadPageCount;
                                         const currentPageIndex = null !== (_b = null === dataSourceAdapter || void 0 === dataSourceAdapter ? void 0 : dataSourceAdapter.pageIndex()) && void 0 !== _b ? _b : 0;
-                                        const pageIndexNotChanged = (null === changedParCTSTools || void 0 === changedParCTSTools ? void 0 : changedParCTSTools.pageIndex) === currentPageIndex;
+                                        const pageIndexNotChanged = (null === changedParams || void 0 === changedParams ? void 0 : changedParams.pageIndex) === currentPageIndex;
                                         const allLoadedInAppendMode = isAppendMode(this) && this.totalItemsCount() < lastRequiredItemCount;
                                         const isRepaintMode = "repaint" === this.option("editing.refreshMode");
-                                        const pageIndexIncreased = (null === changedParCTSTools || void 0 === changedParCTSTools ? void 0 : changedParCTSTools.pageIndex) > currentPageIndex;
+                                        const pageIndexIncreased = (null === changedParams || void 0 === changedParams ? void 0 : changedParams.pageIndex) > currentPageIndex;
                                         let result = false;
                                         if (!dataSourceAdapter || virtualPaging && checkLoading && (isRepaintMode && viewportIsFilled || pageIndexIncreased || pageIndexNotChanged && allLoadedInAppendMode)) {
                                             return result
@@ -40294,10 +40294,10 @@
                                         if (virtualPaging && this._isLoading) {
                                             this._needUpdateViewportAfterLoading = true
                                         }
-                                        if (virtualPaging && changedParCTSTools) {
+                                        if (virtualPaging && changedParams) {
                                             result = true;
-                                            dataSourceAdapter.pageIndex(changedParCTSTools.pageIndex);
-                                            dataSourceAdapter.loadPageCount(changedParCTSTools.loadPageCount);
+                                            dataSourceAdapter.pageIndex(changedParams.pageIndex);
+                                            dataSourceAdapter.loadPageCount(changedParams.loadPageCount);
                                             this._repaintChangesOnly = true;
                                             this._needUpdateDimensions = true;
                                             const viewportChanging = this._viewportChanging;
@@ -40310,27 +40310,27 @@
                                                 if (this._needUpdateViewportAfterLoading) {
                                                     this._needUpdateViewportAfterLoading = false;
                                                     this.loadViewport({
-                                                        checkLoadedParCTSToolsOnly: true
+                                                        checkLoadedParamsOnly: true
                                                     })
                                                 }
                                             })
                                         }
                                         return result
                                     },
-                                    loadViewport(parCTSTools) {
+                                    loadViewport(params) {
                                         var _a, _b, _c;
                                         const {
-                                            checkLoadedParCTSToolsOnly: checkLoadedParCTSToolsOnly,
+                                            checkLoadedParamsOnly: checkLoadedParamsOnly,
                                             checkLoading: checkLoading,
                                             viewportIsNotFilled: viewportIsNotFilled
-                                        } = null !== parCTSTools && void 0 !== parCTSTools ? parCTSTools : {};
+                                        } = null !== params && void 0 !== params ? params : {};
                                         const virtualPaging = isVirtualPaging(this);
                                         if (virtualPaging || _m_utils.default.isVirtualRowRendering(this)) {
-                                            this._updateLoadViewportParCTSTools();
+                                            this._updateLoadViewportParams();
                                             const loadingItemsStarted = this._loadItems(checkLoading, !viewportIsNotFilled);
                                             const isCustomLoading = null === (_a = this._dataSource) || void 0 === _a ? void 0 : _a.isCustomLoading();
                                             const isLoading = checkLoading && !isCustomLoading && this._isLoading;
-                                            const needToUpdateItems = !(loadingItemsStarted || isLoading || checkLoadedParCTSToolsOnly);
+                                            const needToUpdateItems = !(loadingItemsStarted || isLoading || checkLoadedParamsOnly);
                                             if (needToUpdateItems) {
                                                 const noPendingChangesInEditing = !(null === (_c = null === (_b = this.getController("editing")) || void 0 === _b ? void 0 : _b.getChanges()) || void 0 === _c ? void 0 : _c.length);
                                                 this.updateItems({
@@ -40347,9 +40347,9 @@
                                         const viewportSize = this.viewportSize();
                                         const itemCount = this.items().length;
                                         const viewportIsNotFilled = viewportSize > itemCount;
-                                        const currentTake = null !== (_b = null === (_a = this._loadViewportParCTSTools) || void 0 === _a ? void 0 : _a.take) && void 0 !== _b ? _b : 0;
+                                        const currentTake = null !== (_b = null === (_a = this._loadViewportParams) || void 0 === _a ? void 0 : _a.take) && void 0 !== _b ? _b : 0;
                                         const rowsScrollController = this._rowsScrollController;
-                                        const newTake = null === rowsScrollController || void 0 === rowsScrollController ? void 0 : rowsScrollController.getViewportParCTSTools().take;
+                                        const newTake = null === rowsScrollController || void 0 === rowsScrollController ? void 0 : rowsScrollController.getViewportParams().take;
                                         (viewportIsNotFilled || currentTake < newTake) && !this._isPaging && itemCount && this.loadViewport({
                                             checkLoading: true,
                                             viewportIsNotFilled: viewportIsNotFilled
@@ -40402,11 +40402,11 @@
                                     },
                                     topItemIndex() {
                                         var _a;
-                                        return null === (_a = this._loadViewportParCTSTools) || void 0 === _a ? void 0 : _a.skip
+                                        return null === (_a = this._loadViewportParams) || void 0 === _a ? void 0 : _a.skip
                                     },
                                     bottomItemIndex() {
-                                        const viewportParCTSTools = this._loadViewportParCTSTools;
-                                        return viewportParCTSTools && viewportParCTSTools.skip + viewportParCTSTools.take
+                                        const viewportParams = this._loadViewportParams;
+                                        return viewportParams && viewportParams.skip + viewportParams.take
                                     },
                                     virtualItemsCount() {
                                         const rowsScrollController = this._rowsScrollController;
@@ -40458,7 +40458,7 @@
                                             const {
                                                 pageIndex: pageIndex,
                                                 loadPageCount: loadPageCount
-                                            } = this.getLoadPageParCTSTools(true);
+                                            } = this.getLoadPageParams(true);
                                             const pageCount = this.pageCount();
                                             result = pageIndex + loadPageCount >= pageCount
                                         } else {
@@ -40675,11 +40675,11 @@
                                 const dataOptions = this._dataOptions;
                                 const totalItemsCount = dataOptions.totalItemsCount();
                                 if (false === this.option("scrolling.legacyMode") && -1 !== totalItemsCount) {
-                                    const viewportParCTSTools = this.getViewportParCTSTools();
+                                    const viewportParams = this.getViewportParams();
                                     const loadedOffset = dataOptions.loadedOffset();
                                     const loadedItemCount = dataOptions.loadedItemCount();
-                                    const skip = Math.max(viewportParCTSTools.skip, loadedOffset);
-                                    const take = Math.min(viewportParCTSTools.take, loadedItemCount);
+                                    const skip = Math.max(viewportParams.skip, loadedOffset);
+                                    const take = Math.min(viewportParams.take, loadedItemCount);
                                     const endItemsCount = Math.max(totalItemsCount - (skip + take), 0);
                                     return {
                                         begin: skip,
@@ -40870,7 +40870,7 @@
                             return that = this, "infinite" === that.option("scrolling.mode") && !that._isVirtual;
                             var that
                         },
-                        getViewportParCTSTools() {
+                        getViewportParams() {
                             var _a;
                             const virtualMode = "virtual" === this.option("scrolling.mode");
                             const totalItemsCount = this._dataOptions.totalItemsCount();
@@ -41293,10 +41293,10 @@
                         }
                         this.tableElement().css(styles)
                     },
-                    setVirtualContentParCTSTools(parCTSTools) {
+                    setVirtualContentParams(params) {
                         this._virtualContent.css({
-                            width: parCTSTools.width,
-                            height: parCTSTools.height
+                            width: params.width,
+                            height: params.height
                         });
                         const scrollable = this._getScrollable();
                         if (null === scrollable || void 0 === scrollable ? void 0 : scrollable.isRenovated()) {
@@ -41859,12 +41859,12 @@
                             this._virtualContent.parent().css("height", "auto")
                         }
                     },
-                    setVirtualContentParCTSTools(parCTSTools) {
-                        this.callBase(parCTSTools);
-                        this._virtualContent.parent().css("height", parCTSTools.height);
+                    setVirtualContentParams(params) {
+                        this.callBase(params);
+                        this._virtualContent.parent().css("height", params.height);
                         this._setTableCss({
-                            top: parCTSTools.top,
-                            left: parCTSTools.left
+                            top: params.top,
+                            left: params.left
                         })
                     }
                 });
@@ -42521,17 +42521,17 @@
                                 that._dataSource.load()
                             }
                         },
-                        calculateVirtualContentParCTSTools(contentParCTSTools) {
+                        calculateVirtualContentParams(contentParams) {
                             const that = this;
                             const rowsScrollController = that._rowsScrollController;
                             const columnsScrollController = that._columnsScrollController;
                             if (rowsScrollController && columnsScrollController) {
-                                rowsScrollController.viewportItemSize(contentParCTSTools.virtualRowHeight);
-                                rowsScrollController.viewportSize(contentParCTSTools.viewportHeight / rowsScrollController.viewportItemSize());
-                                rowsScrollController.setContentItemSizes(contentParCTSTools.itemHeights);
-                                columnsScrollController.viewportItemSize(contentParCTSTools.virtualColumnWidth);
-                                columnsScrollController.viewportSize(contentParCTSTools.viewportWidth / columnsScrollController.viewportItemSize());
-                                columnsScrollController.setContentItemSizes(contentParCTSTools.itemWidths);
+                                rowsScrollController.viewportItemSize(contentParams.virtualRowHeight);
+                                rowsScrollController.viewportSize(contentParams.viewportHeight / rowsScrollController.viewportItemSize());
+                                rowsScrollController.setContentItemSizes(contentParams.itemHeights);
+                                columnsScrollController.viewportItemSize(contentParams.virtualColumnWidth);
+                                columnsScrollController.viewportSize(contentParams.viewportWidth / columnsScrollController.viewportItemSize());
+                                columnsScrollController.setContentItemSizes(contentParams.itemWidths);
                                 (0, _common.deferUpdate)(() => {
                                     columnsScrollController.loadIfNeed();
                                     rowsScrollController.loadIfNeed()
@@ -43488,8 +43488,8 @@
                             }
                             return d
                         },
-                        createDrillDownDataSource(parCTSTools) {
-                            return this._store.createDrillDownDataSource(this._descriptions, parCTSTools)
+                        createDrillDownDataSource(params) {
+                            return this._store.createDrillDownDataSource(this._descriptions, params)
                         },
                         _createDescriptions(currentField) {
                             const fields = this.fields();
@@ -44785,8 +44785,8 @@
                                 }
                             },
                             target: $container,
-                            onItemClick(parCTSTools) {
-                                parCTSTools.itemData.onItemClick && parCTSTools.itemData.onItemClick(parCTSTools)
+                            onItemClick(params) {
+                                params.itemData.onItemClick && params.itemData.onItemClick(params)
                             },
                             cssClass: _const.CLASSES.fieldChooser.contextMenu
                         })
@@ -45655,13 +45655,13 @@
                         return thead
                     },
                     _getCloseMainElementMarkup: () => "</thead>",
-                    setVirtualContentParCTSTools(parCTSTools) {
-                        this.callBase(parCTSTools);
+                    setVirtualContentParams(params) {
+                        this.callBase(params);
                         this._setTableCss({
-                            left: parCTSTools.left,
+                            left: params.left,
                             top: 0
                         });
-                        this._virtualContentWidth = parCTSTools.width
+                        this._virtualContentWidth = params.width
                     },
                     hasScroll() {
                         const tableWidth = this._virtualContent ? this._virtualContentWidth : this._tableWidth;
@@ -45738,13 +45738,13 @@
                         }
                     },
                     _getAreaName: () => "row",
-                    setVirtualContentParCTSTools(parCTSTools) {
-                        this.callBase(parCTSTools);
+                    setVirtualContentParams(params) {
+                        this.callBase(params);
                         this._setTableCss({
-                            top: parCTSTools.top,
+                            top: params.top,
                             left: 0
                         });
-                        this._virtualContentHeight = parCTSTools.height
+                        this._virtualContentHeight = params.height
                     },
                     hasScroll() {
                         const tableHeight = this._virtualContent ? this._virtualContentHeight : this._tableHeight;
@@ -46314,23 +46314,23 @@
                             return dataSource.filter.apply(dataSource, arguments)
                         },
                         supportPaging: () => false,
-                        getDrillDownItems(loadOptions, parCTSTools) {
+                        getDrillDownItems(loadOptions, params) {
                             loadOptions = loadOptions || {};
-                            parCTSTools = parCTSTools || {};
+                            params = params || {};
                             prepareLoadOption(loadOptions);
                             const drillDownItems = [];
                             const items = this._dataSource.items();
                             let item;
                             const {
                                 maxRowCount: maxRowCount
-                            } = parCTSTools;
+                            } = params;
                             const {
                                 customColumns: customColumns
-                            } = parCTSTools;
+                            } = params;
                             const filter = createFilter(loadOptions);
                             const pathFilter = createFilter({
-                                rows: (0, _m_widget_utils.getFiltersByPath)(loadOptions.rows, parCTSTools.rowPath),
-                                columns: (0, _m_widget_utils.getFiltersByPath)(loadOptions.columns, parCTSTools.columnPath),
+                                rows: (0, _m_widget_utils.getFiltersByPath)(loadOptions.rows, params.rowPath),
+                                columns: (0, _m_widget_utils.getFiltersByPath)(loadOptions.columns, params.columnPath),
                                 filters: []
                             });
                             for (let i = 0; i < items.length; i += 1) {
@@ -46891,8 +46891,8 @@
                                     actionArgs.cancel = false
                                 }
                             },
-                            onItemClick(parCTSTools) {
-                                parCTSTools.itemData.onItemClick && parCTSTools.itemData.onItemClick(parCTSTools)
+                            onItemClick(params) {
+                                params.itemData.onItemClick && params.itemData.onItemClick(params)
                             },
                             cssClass: "dx-pivotgrid",
                             target: that.$element()
@@ -47450,7 +47450,7 @@
                                 }
                                 const scrollingOptions = that.option("scrolling");
                                 if ("virtual" === scrollingOptions.mode) {
-                                    that._setVirtualContentParCTSTools(scrollingOptions, resultWidths, resultHeights, groupWidth, groupHeight, that._hasHeight, rowsAreaWidth)
+                                    that._setVirtualContentParams(scrollingOptions, resultWidths, resultHeights, groupWidth, groupHeight, that._hasHeight, rowsAreaWidth)
                                 }
                                 const updateScrollableResults = [];
                                 that._dataArea.updateScrollableOptions({
@@ -47474,8 +47474,8 @@
                         });
                         return d
                     },
-                    _setVirtualContentParCTSTools(scrollingOptions, resultWidths, resultHeights, groupWidth, groupHeight, hasHeight, rowsAreaWidth) {
-                        const virtualContentParCTSTools = this._dataController.calculateVirtualContentParCTSTools({
+                    _setVirtualContentParams(scrollingOptions, resultWidths, resultHeights, groupWidth, groupHeight, hasHeight, rowsAreaWidth) {
+                        const virtualContentParams = this._dataController.calculateVirtualContentParams({
                             virtualRowHeight: scrollingOptions.virtualRowHeight,
                             virtualColumnWidth: scrollingOptions.virtualColumnWidth,
                             itemWidths: resultWidths,
@@ -47485,20 +47485,20 @@
                             viewportWidth: groupWidth,
                             viewportHeight: hasHeight ? groupHeight : (0, _size.getOuterHeight)(window)
                         });
-                        this._dataArea.setVirtualContentParCTSTools({
-                            top: virtualContentParCTSTools.contentTop,
-                            left: virtualContentParCTSTools.contentLeft,
-                            width: virtualContentParCTSTools.width,
-                            height: virtualContentParCTSTools.height
+                        this._dataArea.setVirtualContentParams({
+                            top: virtualContentParams.contentTop,
+                            left: virtualContentParams.contentLeft,
+                            width: virtualContentParams.width,
+                            height: virtualContentParams.height
                         });
-                        this._rowsArea.setVirtualContentParCTSTools({
-                            top: virtualContentParCTSTools.contentTop,
+                        this._rowsArea.setVirtualContentParams({
+                            top: virtualContentParams.contentTop,
                             width: rowsAreaWidth,
-                            height: virtualContentParCTSTools.height
+                            height: virtualContentParams.height
                         });
-                        this._columnsArea.setVirtualContentParCTSTools({
-                            left: virtualContentParCTSTools.contentLeft,
-                            width: virtualContentParCTSTools.width,
+                        this._columnsArea.setVirtualContentParams({
+                            left: virtualContentParams.contentLeft,
+                            width: virtualContentParams.width,
                             height: (0, _size.getHeight)(this._columnsArea.groupElement())
                         })
                     },
@@ -47808,8 +47808,8 @@
                     return result
                 }
                 const storeDrillDownMixin = {
-                    createDrillDownDataSource(descriptions, parCTSTools) {
-                        const items = this.getDrillDownItems(descriptions, parCTSTools);
+                    createDrillDownDataSource(descriptions, params) {
+                        const items = this.getDrillDownItems(descriptions, params);
 
                         function createCustomStoreMethod(methodName) {
                             return function(options) {
@@ -48370,16 +48370,16 @@
                         return this._dataSource.filter.apply(this._dataSource, arguments)
                     },
                     supportPaging: () => false,
-                    createDrillDownDataSource(loadOptions, parCTSTools) {
+                    createDrillDownDataSource(loadOptions, params) {
                         loadOptions = loadOptions || {};
-                        parCTSTools = parCTSTools || {};
+                        params = params || {};
                         const store = this._store;
-                        const filters = (0, _m_widget_utils.getFiltersByPath)(loadOptions.rows, parCTSTools.rowPath).concat((0, _m_widget_utils.getFiltersByPath)(loadOptions.columns, parCTSTools.columnPath)).concat(getFiltersForDimension(loadOptions.rows)).concat(loadOptions.filters || []).concat(getFiltersForDimension(loadOptions.columns));
+                        const filters = (0, _m_widget_utils.getFiltersByPath)(loadOptions.rows, params.rowPath).concat((0, _m_widget_utils.getFiltersByPath)(loadOptions.columns, params.columnPath)).concat(getFiltersForDimension(loadOptions.rows)).concat(loadOptions.filters || []).concat(getFiltersForDimension(loadOptions.columns));
                         const filterExp = createFilterExpressions(filters);
                         return new _data_source.DataSource({
                             load: loadOptions => store.load((0, _extend.extend)({}, loadOptions, {
                                 filter: mergeFilters(filterExp, loadOptions.filter),
-                                select: parCTSTools.customColumns
+                                select: params.customColumns
                             }))
                         })
                     }
@@ -48971,7 +48971,7 @@
                 };
 
                 function getFieldPos(descriptions, field, cache) {
-                    let fieldParCTSTools = {
+                    let fieldParams = {
                         index: -1
                     };
                     if (!(0, _type.isObject)(field)) {
@@ -48985,12 +48985,12 @@
                     }
                     if (field) {
                         const area = field.area || "data";
-                        fieldParCTSTools = cache.positions[field.index] = cache.positions[field.index] || {
+                        fieldParams = cache.positions[field.index] = cache.positions[field.index] || {
                             area: area,
                             index: descriptions["data" === area ? "values" : "".concat(area, "s")].indexOf(field)
                         }
                     }
-                    return fieldParCTSTools
+                    return fieldParams
                 }
 
                 function getPathFieldName(dimension) {
@@ -50212,10 +50212,10 @@
                             return result
                         },
                         supportPaging: () => true,
-                        getDrillDownItems(options, parCTSTools) {
+                        getDrillDownItems(options, params) {
                             const result = new _deferred.Deferred;
                             const storeOptions = this._options;
-                            const mdxString = function(options, cubeName, parCTSTools) {
+                            const mdxString = function(options, cubeName, params) {
                                 const columns = options.columns || [];
                                 const rows = options.rows || [];
                                 const values = options.values && options.values.length ? options.values : [{
@@ -50227,17 +50227,17 @@
                                 const dataFields = prepareDataFields(withArray, values);
                                 const {
                                     maxRowCount: maxRowCount
-                                } = parCTSTools;
-                                const customColumns = parCTSTools.customColumns || [];
+                                } = params;
+                                const customColumns = params.customColumns || [];
                                 const customColumnsString = customColumns.length > 0 ? " return ".concat(customColumns.join(",")) : "";
-                                createDrillDownAxisSlice(slice, columns, parCTSTools.columnPath || []);
-                                createDrillDownAxisSlice(slice, rows, parCTSTools.rowPath || []);
+                                createDrillDownAxisSlice(slice, columns, params.columnPath || []);
+                                createDrillDownAxisSlice(slice, rows, params.rowPath || []);
                                 if (columns.length || dataFields.length) {
-                                    axisStrings.push(["".concat(dataFields[parCTSTools.dataIndex] || dataFields[0], " on 0")])
+                                    axisStrings.push(["".concat(dataFields[params.dataIndex] || dataFields[0], " on 0")])
                                 }
                                 const coreMDX = generateMdxCore(axisStrings, withArray, columns, rows, options.filters, slice, cubeName);
                                 return coreMDX ? "drillthrough".concat(maxRowCount > 0 ? " maxrows ".concat(maxRowCount) : "").concat(coreMDX).concat(customColumnsString) : coreMDX
-                            }(options, storeOptions.cube, parCTSTools);
+                            }(options, storeOptions.cube, params);
                             if (mdxString) {
                                 (0, _deferred.when)(sendQuery(storeOptions, mdxString)).done(executeXml => {
                                     const error = checkError(executeXml);
@@ -63628,11 +63628,11 @@
                         if (!recurrenceRule.isValid || !rule.freq) {
                             return []
                         }
-                        const rruleIntervalParCTSTools = this._createRruleIntervalParCTSTools(options);
-                        this._initializeRRule(options, rruleIntervalParCTSTools.startIntervalDate, rule.until);
-                        return this.rRuleSet.between(rruleIntervalParCTSTools.minViewDate, rruleIntervalParCTSTools.maxViewDate, true).filter(date => date.getTime() + rruleIntervalParCTSTools.appointmentDuration >= rruleIntervalParCTSTools.minViewTime).map(date => this._convertRruleResult(rruleIntervalParCTSTools, options, date))
+                        const rruleIntervalParams = this._createRruleIntervalParams(options);
+                        this._initializeRRule(options, rruleIntervalParams.startIntervalDate, rule.until);
+                        return this.rRuleSet.between(rruleIntervalParams.minViewDate, rruleIntervalParams.maxViewDate, true).filter(date => date.getTime() + rruleIntervalParams.appointmentDuration >= rruleIntervalParams.minViewTime).map(date => this._convertRruleResult(rruleIntervalParams, options, date))
                     };
-                    _proto._createRruleIntervalParCTSTools = function(options) {
+                    _proto._createRruleIntervalParams = function(options) {
                         const {
                             start: start,
                             min: min,
@@ -63658,8 +63658,8 @@
                             appointmentDuration: duration
                         }
                     };
-                    _proto._convertRruleResult = function(rruleIntervalParCTSTools, options, rruleDate) {
-                        const convertedBackDate = _m_utils_time_zone.default.setOffsetsToDate(rruleDate, [...this._getLocalMachineOffset(rruleDate), -options.appointmentTimezoneOffset, rruleIntervalParCTSTools.startIntervalDateDSTShift]);
+                    _proto._convertRruleResult = function(rruleIntervalParams, options, rruleDate) {
+                        const convertedBackDate = _m_utils_time_zone.default.setOffsetsToDate(rruleDate, [...this._getLocalMachineOffset(rruleDate), -options.appointmentTimezoneOffset, rruleIntervalParams.startIntervalDateDSTShift]);
                         const convertedDateDSTShift = _m_utils_time_zone.default.getDiffBetweenClientTimezoneOffsets(convertedBackDate, rruleDate);
                         const switchToSummerTime = convertedDateDSTShift < 0;
                         const resultDate = _m_utils_time_zone.default.setOffsetsToDate(convertedBackDate, [convertedDateDSTShift]);
@@ -71325,7 +71325,7 @@
                         offsets: "0",
                         offsetIndices: "0"
                     }, {
-                        id: "Europe/CTSToolsterdam",
+                        id: "Europe/amsterdam",
                         untils: "-s0dvkk|7v980|a51o0|7x6o0|a2yo0|9d1c0|9q000|902o0|9q000|902o0|9q000|902o0|9b6o0|a2yo0|c51c0|6l1c0|902o0|9q000|ci000|682o0|bgyo0|79400|bitc0|779c0|bmio0|7gio0|bbeo0|7eo00|bd9c0|7ctc0|bf400|7ayo0|bvs00|6uao0|bko00|7idc0|b9k00|7gio0|bbeo0|7eo00|bf400|7ayo0|btxc0|21uc0|4uaz8|bitc0|779c0|bko00|7idc0|bd3s0|1aarpc|7k800|9q000|9d1c0|9d1c0|9d1c0|8l9c0|ggp1c0|902o0|9q000|9d1c0|9d1c0|9d1c0|9q000|902o0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9q000|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9q000|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9d1c0|9q000|asw00|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|7x6o0|b5uo0|7k800|b5uo0|7k800|b5uo0|7k800|b5uo0|7x6o0|asw00|7x6o0|asw00|Infinity",
                         offsets: "-19.5333|-79.5333|-80|-20|-120|-60",
                         offsetIndices: "010101010101010101010101010101010101010101012323234545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545454545"
@@ -84722,7 +84722,7 @@
                         const paneIndex = this._getPaneIndex(series.pane);
                         const panesClipRects = this._panesClipRects;
                         const wideClipRect = panesClipRects.wide[paneIndex];
-                        series.setClippingParCTSTools(panesClipRects.base[paneIndex].id, null === wideClipRect || void 0 === wideClipRect ? void 0 : wideClipRect.id, this._getPaneBorderVisibility(paneIndex))
+                        series.setClippingParams(panesClipRects.base[paneIndex].id, null === wideClipRect || void 0 === wideClipRect ? void 0 : wideClipRect.id, this._getPaneBorderVisibility(paneIndex))
                     },
                     _updatePanesCanvases(drawOptions) {
                         if (!drawOptions.recreateCanvas) {
@@ -85143,16 +85143,16 @@
                         const {
                             panes: panes
                         } = this;
-                        const parCTSTools = [];
+                        const params = [];
                         for (let i = 0; i < panes.length; i += 1) {
                             if (this._getPaneBorderVisibility(i)) {
-                                parCTSTools.push({
+                                params.push({
                                     coords: panes[i].borderCoords,
                                     clipRect: this._panesClipRects.fixed[i]
                                 })
                             }
                         }
-                        return parCTSTools
+                        return params
                     },
                     _createCrosshairCursor() {
                         const options = this._themeManager.getOptions("crosshair") || {};
@@ -85255,8 +85255,8 @@
                                 return
                             }
                             const bc = pane.borderCoords;
-                            const segmentRectParCTSTools = (0, _utils2.prepareSegmentRectPoints)(bc.left, bc.top, bc.width, bc.height, borderOptions);
-                            this._renderer.path(segmentRectParCTSTools.points, segmentRectParCTSTools.pathType).attr(attr).append(this._panesBorderGroup)
+                            const segmentRectParams = (0, _utils2.prepareSegmentRectPoints)(bc.left, bc.top, bc.width, bc.height, borderOptions);
+                            this._renderer.path(segmentRectParams.points, segmentRectParams.pathType).attr(attr).append(this._panesBorderGroup)
                         });
                         this._panesBorderGroup.linkAppend()
                     },
@@ -86065,7 +86065,7 @@
                     },
                     _applyExtraSettings(series) {
                         const wideClipRect = this._panesClipRects.wide[0];
-                        series.setClippingParCTSTools(this._panesClipRects.base[0].id, wideClipRect && wideClipRect.id, false, false)
+                        series.setClippingParams(this._panesClipRects.base[0].id, wideClipRect && wideClipRect.id, false, false)
                     },
                     getActualAngle(angle) {
                         return this.getArgumentAxis().getOptions().inverted ? 360 - angle : angle
@@ -92750,19 +92750,19 @@
                     removeScript(script)
                 };
                 const getRequestOptions = function(options, headers) {
-                    let parCTSTools = options.data;
-                    const parCTSToolsAlreadyString = "string" === typeof parCTSTools;
+                    let params = options.data;
+                    const paramsAlreadyString = "string" === typeof params;
                     let url = options.url || window.location.href;
-                    if (!parCTSToolsAlreadyString && !options.cache) {
-                        parCTSTools = parCTSTools || {};
-                        parCTSTools._ = Date.now()
+                    if (!paramsAlreadyString && !options.cache) {
+                        params = params || {};
+                        params._ = Date.now()
                     }
-                    if (parCTSTools && !options.upload) {
-                        if (!parCTSToolsAlreadyString) {
-                            parCTSTools = function(parCTSTools) {
+                    if (params && !options.upload) {
+                        if (!paramsAlreadyString) {
+                            params = function(params) {
                                 const result = [];
-                                for (const name in parCTSTools) {
-                                    let value = parCTSTools[name];
+                                for (const name in params) {
+                                    let value = params[name];
                                     if (void 0 === value) {
                                         continue
                                     }
@@ -92775,20 +92775,20 @@
                                     result.push(encodeURIComponent(name) + "=" + encodeURIComponent(value))
                                 }
                                 return result.join("&")
-                            }(parCTSTools)
+                            }(params)
                         }
                         if ("GET" === getMethod(options)) {
-                            if ("" !== parCTSTools) {
-                                url += (url.indexOf("?") > -1 ? "&" : "?") + parCTSTools
+                            if ("" !== params) {
+                                url += (url.indexOf("?") > -1 ? "&" : "?") + params
                             }
-                            parCTSTools = null
+                            params = null
                         } else if (headers["Content-Type"] && headers["Content-Type"].indexOf("application/x-www-form-urlencoded") > -1) {
-                            parCTSTools = parCTSTools.replace(/%20/g, "+")
+                            params = params.replace(/%20/g, "+")
                         }
                     }
                     return {
                         url: url,
-                        parameters: parCTSTools
+                        parameters: params
                     }
                 };
 
@@ -96125,7 +96125,7 @@
               !*** ./artifacts/transpiled-renovation-npm/core/utils/size.js ***!
               \****************************************************************/
             function(__unused_webpack_module, exports, __webpack_require__) {
-                exports.setWidth = exports.setOuterWidth = exports.setOuterHeight = exports.setInnerWidth = exports.setInnerHeight = exports.setHeight = exports.parseHeight = exports.implementationsMap = exports.getWindowByElement = exports.getWidth = exports.getVisibleHeight = exports.getVerticalOffsets = exports.getSize = exports.getOuterWidth = exports.getOuterHeight = exports.getOffset = exports.getInnerWidth = exports.getInnerHeight = exports.getHeight = exports.getElementBoxParCTSTools = exports.addOffsetToMinHeight = exports.addOffsetToMaxHeight = void 0;
+                exports.setWidth = exports.setOuterWidth = exports.setOuterHeight = exports.setInnerWidth = exports.setInnerHeight = exports.setHeight = exports.parseHeight = exports.implementationsMap = exports.getWindowByElement = exports.getWidth = exports.getVisibleHeight = exports.getVerticalOffsets = exports.getSize = exports.getOuterWidth = exports.getOuterHeight = exports.getOffset = exports.getInnerWidth = exports.getInnerHeight = exports.getHeight = exports.getElementBoxParams = exports.addOffsetToMinHeight = exports.addOffsetToMaxHeight = void 0;
                 var _window = __webpack_require__( /*! ../../core/utils/window */ 58201);
                 var _dom_adapter = (obj = __webpack_require__( /*! ../../core/dom_adapter */ 73349), obj && obj.__esModule ? obj : {
                     default: obj
@@ -96141,7 +96141,7 @@
                     }));
                     return result
                 };
-                const getElementBoxParCTSTools = function(name, elementStyles) {
+                const getElementBoxParams = function(name, elementStyles) {
                     const beforeName = "width" === name ? "Left" : "Top";
                     const afterName = "width" === name ? "Right" : "Bottom";
                     return {
@@ -96150,7 +96150,7 @@
                         margin: getSizeByStyles(elementStyles, ["margin" + beforeName, "margin" + afterName])
                     }
                 };
-                exports.getElementBoxParCTSTools = getElementBoxParCTSTools;
+                exports.getElementBoxParams = getElementBoxParams;
                 const getElementComputedStyle = function(element) {
                     var _element$ownerDocumen;
                     const view = (null === element || void 0 === element ? void 0 : null === (_element$ownerDocumen = element.ownerDocument) || void 0 === _element$ownerDocumen ? void 0 : _element$ownerDocumen.defaultView) || window;
@@ -96271,8 +96271,8 @@
                     if (!element) {
                         return 0
                     }
-                    const boxParCTSTools = getElementBoxParCTSTools("height", window.getComputedStyle(element));
-                    return boxParCTSTools.padding + boxParCTSTools.border + (withMargins ? boxParCTSTools.margin : 0)
+                    const boxParams = getElementBoxParams("height", window.getComputedStyle(element));
+                    return boxParams.padding + boxParams.border + (withMargins ? boxParams.margin : 0)
                 };
                 exports.getVisibleHeight = function(element) {
                     if (element) {
@@ -96412,7 +96412,7 @@
                     }
                     if ((0, _type.isNumeric)(value)) {
                         const elementStyles = getElementComputedStyle(el);
-                        const sizeAdjustment = getElementBoxParCTSTools(propName, elementStyles);
+                        const sizeAdjustment = getElementBoxParams(propName, elementStyles);
                         const isBorderBox = "border-box" === elementStyles.boxSizing;
                         value = Number(value);
                         if (isOuter) {
@@ -97227,7 +97227,7 @@
                 const queryByOptions = _store_helper.default.queryByOptions;
                 const storeImpl = {};
                 const Store = _class.default.inherit({
-                    _langParCTSTools: {},
+                    _langParams: {},
                     ctor: function(options) {
                         const that = this;
                         options = options || {};
@@ -97268,9 +97268,9 @@
                         }))
                     },
                     _loadImpl: function(options) {
-                        if (!(0, _type.isEmptyObject)(this._langParCTSTools)) {
+                        if (!(0, _type.isEmptyObject)(this._langParams)) {
                             options = options || {};
-                            options._langParCTSTools = _extends({}, this._langParCTSTools, options._langParCTSTools)
+                            options._langParams = _extends({}, this._langParams, options._langParams)
                         }
                         return queryByOptions(this.createQuery(options), options).enumerate()
                     },
@@ -97480,17 +97480,17 @@
                 });
                 const SortIterator = Iterator.inherit({
                     ctor: function(iter, getter, desc, compare) {
-                        this.langParCTSTools = iter.langParCTSTools;
+                        this.langParams = iter.langParams;
                         if (!(iter instanceof MapIterator)) {
                             iter = new MapIterator(iter, this._wrap);
-                            iter.langParCTSTools = this.langParCTSTools
+                            iter.langParams = this.langParams
                         }
                         this.iter = iter;
                         this.rules = [{
                             getter: getter,
                             desc: desc,
                             compare: compare,
-                            langParCTSTools: this.langParCTSTools
+                            langParams: this.langParams
                         }]
                     },
                     thenBy: function(getter, desc, compare) {
@@ -97540,7 +97540,7 @@
                     _unwrap: function(wrappedItem) {
                         return wrappedItem.value
                     },
-                    _getDefaultCompare: langParCTSTools => (xValue, yValue) => function(xValue, yValue, options) {
+                    _getDefaultCompare: langParams => (xValue, yValue) => function(xValue, yValue, options) {
                         if ((0, _type.isString)(xValue) && (0, _type.isString)(yValue) && (null !== options && void 0 !== options && options.locale || null !== options && void 0 !== options && options.collatorOptions)) {
                             return new Intl.Collator((null === options || void 0 === options ? void 0 : options.locale) || void 0, (null === options || void 0 === options ? void 0 : options.collatorOptions) || void 0).compare(xValue, yValue)
                         }
@@ -97565,7 +97565,7 @@
                             return 1
                         }
                         return 0
-                    }(xValue, yValue, langParCTSTools),
+                    }(xValue, yValue, langParams),
                     _compare: function(x, y) {
                         const xIndex = x.index;
                         const yIndex = y.index;
@@ -97578,7 +97578,7 @@
                             const rule = this.rules[i];
                             const xValue = rule.getter(x);
                             const yValue = rule.getter(y);
-                            const compare = rule.compare || this._getDefaultCompare(rule.langParCTSTools);
+                            const compare = rule.compare || this._getDefaultCompare(rule.langParams);
                             const compareResult = compare(xValue, yValue);
                             if (compareResult) {
                                 return rule.desc ? -compareResult : compareResult
@@ -97588,11 +97588,11 @@
                     }
                 });
                 const compileCriteria = function() {
-                    let langParCTSTools = {};
-                    const _toComparable = value => (0, _data.toComparable)(value, false, langParCTSTools);
+                    let langParams = {};
+                    const _toComparable = value => (0, _data.toComparable)(value, false, langParams);
                     const toString = function(value) {
-                        var _langParCTSTools;
-                        return (0, _type.isDefined)(value) ? null !== (_langParCTSTools = langParCTSTools) && void 0 !== _langParCTSTools && _langParCTSTools.locale ? value.toLocaleString(langParCTSTools.locale) : value.toString() : ""
+                        var _langParams;
+                        return (0, _type.isDefined)(value) ? null !== (_langParams = langParams) && void 0 !== _langParams && _langParams.locale ? value.toLocaleString(langParams.locale) : value.toString() : ""
                     };
 
                     function compileEquals(getter, value, negate) {
@@ -97608,7 +97608,7 @@
                         }
                     }
                     return function(crit, options) {
-                        langParCTSTools = options || {};
+                        langParams = options || {};
                         if ((0, _type.isFunction)(crit)) {
                             return crit
                         }
@@ -97622,7 +97622,7 @@
                                         if (ops.length > 1 && isConjunctiveOperator !== isConjunctiveNextOperator) {
                                             throw new _errors.errors.Error("E4019")
                                         }
-                                        ops.push(compileCriteria(this, langParCTSTools));
+                                        ops.push(compileCriteria(this, langParams));
                                         isConjunctiveOperator = isConjunctiveNextOperator;
                                         isConjunctiveNextOperator = true
                                     } else {
@@ -97644,7 +97644,7 @@
                         if ((0, _utils.isUnaryOperation)(crit)) {
                             return function(crit) {
                                 const op = crit[0];
-                                const criteria = compileCriteria(crit[1], langParCTSTools);
+                                const criteria = compileCriteria(crit[1], langParams);
                                 if ("!" === op) {
                                     return function(obj) {
                                         return !criteria(obj)
@@ -97706,8 +97706,8 @@
                 const FilterIterator = WrappedIterator.inherit({
                     ctor: function(iter, criteria) {
                         this.callBase(iter);
-                        this.langParCTSTools = iter.langParCTSTools;
-                        this.criteria = compileCriteria(criteria, this.langParCTSTools)
+                        this.langParams = iter.langParams;
+                        this.criteria = compileCriteria(criteria, this.langParams)
                     },
                     next: function() {
                         while (this.iter.next()) {
@@ -97815,8 +97815,8 @@
                     if (!(iter instanceof Iterator)) {
                         iter = new ArrayIterator(iter)
                     }
-                    if (queryOptions.langParCTSTools) {
-                        iter.langParCTSTools = queryOptions.langParCTSTools
+                    if (queryOptions.langParams) {
+                        iter.langParams = queryOptions.langParams
                     }
                     const handleError = function(error) {
                         const handler = queryOptions.errorHandler;
@@ -97875,8 +97875,8 @@
                             }
                             return d.promise()
                         },
-                        setLangParCTSTools(options) {
-                            iter.langParCTSTools = options
+                        setLangParams(options) {
+                            iter.langParams = options
                         },
                         sortBy: function(getter, desc, compare) {
                             return chainQuery(new SortIterator(iter, getter, desc, compare))
@@ -98736,7 +98736,7 @@
                     },
                     _extractLoadOptions(options) {
                         const result = {};
-                        let names = ["sort", "filter", "langParCTSTools", "select", "group", "requireTotalCount"];
+                        let names = ["sort", "filter", "langParams", "select", "group", "requireTotalCount"];
                         const customNames = this._store._customLoadOptions();
                         if (customNames) {
                             names = names.concat(customNames)
@@ -99001,8 +99001,8 @@
                     _createLoadOperation(deferred) {
                         const operationId = this._operationManager.add(deferred);
                         const storeLoadOptions = this._createStoreLoadOptions();
-                        if (this._store && !(0, _type.isEmptyObject)(null === storeLoadOptions || void 0 === storeLoadOptions ? void 0 : storeLoadOptions.langParCTSTools)) {
-                            this._store._langParCTSTools = _extends({}, this._store._langParCTSTools, storeLoadOptions.langParCTSTools)
+                        if (this._store && !(0, _type.isEmptyObject)(null === storeLoadOptions || void 0 === storeLoadOptions ? void 0 : storeLoadOptions.langParams)) {
+                            this._store._langParams = _extends({}, this._store._langParams, storeLoadOptions.langParams)
                         }
                         deferred.always(() => this._operationManager.remove(operationId));
                         return {
@@ -99575,11 +99575,11 @@
                             }, entityOptions))
                         })
                     },
-                    get(operationName, parCTSTools) {
-                        return this.invoke(operationName, parCTSTools, "GET")
+                    get(operationName, params) {
+                        return this.invoke(operationName, params, "GET")
                     },
                     invoke(operationName) {
-                        let parCTSTools = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+                        let params = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
                         let httpMethod = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "POST";
                         httpMethod = httpMethod.toLowerCase();
                         const d = new _deferred.Deferred;
@@ -99587,13 +99587,13 @@
                         let payload;
                         if (4 === this.version()) {
                             if ("get" === httpMethod) {
-                                url = (0, _utils.formatFunctionInvocationUrl)(url, (0, _utils.escapeServiceOperationParCTSTools)(parCTSTools, this.version()));
-                                parCTSTools = null
+                                url = (0, _utils.formatFunctionInvocationUrl)(url, (0, _utils.escapeServiceOperationParams)(params, this.version()));
+                                params = null
                             } else if ("post" === httpMethod) {
-                                payload = parCTSTools;
-                                parCTSTools = null
+                                payload = params;
+                                params = null
                             }
-                        }(0, _deferred.when)(this._requestDispatcher.sendRequest(url, httpMethod, (0, _utils.escapeServiceOperationParCTSTools)(parCTSTools, this.version()), payload)).done(r => {
+                        }(0, _deferred.when)(this._requestDispatcher.sendRequest(url, httpMethod, (0, _utils.escapeServiceOperationParams)(params, this.version()), payload)).done(r => {
                             if ((0, _type.isPlainObject)(r) && operationName in r) {
                                 r = r[operationName]
                             }
@@ -99819,7 +99819,7 @@
                         },
                         exec: url => (0, _utils.sendRequest)(_oDataVersion, {
                             url: url,
-                            parCTSTools: (0, _extend.extend)(requestData(), null === queryOptions || void 0 === queryOptions ? void 0 : queryOptions.parCTSTools)
+                            params: (0, _extend.extend)(requestData(), null === queryOptions || void 0 === queryOptions ? void 0 : queryOptions.params)
                         }, {
                             beforeSend: queryOptions.beforeSend,
                             jsonp: queryOptions.jsonp,
@@ -99934,11 +99934,11 @@
                         this._filterToLower = options.filterToLower
                     }
                     var _proto = RequestDispatcher.prototype;
-                    _proto.sendRequest = function(url, method, parCTSTools, payload) {
+                    _proto.sendRequest = function(url, method, params, payload) {
                         return (0, _utils.sendRequest)(this.version, {
                             url: url,
                             method: method,
-                            parCTSTools: parCTSTools || {},
+                            params: params || {},
                             payload: payload
                         }, {
                             beforeSend: this._beforeSend,
@@ -100053,14 +100053,14 @@
                             this._updateMethod = "PATCH"
                         }
                     },
-                    _customLoadOptions: () => ["expand", "customQueryParCTSTools"],
+                    _customLoadOptions: () => ["expand", "customQueryParams"],
                     _byKeyImpl(key, extraOptions) {
-                        const parCTSTools = {};
+                        const params = {};
                         if (extraOptions) {
-                            parCTSTools.$expand = (0, _utils.generateExpand)(this.version(), extraOptions.expand, extraOptions.select) || void 0;
-                            parCTSTools.$select = (0, _utils.generateSelect)(this.version(), extraOptions.select) || void 0
+                            params.$expand = (0, _utils.generateExpand)(this.version(), extraOptions.expand, extraOptions.select) || void 0;
+                            params.$select = (0, _utils.generateSelect)(this.version(), extraOptions.select) || void 0
                         }
-                        return this._requestDispatcher.sendRequest(this._byKeyUrl(key), "GET", parCTSTools)
+                        return this._requestDispatcher.sendRequest(this._byKeyUrl(key), "GET", params)
                     },
                     createQuery(loadOptions) {
                         var _loadOptions$urlOverr;
@@ -100081,12 +100081,12 @@
                         if ((0, _type.isDefined)(this._requestDispatcher.filterToLower)) {
                             queryOptions.filterToLower = this._requestDispatcher.filterToLower
                         }
-                        if (null !== loadOptions && void 0 !== loadOptions && loadOptions.customQueryParCTSTools) {
-                            const parCTSTools = (0, _utils.escapeServiceOperationParCTSTools)(null === loadOptions || void 0 === loadOptions ? void 0 : loadOptions.customQueryParCTSTools, this.version());
+                        if (null !== loadOptions && void 0 !== loadOptions && loadOptions.customQueryParams) {
+                            const params = (0, _utils.escapeServiceOperationParams)(null === loadOptions || void 0 === loadOptions ? void 0 : loadOptions.customQueryParams, this.version());
                             if (4 === this.version()) {
-                                url = (0, _utils.formatFunctionInvocationUrl)(url, parCTSTools)
+                                url = (0, _utils.formatFunctionInvocationUrl)(url, params)
                             } else {
-                                queryOptions.parCTSTools = parCTSTools
+                                queryOptions.params = params
                             }
                         }
                         return (0, _query.default)(url, queryOptions)
@@ -100141,7 +100141,7 @@
               !*** ./artifacts/transpiled-renovation-npm/data/odata/utils.js ***!
               \*****************************************************************/
             function(__unused_webpack_module, exports, __webpack_require__) {
-                exports.serializeValue = exports.serializePropName = exports.serializeKey = exports.sendRequest = exports.keyConverters = exports.generateSelect = exports.generateExpand = exports.formatFunctionInvocationUrl = exports.escapeServiceOperationParCTSTools = exports.convertPrimitiveValue = exports.EdmLiteral = void 0;
+                exports.serializeValue = exports.serializePropName = exports.serializeKey = exports.sendRequest = exports.keyConverters = exports.generateSelect = exports.generateExpand = exports.formatFunctionInvocationUrl = exports.escapeServiceOperationParams = exports.convertPrimitiveValue = exports.EdmLiteral = void 0;
                 var _class = _interopRequireDefault(__webpack_require__( /*! ../../core/class */ 38377));
                 var _extend = __webpack_require__( /*! ../../core/utils/extend */ 13306);
                 var _type = __webpack_require__( /*! ../../core/utils/type */ 35922);
@@ -100215,10 +100215,10 @@
                     }
                     return result
                 };
-                const param = parCTSTools => {
+                const param = params => {
                     const result = [];
-                    for (const name in parCTSTools) {
-                        result.push(name + "=" + parCTSTools[name])
+                    for (const name in params) {
+                        result.push(name + "=" + params[name])
                     }
                     return result.join("&")
                 };
@@ -100252,7 +100252,7 @@
                             async: true,
                             method: "get",
                             url: "",
-                            parCTSTools: {},
+                            params: {},
                             payload: null,
                             headers: {},
                             timeout: 3e4
@@ -100274,9 +100274,9 @@
                         method = (method || "get").toLowerCase();
                         const isGet = "get" === method;
                         const useJsonp = isGet && jsonp;
-                        const parCTSTools = (0, _extend.extend)({}, request.parCTSTools);
-                        const ajaxData = isGet ? parCTSTools : formatPayload(request.payload);
-                        const qs = !isGet && param(parCTSTools);
+                        const params = (0, _extend.extend)({}, request.params);
+                        const ajaxData = isGet ? params : formatPayload(request.payload);
+                        const qs = !isGet && param(params);
                         const contentType = !isGet && JSON_VERBOSE_MIME_TYPE;
                         if (qs) {
                             url += (url.indexOf("?") > -1 ? "&" : "?") + qs
@@ -100655,12 +100655,12 @@
                 };
                 exports.generateExpand = (oDataVersion, expand, select) => oDataVersion < 4 ? generatorV2(expand, select) : generatorV4(expand, select);
                 exports.formatFunctionInvocationUrl = (baseUrl, args) => (0, _string.format)("{0}({1})", baseUrl, (0, _iterator.map)(args || {}, (value, key) => (0, _string.format)("{0}={1}", key, value)).join(","));
-                exports.escapeServiceOperationParCTSTools = (parCTSTools, version) => {
-                    if (!parCTSTools) {
-                        return parCTSTools
+                exports.escapeServiceOperationParams = (params, version) => {
+                    if (!params) {
+                        return params
                     }
                     const result = {};
-                    (0, _iterator.each)(parCTSTools, (k, v) => {
+                    (0, _iterator.each)(params, (k, v) => {
                         result[k] = serializeValue(v, version)
                     });
                     return result
@@ -100888,9 +100888,9 @@
                         var _options;
                         options = options || {};
                         const filter = options.filter;
-                        if (null !== (_options = options) && void 0 !== _options && _options.langParCTSTools) {
-                            var _query$setLangParCTSTools, _query;
-                            null === (_query$setLangParCTSTools = (_query = query).setLangParCTSTools) || void 0 === _query$setLangParCTSTools ? void 0 : _query$setLangParCTSTools.call(_query, options.langParCTSTools)
+                        if (null !== (_options = options) && void 0 !== _options && _options.langParams) {
+                            var _query$setLangParams, _query;
+                            null === (_query$setLangParams = (_query = query).setLangParams) || void 0 === _query$setLangParams ? void 0 : _query$setLangParams.call(_query, options.langParams)
                         }
                         if (filter) {
                             query = query.filter(filter)
@@ -101672,13 +101672,13 @@
                             this._accept(this._acceptRequestEvent)
                         }
                     },
-                    _fireEvent: function(eventName, e, parCTSTools) {
+                    _fireEvent: function(eventName, e, params) {
                         const eventData = (0, _extend.extend)({
                             type: eventName,
                             originalEvent: e,
                             target: this._getEmitterTarget(e),
                             delegateTarget: this.getElement().get(0)
-                        }, parCTSTools);
+                        }, params);
                         e = (0, _index.fireEvent)(eventData);
                         if (e.cancel) {
                             this._cancel(e)
@@ -106118,7 +106118,7 @@
                             if (file) {
                                 file.openAsync(Windows.Storage.FileAccessMode.readWrite).then((function(outputStream) {
                                     const inputStream = blob.msDetachStream();
-                                    Windows.Storage.StreCTSTools.RandomAccessStream.copyAsync(inputStream, outputStream).then((function() {
+                                    Windows.Storage.Streams.RandomAccessStream.copyAsync(inputStream, outputStream).then((function() {
                                         outputStream.flushAsync().done((function() {
                                             inputStream.close();
                                             outputStream.close()
@@ -106315,15 +106315,15 @@
                 }
 
                 function setFontStyle(context, options) {
-                    const fontParCTSTools = [];
+                    const fontParams = [];
                     options.fontSize = options.fontSize || "10px";
                     options.fontFamily = options.fontFamily || "sans-serif";
                     options.fill = options.fill || "#000";
-                    options.fontStyle && fontParCTSTools.push(options.fontStyle);
-                    options.fontWeight && fontParCTSTools.push(options.fontWeight);
-                    fontParCTSTools.push(options.fontSize);
-                    fontParCTSTools.push(options.fontFamily);
-                    context.font = fontParCTSTools.join(" ");
+                    options.fontStyle && fontParams.push(options.fontStyle);
+                    options.fontWeight && fontParams.push(options.fontWeight);
+                    fontParams.push(options.fontSize);
+                    fontParams.push(options.fontFamily);
+                    context.font = fontParams.join(" ");
                     context.textAlign = options.textAlign;
                     context.fillStyle = options.fill;
                     context.globalAlpha = options.globalAlpha
@@ -106484,36 +106484,36 @@
                             ! function(context, dAttr) {
                                 const dArray = dAttr.replace(/,/g, " ").split(/([A-Z])/i).filter(item => "" !== item.trim());
                                 let i = 0;
-                                let parCTSTools;
-                                let prevParCTSTools;
-                                let prevParCTSToolsLen;
+                                let params;
+                                let prevParams;
+                                let prevParamsLen;
                                 do {
-                                    parCTSTools = (dArray[i + 1] || "").trim().split(" ");
+                                    params = (dArray[i + 1] || "").trim().split(" ");
                                     switch (dArray[i]) {
                                         case "M":
-                                            context.moveTo(_number(parCTSTools[0]), _number(parCTSTools[1]));
+                                            context.moveTo(_number(params[0]), _number(params[1]));
                                             i += 2;
                                             break;
                                         case "L":
-                                            for (let j = 0; j < parCTSTools.length / 2; j++) {
-                                                context.lineTo(_number(parCTSTools[2 * j]), _number(parCTSTools[2 * j + 1]))
+                                            for (let j = 0; j < params.length / 2; j++) {
+                                                context.lineTo(_number(params[2 * j]), _number(params[2 * j + 1]))
                                             }
                                             i += 2;
                                             break;
                                         case "C":
-                                            context.bezierCurveTo(_number(parCTSTools[0]), _number(parCTSTools[1]), _number(parCTSTools[2]), _number(parCTSTools[3]), _number(parCTSTools[4]), _number(parCTSTools[5]));
+                                            context.bezierCurveTo(_number(params[0]), _number(params[1]), _number(params[2]), _number(params[3]), _number(params[4]), _number(params[5]));
                                             i += 2;
                                             break;
                                         case "a":
-                                            prevParCTSTools = dArray[i - 1].trim().split(" ");
-                                            prevParCTSToolsLen = prevParCTSTools.length - 1;
-                                            arcTo(_number(prevParCTSTools[prevParCTSToolsLen - 1]), _number(prevParCTSTools[prevParCTSToolsLen]), _number(prevParCTSTools[prevParCTSToolsLen - 1]) + _number(parCTSTools[5]), _number(prevParCTSTools[prevParCTSToolsLen]) + _number(parCTSTools[6]), _number(parCTSTools[0]), _number(parCTSTools[3]), _number(parCTSTools[4]), context);
+                                            prevParams = dArray[i - 1].trim().split(" ");
+                                            prevParamsLen = prevParams.length - 1;
+                                            arcTo(_number(prevParams[prevParamsLen - 1]), _number(prevParams[prevParamsLen]), _number(prevParams[prevParamsLen - 1]) + _number(params[5]), _number(prevParams[prevParamsLen]) + _number(params[6]), _number(params[0]), _number(params[3]), _number(params[4]), context);
                                             i += 2;
                                             break;
                                         case "A":
-                                            prevParCTSTools = dArray[i - 1].trim().split(" ");
-                                            prevParCTSToolsLen = prevParCTSTools.length - 1;
-                                            arcTo(_number(prevParCTSTools[prevParCTSToolsLen - 1]), _number(prevParCTSTools[prevParCTSToolsLen]), _number(parCTSTools[5]), _number(parCTSTools[6]), _number(parCTSTools[0]), _number(parCTSTools[3]), _number(parCTSTools[4]), context);
+                                            prevParams = dArray[i - 1].trim().split(" ");
+                                            prevParamsLen = prevParams.length - 1;
+                                            arcTo(_number(prevParams[prevParamsLen - 1]), _number(prevParams[prevParamsLen]), _number(params[5]), _number(params[6]), _number(params[0]), _number(params[3]), _number(params[4]), context);
                                             i += 2;
                                             break;
                                         case "Z":
@@ -109835,12 +109835,12 @@
                         const separator = this._endpointUrl && this._endpointUrl.indexOf("?") > 0 ? "&" : "?";
                         return this._endpointUrl + separator + queryString
                     };
-                    _proto._getQueryString = function(parCTSTools) {
+                    _proto._getQueryString = function(params) {
                         const pairs = [];
-                        const keys = Object.keys(parCTSTools);
+                        const keys = Object.keys(params);
                         for (let i = 0; i < keys.length; i++) {
                             const key = keys[i];
-                            let value = parCTSTools[key];
+                            let value = params[key];
                             if (void 0 === value) {
                                 continue
                             }
@@ -127478,19 +127478,19 @@
             function(__unused_webpack_module, exports) {
                 exports.getMemoizeScrollTo = function(getScrollableInstance) {
                     const instance = getScrollableInstance();
-                    let lastParCTSTools = {};
-                    return function(parCTSTools) {
+                    let lastParams = {};
+                    return function(params) {
                         let force = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : false;
-                        const normalizedParCTSTools = {
-                            top: void 0 !== parCTSTools.top ? Math.ceil(parCTSTools.top) : void 0,
-                            left: void 0 !== parCTSTools.left ? Math.ceil(parCTSTools.left) : void 0
+                        const normalizedParams = {
+                            top: void 0 !== params.top ? Math.ceil(params.top) : void 0,
+                            left: void 0 !== params.left ? Math.ceil(params.left) : void 0
                         };
-                        const isSameParCTSTools = normalizedParCTSTools.top === lastParCTSTools.top && normalizedParCTSTools.left === lastParCTSTools.left;
-                        if (!force && isSameParCTSTools) {
+                        const isSameParams = normalizedParams.top === lastParams.top && normalizedParams.left === lastParams.left;
+                        if (!force && isSameParams) {
                             return
                         }
-                        lastParCTSTools = normalizedParCTSTools;
-                        instance.scrollTo(parCTSTools)
+                        lastParams = normalizedParams;
+                        instance.scrollTo(params)
                     }
                 }
             },
@@ -144773,16 +144773,16 @@
                             $cell: $cell
                         }
                     },
-                    _renderCell: function(parCTSTools, cellIndex) {
+                    _renderCell: function(params, cellIndex) {
                         const {
                             cellDate: cellDate,
                             prevCellDate: prevCellDate,
                             row: row
-                        } = parCTSTools;
+                        } = params;
                         if (prevCellDate) {
                             _date.default.fixTimezoneGap(prevCellDate, cellDate)
                         }
-                        parCTSTools.prevCellDate = cellDate;
+                        params.prevCellDate = cellDate;
                         const {
                             cell: cell,
                             $cell: $cell
@@ -144794,7 +144794,7 @@
                         } else {
                             cell.innerHTML = this._getCellText(cellDate)
                         }
-                        parCTSTools.cellDate = this._getNextCellData(cellDate)
+                        params.cellDate = this._getNextCellData(cellDate)
                     },
                     _getClassNameByDate: function(cellDate, cellIndex) {
                         let className = "dx-calendar-cell";
@@ -145692,11 +145692,11 @@
                     },
                     _injectComponent: function(func) {
                         const that = this;
-                        return function(parCTSTools) {
-                            (0, _extend.extend)(parCTSTools, {
+                        return function(params) {
+                            (0, _extend.extend)(params, {
                                 component: that
                             });
-                            return func(parCTSTools)
+                            return func(params)
                         }
                     },
                     _isViewAvailable: function(date) {
@@ -148629,7 +148629,7 @@
                             load: function(options) {
                                 var _dataController$loadO;
                                 const dataController = that._dataController;
-                                options.customQueryParCTSTools = null === (_dataController$loadO = dataController.loadOptions()) || void 0 === _dataController$loadO ? void 0 : _dataController$loadO.customQueryParCTSTools;
+                                options.customQueryParams = null === (_dataController$loadO = dataController.loadOptions()) || void 0 === _dataController$loadO ? void 0 : _dataController$loadO.customQueryParams;
                                 options.userData = dataController.userData();
                                 if (dataController.store()) {
                                     return dataController.loadFromStore(options).done((function(loadResult) {
@@ -150262,7 +150262,7 @@
                         const a = this._currentColor.a;
                         this._currentColor = new _color.default("hsv(" + [hue, saturation, value].join(",") + ")");
                         this._currentColor.a = a;
-                        this._updateColorParCTSToolsAndColorPreview();
+                        this._updateColorParamsAndColorPreview();
                         this.applyColor()
                     },
                     _renderHueScale: function() {
@@ -150557,14 +150557,14 @@
                     _refreshMarkup: function() {
                         this._placeHueScaleHandle();
                         this._placePaletteHandle();
-                        this._updateColorParCTSToolsAndColorPreview();
+                        this._updateColorParamsAndColorPreview();
                         this._$palette.css("backgroundColor", this._currentColor.getPureColor().toHex());
                         if (this._$alphaChannelHandle) {
                             this._updateColorTransparency(this._currentColor.a);
                             this._placeAlphaChannelHandle()
                         }
                     },
-                    _updateColorParCTSToolsAndColorPreview: function() {
+                    _updateColorParamsAndColorPreview: function() {
                         this._suppressEditorsValueUpdating = true;
                         this._hexInput.option("value", this._currentColor.toHex().replace("#", ""));
                         this._rgbInputs[0].option("value", this._currentColor.r);
@@ -153582,11 +153582,11 @@
                     },
                     _injectComponent: function(func) {
                         const that = this;
-                        return function(parCTSTools) {
-                            (0, _extend.extend)(parCTSTools, {
+                        return function(params) {
+                            (0, _extend.extend)(params, {
                                 component: that.dateBox
                             });
-                            return func(parCTSTools)
+                            return func(params)
                         }
                     },
                     _refreshActiveDescendant: function(e) {
@@ -155656,7 +155656,7 @@
                         this.dateRangeBox.setAria("activedescendant", e.actionValue)
                     };
                     _proto._injectComponent = function(func) {
-                        return parCTSTools => func((0, _extend.extend)(parCTSTools, {
+                        return params => func((0, _extend.extend)(params, {
                             component: this.dateRangeBox
                         }))
                     };
@@ -161566,14 +161566,14 @@
                         const {
                             NativeShape: NativeShape
                         } = (0, _diagram.getDiagram)();
-                        const createMethod = nativeItem instanceof NativeShape ? this._nativeShapeToDiagrCTSToolshape.bind(this) : this._nativeConnectorToDiagramConnector.bind(this);
+                        const createMethod = nativeItem instanceof NativeShape ? this._nativeShapeToDiagramshape.bind(this) : this._nativeConnectorToDiagramConnector.bind(this);
                         return (0, _extend.extend)({
                             id: nativeItem.id,
                             key: nativeItem.key,
                             dataItem: void 0
                         }, createMethod(nativeItem))
                     };
-                    _proto._nativeShapeToDiagrCTSToolshape = function(nativeShape) {
+                    _proto._nativeShapeToDiagramshape = function(nativeShape) {
                         return {
                             dataItem: this._nodesOption && this._nodesOption.findItem(nativeShape.key),
                             itemType: "shape",
@@ -162366,17 +162366,17 @@
                     };
                     return _setPrototypeOf(o, p)
                 }
-                let DiagrCTSToolscrollView = function(_Widget) {
+                let DiagramscrollView = function(_Widget) {
                     ! function(subClass, superClass) {
                         subClass.prototype = Object.create(superClass.prototype);
                         subClass.prototype.constructor = subClass;
                         _setPrototypeOf(subClass, superClass)
-                    }(DiagrCTSToolscrollView, _Widget);
+                    }(DiagramscrollView, _Widget);
 
-                    function DiagrCTSToolscrollView() {
+                    function DiagramscrollView() {
                         return _Widget.apply(this, arguments) || this
                     }
-                    var _proto = DiagrCTSToolscrollView.prototype;
+                    var _proto = DiagramscrollView.prototype;
                     _proto._init = function() {
                         _Widget.prototype._init.call(this);
                         const {
@@ -162463,9 +162463,9 @@
                                 _Widget.prototype._optionChanged.call(this, args)
                         }
                     };
-                    return DiagrCTSToolscrollView
+                    return DiagramscrollView
                 }(_ui.default);
-                var _default = DiagrCTSToolscrollView;
+                var _default = DiagramscrollView;
                 exports.default = _default;
                 module.exports = exports.default;
                 module.exports.default = exports.default
@@ -187888,7 +187888,7 @@
                     },
                     getChildrenNodes: function(parentKey) {
                         return (0, _query.default)(this._dataStructure, {
-                            langParCTSTools: this.options.langParCTSTools
+                            langParams: this.options.langParams
                         }).filter(["internalFields.parentKey", parentKey]).toArray()
                     },
                     getIndexByKey: function(key) {
@@ -187971,7 +187971,7 @@
                         const criteria = this._createCriteria(selector, filterValue, operation);
                         dataStructure = dataStructure || this._initialDataStructure;
                         return (0, _query.default)(dataStructure, {
-                            langParCTSTools: this.options.langParCTSTools
+                            langParams: this.options.langParams
                         }).filter(criteria).toArray()
                     },
                     search: function(searchValue) {
@@ -188006,7 +188006,7 @@
                         if (this.options.sort) {
                             matches = _store_helper.default.queryByOptions((0, _query.default)(matches), {
                                 sort: this.options.sort,
-                                langParCTSTools: this.options.langParCTSTools
+                                langParams: this.options.langParams
                             }).toArray()
                         }
                         dataConverter._indexByKey = {};
@@ -212632,11 +212632,11 @@
                         this._customItemCreatingAction = this._createActionByOption("onCustomItemCreating")
                     },
                     _createCustomItem: function(text) {
-                        const parCTSTools = {
+                        const params = {
                             text: text
                         };
-                        const actionResult = this._customItemCreatingAction(parCTSTools);
-                        const item = (0, _common.ensureDefined)(actionResult, parCTSTools.customItem);
+                        const actionResult = this._customItemCreatingAction(params);
+                        const item = (0, _common.ensureDefined)(actionResult, params.customItem);
                         if ((0, _type.isDefined)(actionResult)) {
                             _errors.default.log("W0015", "onCustomItemCreating", "customItem")
                         }
@@ -214538,9 +214538,9 @@
                                 },
                                 dataSource: dataSource,
                                 onValueChanged: function(e) {
-                                    const parCTSTools = [e.value];
-                                    !isFilterRow && parCTSTools.push(e.component.option("text"));
-                                    options.setValue.apply(this, parCTSTools)
+                                    const params = [e.value];
+                                    !isFilterRow && params.push(e.component.option("text"));
+                                    options.setValue.apply(this, params)
                                 }
                             }, options)
                         }
@@ -218528,14 +218528,14 @@
                             return d.resolve(filteredItems).promise()
                         } else {
                             const {
-                                customQueryParCTSTools: customQueryParCTSTools,
+                                customQueryParams: customQueryParams,
                                 expand: expand,
                                 select: select
                             } = dataController.loadOptions();
                             const filter = this._getFilter(creator);
                             dataController.loadFromStore({
                                 filter: filter,
-                                customQueryParCTSTools: customQueryParCTSTools,
+                                customQueryParams: customQueryParams,
                                 expand: expand,
                                 select: select
                             }).done((data, extra) => {
@@ -219292,7 +219292,7 @@
                         this.callBase()
                     },
                     _getHeightDifference($input) {
-                        return (0, _size.getVerticalOffsets)(this._$element.get(0), false) + (0, _size.getVerticalOffsets)(this._$textEditorContainer.get(0), false) + (0, _size.getVerticalOffsets)(this._$textEditorInputContainer.get(0), false) + (0, _size.getElementBoxParCTSTools)("height", (0, _window.getWindow)().getComputedStyle($input.get(0))).margin
+                        return (0, _size.getVerticalOffsets)(this._$element.get(0), false) + (0, _size.getVerticalOffsets)(this._$textEditorContainer.get(0), false) + (0, _size.getVerticalOffsets)(this._$textEditorInputContainer.get(0), false) + (0, _size.getElementBoxParams)("height", (0, _window.getWindow)().getComputedStyle($input.get(0))).margin
                     },
                     _updateInputHeight: function() {
                         if (!(0, _window.hasWindow)()) {
@@ -225294,7 +225294,7 @@
                             selectionRequired: this.option("selectionRequired"),
                             dataType: this.option("dataStructure"),
                             sort: this._dataSource && this._dataSource.sort(),
-                            langParCTSTools: null === (_this$_dataSource = this._dataSource) || void 0 === _this$_dataSource ? void 0 : null === (_this$_dataSource$loa = _this$_dataSource.loadOptions) || void 0 === _this$_dataSource$loa ? void 0 : null === (_this$_dataSource$loa2 = _this$_dataSource$loa.call(_this$_dataSource)) || void 0 === _this$_dataSource$loa2 ? void 0 : _this$_dataSource$loa2.langParCTSTools
+                            langParams: null === (_this$_dataSource = this._dataSource) || void 0 === _this$_dataSource ? void 0 : null === (_this$_dataSource$loa = _this$_dataSource.loadOptions) || void 0 === _this$_dataSource$loa ? void 0 : null === (_this$_dataSource$loa2 = _this$_dataSource$loa.call(_this$_dataSource)) || void 0 === _this$_dataSource$loa2 ? void 0 : _this$_dataSource$loa2.langParams
                         }
                     },
                     _initMarkup: function() {
@@ -226500,10 +226500,10 @@
                     bypass() {
                         return this.editor.option("disabled")
                     },
-                    applyValidationResults(parCTSTools) {
+                    applyValidationResults(params) {
                         this.editor.option({
-                            validationErrors: parCTSTools.brokenRules,
-                            validationStatus: parCTSTools.status
+                            validationErrors: params.brokenRules,
+                            validationStatus: params.status
                         })
                     },
                     reset() {
@@ -226708,16 +226708,16 @@
                         }
                         const validator = rule.validator;
                         const dataGetter = validator && (0, _type.isFunction)(validator.option) && validator.option("dataGetter");
-                        const extraParCTSTools = (0, _type.isFunction)(dataGetter) && dataGetter();
-                        const parCTSTools = {
+                        const extraParams = (0, _type.isFunction)(dataGetter) && dataGetter();
+                        const params = {
                             value: value,
                             validator: validator,
                             rule: rule
                         };
-                        if (extraParCTSTools) {
-                            (0, _extend.extend)(parCTSTools, extraParCTSTools)
+                        if (extraParams) {
+                            (0, _extend.extend)(params, extraParams)
                         }
-                        return rule.validationCallback(parCTSTools)
+                        return rule.validationCallback(params)
                     };
                     return CustomRuleValidator
                 }(BaseRuleValidator);
@@ -226742,16 +226742,16 @@
                         }
                         const validator = rule.validator;
                         const dataGetter = validator && (0, _type.isFunction)(validator.option) && validator.option("dataGetter");
-                        const extraParCTSTools = (0, _type.isFunction)(dataGetter) && dataGetter();
-                        const parCTSTools = {
+                        const extraParams = (0, _type.isFunction)(dataGetter) && dataGetter();
+                        const params = {
                             value: value,
                             validator: validator,
                             rule: rule
                         };
-                        if (extraParCTSTools) {
-                            (0, _extend.extend)(parCTSTools, extraParCTSTools)
+                        if (extraParams) {
+                            (0, _extend.extend)(params, extraParams)
                         }
-                        const callbackResult = rule.validationCallback(parCTSTools);
+                        const callbackResult = rule.validationCallback(params);
                         if (!(0, _type.isPromise)(callbackResult)) {
                             throw _errors.default.Error("E0103")
                         }
@@ -227770,15 +227770,15 @@
                         }));
                         return orderedItems
                     },
-                    _groupValidationHandler(parCTSTools) {
-                        const items = this._getOrderedItems(parCTSTools.validators, (0, _iterator.map)(parCTSTools.brokenRules, (function(rule) {
+                    _groupValidationHandler(params) {
+                        const items = this._getOrderedItems(params.validators, (0, _iterator.map)(params.brokenRules, (function(rule) {
                             return {
                                 text: rule.message,
                                 validator: rule.validator,
                                 index: rule.index
                             }
                         })));
-                        this.validators = parCTSTools.validators;
+                        this.validators = params.validators;
                         (0, _iterator.each)(this.validators, (_, validator) => {
                             if (validator._validationSummary !== this) {
                                 let handler = this._itemValidationHandler.bind(this);
@@ -227853,9 +227853,9 @@
                     },
                     _itemClass: () => "dx-validationsummary-item",
                     _itemDataKey: () => "dx-validationsummary-item-data",
-                    _postprocessRenderItem(parCTSTools) {
-                        _events_engine.default.on(parCTSTools.itemElement, "click", (function() {
-                            parCTSTools.itemData.validator && parCTSTools.itemData.validator.focus && parCTSTools.itemData.validator.focus()
+                    _postprocessRenderItem(params) {
+                        _events_engine.default.on(params.itemElement, "click", (function() {
+                            params.itemData.validator && params.itemData.validator.focus && params.itemData.validator.focus()
                         }))
                     },
                     _dispose() {
@@ -231257,30 +231257,30 @@
                         };
                         if (!zoomStartEvent.cancel) {
                             (0, _type.isDefined)(visualRange) && that._applyZooming(visualRange, preventEvents.allowPartialUpdate);
-                            if (!(0, _type.isDefined)(that._storedZoomEndParCTSTools)) {
-                                that._storedZoomEndParCTSTools = {
+                            if (!(0, _type.isDefined)(that._storedZoomEndParams)) {
+                                that._storedZoomEndParams = {
                                     startRange: previousRange,
                                     type: this.getOptions().type
                                 }
                             }
-                            that._storedZoomEndParCTSTools.event = domEvent;
-                            that._storedZoomEndParCTSTools.action = action;
-                            that._storedZoomEndParCTSTools.prevent = !!preventEvents.end
+                            that._storedZoomEndParams.event = domEvent;
+                            that._storedZoomEndParams.action = action;
+                            that._storedZoomEndParams.prevent = !!preventEvents.end
                         }
                         return zoomResults
                     },
                     handleZoomEnd() {
                         const that = this;
-                        if ((0, _type.isDefined)(that._storedZoomEndParCTSTools) && !that._storedZoomEndParCTSTools.prevent) {
-                            const previousRange = that._storedZoomEndParCTSTools.startRange;
-                            const domEvent = that._storedZoomEndParCTSTools.event;
-                            const action = that._storedZoomEndParCTSTools.action;
+                        if ((0, _type.isDefined)(that._storedZoomEndParams) && !that._storedZoomEndParams.prevent) {
+                            const previousRange = that._storedZoomEndParams.startRange;
+                            const domEvent = that._storedZoomEndParams.event;
+                            const action = that._storedZoomEndParams.action;
                             const previousBusinessRange = {
                                 minVisible: previousRange.startValue,
                                 maxVisible: previousRange.endValue,
                                 categories: previousRange.categories
                             };
-                            const typeIsNotChanged = that.getOptions().type === that._storedZoomEndParCTSTools.type;
+                            const typeIsNotChanged = that.getOptions().type === that._storedZoomEndParams.type;
                             const shift = typeIsNotChanged ? (0, _math2.adjust)(that.getVisualRangeCenter() - that.getVisualRangeCenter(previousBusinessRange, false)) : NaN;
                             const zoomFactor = typeIsNotChanged ? +(Math.round(that.getVisualRangeLength(previousBusinessRange) / (that.getVisualRangeLength() || 1) + "e+2") + "e-2") : NaN;
                             const zoomEndEvent = that._getZoomEndEventArg(previousRange, domEvent, action, zoomFactor, shift);
@@ -231289,11 +231289,11 @@
                             if (zoomEndEvent.cancel) {
                                 that._restorePreviousVisualRange(previousRange)
                             }
-                            that._storedZoomEndParCTSTools = null
+                            that._storedZoomEndParams = null
                         }
                     },
                     _restorePreviousVisualRange(previousRange) {
-                        this._storedZoomEndParCTSTools = null;
+                        this._storedZoomEndParams = null;
                         this._applyZooming(previousRange);
                         this._visualRange(this, previousRange)
                     },
@@ -234527,19 +234527,19 @@
                             const axisPosition = this._axisPosition;
                             const loCoord = axisPosition - margin - offset;
                             const hiCoord = axisPosition + margin + offset;
-                            const parCTSTools = {};
+                            const params = {};
                             if (this._isHorizontal) {
                                 if (position === TOP) {
-                                    parCTSTools.translateY = loCoord - (y + height)
+                                    params.translateY = loCoord - (y + height)
                                 } else {
-                                    parCTSTools.translateY = hiCoord - y
+                                    params.translateY = hiCoord - y
                                 }
                             } else if (position === LEFT) {
-                                parCTSTools.translateX = loCoord - (x + width)
+                                params.translateX = loCoord - (x + width)
                             } else {
-                                parCTSTools.translateX = hiCoord - x
+                                params.translateX = hiCoord - x
                             }
-                            title.element.attr(parCTSTools)
+                            title.element.attr(params)
                         },
                         _checkTitleOverflow: function(titleElement) {
                             if (!this._title && !titleElement) {
@@ -235246,7 +235246,7 @@
                 }
 
                 function getLabelCheckerPosition(x, y, isHorizontal, canvas) {
-                    const parCTSTools = isHorizontal ? ["x", "width", "y", "height", y, 0] : ["y", "height", "x", "width", x, 1];
+                    const params = isHorizontal ? ["x", "width", "y", "height", y, 0] : ["y", "height", "x", "width", x, 1];
                     return function(bBox, position, coord) {
                         const labelCoord = {
                             x: coord.x,
@@ -235255,30 +235255,30 @@
                         const rectangleBBox = getRectangleBBox(bBox);
                         const delta = isHorizontal ? coord.y - bBox.y - bBox.height / 2 : coord.y - bBox.y;
                         labelCoord.y = isHorizontal || !isHorizontal && "bottom" === position ? coord.y + delta : coord.y;
-                        if (rectangleBBox[parCTSTools[0]] < 0) {
-                            labelCoord[parCTSTools[0]] -= rectangleBBox[parCTSTools[0]]
-                        } else if (rectangleBBox[parCTSTools[0]] + rectangleBBox[parCTSTools[1]] + delta * parCTSTools[5] > canvas[parCTSTools[1]]) {
-                            labelCoord[parCTSTools[0]] -= rectangleBBox[parCTSTools[0]] + rectangleBBox[parCTSTools[1]] + delta * parCTSTools[5] - canvas[parCTSTools[1]]
+                        if (rectangleBBox[params[0]] < 0) {
+                            labelCoord[params[0]] -= rectangleBBox[params[0]]
+                        } else if (rectangleBBox[params[0]] + rectangleBBox[params[1]] + delta * params[5] > canvas[params[1]]) {
+                            labelCoord[params[0]] -= rectangleBBox[params[0]] + rectangleBBox[params[1]] + delta * params[5] - canvas[params[1]]
                         }
-                        if (parCTSTools[4] - rectangleBBox[parCTSTools[3]] / 2 < 0) {
-                            labelCoord[parCTSTools[2]] -= parCTSTools[4] - rectangleBBox[parCTSTools[3]] / 2
-                        } else if (parCTSTools[4] + rectangleBBox[parCTSTools[3]] / 2 > canvas[parCTSTools[3]]) {
-                            labelCoord[parCTSTools[2]] -= parCTSTools[4] + rectangleBBox[parCTSTools[3]] / 2 - canvas[parCTSTools[3]]
+                        if (params[4] - rectangleBBox[params[3]] / 2 < 0) {
+                            labelCoord[params[2]] -= params[4] - rectangleBBox[params[3]] / 2
+                        } else if (params[4] + rectangleBBox[params[3]] / 2 > canvas[params[3]]) {
+                            labelCoord[params[2]] -= params[4] + rectangleBBox[params[3]] / 2 - canvas[params[3]]
                         }
                         return labelCoord
                     }
                 }
 
-                function Crosshair(renderer, options, parCTSTools, group) {
+                function Crosshair(renderer, options, params, group) {
                     this._renderer = renderer;
                     this._crosshairGroup = group;
                     this._options = {};
-                    this.update(options, parCTSTools)
+                    this.update(options, params)
                 }
                 Crosshair.prototype = {
                     constructor: Crosshair,
-                    update: function(options, parCTSTools) {
-                        const canvas = parCTSTools.canvas;
+                    update: function(options, params) {
+                        const canvas = params.canvas;
                         this._canvas = {
                             top: canvas.top,
                             bottom: canvas.height - canvas.bottom,
@@ -235287,8 +235287,8 @@
                             width: canvas.width,
                             height: canvas.height
                         };
-                        this._axes = parCTSTools.axes;
-                        this._panes = parCTSTools.panes;
+                        this._axes = params.axes;
+                        this._panes = params.panes;
                         this._prepareOptions(options, "horizontal");
                         this._prepareOptions(options, "vertical")
                     },
@@ -236646,7 +236646,7 @@
                             if (!(0, _type.isDefined)(tooltipFormatObject.valueText) && !tooltipFormatObject.points || !point.isVisible()) {
                                 return
                             }
-                            const coords = point.getTooltipParCTSTools(that._tooltip.getLocation());
+                            const coords = point.getTooltipParams(that._tooltip.getLocation());
                             const rootOffset = that._renderer.getRootOffset();
                             coords.x += rootOffset.left;
                             coords.y += rootOffset.top;
@@ -237210,7 +237210,7 @@
                     }
                 }
 
-                function zoomAxes(e, axes, getRange, zoom, parCTSTools, onlyAxisToNotify) {
+                function zoomAxes(e, axes, getRange, zoom, params, onlyAxisToNotify) {
                     axes = function(axes, onlyAxisToNotify) {
                         if (onlyAxisToNotify) {
                             axes = axes.sort((a, b) => {
@@ -237240,7 +237240,7 @@
                             scale: scale,
                             translator: translator,
                             axis: axis
-                        }, parCTSTools)), getParameters, "zoom", scale, e);
+                        }, params)), getParameters, "zoom", scale, e);
                         zoomStarted = !stopInteraction;
                         return onlyAxisToNotify && result.isPrevented
                     });
@@ -237905,10 +237905,10 @@
                     };
                     return {
                         _themeSection: "chart",
-                        ctor: function(parCTSTools) {
+                        ctor: function(params) {
                             const that = this;
                             that.callBase.apply(that, arguments);
-                            const options = parCTSTools.options || {};
+                            const options = params.options || {};
                             that._userOptions = options;
                             that._mergeAxisTitleOptions = [];
                             that._multiPieColors = {};
@@ -239522,12 +239522,12 @@
                         };
 
                         function clickHandler(e) {
-                            ! function(e, parCTSTools) {
-                                const id = parCTSTools.getData(e);
+                            ! function(e, params) {
+                                const id = params.getData(e);
                                 if (id >= 0) {
-                                    parCTSTools.click({
-                                        node: parCTSTools.getNode(id),
-                                        coords: parCTSTools.getCoords(e),
+                                    params.click({
+                                        node: params.getNode(id),
+                                        coords: params.getCoords(e),
                                         event: e
                                     })
                                 }
@@ -239547,22 +239547,22 @@
                         }
 
                         function moveHandler(e) {
-                            ! function(e, parCTSTools) {
-                                const id = parCTSTools.getData(e);
+                            ! function(e, params) {
+                                const id = params.getData(e);
                                 if (id >= 0) {
-                                    parCTSTools.getNode(id).setHover()
+                                    params.getNode(id).setHover()
                                 } else {
-                                    parCTSTools.widget.clearHover()
+                                    params.widget.clearHover()
                                 }
                             }(e, parameters);
-                            parameters.widget._getOption("tooltip").enabled && function(e, parCTSTools) {
-                                const id = parCTSTools.getData(e, true);
+                            parameters.widget._getOption("tooltip").enabled && function(e, params) {
+                                const id = params.getData(e, true);
                                 let coords;
                                 if (id >= 0) {
                                     coords = (0, _index.eventData)(e);
-                                    parCTSTools.getNode(id).showTooltip([coords.x, coords.y])
+                                    params.getNode(id).showTooltip([coords.x, coords.y])
                                 } else {
-                                    parCTSTools.widget.hideTooltip()
+                                    params.widget.hideTooltip()
                                 }
                             }(e, parameters)
                         }
@@ -240765,11 +240765,11 @@
                     }
                 };
                 exports.combineMarkups = combineMarkups;
-                let ExportMenu = function(parCTSTools) {
-                    const renderer = this._renderer = parCTSTools.renderer;
-                    this._incidentOccurred = parCTSTools.incidentOccurred;
-                    this._exportTo = parCTSTools.exportTo;
-                    this._print = parCTSTools.print;
+                let ExportMenu = function(params) {
+                    const renderer = this._renderer = params.renderer;
+                    this._incidentOccurred = params.incidentOccurred;
+                    this._exportTo = params.exportTo;
+                    this._print = params.print;
                     this._shadow = renderer.shadowFilter("-50%", "-50%", "200%", "200%", 2, 6, 3);
                     this._shadow.attr({
                         opacity: .8
@@ -242241,9 +242241,9 @@
                 };
                 exports.easingFunctions = easingFunctions;
                 const animationSvgStep = {
-                    segments: function(elem, parCTSTools, progress, easing, currentParCTSTools) {
-                        const from = parCTSTools.from;
-                        const to = parCTSTools.to;
+                    segments: function(elem, params, progress, easing, currentParams) {
+                        const from = params.from;
+                        const to = params.to;
                         let curSeg;
                         let seg;
                         let i;
@@ -242259,32 +242259,32 @@
                             }
                             segments.push(seg)
                         }
-                        currentParCTSTools.segments = parCTSTools.end && 1 === progress ? parCTSTools.end : segments;
+                        currentParams.segments = params.end && 1 === progress ? params.end : segments;
                         elem.attr({
                             segments: segments
                         })
                     },
-                    arc: function(elem, parCTSTools, progress, easing) {
-                        const from = parCTSTools.from;
-                        const to = parCTSTools.to;
+                    arc: function(elem, params, progress, easing) {
+                        const from = params.from;
+                        const to = params.to;
                         const current = {};
                         for (const i in from) {
                             current[i] = easing(progress, from[i], to[i])
                         }
                         elem.attr(current)
                     },
-                    transform: function(elem, parCTSTools, progress, easing, currentParCTSTools) {
-                        const from = parCTSTools.from;
-                        const to = parCTSTools.to;
+                    transform: function(elem, params, progress, easing, currentParams) {
+                        const from = params.from;
+                        const to = params.to;
                         const current = {};
                         for (const i in from) {
-                            current[i] = currentParCTSTools[i] = easing(progress, from[i], to[i])
+                            current[i] = currentParams[i] = easing(progress, from[i], to[i])
                         }
                         elem.attr(current)
                     },
-                    base: function(elem, parCTSTools, progress, easing, currentParCTSTools, attributeName) {
+                    base: function(elem, params, progress, easing, currentParams, attributeName) {
                         const obj = {};
-                        obj[attributeName] = currentParCTSTools[attributeName] = easing(progress, parCTSTools.from, parCTSTools.to);
+                        obj[attributeName] = currentParams[attributeName] = easing(progress, params.from, params.to);
                         elem.attr(obj)
                     },
                     _: noop,
@@ -242299,9 +242299,9 @@
                     const animateStep = that._animateStep;
                     let attrName;
                     that._progress = that._calcProgress(now);
-                    for (attrName in that.parCTSTools) {
+                    for (attrName in that.params) {
                         const anim = animateStep[attrName] || animateStep.base;
-                        anim(that.element, that.parCTSTools[attrName], that._progress, that._easing, that._currentParCTSTools, attrName)
+                        anim(that.element, that.params[attrName], that._progress, that._easing, that._currentParams, attrName)
                     }
                     that.options.step && that.options.step(that._easing(that._progress, 0, 1), that._progress);
                     if (1 === that._progress) {
@@ -242323,16 +242323,16 @@
                     return true
                 }
 
-                function Animation(element, parCTSTools, options) {
+                function Animation(element, params, options) {
                     this._progress = 0;
                     this.element = element;
-                    this.parCTSTools = parCTSTools;
+                    this.params = params;
                     this.options = options;
                     this.duration = options.partitionDuration ? options.duration * options.partitionDuration : options.duration;
                     this.delay = options.delay && options.duration * options.delay || 0;
                     this._animateStep = options.animateStep || animationSvgStep;
                     this._easing = easingFunctions[options.easing] || easingFunctions.easeOutCubic;
-                    this._currentParCTSTools = {};
+                    this._currentParams = {};
                     this.tick = start
                 }
                 Animation.prototype = {
@@ -242343,7 +242343,7 @@
                         const options = this.options;
                         const animateStep = this._animateStep;
                         this.stop = this.tick = noop;
-                        animateStep.complete && animateStep.complete(this.element, this._currentParCTSTools);
+                        animateStep.complete && animateStep.complete(this.element, this._currentParams);
                         options.complete && !disableComplete && options.complete()
                     }
                 };
@@ -242394,10 +242394,10 @@
                             }), 0)
                         }
                     },
-                    animateElement: function(elem, parCTSTools, options) {
-                        if (elem && parCTSTools && options) {
+                    animateElement: function(elem, params, options) {
+                        if (elem && params && options) {
                             elem.animation && elem.animation.stop();
-                            this.addAnimation(elem.animation = new Animation(elem, parCTSTools, options))
+                            this.addAnimation(elem.animation = new Animation(elem, params, options))
                         }
                     },
                     onEndAnimation: function(endAnimation) {
@@ -243117,13 +243117,13 @@
                     return height1 > height2 ? !isNaN(parsedHeight1) ? fontSize1 : height1 : !isNaN(parsedHeight2) ? fontSize2 : height2
                 }
 
-                function baseAnimate(that, parCTSTools, options, complete) {
+                function baseAnimate(that, params, options, complete) {
                     options = options || {};
                     let key;
                     let value;
                     const renderer = that.renderer;
                     const settings = that._settings;
-                    const animationParCTSTools = {};
+                    const animationParams = {};
                     const defaults = {
                         translateX: 0,
                         translateY: 0,
@@ -243137,29 +243137,29 @@
                         options.complete = complete
                     }
                     if (renderer.animationEnabled()) {
-                        for (key in parCTSTools) {
-                            value = parCTSTools[key];
+                        for (key in params) {
+                            value = params[key];
                             if (/^(translate(X|Y)|rotate[XY]?|scale(X|Y))$/i.test(key)) {
-                                animationParCTSTools.transform = animationParCTSTools.transform || {
+                                animationParams.transform = animationParams.transform || {
                                     from: {},
                                     to: {}
                                 };
-                                animationParCTSTools.transform.from[key] = key in settings ? Number(settings[key].toFixed(3)) : defaults[key];
-                                animationParCTSTools.transform.to[key] = value
+                                animationParams.transform.from[key] = key in settings ? Number(settings[key].toFixed(3)) : defaults[key];
+                                animationParams.transform.to[key] = value
                             } else if ("arc" === key || "segments" === key) {
-                                animationParCTSTools[key] = value
+                                animationParams[key] = value
                             } else {
-                                animationParCTSTools[key] = {
+                                animationParams[key] = {
                                     from: key in settings ? settings[key] : parseFloat(that.element.getAttribute(key) || 0),
                                     to: value
                                 }
                             }
                         }
-                        renderer.animateElement(that, animationParCTSTools, extend(extend({}, renderer._animation), options))
+                        renderer.animateElement(that, animationParams, extend(extend({}, renderer._animation), options))
                     } else {
                         options.step && options.step.call(that, 1, 1);
                         options.complete && options.complete.call(that);
-                        that.attr(parCTSTools)
+                        that.attr(params)
                     }
                     return that
                 }
@@ -243309,8 +243309,8 @@
                     css: function(styles) {
                         return baseCss(this, styles)
                     },
-                    animate: function(parCTSTools, options, complete) {
-                        return baseAnimate(this, parCTSTools, options, complete)
+                    animate: function(params, options, complete) {
+                        return baseAnimate(this, params, options, complete)
                     },
                     sharp(pos, sharpDirection) {
                         return this.attr({
@@ -243488,13 +243488,13 @@
                         }
                         return baseAttr(that, attrs)
                     },
-                    animate: function(parCTSTools, options, complete) {
+                    animate: function(params, options, complete) {
                         const that = this;
                         const curSegments = that.segments || [];
                         let newSegments;
                         let endSegments;
-                        if (that.renderer.animationEnabled() && "points" in parCTSTools) {
-                            newSegments = buildPathSegments(parCTSTools.points, that.type);
+                        if (that.renderer.animationEnabled() && "points" in params) {
+                            newSegments = buildPathSegments(params.points, that.type);
                             endSegments = function(oldSegments, newSegments, type) {
                                 const oldLength = oldSegments.length;
                                 const newLength = newSegments.length;
@@ -243513,14 +243513,14 @@
                                 }
                                 return originalNewSegments
                             }(curSegments, newSegments, that.type);
-                            parCTSTools.segments = {
+                            params.segments = {
                                 from: curSegments,
                                 to: newSegments,
                                 end: endSegments
                             };
-                            delete parCTSTools.points
+                            delete params.points
                         }
-                        return baseAnimate(that, parCTSTools, options, complete)
+                        return baseAnimate(that, params, options, complete)
                     }
                 });
                 let ArcSvgElement = function(renderer) {
@@ -243553,39 +243553,39 @@
                                 delete attrs.startAngle;
                                 settings.endAngle = endAngle = "endAngle" in attrs ? attrs.endAngle : settings.endAngle;
                                 delete attrs.endAngle;
-                                attrs.d = buildArcPath.apply(null, (0, _utils.normalizeArcParCTSTools)(x, y, innerRadius, outerRadius, startAngle, endAngle))
+                                attrs.d = buildArcPath.apply(null, (0, _utils.normalizeArcParams)(x, y, innerRadius, outerRadius, startAngle, endAngle))
                             }
                         }
                         return baseAttr(this, attrs)
                     },
-                    animate: function(parCTSTools, options, complete) {
+                    animate: function(params, options, complete) {
                         const settings = this._settings;
-                        const arcParCTSTools = {
+                        const arcParams = {
                             from: {},
                             to: {}
                         };
-                        if (this.renderer.animationEnabled() && ("x" in parCTSTools || "y" in parCTSTools || "innerRadius" in parCTSTools || "outerRadius" in parCTSTools || "startAngle" in parCTSTools || "endAngle" in parCTSTools)) {
-                            arcParCTSTools.from.x = settings.x || 0;
-                            arcParCTSTools.from.y = settings.y || 0;
-                            arcParCTSTools.from.innerRadius = settings.innerRadius || 0;
-                            arcParCTSTools.from.outerRadius = settings.outerRadius || 0;
-                            arcParCTSTools.from.startAngle = settings.startAngle || 0;
-                            arcParCTSTools.from.endAngle = settings.endAngle || 0;
-                            arcParCTSTools.to.x = "x" in parCTSTools ? parCTSTools.x : settings.x;
-                            delete parCTSTools.x;
-                            arcParCTSTools.to.y = "y" in parCTSTools ? parCTSTools.y : settings.y;
-                            delete parCTSTools.y;
-                            arcParCTSTools.to.innerRadius = "innerRadius" in parCTSTools ? parCTSTools.innerRadius : settings.innerRadius;
-                            delete parCTSTools.innerRadius;
-                            arcParCTSTools.to.outerRadius = "outerRadius" in parCTSTools ? parCTSTools.outerRadius : settings.outerRadius;
-                            delete parCTSTools.outerRadius;
-                            arcParCTSTools.to.startAngle = "startAngle" in parCTSTools ? parCTSTools.startAngle : settings.startAngle;
-                            delete parCTSTools.startAngle;
-                            arcParCTSTools.to.endAngle = "endAngle" in parCTSTools ? parCTSTools.endAngle : settings.endAngle;
-                            delete parCTSTools.endAngle;
-                            parCTSTools.arc = arcParCTSTools
+                        if (this.renderer.animationEnabled() && ("x" in params || "y" in params || "innerRadius" in params || "outerRadius" in params || "startAngle" in params || "endAngle" in params)) {
+                            arcParams.from.x = settings.x || 0;
+                            arcParams.from.y = settings.y || 0;
+                            arcParams.from.innerRadius = settings.innerRadius || 0;
+                            arcParams.from.outerRadius = settings.outerRadius || 0;
+                            arcParams.from.startAngle = settings.startAngle || 0;
+                            arcParams.from.endAngle = settings.endAngle || 0;
+                            arcParams.to.x = "x" in params ? params.x : settings.x;
+                            delete params.x;
+                            arcParams.to.y = "y" in params ? params.y : settings.y;
+                            delete params.y;
+                            arcParams.to.innerRadius = "innerRadius" in params ? params.innerRadius : settings.innerRadius;
+                            delete params.innerRadius;
+                            arcParams.to.outerRadius = "outerRadius" in params ? params.outerRadius : settings.outerRadius;
+                            delete params.outerRadius;
+                            arcParams.to.startAngle = "startAngle" in params ? params.startAngle : settings.startAngle;
+                            delete params.startAngle;
+                            arcParams.to.endAngle = "endAngle" in params ? params.endAngle : settings.endAngle;
+                            delete params.endAngle;
+                            params.arc = arcParams
                         }
-                        return baseAnimate(this, parCTSTools, options, complete)
+                        return baseAnimate(this, params, options, complete)
                     }
                 });
                 let RectSvgElement = function(renderer) {
@@ -244119,8 +244119,8 @@
                         this._animationController[lock ? "lock" : "stop"]();
                         return this
                     },
-                    animateElement: function(element, parCTSTools, options) {
-                        this._animationController.animateElement(element, parCTSTools, options);
+                    animateElement: function(element, params, options) {
+                        this._animationController.animateElement(element, params, options);
                         return this
                     },
                     svg: function() {
@@ -244530,7 +244530,7 @@
                             return
                         }
                         if ((0, _type.isDefined)(barPadding) || (0, _type.isDefined)(barWidth)) {
-                            extraParameters = calculateParCTSTools(barsArea, currentStacks.length, 1 - barPadding, barWidth);
+                            extraParameters = calculateParams(barsArea, currentStacks.length, 1 - barPadding, barWidth);
                             width = extraParameters.width;
                             if (!series.getBarOverlapGroup()) {
                                 offset = getOffset(stackIndex, extraParameters)
@@ -244597,14 +244597,14 @@
                             }
                             return stacks
                         }, []);
-                        const parameters = calculateParCTSTools(barsArea, currentStacks.length);
+                        const parameters = calculateParams(barsArea, currentStacks.length);
                         commonStacks.forEach(stack => {
                             correctStackCoordinates(seriesInStacks[stack], currentStacks, arg, stack, parameters, barsArea, seriesStackIndexCallback)
                         })
                     }))
                 }
 
-                function calculateParCTSTools(barsArea, count, percentWidth, fixedBarWidth) {
+                function calculateParams(barsArea, count, percentWidth, fixedBarWidth) {
                     let spacing;
                     let width;
                     if (fixedBarWidth) {
@@ -248657,11 +248657,11 @@
                 function pickMarginValue(value) {
                     return value >= 0 ? _Number(value) : 10
                 }
-                let Title = function(parCTSTools) {
-                    this._parCTSTools = parCTSTools;
-                    this._group = parCTSTools.renderer.g().attr({
-                        class: parCTSTools.cssClass
-                    }).linkOn(parCTSTools.root || parCTSTools.renderer.root, "title");
+                let Title = function(params) {
+                    this._params = params;
+                    this._group = params.renderer.g().attr({
+                        class: params.cssClass
+                    }).linkOn(params.root || params.renderer.root, "title");
                     this._hasText = false
                 };
                 exports.Title = Title;
@@ -248674,7 +248674,7 @@
                             that._clipRect.dispose();
                             that._titleElement = that._subtitleElement = that._clipRect = null
                         }
-                        that._parCTSTools = that._group = that._options = null
+                        that._params = that._group = that._options = null
                     },
                     _updateOptions: function(options) {
                         this._options = options;
@@ -248703,7 +248703,7 @@
                     },
                     _updateStructure: function() {
                         const that = this;
-                        const renderer = that._parCTSTools.renderer;
+                        const renderer = that._params.renderer;
                         const group = that._group;
                         const options = that._options;
                         const align = options.horizontalAlignment;
@@ -248906,7 +248906,7 @@
                         }
                     },
                     freeSpace: function() {
-                        this._parCTSTools.incidentOccurred("W2103");
+                        this._params.incidentOccurred("W2103");
                         this._group.linkRemove();
                         this._boundingRect.width = this._boundingRect.height = 0
                     },
@@ -248994,18 +248994,18 @@
                         border: "0px solid transparent"
                     })
                 }
-                let Tooltip = function(parCTSTools) {
-                    this._eventTrigger = parCTSTools.eventTrigger;
-                    this._widgetRoot = parCTSTools.widgetRoot;
-                    this._widget = parCTSTools.widget;
+                let Tooltip = function(params) {
+                    this._eventTrigger = params.eventTrigger;
+                    this._widgetRoot = params.widgetRoot;
+                    this._widget = params.widget;
                     this._textHtmlContainers = [];
                     this._wrapper = (0, _renderer.default)("<div>").css({
                         position: "absolute",
                         overflow: "hidden",
                         pointerEvents: "none"
-                    }).addClass(parCTSTools.cssClass);
+                    }).addClass(params.cssClass);
                     const renderer = this._renderer = new _renderer2.Renderer({
-                        pathModified: parCTSTools.pathModified,
+                        pathModified: params.pathModified,
                         container: this._wrapper[0]
                     });
                     const root = renderer.root;
@@ -249220,11 +249220,11 @@
                         state.textColor = customize.fontColor || (this._textFontStyles || {}).color;
                         return !!state.text || !!state.html || !!this._template
                     },
-                    show: function(formatObject, parCTSTools, eventData, customizeTooltip, templateCallback) {
+                    show: function(formatObject, params, eventData, customizeTooltip, templateCallback) {
                         const that = this;
                         if (that._options.forceEvents) {
-                            eventData.x = parCTSTools.x;
-                            eventData.y = parCTSTools.y - parCTSTools.offset;
+                            eventData.x = params.x;
+                            eventData.y = params.y - params.offset;
                             that._riseEvents(eventData);
                             return true
                         }
@@ -249242,9 +249242,9 @@
                         const parameters = (0, _extend.extend)({}, that._options, {
                             canvas: that._getCanvas()
                         }, state, {
-                            x: parCTSTools.x,
-                            y: parCTSTools.y,
-                            offset: parCTSTools.offset
+                            x: params.x,
+                            y: params.y,
+                            offset: params.offset
                         });
                         return this.plaque.clear().draw(parameters)
                     },
@@ -249541,7 +249541,7 @@
                     }
                 };
                 exports.normalizeAngle = void 0;
-                exports.normalizeArcParCTSTools = function(x, y, innerRadius, outerRadius, startAngle, endAngle) {
+                exports.normalizeArcParams = function(x, y, innerRadius, outerRadius, startAngle, endAngle) {
                     let isCircle;
                     let noArc = true;
                     const angleDiff = roundValue(endAngle, 3) - roundValue(startAngle, 3);
@@ -251345,7 +251345,7 @@
                             const outerRadius = bar._bar.attr("outerRadius");
                             const startAngle = bar._bar.attr("startAngle");
                             const endAngle = bar._bar.attr("endAngle");
-                            const coordStart = getStartCoordsArc.apply(null, (0, _utils.normalizeArcParCTSTools)(x, y, innerRadius, outerRadius, startAngle, endAngle));
+                            const coordStart = getStartCoordsArc.apply(null, (0, _utils.normalizeArcParams)(x, y, innerRadius, outerRadius, startAngle, endAngle));
                             const {
                                 cos: cos,
                                 sin: sin
@@ -252874,7 +252874,7 @@
                     _updateScaleTickIndent: function(scaleOptions) {
                         const indentFromTick = scaleOptions.label.indentFromTick;
                         const length = scaleOptions.tick.visible ? scaleOptions.tick.length : 0;
-                        const textParCTSTools = this._scale.measureLabels((0, _extend.extend)({}, this._canvas));
+                        const textParams = this._scale.measureLabels((0, _extend.extend)({}, this._canvas));
                         const scaleOrientation = scaleOptions.orientation;
                         const tickCorrection = length;
                         let indentFromAxis = indentFromTick;
@@ -252885,7 +252885,7 @@
                                 indentFromAxis += tickCorrection / 2
                             }
                         } else {
-                            const labelCorrection = _max(textParCTSTools.width, textParCTSTools.height);
+                            const labelCorrection = _max(textParams.width, textParams.height);
                             indentFromAxis -= labelCorrection;
                             if ("inside" === scaleOrientation) {
                                 indentFromAxis -= tickCorrection
@@ -252971,16 +252971,16 @@
                         }
                         return coefs
                     },
-                    _correctScaleIndents: function(result, indentFromTick, textParCTSTools) {
+                    _correctScaleIndents: function(result, indentFromTick, textParams) {
                         if (indentFromTick >= 0) {
-                            result.horizontalOffset = indentFromTick + textParCTSTools.width;
-                            result.verticalOffset = indentFromTick + textParCTSTools.height
+                            result.horizontalOffset = indentFromTick + textParams.width;
+                            result.verticalOffset = indentFromTick + textParams.height
                         } else {
                             result.horizontalOffset = result.verticalOffset = 0;
-                            result.min -= -indentFromTick + _max(textParCTSTools.width, textParCTSTools.height)
+                            result.min -= -indentFromTick + _max(textParams.width, textParams.height)
                         }
-                        result.inverseHorizontalOffset = textParCTSTools.width / 2;
-                        result.inverseVerticalOffset = textParCTSTools.height / 2
+                        result.inverseHorizontalOffset = textParams.width / 2;
+                        result.inverseVerticalOffset = textParams.height / 2
                     },
                     _measureMainElements: function(elements, scaleMeasurement) {
                         const radius = this._area.radius;
@@ -253712,7 +253712,7 @@
                         if (!majorTickEnabled && !minorTickEnabled && !label.visible) {
                             return {}
                         }
-                        const textParCTSTools = this._scale.measureLabels((0, _extend2.extend)({}, this._canvas));
+                        const textParams = this._scale.measureLabels((0, _extend2.extend)({}, this._canvas));
                         const layoutValue = this._getScaleLayoutValue();
                         const result = {
                             min: layoutValue,
@@ -253729,7 +253729,7 @@
                             result.min = _min(result.min, layoutValue - innerCoef * minorTick.length);
                             result.max = _max(result.max, layoutValue + outerCoef * minorTick.length)
                         }
-                        label.visible && this._correctScaleIndents(result, indentFromTick, textParCTSTools);
+                        label.visible && this._correctScaleIndents(result, indentFromTick, textParams);
                         return result
                     },
                     _renderContent: function() {
@@ -254284,8 +254284,8 @@
                     _updateScaleTickIndent: function(scaleOptions) {
                         const indentFromTick = scaleOptions.label.indentFromTick;
                         const length = scaleOptions.tick.length;
-                        const textParCTSTools = this._scale.measureLabels((0, _extend.extend)({}, this._canvas));
-                        const verticalTextCorrection = scaleOptions.isHorizontal ? textParCTSTools.height + textParCTSTools.y : 0;
+                        const textParams = this._scale.measureLabels((0, _extend.extend)({}, this._canvas));
+                        const verticalTextCorrection = scaleOptions.isHorizontal ? textParams.height + textParams.y : 0;
                         const isIndentPositive = indentFromTick > 0;
                         let orientation;
                         let textCorrection;
@@ -254301,7 +254301,7 @@
                                 bottom: 0
                             };
                             tickCorrection = length * orientation[scaleOptions.verticalOrientation];
-                            textCorrection = textParCTSTools.y
+                            textCorrection = textParams.y
                         } else {
                             orientation = isIndentPositive ? {
                                 center: .5,
@@ -254313,7 +254313,7 @@
                                 right: 0
                             };
                             tickCorrection = length * orientation[scaleOptions.horizontalOrientation];
-                            textCorrection = -textParCTSTools.width
+                            textCorrection = -textParams.width
                         }
                         scaleOptions.label.indentFromAxis = -indentFromTick + (isIndentPositive ? -tickCorrection + textCorrection : tickCorrection - verticalTextCorrection);
                         this._scale.updateOptions(scaleOptions)
@@ -254367,14 +254367,14 @@
                         }
                         return coefs
                     },
-                    _correctScaleIndents: function(result, indentFromTick, textParCTSTools) {
+                    _correctScaleIndents: function(result, indentFromTick, textParams) {
                         const vertical = this._area.vertical;
                         if (indentFromTick >= 0) {
-                            result.max += indentFromTick + textParCTSTools[vertical ? "width" : "height"]
+                            result.max += indentFromTick + textParams[vertical ? "width" : "height"]
                         } else {
-                            result.min -= -indentFromTick + textParCTSTools[vertical ? "width" : "height"]
+                            result.min -= -indentFromTick + textParams[vertical ? "width" : "height"]
                         }
-                        result.indent = textParCTSTools[vertical ? "height" : "width"] / 2
+                        result.indent = textParams[vertical ? "height" : "width"] / 2
                     },
                     _measureMainElements: function(elements, scaleMeasurement) {
                         const x = this._area.x;
@@ -256726,13 +256726,13 @@
                     checkLabelsOverlapping(getTwoVisibleLabels(majorTicks.length - 2).reverse())
                 }
 
-                function AxisWrapper(parCTSTools) {
+                function AxisWrapper(params) {
                     this._axis = new _base_axis.Axis({
-                        renderer: parCTSTools.renderer,
-                        axesContainerGroup: parCTSTools.root,
-                        scaleBreaksGroup: parCTSTools.scaleBreaksGroup,
-                        labelsAxesGroup: parCTSTools.labelsAxesGroup,
-                        incidentOccurred: parCTSTools.incidentOccurred,
+                        renderer: params.renderer,
+                        axesContainerGroup: params.root,
+                        scaleBreaksGroup: params.scaleBreaksGroup,
+                        labelsAxesGroup: params.labelsAxesGroup,
+                        incidentOccurred: params.incidentOccurred,
                         axisType: "xyAxes",
                         drawingType: "linear",
                         widgetClass: "dxrs",
@@ -256740,7 +256740,7 @@
                         isArgumentAxis: true,
                         getTemplate() {}
                     });
-                    this._updateSelectedRangeCallback = parCTSTools.updateSelectedRange;
+                    this._updateSelectedRangeCallback = params.updateSelectedRange;
                     this._axis.getAxisSharpDirection = this._axis.getSharpDirectionByCoords = getSharpDirection;
                     this._axis.getTickStartPositionShift = getTickStartPositionShift;
                     this._axis._checkShiftedLabels = checkShiftedLabels
@@ -256844,18 +256844,18 @@
                     return void 0 !== a ? a : b
                 }
 
-                function RangeView(parCTSTools) {
-                    this._parCTSTools = parCTSTools;
-                    this._clipRect = parCTSTools.renderer.clipRect();
-                    parCTSTools.root.attr({
+                function RangeView(params) {
+                    this._params = params;
+                    this._clipRect = params.renderer.clipRect();
+                    params.root.attr({
                         "clip-path": this._clipRect.id
                     })
                 }
                 RangeView.prototype = {
                     constructor: RangeView,
                     update: function(backgroundOption, backgroundTheme, canvas, isCompactMode, isAnimationEnabled, seriesDataSource) {
-                        const renderer = this._parCTSTools.renderer;
-                        const root = this._parCTSTools.root;
+                        const renderer = this._params.renderer;
+                        const root = this._params.root;
                         const canvasWidth = canvas.width - canvas.left;
                         let seriesGroup;
                         backgroundOption = backgroundOption || {};
@@ -257149,20 +257149,20 @@
                 var _support = __webpack_require__( /*! ../../core/utils/support */ 60137);
                 const animationSettings = _common.utils.animationSettings;
 
-                function Slider(parCTSTools, index) {
-                    this._translator = parCTSTools.translator;
-                    this._sliderGroup = parCTSTools.renderer.g().attr({
+                function Slider(params, index) {
+                    this._translator = params.translator;
+                    this._sliderGroup = params.renderer.g().attr({
                         class: "slider"
-                    }).append(parCTSTools.root);
-                    this._line = parCTSTools.renderer.path(null, "line").append(this._sliderGroup);
-                    this._marker = new _slider_marker.default(parCTSTools.renderer, this._sliderGroup, 1 === index);
-                    this._tracker = parCTSTools.renderer.rect().attr({
+                    }).append(params.root);
+                    this._line = params.renderer.path(null, "line").append(this._sliderGroup);
+                    this._marker = new _slider_marker.default(params.renderer, this._sliderGroup, 1 === index);
+                    this._tracker = params.renderer.rect().attr({
                         class: "slider-tracker",
                         fill: "#000000",
                         opacity: 1e-4
                     }).css({
                         cursor: "w-resize"
-                    }).append(parCTSTools.trackersGroup)
+                    }).append(params.trackersGroup)
                 }
                 Slider.prototype = {
                     constructor: Slider,
@@ -257516,26 +257516,26 @@
                     delete this._processSelectionChanged
                 }
 
-                function SlidersController(parCTSTools) {
-                    const sliderParCTSTools = {
-                        renderer: parCTSTools.renderer,
-                        root: parCTSTools.root,
-                        trackersGroup: parCTSTools.trackersGroup,
-                        translator: parCTSTools.translator
+                function SlidersController(params) {
+                    const sliderParams = {
+                        renderer: params.renderer,
+                        root: params.root,
+                        trackersGroup: params.trackersGroup,
+                        translator: params.translator
                     };
-                    this._parCTSTools = parCTSTools;
-                    this._areaTracker = parCTSTools.renderer.path(null, "area").attr({
+                    this._params = params;
+                    this._areaTracker = params.renderer.path(null, "area").attr({
                         class: "area-tracker",
                         fill: "#000000",
                         opacity: 1e-4
-                    }).append(parCTSTools.trackersGroup);
-                    this._selectedAreaTracker = parCTSTools.renderer.path(null, "area").attr({
+                    }).append(params.trackersGroup);
+                    this._selectedAreaTracker = params.renderer.path(null, "area").attr({
                         class: "selected-area-tracker",
                         fill: "#000000",
                         opacity: 1e-4
-                    }).append(parCTSTools.trackersGroup);
-                    this._shutter = parCTSTools.renderer.path(null, "area").append(parCTSTools.root);
-                    this._sliders = [new _slider.default(sliderParCTSTools, 0), new _slider.default(sliderParCTSTools, 1)];
+                    }).append(params.trackersGroup);
+                    this._shutter = params.renderer.path(null, "area").append(params.root);
+                    this._sliders = [new _slider.default(sliderParams, 0), new _slider.default(sliderParams, 1)];
                     this._processSelectionChanged = dummyProcessSelectionChanged
                 }
                 SlidersController.prototype = {
@@ -257555,21 +257555,21 @@
                         const that = this;
                         const selectedRange = that.getSelectedRange();
                         if (!(0, _utils.rangesAreEqual)(selectedRange, that._lastSelectedRange)) {
-                            that._parCTSTools.updateSelectedRange(selectedRange, that._lastSelectedRange, e);
+                            that._params.updateSelectedRange(selectedRange, that._lastSelectedRange, e);
                             that._lastSelectedRange = selectedRange
                         }
                     },
                     update: function(verticalRange, behavior, isCompactMode, sliderHandleOptions, sliderMarkerOptions, shutterOptions, rangeBounds, fullTicks, selectedRangeColor) {
-                        const screenRange = this._parCTSTools.translator.getScreenRange();
+                        const screenRange = this._params.translator.getScreenRange();
                         this._verticalRange = verticalRange;
                         this._minRange = rangeBounds.minRange;
                         this._maxRange = rangeBounds.maxRange;
-                        this._animationEnabled = behavior.animationEnabled && this._parCTSTools.renderer.animationEnabled();
+                        this._animationEnabled = behavior.animationEnabled && this._params.renderer.animationEnabled();
                         this._allowSlidersSwap = behavior.allowSlidersSwap;
                         this._sliders[0].update(verticalRange, sliderHandleOptions, sliderMarkerOptions);
                         this._sliders[1].update(verticalRange, sliderHandleOptions, sliderMarkerOptions);
                         this._sliders[0]._position = this._sliders[1]._position = screenRange[0];
-                        this._values = !this._parCTSTools.translator.isValueProlonged && behavior.snapToTicks ? fullTicks : null;
+                        this._values = !this._params.translator.isValueProlonged && behavior.snapToTicks ? fullTicks : null;
                         this._areaTracker.attr({
                             points: buildRectPoints(screenRange[0], verticalRange[0], screenRange[1], verticalRange[1])
                         });
@@ -257603,12 +257603,12 @@
                         sliders[0].cancelAnimation();
                         sliders[1].cancelAnimation();
                         that._shutter.stopAnimation();
-                        if (that._parCTSTools.translator.getBusinessRange().isEmpty()) {
+                        if (that._params.translator.getBusinessRange().isEmpty()) {
                             sliders[0]._setText(emptySliderMarkerText);
                             sliders[1]._setText(emptySliderMarkerText);
                             sliders[0]._value = sliders[1]._value = void 0;
-                            sliders[0]._position = that._parCTSTools.translator.getScreenRange()[0];
-                            sliders[1]._position = that._parCTSTools.translator.getScreenRange()[1];
+                            sliders[0]._position = that._params.translator.getScreenRange()[0];
+                            sliders[1]._position = that._params.translator.getScreenRange()[1];
                             that._applyTotalPosition(false);
                             ! function(controller) {
                                 controller.setSelectedRange = _common.noop;
@@ -257638,7 +257638,7 @@
                         this._selectedAreaTracker.attr({
                             points: buildRectPoints(position1, this._verticalRange[0], position2, this._verticalRange[1])
                         }).css({
-                            cursor: Math.abs(this._parCTSTools.translator.getScreenRange()[1] - this._parCTSTools.translator.getScreenRange()[0] - position2 + position1) < .001 ? "default" : "pointer"
+                            cursor: Math.abs(this._params.translator.getScreenRange()[1] - this._params.translator.getScreenRange()[0] - position2 + position1) < .001 ? "default" : "pointer"
                         })
                     },
                     _applySelectedRangePosition: function(isAnimated) {
@@ -257651,7 +257651,7 @@
                         if (that._isCompactMode) {
                             points = [pos1 + Math.ceil(that._shutterOffset), (verticalRange[0] + verticalRange[1]) / 2, pos2 - Math.floor(that._shutterOffset), (verticalRange[0] + verticalRange[1]) / 2]
                         } else {
-                            screenRange = that._parCTSTools.axis.getVisibleArea();
+                            screenRange = that._params.axis.getVisibleArea();
                             points = [buildRectPoints(screenRange[0], verticalRange[0], Math.max(pos1 - Math.floor(that._shutterOffset), screenRange[0]), verticalRange[1]), buildRectPoints(screenRange[1], verticalRange[0], Math.min(pos2 + Math.ceil(that._shutterOffset), screenRange[1]), verticalRange[1])]
                         }
                         if (isAnimated) {
@@ -257672,7 +257672,7 @@
                     },
                     setSelectedRange: function(visualRange, e) {
                         visualRange = visualRange || {};
-                        const translator = this._parCTSTools.translator;
+                        const translator = this._params.translator;
                         const businessRange = translator.getBusinessRange();
                         const compare = "discrete" === businessRange.axisType ? function(a, b) {
                             return a < b
@@ -257723,7 +257723,7 @@
                         }
                     },
                     _dockSelectedArea: function(e) {
-                        const translator = this._parCTSTools.translator;
+                        const translator = this._params.translator;
                         const sliders = this._sliders;
                         sliders[0]._position = translator.to(sliders[0].getValue(), -1);
                         sliders[1]._position = translator.to(sliders[1].getValue(), 1);
@@ -257736,7 +257736,7 @@
                     },
                     _moveSelectedArea: function(screenPosition, isAnimated, e) {
                         const that = this;
-                        const translator = that._parCTSTools.translator;
+                        const translator = that._params.translator;
                         const sliders = that._sliders;
                         const interval = sliders[1].getPosition() - sliders[0].getPosition();
                         let startPosition = screenPosition - interval / 2;
@@ -257761,7 +257761,7 @@
                     },
                     placeSliderAndBeginMoving: function(firstPosition, secondPosition, e) {
                         const that = this;
-                        const translator = that._parCTSTools.translator;
+                        const translator = that._params.translator;
                         const sliders = that._sliders;
                         const index = firstPosition < secondPosition ? 0 : 1;
                         const dir = index > 0 ? 1 : -1;
@@ -257812,7 +257812,7 @@
                     },
                     beginSliderMoving: function(initialIndex, initialPosition) {
                         const that = this;
-                        const translator = that._parCTSTools.translator;
+                        const translator = that._params.translator;
                         const sliders = that._sliders;
                         const minPosition = translator.getScreenRange()[0];
                         const maxPosition = translator.getScreenRange()[1];
@@ -257886,7 +257886,7 @@
                     },
                     _changeMovingSlider: function(index) {
                         const that = this;
-                        const translator = that._parCTSTools.translator;
+                        const translator = that._params.translator;
                         const sliders = that._sliders;
                         const position = sliders[1 - index].getPosition();
                         const dir = index > 0 ? 1 : -1;
@@ -258125,21 +258125,21 @@
                     return docEvents
                 }
 
-                function Tracker(parCTSTools) {
+                function Tracker(params) {
                     const state = this._state = {};
-                    const targets = parCTSTools.controller.getTrackerTargets();
+                    const targets = params.controller.getTrackerTargets();
                     if (_support.pointerEvents) {
-                        parCTSTools.renderer.root.css({
+                        params.renderer.root.css({
                             msTouchAction: "pinch-zoom"
                         })
                     }
-                    this._docEvents = [initializeSelectedAreaEvents(parCTSTools.controller, targets.selectedArea, state, getRootOffsetLeft), initializeAreaEvents(parCTSTools.controller, targets.area, state, getRootOffsetLeft), initializeSliderEvents(parCTSTools.controller, targets.sliders, state, getRootOffsetLeft)];
+                    this._docEvents = [initializeSelectedAreaEvents(params.controller, targets.selectedArea, state, getRootOffsetLeft), initializeAreaEvents(params.controller, targets.area, state, getRootOffsetLeft), initializeSliderEvents(params.controller, targets.sliders, state, getRootOffsetLeft)];
                     (0, _iterator.each)(this._docEvents, (function(_, events) {
                         _events_engine.default.on(_dom_adapter.default.getDocument(), events)
                     }));
 
                     function getRootOffsetLeft() {
-                        return parCTSTools.renderer.getRootOffset().left
+                        return params.renderer.getRootOffset().left
                     }
                 }
                 Tracker.prototype = {
@@ -258675,28 +258675,28 @@
                     }
                 }
 
-                function Link(widget, parCTSTools) {
+                function Link(widget, params) {
                     const widgetOffset = widget._renderer.getRootOffset();
                     this.code = 0;
                     this.widget = widget;
-                    this.color = parCTSTools.color;
-                    this.connection = parCTSTools.connection;
-                    this.d = parCTSTools.d;
-                    this.options = parCTSTools.options;
-                    this.boundingRect = parCTSTools.boundingRect, this.coords = {
-                        x: parCTSTools.boundingRect.x + parCTSTools.boundingRect.width / 2 + widgetOffset.left,
-                        y: parCTSTools.boundingRect.y + parCTSTools.boundingRect.height / 2 + widgetOffset.top
+                    this.color = params.color;
+                    this.connection = params.connection;
+                    this.d = params.d;
+                    this.options = params.options;
+                    this.boundingRect = params.boundingRect, this.coords = {
+                        x: params.boundingRect.x + params.boundingRect.width / 2 + widgetOffset.left,
+                        y: params.boundingRect.y + params.boundingRect.height / 2 + widgetOffset.top
                     };
                     this.states = {
-                        normal: compileAttrs(this.color, this.options, this.options, parCTSTools.gradient),
+                        normal: compileAttrs(this.color, this.options, this.options, params.gradient),
                         adjacentNodeHover: compileAttrs(this.color, {
                             opacity: 0,
                             border: {}
-                        }, this.options, parCTSTools.gradient),
+                        }, this.options, params.gradient),
                         hover: compileAttrs(this.color, {
                             opacity: 0,
                             border: {}
-                        }, this.options, parCTSTools.gradient)
+                        }, this.options, params.gradient)
                     };
                     this.overlayStates = {
                         normal: compileAttrs(this.color, {
@@ -258801,21 +258801,21 @@
                     }
                 }
 
-                function Node(widget, parCTSTools) {
+                function Node(widget, params) {
                     const widgetOffset = widget._renderer.getRootOffset();
                     this.code = 0;
                     this.widget = widget;
-                    this.color = parCTSTools.color;
-                    this.options = parCTSTools.options;
-                    this.rect = parCTSTools.rect;
-                    this.label = this.title = parCTSTools.rect._name;
+                    this.color = params.color;
+                    this.options = params.options;
+                    this.rect = params.rect;
+                    this.label = this.title = params.rect._name;
                     this.coords = {
-                        x: parCTSTools.rect.x + parCTSTools.rect.width / 2 + widgetOffset.left,
-                        y: parCTSTools.rect.y + parCTSTools.rect.height / 2 + widgetOffset.top
+                        x: params.rect.x + params.rect.width / 2 + widgetOffset.left,
+                        y: params.rect.y + params.rect.height / 2 + widgetOffset.top
                     };
-                    this.id = parCTSTools.id;
-                    this.linksIn = parCTSTools.linksIn;
-                    this.linksOut = parCTSTools.linksOut;
+                    this.id = params.id;
+                    this.linksIn = params.linksIn;
+                    this.linksOut = params.linksOut;
                     this.states = {
                         normal: compileAttrs(this.color, this.options, this.options),
                         hover: compileAttrs(this.color, this.options.hoverStyle, this.options)
@@ -259473,19 +259473,19 @@
                         return defaultSegment
                     },
                     _updateElement: function(element, segment, animate, complete) {
-                        const lineParCTSTools = {
+                        const lineParams = {
                             points: segment.line
                         };
-                        const areaParCTSTools = {
+                        const areaParams = {
                             points: segment.area
                         };
                         const borderElement = element.line;
                         if (animate) {
-                            borderElement && borderElement.animate(lineParCTSTools);
-                            element.area.animate(areaParCTSTools, {}, complete)
+                            borderElement && borderElement.animate(lineParams);
+                            element.area.animate(areaParams, {}, complete)
                         } else {
-                            borderElement && borderElement.attr(lineParCTSTools);
-                            element.area.attr(areaParCTSTools)
+                            borderElement && borderElement.attr(lineParams);
+                            element.area.attr(areaParams)
                         }
                     },
                     _removeElement: function(element) {
@@ -259875,7 +259875,7 @@
                         delete groupSettings.opacity;
                         this._markersGroup.attr(groupSettings)
                     },
-                    getSeriesPairCoord(parCTSTools, isArgument) {
+                    getSeriesPairCoord(params, isArgument) {
                         let coords = null;
                         const paramName = isArgument ? "argument" : "radius";
                         const points = this.getVisiblePoints();
@@ -259883,7 +259883,7 @@
                         const startAngle = argAxis.getAngles()[0];
                         for (let i = 0; i < points.length; i++) {
                             const p = points[i];
-                            const tmpPoint = (0, _type.isDefined)(p[paramName]) && (0, _type.isDefined)(parCTSTools[paramName]) && p[paramName].valueOf() === parCTSTools[paramName].valueOf() ? (0, _utils.convertPolarToXY)(argAxis.getCenter(), startAngle, -argAxis.getTranslatedAngle(p.angle), p.radius) : void 0;
+                            const tmpPoint = (0, _type.isDefined)(p[paramName]) && (0, _type.isDefined)(params[paramName]) && p[paramName].valueOf() === params[paramName].valueOf() ? (0, _utils.convertPolarToXY)(argAxis.getCenter(), startAngle, -argAxis.getTranslatedAngle(p.angle), p.radius) : void 0;
                             if ((0, _type.isDefined)(tmpPoint)) {
                                 coords = tmpPoint;
                                 break
@@ -260055,7 +260055,7 @@
                             }
                         }
                     },
-                    setClippingParCTSTools(baseId, wideId, forceClipping) {
+                    setClippingParams(baseId, wideId, forceClipping) {
                         let clipLabels = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : true;
                         this._paneClipRectID = baseId;
                         this._widePaneClipRectID = wideId;
@@ -261905,11 +261905,11 @@
                         element.line.remove()
                     },
                     _updateElement: function(element, segment, animate, animationComplete) {
-                        const parCTSTools = {
+                        const params = {
                             points: segment.line
                         };
                         const lineElement = element.line;
-                        animate ? lineElement.animate(parCTSTools, {}, animationComplete) : lineElement.attr(parCTSTools)
+                        animate ? lineElement.animate(params, {}, animationComplete) : lineElement.attr(params)
                     },
                     _animateComplete: function() {
                         _scatter_series.chart._animateComplete.call(this);
@@ -262270,11 +262270,11 @@
                         }
                         return tangentPoints
                     },
-                    getSeriesPairCoord(parCTSTools, isArgument) {
+                    getSeriesPairCoord(params, isArgument) {
                         const that = this;
                         const argAxis = that.getArgumentAxis();
                         const paramName = isArgument ? "angle" : "radius";
-                        const coordParam = parCTSTools[paramName];
+                        const coordParam = params[paramName];
                         const centerPoint = argAxis.getCenter();
                         const isInsideInterval = (prevPoint, point, _ref) => {
                             let {
@@ -262835,7 +262835,7 @@
                             width: graphic.attr("width")
                         }
                     },
-                    _getEdgeTooltipParCTSTools() {
+                    _getEdgeTooltipParams() {
                         const isPositive = this.value >= 0;
                         let xCoord;
                         let yCoord;
@@ -262867,9 +262867,9 @@
                             offset: 0
                         }
                     },
-                    getTooltipParCTSTools: function(location) {
+                    getTooltipParams: function(location) {
                         if ("edge" === location) {
-                            return this._getEdgeTooltipParCTSTools()
+                            return this._getEdgeTooltipParams()
                         }
                         const center = this.getCenterCoord();
                         center.offset = 0;
@@ -263371,7 +263371,7 @@
                     setPercentValue: _common.noop,
                     correctCoordinates: _common.noop,
                     coordsIn: _common.noop,
-                    getTooltipParCTSTools: _common.noop,
+                    getTooltipParams: _common.noop,
                     applyWordWrap: _common.noop,
                     setLabelTrackerData: _common.noop,
                     updateLabelCoord: _common.noop,
@@ -263475,7 +263475,7 @@
                             "chart-data-point": this
                         }).append(group)
                     },
-                    getTooltipParCTSTools: function(location) {
+                    getTooltipParams: function(location) {
                         const graphic = this.graphic;
                         if (!graphic) {
                             return
@@ -263707,7 +263707,7 @@
                         }
                         return bBox
                     },
-                    getTooltipParCTSTools: function(location) {
+                    getTooltipParams: function(location) {
                         const that = this;
                         if (that.graphic) {
                             const minValue = _min(that.lowY, that.highY);
@@ -264638,7 +264638,7 @@
                             "chart-data-point": that
                         }).sharp().append(group)
                     },
-                    getTooltipParCTSTools: function() {
+                    getTooltipParams: function() {
                         const angleFunctions = (0, _utils.getCosAndSin)(this.middleAngle);
                         const radiusInner = this.radiusInner;
                         const radiusOuter = this.radiusOuter;
@@ -264879,7 +264879,7 @@
                     _getLabelCoords: _pie_point.default._getLabelCoords,
                     _getElementCoords: _pie_point.default._getElementCoords,
                     _getLabelConnector: _pie_point.default._getLabelConnector,
-                    getTooltipParCTSTools: _pie_point.default.getTooltipParCTSTools,
+                    getTooltipParams: _pie_point.default.getTooltipParams,
                     _getLabelPosition: _pie_point.default._getLabelPosition,
                     _getCoords: polarSymbolPoint._getCoords,
                     _translate() {
@@ -265001,7 +265001,7 @@
                         this._topLabel.draw(false);
                         this._bottomLabel.draw(false)
                     },
-                    getTooltipParCTSTools: function(location) {
+                    getTooltipParams: function(location) {
                         const that = this;
                         const edgeLocation = "edge" === location;
                         let x;
@@ -265386,7 +265386,7 @@
                         this.visibleBottomMarker = visibleBottomMarker;
                         return visibleRangeArea
                     },
-                    getTooltipParCTSTools: function() {
+                    getTooltipParams: function() {
                         const that = this;
                         let x;
                         let y;
@@ -265990,7 +265990,7 @@
                             })
                         }
                     },
-                    getTooltipParCTSTools: function() {
+                    getTooltipParams: function() {
                         const graphic = this.graphic;
                         return {
                             x: this.x,
@@ -266354,13 +266354,13 @@
                         }))
                     },
                     _updateElement: function(element, segment, animate, complete) {
-                        const bottomLineParCTSTools = {
+                        const bottomLineParams = {
                             points: segment.bottomLine
                         };
                         const bottomBorderElement = element.bottomLine;
                         areaSeries._updateElement.apply(this, arguments);
                         if (bottomBorderElement) {
-                            animate ? bottomBorderElement.animate(bottomLineParCTSTools) : bottomBorderElement.attr(bottomLineParCTSTools)
+                            animate ? bottomBorderElement.animate(bottomLineParams) : bottomBorderElement.attr(bottomLineParams)
                         }
                     }
                 }, baseRangeSeries)
@@ -267045,13 +267045,13 @@
                             maxY: canvas.height - canvas.bottom
                         }
                     },
-                    getSeriesPairCoord(parCTSTools, isArgument) {
+                    getSeriesPairCoord(params, isArgument) {
                         let coords = null;
                         const paramName = isArgument ? "argument" : "radius";
                         const points = this.getVisiblePoints();
                         for (let i = 0; i < points.length; i++) {
                             const p = points[i];
-                            const tmpPoint = (0, _type.isDefined)(p[paramName]) && (0, _type.isDefined)(parCTSTools[paramName]) && p[paramName].valueOf() === parCTSTools[paramName].valueOf() ? {
+                            const tmpPoint = (0, _type.isDefined)(p[paramName]) && (0, _type.isDefined)(params[paramName]) && p[paramName].valueOf() === params[paramName].valueOf() ? {
                                 x: p.x,
                                 y: p.y
                             } : void 0;
@@ -267649,7 +267649,7 @@
                             this._drawZeroLevel()
                         }
                     },
-                    _getTargetParCTSTools: function() {
+                    _getTargetParams: function() {
                         const options = this._allOptions;
                         const translatorY = this._valueAxis.getTranslator();
                         const x = this._argumentAxis.getTranslator().translate(options.target);
@@ -267659,7 +267659,7 @@
                             "stroke-width": options.targetWidth
                         }
                     },
-                    _getBarValueParCTSTools: function() {
+                    _getBarValueParams: function() {
                         const options = this._allOptions;
                         const translatorX = this._argumentAxis.getTranslator();
                         const translatorY = this._valueAxis.getTranslator();
@@ -267687,7 +267687,7 @@
                     _getCorrectCanvas: function() {
                         return this._canvas
                     },
-                    _getZeroLevelParCTSTools: function() {
+                    _getZeroLevelParams: function() {
                         const translatorY = this._valueAxis.getTranslator();
                         const x = this._argumentAxis.getTranslator().translate(0);
                         return {
@@ -267701,7 +267701,7 @@
                         if (0 > options.endScaleValue || 0 < options.startScaleValue || !options.showZeroLevel) {
                             return
                         }
-                        this._zeroLevelPath.attr(this._getZeroLevelParCTSTools()).sharp().append(this._renderer.root)
+                        this._zeroLevelPath.attr(this._getZeroLevelParams()).sharp().append(this._renderer.root)
                     },
                     _drawTarget: function() {
                         const options = this._allOptions;
@@ -267709,10 +267709,10 @@
                         if (target > options.endScaleValue || target < options.startScaleValue || !options.showTarget) {
                             return
                         }
-                        this._targetPath.attr(this._getTargetParCTSTools()).sharp().append(this._renderer.root)
+                        this._targetPath.attr(this._getTargetParams()).sharp().append(this._renderer.root)
                     },
                     _drawBarValue: function() {
-                        this._barValuePath.attr(this._getBarValueParCTSTools()).append(this._renderer.root)
+                        this._barValuePath.attr(this._getBarValueParams()).append(this._renderer.root)
                     },
                     _getTooltipCoords: function() {
                         const canvas = this._canvas;
@@ -270264,7 +270264,7 @@
                     updateLabelStyle: function() {
                         const settings = this.ctx.settings[Number(this.isNode())];
                         this.labelState = settings.labelState;
-                        this.labelParCTSTools = settings.labelParCTSTools
+                        this.labelParams = settings.labelParams
                     },
                     _getState: function() {
                         return this.state
@@ -271086,9 +271086,9 @@
                         this._nodes = [root];
                         this._handlers.beginBuildNodes();
                         const processedData = this._processDataSourceItems(this._dataSourceItems() || []);
-                        ! function traverseDataItems(root, dataItems, level, parCTSTools) {
+                        ! function traverseDataItems(root, dataItems, level, params) {
                             const nodes = [];
-                            const allNodes = parCTSTools.nodes;
+                            const allNodes = params.nodes;
                             let node;
                             let i;
                             const ii = dataItems.length;
@@ -271100,20 +271100,20 @@
                                 dataItem = dataItems[i];
                                 node = new _node.default;
                                 node._id = allNodes.length;
-                                node.ctx = parCTSTools.ctx;
+                                node.ctx = params.ctx;
                                 node.parent = root;
                                 node.level = level;
                                 node.index = nodes.length;
                                 node.data = dataItem;
-                                parCTSTools.buildNode(node);
+                                params.buildNode(node);
                                 allNodes.push(node);
                                 nodes.push(node);
-                                items = dataItem[parCTSTools.itemsField];
+                                items = dataItem[params.itemsField];
                                 if (null !== (_items = items) && void 0 !== _items && _items.length) {
-                                    traverseDataItems(node, items, level + 1, parCTSTools)
+                                    traverseDataItems(node, items, level + 1, params)
                                 }
-                                if (dataItem[parCTSTools.valueField] > 0) {
-                                    node.value = Number(dataItem[parCTSTools.valueField])
+                                if (dataItem[params.valueField] > 0) {
+                                    node.value = Number(dataItem[params.valueField])
                                 }
                                 totalValue += node.value
                             }
@@ -271174,7 +271174,7 @@
                         if (options.headerHeight >= 0) {
                             headerHeight = pickPositiveInteger(options.headerHeight)
                         } else {
-                            headerHeight = settings.labelParCTSTools.height + 2 * pickPositiveInteger(labelOptions.paddingTopBottom)
+                            headerHeight = settings.labelParams.height + 2 * pickPositiveInteger(labelOptions.paddingTopBottom)
                         }
                         if (that._headerHeight !== headerHeight) {
                             that._headerHeight = headerHeight;
@@ -271198,7 +271198,7 @@
                         const groupLabelOptions = this._getOption("group.label");
                         settings.labelState = (0, _common.buildTextAppearance)(options, filter);
                         settings.labelState.visible = !("visible" in options) || !!options.visible;
-                        settings.labelParCTSTools = {
+                        settings.labelParams = {
                             height: bBox.height,
                             rtlEnabled: this._getOption("rtlEnabled", true),
                             paddingTopBottom: paddingTopBottom,
@@ -271311,7 +271311,7 @@
                 function processLabelAppearance(context, node) {
                     node.updateLabelStyle();
                     if (node.labelState.visible) {
-                        ! function(context, currentNode, settings, parCTSTools) {
+                        ! function(context, currentNode, settings, params) {
                             let textData = currentNode.data[context.labelField];
                             currentNode.label = textData ? String(textData) : null;
                             textData = currentNode.customLabel || currentNode.label;
@@ -271319,7 +271319,7 @@
                                 currentNode.text = context.renderer.text(textData).attr(settings.attr).css(settings.css).append(context.group);
                                 context.setTrackerData(currentNode, currentNode.text)
                             }
-                        }(context, node, node.labelState, node.labelParCTSTools)
+                        }(context, node, node.labelState, node.labelParams)
                     }
                 }
                 const emptyRect = [0, 0, 0, 0];
@@ -271391,23 +271391,23 @@
 
                 function processLabelsLayout(context, node) {
                     if (node.text && node.labelState.visible) {
-                        ! function(node, parCTSTools) {
+                        ! function(node, params) {
                             const rect = node.rect;
                             const text = node.text;
                             const bBox = text.getBBox();
-                            const paddingLeftRight = parCTSTools.paddingLeftRight;
-                            const paddingTopBottom = parCTSTools.paddingTopBottom;
+                            const paddingLeftRight = params.paddingLeftRight;
+                            const paddingTopBottom = params.paddingTopBottom;
                             const effectiveWidth = rect[2] - rect[0] - 2 * paddingLeftRight;
                             text.setMaxSize(effectiveWidth, rect[3] - rect[1] - paddingTopBottom, node.isNode() ? {
-                                textOverflow: parCTSTools.groupLabelOverflow,
+                                textOverflow: params.groupLabelOverflow,
                                 wordWrap: "none"
                             } : {
-                                textOverflow: parCTSTools.tileLabelOverflow,
-                                wordWrap: parCTSTools.tileLabelWordWrap,
+                                textOverflow: params.tileLabelOverflow,
+                                wordWrap: params.tileLabelWordWrap,
                                 hideOverflowEllipsis: true
                             });
-                            text.move(parCTSTools.rtlEnabled ? rect[2] - paddingLeftRight - bBox.x - bBox.width : rect[0] + paddingLeftRight - bBox.x, rect[1] + paddingTopBottom - bBox.y)
-                        }(node, node.labelParCTSTools)
+                            text.move(params.rtlEnabled ? rect[2] - paddingLeftRight - bBox.x - bBox.width : rect[0] + paddingLeftRight - bBox.x, rect[1] + paddingTopBottom - bBox.y)
+                        }(node, node.labelParams)
                     }
                 }(0, _component_registrator.default)("dxTreeMap", dxTreeMap);
                 var _default = dxTreeMap;
@@ -271585,7 +271585,7 @@
                 COMMAND_TO_TYPE_MAP["command-zoom-drag"] = ZoomDragCommand;
 
                 function ControlBar(parameters) {
-                    this._parCTSTools = parameters;
+                    this._params = parameters;
                     this._createElements(parameters.renderer, parameters.container, parameters.dataKey);
                     parameters.layoutControl.addItem(this);
                     this._subscribeToProjection(parameters.projection);
@@ -271596,11 +271596,11 @@
                     constructor: ControlBar,
                     _flags: 0,
                     dispose: function() {
-                        this._parCTSTools.layoutControl.removeItem(this);
+                        this._params.layoutControl.removeItem(this);
                         this._root.linkRemove().linkOff();
                         this._offProjection();
                         this._offTracker();
-                        this._parCTSTools = this._root = this._offProjection = this._offTracker = this._callbacks = null
+                        this._params = this._root = this._offProjection = this._offTracker = this._callbacks = null
                     },
                     _subscribeToProjection: function(projection) {
                         const that = this;
@@ -271778,7 +271778,7 @@
                     },
                     _update: function() {
                         const that = this;
-                        that._isActive = that._isEnabled && that._flags && that._parCTSTools.projection.isInvertible();
+                        that._isActive = that._isEnabled && that._flags && that._params.projection.isInvertible();
                         const groupPan = [that._panControl, that._trackersPan];
                         const groupZoom = [that._zoomBar, that._trackersZoom];
                         if (that._isActive) {
@@ -272095,11 +272095,11 @@
                 const _ln = Math.log;
                 const _LN2 = Math.LN2;
 
-                function GestureHandler(parCTSTools) {
-                    this._projection = parCTSTools.projection;
-                    this._renderer = parCTSTools.renderer;
+                function GestureHandler(params) {
+                    this._projection = params.projection;
+                    this._renderer = params.renderer;
                     this._x = this._y = 0;
-                    this._subscribeToTracker(parCTSTools.tracker)
+                    this._subscribeToTracker(params.tracker)
                 }
                 GestureHandler.prototype = {
                     constructor: GestureHandler,
@@ -272463,7 +272463,7 @@
                 };
                 let Legend = function(parameters) {
                     const that = this;
-                    that._parCTSTools = parameters;
+                    that._params = parameters;
                     that._root = parameters.renderer.g().attr({
                         class: "dxm-legend"
                     }).linkOn(parameters.container, {
@@ -272490,20 +272490,20 @@
                     constructor: Legend,
                     dispose: function() {
                         const that = this;
-                        that._parCTSTools.layoutControl.removeItem(that);
+                        that._params.layoutControl.removeItem(that);
                         that._unbindData();
                         that._root.linkRemove().linkOff();
-                        that._parCTSTools = that._root = that._onDataChanged = null;
+                        that._params = that._root = that._onDataChanged = null;
                         return _legend.Legend.prototype.dispose.apply(that, arguments)
                     },
                     resize: function(size) {
-                        this._parCTSTools.notifyDirty();
+                        this._params.notifyDirty();
                         if (null === size) {
                             this.erase()
                         } else {
                             this.draw(size.width, size.height)
                         }
-                        this._parCTSTools.notifyReady()
+                        this._params.notifyReady()
                     },
                     locate: _legend.Legend.prototype.shift,
                     _updateData: function(data) {
@@ -272528,19 +272528,19 @@
                                 item.visible = true
                             }
                             return list
-                        }(data.partition, data.values, this._dataName) : [], this._options, this._parCTSTools.themeManager.theme("legend").title);
+                        }(data.partition, data.values, this._dataName) : [], this._options, this._params.themeManager.theme("legend").title);
                         this.updateLayout()
                     },
                     _unbindData: function() {
                         if (this._dataCategory) {
-                            this._parCTSTools.dataExchanger.unbind(this._dataCategory, this._dataName, this._onDataChanged)
+                            this._params.dataExchanger.unbind(this._dataCategory, this._dataName, this._onDataChanged)
                         }
                     },
                     _bindData: function(arg) {
-                        this._parCTSTools.dataExchanger.bind(this._dataCategory = arg.category, this._dataName = arg.name, this._onDataChanged)
+                        this._params.dataExchanger.bind(this._dataCategory = arg.category, this._dataName = arg.name, this._onDataChanged)
                     },
                     setOptions: function(options) {
-                        this.update(this._data, options, this._parCTSTools.themeManager.theme("legend").title);
+                        this.update(this._data, options, this._params.themeManager.theme("legend").title);
                         this._unbindData();
                         const source = options.source;
                         this._bindData(source ? {
@@ -272553,7 +272553,7 @@
                 });
 
                 function LegendsControl(parameters) {
-                    this._parCTSTools = parameters;
+                    this._params = parameters;
                     this._items = [];
                     parameters.container.virtualLink("legend-base")
                 }
@@ -272563,27 +272563,27 @@
                         _each(this._items, (function(_, item) {
                             item.dispose()
                         }));
-                        this._parCTSTools = this._items = null
+                        this._params = this._items = null
                     },
                     setOptions: function(options) {
                         const optionList = options && options.length ? options : [];
                         const items = this._items;
                         let i;
                         const ii = optionList.length;
-                        const parCTSTools = this._parCTSTools;
-                        const theme = parCTSTools.themeManager.theme("legend");
+                        const params = this._params;
+                        const theme = params.themeManager.theme("legend");
                         for (i = items.length; i < ii; ++i) {
-                            items[i] = new Legend(parCTSTools)
+                            items[i] = new Legend(params)
                         }
                         for (i = items.length - 1; i >= ii; --i) {
                             items[i].dispose();
                             items.splice(i, 1)
                         }
-                        parCTSTools.layoutControl.suspend();
+                        params.layoutControl.suspend();
                         for (i = 0; i < ii; ++i) {
                             items[i].setOptions(_extend(true, {}, theme, optionList[i]))
                         }
-                        parCTSTools.layoutControl.resume()
+                        params.layoutControl.resume()
                     }
                 }
             },
@@ -272948,7 +272948,7 @@
                         groupBySize(context)
                     },
                     getDefaultColor: function(ctx, palette) {
-                        return ctx.parCTSTools.themeManager.getAccentColor(palette)
+                        return ctx.params.themeManager.getAccentColor(palette)
                     }
                 };
                 strategiesByGeometry.area = function(sample) {
@@ -273184,7 +273184,7 @@
                                 }
                             }
                             if (count > 0) {
-                                palette = context.parCTSTools.themeManager.createPalette(context.settings.palette, {
+                                palette = context.params.themeManager.createPalette(context.settings.palette, {
                                     useHighlight: true,
                                     extensionMode: "alternate"
                                 });
@@ -273196,7 +273196,7 @@
                                     partition: [],
                                     values: []
                                 };
-                                context.parCTSTools.dataExchanger.set(context.name, "color", {
+                                context.params.dataExchanger.set(context.name, "color", {
                                     partition: [],
                                     values: values
                                 })
@@ -273336,7 +273336,7 @@
                 }
 
                 function raiseChanged(context, handle, state, name) {
-                    context.parCTSTools.eventTrigger(name, {
+                    context.params.eventTrigger(name, {
                         target: handle.proxy,
                         state: state
                     })
@@ -273362,7 +273362,7 @@
                             partition: partition,
                             values: values
                         };
-                        context.parCTSTools.dataExchanger.set(context.name, settingField, {
+                        context.params.dataExchanger.set(context.name, settingField, {
                             partition: partition,
                             values: values,
                             defaultColor: context.settings.color
@@ -273372,7 +273372,7 @@
 
                 function dropGrouping(context) {
                     const name = context.name;
-                    const dataExchanger = context.parCTSTools.dataExchanger;
+                    const dataExchanger = context.params.dataExchanger;
                     _each(context.grouping, (function(field) {
                         dataExchanger.set(name, field, null)
                     }));
@@ -273380,7 +273380,7 @@
                 }
                 groupByColor = function(context) {
                     performGrouping(context, context.settings.colorGroups, "color", context.settings.colorGroupingField, (function(count) {
-                        const _palette = context.parCTSTools.themeManager.createDiscretePalette(context.settings.palette, count);
+                        const _palette = context.params.themeManager.createDiscretePalette(context.settings.palette, count);
                         let i;
                         const list = [];
                         for (i = 0; i < count; ++i) {
@@ -273420,8 +273420,8 @@
                     return !!(flags & flag)
                 }
                 let MapLayerElement;
-                let MapLayer = function(parCTSTools, container, name, index) {
-                    this._parCTSTools = parCTSTools;
+                let MapLayer = function(params, container, name, index) {
+                    this._params = params;
                     this._onProjection();
                     this.proxy = function(layer, name, index) {
                         const proxy = {
@@ -273444,15 +273444,15 @@
                     this._context = {
                         name: name,
                         layer: this.proxy,
-                        renderer: parCTSTools.renderer,
-                        projection: parCTSTools.projection,
-                        parCTSTools: parCTSTools,
-                        dataKey: parCTSTools.dataKey,
+                        renderer: params.renderer,
+                        projection: params.projection,
+                        params: params,
+                        dataKey: params.dataKey,
                         str: emptyStrategy,
                         hover: false,
                         selection: null,
                         grouping: {},
-                        root: parCTSTools.renderer.g().attr({
+                        root: params.renderer.g().attr({
                             class: "dxm-layer"
                         }).linkOn(container, name).linkAppend()
                     };
@@ -273469,7 +273469,7 @@
                     },
                     _onProjection: function() {
                         const that = this;
-                        that._removeHandlers = that._parCTSTools.projection.on({
+                        that._removeHandlers = that._params.projection.on({
                             engine: function() {
                                 that._project()
                             },
@@ -273535,7 +273535,7 @@
                         this._context.labelRoot && this._context.labelRoot.linkRemove().linkOff();
                         this._context.str.reset(this._context);
                         this._offProjection();
-                        this._parCTSTools = this._container = this._context = this.proxy = null;
+                        this._params = this._container = this._context = this.proxy = null;
                         return this
                     },
                     setOptions: function(options) {
@@ -273544,11 +273544,11 @@
                         that._dataSourceLoaded = new _deferred.Deferred;
                         if ("dataSource" in options && options.dataSource !== that._options_dataSource) {
                             that._options_dataSource = options.dataSource;
-                            that._parCTSTools.notifyDirty();
+                            that._params.notifyDirty();
                             that._specificDataSourceOption = (option = options.dataSource, option ? isGeoJsonObject(option) ? [option] : option : []);
                             that._refreshDataSource()
                         } else if (that._data.count() > 0) {
-                            that._parCTSTools.notifyDirty();
+                            that._params.notifyDirty();
                             that._update(void 0 !== options.type && options.type !== that._context.str.type || void 0 !== options.elementType && options.elementType !== that._context.str.elementType)
                         }
                         var option;
@@ -273561,7 +273561,7 @@
                             context.str.reset(context);
                             context.root.clear();
                             context.labelRoot && context.labelRoot.clear();
-                            that._parCTSTools.tracker.reset();
+                            that._params.tracker.reset();
                             that._destroyHandles();
                             context.str = selectStrategy(that._options, that._data);
                             context.str.setup(context);
@@ -273569,7 +273569,7 @@
                             that.proxy.elementType = context.str.elementType
                         }
                         context.settings = function(context, options) {
-                            const themeManager = context.parCTSTools.themeManager;
+                            const themeManager = context.params.themeManager;
                             const strategy = context.str;
                             const settings = combineSettings(_extend({
                                 label: {},
@@ -273626,12 +273626,12 @@
                         context.str.arrange(context, that._handles);
                         context.str.updateGrouping(context);
                         that._updateHandles();
-                        that._parCTSTools.notifyReady();
+                        that._params.notifyReady();
                         if (that._dataSourceLoaded) {
                             that._dataSourceLoaded.resolve();
                             that._dataSourceLoaded = null
                         } else {
-                            that._parCTSTools.dataReady()
+                            that._params.dataReady()
                         }
                     },
                     getBounds() {
@@ -273669,7 +273669,7 @@
                         for (i = 0; i < ii; ++i) {
                             dataItem = data.item(i);
                             handles[i] = new MapLayerElement(context, i, geometry(dataItem), attributes(dataItem))
-                        }(0, _type.isFunction)(this._options.customize) && (proxies = this.getProxies(), callback = this._options.customize, widget = this._parCTSTools.widget, void callback.call(widget, proxies));
+                        }(0, _type.isFunction)(this._options.customize) && (proxies = this.getProxies(), callback = this._options.customize, widget = this._params.widget, void callback.call(widget, proxies));
                         var proxies, callback, widget;
                         for (i = 0; i < ii; ++i) {
                             handle = handles[i];
@@ -273700,7 +273700,7 @@
                         }
                     },
                     _transformCore: function() {
-                        const transform = this._parCTSTools.projection.getTransform();
+                        const transform = this._params.projection.getTransform();
                         this._context.root.attr(transform);
                         this._context.labelRoot && this._context.labelRoot.attr(transform)
                     },
@@ -273728,7 +273728,7 @@
                         return this._handles[index].proxy
                     },
                     raiseClick: function(i, dxEvent) {
-                        this._parCTSTools.eventTrigger("click", {
+                        this._params.eventTrigger("click", {
                             target: this._handles[i].proxy,
                             event: dxEvent
                         })
@@ -274017,24 +274017,24 @@
                     ] : []
                 }
 
-                function MapLayerCollection(parCTSTools) {
-                    const renderer = parCTSTools.renderer;
-                    this._parCTSTools = parCTSTools;
+                function MapLayerCollection(params) {
+                    const renderer = params.renderer;
+                    this._params = params;
                     this._layers = [];
                     this._layerByName = {};
                     this._rect = [0, 0, 0, 0];
                     this._clip = renderer.clipRect();
                     this._background = renderer.rect().attr({
                         class: "dxm-background"
-                    }).data(parCTSTools.dataKey, {
+                    }).data(params.dataKey, {
                         name: "background"
                     }).append(renderer.root);
                     this._container = renderer.g().attr({
                         class: "dxm-layers",
                         "clip-path": this._clip.id
                     }).append(renderer.root).enableLinks();
-                    this._subscribeToTracker(parCTSTools.tracker, renderer, parCTSTools.eventTrigger);
-                    this._dataReady = parCTSTools.dataReady
+                    this._subscribeToTracker(params.tracker, renderer, params.eventTrigger);
+                    this._dataReady = params.dataReady
                 }
                 MapLayerCollection.prototype = {
                     constructor: MapLayerCollection,
@@ -274042,7 +274042,7 @@
                         this._clip.dispose();
                         this._layers.forEach(l => l.dispose());
                         this._offTracker();
-                        this._parCTSTools = this._offTracker = this._layers = this._layerByName = this._clip = this._background = this._container = null
+                        this._params = this._offTracker = this._layers = this._layerByName = this._clip = this._background = this._container = null
                     },
                     _subscribeToTracker: function(tracker, renderer, eventTrigger) {
                         const that = this;
@@ -274084,13 +274084,13 @@
                             return (0, _type.isDefined)(name) && name !== l.proxy.name
                         });
                         if (needToCreateLayers) {
-                            that._parCTSTools.tracker.reset();
+                            that._params.tracker.reset();
                             that._layers.forEach(l => l.dispose());
                             const layerByName = that._layerByName = {};
                             that._layers = layers = [];
                             for (let i = 0, ii = optionList.length; i < ii; ++i) {
                                 const name = getName(optionList, i) || "map-layer-" + i;
-                                const layer = layers[i] = new MapLayer(that._parCTSTools, that._container, name, i);
+                                const layer = layers[i] = new MapLayer(that._params, that._container, name, i);
                                 layerByName[name] = layer
                             }
                         }
@@ -274246,7 +274246,7 @@
                 }
                 const Projection = function(parameters) {
                     this._initEvents();
-                    this._parCTSTools = parameters;
+                    this._params = parameters;
                     this._engine = getEngine();
                     this._center = this._engine.center();
                     this._adjustCenter()
@@ -274423,10 +274423,10 @@
                         return isChanged
                     },
                     _triggerCenterChanged: function() {
-                        this._parCTSTools.centerChanged(this.getCenter())
+                        this._params.centerChanged(this.getCenter())
                     },
                     _triggerZoomChanged: function() {
-                        this._parCTSTools.zoomChanged(this.getZoom())
+                        this._params.zoomChanged(this.getZoom())
                     },
                     setCenterByPoint: function(coordinates, screenPosition) {
                         const p = this._engine.project(coordinates);
@@ -274616,8 +274616,8 @@
             function(__unused_webpack_module, exports) {
                 exports.TooltipViewer = TooltipViewer;
 
-                function TooltipViewer(parCTSTools) {
-                    this._subscribeToTracker(parCTSTools.tracker, parCTSTools.tooltip, parCTSTools.layerCollection)
+                function TooltipViewer(params) {
+                    this._subscribeToTracker(params.tracker, params.tooltip, params.layerCollection)
                 }
                 TooltipViewer.prototype = {
                     constructor: TooltipViewer,

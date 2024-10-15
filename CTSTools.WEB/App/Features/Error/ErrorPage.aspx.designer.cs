@@ -7,11 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CTSTools.WEB.App.Features.Error
+namespace CTSTools.WEB.App.Features.Error;
+
+
+
+public partial class ErrorPage
 {
-
-
-    public partial class ErrorPage
-    {
-    }
 }

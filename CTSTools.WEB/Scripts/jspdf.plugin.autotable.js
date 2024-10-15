@@ -1367,7 +1367,7 @@ function assign(target, s, s1, s2, s3) {
     }
     var to = Object(target);
     for (var index = 1; index < arguments.length; index++) {
-        // eslint-disable-next-line prefer-rest-parCTSTools
+        // eslint-disable-next-line prefer-rest-params
         var nextSource = arguments[index];
         if (nextSource != null) {
             // Skip over if undefined or null

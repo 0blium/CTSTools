@@ -4670,8 +4670,8 @@ var Z_DEFLATED  = 8;
  * new Deflate(options)
  * - options (Object): zlib deflate options.
  *
- * Creates new deflator instance with specified parCTSTools. Throws exception
- * on bad parCTSTools. Supported options:
+ * Creates new deflator instance with specified params. Throws exception
+ * on bad params. Supported options:
  *
  * - `level`
  * - `windowBits`
@@ -5053,8 +5053,8 @@ var toString = Object.prototype.toString;
  * new Inflate(options)
  * - options (Object): zlib inflate options.
  *
- * Creates new inflator instance with specified parCTSTools. Throws exception
- * on bad parCTSTools. Supported options:
+ * Creates new inflator instance with specified params. Throws exception
+ * on bad params. Supported options:
  *
  * - `windowBits`
  * - `dictionary`
@@ -7762,7 +7762,7 @@ exports.deflateInfo = 'pako deflate (from Nodeca project)';
 /* Not implemented
 exports.deflateBound = deflateBound;
 exports.deflateCopy = deflateCopy;
-exports.deflateParCTSTools = deflateParCTSTools;
+exports.deflateParams = deflateParams;
 exports.deflatePending = deflatePending;
 exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
