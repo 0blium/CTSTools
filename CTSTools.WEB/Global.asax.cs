@@ -11,6 +11,6 @@ public class Global : HttpApplication
         //// Code that runs on application startup
         GlobalConfiguration.Configure(WebApiConfig.Register);
         //// Update ORM/DB Schema
-        //BLL.Features.XPO.ORM_Helper.UpdateSchema();
+        BLL.Features.XPO.ORM_Helper.UpdateSchema();
     }
 }
