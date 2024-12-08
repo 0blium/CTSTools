@@ -629,7 +629,15 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardLine\" />
+    <Folder Include="App\Features\Management\Edashboard\DashboardList\" />
+    <Folder Include="App\Features\Management\Edashboard\Settings\DashboardCategory\" />
+    <Folder Include="App\Features\Management\Edashboard\Settings\Dashboard\" />
+    <Folder Include="App\Features\Management\Edashboard\Settings\KPICatalog\" />
+    <Folder Include="App\Features\Management\Edashboard\Settings\KPISettings\" />
+    <Folder Include="App\Features\Management\Edashboard\TemplateAdministration\DashboardMetric\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

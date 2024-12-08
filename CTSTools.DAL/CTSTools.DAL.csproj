@@ -86,10 +86,22 @@
     <Compile Include="Features\Engineering\ComponentID\PartManagement\PartXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_AttributeXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\SupplierXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardCategoryXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardLineXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardMetricXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\MetricXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\CalculationTypeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\EquivalenceXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\GoalRangeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\LevelXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\UnitOfMeasureXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\ValueTypeXPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

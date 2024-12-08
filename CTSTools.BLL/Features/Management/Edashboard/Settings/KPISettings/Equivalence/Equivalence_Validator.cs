@@ -1,0 +1,160 @@
+﻿using CTSTools.BLL.Common;
+using System;
+using System.Collections.Generic;
+
+namespace CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
+
+public class Equivalence_Validator
+{
+    public static ValidationResultDTO CreateEquivalence_Validation(EquivalenceDTO EquivalenceDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (string.IsNullOrEmpty(EquivalenceDTO.Name))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Name Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"CatalogItem{nameof(EquivalenceDTO.Name)}",
+                });
+            }
+
+            if (EquivalenceDTO.AddedByID == null || EquivalenceDTO.AddedByID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "AddedByID Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+    public static ValidationResultDTO UpdateEquivalence_Validation(EquivalenceDTO EquivalenceDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (EquivalenceDTO.ID == null || EquivalenceDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "ID Field Empty",
+                    Description = "Please, complete the missing information ",
+                });
+            }
+            if (string.IsNullOrEmpty(EquivalenceDTO.Name))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Name Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"CatalogItem{nameof(EquivalenceDTO.Name)}",
+                });
+            }
+
+            if (EquivalenceDTO.LastUpdateByID == null || EquivalenceDTO.LastUpdateByID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "LastUpdateByID Field Empty",
+                    Description = "Please, complete the missing information ",
+                });
+            }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+    public static ValidationResultDTO DeleteEquivalence_Validation(EquivalenceDTO EquivalenceDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (EquivalenceDTO.ID == null || EquivalenceDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "ID Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+
+}

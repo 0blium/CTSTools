@@ -1,0 +1,75 @@
+﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
+using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
+using CTSTools.DAL.Features.Management.Edashboard.KPISettings;
+using DevExpress.Xpo;
+using System;
+
+namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
+
+public class DashboardMap
+{
+    public static DashboardDTO XPOToDTO(DashboardXPO DashboardXPO)
+    {
+        var _dashboardDTO = new DashboardDTO();
+        try
+        {
+            _dashboardDTO.ID = DashboardXPO.Oid;
+            _dashboardDTO.Name = DashboardXPO.Name;
+            _dashboardDTO.Description = DashboardXPO.Description;
+            _dashboardDTO.Revision = DashboardXPO.Revision;
+            _dashboardDTO.Year = DashboardXPO.Year;
+            _dashboardDTO.OwnerDTO.ID = (DashboardXPO.Owner != null) ? DashboardXPO.Owner.Oid : 0;
+            _dashboardDTO.OwnerDTO.Name = (DashboardXPO.Owner != null) ? DashboardXPO.Owner.Name : "Unnassigned";
+            _dashboardDTO.DepartmentDTO.ID = (DashboardXPO.Department != null) ? DashboardXPO.Department.Oid : 0;
+            _dashboardDTO.DepartmentDTO.Name = (DashboardXPO.Department != null) ? DashboardXPO.Department.Name : "Unnassigned";
+            _dashboardDTO.LevelDTO.ID = (DashboardXPO.Level != null) ? DashboardXPO.Level.Oid : 0;
+            _dashboardDTO.LevelDTO.Name = (DashboardXPO.Level != null) ? DashboardXPO.Level.Name : "Unnassigned";
+            _dashboardDTO.StatusDTO.ID = (DashboardXPO.Status != null) ? DashboardXPO.Status.Oid : 0;
+            _dashboardDTO.StatusDTO.Name = (DashboardXPO.Status != null) ? DashboardXPO.Status.Name : "Unnassigned";
+            _dashboardDTO.AddedDate = (DashboardXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? DashboardXPO.AddedDate : (DateTime?)null;
+            _dashboardDTO.AddedByID = (DashboardXPO.AddedBy != null) ? DashboardXPO.AddedBy.Oid : 0;
+            _dashboardDTO.AddedByName = (DashboardXPO.AddedBy != null) ? DashboardXPO.AddedBy.Name : "Unnassigned";
+            _dashboardDTO.LastUpdate = (DashboardXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? DashboardXPO.LastUpdate : (DateTime?)null;
+            _dashboardDTO.LastUpdateByID = (DashboardXPO.LastUpdateBy != null) ? DashboardXPO.LastUpdateBy.Oid : 0;
+            _dashboardDTO.LastUpdateByName = (DashboardXPO.LastUpdateBy != null) ? DashboardXPO.LastUpdateBy.Name : "Unnassigned";
+            _dashboardDTO.IsActive = DashboardXPO.IsActive;
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dashboardDTO;
+    }
+
+    public static DashboardXPO DTOtoXPO(DashboardDTO DashboardDTO, UnitOfWork UnitOfWork)
+    {
+        DashboardXPO _dashboardXPO;
+        try
+        {
+            _dashboardXPO = DashboardDTO.ID == null || DashboardDTO.ID == 0 ? new DashboardXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DashboardXPO>(DashboardDTO.ID);
+            _dashboardXPO.Name = _dashboardXPO.Name == DashboardDTO.Name ? _dashboardXPO.Name : DashboardDTO.Name;
+            _dashboardXPO.Description = _dashboardXPO.Description == DashboardDTO.Description ? _dashboardXPO.Description : DashboardDTO.Description;
+            _dashboardXPO.Revision = _dashboardXPO.Revision == DashboardDTO.Revision ? _dashboardXPO.Revision : DashboardDTO.Revision;
+            _dashboardXPO.Year = _dashboardXPO.Year == DashboardDTO.Year ? _dashboardXPO.Year : DashboardDTO.Year;
+            _dashboardXPO.Owner = (_dashboardXPO.Owner != null && _dashboardXPO.Owner.Oid == DashboardDTO.OwnerDTO.ID) ? _dashboardXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(DashboardDTO.OwnerDTO.ID);
+            _dashboardXPO.Department = (_dashboardXPO.Department != null && _dashboardXPO.Department.Oid == DashboardDTO.DepartmentDTO.ID) ? _dashboardXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(DashboardDTO.DepartmentDTO.ID);
+            _dashboardXPO.Level = (_dashboardXPO.Level != null && _dashboardXPO.Level.Oid == DashboardDTO.LevelDTO.ID) ? _dashboardXPO.Level : UnitOfWork.GetObjectByKey<LevelXPO>(DashboardDTO.LevelDTO.ID);
+            _dashboardXPO.Status = (_dashboardXPO.Status != null && _dashboardXPO.Status.Oid == DashboardDTO.StatusDTO.ID) ? _dashboardXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DashboardDTO.StatusDTO.ID);
+            _dashboardXPO.AddedDate = _dashboardXPO.AddedDate != null ? _dashboardXPO.AddedDate : DashboardDTO.AddedDate;
+            _dashboardXPO.AddedBy = (_dashboardXPO.AddedBy != null) ? _dashboardXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DashboardDTO.AddedByID);
+            _dashboardXPO.LastUpdate = _dashboardXPO.LastUpdate == DashboardDTO.LastUpdate ? _dashboardXPO.LastUpdate : DashboardDTO.LastUpdate;
+            _dashboardXPO.LastUpdateBy = (_dashboardXPO.LastUpdateBy != null && _dashboardXPO.LastUpdateBy.Oid == DashboardDTO.LastUpdateByID) ? _dashboardXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(DashboardDTO.LastUpdateByID);
+            _dashboardXPO.IsActive = _dashboardXPO.IsActive == DashboardDTO.IsActive ? (bool)_dashboardXPO.IsActive : (bool)DashboardDTO.IsActive;
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dashboardXPO;
+    }
+
+}

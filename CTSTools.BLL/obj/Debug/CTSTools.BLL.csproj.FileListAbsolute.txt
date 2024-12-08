@@ -21,3 +21,14 @@ C:\CTSTFS\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.csproj.CoreCompileInputs.
 C:\CTSTFS\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.A60F98F7.Up2Date
 C:\CTSTFS\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.dll
 C:\CTSTFS\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.pdb
+C:\Crown\CTSTools\CTSTools.BLL\bin\Debug\CTSTools.BLL.dll
+C:\Crown\CTSTools\CTSTools.BLL\bin\Debug\CTSTools.BLL.pdb
+C:\Crown\CTSTools\CTSTools.BLL\bin\Debug\CTSTools.DAL.dll
+C:\Crown\CTSTools\CTSTools.BLL\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Crown\CTSTools\CTSTools.BLL\bin\Debug\CTSTools.DAL.pdb
+C:\Crown\CTSTools\CTSTools.BLL\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.csproj.AssemblyReference.cache
+C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.csproj.CoreCompileInputs.cache
+C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.A60F98F7.Up2Date
+C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.dll
+C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.pdb
