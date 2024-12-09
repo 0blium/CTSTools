@@ -56,12 +56,16 @@ async function ActiveMenuOption() {
                 //validate if we have another level of submenu
                 if (_subMenu.parentNode.parentNode.className.includes("has-sub")) {
                     let _menuLink = _subMenu.parentNode.parentNode.childNodes[1];
-                    
+
                     _menuLink.click();
                 }
             }
-            
+
 
         });
-    }    
+    }
 }
+
+
+
+

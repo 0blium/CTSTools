@@ -169,12 +169,12 @@
                                         </a>
                                         <div class="menu-submenu">
                                             <div class="menu-item">
-                                                <a href="/App/Features/eDashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
+                                                <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Dashboard Category</div>
                                                 </a>
                                             </div>
                                             <div class="menu-item">
-                                                <a href="/App/Features/eDashboard/Settings/Dashboard/DashboardCatalog.aspx" class="menu-link">
+                                                <a href="/App/Features/Management/Edashboard/Settings/Dashboard/DashboardCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Dashboard Catalog</div>
                                                 </a>
                                             </div>

@@ -248,3 +248,12 @@ workflow-wizard {
     color: #2F6B68 !important;
     font-weight: 400 !important;
 }
+
+.text-color-link {
+    color: #00BCD4;
+}
+
+    .text-color-link:hover {
+        color: #008596;
+    }
+
