@@ -214,6 +214,8 @@
     <Content Include="App\Common\Components\dxLoadPanel.js" />
     <Content Include="App\Common\Utils\APIRequest.js" />
     <Content Include="App\Common\Utils\Environment.js" />
+    <Content Include="App\Common\Utils\GetURLParameter.js" />
+    <Content Include="App\Common\Utils\Month_Enum.js" />
     <Content Include="App\Common\Utils\Response.js" />
     <Content Include="App\Common\Utils\SearchParamsService.js" />
     <Content Include="App\Common\Utils\Utils.js" />
@@ -282,6 +284,11 @@
     <Content Include="App\Features\Error\Error.css" />
     <Content Include="App\Features\Error\Error.js" />
     <Content Include="App\Features\Error\ErrorPage.aspx" />
+    <Content Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardDataEntry.aspx" />
+    <Content Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardDataEntry.js" />
+    <Content Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardLine\DashboardLine_Service.js" />
+    <Content Include="App\Features\Management\Edashboard\DashboardList\DashboardList.aspx" />
+    <Content Include="App\Features\Management\Edashboard\DashboardList\DashboardList.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategory_Service.js" />
@@ -289,6 +296,8 @@
     <Content Include="App\Features\Management\Edashboard\Settings\Dashboard\DashboardCatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\Dashboard\DashboardCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\Dashboard\Dashboard_Service.js" />
+    <Content Include="App\Features\Management\Edashboard\Settings\KPICatalog\KPICatalog.aspx" />
+    <Content Include="App\Features\Management\Edashboard\Settings\KPICatalog\KPICatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\KPICatalog\Metric\Metric_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\KPISettings\CalculationType\CalculationType_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\KPISettings\Catalog_Enum.js" />
@@ -302,6 +311,8 @@
     <Content Include="App\Features\Management\Edashboard\Settings\KPISettings\ValueType\ValueType_Enum.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\KPISettings\ValueType\ValueType_Service.js" />
     <Content Include="App\Features\Management\Edashboard\TemplateAdministration\DashboardMetric\DashboardMetric_Service.js" />
+    <Content Include="App\Features\Management\Edashboard\TemplateAdministration\TemplateAdministration.aspx" />
+    <Content Include="App\Features\Management\Edashboard\TemplateAdministration\TemplateAdministration.js" />
     <Content Include="App\Features\MasterPage\CTSTools.Master.css" />
     <Content Include="App\Features\MasterPage\CTSToolsMaster.js" />
     <Content Include="Content\dx-diagram.css" />
@@ -572,6 +583,21 @@
     <Compile Include="App\Features\Error\ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardDataEntry.aspx.cs">
+      <DependentUpon>DashboardDataEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardDataEntry.aspx.designer.cs">
+      <DependentUpon>DashboardDataEntry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardLine\DashboardLineController.cs" />
+    <Compile Include="App\Features\Management\Edashboard\DashboardList\DashboardList.aspx.cs">
+      <DependentUpon>DashboardList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\DashboardList\DashboardList.aspx.designer.cs">
+      <DependentUpon>DashboardList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.aspx.cs">
       <DependentUpon>DashboardCategoryCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -588,6 +614,14 @@
       <DependentUpon>DashboardCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\Dashboard\DashboardController.cs" />
+    <Compile Include="App\Features\Management\Edashboard\Settings\KPICatalog\KPICatalog.aspx.cs">
+      <DependentUpon>KPICatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\Settings\KPICatalog\KPICatalog.aspx.designer.cs">
+      <DependentUpon>KPICatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\Settings\KPICatalog\Metric\MetricController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\KPISettings\CalculationType\CalculationTypeController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\KPISettings\Equivalence\EquivalenceController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\KPISettings\GoalRange\GoalRangeController.cs" />
@@ -601,6 +635,14 @@
     <Compile Include="App\Features\Management\Edashboard\Settings\KPISettings\Level\LevelController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\KPISettings\UnitOfMeasure\UnitOfMeasureController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\KPISettings\ValueType\ValueTypeController.cs" />
+    <Compile Include="App\Features\Management\Edashboard\TemplateAdministration\DashboardMetric\DashboardMetricController.cs" />
+    <Compile Include="App\Features\Management\Edashboard\TemplateAdministration\TemplateAdministration.aspx.cs">
+      <DependentUpon>TemplateAdministration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\TemplateAdministration\TemplateAdministration.aspx.designer.cs">
+      <DependentUpon>TemplateAdministration.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\MasterPage\CTSTools.Master.cs">
       <DependentUpon>CTSTools.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -678,10 +720,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App\Features\Management\Edashboard\DashboardDataEntry\DashboardLine\" />
-    <Folder Include="App\Features\Management\Edashboard\DashboardList\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

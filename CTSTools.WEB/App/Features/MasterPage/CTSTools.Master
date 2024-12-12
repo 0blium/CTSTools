@@ -158,7 +158,7 @@
                                 </a>
                                 <div class="menu-submenu">
                                     <div class="menu-item">
-                                        <a href="/App/Features/eDashboard/DashboardList/DashboardList.aspx" class="menu-link">
+                                        <a href="/App/Features/Management/Edashboard/DashboardList/DashboardList.aspx" class="menu-link">
                                             <div class="menu-text">Dashboard List</div>
                                         </a>
                                     </div>
