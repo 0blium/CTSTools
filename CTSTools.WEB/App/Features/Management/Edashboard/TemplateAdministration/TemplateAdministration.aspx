@@ -156,7 +156,7 @@
                                     <div class="col-md-12 px-2">
                                         <label class="col-md-12 mt-1">If the KPI to select doesn´t exits on the list below, create a new KPI to select clicking on the next link</label>
                                         <div>
-                                            <a class="h6 mt-1 text-color-link" href="/App/Features/eDashboard/Settings/KPICatalog/KPICatalog.aspx">Go to the KPI Catalog</a>
+                                            <a class="h6 mt-1 text-color-link" href="/App/Features/Management/Edashboard/Settings/KPICatalog/KPICatalog.aspx">Go to the KPI Catalog</a>
                                         </div>
                                     </div>
                                 </div>

@@ -88,7 +88,7 @@ async function InitializeDashboardCatalogControls() {
                             onItemClick: function (e) {
                                 let _data = options.data;
                                 if (e.itemData.value == 1) {
-                                    window.open("/App/Features/eDashboard/DashboardDataEntry/DashboardDataEntry.aspx?DashboardID=" + _data.ID)
+                                    window.open("/App/Features/Management/Edashboard/DashboardDataEntry/DashboardDataEntry.aspx?DashboardID=" + _data.ID)
                                 }
                                 else if (e.itemData.value == 2) {
                                     window.open("/App/Features/Management/Edashboard/TemplateAdministration/TemplateAdministration.aspx?DashboardID=" + _data.ID)

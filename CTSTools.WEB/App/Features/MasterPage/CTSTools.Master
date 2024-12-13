@@ -178,6 +178,11 @@
                                                     <div class="menu-text">Dashboard Catalog</div>
                                                 </a>
                                             </div>
+                                            <div class="menu-item">
+                                                <a href="/App/Features/Management/Edashboard/Settings/KPICatalog/KPICatalog.aspx" class="menu-link">
+                                                    <div class="menu-text">KPI Catalog</div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
