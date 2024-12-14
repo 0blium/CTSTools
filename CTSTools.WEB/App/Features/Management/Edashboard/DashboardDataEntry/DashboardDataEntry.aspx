@@ -25,28 +25,28 @@
         <a class="btn btn-primary me-1">Print Document</a>
 </div>--%>
     <div class="col-lg-12 col-md-12 col-sm-12 d-none" id="DashboardMetricList">
+        <!-- Safety Panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">S - Safety</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="SafetyPanel">
+            </div>
+        </div>
         <!-- Quality Panel -->
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title" style="color: white">Q - Quality</h4>
                 <div class="panel-heading-btn">
                     <div class="panel-heading-btn">
-                        <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-tooltip-init="true"><i class="fa fa-minus"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
                     </div>
                 </div>
             </div>
             <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="QualityPanel">
-            </div>
-        </div>
-        <!-- Cost Panel -->
-        <div class="panel panel-inverse">
-            <div class="panel-heading">
-                <h4 class="panel-title" style="color: white">C - Cost</h4>
-                <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-tooltip-init="true"><i class="fa fa-minus"></i></a>
-                </div>
-            </div>
-            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="CostPanel">
             </div>
         </div>
         <!-- Delivery Panel -->
@@ -54,29 +54,31 @@
             <div class="panel-heading">
                 <h4 class="panel-title" style="color: white">D - Delivery</h4>
                 <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-tooltip-init="true"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
             </div>
             <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="DeliveryPanel">
             </div>
         </div>
-        <!-- Safety Panel -->
+        <!-- Cost Panel -->
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title" style="color: white">S - Safety</h4>
+                <h4 class="panel-title" style="color: white">C - Cost</h4>
                 <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-tooltip-init="true"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
             </div>
-            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="SafetyPanel">
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="CostPanel">
             </div>
         </div>
+
+
         <!-- Moral Panel -->
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title" style="color: white">M - Moral</h4>
                 <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-tooltip-init="true"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
             </div>
             <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="MoralPanel">
@@ -85,9 +87,9 @@
         <!-- Environment Panel -->
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title" style="color: white">I - Continuos Improvement</h4>
+                <h4 class="panel-title" style="color: white">E - Emvioramental</h4>
                 <div class="panel-heading-btn">
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse" data-tooltip-init="true"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
             </div>
             <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="Continuos_ImprovementPanel">

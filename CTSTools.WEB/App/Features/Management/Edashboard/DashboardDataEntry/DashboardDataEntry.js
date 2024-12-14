@@ -154,12 +154,12 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             "</tr>";
 
         DashboardMetricList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
+            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeDTO.ID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
             let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureDTO.ID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryDTO.ID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
+                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryDTO.ID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeDTO.ID} ` +
                 `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricDTO.ID} ` +
                 `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
                 `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +

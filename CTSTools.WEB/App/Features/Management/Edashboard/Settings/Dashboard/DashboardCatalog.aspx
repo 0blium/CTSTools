@@ -81,7 +81,7 @@
                                     <div id="collapseUser" class="accordion-collapse collapse border border-1 mt-2">
                                         <div class="accordion-body bg-light p-1 text-dark">
                                             <p>If the owner doesn’t exist on the list above, create a new owner by clicking the link below:</p>
-                                            <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx">Go to the User</a>
+                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx">Go to the User</a>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                                     <div id="collapseLevel" class="accordion-collapse collapse border border-1 mt-2">
                                         <div class="accordion-body bg-light p-1 text-dark">
                                             <p>If the level doesn’t exist on the list above, create a new level by clicking the link below:</p>
-                                            <a class="h6 text-color-link" href="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.aspx">Go to the KPI Settings Hub</a>
+                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.aspx">Go to the KPI Settings Hub</a>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                     <div id="collapseOrgTree" class="accordion-collapse collapse border border-1 mt-2">
                                         <div class="accordion-body bg-light p-1 text-dark">
                                             <p>If the Facility or Department doesn’t exist on the list above, create a new one by clicking the link below:</p>
-                                            <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx">Go to the Organizational Tree</a>
+                                            <a class="h6 text-color-link"  target="_blank" href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx">Go to the Organizational Tree</a>
                                         </div>
                                     </div>
                                 </div>

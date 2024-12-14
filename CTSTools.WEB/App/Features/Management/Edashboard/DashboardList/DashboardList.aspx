@@ -33,7 +33,7 @@
                                     <div class="col-md-12 px-2">
                                         <label class="col-md-12 mt-1">If the dashboard doesn´t exits on the list above, create a new dashboard clicking on the next link</label>
                                         <div>
-                                            <a class="h6 mt-1 text-color-link" href="/App/Features/Management/Edashboard/Settings/Dashboard/DashboardCatalog.aspx">Go to the dashboard catalog</a>
+                                            <a class="h6 mt-1 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/Dashboard/DashboardCatalog.aspx">Go to the dashboard catalog</a>
                                         </div>
                                     </div>
                                 </div>

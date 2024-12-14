@@ -127,7 +127,7 @@
                                     <div class="col-md-12 px-2">
                                         <label class="col-md-12 mt-1">If the value to select doesn´t exits on the list above, create a new value to select clicking on the next link</label>
                                         <div>
-                                            <a class="h6 mt-1 text-color-link" href="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.aspx">Go to the KPI Settings Hub</a>
+                                            <a class="h6 mt-1 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.aspx">Go to the KPI Settings Hub</a>
                                         </div>
                                     </div>
                                 </div>
