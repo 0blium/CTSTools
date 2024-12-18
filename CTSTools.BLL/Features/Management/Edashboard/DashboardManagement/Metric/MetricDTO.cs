@@ -2,6 +2,7 @@
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
@@ -37,8 +38,12 @@ public class MetricDTO
     #endregion
 
     #region Extended Properties
+    public int? DashboardCategoryID { get; set; }
+    public DashboardCategoryDTO DashboardCategoryDTO { get; set; }
+    public int?[] DashboardCategoryIDArray { get; set; }
+    public bool GetDashboardCategoryDTO { get; set; }
 
-    public int?[] MetricIDArray { get; set; }
+    public int?[] MetricIDArray { get; set; } 
     public UnitOfMeasureDTO UnitOfMeasureDTO { get; set; }
     public bool GetUnitOfMeasureDTO { get; set; }
     public int?[] UnitOfMeasureIDArray { get; set; }

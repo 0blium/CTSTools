@@ -1,4 +1,6 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -61,8 +63,12 @@ public class DashboardController : ApiController
     [Route("api/Dashboard/Delete")]
     public IHttpActionResult DeleteDashboard([FromBody] DashboardDTO DashboardDTO)
     {
-
-        var _validationResultDTO = Dashboard_Service.DeleteDashboard_Global(DashboardDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard), (int)Action_Enum.Delete);
+        if (!_validationResultDTO.Result)
+        {
+            DashboardDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_Service.DeleteDashboard_Global(DashboardDTO);
+        }        
         return Json(_validationResultDTO);
     }
 }

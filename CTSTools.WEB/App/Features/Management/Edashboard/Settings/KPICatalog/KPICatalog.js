@@ -8,6 +8,7 @@ import { GetDXUnitOfMeasureDataSource } from '../../Settings/KPISettings/UnitOfM
 import { GetDXValueTypeDataSource } from '../../Settings/KPISettings/ValueType/ValueType_Service.js'
 import { GetDXGoalRangeDataSource } from '../../Settings/KPISettings/GoalRange/GoalRange_Service.js'
 import { GetDXEquivalenceDataSource } from '../../Settings/KPISettings/Equivalence/Equivalence_Service.js'
+import { GetDXDashboardCategoryDataSource } from '../DashboardCategory/DashboardCategory_Service.js'
 
 //#region Metric Behavior Functions
 document.addEventListener("DOMContentLoaded", () => {
@@ -28,6 +29,13 @@ async function InitializeMetricCatalogControls() {
     });
     $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox({
         dataSource: await GetDXUnitOfMeasureDataSource({ IsActive: true }),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnable: true,
+        popupWidth: 450,
+    });
+    $("#dxMetricCategorySelectBox").dxSelectBox({
+        dataSource: await GetDXDashboardCategoryDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
@@ -259,7 +267,7 @@ function MetricActionButtons(Action) {
     document.getElementById('KPICategoryModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewKPICategoryBtn").addEventListener("click", ClearMetricFields);
-        document.getElementById('KPICategoryModalTitle').innerText = 'Add KPI Category'
+        document.getElementById('KPICategoryModalTitle').innerText = 'Add KPI'
         document.getElementById("MetricActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateMetricButton" type="button">Save</button>' +
@@ -270,7 +278,7 @@ function MetricActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('KPICategoryModalTitle').innerText = 'Update KPI Category'
+        document.getElementById('KPICategoryModalTitle').innerText = 'Update KPI'
         document.getElementById("MetricActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateMetricButton" type="button">Update</button>' +

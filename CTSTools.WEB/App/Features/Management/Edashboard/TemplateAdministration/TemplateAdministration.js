@@ -3,7 +3,7 @@ import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetURLParameter } from '../../../../Common/Utils/GetURLParameter.js'
 import { GetDXDashboardMetricDataSource, CreateDashboardMetric, UpdateDashboardMetricOrder, DeleteDashboardMetric,GetDashboardMetricInformation,CreateDashboardMetricFromMetricList } from './DashboardMetric/DashboardMetric_Service.js'
 
-import { GetDXDashboardDataSource } from '../../../../Features/Management/Edashboard/Settings/Dashboard/Dashboard_Service.js'
+import { GetDXDashboardDataSource } from '../../../../Features/Management/Edashboard/DashboardList/Dashboard_Service.js'
 import { GetDXDashboardCategoryDataSource } from '../../../../Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategory_Service.js'
 import { Dashboard_Category_Enum } from '../../../../Features/Management/Edashboard/Settings/DashboardCategory/Dashboard_Category_Enum.js'
 import { GetDXMetricDataSource } from '../../../../Features/Management/Edashboard/Settings/KPICatalog/Metric/Metric_Service.js'

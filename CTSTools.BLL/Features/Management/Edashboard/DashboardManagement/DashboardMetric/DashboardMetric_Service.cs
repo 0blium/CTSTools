@@ -397,7 +397,7 @@ public class DashboardMetric_Service
                                             if (string.IsNullOrEmpty(_metricBackgroudColor))
                                             {
                                                 //Base on goal calculcate goal range
-                                                decimal _goalRangeValue = _dashboardMetricDTOResult.MetricDTO?.Goal != 0 ? Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal) * Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.GoalRangeDTO.Value) : Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.GoalRangeDTO.Value);
+                                                decimal _goalRangeValue = _dashboardMetricDTOResult.MetricDTO?.Goal != 0 ? (Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal) * Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.GoalRangeDTO.Value)) / 100 : Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.GoalRangeDTO.Value);
                                                 if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal)
                                                 {
                                                     //If goal needs to be equal to 0 all other values will be red

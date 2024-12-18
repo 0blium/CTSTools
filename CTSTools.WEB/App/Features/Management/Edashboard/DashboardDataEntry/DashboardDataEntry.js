@@ -1,4 +1,4 @@
-﻿import { GetDXDashboardDataSource } from '../../eDashboard/Settings/Dashboard/Dashboard_Service.js';
+﻿import { GetDXDashboardDataSource } from '../DashboardList/Dashboard_Service.js';
 import { AddMonthlyValue,GetDashboardLineInformation,GetDashboardMetricTendence } from './DashboardLine/DashboardLine_Service.js';
 import { GetDashboardMetricWithUI } from '../TemplateAdministration/DashboardMetric/DashboardMetric_Service.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
@@ -128,9 +128,6 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             "<th style=\"width: 95px;\">Owner</th>" +
             "<th style=\"width: 400px;\">KPI (Key Process Indicator)</th>" +
             "<th>FY Goal</th>" +
-            "<th>Jan</th>" +
-            "<th>Feb</th>" +
-            "<th>Mar</th>" +
             "<th>Apr</th>" +
             "<th>May</th>" +
             "<th>Jun</th>" +
@@ -140,6 +137,9 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             "<th>Oct</th>" +
             "<th>Nov</th>" +
             "<th>Dec</th>" +
+            "<th>Jan</th>" +
+            "<th>Feb</th>" +
+            "<th>Mar</th>" +
             "</tr>" +
             "</thead>";
 

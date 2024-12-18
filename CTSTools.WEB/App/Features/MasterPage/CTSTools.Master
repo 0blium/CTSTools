@@ -159,7 +159,7 @@
                                 <div class="menu-submenu">
                                     <div class="menu-item">
                                         <a href="/App/Features/Management/Edashboard/DashboardList/DashboardList.aspx" class="menu-link">
-                                            <div class="menu-text">Dashboard List</div>
+                                            <div class="menu-text">Dashboards</div>
                                         </a>
                                     </div>
                                     <div class="menu-item has-sub">
@@ -170,17 +170,13 @@
                                         <div class="menu-submenu">
                                             <div class="menu-item">
                                                 <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Dashboard Category</div>
+                                                    <div class="menu-text">Categories</div>
                                                 </a>
                                             </div>
-                                            <div class="menu-item">
-                                                <a href="/App/Features/Management/Edashboard/Settings/Dashboard/DashboardCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Dashboard Catalog</div>
-                                                </a>
-                                            </div>
+                                           
                                             <div class="menu-item">
                                                 <a href="/App/Features/Management/Edashboard/Settings/KPICatalog/KPICatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">KPI Catalog</div>
+                                                    <div class="menu-text">KPIs</div>
                                                 </a>
                                             </div>
                                         </div>

@@ -4,7 +4,7 @@
     <ol class="breadcrumb float-xl-end">
         <li class="breadcrumb-item"><a href="javascript:;">e-Dashboard</a></li>
     </ol>
-    <h1 class="page-header">Template Administration </h1>
+    <h1 class="page-header">Dashboard </h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-inverse">
