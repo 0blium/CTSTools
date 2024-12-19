@@ -30,7 +30,7 @@ async function InitializeRoleCatalogControls() {
         placeholder: 'Type description...'
     });
     $("#dxRoleIsActiveCheckBox").dxCheckBox({
-        value:true,
+        value: true,
     });
     $("#dxRoleGrid").dxDataGrid({
         dataSource: await GetDXRoleDataSource(),
@@ -743,22 +743,32 @@ async function InitializePermissionCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenPermissionID").val(options.data.ID);
-                                ShowPermissionDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#PermissionModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    document.getElementById('hiddenPermissionID').value = options.data.ID;
+                                    ShowPermissionDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
@@ -776,6 +786,8 @@ async function InitializePermissionCatalogControls() {
 
             ],
     });
+    document.getElementById("btnClosePermissionModal").addEventListener("click", ClearPermissionFields);
+    document.getElementById("PermissionsTab").addEventListener("click", ClearPermissionFields);
     PermissionActionButtons("Save");
 }
 function PermissionActionButtons(Action) {
@@ -783,22 +795,25 @@ function PermissionActionButtons(Action) {
     if (Action == "Save") {
         document.getElementById("PermissionActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreatePermissionButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreatePermissionButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearPermissionButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearPermissionButton").addEventListener("click", ClearPermissionFields);
         document.getElementById("CreatePermissionButton").addEventListener("click", CreatePermission_Global);
     }
     else {
         // Update
         document.getElementById("PermissionActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearPermissionButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdatePermissionButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdatePermissionButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearPermissionButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearPermissionButton").addEventListener("click", ClearPermissionFields);
         document.getElementById("UpdatePermissionButton").addEventListener("click", UpdatePermission_Global);
     }
 }
 function ClearPermissionFields() {
+    $('#PermissionModal').modal('hide');
     PermissionActionButtons("Save");
     $('#hiddenPermissionID').val("");
     $("#dxPermissionNameTextBox").dxTextBox("instance").option("value", "");

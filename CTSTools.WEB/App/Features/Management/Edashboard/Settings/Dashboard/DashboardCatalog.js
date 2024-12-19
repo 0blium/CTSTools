@@ -55,9 +55,7 @@ async function InitializeDashboardCatalogControls() {
             if (e.value != 0 && e.value != null) {
                 let _departmentDTO = {
                     IsActive: true,
-                    FacilityDTO: {
-                        ID: e.value
-                    }
+                    FacilityID: e.value
                 }
                 $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").reset();
                 $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("dataSource", await GetDXDepartmentDataSource(_departmentDTO));
@@ -194,9 +192,9 @@ async function InitializeDashboardCatalogControls() {
                 { caption: "Year", dataField: "Year" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Revision", dataField: "Revision" },
-                { caption: "Owner", dataField: "OwnerDTO.Name" },
-                { caption: "Department", dataField: "DepartmentDTO.Name" },
-                { caption: "Level", dataField: "LevelDTO.Name" },
+                { caption: "Owner", dataField: "OwnerName" },
+                { caption: "Department", dataField: "DepartmentName" },
+                { caption: "Level", dataField: "LevelName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By Name", dataField: "AddedByName" },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
@@ -213,10 +211,10 @@ async function PopulateDashboardFields(data) {
     $("#dxDashboardRevisionTextBox").dxTextBox("instance").option("value", data.Revision);
     $("#dxDashboardDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     $("#dxDashboardYearSelectBox").dxSelectBox("instance").option("value", data.Year);
-    $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value", data.LevelDTO.ID);
-    $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerDTO.ID);
-    await $("#dxDashboardFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityDTO.ID);
-    await $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
+    $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value", data.LevelID);
+    $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
+    await $("#dxDashboardFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
+    await $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
     $("#dxDashboardIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
 }
@@ -283,9 +281,9 @@ function GetDashboardDTO() {
         Name: $("#dxDashboardNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxDashboardDescriptionTextArea").dxTextArea("instance").option("value"),
         Revision: $("#dxDashboardRevisionTextBox").dxTextBox("instance").option("value"),
-        DepartmentDTO: { ID: $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value") },
-        LevelDTO: { ID: $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value") },
-        OwnerDTO: { ID: $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value") },
+        DepartmentID: $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value"),
+        LevelID: $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value"),
+        OwnerID: $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value"),
         Year:$("#dxDashboardYearSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxDashboardIsActiveCheckBox").dxCheckBox("instance").option("value"),
 

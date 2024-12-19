@@ -44,7 +44,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a href="#PermissionTab" data-bs-toggle="tab" class="nav-link" aria-selected="false" tabindex="-1" role="tab">
+                        <a href="#PermissionTab" id="PermissionsTab" data-bs-toggle="tab" class="nav-link" aria-selected="false" tabindex="-1" role="tab">
                             <span class="d-sm-none">Permissions</span>
                             <span class="d-sm-block d-none">Permissions</span>
                         </a>
@@ -56,7 +56,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RoleModal" id="RoleButton"><i class="fa-solid fa-circle-plus"></i> Role</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RoleModal" id="RoleButton"><i class="fa-solid fa-circle-plus"></i>Role</a>
                                         <div id="dxRoleGrid"></div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RoleTypeModal" id="RoleTypeButton"><i class="fa-solid fa-circle-plus"></i> Role Type</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RoleTypeModal" id="RoleTypeButton"><i class="fa-solid fa-circle-plus"></i>Role Type</a>
                                         <div id="dxRoleTypeGrid"></div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RoleRelationModal" id="RoleRelationButton"><i class="fa-solid fa-circle-plus"></i> Relation</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RoleRelationModal" id="RoleRelationButton"><i class="fa-solid fa-circle-plus"></i>Relation</a>
                                         <div id="dxRoleRelationGrid"></div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RolePermissionModal" id="RolePermissionButton"><i class="fa-solid fa-circle-plus"></i> Permission</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#RolePermissionModal" id="RolePermissionButton"><i class="fa-solid fa-circle-plus"></i>Permission</a>
 
                                         <div id="dxRole_PermissionGrid"></div>
                                     </div>
@@ -105,66 +105,15 @@
                     <div class="tab-pane fade" id="PermissionTab" role="tabpanel">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="panel panel-inverse">
-
-                                            <div class="panel-body">
-                                                <div class="row mb-15px">
-                                                    <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
-                                                    <div class="col-xl-9 col-md-12">
-                                                        <div id="dxPermissionNameTextBox"></div>
-                                                        <div class="invalid-feedback" id="PermissionNameValidation"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-15px">
-                                                    <label class="form-label col-form-label col-xl-3 col-md-12">Module (<span class="text-danger">*</span>)</label>
-                                                    <div class="col-xl-9 col-md-12">
-                                                        <div id="dxPermissionModuleTextBox"></div>
-                                                        <div class="invalid-feedback" id="PermissionModuleValidation"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-15px">
-                                                    <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
-                                                    <div class="col-xl-9 col-md-12">
-                                                        <div id="dxPermissionDescriptionTextArea"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-15px">
-                                                    <label class="form-label col-form-label col-xl-3 col-md-12">Action (<span class="text-danger">*</span>)</label>
-                                                    <div class="col-xl-9 col-md-12">
-                                                        <div class="mt-2 mb-2">
-                                                            <div type="text" id="dxPermissionActionSelectBox"></div>
-                                                            <div class="invalid-feedback" id="PermissionActionValidation"></div>
-                                                        </div>
-                                                        <div class="mt-2 mb-2">
-                                                            <a href="#Permission_ActionModal" data-bs-toggle="modal">Can't find the Action you're looking for? Click here</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-15px">
-                                                    <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
-                                                    <div class="col-xl-9 col-md-auto">
-                                                        <div class="mt-2 mb-2">
-                                                            <div type="text" id="dxPermissionIsActiveCheckBox"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row" id="PermissionActionButtons"></div>
-                                            </div>
+                                <div class="panel panel-inverse">
+                                    <div class="panel-body">
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#PermissionModal" id="PermissionButton"><i class="fa-solid fa-circle-plus"></i>Permission</a>
+                                        <div class="mb-2">
+                                            <a href="#Permission_ActionModal" data-bs-toggle="modal">Can't find the Action you're looking for? Click here</a>
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="panel panel-inverse">
-
-                                            <div class="panel-body">
-                                                <div id="dxPermissionGrid"></div>
-                                            </div>
-                                        </div>
-
+                                        <div id="dxPermissionGrid"></div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -300,8 +249,63 @@
             </div>
         </div>
 
-
         <%--        Role Type Catalog End--%>
+
+        <%--        Permission Catalog Start--%>
+        <div class="modal fade" id="PermissionModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Permission Form</h1>
+                        <button type="button" class="btn-close" id="btnClosePermissionModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
+                            <div class="col-xl-9 col-md-12">
+                                <div id="dxPermissionNameTextBox"></div>
+                                <div class="invalid-feedback" id="PermissionNameValidation"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-12">Module (<span class="text-danger">*</span>)</label>
+                            <div class="col-xl-9 col-md-12">
+                                <div id="dxPermissionModuleTextBox"></div>
+                                <div class="invalid-feedback" id="PermissionModuleValidation"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
+                            <div class="col-xl-9 col-md-12">
+                                <div id="dxPermissionDescriptionTextArea"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-12">Action (<span class="text-danger">*</span>)</label>
+                            <div class="col-xl-9 col-md-12">
+                                <div class="mt-2 mb-2">
+                                    <div type="text" id="dxPermissionActionSelectBox"></div>
+                                    <div class="invalid-feedback" id="PermissionActionValidation"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
+                            <div class="col-xl-9 col-md-auto">
+                                <div class="mt-2 mb-2">
+                                    <div type="text" id="dxPermissionIsActiveCheckBox"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row" id="PermissionActionButtons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%--        Permission Catalog End--%>
+
         <%-- Permission Action Modal --%>
         <div class="modal fade" id="Permission_ActionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">

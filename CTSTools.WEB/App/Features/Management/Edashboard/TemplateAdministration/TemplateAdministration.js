@@ -109,19 +109,19 @@ async function InitializeTemplateAdministrationControls() {
                 caption: 'Metric',
             },
             {
-                dataField: 'OwnerDepartmentDTO.Name',
+                dataField: 'OwnerDepartmentName',
                 caption: 'Owner Department',
             },
             {
-                dataField: 'ResponsibleDepartmentDTO.Name',
+                dataField: 'ResponsibleDepartmentName',
                 caption: 'Responsible Department'
             },
             {
-                dataField: 'UnitOfMeasureDTO.Name',
+                dataField: 'UnitOfMeasureName',
                 caption: 'Unit of measure'
             },
             {
-                dataField: 'ValueTypeDTO.Name',
+                dataField: 'ValueTypeName',
                 caption: 'Value Type'
             },
             {
@@ -129,11 +129,11 @@ async function InitializeTemplateAdministrationControls() {
                 caption: 'Goal'
             },
             {
-                dataField: 'GoalRangeDTO.Value',
+                dataField: 'GoalRangeValue',
                 caption: 'Goal Range'
             },
             {
-                dataField: 'CalculationTypeDTO.Name',
+                dataField: 'CalculationTypeName',
                 caption: 'Calculation Type'
             }
         ]
@@ -237,27 +237,27 @@ async function InitializeMetricListControls() {
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeDTO.Name',
+                dataField: 'MetricDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerDTO.Name',
+                dataField: 'MetricDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentDTO.Name',
+                dataField: 'MetricDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDTO.Name',
+                dataField: 'MetricDTO.ResponsibleName',
                 caption: 'Responsible',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentDTO.Name',
+                dataField: 'MetricDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureDTO.Name',
+                dataField: 'MetricDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
@@ -266,15 +266,15 @@ async function InitializeMetricListControls() {
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeDTO.Value',
+                dataField: 'MetricDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityDTO.Name',
+                dataField: 'MetricDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceDTO.Name',
+                dataField: 'MetricDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
@@ -374,27 +374,27 @@ async function InitializeMetricListControls() {
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeDTO.Name',
+                dataField: 'MetricDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerDTO.Name',
+                dataField: 'MetricDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentDTO.Name',
+                dataField: 'MetricDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDTO.Name',
+                dataField: 'MetricDTO.ResponsibleName',
                 caption: 'Responsible',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentDTO.Name',
+                dataField: 'MetricDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureDTO.Name',
+                dataField: 'MetricDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
@@ -403,15 +403,15 @@ async function InitializeMetricListControls() {
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeDTO.Value',
+                dataField: 'MetricDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityDTO.Name',
+                dataField: 'MetricDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceDTO.Name',
+                dataField: 'MetricDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
@@ -511,27 +511,27 @@ async function InitializeMetricListControls() {
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeDTO.Name',
+                dataField: 'MetricDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerDTO.Name',
+                dataField: 'MetricDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentDTO.Name',
+                dataField: 'MetricDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDTO.Name',
+                dataField: 'MetricDTO.ResponsibleName',
                 caption: 'Responsible',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentDTO.Name',
+                dataField: 'MetricDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureDTO.Name',
+                dataField: 'MetricDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
@@ -540,15 +540,15 @@ async function InitializeMetricListControls() {
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeDTO.Value',
+                dataField: 'MetricDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityDTO.Name',
+                dataField: 'MetricDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceDTO.Name',
+                dataField: 'MetricDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
@@ -648,27 +648,27 @@ async function InitializeMetricListControls() {
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeDTO.Name',
+                dataField: 'MetricDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerDTO.Name',
+                dataField: 'MetricDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentDTO.Name',
+                dataField: 'MetricDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDTO.Name',
+                dataField: 'MetricDTO.ResponsibleName',
                 caption: 'Responsible',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentDTO.Name',
+                dataField: 'MetricDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureDTO.Name',
+                dataField: 'MetricDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
@@ -677,15 +677,15 @@ async function InitializeMetricListControls() {
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeDTO.Value',
+                dataField: 'MetricDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityDTO.Name',
+                dataField: 'MetricDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceDTO.Name',
+                dataField: 'MetricDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
@@ -785,27 +785,27 @@ async function InitializeMetricListControls() {
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeDTO.Name',
+                dataField: 'MetricDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerDTO.Name',
+                dataField: 'MetricDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentDTO.Name',
+                dataField: 'MetricDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDTO.Name',
+                dataField: 'MetricDTO.ResponsibleName',
                 caption: 'Responsible',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentDTO.Name',
+                dataField: 'MetricDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureDTO.Name',
+                dataField: 'MetricDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
@@ -814,15 +814,15 @@ async function InitializeMetricListControls() {
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeDTO.Value',
+                dataField: 'MetricDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityDTO.Name',
+                dataField: 'MetricDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceDTO.Name',
+                dataField: 'MetricDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
@@ -922,27 +922,27 @@ async function InitializeMetricListControls() {
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeDTO.Name',
+                dataField: 'MetricDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerDTO.Name',
+                dataField: 'MetricDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentDTO.Name',
+                dataField: 'MetricDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDTO.Name',
+                dataField: 'MetricDTO.ResponsibleName',
                 caption: 'Responsible',
             },
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentDTO.Name',
+                dataField: 'MetricDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureDTO.Name',
+                dataField: 'MetricDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
@@ -951,15 +951,15 @@ async function InitializeMetricListControls() {
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeDTO.Value',
+                dataField: 'MetricDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityDTO.Name',
+                dataField: 'MetricDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceDTO.Name',
+                dataField: 'MetricDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
@@ -986,31 +986,31 @@ async function PopulateDashboardMetricList(DashboardMetricDTO) {
     await InitializeMetricListControls();
     //Quality
    
-    DashboardMetricDTO.DashboardCategoryDTO.ID = Dashboard_Category_Enum.Quality
+    DashboardMetricDTO.DashboardCategoryID = Dashboard_Category_Enum.Quality
     let _qualityDS = await GetDXDashboardMetricDataSource(DashboardMetricDTO);
     await SetDataSourceForDashboardCategory(_qualityDS, "Quality");
     //Cost
-     DashboardMetricDTO.DashboardCategoryDTO.ID = Dashboard_Category_Enum.Cost
+     DashboardMetricDTO.DashboardCategoryID = Dashboard_Category_Enum.Cost
     let _costDS = await GetDXDashboardMetricDataSource(DashboardMetricDTO);
     await SetDataSourceForDashboardCategory(_costDS, "Cost");
     //Delivery
    
-    DashboardMetricDTO.DashboardCategoryDTO.ID = Dashboard_Category_Enum.Delivery
+    DashboardMetricDTO.DashboardCategoryID = Dashboard_Category_Enum.Delivery
     let _deliveryDS = await GetDXDashboardMetricDataSource(DashboardMetricDTO);
     await SetDataSourceForDashboardCategory(_deliveryDS, "Delivery");
 
     //Safety
-    DashboardMetricDTO.DashboardCategoryDTO.ID = Dashboard_Category_Enum.Safety
+    DashboardMetricDTO.DashboardCategoryID = Dashboard_Category_Enum.Safety
     let _safetyDS = await GetDXDashboardMetricDataSource(DashboardMetricDTO);
     await SetDataSourceForDashboardCategory(_safetyDS, "Safety");
     //Moral
     
-    DashboardMetricDTO.DashboardCategoryDTO.ID = Dashboard_Category_Enum.Moral
+    DashboardMetricDTO.DashboardCategoryID = Dashboard_Category_Enum.Moral
     let _moralDS = await GetDXDashboardMetricDataSource(DashboardMetricDTO);
     await SetDataSourceForDashboardCategory(_moralDS, "Moral")
     //Enviroment
    
-    DashboardMetricDTO.DashboardCategoryDTO.ID = Dashboard_Category_Enum.Improvement
+    DashboardMetricDTO.DashboardCategoryID = Dashboard_Category_Enum.Improvement
     let _enviromentDS = await GetDXDashboardMetricDataSource(DashboardMetricDTO);
     await SetDataSourceForDashboardCategory(_enviromentDS, "Improvement")
 
@@ -1031,11 +1031,11 @@ function AssignDashboardMetricOrder(DashboardMetricDTO) {
     document.getElementById("hiddenDashboardMetricID").value = DashboardMetricDTO.ID;
     $("#dxDashboardMetricOrderNumberBox").dxNumberBox("instance").option("value", DashboardMetricDTO.Order);
     //document.getElementById("DashboardMetricOrder").value = DashboardMetricDTO.Order;
-    //document.getElementById("DashboardMetricName").value = DashboardMetricDTO.MetricDTO.Name;
-    $("#dxDashboardMetricNameTextBox").dxTextBox("instance").option("value", DashboardMetricDTO.MetricDTO.Name);
-    document.getElementById("hiddenDashboardID").value = DashboardMetricDTO.DashboardDTO.ID;
-    document.getElementById("hiddenMetricID").value = DashboardMetricDTO.MetricDTO.ID;
-    document.getElementById("hiddenDashboardCategoryID").value = DashboardMetricDTO.DashboardCategoryDTO.ID;
+    //document.getElementById("DashboardMetricName").value = DashboardMetricDTO.MetricName;
+    $("#dxDashboardMetricNameTextBox").dxTextBox("instance").option("value", DashboardMetricDTO.MetricName);
+    document.getElementById("hiddenDashboardID").value = DashboardMetricDTO.DashboardID;
+    document.getElementById("hiddenMetricID").value = DashboardMetricDTO.MetricID;
+    document.getElementById("hiddenDashboardCategoryID").value = DashboardMetricDTO.DashboardCategoryID;
 
 }
 async function SetDataSourceForDashboardCategory(Datasource, DashboardCategory) {
@@ -1045,12 +1045,10 @@ async function SetDataSourceForDashboardCategory(Datasource, DashboardCategory) 
 }
 function GetDashboardMetricDTO() {
     let _dashboardMetricDTO = {
-        DashboardDTO: { ID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value") },
+        DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
         MetricIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
-        DashboardCategoryDTO: {
-            ID: ($("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").option("value") != null) ?
-                $("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").option("value") : 0
-        },
+        DashboardCategoryID: ($("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").option("value") != null) ?
+                $("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").option("value") : 0,
         GetMetricDTO: true,
         GetDashboardDTO: true,
         GetDashboardCategoryDTO: true,
@@ -1168,9 +1166,9 @@ async function GetDashboardRevision() {
 function GetDashboardMetricOrderDTO() {
     let _dashboardMetricDTO = {
         ID: document.getElementById("hiddenDashboardMetricID").value,
-        DashboardDTO: { ID: document.getElementById("hiddenDashboardID").value },
-        MetricDTO: { ID: document.getElementById("hiddenMetricID").value },
-        DashboardCategoryDTO:{ID: document.getElementById("hiddenDashboardCategoryID").value},
+        DashboardID: document.getElementById("hiddenDashboardID").value,
+        MetricID: document.getElementById("hiddenMetricID").value,
+        DashboardCategoryID: document.getElementById("hiddenDashboardCategoryID").value,
         Order: $("#dxDashboardMetricOrderNumberBox").dxNumberBox("instance").option("value") /*document.getElementById("DashboardMetricOrder").value*/
     }
     return _dashboardMetricDTO;

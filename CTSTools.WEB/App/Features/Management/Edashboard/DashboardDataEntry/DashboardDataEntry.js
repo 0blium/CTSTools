@@ -80,32 +80,32 @@ function FilterMetricListByCategory(DashboardMetricList) {
     /*debugger*/
     //Quality
     let _sortMetricQuality = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryDTO.ID == Dashboard_Category_Enum.Quality
+        return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
     });
     BuildTQCFormat(_sortMetricQuality, "Quality", "Q");
     //Cost
     let _sortMetricCost = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryDTO.ID == Dashboard_Category_Enum.Cost
+        return x.DashboardCategoryID == Dashboard_Category_Enum.Cost
     });
     BuildTQCFormat(_sortMetricCost, "Cost", "C");
     //Delivery
     let _sortMetricDelivery = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryDTO.ID == Dashboard_Category_Enum.Delivery
+        return x.DashboardCategoryID == Dashboard_Category_Enum.Delivery
     });
     BuildTQCFormat(_sortMetricDelivery, "Delivery", "D");
     //Safety
     let _sortMetricSafety = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryDTO.ID == Dashboard_Category_Enum.Safety
+        return x.DashboardCategoryID == Dashboard_Category_Enum.Safety
     });
     BuildTQCFormat(_sortMetricSafety, "Safety", "S");
     //Moral
     let _sortMetricMoral = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryDTO.ID == Dashboard_Category_Enum.Moral
+        return x.DashboardCategoryID == Dashboard_Category_Enum.Moral
     });
     BuildTQCFormat(_sortMetricMoral, "Moral", "M");
     //Improvement
     let _sortMetricImprovement = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryDTO.ID == Dashboard_Category_Enum.Improvement
+        return x.DashboardCategoryID == Dashboard_Category_Enum.Improvement
     });
     BuildTQCFormat(_sortMetricImprovement, "Continuos_Improvement", "I");
     document.getElementById('NoDashboardMessage').classList.add('d-none');
@@ -154,18 +154,18 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             "</tr>";
 
         DashboardMetricList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeDTO.ID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
-            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureDTO.ID == UnitOfMeasure_Enum.USD ?
+            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
+            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryDTO.ID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeDTO.ID} ` +
+                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
                 `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricDTO.ID} ` +
                 `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
                 `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
-                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerDTO.Name}</td>` +
+                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
                 `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricDTO.Name}</td>` +
                 `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
@@ -182,7 +182,7 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
                     _fontColor = "000";
-                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureDTO.ID == UnitOfMeasure_Enum.USD ?
+                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = _fyGoalSymbol;
@@ -224,9 +224,9 @@ function TendencyMetricEventHandler() {
             ID: this.dataset.metricid,
             Name: this.dataset.metricname,
             Goal: this.dataset.metricgoal,
-            UnitOfMeasureDTO: { ID: parseInt(this.dataset.unitofmeasureid) },
+            UnitOfMeasureID: parseInt(this.dataset.unitofmeasureid),
             EquivalenceIcon: this.dataset.equivalenceicon,
-            ValueTypeDTO: { ID: this.dataset.valuetypeid }
+            ValueTypeID: this.dataset.valuetypeid
         }
     }
     $('#DashboardMetricTendencyModal').on('shown.bs.modal', function () {
@@ -262,8 +262,8 @@ function ClearMonthValueModal() {
 }
 function SetSubtitles(MetricDTO) {
     console.log(MetricDTO)
-    let _fyGoalSymbol = (MetricDTO.ValueTypeDTO.ID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(MetricDTO);
-    let _fyGoalFormat = MetricDTO.UnitOfMeasureDTO.ID == UnitOfMeasure_Enum.USD ?
+    let _fyGoalSymbol = (MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(MetricDTO);
+    let _fyGoalFormat = MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
         ConvertToMoney(MetricDTO.Goal) : MetricDTO.Goal;
 
     let _subtitle;
@@ -284,7 +284,7 @@ function SetSubtitles(MetricDTO) {
 function UnitOfMeasureFormat(MetricDTO) {
 
     //let valueType;
-    switch (MetricDTO.UnitOfMeasureDTO.ID) {
+    switch (MetricDTO.UnitOfMeasureID) {
         // Mi base de datos tiene datos que no pude quitar desde Unit Of Measure, por eso los IDs deformes para cada case
         case UnitOfMeasure_Enum.USD:
             return ""
@@ -326,7 +326,7 @@ function ConvertToMoney(Goal) {
 async function GetDashboardMetricList() {
     await dxLoadPanel.show();
     const _dashboardMetricList = await GetDashboardMetricWithUI({
-        DashboardDTO: { ID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value") },
+        DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
         GetDashboardLineList:true
     });
     FilterMetricListByCategory(_dashboardMetricList);
@@ -344,9 +344,9 @@ async function GetDashboardLineInformation_Global(DashboardLineID) {
 async function GetDashboardMetricTendence_Global(DashboardMetricDTO) {
     await dxLoadPanel.show();
     const _dashboardMetricTendence = await GetDashboardMetricTendence({
-        DashboardDTO: { ID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value") },
-        DashboardCategoryDTO: { ID: DashboardMetricDTO.DashboardCategoryID },
-        MetricDTO: { ID: DashboardMetricDTO.MetricDTO.ID },
+        DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
+        DashboardCategoryID: DashboardMetricDTO.DashboardCategoryID,
+        MetricID: DashboardMetricDTO.MetricDTO.ID,
 
     });
     console.log(_dashboardMetricTendence);

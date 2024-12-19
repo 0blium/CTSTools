@@ -202,20 +202,20 @@ async function InitializeMetricCatalogControls() {
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Name", dataField: "Name" },
                 { caption: "Description", dataField: "Description" },
-                { caption: "Unit Of Measure", dataField: "UnitOfMeasureDTO.Name" },
-                { caption: "Value Type", dataField: "ValueTypeDTO.Name" },
+                { caption: "Unit Of Measure", dataField: "UnitOfMeasureName" },
+                { caption: "Value Type", dataField: "ValueTypeName" },
                 { caption: "Goal", dataField: "Goal" },
-                { caption: "Owner", dataField: "OwnerDTO.Name" },
-                { caption: "Responsible", dataField: "ResponsibleDTO.Name" },
+                { caption: "Owner", dataField: "OwnerName" },
+                { caption: "Responsible", dataField: "ResponsibleName" },
                 //{ caption: "Shared", dataField: "Shared",  },
-                { caption: "Goal Range", dataField: "GoalRangeDTO.Value" },
-                { caption: "Facility", dataField: "FacilityDTO.Name" },
-                { caption: "Equivalence", dataField: "EquivalenceDTO.Name" },
-                { caption: "Owner Department", dataField: "OwnerDepartmentDTO.Name" },
-                { caption: "Responsible Department", dataField: "ResponsibleDepartmentDTO.Name" },
-                { caption: "Status", dataField: "StatusDTO.Name" },
+                { caption: "Goal Range", dataField: "GoalRangeValue" },
+                { caption: "Facility", dataField: "FacilityName" },
+                { caption: "Equivalence", dataField: "EquivalenceName" },
+                { caption: "Owner Department", dataField: "OwnerDepartmentName" },
+                { caption: "Responsible Department", dataField: "ResponsibleDepartmentName" },
+                { caption: "Status", dataField: "StatusName" },
                 //{ caption: "Is Parent", dataField: "IsParent",  },
-                //{ caption: "Calculation Type", dataField: "CalculationTypeDTO.Name",  },
+                //{ caption: "Calculation Type", dataField: "CalculationTypeName",  },
                 { caption: "Added By I D", dataField: "AddedByID", visible: false },
                 { caption: "Added By Name", dataField: "AddedByName" },
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
@@ -228,24 +228,24 @@ async function InitializeMetricCatalogControls() {
 }
 async function PopulateMetricFields(data) {
     $("#hiddenMetricID").val(data.ID);
-    $("#hiddenStatusID").val(data.StatusDTO.ID);
+    $("#hiddenStatusID").val(data.StatusID);
     $("#dxMetricNameTextBox").dxTextBox("instance").option("value", data.Name);
     $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value", data.Goal);
     $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
-    $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value", data.UnitOfMeasureDTO.ID);
-    $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value", data.ValueTypeDTO.ID);
+    $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value", data.UnitOfMeasureID);
+    $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value", data.ValueTypeID);
     //$("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value", data.Shared);
-    $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeDTO.ID);
-    $("#dxMetricFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
-    $("#dxMetricOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerDTO.ID);
-    $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").option("value", data.OwnerDepartmentDTO.ID);
-    $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDTO.ID);
-    $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDTO.ID);
-    $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDepartmentDTO.ID);
-    $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").option("value", data.EquivalenceDTO.ID)
-    //  //$("#dxMetricStatusSelectBox").dxSelectBox("instance").option("value", data.StatusDTO.ID);
+    $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeID);
+    $("#dxMetricFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityID);
+    $("#dxMetricOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
+    $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").option("value", data.OwnerDepartmentID);
+    $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
+    //$("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
+    $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDepartmentID);
+    $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").option("value", data.EquivalenceID)
+    //  //$("#dxMetricStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
     //$("#dxMetricIsParentCheckBox").dxCheckBox("instance").option("value", data.IsParent);
-    //$("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").option("value", data.CalculationTypeDTO.ID);
+    //$("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").option("value", data.CalculationTypeID);
     $("#dxMetricIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
 }
@@ -321,22 +321,22 @@ function ClearMetricFields() {
 function GetMetricDTO() {
     let _metricDTO = {
         ID: $("#hiddenMetricID").val(),
-        StatusDTO: { ID: $("#hiddenStatusID").val() },
+        StatusID: $("#hiddenStatusID").val(),
         Name: $("#dxMetricNameTextBox").dxTextBox("instance").option("value"),
         Goal: $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value"),
         Description: $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value"),
-        UnitOfMeasureDTO: { ID: $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value") },
-        ValueTypeDTO: { ID: $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value") },
+        UnitOfMeasureID: $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value"),
+        ValueTypeID: $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value"),
         //Shared: $("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value"),
-        GoalRangeDTO: { ID: $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value") },
-        FacilityDTO: { ID: $("#dxMetricFacilitySelectBox").dxSelectBox("instance").option("value") },
-        EquivalenceDTO: { ID: $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").option("value") },
+        GoalRangeID: $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value"),
+        FacilityID: $("#dxMetricFacilitySelectBox").dxSelectBox("instance").option("value"),
+        EquivalenceID: $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").option("value"),
         //IsParent: $("#dxMetricIsParentCheckBox").dxCheckBox("instance").option("value"),
-        //CalculationTypeDTO: { ID: $("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").option("value") },
-        OwnerDTO: { ID: $("#dxMetricOwnerSelectBox").dxSelectBox("instance").option("value") },
-        OwnerDepartmentDTO: { ID: $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").option("value") },
-        ResponsibleDTO: { ID: $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value") },
-        ResponsibleDepartmentDTO: { ID: $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value") },
+        //CalculationTypeID: $("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").option("value"),
+        OwnerID: $("#dxMetricOwnerSelectBox").dxSelectBox("instance").option("value"),
+        OwnerDepartmentID: $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").option("value"),
+        ResponsibleID: $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value"),
+        ResponsibleDepartmentID: $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxMetricIsActiveCheckBox").dxCheckBox("instance").option("value"),
 
     }
