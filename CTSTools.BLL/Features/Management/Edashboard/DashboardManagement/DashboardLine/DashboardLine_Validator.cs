@@ -17,7 +17,7 @@ public class DashboardLine_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (DashboardLineDTO.DashboardMetricDTO.ID == null || DashboardLineDTO.DashboardMetricDTO.ID == 0)
+            if (DashboardLineDTO.DashboardMetricID == null || DashboardLineDTO.DashboardMetricID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -27,7 +27,7 @@ public class DashboardLine_Validator
                     Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardMetricDTO)}",
                 });
             }
-            if (DashboardLineDTO.MetricDTO.ID == null || DashboardLineDTO.MetricDTO.ID == 0)
+            if (DashboardLineDTO.MetricID == null || DashboardLineDTO.MetricID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -37,24 +37,22 @@ public class DashboardLine_Validator
                     Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.MetricDTO)}",
                 });
             }
-            if (DashboardLineDTO.DashboardCategoryDTO.ID == null || DashboardLineDTO.DashboardCategoryDTO.ID == 0)
+            if (DashboardLineDTO.DashboardCategoryID == null || DashboardLineDTO.DashboardCategoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "DashboardCategory Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardCategoryDTO)}",
                 });
             }
-            if (DashboardLineDTO.DashboardDTO.ID == null || DashboardLineDTO.DashboardDTO.ID == 0)
+            if (DashboardLineDTO.DashboardID == null || DashboardLineDTO.DashboardID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Dashboard Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardDTO)}",
                 });
             }
             //if (DashboardLineDTO.IsTemporalValue == null)
@@ -153,7 +151,7 @@ public class DashboardLine_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (DashboardLineDTO.DashboardMetricDTO.ID == null || DashboardLineDTO.DashboardMetricDTO.ID == 0)
+            if (DashboardLineDTO.DashboardMetricID == null || DashboardLineDTO.DashboardMetricID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -163,7 +161,7 @@ public class DashboardLine_Validator
                     //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardMetricDTO)}",
                 });
             }
-            if (DashboardLineDTO.MetricDTO.ID == null || DashboardLineDTO.MetricDTO.ID == 0)
+            if (DashboardLineDTO.MetricID == null || DashboardLineDTO.MetricID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -173,7 +171,7 @@ public class DashboardLine_Validator
                     //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.MetricDTO)}",
                 });
             }
-            if (DashboardLineDTO.DashboardCategoryDTO.ID == null || DashboardLineDTO.DashboardCategoryDTO.ID == 0)
+            if (DashboardLineDTO.DashboardCategoryID == null || DashboardLineDTO.DashboardCategoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -183,7 +181,7 @@ public class DashboardLine_Validator
                     //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardCategoryDTO)}",
                 });
             }
-            if (DashboardLineDTO.DashboardDTO.ID == null || DashboardLineDTO.DashboardDTO.ID == 0)
+            if (DashboardLineDTO.DashboardID == null || DashboardLineDTO.DashboardID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -230,7 +228,7 @@ public class DashboardLine_Validator
             //        Description = " Please, complete the missing information ",
             //    });
             //}
-            if (DashboardLineDTO.ValidatedByDTO.ID == null || DashboardLineDTO.ValidatedByDTO.ID == 0)
+            if (DashboardLineDTO.ValidatedByID == null || DashboardLineDTO.ValidatedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

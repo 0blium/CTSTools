@@ -90,7 +90,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
             {
                 if (MetricDTO.GetUnitOfMeasureDTO)
                 {
-                    MetricDTO.UnitOfMeasureDTO.UnitOfMeasureIDArray = MetricList.GroupBy(g => g.UnitOfMeasureDTO.ID)
+                    MetricDTO.UnitOfMeasureDTO.UnitOfMeasureIDArray = MetricList.GroupBy(g => g.UnitOfMeasureID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -99,7 +99,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 if (MetricDTO.GetValueTypeDTO)
                 {
-                    MetricDTO.ValueTypeDTO.ValueTypeIDArray = MetricList.GroupBy(g => g.ValueTypeDTO.ID)
+                    MetricDTO.ValueTypeDTO.ValueTypeIDArray = MetricList.GroupBy(g => g.ValueTypeID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -108,7 +108,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 if (MetricDTO.GetGoalRangeDTO)
                 {
-                    MetricDTO.GoalRangeDTO.GoalRangeIDArray = MetricList.GroupBy(g => g.GoalRangeDTO.ID)
+                    MetricDTO.GoalRangeDTO.GoalRangeIDArray = MetricList.GroupBy(g => g.GoalRangeID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -117,7 +117,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 if (MetricDTO.GetFacilityDTO)
                 {
-                    MetricDTO.FacilityDTO.FacilityIDArray = MetricList.GroupBy(g => g.FacilityDTO.ID)
+                    MetricDTO.FacilityDTO.FacilityIDArray = MetricList.GroupBy(g => g.FacilityID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -126,7 +126,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 if (MetricDTO.GetEquivalenceDTO)
                 {
-                    MetricDTO.EquivalenceDTO.EquivalenceIDArray = MetricList.GroupBy(g => g.EquivalenceDTO.ID)
+                    MetricDTO.EquivalenceDTO.EquivalenceIDArray = MetricList.GroupBy(g => g.EquivalenceID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -135,7 +135,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 if (MetricDTO.GetStatusDTO)
                 {
-                    MetricDTO.StatusDTO.StatusIDArray = MetricList.GroupBy(g => g.StatusDTO.ID)
+                    MetricDTO.StatusDTO.StatusIDArray = MetricList.GroupBy(g => g.StatusID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -144,7 +144,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 if (MetricDTO.GetCalculationTypeDTO)
                 {
-                    MetricDTO.CalculationTypeDTO.CalculationTypeIDArray = MetricList.GroupBy(g => g.CalculationTypeDTO.ID)
+                    MetricDTO.CalculationTypeDTO.CalculationTypeIDArray = MetricList.GroupBy(g => g.CalculationTypeID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -153,33 +153,33 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric
                 }
                 foreach (var _metricDTO in MetricList)
                 {
-                    if (MetricDTO.GetUnitOfMeasureDTO && _unitofmeasureDict.ContainsKey(_metricDTO.UnitOfMeasureDTO.ID))
+                    if (MetricDTO.GetUnitOfMeasureDTO && _unitofmeasureDict.ContainsKey(_metricDTO.UnitOfMeasureID))
                     {
-                        _metricDTO.UnitOfMeasureDTO = _unitofmeasureDict[_metricDTO.UnitOfMeasureDTO.ID];
+                        _metricDTO.UnitOfMeasureDTO = _unitofmeasureDict[_metricDTO.UnitOfMeasureID];
                     }
                     if (MetricDTO.GetValueTypeDTO && _valuetypeDict.ContainsKey(_metricDTO.ValueTypeDTO.ID))
                     {
-                        _metricDTO.ValueTypeDTO = _valuetypeDict[_metricDTO.ValueTypeDTO.ID];
+                        _metricDTO.ValueTypeDTO = _valuetypeDict[_metricDTO.ValueTypeID];
                     }
-                    if (MetricDTO.GetGoalRangeDTO && _goalrangeDict.ContainsKey(_metricDTO.GoalRangeDTO.ID))
+                    if (MetricDTO.GetGoalRangeDTO && _goalrangeDict.ContainsKey(_metricDTO.GoalRangeID))
                     {
-                        _metricDTO.GoalRangeDTO = _goalrangeDict[_metricDTO.GoalRangeDTO.ID];
+                        _metricDTO.GoalRangeDTO = _goalrangeDict[_metricDTO.GoalRangeID];
                     }
-                    if (MetricDTO.GetFacilityDTO && _facilityDict.ContainsKey(_metricDTO.FacilityDTO.ID))
+                    if (MetricDTO.GetFacilityDTO && _facilityDict.ContainsKey(_metricDTO.FacilityID))
                     {
-                        _metricDTO.FacilityDTO = _facilityDict[_metricDTO.FacilityDTO.ID];
+                        _metricDTO.FacilityDTO = _facilityDict[_metricDTO.FacilityID];
                     }
-                    if (MetricDTO.GetEquivalenceDTO && _equivalenceDict.ContainsKey(_metricDTO.EquivalenceDTO.ID))
+                    if (MetricDTO.GetEquivalenceDTO && _equivalenceDict.ContainsKey(_metricDTO.EquivalenceID))
                     {
-                        _metricDTO.EquivalenceDTO = _equivalenceDict[_metricDTO.EquivalenceDTO.ID];
+                        _metricDTO.EquivalenceDTO = _equivalenceDict[_metricDTO.EquivalenceID];
                     }
-                    if (MetricDTO.GetStatusDTO && _statusDict.ContainsKey(_metricDTO.StatusDTO.ID))
+                    if (MetricDTO.GetStatusDTO && _statusDict.ContainsKey(_metricDTO.StatusID))
                     {
-                        _metricDTO.StatusDTO = _statusDict[_metricDTO.StatusDTO.ID];
+                        _metricDTO.StatusDTO = _statusDict[_metricDTO.StatusID];
                     }
-                    if (MetricDTO.GetCalculationTypeDTO && _calculationtypeDict.ContainsKey(_metricDTO.CalculationTypeDTO.ID))
+                    if (MetricDTO.GetCalculationTypeDTO && _calculationtypeDict.ContainsKey(_metricDTO.CalculationTypeID))
                     {
-                        _metricDTO.CalculationTypeDTO = _calculationtypeDict[_metricDTO.CalculationTypeDTO.ID];
+                        _metricDTO.CalculationTypeDTO = _calculationtypeDict[_metricDTO.CalculationTypeID];
                     }
                     _metricglobalList.Add(_metricDTO);
                 }

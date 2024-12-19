@@ -27,37 +27,34 @@ public class Metric_Validator
                     Data = $"{nameof(Metric)}{nameof(MetricDTO.Name)}",
                 });
             }
-            if (MetricDTO.UnitOfMeasureDTO.ID == null || MetricDTO.UnitOfMeasureDTO.ID == 0)
+            if (MetricDTO.UnitOfMeasureID == null || MetricDTO.UnitOfMeasureID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "UnitOfMeasure Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.UnitOfMeasureDTO)}",
                 });
             }
-            if (MetricDTO.ValueTypeDTO.ID == null || MetricDTO.ValueTypeDTO.ID == 0)
+            if (MetricDTO.ValueTypeID == null || MetricDTO.ValueTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "ValueType Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.ValueTypeDTO)}",
                 });
             }
-            if (MetricDTO.OwnerDTO.ID == null || MetricDTO.OwnerDTO.ID == 0)
+            if (MetricDTO.OwnerID == null || MetricDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Owner Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.OwnerDTO)}",
                 });
             }
-            if (MetricDTO.ResponsibleDTO.ID == null || MetricDTO.ResponsibleDTO.ID == 0)
+            if (MetricDTO.ResponsibleID == null || MetricDTO.ResponsibleID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -68,7 +65,7 @@ public class Metric_Validator
                 });
             }
 
-            if (MetricDTO.GoalRangeDTO.ID == null || MetricDTO.GoalRangeDTO.ID == 0)
+            if (MetricDTO.GoalRangeID == null || MetricDTO.GoalRangeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -78,14 +75,13 @@ public class Metric_Validator
                     Data = $"{nameof(Metric)}{nameof(MetricDTO.GoalRangeDTO)}",
                 });
             }
-            if (MetricDTO.FacilityDTO.ID == null || MetricDTO.FacilityDTO.ID == 0)
+            if (MetricDTO.FacilityID == null || MetricDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.FacilityDTO)}",
                 });
             }
             if (MetricDTO.EquivalenceDTO.ID == null || MetricDTO.EquivalenceDTO.ID == 0)
@@ -169,27 +165,25 @@ public class Metric_Validator
                     Data = $"{nameof(Metric)}{nameof(MetricDTO.Name)}",
                 });
             }
-            if (MetricDTO.UnitOfMeasureDTO.ID == null || MetricDTO.UnitOfMeasureDTO.ID == 0)
+            if (MetricDTO.UnitOfMeasureID == null || MetricDTO.UnitOfMeasureID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "UnitOfMeasure Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.UnitOfMeasureDTO)}",
                 });
             }
-            if (MetricDTO.ValueTypeDTO.ID == null || MetricDTO.ValueTypeDTO.ID == 0)
+            if (MetricDTO.ValueTypeID == null || MetricDTO.ValueTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "ValueType Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.ValueTypeDTO)}",
                 });
             }
-            if (MetricDTO.OwnerDTO.ID == null || MetricDTO.OwnerDTO.ID == 0)
+            if (MetricDTO.OwnerID == null || MetricDTO.OwnerDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -199,28 +193,26 @@ public class Metric_Validator
                     Data = $"{nameof(Metric)}{nameof(MetricDTO.OwnerDTO)}",
                 });
             }
-            if (MetricDTO.ResponsibleDTO.ID == null || MetricDTO.ResponsibleDTO.ID == 0)
+            if (MetricDTO.ResponsibleID == null || MetricDTO.ResponsibleID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Responsible Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.ResponsibleDTO)}",
                 });
             }
 
-            if (MetricDTO.GoalRangeDTO.ID == null || MetricDTO.GoalRangeDTO.ID == 0)
+            if (MetricDTO.GoalRangeID == null || MetricDTO.GoalRangeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "GoalRange Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.GoalRangeDTO)}",
                 });
             }
-            if (MetricDTO.FacilityDTO.ID == null || MetricDTO.FacilityDTO.ID == 0)
+            if (MetricDTO.FacilityID == null || MetricDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -230,7 +222,7 @@ public class Metric_Validator
                     Data = $"{nameof(Metric)}{nameof(MetricDTO.FacilityDTO)}",
                 });
             }
-            if (MetricDTO.EquivalenceDTO.ID == null || MetricDTO.EquivalenceDTO.ID == 0)
+            if (MetricDTO.EquivalenceID == null || MetricDTO.EquivalenceID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

@@ -28,13 +28,21 @@ public class DashboardDTO
 
     public int?[] DashboardIDArray { get; set; }
     public UserDTO OwnerDTO { get; set; }
+    public int? OwnerID { get; set; }
+    public string OwnerName { get; set; }
     public DepartmentDTO DepartmentDTO { get; set; }
+    public int? DepartmentID { get; set; }
+    public string DepartmentName { get; set; }
     public bool GetDepartmentDTO { get; set; }
     public int?[] DepartmentIDArray { get; set; }
     public LevelDTO LevelDTO { get; set; }
+    public int? LevelID { get; set; }
+    public string LevelName { get; set; }
     public bool GetLevelDTO { get; set; }
     public int?[] LevelIDArray { get; set; }
     public StatusDTO StatusDTO { get; set; }
+    public int? StatusID { get; set; }
+    public string StatusName { get; set; }
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
 

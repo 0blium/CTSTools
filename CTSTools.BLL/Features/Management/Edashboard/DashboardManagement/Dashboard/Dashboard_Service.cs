@@ -83,7 +83,7 @@ public class Dashboard_Service
         {
             if (DashboardDTO.GetDepartmentDTO)
             {
-                DashboardDTO.DepartmentDTO.DepartmentIDArray = DashboardList.GroupBy(g => g.DepartmentDTO.ID)
+                DashboardDTO.DepartmentDTO.DepartmentIDArray = DashboardList.GroupBy(g => g.DepartmentID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -92,7 +92,7 @@ public class Dashboard_Service
             }
             if (DashboardDTO.GetLevelDTO)
             {
-                DashboardDTO.LevelDTO.LevelIDArray = DashboardList.GroupBy(g => g.LevelDTO.ID)
+                DashboardDTO.LevelDTO.LevelIDArray = DashboardList.GroupBy(g => g.LevelID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -101,7 +101,7 @@ public class Dashboard_Service
             }
             if (DashboardDTO.GetStatusDTO)
             {
-                DashboardDTO.StatusDTO.StatusIDArray = DashboardList.GroupBy(g => g.StatusDTO.ID)
+                DashboardDTO.StatusDTO.StatusIDArray = DashboardList.GroupBy(g => g.StatusID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -110,17 +110,17 @@ public class Dashboard_Service
             }
             foreach (var _dashboardDTO in DashboardList)
             {
-                if (DashboardDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_dashboardDTO.DepartmentDTO.ID))
+                if (DashboardDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_dashboardDTO.DepartmentID))
                 {
-                    _dashboardDTO.DepartmentDTO = _departmentDict[_dashboardDTO.DepartmentDTO.ID];
+                    _dashboardDTO.DepartmentDTO = _departmentDict[_dashboardDTO.DepartmentID];
                 }
-                if (DashboardDTO.GetLevelDTO && _levelDict.ContainsKey(_dashboardDTO.LevelDTO.ID))
+                if (DashboardDTO.GetLevelDTO && _levelDict.ContainsKey(_dashboardDTO.LevelID))
                 {
-                    _dashboardDTO.LevelDTO = _levelDict[_dashboardDTO.LevelDTO.ID];
+                    _dashboardDTO.LevelDTO = _levelDict[_dashboardDTO.LevelID];
                 }
-                if (DashboardDTO.GetStatusDTO && _statusDict.ContainsKey(_dashboardDTO.StatusDTO.ID))
+                if (DashboardDTO.GetStatusDTO && _statusDict.ContainsKey(_dashboardDTO.StatusID))
                 {
-                    _dashboardDTO.StatusDTO = _statusDict[_dashboardDTO.StatusDTO.ID];
+                    _dashboardDTO.StatusDTO = _statusDict[_dashboardDTO.StatusID];
                 }
                 _dashboardglobalList.Add(_dashboardDTO);
             }

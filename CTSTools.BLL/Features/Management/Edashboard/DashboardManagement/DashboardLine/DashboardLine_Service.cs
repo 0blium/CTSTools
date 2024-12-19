@@ -87,7 +87,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             {
                 if (DashboardLineDTO.GetDashboardMetricDTO)
                 {
-                    DashboardLineDTO.DashboardMetricDTO.DashboardMetricIDArray = DashboardLineList.GroupBy(g => g.DashboardMetricDTO.ID)
+                    DashboardLineDTO.DashboardMetricDTO.DashboardMetricIDArray = DashboardLineList.GroupBy(g => g.DashboardMetricID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -96,7 +96,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 }
                 if (DashboardLineDTO.GetMetricDTO)
                 {
-                    DashboardLineDTO.MetricDTO.MetricIDArray = DashboardLineList.GroupBy(g => g.MetricDTO.ID)
+                    DashboardLineDTO.MetricDTO.MetricIDArray = DashboardLineList.GroupBy(g => g.MetricID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -105,7 +105,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 }
                 if (DashboardLineDTO.GetDashboardCategoryDTO)
                 {
-                    DashboardLineDTO.DashboardCategoryDTO.DashboardCategoryIDArray = DashboardLineList.GroupBy(g => g.DashboardCategoryDTO.ID)
+                    DashboardLineDTO.DashboardCategoryDTO.DashboardCategoryIDArray = DashboardLineList.GroupBy(g => g.DashboardCategoryID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -114,7 +114,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 }
                 if (DashboardLineDTO.GetDashboardDTO)
                 {
-                    DashboardLineDTO.DashboardDTO.DashboardIDArray = DashboardLineList.GroupBy(g => g.DashboardDTO.ID)
+                    DashboardLineDTO.DashboardDTO.DashboardIDArray = DashboardLineList.GroupBy(g => g.DashboardID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -123,21 +123,21 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 }
                 foreach (var _dashboardlineDTO in DashboardLineList)
                 {
-                    if (DashboardLineDTO.GetDashboardMetricDTO && _dashboardmetricDict.ContainsKey(_dashboardlineDTO.DashboardMetricDTO.ID))
+                    if (DashboardLineDTO.GetDashboardMetricDTO && _dashboardmetricDict.ContainsKey(_dashboardlineDTO.DashboardMetricID))
                     {
-                        _dashboardlineDTO.DashboardMetricDTO = _dashboardmetricDict[_dashboardlineDTO.DashboardMetricDTO.ID];
+                        _dashboardlineDTO.DashboardMetricDTO = _dashboardmetricDict[_dashboardlineDTO.DashboardMetricID];
                     }
-                    if (DashboardLineDTO.GetMetricDTO && _metricDict.ContainsKey(_dashboardlineDTO.MetricDTO.ID))
+                    if (DashboardLineDTO.GetMetricDTO && _metricDict.ContainsKey(_dashboardlineDTO.MetricID))
                     {
-                        _dashboardlineDTO.MetricDTO = _metricDict[_dashboardlineDTO.MetricDTO.ID];
+                        _dashboardlineDTO.MetricDTO = _metricDict[_dashboardlineDTO.MetricID];
                     }
-                    if (DashboardLineDTO.GetDashboardCategoryDTO && _dashboardcategoryDict.ContainsKey(_dashboardlineDTO.DashboardCategoryDTO.ID))
+                    if (DashboardLineDTO.GetDashboardCategoryDTO && _dashboardcategoryDict.ContainsKey(_dashboardlineDTO.DashboardCategoryID))
                     {
-                        _dashboardlineDTO.DashboardCategoryDTO = _dashboardcategoryDict[_dashboardlineDTO.DashboardCategoryDTO.ID];
+                        _dashboardlineDTO.DashboardCategoryDTO = _dashboardcategoryDict[_dashboardlineDTO.DashboardCategoryID];
                     }
-                    if (DashboardLineDTO.GetDashboardDTO && _dashboardDict.ContainsKey(_dashboardlineDTO.DashboardDTO.ID))
+                    if (DashboardLineDTO.GetDashboardDTO && _dashboardDict.ContainsKey(_dashboardlineDTO.DashboardID))
                     {
-                        _dashboardlineDTO.DashboardDTO = _dashboardDict[_dashboardlineDTO.DashboardDTO.ID];
+                        _dashboardlineDTO.DashboardDTO = _dashboardDict[_dashboardlineDTO.DashboardID];
                     }
                     _dashboardlineglobalList.Add(_dashboardlineDTO);
                 }

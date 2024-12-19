@@ -20,29 +20,29 @@ public class Dashboard_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DashboardXPO.Oid), DashboardDTO.DashboardIDArray));
             }
-            if (DashboardDTO.OwnerDTO.ID != null || DashboardDTO.OwnerDTO.ID > 0)
+            if (DashboardDTO.OwnerID != null || DashboardDTO.OwnerID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Owner), DashboardDTO.OwnerDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Owner), DashboardDTO.OwnerID));
             }
-            if (DashboardDTO.DepartmentDTO.ID != null || DashboardDTO.DepartmentDTO.ID > 0)
+            if (DashboardDTO.DepartmentID != null || DashboardDTO.DepartmentID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Department), DashboardDTO.DepartmentDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Department), DashboardDTO.DepartmentID));
             }
             if (DashboardDTO.DepartmentIDArray != null && DashboardDTO.DepartmentIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DashboardXPO.Department), DashboardDTO.DepartmentIDArray));
             }
-            if (DashboardDTO.LevelDTO.ID != null || DashboardDTO.LevelDTO.ID > 0)
+            if (DashboardDTO.LevelID != null || DashboardDTO.LevelID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Level), DashboardDTO.LevelDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Level), DashboardDTO.LevelID));
             }
             if (DashboardDTO.LevelIDArray != null && DashboardDTO.LevelIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DashboardXPO.Level), DashboardDTO.LevelIDArray));
             }
-            if (DashboardDTO.StatusDTO.ID != null || DashboardDTO.StatusDTO.ID > 0)
+            if (DashboardDTO.StatusID != null || DashboardDTO.StatusID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Status), DashboardDTO.StatusDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Status), DashboardDTO.StatusID));
             }
             if (DashboardDTO.StatusIDArray != null && DashboardDTO.StatusIDArray.Count() > 0)
             {

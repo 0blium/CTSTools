@@ -57,24 +57,22 @@ public class Dashboard_Validator
                 });
             }
            
-            if (DashboardDTO.DepartmentDTO.ID == null || DashboardDTO.DepartmentDTO.ID == 0)
+            if (DashboardDTO.DepartmentID == null || DashboardDTO.DepartmentID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Department Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard)}{nameof(DashboardDTO.DepartmentDTO)}",
                 });
             }
-            if (DashboardDTO.LevelDTO.ID == null || DashboardDTO.LevelDTO.ID == 0)
+            if (DashboardDTO.LevelID == null || DashboardDTO.LevelID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Level Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard)}{nameof(DashboardDTO.LevelDTO)}",
                 });
             }
            
@@ -148,14 +146,13 @@ public class Dashboard_Validator
                     Data = $"{nameof(Dashboard)}{nameof(DashboardDTO.Revision)}",
                 });
             }
-            if (DashboardDTO.OwnerDTO.ID == null || DashboardDTO.OwnerDTO.ID == 0)
+            if (DashboardDTO.OwnerID == null || DashboardDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Owner Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard)}{nameof(DashboardDTO.OwnerDTO)}",
                 });
             }
             if (DashboardDTO.Year == null || DashboardDTO.Year == 0)
@@ -177,24 +174,22 @@ public class Dashboard_Validator
                     Description = "The year cannot be greater than the current year",
                 });
             }
-            if (DashboardDTO.DepartmentDTO.ID == null || DashboardDTO.DepartmentDTO.ID == 0)
+            if (DashboardDTO.DepartmentID == null || DashboardDTO.DepartmentID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Department Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard)}{nameof(DashboardDTO.DepartmentDTO)}",
                 });
             }
-            if (DashboardDTO.LevelDTO.ID == null || DashboardDTO.LevelDTO.ID == 0)
+            if (DashboardDTO.LevelID == null || DashboardDTO.LevelID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Level Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard)}{nameof(DashboardDTO.LevelDTO)}",
                 });
             }
             //if (DashboardDTO.StatusDTO.ID == null || DashboardDTO.StatusDTO.ID == 0)

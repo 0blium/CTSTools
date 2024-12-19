@@ -20,61 +20,61 @@ public class Metric_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.Oid), MetricDTO.MetricIDArray));
             }
-            if (MetricDTO.UnitOfMeasureDTO.ID != null || MetricDTO.UnitOfMeasureDTO.ID > 0)
+            if (MetricDTO.UnitOfMeasureID != null || MetricDTO.UnitOfMeasureID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.UnitOfMeasure), MetricDTO.UnitOfMeasureDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.UnitOfMeasure), MetricDTO.UnitOfMeasureID));
             }
             if (MetricDTO.UnitOfMeasureIDArray != null && MetricDTO.UnitOfMeasureIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.UnitOfMeasure), MetricDTO.UnitOfMeasureIDArray));
             }
-            if (MetricDTO.ValueTypeDTO.ID != null || MetricDTO.ValueTypeDTO.ID > 0)
+            if (MetricDTO.ValueTypeID != null || MetricDTO.ValueTypeID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.ValueType), MetricDTO.ValueTypeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.ValueType), MetricDTO.ValueTypeID));
             }
             if (MetricDTO.ValueTypeIDArray != null && MetricDTO.ValueTypeIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.ValueType), MetricDTO.ValueTypeIDArray));
             }
-            if (MetricDTO.OwnerDTO.ID != null || MetricDTO.OwnerDTO.ID > 0)
+            if (MetricDTO.OwnerID != null || MetricDTO.OwnerID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Owner), MetricDTO.OwnerDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Owner), MetricDTO.OwnerID));
             }
-            if (MetricDTO.ResponsibleDTO.ID != null || MetricDTO.ResponsibleDTO.ID > 0)
+            if (MetricDTO.ResponsibleID != null || MetricDTO.ResponsibleID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Responsible), MetricDTO.ResponsibleDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Responsible), MetricDTO.ResponsibleID));
             }
             if (MetricDTO.Shared != null)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Shared), MetricDTO.Shared));
             }
-            if (MetricDTO.GoalRangeDTO.ID != null || MetricDTO.GoalRangeDTO.ID > 0)
+            if (MetricDTO.GoalRangeID != null || MetricDTO.GoalRangeID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.GoalRange), MetricDTO.GoalRangeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.GoalRange), MetricDTO.GoalRangeID));
             }
             if (MetricDTO.GoalRangeIDArray != null && MetricDTO.GoalRangeIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.GoalRange), MetricDTO.GoalRangeIDArray));
             }
-            if (MetricDTO.FacilityDTO.ID != null || MetricDTO.FacilityDTO.ID > 0)
+            if (MetricDTO.FacilityID != null || MetricDTO.FacilityID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Facility), MetricDTO.FacilityDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Facility), MetricDTO.FacilityID));
             }
             if (MetricDTO.FacilityIDArray != null && MetricDTO.FacilityIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.Facility), MetricDTO.FacilityIDArray));
             }
-            if (MetricDTO.EquivalenceDTO.ID != null || MetricDTO.EquivalenceDTO.ID > 0)
+            if (MetricDTO.EquivalenceID != null || MetricDTO.EquivalenceID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Equivalence), MetricDTO.EquivalenceDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Equivalence), MetricDTO.EquivalenceID));
             }
             if (MetricDTO.EquivalenceIDArray != null && MetricDTO.EquivalenceIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.Equivalence), MetricDTO.EquivalenceIDArray));
             }
-            if (MetricDTO.StatusDTO.ID != null || MetricDTO.StatusDTO.ID > 0)
+            if (MetricDTO.StatusID != null || MetricDTO.StatusID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Status), MetricDTO.StatusDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Status), MetricDTO.StatusID));
             }
             if (MetricDTO.StatusIDArray != null && MetricDTO.StatusIDArray.Count() > 0)
             {
@@ -84,9 +84,9 @@ public class Metric_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.IsParent), MetricDTO.IsParent));
             }
-            if (MetricDTO.CalculationTypeDTO.ID != null || MetricDTO.CalculationTypeDTO.ID > 0)
+            if (MetricDTO.CalculationTypeID != null || MetricDTO.CalculationTypeDTO.ID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.CalculationType), MetricDTO.CalculationTypeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.CalculationType), MetricDTO.CalculationTypeID));
             }
             if (MetricDTO.CalculationTypeIDArray != null && MetricDTO.CalculationTypeIDArray.Count() > 0)
             {

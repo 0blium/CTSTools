@@ -37,18 +37,27 @@ public class DashboardLineDTO
 
     public int?[] DashboardLineIDArray { get; set; }
     public DashboardMetricDTO DashboardMetricDTO { get; set; }
+    public string DashboardMetricName { get; set; }
     public bool GetDashboardMetricDTO { get; set; }
     public int?[] DashboardMetricIDArray { get; set; }
     public MetricDTO MetricDTO { get; set; }
+    public int? MetricID { get; set; }
+    public string MetricName { get; set; }
     public bool GetMetricDTO { get; set; }
     public int?[] MetricIDArray { get; set; }
     public DashboardCategoryDTO DashboardCategoryDTO { get; set; }
+    public int? DashboardCategoryID { get; set; }
+    public string DashboardCategoryName { get; set; }
     public bool GetDashboardCategoryDTO { get; set; }
     public int?[] DashboardCategoryIDArray { get; set; }
     public DashboardDTO DashboardDTO { get; set; }
+    public int? DashboardID { get; set; }
+    public string DashboardName { get; set; }
     public bool GetDashboardDTO { get; set; }
     public int?[] DashboardIDArray { get; set; }
     public UserDTO ValidatedByDTO { get; set; }
+    public int? ValidatedByID { get; set; }
+    public string ValidatedByName { get; set; }
     public MonthDTO MonthValue { get; set; }
 
     #endregion
