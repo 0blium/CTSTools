@@ -165,6 +165,7 @@ function DomainActionButtons(Action) {
     }
 }
 function ClearDomainFields() {
+    $("#DomainModal").modal("hide");
     DomainActionButtons("Save");
     $("#hiddenDomainID").val("");
     $("#dxDomainIPTextBox").dxTextBox("instance").reset();

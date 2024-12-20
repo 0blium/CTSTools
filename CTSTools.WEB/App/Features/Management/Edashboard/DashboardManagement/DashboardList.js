@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function InitializeDashboardCatalogControls() {
 
     $("#dxDashboardGrid").dxDataGrid({
-        dataSource: await GetDXDashboardDataSource({ IsActive: true, DepartmentDTO: { GetFacilityDTO: true }, GetDepartmentDTO: true }),
+        dataSource: await GetDXDashboardDataSource({ IsActive: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {

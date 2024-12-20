@@ -604,11 +604,8 @@ function GetRole_PermissionDTO() {
     let _role_PermissionDTO = {
         ID: $('#hiddenRole_PermissionID').val(),
         PermissionIDArray: $("#dxRole_PermissionPermissionTagBox").dxTagBox("instance").option("value"),
-        RoleDTO: {
-            ID: $("#dxRole_PermissionRoleSelectBox").dxSelectBox("instance").option("value")
-        },
+        RoleID: $("#dxRole_PermissionRoleSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxRole_PermissionIsActiveCheckBox").dxCheckBox("instance").option("value"),
-
     }
     return _role_PermissionDTO;
 }
