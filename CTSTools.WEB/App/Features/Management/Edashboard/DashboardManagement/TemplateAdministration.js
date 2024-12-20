@@ -1,7 +1,7 @@
 ﻿import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetURLParameter } from '../../../../Common/Utils/GetURLParameter.js'
-import { GetDXDashboardMetricDataSource, CreateDashboardMetric, UpdateDashboardMetricOrder, DeleteDashboardMetric,GetDashboardMetricInformation,CreateDashboardMetricFromMetricList } from '../TemplateAdministration/DashboardMetric/DashboardMetric_Service.js'
+import { GetDXDashboardMetricDataSource, CreateDashboardMetric, UpdateDashboardMetricOrder, DeleteDashboardMetric,GetDashboardMetricInformation,CreateDashboardMetricFromMetricList } from './DashboardMetric/DashboardMetric_Service.js'
 
 import { GetDXDashboardDataSource } from './Dashboard/Dashboard_Service.js'
 import { GetDXDashboardCategoryDataSource } from '../Settings/DashboardCategory/DashboardCategory_Service.js'
