@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CTSTools.WEB.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace CTSTools.WEB.App.Features.Engineering.ComponentID.AttributeManagement
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Auth_Helper.ValidateAccessPage(Page, nameof(ValueLinker));
         }
     }
 }

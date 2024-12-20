@@ -14,7 +14,7 @@ public partial class StatusAdministration : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Auth_Helper.ValidateAccessPage(Page, nameof(StatusAdministration));
+        Auth_Helper.ValidateAccessPage(Page, nameof(StatusAdministration));
     }
 
 

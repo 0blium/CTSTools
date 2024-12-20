@@ -9,7 +9,7 @@ public partial class LocationsCatalog : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Auth_Helper.ValidateAccessPage(Page, nameof(LocationsCatalog));
+        Auth_Helper.ValidateAccessPage(Page, nameof(LocationsCatalog));
     }
 
 }

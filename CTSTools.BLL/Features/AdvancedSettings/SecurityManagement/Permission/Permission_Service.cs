@@ -134,7 +134,7 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                 {
                     Module = UserDTO.PermissionDTO.Module,
                     IsActive = true,
-                    ActionDTO = UserDTO.PermissionDTO.ActionDTO
+                    ActionID = UserDTO.PermissionDTO.ActionDTO.ID
                 };
                 _permissionDTO = GetPermissionList_Global(_permissionDTO).FirstOrDefault();
 
@@ -142,8 +142,8 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                 {
                     var _user_permissionDTO = User_Permission_Service.GetUser_PermissionList_Global(new User_PermissionDTO
                     {
-                        UserDTO = UserDTO,
-                        PermissionDTO = _permissionDTO,
+                        UserID = UserDTO.ID,
+                        PermissionID = _permissionDTO.ID,
                         IsActive=true
                     }).FirstOrDefault();
                     if(_user_permissionDTO != null)
