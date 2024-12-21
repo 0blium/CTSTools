@@ -269,7 +269,7 @@ public class DashboardMetric_Service
                 {
                     _order++;
                 }
-                DashboardMetricDTO.MetricDTO.ID = _metricID;
+                DashboardMetricDTO.MetricID = _metricID;
                 DashboardMetricDTO.Order = _order;
                 _validation_ResultDTO = CreateDashboardMetric_Global(DashboardMetricDTO);
             }

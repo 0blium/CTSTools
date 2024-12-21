@@ -1,4 +1,5 @@
-﻿using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
+﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardMetric;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
 using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
@@ -32,6 +33,8 @@ public class MetricMap
             _metricDTO.OwnerDepartmentName = (MetricXPO.OwnerDepartment != null) ? MetricXPO.OwnerDepartment.Name : "Unnassigned";
             _metricDTO.ResponsibleDepartmentID = (MetricXPO.ResponsibleDepartment != null) ? MetricXPO.ResponsibleDepartment.Oid : 0;
             _metricDTO.ResponsibleDepartmentName = (MetricXPO.ResponsibleDepartment != null) ? MetricXPO.ResponsibleDepartment.Name : "Unnassigned";
+            _metricDTO.DashboardCategoryID = (MetricXPO.DashboardCategory != null) ? MetricXPO.DashboardCategory.Oid : 0;
+            _metricDTO.DashboardCategoryName = (MetricXPO.DashboardCategory != null) ? MetricXPO.DashboardCategory.Name : "Unnassigned";
             _metricDTO.Shared = MetricXPO.Shared;
             _metricDTO.GoalRangeID = (MetricXPO.GoalRange != null) ? MetricXPO.GoalRange.Oid : 0;
             _metricDTO.GoalRangeValue = (MetricXPO.GoalRange != null) ? MetricXPO.GoalRange.Value : 0;
@@ -89,6 +92,7 @@ public class MetricMap
             _metricXPO.ValueType = (_metricXPO.ValueType != null && _metricXPO.ValueType.Oid == MetricDTO.ValueTypeDTO.ID) ? _metricXPO.ValueType : UnitOfWork.GetObjectByKey<ValueTypeXPO>(MetricDTO.ValueTypeID);
             _metricXPO.Owner = (_metricXPO.Owner != null && _metricXPO.Owner.Oid == MetricDTO.OwnerID) ? _metricXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(MetricDTO.OwnerID);
             _metricXPO.Responsible = (_metricXPO.Responsible != null && _metricXPO.Responsible.Oid == MetricDTO.ResponsibleDTO.ID) ? _metricXPO.Responsible : UnitOfWork.GetObjectByKey<UserXPO>(MetricDTO.ResponsibleID);
+            _metricXPO.DashboardCategory = (_metricXPO.DashboardCategory != null && _metricXPO.DashboardCategory.Oid == MetricDTO.DashboardCategoryID) ? _metricXPO.DashboardCategory : UnitOfWork.GetObjectByKey<DashboardCategoryXPO>(MetricDTO.DashboardCategoryID);
             //_metricXPO.Shared = (bool)(_metricXPO.Shared == MetricDTO.Shared ? _metricXPO.Shared : MetricDTO.Shared);
             _metricXPO.Goal = _metricXPO.Goal == MetricDTO.Goal ? _metricXPO.Goal : MetricDTO.Goal;
             _metricXPO.GoalRange = (_metricXPO.GoalRange != null && _metricXPO.GoalRange.Oid == MetricDTO.GoalRangeID) ? _metricXPO.GoalRange : UnitOfWork.GetObjectByKey<GoalRangeXPO>(MetricDTO.GoalRangeID);

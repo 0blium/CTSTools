@@ -28,57 +28,57 @@ public class DashboardMetric_Validator
             //        Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.StatusDTO)}", 
             //    });
             //}
-            if (DashboardMetricDTO.DashboardDTO.ID == null || DashboardMetricDTO.DashboardDTO.ID == 0)
+            if (DashboardMetricDTO.DashboardID == null || DashboardMetricDTO.DashboardID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Dashboard Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardDTO)}",
+                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardID)}",
                 });
             }
-            if (DashboardMetricDTO.MetricDTO.ID == null || DashboardMetricDTO.MetricDTO.ID == 0)
+            if (DashboardMetricDTO.MetricID == null || DashboardMetricDTO.MetricID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Metric Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.MetricDTO)}",
+                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.MetricID)}",
                 });
             }
-            if (DashboardMetricDTO.DashboardCategoryDTO.ID == null || DashboardMetricDTO.DashboardCategoryDTO.ID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "DashboardCategory Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryDTO)}",
-                });
-            }
-            //Validate if already exist Record with same Dasboard ,Metric & Dashboard Category
-            if (DashboardMetricDTO.DashboardDTO?.ID != 0 && DashboardMetricDTO.MetricDTO.ID != 0 && DashboardMetricDTO.DashboardCategoryDTO.ID != 0)
-            {
-                var _dasboardMetricDTO = DashboardMetric_Service.GetDashboardMetricList_Global(
-                    new DashboardMetricDTO
-                    {
-                        DashboardDTO = DashboardMetricDTO.DashboardDTO,
-                        DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO,
-                        MetricDTO = DashboardMetricDTO.MetricDTO,
-                    }).FirstOrDefault();
+            //if (DashboardMetricDTO.DashboardCategoryDTO.ID == null || DashboardMetricDTO.DashboardCategoryDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "DashboardCategory Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryDTO)}",
+            //    });
+            //}
+            ////Validate if already exist Record with same Dasboard ,Metric & Dashboard Category
+            //if (DashboardMetricDTO.DashboardDTO?.ID != 0 && DashboardMetricDTO.MetricDTO.ID != 0 && DashboardMetricDTO.DashboardCategoryDTO.ID != 0)
+            //{
+            //    var _dasboardMetricDTO = DashboardMetric_Service.GetDashboardMetricList_Global(
+            //        new DashboardMetricDTO
+            //        {
+            //            DashboardDTO = DashboardMetricDTO.DashboardDTO,
+            //            DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO,
+            //            MetricDTO = DashboardMetricDTO.MetricDTO,
+            //        }).FirstOrDefault();
 
-                if (_dasboardMetricDTO != null)
-                {
-                    _validation_ResultList.Add(new ValidationResultDTO
-                    {
-                        Result = false,
-                        Message = "KPI already exist in that dashboard",
-                        Description = " Please, verify the  information "
-                    });
-                }
-            }
+            //    if (_dasboardMetricDTO != null)
+            //    {
+            //        _validation_ResultList.Add(new ValidationResultDTO
+            //        {
+            //            Result = false,
+            //            Message = "KPI already exist in that dashboard",
+            //            Description = " Please, verify the  information "
+            //        });
+            //    }
+            //}
 
 
             if (DashboardMetricDTO.AddedByID == null || DashboardMetricDTO.AddedByID == 0)
@@ -129,7 +129,7 @@ public class DashboardMetric_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (DashboardMetricDTO.StatusDTO.ID == null || DashboardMetricDTO.StatusDTO.ID == 0)
+            if (DashboardMetricDTO.StatusID == null || DashboardMetricDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -139,17 +139,17 @@ public class DashboardMetric_Validator
                     Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.StatusDTO)}",
                 });
             }
-            if (DashboardMetricDTO.DashboardDTO.ID == null || DashboardMetricDTO.DashboardDTO.ID == 0)
+            if (DashboardMetricDTO.DashboardID == null || DashboardMetricDTO.DashboardID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Dashboard Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardDTO)}",
+                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardID)}",
                 });
             }
-            if (DashboardMetricDTO.MetricDTO.ID == null || DashboardMetricDTO.MetricDTO.ID == 0)
+            if (DashboardMetricDTO.MetricID == null || DashboardMetricDTO.MetricID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -159,14 +159,14 @@ public class DashboardMetric_Validator
                     Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.MetricDTO)}",
                 });
             }
-            if (DashboardMetricDTO.DashboardCategoryDTO.ID == null || DashboardMetricDTO.DashboardCategoryDTO.ID == 0)
+            if (DashboardMetricDTO.DashboardCategoryID == null || DashboardMetricDTO.DashboardCategoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "DashboardCategory Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryDTO)}",
+                    Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryID)}",
                 });
             }
 
@@ -260,7 +260,7 @@ public class DashboardMetric_Validator
             //        Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.StatusDTO)}", 
             //    });
             //}
-            if (DashboardMetricDTO.DashboardDTO.ID == null || DashboardMetricDTO.DashboardDTO.ID == 0)
+            if (DashboardMetricDTO.DashboardID == null || DashboardMetricDTO.DashboardID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -280,16 +280,16 @@ public class DashboardMetric_Validator
                     //Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.MetricDTO)}",
                 });
             }
-            if (DashboardMetricDTO.DashboardCategoryDTO.ID == null || DashboardMetricDTO.DashboardCategoryDTO.ID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "DashboardCategory Field Empty",
-                    Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryDTO)}",
-                });
-            }
+            //if (DashboardMetricDTO.DashboardCategoryDTO.ID == null || DashboardMetricDTO.DashboardCategoryDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "DashboardCategory Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        //Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryDTO)}",
+            //    });
+            //}
 
             if (DashboardMetricDTO.AddedByID == null || DashboardMetricDTO.AddedByID == 0)
             {

@@ -45,11 +45,10 @@ public class DashboardMetricMap
         try
         {
             _dashboardmetricXPO = DashboardMetricDTO.ID == null || DashboardMetricDTO.ID == 0 ? new DashboardMetricXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DashboardMetricXPO>(DashboardMetricDTO.ID);
-            _dashboardmetricXPO.Status = (_dashboardmetricXPO.Status != null && _dashboardmetricXPO.Status.Oid == DashboardMetricDTO.StatusDTO.ID) ? _dashboardmetricXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DashboardMetricDTO.StatusDTO.ID);
-            _dashboardmetricXPO.Dashboard = (_dashboardmetricXPO.Dashboard != null && _dashboardmetricXPO.Dashboard.Oid == DashboardMetricDTO.DashboardDTO.ID) ? _dashboardmetricXPO.Dashboard : UnitOfWork.GetObjectByKey<DashboardXPO>(DashboardMetricDTO.DashboardDTO.ID);
-            _dashboardmetricXPO.Metric = (_dashboardmetricXPO.Metric != null && _dashboardmetricXPO.Metric.Oid == DashboardMetricDTO.MetricDTO.ID) ? _dashboardmetricXPO.Metric : UnitOfWork.GetObjectByKey<MetricXPO>(DashboardMetricDTO.MetricDTO.ID);
+            _dashboardmetricXPO.Status = (_dashboardmetricXPO.Status != null && _dashboardmetricXPO.Status.Oid == DashboardMetricDTO.StatusID) ? _dashboardmetricXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DashboardMetricDTO.StatusID);
+            _dashboardmetricXPO.Dashboard = (_dashboardmetricXPO.Dashboard != null && _dashboardmetricXPO.Dashboard.Oid == DashboardMetricDTO.DashboardID) ? _dashboardmetricXPO.Dashboard : UnitOfWork.GetObjectByKey<DashboardXPO>(DashboardMetricDTO.DashboardID);
+            _dashboardmetricXPO.Metric = (_dashboardmetricXPO.Metric != null && _dashboardmetricXPO.Metric.Oid == DashboardMetricDTO.MetricID) ? _dashboardmetricXPO.Metric : UnitOfWork.GetObjectByKey<MetricXPO>(DashboardMetricDTO.MetricID);
             _dashboardmetricXPO.Order = _dashboardmetricXPO.Order == DashboardMetricDTO.Order ? _dashboardmetricXPO.Order : DashboardMetricDTO.Order;
-            _dashboardmetricXPO.DashboardCategory = (_dashboardmetricXPO.DashboardCategory != null && _dashboardmetricXPO.DashboardCategory.Oid == DashboardMetricDTO.DashboardCategoryDTO.ID) ? _dashboardmetricXPO.DashboardCategory : UnitOfWork.GetObjectByKey<DashboardCategoryXPO>(DashboardMetricDTO.DashboardCategoryDTO.ID);
             _dashboardmetricXPO.AddedDate = _dashboardmetricXPO.AddedDate != null ? _dashboardmetricXPO.AddedDate : DashboardMetricDTO.AddedDate;
             _dashboardmetricXPO.AddedBy = (_dashboardmetricXPO.AddedBy != null) ? _dashboardmetricXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DashboardMetricDTO.AddedByID);
             _dashboardmetricXPO.LastUpdate = _dashboardmetricXPO.LastUpdate == DashboardMetricDTO.LastUpdate ? _dashboardmetricXPO.LastUpdate : DashboardMetricDTO.LastUpdate;

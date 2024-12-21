@@ -133,6 +133,13 @@ public class MetricXPO : XPObject
         set { SetPropertyValue(nameof(ParenMetric), ref fParenMetric, value); }
     }
 
+    DashboardCategoryXPO fDashboardCategory;
+    public DashboardCategoryXPO DashboardCategory
+    {
+        get { return fDashboardCategory; }
+        set { SetPropertyValue(nameof(DashboardCategory), ref fDashboardCategory, value); }
+    }
+
     CalculationTypeXPO fCalculationType;
     public CalculationTypeXPO CalculationType
     {

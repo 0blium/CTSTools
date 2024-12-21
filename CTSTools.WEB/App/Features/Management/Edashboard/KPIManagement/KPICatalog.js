@@ -211,6 +211,7 @@ async function InitializeMetricCatalogControls() {
                 { caption: "Goal Range", dataField: "GoalRangeValue" },
                 { caption: "Facility", dataField: "FacilityName" },
                 { caption: "Equivalence", dataField: "EquivalenceName" },
+                { caption: "Category", dataField: "DashboardCategoryName" },
                 { caption: "Owner Department", dataField: "OwnerDepartmentName" },
                 { caption: "Responsible Department", dataField: "ResponsibleDepartmentName" },
                 { caption: "Status", dataField: "StatusName" },
@@ -233,6 +234,7 @@ async function PopulateMetricFields(data) {
     $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value", data.Goal);
     $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value", data.UnitOfMeasureID);
+    $("#dxMetricCategorySelectBox").dxSelectBox("instance").option("value", data.DashboardCategoryID);
     $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value", data.ValueTypeID);
     //$("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value", data.Shared);
     $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeID);
@@ -297,6 +299,7 @@ function ClearMetricFields() {
     $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value", "0");
     $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value", "");
     $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").reset();
+    $("#dxMetricCategorySelectBox").dxSelectBox("instance").reset();
     $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").reset();
     //$("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").reset();
@@ -326,6 +329,7 @@ function GetMetricDTO() {
         Goal: $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value"),
         Description: $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value"),
         UnitOfMeasureID: $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value"),
+        DashboardCategoryID: $("#dxMetricCategorySelectBox").dxSelectBox("instance").option("value"),
         ValueTypeID: $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value"),
         //Shared: $("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value"),
         GoalRangeID: $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value"),

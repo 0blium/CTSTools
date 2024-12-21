@@ -51,14 +51,6 @@ async function InitializeTemplateAdministrationControls() {
         placeholder: "Enter the Order",
         format: "#",
     });
-    
-    $("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox({
-        dataSource: await GetDXDashboardCategoryDataSource({ IsActive: true }),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        searchEnabled: true,
-        placeholder: "Select Dashboard"
-    });
     $("#dxDashboardMetric_MetricDataGrid").dxDataGrid({
         dataSource: await GetDXMetricDataSource({IsActive:true}),
         allowColumnReordering: true,
@@ -1047,8 +1039,6 @@ function GetDashboardMetricDTO() {
     let _dashboardMetricDTO = {
         DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
         MetricIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
-        DashboardCategoryID: ($("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").option("value") != null) ?
-                $("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").option("value") : 0,
         GetMetricDTO: true,
         GetDashboardDTO: true,
         GetDashboardCategoryDTO: true,
@@ -1056,7 +1046,6 @@ function GetDashboardMetricDTO() {
     return _dashboardMetricDTO;
 }
 function ClearDashboardMetricFields() {
-    $("#dxDashboardMetric_DashboardCategorySelectBox").dxSelectBox("instance").reset();
     let keys = $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);

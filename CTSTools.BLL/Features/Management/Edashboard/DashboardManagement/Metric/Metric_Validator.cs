@@ -84,14 +84,24 @@ public class Metric_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (MetricDTO.EquivalenceDTO.ID == null || MetricDTO.EquivalenceDTO.ID == 0)
+            if (MetricDTO.EquivalenceID == null || MetricDTO.EquivalenceID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Equivalence Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Metric)}{nameof(MetricDTO.EquivalenceDTO)}",
+                    Data = $"{nameof(Metric)}{nameof(MetricDTO.EquivalenceID)}",
+                });
+            }
+            if (MetricDTO.DashboardCategoryID == null || MetricDTO.DashboardCategoryID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Category Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Metric)}{nameof(MetricDTO.DashboardCategoryID)}",
                 });
             }
 

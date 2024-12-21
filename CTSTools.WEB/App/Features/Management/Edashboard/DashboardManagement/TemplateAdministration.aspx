@@ -149,23 +149,6 @@
                         <div class="col-md-12">
                             <p class="text-muted">Select the KPIs that you want to add to the selected dashboard</p>
                         </div>
-                        <div class="col-md-6">
-                            <h6>Dashboard Category (<span class="text-danger">*</span>)</h6>
-                            <div id="dxDashboardMetric_DashboardCategorySelectBox"></div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <a data-bs-toggle="collapse" data-bs-target="#collapseUser" class="h6 text-color-link">Can't you find the KPI to select?</a>
-                            <div id="collapseUser" class="accordion-collapse collapse border border-1 mt-1 mb-1" data-bs-parent="#accordion">
-                                <div class="accordion-body accordion-height bg-light p-1 text-dark">
-                                    <div class="col-md-12 px-2">
-                                        <label class="col-md-12 mt-1">If the KPI to select doesn´t exits on the list below, create a new KPI to select clicking on the next link</label>
-                                        <div>
-                                            <a class="h6 mt-1 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPICatalog/KPICatalog.aspx">Go to the KPI Catalog</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md-12 mt-2">
                             <h6>KPI List(<span class="text-danger">*</span>)</h6>
                             <div id="dxDashboardMetric_MetricDataGrid"></div>

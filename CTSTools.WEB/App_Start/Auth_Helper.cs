@@ -48,7 +48,7 @@ namespace CTSTools.WEB.App_Start
         {
             var _userDTO = new UserDTO { ID = GetLoggedUserOid() };
             _userDTO.PermissionDTO.Module = ModuleName;
-            _userDTO.PermissionDTO.ActionDTO.ID = (int)Action_Enum.Read;
+            _userDTO.PermissionDTO.ActionDTO.ID = 4;
             ///Validate if user can view the page
             var _validation_Result = Permission_Service.ValidatePermission(_userDTO);
             if (!_validation_Result.Result) { Page.Response.Redirect("~/App/Features/Error/ErrorPage.aspx?Error=NA_@403"); }

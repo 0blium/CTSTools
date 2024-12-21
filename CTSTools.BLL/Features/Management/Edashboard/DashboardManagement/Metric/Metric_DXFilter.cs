@@ -68,6 +68,10 @@ public class Metric_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.Equivalence), MetricDTO.EquivalenceID));
             }
+            if (MetricDTO.DashboardCategoryID != null || MetricDTO.DashboardCategoryID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(MetricXPO.DashboardCategory), MetricDTO.DashboardCategoryID));
+            }
             if (MetricDTO.EquivalenceIDArray != null && MetricDTO.EquivalenceIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(MetricXPO.Equivalence), MetricDTO.EquivalenceIDArray));
