@@ -14,15 +14,15 @@ public class DashboardMetricMap
         try
         {
             _dashboardmetricDTO.ID = DashboardMetricXPO.Oid;
-            _dashboardmetricDTO.StatusDTO.ID = (DashboardMetricXPO.Status != null) ? DashboardMetricXPO.Status.Oid : 0;
-            _dashboardmetricDTO.StatusDTO.Name = (DashboardMetricXPO.Status != null) ? DashboardMetricXPO.Status.Name : "Unnassigned";
-            _dashboardmetricDTO.DashboardDTO.ID = (DashboardMetricXPO.Dashboard != null) ? DashboardMetricXPO.Dashboard.Oid : 0;
-            _dashboardmetricDTO.DashboardDTO.Name = (DashboardMetricXPO.Dashboard != null) ? DashboardMetricXPO.Dashboard.Name : "Unnassigned";
-            _dashboardmetricDTO.MetricDTO.ID = (DashboardMetricXPO.Metric != null) ? DashboardMetricXPO.Metric.Oid : 0;
-            _dashboardmetricDTO.MetricDTO.Name = (DashboardMetricXPO.Metric != null) ? DashboardMetricXPO.Metric.Name : "Unnassigned";
+            _dashboardmetricDTO.StatusID = (DashboardMetricXPO.Status != null) ? DashboardMetricXPO.Status.Oid : 0;
+            _dashboardmetricDTO.StatusName = (DashboardMetricXPO.Status != null) ? DashboardMetricXPO.Status.Name : "Unnassigned";
+            _dashboardmetricDTO.DashboardID = (DashboardMetricXPO.Dashboard != null) ? DashboardMetricXPO.Dashboard.Oid : 0;
+            _dashboardmetricDTO.DashboardName = (DashboardMetricXPO.Dashboard != null) ? DashboardMetricXPO.Dashboard.Name : "Unnassigned";
+            _dashboardmetricDTO.MetricID = (DashboardMetricXPO.Metric != null) ? DashboardMetricXPO.Metric.Oid : 0;
+            _dashboardmetricDTO.MetricName = (DashboardMetricXPO.Metric != null) ? DashboardMetricXPO.Metric.Name : "Unnassigned";
             _dashboardmetricDTO.Order = DashboardMetricXPO.Order;
-            _dashboardmetricDTO.DashboardCategoryDTO.ID = (DashboardMetricXPO.DashboardCategory != null) ? DashboardMetricXPO.DashboardCategory.Oid : 0;
-            _dashboardmetricDTO.DashboardCategoryDTO.Name = (DashboardMetricXPO.DashboardCategory != null) ? DashboardMetricXPO.DashboardCategory.Name : "Unnassigned";
+            _dashboardmetricDTO.DashboardCategoryID = (DashboardMetricXPO.DashboardCategory != null) ? DashboardMetricXPO.DashboardCategory.Oid : 0;
+            _dashboardmetricDTO.DashboardCategoryName = (DashboardMetricXPO.DashboardCategory != null) ? DashboardMetricXPO.DashboardCategory.Name : "Unnassigned";
             _dashboardmetricDTO.AddedDate = (DashboardMetricXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? DashboardMetricXPO.AddedDate : (DateTime?)null;
             _dashboardmetricDTO.AddedByID = (DashboardMetricXPO.AddedBy != null) ? DashboardMetricXPO.AddedBy.Oid : 0;
             _dashboardmetricDTO.AddedByName = (DashboardMetricXPO.AddedBy != null) ? DashboardMetricXPO.AddedBy.Name : "Unnassigned";

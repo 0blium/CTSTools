@@ -1,5 +1,4 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.WEB.App_Start;
@@ -33,7 +32,7 @@ public class DashboardController : ApiController
         return Json(_dsLoader);
     }
     [HttpGet]
-    [Route("api/Dashboard/GetList")]
+    [Route("api/Dashboard/GetDashboardList")]
     public IHttpActionResult GetDashboardList([FromUri] DashboardDTO DashboardDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();

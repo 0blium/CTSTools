@@ -1,23 +1,23 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="DashboardDataEntry.aspx.cs" Inherits="CTSTools.WEB.App.Features.Management.Edashboard.DashboardManagement.DashboardDataEntry" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <ol class="breadcrumb float-xl-end">
-        <li class="breadcrumb-item"><a href="javascript:;">eDashboard</a></li>
-    </ol>
-    <h1 class="page-header">Dashboard Data Entry</h1>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-inverse">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div id="dxDashboardMetric_DashboardSelectBox"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container-fluid">
+        <div class="row">
+            <ol class="breadcrumb float-xl-end">
+                <li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">E-Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">Dashboards</a></li>
+            </ol>
         </div>
+        <!-- END breadcrumb -->
+        <!-- BEGIN page-header -->
+        <div class="row">
+            <h1 id="dashboardtitle" class="page-header"></h1>
+        </div>
+        <!-- END page-header -->
+
     </div>
+
     <div class="col-lg-12 mt-3 text-center" id="NoDashboardMessage">
         <h5 class="text-muted">No dashboard selected</h5>
     </div>

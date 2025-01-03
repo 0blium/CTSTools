@@ -198,9 +198,9 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                             foreach (var _previousMonth in _previousMonthList)
                             {
                                 DashboardLineDTO.DashboardMetricDTO = new DashboardMetricDTO { ID = _dashboardMetric.ID };
-                                DashboardLineDTO.DashboardDTO.ID = _dashboardMetric.DashboardDTO.ID;
-                                DashboardLineDTO.MetricDTO.ID = _dashboardMetric.MetricDTO.ID;
-                                DashboardLineDTO.DashboardCategoryDTO.ID = CategoryID;
+                                DashboardLineDTO.DashboardID = _dashboardMetric.DashboardID;
+                                DashboardLineDTO.MetricID = _dashboardMetric.MetricID;
+                                DashboardLineDTO.DashboardCategoryID = CategoryID;
                                 DashboardLineDTO.FiscalYear = FiscalYear;
                                 DashboardLineDTO.Month = _previousMonth;
 
@@ -211,7 +211,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                                 {
                                     //Si no existe una linea para el mes actual por ese dashboardMetric crearla.
 
-                                    DashboardLineDTO.Goal = Metric_Service.GetMetricList_Global(new MetricDTO { ID = DashboardLineDTO.MetricDTO.ID }).FirstOrDefault().Goal;
+                                    DashboardLineDTO.Goal = Metric_Service.GetMetricList_Global(new MetricDTO { ID = DashboardLineDTO.MetricID }).FirstOrDefault().Goal;
 
                                     _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
                                 }

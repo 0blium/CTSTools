@@ -17,25 +17,16 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function GetDashboardIDByURL() {
     let _dashboardID = GetURLParameter("DashboardID");
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
+    if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {               
+        GetDashboardMetricList(_dashboardDTO);
+    } else {
+        toastr["error"]("Please, select a dashboard to get the information", "Dashboard Not selected");
+    }
     console.log(_dashboardDTO);
     dxLoadPanel.hide();
 }
 async function InitializeDashboardDataEntryControls() {
-    $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox({
-        dataSource: await GetDXDashboardDataSource({IsActive:true}),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        searchEnabled: true,
-        readOnly:true,
-        placeholder: "Select Dashboard",
-        onSelectionChanged: function (e) {
-            if ($("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value") != null) {
-                GetDashboardMetricList();
-            } else {
-                toastr["error"]("Please, select a dashboard to get the information", "Dashboard Not selected");
-            }
-        }
-    });
+    
     $("#dxMetricTendenceChart").dxChart({
         dataSource: "",
         title: {
@@ -74,7 +65,6 @@ async function InitializeDashboardDataEntryControls() {
 }
 //#region TQC Format
 function FilterMetricListByCategory(DashboardMetricList) {
-    /*debugger*/
     //Quality
     let _sortMetricQuality = DashboardMetricList.filter(function (x) {
         return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
@@ -149,7 +139,6 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             "<h5><strong>" + Letter + "</strong></h5><strong><p><strong>" + Category + "</strong></p>" +
             "</td>" +
             "</tr>";
-
         DashboardMetricList.forEach(function (DashboardMetricDTO) {
             let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
             let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
@@ -157,13 +146,13 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
                 `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
-                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricDTO.ID} ` +
+                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
                 `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
                 `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
                 `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
-                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricDTO.Name}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
                 `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
@@ -320,10 +309,11 @@ function ConvertToMoney(Goal) {
 }
 //#endregion
 //#region Call service functions
-async function GetDashboardMetricList() {
+async function GetDashboardMetricList(DashboardDTO) {
     await dxLoadPanel.show();
+    document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
     const _dashboardMetricList = await GetDashboardMetricWithUI({
-        DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
+        DashboardID: DashboardDTO[0].ID,
         GetDashboardLineList:true
     });
     FilterMetricListByCategory(_dashboardMetricList);
@@ -333,7 +323,8 @@ async function GetDashboardMetricList() {
 async function GetDashboardLineInformation_Global(DashboardLineID) {
     await dxLoadPanel.show();
     const _dashboardLineDTO = await GetDashboardLineInformation({
-        ID: DashboardLineID,GetMetricDTO:true
+        ID: DashboardLineID,
+        GetMetricDTO: true
     })
     PopulateMetricInformationByDashboardAndMonth(_dashboardLineDTO[0]);
     dxLoadPanel.hide();

@@ -1,4 +1,4 @@
-﻿import { GetDXDashboardDataSource, CreateDashboard, UpdateDashboard, DeleteDashboard } from './Dashboard/Dashboard_Service.js'
+﻿import { GetDXDashboardDataSource, GetDashboardInformation ,CreateDashboard, UpdateDashboard, DeleteDashboard } from './Dashboard/Dashboard_Service.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'

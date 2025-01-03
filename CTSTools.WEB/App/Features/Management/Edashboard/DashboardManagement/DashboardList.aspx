@@ -24,7 +24,6 @@
 
             <div class="col-md-12">
                 <div class="panel panel-inverse">
-
                     <div class="panel-body">
                         <div class="col-md-12 mb-3">
                             <a id="NewDashboardBtn" href="#SaveDashboardRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>&nbsp Dashboard</a>

@@ -13,7 +13,6 @@ public class DashboardMetricController : ApiController
     [Route("api/DashboardMetric/GetPagedList")]
     public IHttpActionResult Get(DataSourceLoadOptions loadOptions, [FromUri] DashboardMetricDTO DashboardMetricDTO)
     {
-
         var _pagedDashboardMetricDTO = new PagedResultDTO<DashboardMetricDTO>()
         {
             Skip = loadOptions.Skip,
@@ -25,7 +24,6 @@ public class DashboardMetricController : ApiController
         };
         _pagedDashboardMetricDTO.DataList = DashboardMetric_Service.GetDashboardMetricList_Global(DashboardMetricDTO, _pagedDashboardMetricDTO);
         loadOptions.Skip = 0;
-
         var _dsLoader = DataSourceLoader.Load(_pagedDashboardMetricDTO.DataList, loadOptions);
         _dsLoader.totalCount = DashboardMetric_Service.GetDashboardMetricTotalCount(_pagedDashboardMetricDTO);
         return Json(_dsLoader);

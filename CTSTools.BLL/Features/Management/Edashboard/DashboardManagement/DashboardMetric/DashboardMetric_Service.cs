@@ -89,7 +89,7 @@ public class DashboardMetric_Service
         {
             if (DashboardMetricDTO.GetStatusDTO)
             {
-                DashboardMetricDTO.StatusDTO.StatusIDArray = DashboardMetricList.GroupBy(g => g.StatusDTO.ID)
+                DashboardMetricDTO.StatusDTO.StatusIDArray = DashboardMetricList.GroupBy(g => g.StatusID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -98,7 +98,7 @@ public class DashboardMetric_Service
             }
             if (DashboardMetricDTO.GetDashboardDTO)
             {
-                DashboardMetricDTO.DashboardDTO.DashboardIDArray = DashboardMetricList.GroupBy(g => g.DashboardDTO.ID)
+                DashboardMetricDTO.DashboardDTO.DashboardIDArray = DashboardMetricList.GroupBy(g => g.DashboardID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -107,7 +107,7 @@ public class DashboardMetric_Service
             }
             if (DashboardMetricDTO.GetMetricDTO)
             {
-                DashboardMetricDTO.MetricDTO.MetricIDArray = DashboardMetricList.GroupBy(g => g.MetricDTO.ID)
+                DashboardMetricDTO.MetricDTO.MetricIDArray = DashboardMetricList.GroupBy(g => g.MetricID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -116,7 +116,7 @@ public class DashboardMetric_Service
             }
             if (DashboardMetricDTO.GetDashboardCategoryDTO)
             {
-                DashboardMetricDTO.DashboardCategoryDTO.DashboardCategoryIDArray = DashboardMetricList.GroupBy(g => g.DashboardCategoryDTO.ID)
+                DashboardMetricDTO.DashboardCategoryDTO.DashboardCategoryIDArray = DashboardMetricList.GroupBy(g => g.DashboardCategoryID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -133,21 +133,21 @@ public class DashboardMetric_Service
             }
             foreach (var _dashboardmetricDTO in DashboardMetricList)
             {
-                if (DashboardMetricDTO.GetStatusDTO && _statusDict.ContainsKey(_dashboardmetricDTO.StatusDTO.ID))
+                if (DashboardMetricDTO.GetStatusDTO && _statusDict.ContainsKey(_dashboardmetricDTO.StatusID))
                 {
-                    _dashboardmetricDTO.StatusDTO = _statusDict[_dashboardmetricDTO.StatusDTO.ID];
+                    _dashboardmetricDTO.StatusDTO = _statusDict[_dashboardmetricDTO.StatusID];
                 }
-                if (DashboardMetricDTO.GetDashboardDTO && _dashboardDict.ContainsKey(_dashboardmetricDTO.DashboardDTO.ID))
+                if (DashboardMetricDTO.GetDashboardDTO && _dashboardDict.ContainsKey(_dashboardmetricDTO.DashboardID))
                 {
-                    _dashboardmetricDTO.DashboardDTO = _dashboardDict[_dashboardmetricDTO.DashboardDTO.ID];
+                    _dashboardmetricDTO.DashboardDTO = _dashboardDict[_dashboardmetricDTO.DashboardID];
                 }
-                if (DashboardMetricDTO.GetMetricDTO && _metricDict.ContainsKey(_dashboardmetricDTO.MetricDTO.ID))
+                if (DashboardMetricDTO.GetMetricDTO && _metricDict.ContainsKey(_dashboardmetricDTO.MetricID))
                 {
-                    _dashboardmetricDTO.MetricDTO = _metricDict[_dashboardmetricDTO.MetricDTO.ID];
+                    _dashboardmetricDTO.MetricDTO = _metricDict[_dashboardmetricDTO.MetricID];
                 }
-                if (DashboardMetricDTO.GetDashboardCategoryDTO && _dashboardcategoryDict.ContainsKey(_dashboardmetricDTO.DashboardCategoryDTO.ID))
+                if (DashboardMetricDTO.GetDashboardCategoryDTO && _dashboardcategoryDict.ContainsKey(_dashboardmetricDTO.DashboardCategoryID))
                 {
-                    _dashboardmetricDTO.DashboardCategoryDTO = _dashboardcategoryDict[_dashboardmetricDTO.DashboardCategoryDTO.ID];
+                    _dashboardmetricDTO.DashboardCategoryDTO = _dashboardcategoryDict[_dashboardmetricDTO.DashboardCategoryID];
                 }
                 if (DashboardMetricDTO.GetDashboardLineList && _DashboardLineDict.ContainsKey(_dashboardmetricDTO.ID))
                 {
@@ -313,7 +313,7 @@ public class DashboardMetric_Service
         var _dashboardMetricList_Global = new List<DashboardMetricDTO>();
         int _previousMonth = DateTime.Now.AddMonths(-1).Month;
         //int _fiscalYear = CalculateFiscalYear();
-        int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardMetricDTO.DashboardDTO.ID }).FirstOrDefault().Year; ;
+        int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardMetricDTO.DashboardID }).FirstOrDefault().Year; ;
         try
         {
             if (_fiscalYear > 0 && _fiscalYear != null)
@@ -330,7 +330,7 @@ public class DashboardMetric_Service
                 foreach (var _category in new int[] { 1, 2, 3, 4, 5, 6 })
                 {
                     DashboardMetricDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
-                    DashboardMetricDTO.DashboardCategoryDTO.ID = _category;
+                    DashboardMetricDTO.DashboardCategoryID = _category;
                     DashboardMetricDTO.GetDashboardLineList = true;
                     DashboardMetricDTO.GetDashboardDTO = true;
                     DashboardMetricDTO.GetMetricDTO = true;
@@ -378,17 +378,17 @@ public class DashboardMetric_Service
                                             var _metricBackgroudColor = string.Empty;
 
                                             if (string.IsNullOrEmpty(_monthlyDTO.MonthlyValue)) { _metricBackgroudColor = "FFFFFF"; }
-                                            if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal)
+                                            if (_dashboardMetricDTOResult.MetricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
                                             {
                                                 //Color green
                                                 if (Convert.ToDecimal(_monthlyDTO.MonthlyValue) == Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
                                             }
-                                            else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                                            else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                                             {
                                                 //Color green
                                                 if (Convert.ToDecimal(_monthlyDTO.MonthlyValue) >= Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
                                             }
-                                            else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                                            else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                                             {
                                                 //Color green
                                                 if (Convert.ToDecimal(_monthlyDTO.MonthlyValue) <= Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
@@ -398,7 +398,7 @@ public class DashboardMetric_Service
                                             {
                                                 //Base on goal calculcate goal range
                                                 decimal _goalRangeValue = _dashboardMetricDTOResult.MetricDTO?.Goal != 0 ? (Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal) * Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.GoalRangeDTO.Value)) / 100 : Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.GoalRangeDTO.Value);
-                                                if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal)
+                                                if (_dashboardMetricDTOResult.MetricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
                                                 {
                                                     //If goal needs to be equal to 0 all other values will be red
                                                     if (Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal) == 0 && _goalRangeValue==0)
@@ -417,7 +417,7 @@ public class DashboardMetric_Service
                                                         }
                                                     }
                                                 }
-                                                else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                                                else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                                                 {
                                                     if (Convert.ToDecimal(_monthlyDTO.MonthlyValue) >= Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal) - _goalRangeValue)
                                                     {
@@ -428,7 +428,7 @@ public class DashboardMetric_Service
                                                         _metricBackgroudColor = "FF0000";
                                                     }
                                                 }
-                                                else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                                                else if (_dashboardMetricDTOResult.MetricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                                                 {
                                                     if (Convert.ToDecimal(_monthlyDTO.MonthlyValue) <= Convert.ToDecimal(_dashboardMetricDTOResult.MetricDTO.Goal) + _goalRangeValue)
                                                     {
