@@ -10,20 +10,24 @@ import { ValueType_Enum } from '../Settings/ValueType/ValueType_Enum.js';
 import { UnitOfMeasure_Enum } from '../Settings/UnitOfMeasure/UnitOfMeasure_Enum.js'
 
 document.addEventListener("DOMContentLoaded", async function () {
+   
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
     await GetDashboardIDByURL();
+    
 });
 async function GetDashboardIDByURL() {
+    
     let _dashboardID = GetURLParameter("DashboardID");
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
         GetDashboardMetricList(_dashboardDTO);
+        document.getElementById('hiddenDashboardID').value = _dashboardID;
     } else {
         toastr["error"]("Please, select a dashboard to get the information", "Dashboard Not selected");
     }
     console.log(_dashboardDTO);
-    dxLoadPanel.hide();
+    
 }
 async function InitializeDashboardDataEntryControls() {
 
@@ -64,16 +68,17 @@ async function InitializeDashboardDataEntryControls() {
     });
 }
 //#region TQC Format
-function FilterMetricListByCategory(DashboardMetricList) {
+async function FilterMetricListByCategory(DashboardMetricList) {
+    //await dxLoadPanel.show();
     //Quality
-    let _sortMetricQuality = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
-    });
-    BuildTQCFormat2(_sortMetricQuality);
+    //let _sortMetricQuality = DashboardMetricList.filter(function (x) {
+    //    return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
+    //});
+    BuildTQCFormat2(DashboardMetricList);
     document.getElementById('NoDashboardMessage').classList.add('d-none');
     document.getElementById('DashboardMetricList').classList.remove('d-none');
     //document.getElementById('PrintDashboardMetricData').classList.remove('d-none');
-
+    //dxLoadPanel.hide();
 }
 function BuildTQCFormat2(DashboardMetricList) {
     let _TQCFormatHTML = "";
@@ -524,9 +529,9 @@ async function GetDashboardMetricList(DashboardDTO) {
         DashboardID: DashboardDTO[0].ID,
         GetDashboardLineList: true
     });
-    FilterMetricListByCategory(_dashboardMetricList);
+    await FilterMetricListByCategory(_dashboardMetricList);
     //GetDashboardRevision();
-    dxLoadPanel.hide();
+    await dxLoadPanel.hide();
 }
 async function GetDashboardLineInformation_Global(DashboardLineID) {
     await dxLoadPanel.show();
@@ -540,7 +545,7 @@ async function GetDashboardLineInformation_Global(DashboardLineID) {
 async function GetDashboardMetricTendence_Global(DashboardMetricDTO) {
     await dxLoadPanel.show();
     const _dashboardMetricTendence = await GetDashboardMetricTendence({
-        DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
+        DashboardID: document.getElementById('hiddenDashboardID').value,
         DashboardCategoryID: DashboardMetricDTO.DashboardCategoryID,
         MetricID: DashboardMetricDTO.MetricDTO.ID,
 

@@ -116,5 +116,6 @@
         </div>
     </div>
     <input type="hidden" id="hiddenDashboardLineID" value="0" />
+    <input type="hidden" id="hiddenDashboardID" value="0" />
     <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/DashboardDataEntry.js"></script>
 </asp:Content>
