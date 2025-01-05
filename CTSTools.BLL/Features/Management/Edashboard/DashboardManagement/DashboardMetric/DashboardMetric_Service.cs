@@ -39,6 +39,7 @@ public class DashboardMetric_Service
         var _ValidationResultDTO = DashboardMetric_Validator.DeleteDashboardMetric_Validation(DashboardMetricDTO);
         if (_ValidationResultDTO.Result)
         {
+            DashboardMetricDTO.IsActive = false;
             _ValidationResultDTO = DashboardMetric_Repository.DeleteDashboardMetric(DashboardMetricDTO);
         }
         if (_ValidationResultDTO.Result)
@@ -262,12 +263,18 @@ public class DashboardMetric_Service
         {
             var _metricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardDTO = DashboardMetricDTO.DashboardDTO, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO });
             var _order = _metricList.Count > 0 ? _metricList.Max(s => s.Order) : 0;
+            int _iterate = 0;
 
             foreach (var _metricID in DashboardMetricDTO.MetricIDArray)
             {
                 if (_validation_ResultDTO.Result)
                 {
                     _order++;
+                    if (_iterate < DashboardMetricDTO.DashboardCategoryIDArray.Length)
+                    {
+                        DashboardMetricDTO.DashboardCategoryID = DashboardMetricDTO.DashboardCategoryIDArray[_iterate];
+                        _iterate++;
+                    }
                 }
                 DashboardMetricDTO.MetricID = _metricID;
                 DashboardMetricDTO.Order = _order;

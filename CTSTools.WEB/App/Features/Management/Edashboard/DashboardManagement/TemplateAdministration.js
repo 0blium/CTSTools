@@ -269,7 +269,6 @@ async function InitializeTemplateAdministrationControls() {
 
 }
 async function GetDashboardIDByURL() {
-    debugger;
     let _dashboardID = GetURLParameter("DashboardID");
     let DashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {   
@@ -287,13 +286,14 @@ function AssignDashboardMetricOrder(DashboardMetricDTO) {
 
 }
 function GetDashboardMetricDTO(DashboardDTO) {
-    debugger;
     let _dashboardMetricDTO = {
         DashboardID: GetURLParameter("DashboardID"),
         MetricIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
+        DashboardCategoryIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.DashboardCategoryID),
         GetMetricDTO: true,
         GetDashboardDTO: true,
         GetDashboardCategoryDTO: true,
+        IsActive: true,
     }
     return _dashboardMetricDTO;
 }
@@ -325,9 +325,7 @@ async function CreateDashboardMetric_Global() {
     const _validation_ResultDTO = await CreateDashboardMetricFromMetricList(_dashboardMetricDTO);
     //Poner aqui funcion que va a recargar las metricas mostradas en pantalla
     if (_validation_ResultDTO.Result) {
-        
         $('#AddMetricsModal').modal('hide');
-       
     }
     ClearDashboardMetricFields();
     //GetDashboardMetricList();
@@ -353,8 +351,6 @@ async function DeleteDashboardMetric_Global(DashboardMetricDTO) {
 async function GetDashboardMetricList(DashboardDTO) {
     await dxLoadPanel.show();
     document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
-    console.log(DashboardDTO);
-    debugger;
     const _dashboardMetricDTO = GetDashboardMetricDTO(DashboardDTO);
     $("#dxQualityMetrics").dxDataGrid("instance").option("dataSource", await GetDXDashboardMetricDataSource(_dashboardMetricDTO));
     document.getElementById('hiddenDashboardID').value = DashboardDTO.DashboardID;

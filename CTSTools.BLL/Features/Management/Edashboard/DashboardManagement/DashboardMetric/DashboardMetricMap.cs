@@ -2,6 +2,7 @@
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Xpo;
+using DevExpress.Xpo.Metadata.Helpers;
 using System;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardMetric;
@@ -47,14 +48,18 @@ public class DashboardMetricMap
             _dashboardmetricXPO = DashboardMetricDTO.ID == null || DashboardMetricDTO.ID == 0 ? new DashboardMetricXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DashboardMetricXPO>(DashboardMetricDTO.ID);
             _dashboardmetricXPO.Status = (_dashboardmetricXPO.Status != null && _dashboardmetricXPO.Status.Oid == DashboardMetricDTO.StatusID) ? _dashboardmetricXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DashboardMetricDTO.StatusID);
             _dashboardmetricXPO.Dashboard = (_dashboardmetricXPO.Dashboard != null && _dashboardmetricXPO.Dashboard.Oid == DashboardMetricDTO.DashboardID) ? _dashboardmetricXPO.Dashboard : UnitOfWork.GetObjectByKey<DashboardXPO>(DashboardMetricDTO.DashboardID);
+            _dashboardmetricXPO.DashboardCategory = (_dashboardmetricXPO.DashboardCategory != null && _dashboardmetricXPO.DashboardCategory.Oid == DashboardMetricDTO.DashboardCategoryID) ? _dashboardmetricXPO.DashboardCategory : UnitOfWork.GetObjectByKey<DashboardCategoryXPO>(DashboardMetricDTO.DashboardCategoryID);
             _dashboardmetricXPO.Metric = (_dashboardmetricXPO.Metric != null && _dashboardmetricXPO.Metric.Oid == DashboardMetricDTO.MetricID) ? _dashboardmetricXPO.Metric : UnitOfWork.GetObjectByKey<MetricXPO>(DashboardMetricDTO.MetricID);
             _dashboardmetricXPO.Order = _dashboardmetricXPO.Order == DashboardMetricDTO.Order ? _dashboardmetricXPO.Order : DashboardMetricDTO.Order;
             _dashboardmetricXPO.AddedDate = _dashboardmetricXPO.AddedDate != null ? _dashboardmetricXPO.AddedDate : DashboardMetricDTO.AddedDate;
             _dashboardmetricXPO.AddedBy = (_dashboardmetricXPO.AddedBy != null) ? _dashboardmetricXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DashboardMetricDTO.AddedByID);
             _dashboardmetricXPO.LastUpdate = _dashboardmetricXPO.LastUpdate == DashboardMetricDTO.LastUpdate ? _dashboardmetricXPO.LastUpdate : DashboardMetricDTO.LastUpdate;
             _dashboardmetricXPO.LastUpdateBy = (_dashboardmetricXPO.LastUpdateBy != null && _dashboardmetricXPO.LastUpdateBy.Oid == DashboardMetricDTO.LastUpdateByID) ? _dashboardmetricXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(DashboardMetricDTO.LastUpdateByID);
-            _dashboardmetricXPO.IsActive = true;
-
+            _dashboardmetricXPO.IsActive = (bool)DashboardMetricDTO.IsActive;
+            if (_dashboardmetricXPO.IsActive != true)
+            {
+                _dashboardmetricXPO.SetMemberValue(GCRecordField.StaticName, _dashboardmetricXPO.Oid);
+            }
         }
         catch (Exception ex)
         {

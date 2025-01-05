@@ -5,6 +5,7 @@ using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
+using DevExpress.Xpo.Metadata.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,9 +133,8 @@ public class DashboardMetric_Repository
             using (var _unit = XPO_Helper.GetNewUnitOfWork())
             {
                 var _dashboardmetricXPO = DashboardMetricMap.DTOtoXPO(DashboardMetricDTO, _unit);
-                _unit.Delete(_dashboardmetricXPO);
+                _unit.Save(_dashboardmetricXPO);
                 _unit.CommitChanges();
-                _unit.PurgeDeletedObjects();
             }
         }
         catch (Exception ex)

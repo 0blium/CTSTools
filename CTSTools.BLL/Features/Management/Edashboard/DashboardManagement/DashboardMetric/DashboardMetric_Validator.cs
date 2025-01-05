@@ -290,7 +290,7 @@ public class DashboardMetric_Validator
             //        //Data = $"{nameof(DashboardMetric)}{nameof(DashboardMetricDTO.DashboardCategoryDTO)}",
             //    });
             //}
-
+            
             if (DashboardMetricDTO.AddedByID == null || DashboardMetricDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -299,6 +299,29 @@ public class DashboardMetric_Validator
                     Message = "AddedByID Field Empty",
                     Description = " Please, complete the missing information ",
                 });
+            }
+            var _dashboardMetricList = DashboardMetric_Service.GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardCategoryIDArray = DashboardMetricDTO.DashboardCategoryIDArray, MetricIDArray = DashboardMetricDTO.MetricIDArray });
+            if (_dashboardMetricList != null)
+            {
+                var _dashboardCategoryIDArray = _dashboardMetricList.Select(metric => metric.DashboardCategoryID).ToArray();
+                var _metricIDArray = _dashboardMetricList.Select(metric => metric.MetricID).ToArray();
+                var _dashboardCategoryIDList = new List<int?>(DashboardMetricDTO.DashboardCategoryIDArray);
+                foreach (var DashboardCategoryID in _dashboardCategoryIDArray)
+                {
+                    int _index = _dashboardCategoryIDList.IndexOf(DashboardCategoryID);
+                    if (_index >= 0)
+                    {
+                        _dashboardCategoryIDList.RemoveAt(_index);
+                    }
+                }
+                DashboardMetricDTO.DashboardCategoryIDArray = _dashboardCategoryIDList.ToArray();
+                DashboardMetricDTO.MetricIDArray = DashboardMetricDTO.MetricIDArray.Where(ID => !_metricIDArray.Contains(ID)).ToArray();
+            }
+            if (DashboardMetricDTO.DashboardCategoryIDArray == null || DashboardMetricDTO.DashboardCategoryIDArray.Length == 0 && (DashboardMetricDTO.MetricIDArray == null || DashboardMetricDTO.MetricIDArray.Length == 0))
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "The KPIs are already saved";
+                _validation_ResultDTO.Description = " Please, select other different kpis ";
             }
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)
