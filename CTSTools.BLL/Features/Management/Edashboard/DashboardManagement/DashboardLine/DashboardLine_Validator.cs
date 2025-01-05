@@ -1,6 +1,9 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
 
@@ -200,16 +203,22 @@ public class DashboardLine_Validator
             //        Description = " Please, complete the missing information ",
             //    });
             //}
-            if (string.IsNullOrEmpty(DashboardLineDTO.Comment))
+
+
+            if (ValidatePreviousMonthsLineColor(DashboardLineDTO).Result == false)
             {
-                _validation_ResultList.Add(new ValidationResultDTO
+                if (string.IsNullOrEmpty(DashboardLineDTO.Comment))
                 {
-                    Result = false,
-                    Message = "Comment Field Empty",
-                    Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.Comment)}",
-                });
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Comment Is Required",
+                        Description = " Please, complete the missing information ",
+                        //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.Comment)}",
+                    });
+                }
             }
+            
             //if (DashboardLineDTO.IgnoreMetric == null)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
@@ -298,6 +307,125 @@ public class DashboardLine_Validator
                 _validation_ResultDTO.ValidationResultList = _validation_ResultList;
 
             }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+
+
+
+
+
+    public static ValidationResultDTO ValidatePreviousMonthsLineColor(DashboardLineDTO DashboardLineDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+            var _metricBackgroudColor = string.Empty;
+
+            var _metricDTO = Metric_Service.GetMetricList_Global(new MetricDTO { ID = DashboardLineDTO.MetricID }).FirstOrDefault();
+            var _previousMonthLinesList = DashboardLine_Service.GetDashboardLineList_Global(
+                new DashboardLineDTO
+                {
+                    DashboardID = DashboardLineDTO.DashboardID,
+                    MetricID = DashboardLineDTO.MetricID,
+                    DashboardMetricID = DashboardLineDTO.DashboardMetricID,
+                    FiscalYear = DashboardLineDTO.FiscalYear
+                }).Where(s => s.Month >= DashboardLineDTO.Month - 2 && s.Month < DashboardLineDTO.Month).ToList();
+
+
+            foreach (var _dasboardLineDTO in _previousMonthLinesList)
+            {
+                _metricBackgroudColor = string.Empty;
+                if (string.IsNullOrEmpty(_dasboardLineDTO.Value.ToString())) { _metricBackgroudColor = "FFFFFF"; }
+                if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                {
+                    //Color green
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) == Convert.ToDecimal(_metricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
+                }
+                else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                {
+                    //Color green
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_metricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
+                }
+                else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                {
+                    //Color green
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_metricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
+                }
+
+                if (string.IsNullOrEmpty(_metricBackgroudColor))
+                {
+                    //Base on goal calculcate goal range
+                    decimal _goalRangeValue = _metricDTO.Goal != 0 ? (Convert.ToDecimal(_metricDTO.Goal) * Convert.ToDecimal(_metricDTO.GoalRangeValue)) / 100 : Convert.ToDecimal(_metricDTO.GoalRangeValue);
+                    if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                    {
+                        //If goal needs to be equal to 0 all other values will be red
+                        if (Convert.ToDecimal(_metricDTO.Goal) == 0 && _goalRangeValue == 0)
+                        {
+                            _metricBackgroudColor = "FF0000";
+                        }
+                        else
+                        {
+                            if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_metricDTO.Goal) + _goalRangeValue || Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_metricDTO.Goal) + _goalRangeValue)
+                            {
+                                _metricBackgroudColor = "FFFF00";
+                            }
+                            else
+                            {
+                                _metricBackgroudColor = "FF0000";
+                            }
+                        }
+                    }
+                    else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                    {
+                        if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_metricDTO.Goal) - _goalRangeValue)
+                        {
+                            _metricBackgroudColor = "FFFF00";
+                        }
+                        else
+                        {
+                            _metricBackgroudColor = "FF0000";
+                        }
+                    }
+                    else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                    {
+                        if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_metricDTO.Goal) + _goalRangeValue)
+                        {
+                            _metricBackgroudColor = "FFFF00";
+                        }
+                        else
+                        {
+                            _metricBackgroudColor = "FF0000";
+                        }
+                    }
+                }
+
+                if(_metricBackgroudColor == "FFFF00" || _metricBackgroudColor == "FF0000")
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "",
+                        Description = "",
+                    });
+                }
+            }
+            if (_validation_ResultList.Count > 1)
+            {
+                _validation_ResultDTO.Result = false;                
+            }
+
         }
         catch (Exception ex)
         {

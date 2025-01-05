@@ -5,6 +5,7 @@ using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardC
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardMetric;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
+using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -175,7 +176,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             var _validation_ResultDTO = new ValidationResultDTO { Description = "Dashboard Template saved" };
             //int PreviousMonth = DateTime.Now.AddMonths(-1).Month;
             //int FiscalYear = CalculateFiscalYear();
-            int FiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardDTO.ID }).FirstOrDefault().Year;
+            int FiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardID }).FirstOrDefault().Year;
             try
             {
                 if (FiscalYear > 0 && FiscalYear != null)
@@ -185,8 +186,8 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
 
                         var _dashboardMetricEntity = new DashboardMetricDTO
                         {
-                            DashboardDTO = { ID = DashboardLineDTO.DashboardDTO.ID },
-                            DashboardCategoryDTO = { ID = CategoryID }
+                            DashboardID = DashboardLineDTO.DashboardID,
+                            DashboardCategoryID = CategoryID
                         };
                         var _dashboardMetriTemplateList = DashboardMetric_Service.GetDashboardMetricList_Global(_dashboardMetricEntity);
                         // hace falta crear el IsActive
@@ -197,7 +198,8 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                             var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
                             foreach (var _previousMonth in _previousMonthList)
                             {
-                                DashboardLineDTO.DashboardMetricDTO = new DashboardMetricDTO { ID = _dashboardMetric.ID };
+                                //DashboardLineDTO.DashboardMetricDTO = new DashboardMetricDTO { ID = _dashboardMetric.ID };
+                                DashboardLineDTO.DashboardMetricID = _dashboardMetric.ID;
                                 DashboardLineDTO.DashboardID = _dashboardMetric.DashboardID;
                                 DashboardLineDTO.MetricID = _dashboardMetric.MetricID;
                                 DashboardLineDTO.DashboardCategoryID = CategoryID;
@@ -323,60 +325,19 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 {
                     var _dashboardLineDTO = GetDashboardLineList_Global(new DashboardLineDTO { ID = DashboardLineDTO.ID }).FirstOrDefault();
 
-                    if (_dashboardLineDTO == null)
-                    {
-                        _validation_ResultDTO.Result = false;
-                        _validation_ResultDTO.Message = "Error";
-                        _validation_ResultDTO.Description = "Dashboard line record was not found";
-                        return _validation_ResultDTO;
-                    }
 
-                    //Add Information to dashboard Line
-                    if (_dashboardLineDTO.IgnoreMetric == false)
-                    {
-                        _dashboardLineDTO.Value = DashboardLineDTO.Value;
-                    }
-                    _dashboardLineDTO.DashboardMetricDTO = new DashboardMetricDTO { ID = _dashboardLineDTO.DashboardMetricID };
+
+                    _dashboardLineDTO.Value = DashboardLineDTO.Value;
                     _dashboardLineDTO.IsTemporalValue = DashboardLineDTO.IsTemporalValue;
                     _dashboardLineDTO.Comment = DashboardLineDTO.Comment;
                     _dashboardLineDTO.Validated = true;
                     _dashboardLineDTO.ValidatedDate = DateTime.Now;
-                    _dashboardLineDTO.ValidatedByDTO = new UserDTO { ID = DashboardLineDTO.LastUpdateByID };
+                    _dashboardLineDTO.ValidatedByID = DashboardLineDTO.LastUpdateByID;
                     _dashboardLineDTO.LastUpdateByID = DashboardLineDTO.LastUpdateByID;
                     //_dashboardLineDTO.ValidateBy= ;
                     _validation_ResultDTO = UpdateDashboardLine_Global(_dashboardLineDTO);
 
 
-
-                    //Validate if metric is shared 
-
-                    if (_dashboardLineDTO.MetricDTO.Shared == true && _dashboardLineDTO.MetricDTO.ParenMetricDTO.IsParent == false && (_dashboardLineDTO.MetricDTO.ParenMetricDTO.ID == null || _dashboardLineDTO.MetricDTO.ParenMetricDTO.ID == 0))
-                    {
-                        var dashboardLinesList = GetDashboardLineList_Global(new DashboardLineDTO { Month = DashboardLineDTO.Month, FiscalYear = _fiscalYear, MetricDTO = { ID = DashboardLineDTO.MetricDTO.ID } });
-                        var _metricInOtherDashboard = dashboardLinesList.Where(x => x.DashboardDTO.ID != DashboardLineDTO.DashboardDTO.ID).ToList();
-
-                        if (_metricInOtherDashboard.Count() > 0)
-                        {
-                            foreach (var _dasboardLineResult in _metricInOtherDashboard)
-                            {
-                                //Add Information to dashboard Line
-                                if (DashboardLineDTO.IgnoreMetric == false)
-                                {
-                                    _dasboardLineResult.Value = DashboardLineDTO.Value;
-                                    _dasboardLineResult.IgnoreMetric = false;
-                                }
-                                else
-                                {
-                                    _dasboardLineResult.IgnoreMetric = true;
-                                }
-                                _dasboardLineResult.DashboardMetricDTO = new DashboardMetricDTO { ID = _dasboardLineResult.DashboardMetricID };
-                                _dasboardLineResult.IsTemporalValue = DashboardLineDTO.IsTemporalValue;
-                                _dasboardLineResult.Comment = DashboardLineDTO.Comment;
-                                _validation_ResultDTO = UpdateDashboardLine_Global(_dasboardLineResult);
-
-                            }
-                        }
-                    }
                 }
                 else
                 {
@@ -385,12 +346,16 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 }
 
 
-                return _validation_ResultDTO;
+
             }
             catch (Exception ex)
             {
-                throw;
+                ErrorSignal.FromCurrentContext().Raise(ex);
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Error!";
+                _validation_ResultDTO.Description = string.Format("There was an error trying to save the record. ");
             }
+            return _validation_ResultDTO;
         }
 
         public static List<DashboardChartDTO> GetDashboardMetricTendence(DashboardLineDTO DashboardLineDTO)
@@ -404,7 +369,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 //    string _month = _monthInfo.GetMonthName(_previousMonth);
                 if (_fiscalYear > 0 && _fiscalYear != null)
                 {
-                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardDTO = { ID = DashboardLineDTO.DashboardDTO.ID }, MetricDTO = { ID = DashboardLineDTO.MetricDTO.ID }, FiscalYear = _fiscalYear, DashboardCategoryDTO = { ID = DashboardLineDTO.DashboardCategoryDTO.ID }, GetMetricDTO = true });
+                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardID = DashboardLineDTO.DashboardID, MetricID = DashboardLineDTO.MetricID, FiscalYear = _fiscalYear, DashboardCategoryID = DashboardLineDTO.DashboardCategoryID, GetMetricDTO = true });
                     var dashboardLineList = dashboardLineDTOList.Where(x => x.Validated == true && x.Value != null).ToList();
                     if (dashboardLineList.Count() > 0)
                     {
@@ -420,7 +385,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                             else if (_dashboardLineDTO.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal) { _tendenceDTO.GoalString = string.Format("&le; {0}", _dashboardLineDTO.MetricDTO.Goal); }
                             else if (_dashboardLineDTO.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal) { _tendenceDTO.GoalString = string.Format("= {0}", _dashboardLineDTO.MetricDTO.Goal); }
 
-                            
+
                             _tendenceList.Add(_tendenceDTO);
                         }
                     }

@@ -1,5 +1,5 @@
 ﻿import { GetDXDashboardDataSource, GetDashboardInformation } from './Dashboard/Dashboard_Service.js';
-import { AddMonthlyValue,GetDashboardLineInformation,GetDashboardMetricTendence } from './DashboardLine/DashboardLine_Service.js';
+import { AddMonthlyValue, GetDashboardLineInformation, GetDashboardMetricTendence } from './DashboardLine/DashboardLine_Service.js';
 import { GetDashboardMetricWithUI } from './DashboardMetric/DashboardMetric_Service.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
@@ -10,23 +10,27 @@ import { ValueType_Enum } from '../Settings/ValueType/ValueType_Enum.js';
 import { UnitOfMeasure_Enum } from '../Settings/UnitOfMeasure/UnitOfMeasure_Enum.js'
 
 document.addEventListener("DOMContentLoaded", async function () {
+
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
     await GetDashboardIDByURL();
+
 });
 async function GetDashboardIDByURL() {
+
     let _dashboardID = GetURLParameter("DashboardID");
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
-    if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {               
+    if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
+        document.getElementById('hiddenDashboardID').value = _dashboardID;
         GetDashboardMetricList(_dashboardDTO);
     } else {
         toastr["error"]("Please, select a dashboard to get the information", "Dashboard Not selected");
     }
     console.log(_dashboardDTO);
-    dxLoadPanel.hide();
+
 }
 async function InitializeDashboardDataEntryControls() {
-    
+
     $("#dxMetricTendenceChart").dxChart({
         dataSource: "",
         title: {
@@ -64,47 +68,22 @@ async function InitializeDashboardDataEntryControls() {
     });
 }
 //#region TQC Format
-function FilterMetricListByCategory(DashboardMetricList) {
+async function FilterMetricListByCategory(DashboardMetricList) {
+    //await dxLoadPanel.show();
     //Quality
-    let _sortMetricQuality = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
-    });
-    BuildTQCFormat(_sortMetricQuality, "Quality", "Q");
-    //Cost
-    let _sortMetricCost = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Cost
-    });
-    BuildTQCFormat(_sortMetricCost, "Cost", "C");
-    //Delivery
-    let _sortMetricDelivery = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Delivery
-    });
-    BuildTQCFormat(_sortMetricDelivery, "Delivery", "D");
-    //Safety
-    let _sortMetricSafety = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Safety
-    });
-    BuildTQCFormat(_sortMetricSafety, "Safety", "S");
-    //Moral
-    let _sortMetricMoral = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Moral
-    });
-    BuildTQCFormat(_sortMetricMoral, "Moral", "M");
-    //Improvement
-    let _sortMetricImprovement = DashboardMetricList.filter(function (x) {
-        return x.DashboardCategoryID == Dashboard_Category_Enum.Improvement
-    });
-    BuildTQCFormat(_sortMetricImprovement, "Continuos_Improvement", "I");
+    //let _sortMetricQuality = DashboardMetricList.filter(function (x) {
+    //    return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
+    //});
+    BuildTQCFormat2(DashboardMetricList);
     document.getElementById('NoDashboardMessage').classList.add('d-none');
     document.getElementById('DashboardMetricList').classList.remove('d-none');
     //document.getElementById('PrintDashboardMetricData').classList.remove('d-none');
-
+    //dxLoadPanel.hide();
 }
-function BuildTQCFormat(DashboardMetricList, Category, Letter) {
+function BuildTQCFormat2(DashboardMetricList) {
     let _TQCFormatHTML = "";
-    let _panelBodyCategory = document.getElementById(`${Category}Panel`);
+    let _panelBodyCategory = document.getElementById(`DashboardPanel`);
     _panelBodyCategory.innerHTML = "";
-    Category = Category.replace("_", " ")
     //Insert header titles of the format
     if (DashboardMetricList.length > 0) {
         _TQCFormatHTML += "<table class=\"table table-bordered\">" +
@@ -129,17 +108,20 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
             "<th>Mar</th>" +
             "</tr>" +
             "</thead>";
-
+        // Quality
+        let _sortQualityList = DashboardMetricList.filter(function (x) {
+            return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
+        });
         //Start build body of the format
-        let _metricAmount = DashboardMetricList.length + 1;
+        let _qualityAmount = _sortQualityList.length + 1;
         _TQCFormatHTML +=
             "<tbody>" +
             "<tr>" +
-            "<td style=\"width: 95px;\" rowspan=\"" + _metricAmount + "\">" +
-            "<h5><strong>" + Letter + "</strong></h5><strong><p><strong>" + Category + "</strong></p>" +
+            "<td style=\"width: 95px;\" rowspan=\"" + _qualityAmount + "\">" +
+            "<h5><strong>" + "Q" + "</strong></h5><strong><p><strong>" + "Quality" + "</strong></p>" +
             "</td>" +
             "</tr>";
-        DashboardMetricList.forEach(function (DashboardMetricDTO) {
+        _sortQualityList.forEach(function (DashboardMetricDTO) {
             let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
             let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
@@ -161,10 +143,9 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
                 let _valueTypeIcon;
 
                 let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
-                    
                     return x.Month == MonthDTO.value
                 });
-               
+
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
                     _fontColor = "000";
@@ -181,9 +162,241 @@ function BuildTQCFormat(DashboardMetricList, Category, Letter) {
 
                 _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
-            _TQCFormatHTML += '</tr>'
         });
+        _TQCFormatHTML += '</tr>'
 
+
+        // Safety
+        let _sortSafetyList = DashboardMetricList.filter(function (x) {
+            return x.DashboardCategoryID == Dashboard_Category_Enum.Safety
+        });
+        //Start build body of the format
+        let _safetyAmount = _sortSafetyList.length + 1;
+        _TQCFormatHTML +=
+            "<tbody>" +
+            "<tr>" +
+            "<td style=\"width: 95px;\" rowspan=\"" + _safetyAmount + "\">" +
+            "<h5><strong>" + "S" + "</strong></h5><strong><p><strong>" + "Safety" + "</strong></p>" +
+            "</td>" +
+            "</tr>";
+        _sortSafetyList.forEach(function (DashboardMetricDTO) {
+            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
+            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+            _TQCFormatHTML +=
+                `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
+                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
+                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
+                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
+                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            Month_Enum.forEach(function (MonthDTO) {
+                let _bgColor = "";
+                let _fontColor = "";
+                let _value;
+                let _valueTypeIcon;
+
+                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+
+                    return x.Month == MonthDTO.value
+                });
+
+                if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
+                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _fontColor = "000";
+                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+
+                    _valueTypeIcon = _fyGoalSymbol;
+                } else {
+                    _value = ""
+                    _bgColor = "FFF"
+                    _fontColor = "000"
+                    _valueTypeIcon = ""
+                }
+
+                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+            });
+        });
+        _TQCFormatHTML += '</tr>'
+
+
+        // Delivery
+        let _sortDeliveryList = DashboardMetricList.filter(function (x) {
+            return x.DashboardCategoryID == Dashboard_Category_Enum.Delivery
+        });
+        //Start build body of the format
+        let _deliveryAmount = _sortDeliveryList.length + 1;
+        _TQCFormatHTML +=
+            "<tbody>" +
+            "<tr>" +
+            "<td style=\"width: 95px;\" rowspan=\"" + _deliveryAmount + "\">" +
+            "<h5><strong>" + "D" + "</strong></h5><strong><p><strong>" + "Delivery" + "</strong></p>" +
+            "</td>" +
+            "</tr>";
+        _sortDeliveryList.forEach(function (DashboardMetricDTO) {
+            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
+            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+            _TQCFormatHTML +=
+                `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
+                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
+                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
+                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
+                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            Month_Enum.forEach(function (MonthDTO) {
+                let _bgColor = "";
+                let _fontColor = "";
+                let _value;
+                let _valueTypeIcon;
+
+                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+
+                    return x.Month == MonthDTO.value
+                });
+
+                if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
+                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _fontColor = "000";
+                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+
+                    _valueTypeIcon = _fyGoalSymbol;
+                } else {
+                    _value = ""
+                    _bgColor = "FFF"
+                    _fontColor = "000"
+                    _valueTypeIcon = ""
+                }
+
+                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+            });
+        });
+        _TQCFormatHTML += '</tr>'
+
+        // Moral
+        let _sortMoralList = DashboardMetricList.filter(function (x) {
+            return x.DashboardCategoryID == Dashboard_Category_Enum.Moral
+        });
+        //Start build body of the format
+        let _moralAmount = _sortMoralList.length + 1;
+        _TQCFormatHTML +=
+            "<tbody>" +
+            "<tr>" +
+            "<td style=\"width: 95px;\" rowspan=\"" + _moralAmount + "\">" +
+            "<h5><strong>" + "M" + "</strong></h5><strong><p><strong>" + "Moral" + "</strong></p>" +
+            "</td>" +
+            "</tr>";
+        _sortMoralList.forEach(function (DashboardMetricDTO) {
+            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
+            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+            _TQCFormatHTML +=
+                `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
+                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
+                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
+                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
+                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            Month_Enum.forEach(function (MonthDTO) {
+                let _bgColor = "";
+                let _fontColor = "";
+                let _value;
+                let _valueTypeIcon;
+
+                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+
+                    return x.Month == MonthDTO.value
+                });
+
+                if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
+                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _fontColor = "000";
+                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+
+                    _valueTypeIcon = _fyGoalSymbol;
+                } else {
+                    _value = ""
+                    _bgColor = "FFF"
+                    _fontColor = "000"
+                    _valueTypeIcon = ""
+                }
+
+                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+            });
+        });
+        _TQCFormatHTML += '</tr>'
+        // Cost
+        let _sortCostList = DashboardMetricList.filter(function (x) {
+            return x.DashboardCategoryID == Dashboard_Category_Enum.Cost
+        });
+        //Start build body of the format
+        let _costAmount = _sortCostList.length + 1;
+        _TQCFormatHTML +=
+            "<tbody>" +
+            "<tr>" +
+            "<td style=\"width: 95px;\" rowspan=\"" + _costAmount + "\">" +
+            "<h5><strong>" + "C" + "</strong></h5><strong><p><strong>" + "Cost" + "</strong></p>" +
+            "</td>" +
+            "</tr>";
+        _sortCostList.forEach(function (DashboardMetricDTO) {
+            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
+            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+            _TQCFormatHTML +=
+                `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
+                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
+                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
+                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
+                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            Month_Enum.forEach(function (MonthDTO) {
+                let _bgColor = "";
+                let _fontColor = "";
+                let _value;
+                let _valueTypeIcon;
+
+                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+
+                    return x.Month == MonthDTO.value
+                });
+
+                if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
+                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _fontColor = "000";
+                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+
+                    _valueTypeIcon = _fyGoalSymbol;
+                } else {
+                    _value = ""
+                    _bgColor = "FFF"
+                    _fontColor = "000"
+                    _valueTypeIcon = ""
+                }
+
+                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+            });
+        });
+        _TQCFormatHTML += '</tr>'
         _TQCFormatHTML +=
             "</tbody>" +
             "</table>";
@@ -311,14 +524,16 @@ function ConvertToMoney(Goal) {
 //#region Call service functions
 async function GetDashboardMetricList(DashboardDTO) {
     await dxLoadPanel.show();
-    document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
+    if (DashboardDTO != null && DashboardDTO != undefined) {
+        document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
+    }
     const _dashboardMetricList = await GetDashboardMetricWithUI({
-        DashboardID: DashboardDTO[0].ID,
-        GetDashboardLineList:true
+        DashboardID: document.getElementById('hiddenDashboardID').value,
+        GetDashboardLineList: true
     });
-    FilterMetricListByCategory(_dashboardMetricList);
+    await FilterMetricListByCategory(_dashboardMetricList);
     //GetDashboardRevision();
-    dxLoadPanel.hide();
+    await dxLoadPanel.hide();
 }
 async function GetDashboardLineInformation_Global(DashboardLineID) {
     await dxLoadPanel.show();
@@ -332,7 +547,7 @@ async function GetDashboardLineInformation_Global(DashboardLineID) {
 async function GetDashboardMetricTendence_Global(DashboardMetricDTO) {
     await dxLoadPanel.show();
     const _dashboardMetricTendence = await GetDashboardMetricTendence({
-        DashboardID: $("#dxDashboardMetric_DashboardSelectBox").dxSelectBox("instance").option("value"),
+        DashboardID: document.getElementById('hiddenDashboardID').value,
         DashboardCategoryID: DashboardMetricDTO.DashboardCategoryID,
         MetricID: DashboardMetricDTO.MetricDTO.ID,
 

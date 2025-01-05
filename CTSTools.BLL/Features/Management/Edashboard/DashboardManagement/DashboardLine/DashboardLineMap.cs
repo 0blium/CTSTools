@@ -55,7 +55,7 @@ public class DashboardLineMap
         {
             _dashboardlineXPO = DashboardLineDTO.ID == null || DashboardLineDTO.ID == 0 ? new DashboardLineXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DashboardLineXPO>(DashboardLineDTO.ID);
             _dashboardlineXPO.DashboardMetric = (_dashboardlineXPO.DashboardMetric != null && _dashboardlineXPO.DashboardMetric.Oid == DashboardLineDTO.DashboardMetricID) ? _dashboardlineXPO.DashboardMetric : UnitOfWork.GetObjectByKey<DashboardMetricXPO>(DashboardLineDTO.DashboardMetricID);
-            _dashboardlineXPO.Metric = (_dashboardlineXPO.Metric != null && _dashboardlineXPO.Metric.Oid == DashboardLineDTO.MetricID) ? _dashboardlineXPO.Metric : UnitOfWork.GetObjectByKey<MetricXPO>(DashboardLineDTO.MetricDTO.ID);
+            _dashboardlineXPO.Metric = (_dashboardlineXPO.Metric != null && _dashboardlineXPO.Metric.Oid == DashboardLineDTO.MetricID) ? _dashboardlineXPO.Metric : UnitOfWork.GetObjectByKey<MetricXPO>(DashboardLineDTO.MetricID);
             _dashboardlineXPO.DashboardCategory = (_dashboardlineXPO.DashboardCategory != null && _dashboardlineXPO.DashboardCategory.Oid == DashboardLineDTO.DashboardCategoryDTO.ID) ? _dashboardlineXPO.DashboardCategory : UnitOfWork.GetObjectByKey<DashboardCategoryXPO>(DashboardLineDTO.DashboardCategoryID);
             _dashboardlineXPO.Dashboard = (_dashboardlineXPO.Dashboard != null && _dashboardlineXPO.Dashboard.Oid == DashboardLineDTO.DashboardID) ? _dashboardlineXPO.Dashboard : UnitOfWork.GetObjectByKey<DashboardXPO>(DashboardLineDTO.DashboardID);
             _dashboardlineXPO.Goal = _dashboardlineXPO.Goal == DashboardLineDTO.Goal ? _dashboardlineXPO.Goal : DashboardLineDTO.Goal;
