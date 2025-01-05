@@ -61,7 +61,7 @@ async function InitializeTemplateAdministrationControls() {
             highlightCaseSensitive: true,
         },
         grouping: {
-            autoExpandAll: false,
+            autoExpandAll: true,
         },
         filterRow: {
             visible: true,
@@ -70,6 +70,10 @@ async function InitializeTemplateAdministrationControls() {
         headerFilter:
         {
             visible: true
+        },
+        groupPanel: {
+            visible: true,
+
         },
         selection: {
             mode: 'multiple',
@@ -80,6 +84,11 @@ async function InitializeTemplateAdministrationControls() {
             {
                 dataField: 'Name',
                 caption: 'Metric',
+            },
+            {
+                dataField: 'DashboardCategoryName',
+                caption: 'Category',
+                groupIndex: 0,
             },
             {
                 dataField: 'OwnerDepartmentName',
@@ -167,36 +176,23 @@ async function InitializeTemplateAdministrationControls() {
         },
 
         columns: [
-
             {
-                caption: "Options",
+                caption: "Delete",
                 alignment: "center",
                 allowFiltering: false,
                 allowSorting: false,
+                width: "auto",
                 cellTemplate: function (container, options) {
-                    $('<div style="text-align: center;">').appendTo(container).dxMenu({
-                        items: [{
-                            icon: "fa-solid fa-ellipsis-vertical text-dark",
-                            items: [
-                                { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 },
-                                { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
-                            ]
-                        }],
-                        showFirstSubmenuMode: 'onClick',
-                        hideSubmenuOnMouseLeave: true,
-                        onItemClick: function (e) {
-                            if (e.itemData.value == 1) {
-                                $("#hiddenDashboardMetricID").val(options.data.ID);
-                                $("#DashboardUpdateModal").modal("show");
-                                AssignDashboardMetricOrder(options.data);
-                            }
-                            else if (e.itemData.value == 2) {
-                                $("#hiddenDashboardMetricID").val(options.data.ID);
-                                ShowDashboardMetricDeleteQuestion(options.data);
-                            }
-                        },
-                    });
-                }
+                    container.height(30);
+                    $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
+                        'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                        + '</span></button>')
+                        .height(30)
+                        .on('dxclick', function () {
+                            $("#hiddenDashboardMetricID").val(options.data.ID);
+                            ShowDashboardMetricDeleteQuestion(options.data);
+                        }).appendTo(container);
+                },
             },
             {
                 dataField: 'Order',
@@ -273,6 +269,7 @@ async function InitializeTemplateAdministrationControls() {
 
 }
 async function GetDashboardIDByURL() {
+    debugger;
     let _dashboardID = GetURLParameter("DashboardID");
     let DashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {   
@@ -290,8 +287,10 @@ function AssignDashboardMetricOrder(DashboardMetricDTO) {
 
 }
 function GetDashboardMetricDTO(DashboardDTO) {
+    debugger;
     let _dashboardMetricDTO = {
-        DashboardID: DashboardDTO.ID,
+        DashboardID: GetURLParameter("DashboardID"),
+        MetricIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
         GetMetricDTO: true,
         GetDashboardDTO: true,
         GetDashboardCategoryDTO: true,
@@ -354,6 +353,8 @@ async function DeleteDashboardMetric_Global(DashboardMetricDTO) {
 async function GetDashboardMetricList(DashboardDTO) {
     await dxLoadPanel.show();
     document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
+    console.log(DashboardDTO);
+    debugger;
     const _dashboardMetricDTO = GetDashboardMetricDTO(DashboardDTO);
     $("#dxQualityMetrics").dxDataGrid("instance").option("dataSource", await GetDXDashboardMetricDataSource(_dashboardMetricDTO));
     document.getElementById('hiddenDashboardID').value = DashboardDTO.DashboardID;
