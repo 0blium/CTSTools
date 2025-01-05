@@ -404,7 +404,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 //    string _month = _monthInfo.GetMonthName(_previousMonth);
                 if (_fiscalYear > 0 && _fiscalYear != null)
                 {
-                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardID=DashboardLineDTO.DashboardID , MetricID = DashboardLineDTO.MetricID , FiscalYear = _fiscalYear, DashboardCategoryID = DashboardLineDTO.DashboardCategoryID , GetMetricDTO = true });
+                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardDTO = { ID = DashboardLineDTO.DashboardDTO.ID }, MetricDTO = { ID = DashboardLineDTO.MetricDTO.ID }, FiscalYear = _fiscalYear, DashboardCategoryDTO = { ID = DashboardLineDTO.DashboardCategoryDTO.ID }, GetMetricDTO = true });
                     var dashboardLineList = dashboardLineDTOList.Where(x => x.Validated == true && x.Value != null).ToList();
                     if (dashboardLineList.Count() > 0)
                     {

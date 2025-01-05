@@ -11,7 +11,9 @@
         </div>
         <!-- END breadcrumb -->
         <!-- BEGIN page-header -->
-
+        <div class="row">
+            <h1 id="dashboardtitle" class="page-header"></h1>
+        </div>
         <!-- END page-header -->
 
     </div>
@@ -25,15 +27,73 @@
     <div class="col-lg-12 col-md-12 col-sm-12 d-none" id="DashboardMetricList">
         <!-- Safety Panel -->
         <div class="panel panel-inverse">
-            <div class="panel-body">
-
-                <div class="col-md-12">
-                    <h3 id="dashboardtitle"></h3>
-                </div>
-                <div class="bg-grey-transparent-2 ConnectedSortable text-center metric-panel" id="DashboardPanel">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">S - Safety</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
             </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="SafetyPanel">
+            </div>
+        </div>
+        <!-- Quality Panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">Q - Quality</h4>
+                <div class="panel-heading-btn">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="QualityPanel">
+            </div>
+        </div>
+        <!-- Delivery Panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">D - Delivery</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="DeliveryPanel">
+            </div>
+        </div>
+        <!-- Cost Panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">C - Cost</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="CostPanel">
+            </div>
+        </div>
 
+
+        <!-- Moral Panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">M - Moral</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="MoralPanel">
+            </div>
+        </div>
+        <!-- Environment Panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="color: white">E - Emvioramental</h4>
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+            </div>
+            <div class="panel-body bg-grey-transparent-2 border ConnectedSortable text-center metric-panel" id="Continuos_ImprovementPanel">
+            </div>
         </div>
     </div>
     <!--Metric Information Modal-->
@@ -116,6 +176,5 @@
         </div>
     </div>
     <input type="hidden" id="hiddenDashboardLineID" value="0" />
-    <input type="hidden" id="hiddenDashboardID" value="0" />
     <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/DashboardDataEntry.js"></script>
 </asp:Content>

@@ -54,17 +54,17 @@ public class MetricMap
             _metricDTO.LastUpdateByID = (MetricXPO.LastUpdateBy != null) ? MetricXPO.LastUpdateBy.Oid : 0;
             _metricDTO.LastUpdateByName = (MetricXPO.LastUpdateBy != null) ? MetricXPO.LastUpdateBy.Name : "Unnassigned";
             _metricDTO.IsActive = MetricXPO.IsActive;
-            if (_metricDTO.EquivalenceID > 0)
+            if (_metricDTO.EquivalenceDTO?.ID > 0)
             {
-                if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                if (_metricDTO.EquivalenceDTO?.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                 {
                     _metricDTO.EquivalenceIcon = "&ge;";
                 }
-                else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                else if (_metricDTO.EquivalenceDTO?.ID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                 {
                     _metricDTO.EquivalenceIcon = "&le;";
                 }
-                else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                else if (_metricDTO.EquivalenceDTO?.ID == (int)Equivalence_Enum.Equal)
                 {
                     _metricDTO.EquivalenceIcon = "=";
                 }
