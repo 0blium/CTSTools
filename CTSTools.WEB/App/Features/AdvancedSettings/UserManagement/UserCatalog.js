@@ -171,13 +171,137 @@ async function InitializeUserCatalogControls() {
                 { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
-                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
-
-
+                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" }
             ],
+        masterDetail: {
+            enabled: true,
+            template: masterDetailTemplate,
+        }
     });
     UserActionButtons("Save");
 }
+function masterDetailTemplate(_, masterDetailOptions) {
+    return $('<div>').dxTabPanel({
+        items: [{
+            title: 'Permission',
+            template: createOrdersTabTemplate(masterDetailOptions.data),
+        }, {
+            title: 'Roles',
+            template: createAddressTabTemplate(masterDetailOptions.data),
+        }],
+    });
+}
+function createAddressTabTemplate(data) {
+    return function () {
+        return $('<div>').addClass('address-form form-container').dxForm({
+            formData: data,
+            colCount: 2,
+            customizeItem(item) {
+                item.template = formItemTemplate;
+            },
+            items: ['Address', 'City', 'Region', 'PostalCode', 'Country', 'Phone'],
+        });
+    };
+}
+function createOrdersTabTemplate(masterDetailData) {
+    return function () {
+        let orderHistoryDataGrid;
+        function onProductChanged(productID) {
+            orderHistoryDataGrid.option('dataSource', createOrderHistoryStore(productID));
+        }
+        function onDataGridInitialized(e) {
+            orderHistoryDataGrid = e.component;
+        }
+        return $('<div>').addClass('form-container').dxForm({
+            labelLocation: 'top',
+            items: [{
+                label: { text: 'Product' },
+                template: createProductSelectBoxTemplate(masterDetailData, onProductChanged),
+            }, {
+                label: { text: 'Order History' },
+                template: createOrderHistoryTemplate(onDataGridInitialized),
+            }],
+        });
+    };
+}
+
+function createProductSelectBoxTemplate(masterDetailData, onProductChanged) {
+    return function () {
+        return $('<div>').dxSelectBox({
+            inputAttr: { 'aria-label': 'Product' },
+            //dataSource: DevExpress.data.AspNet.createStore({
+            //    key: 'ProductID',
+            //    loadParams: { SupplierID: masterDetailData.SupplierID },
+            //    loadUrl: `${url}/GetProductsBySupplier`,
+            //}),
+            valueExpr: 'ProductID',
+            displayExpr: 'ProductName',
+            deferRendering: false,
+            onContentReady(e) {
+                const firstItem = e.component.option('items[0]');
+                if (firstItem) {
+                    e.component.option('value', firstItem.ProductID);
+                }
+            },
+            onValueChanged(e) {
+                onProductChanged(e.value);
+            },
+        });
+    };
+}
+function formItemTemplate(item) {
+    return $('<span>').text(item.editorOptions.value);
+}
+function createOrderHistoryTemplate(onDataGridInitialized) {
+    return function () {
+        return $('<div>').dxDataGrid({
+            onInitialized: onDataGridInitialized,
+            paging: {
+                pageSize: 5,
+            },
+            showBorders: true,
+            columns: [
+                'OrderID',
+                {
+                    dataField: 'OrderDate',
+                    dataType: 'date',
+                },
+                'ShipCountry',
+                'ShipCity',
+                {
+                    dataField: 'UnitPrice',
+                    format: 'currency',
+                },
+                'Quantity',
+                {
+                    dataField: 'Discount',
+                    format: 'percent',
+                },
+            ],
+            summary: {
+                totalItems: [{
+                    column: 'UnitPrice',
+                    summaryType: 'sum',
+                    valueFormat: {
+                        format: 'currency',
+                        precision: 2,
+                    },
+                }, {
+                    column: 'Quantity',
+                    summaryType: 'count',
+                }],
+            },
+        });
+    };
+}
+function createOrderHistoryStore(productID) {
+    return DevExpress.data.AspNet.createStore({
+        key: 'OrderID',
+        loadParams: { ProductID: productID },
+        loadUrl: `${url}/GetOrdersByProduct`,
+    });
+}
+
 function ClearUserFields() {
     UserActionButtons("Save");
     $('#hiddenUserID').val("");
@@ -194,7 +318,7 @@ function ClearUserFields() {
     $("#dxUserGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxUserGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
     $("#dxUserGrid").dxDataGrid("instance").refresh();
-        ClearErrorFeedback();
+    ClearErrorFeedback();
 }
 function UserActionButtons(Action) {
     $("#UserActionButtons").empty();
@@ -235,8 +359,8 @@ function GetUserDTO() {
         Position: $("#dxUserPositionTextBox").dxTextBox("instance").option("value"),
         Login: $("#dxUserLoginTextBox").dxTextBox("instance").option("value"),
         RoleIDArray: $("#dxUserRoleTagBox").dxTagBox("instance").option("value"),
-        FacilityID: $("#dxUserFacilitySelectBox").dxSelectBox("instance").option("value"),       
-        DepartmentID: $("#dxUserDepartmentSelectBox").dxSelectBox("instance").option("value"),        
+        FacilityID: $("#dxUserFacilitySelectBox").dxSelectBox("instance").option("value"),
+        DepartmentID: $("#dxUserDepartmentSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxUserIsActiveCheckBox").dxCheckBox("instance").option("value"),
         SendWelcomeEmail: $("#dxUserSendWelcomeEmailCheckBox").dxCheckBox("instance").option("value"),
     }
@@ -270,7 +394,7 @@ async function GetFacilityDXDatasource_Global() {
         IsActive: true
 
     };
-    return await GetDXDepartmentDataSource(_departmentDTO,"")
+    return await GetDXDepartmentDataSource(_departmentDTO, "")
 }
 
 //#endregion
@@ -424,7 +548,7 @@ async function PopulateUser_PermissionFields(data) {
 function GetUser_PermissionDTO() {
     let _user_PermissionDTO = {
         ID: $('#hiddenUser_PermissionID').val(),
-        UserID: $("#dxUser_PermissionUserSelectBox").dxSelectBox("instance").option("value"),        
+        UserID: $("#dxUser_PermissionUserSelectBox").dxSelectBox("instance").option("value"),
         PermissionIDArray: $("#dxUser_PermissionPermissionTagBox").dxTagBox("instance").option("value"),
         IsActive: $("#dxUser_PermissionIsActiveCheckBox").dxCheckBox("instance").option("value"),
     }
@@ -621,7 +745,7 @@ function GetUser_RoleDTO() {
     let _user_RoleDTO = {
         ID: $("#hiddenUser_RoleID").val(),
         UserID: $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").option("value"),
-        RoleID: $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").option("value"),        
+        RoleID: $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxUser_RoleIsActiveCheckBox").dxCheckBox("instance").option("value"),
     }
     return _user_RoleDTO;
