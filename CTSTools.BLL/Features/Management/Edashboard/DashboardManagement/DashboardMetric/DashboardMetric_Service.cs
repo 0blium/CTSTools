@@ -44,7 +44,7 @@ public class DashboardMetric_Service
         }
         if (_ValidationResultDTO.Result)
         {
-            UpdateOrderConsecutivelyDashboardMetric(new DashboardMetricDTO { DashboardDTO = DashboardMetricDTO.DashboardDTO, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO, LastUpdateByID = DashboardMetricDTO.LastUpdateByID });
+            UpdateOrderConsecutivelyDashboardMetric(new DashboardMetricDTO { DashboardID = DashboardMetricDTO.DashboardID, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO, LastUpdateByID = DashboardMetricDTO.LastUpdateByID });
         }
         return _ValidationResultDTO;
     }
@@ -206,7 +206,7 @@ public class DashboardMetric_Service
     {
         var _validation_ResultDTO = new ValidationResultDTO();
 
-        var _dashboardMetricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardDTO = DashboardMetricDTO.DashboardDTO, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO }).OrderBy(O => O.Order).ToList();
+        var _dashboardMetricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardID = DashboardMetricDTO.DashboardID, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO }).OrderBy(O => O.Order).ToList();
         var _olderDashboardMetricDTO = GetDashboardMetricList_Global(new DashboardMetricDTO { ID = DashboardMetricDTO.ID }).FirstOrDefault();
 
         if (DashboardMetricDTO.Order < _olderDashboardMetricDTO.Order)
@@ -240,7 +240,7 @@ public class DashboardMetric_Service
     {
         var _validation_ResultDTO = new ValidationResultDTO();
 
-        var _dashboardMetricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardDTO = DashboardMetricDTO.DashboardDTO, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO }).OrderBy(O => O.Order);
+        var _dashboardMetricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardID = DashboardMetricDTO.DashboardID, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO }).OrderBy(O => O.Order);
 
         var _Order = 1;
         foreach (var _dashboardMetricDTO in _dashboardMetricList)
@@ -261,7 +261,7 @@ public class DashboardMetric_Service
         _validation_ResultDTO = DashboardMetric_Validator.CreateDashboardMetric_FromMetricListValidation(DashboardMetricDTO);
         if (_validation_ResultDTO.Result)
         {
-            var _metricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardDTO = DashboardMetricDTO.DashboardDTO, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO });
+            var _metricList = GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardID = DashboardMetricDTO.DashboardID, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO });
             var _order = _metricList.Count > 0 ? _metricList.Max(s => s.Order) : 0;
             int _iterate = 0;
 

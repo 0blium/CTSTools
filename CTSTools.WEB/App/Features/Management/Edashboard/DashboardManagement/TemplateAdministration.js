@@ -150,14 +150,13 @@ async function InitializeTemplateAdministrationControls() {
             visible: true
         },
         groupPanel: {
-            visible: true,
+            visible: false,
 
         },
         rowDragging: {
             allowReordering: true,
             dropFeedbackMode: 'push',
             async onReorder(e) {
-                debugger;
                 let visibleRows = e.component.getVisibleRows();
                 // Filter only rows with rowType: 'data'
                 let dataRows = visibleRows.filter(row => row.rowType === 'data');

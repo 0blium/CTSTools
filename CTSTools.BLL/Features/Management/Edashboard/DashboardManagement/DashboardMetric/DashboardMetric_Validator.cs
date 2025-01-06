@@ -358,7 +358,7 @@ public class DashboardMetric_Validator
             if (_dashboardMetricDTO.Order != DashboardMetricDTO.Order)
             {
                 //validate if the new order is a valid order
-                var _dashboardMetricList = DashboardMetric_Service.GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardDTO = DashboardMetricDTO.DashboardDTO, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO }).OrderBy(O => O.Order);
+                var _dashboardMetricList = DashboardMetric_Service.GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardID = DashboardMetricDTO.DashboardID, DashboardCategoryDTO = DashboardMetricDTO.DashboardCategoryDTO }).OrderBy(O => O.Order);
                 var _maxorder = _dashboardMetricList.OrderBy(x => x.Order).Last().Order;
                 var _minorder = _dashboardMetricList.OrderBy(x => x.Order).First().Order;
                 if (DashboardMetricDTO.Order <= 0 || DashboardMetricDTO.Order < _minorder || DashboardMetricDTO.Order > _maxorder)
