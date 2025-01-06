@@ -184,7 +184,7 @@ function masterDetailTemplate(_, masterDetailOptions) {
     return $('<div>').dxTabPanel({
         items: [{
             title: 'Permission',
-            template: createOrdersTabTemplate(masterDetailOptions.data),
+            template: createPermissionTabTemplate(masterDetailOptions.data),
         }, {
             title: 'Roles',
             template: createAddressTabTemplate(masterDetailOptions.data),
@@ -203,7 +203,7 @@ function createAddressTabTemplate(data) {
         });
     };
 }
-function createOrdersTabTemplate(masterDetailData) {
+function createPermissionTabTemplate(masterDetailData) {
     return function () {
         let orderHistoryDataGrid;
         function onProductChanged(productID) {
