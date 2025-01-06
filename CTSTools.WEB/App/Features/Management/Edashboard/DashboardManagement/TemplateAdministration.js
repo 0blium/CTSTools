@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById('AddMetricBtn').addEventListener('click', function () {
             $('#AddMetricsModal').modal('show');        
     }); 
-    document.getElementById('UpdateOrderMetricInformation').addEventListener('click', UpdateDashboardMetricOrder_Global);
     document.getElementById('XBtnModal').addEventListener('click', ClearDashboardMetricFields);
     document.getElementById('CloseBtnModal').addEventListener('click', ClearDashboardMetricFields);
     await GetDashboardIDByURL();
@@ -23,15 +22,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 async function InitializeTemplateAdministrationControls() {
-    $("#dxDashboardMetricNameTextBox").dxTextBox({
-        placeholder: '',
-        readOnly:true
-    });
-    $("#dxDashboardMetricOrderNumberBox").dxNumberBox({
-        min: 0,
-        placeholder: "Enter the Order",
-        format: "#",
-    });
     $("#dxDashboardMetric_MetricDataGrid").dxDataGrid({
         dataSource: await GetDXMetricDataSource({IsActive:true}),
         allowColumnReordering: true,
@@ -166,13 +156,23 @@ async function InitializeTemplateAdministrationControls() {
         rowDragging: {
             allowReordering: true,
             dropFeedbackMode: 'push',
-            //async onReorder(e) {
-            //    let visibleRows = e.component.getVisibleRows();
-            //    let newDecoderStructureDTO = visibleRows[e.toIndex].data;
-            //    let d = $.Deferred();
-            //    await ReorderDescriptionGrid(newDecoderStructureDTO, e.itemData);
-            //    e.component.refresh();
-            //},
+            async onReorder(e) {
+                debugger;
+                let visibleRows = e.component.getVisibleRows();
+                // Filter only rows with rowType: 'data'
+                let dataRows = visibleRows.filter(row => row.rowType === 'data');
+                // Adjust the index to work only with rows of type 'data'
+                let adjustedIndex = dataRows.findIndex(row => row === visibleRows[e.toIndex]);
+                // Check if the index is valid
+                if (adjustedIndex !== -1) {
+                    // Get the data of the row of type 'data' that corresponds to the adjusted index
+                    let newOrderStructureDTO = dataRows[adjustedIndex].data;
+                    var _data = e.itemData;
+                    // Change the origin Order to the destination Order
+                    _data.Order = newOrderStructureDTO.Order;
+                    UpdateDashboardMetricOrder_Global(_data);
+                }
+            },
         },
 
         columns: [
@@ -228,7 +228,6 @@ async function InitializeTemplateAdministrationControls() {
             {
                 dataField: 'DashboardCategoryName',
                 caption: 'Category',
-                groupIndex: 0,
             },
             {
                 dataField: 'MetricDTO.ResponsibleDepartmentName',
@@ -278,8 +277,6 @@ async function GetDashboardIDByURL() {
 }
 function AssignDashboardMetricOrder(DashboardMetricDTO) {
     document.getElementById("hiddenDashboardMetricID").value = DashboardMetricDTO.ID;
-    $("#dxDashboardMetricOrderNumberBox").dxNumberBox("instance").option("value", DashboardMetricDTO.Order);
-    $("#dxDashboardMetricNameTextBox").dxTextBox("instance").option("value", DashboardMetricDTO.MetricName);
     document.getElementById("hiddenDashboardID").value = DashboardMetricDTO.DashboardID;
     document.getElementById("hiddenMetricID").value = DashboardMetricDTO.MetricID;
     document.getElementById("hiddenDashboardCategoryID").value = DashboardMetricDTO.DashboardCategoryID;
@@ -361,23 +358,22 @@ async function GetDashboardMetricList(DashboardDTO) {
 
 
 // #region Change Order Functions
-function GetDashboardMetricOrderDTO() {
+function GetDashboardMetricOrderDTO(Data) {
     let _dashboardMetricDTO = {
-        ID: document.getElementById("hiddenDashboardMetricID").value,
-        DashboardID: document.getElementById("hiddenDashboardID").value,
-        MetricID: document.getElementById("hiddenMetricID").value,
-        DashboardCategoryID: document.getElementById("hiddenDashboardCategoryID").value,
-        Order: $("#dxDashboardMetricOrderNumberBox").dxNumberBox("instance").option("value") /*document.getElementById("DashboardMetricOrder").value*/
+        ID: Data.ID,
+        DashboardID: Data.DashboardID,
+        MetricID: Data.MetricID,
+        DashboardCategoryID: Data.DashboardCategoryID,
+        Order: Data.Order
     }
     return _dashboardMetricDTO;
 }
-async function UpdateDashboardMetricOrder_Global() {
+async function UpdateDashboardMetricOrder_Global(Data) {
     await dxLoadPanel.show();
-    const _dashboardDTO = GetDashboardMetricOrderDTO();
+    const _dashboardDTO = GetDashboardMetricOrderDTO(Data);
     const _validation_ResultDTO = await UpdateDashboardMetricOrder(_dashboardDTO);
     HostResponse(_validation_ResultDTO);
     if (_validation_ResultDTO.Result) {
-        $("#DashboardUpdateModal").modal('hide');
         $("#dxQualityMetrics").dxDataGrid("instance").refresh();
     }   
     dxLoadPanel.hide();

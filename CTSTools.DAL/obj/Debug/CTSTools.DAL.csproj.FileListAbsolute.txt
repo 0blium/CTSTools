@@ -38,13 +38,13 @@ C:\CTSTFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.csproj.CoreCompileInputs.
 C:\CTSTFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.A133009A.Up2Date
 C:\CTSTFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.dll
 C:\CTSTFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.pdb
-C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.csproj.CoreCompileInputs.cache
-C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.csproj.AssemblyReference.cache
 C:\TFS\CTSTools\CTSTools.DAL\bin\Debug\CTSTools.DAL.dll
 C:\TFS\CTSTools\CTSTools.DAL\bin\Debug\CTSTools.DAL.pdb
 C:\TFS\CTSTools\CTSTools.DAL\bin\Debug\Elmah.dll
 C:\TFS\CTSTools\CTSTools.DAL\bin\Debug\System.Security.Principal.Windows.dll
 C:\TFS\CTSTools\CTSTools.DAL\bin\Debug\System.Security.Principal.Windows.xml
+C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.csproj.AssemblyReference.cache
+C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.csproj.CoreCompileInputs.cache
 C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.A133009A.Up2Date
 C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.dll
 C:\TFS\CTSTools\CTSTools.DAL\obj\Debug\CTSTools.DAL.pdb

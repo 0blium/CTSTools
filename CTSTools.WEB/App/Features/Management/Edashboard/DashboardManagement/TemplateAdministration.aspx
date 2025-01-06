@@ -34,36 +34,6 @@
                 </div>
             </div>
         </div>
-        <!-- Dashboard Update Modal -->
-        <div class="modal fade" id="DashboardUpdateModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title fs-5">Update KPI Order</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12 mb-2">
-                                <label>KPI</label>
-                                <%--<input class="form-control bg-gray-50" readonly id="DashboardMetricName" />--%>
-                                <div id="dxDashboardMetricNameTextBox"></div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label>Order(<span class="text-danger">*</span>)</label>
-                                <%--<input class="form-control" id="DashboardMetricOrder" />--%>
-                                <div id="dxDashboardMetricOrderNumberBox"></div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="btn btn-white" data-bs-dismiss="modal">Close</a>
-                        <a class="btn btn-success" id="UpdateOrderMetricInformation">Save</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- Add new metric to Dashboard modal -->
         <div class="modal fade" id="AddMetricsModal" data-bs-backdrop="static">

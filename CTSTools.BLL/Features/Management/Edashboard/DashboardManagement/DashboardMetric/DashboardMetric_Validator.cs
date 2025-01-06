@@ -300,7 +300,7 @@ public class DashboardMetric_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            var _dashboardMetricList = DashboardMetric_Service.GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardCategoryIDArray = DashboardMetricDTO.DashboardCategoryIDArray, MetricIDArray = DashboardMetricDTO.MetricIDArray });
+            var _dashboardMetricList = DashboardMetric_Service.GetDashboardMetricList_Global(new DashboardMetricDTO { DashboardID = DashboardMetricDTO.DashboardID, DashboardCategoryIDArray = DashboardMetricDTO.DashboardCategoryIDArray, MetricIDArray = DashboardMetricDTO.MetricIDArray });
             if (_dashboardMetricList != null)
             {
                 var _dashboardCategoryIDArray = _dashboardMetricList.Select(metric => metric.DashboardCategoryID).ToArray();
