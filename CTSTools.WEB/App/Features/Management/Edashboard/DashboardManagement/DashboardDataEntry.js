@@ -1,5 +1,5 @@
 ﻿import { GetDXDashboardDataSource, GetDashboardInformation } from './Dashboard/Dashboard_Service.js';
-import { AddMonthlyValue, GetDashboardLineInformation, GetDashboardMetricTendence } from './DashboardLine/DashboardLine_Service.js';
+import { AddMonthlyValue, GetDashboardLineInformation, GetDashboard_KPITendence } from './DashboardLine/DashboardLine_Service.js';
 import { GetDashboard_KPIWithUI } from './Dashboard_KPI/Dashboard_KPI_Service.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
@@ -8,7 +8,7 @@ import { Dashboard_Category_Enum } from '../Settings/DashboardCategory/Dashboard
 import { Month_Enum } from '../../../../Common/Utils/Month_Enum.js';
 import { ValueType_Enum } from '../Settings/ValueType/ValueType_Enum.js';
 import { UnitOfMeasure_Enum } from '../Settings/UnitOfMeasure/UnitOfMeasure_Enum.js'
-import { GetDXDashboardMetricDataSource, CreateDashboardMetric, UpdateDashboardMetricOrder, DeleteDashboardMetric, GetDashboardMetricInformation, CreateDashboardMetricFromMetricList } from './Dashboard_KPI/Dashboard_KPI_Service.js';
+import { GetDXDashboard_KPIDataSource, CreateDashboard_KPI, UpdateDashboard_KPIOrder, DeleteDashboard_KPI, GetDashboard_KPIInformation, CreateDashboard_KPIFromKPIList } from './Dashboard_KPI/Dashboard_KPI_Service.js';
 
 import { GetDXDashboardCategoryDataSource } from '../Settings/DashboardCategory/DashboardCategory_Service.js'
 import { GetDXKPIDataSource } from './KPI/KPI_Service.js'
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
-    await GetDashboardIDByURL();
+    
     $("#dashboardButton").hide();
 
     document.getElementById('KPIButton').addEventListener('click', function (e) {
@@ -45,14 +45,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     //#region Assign KPI
 
     await InitializeTemplateAdministrationControls();
-    document.getElementById('AddMetricButton').addEventListener('click', CreateDashboardMetric_Global);
-    document.getElementById('AddMetricBtn').addEventListener('click', function () {
-        $('#AddMetricsModal').modal('show');
+    document.getElementById('AddKPIButton').addEventListener('click', CreateDashboard_KPI_Global);
+    document.getElementById('AddKPIBtn').addEventListener('click', function () {
+        $('#AddKPIsModal').modal('show');
     });
-    document.getElementById('XBtnModal').addEventListener('click', ClearDashboardMetricFields);
-    document.getElementById('CloseBtnModal').addEventListener('click', ClearDashboardMetricFields);
+    document.getElementById('XBtnModal').addEventListener('click', ClearDashboard_KPIFields);
+    document.getElementById('CloseBtnModal').addEventListener('click', ClearDashboard_KPIFields);
     //#endregion
 
+    await GetDashboardIDByURL();
 });
 
 //#region Data Entry
@@ -62,8 +63,8 @@ async function GetDashboardIDByURL() {
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
         document.getElementById('hiddenDashboardID').value = _dashboardID;
-        GetDashboardMetricListForTable(_dashboardDTO);
-        
+        GetDashboard_KPIListForTable(_dashboardDTO);
+        await GetDashboard_KPIListForGrid(_dashboardDTO);
         
     } else {
         toastr["error"]("Please, select a dashboard to get the information", "Dashboard Not selected");
@@ -73,7 +74,7 @@ async function GetDashboardIDByURL() {
 }
 async function InitializeDashboardDataEntryControls() {
 
-    $("#dxMetricTendenceChart").dxChart({
+    $("#dxKPITendenceChart").dxChart({
         dataSource: "",
         title: {
             text: "KPI Tendence",
@@ -110,24 +111,24 @@ async function InitializeDashboardDataEntryControls() {
     });
 }
 //#region TQC Format
-async function FilterMetricListByCategory(DashboardMetricList) {
+async function FilterKPIListByCategory(Dashboard_KPIList) {
     //await dxLoadPanel.show();
     //Quality
-    //let _sortMetricQuality = DashboardMetricList.filter(function (x) {
+    //let _sortKPIQuality = Dashboard_KPIList.filter(function (x) {
     //    return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
     //});
-    BuildTQCFormat2(DashboardMetricList);
+    BuildTQCFormat2(Dashboard_KPIList);
     document.getElementById('NoDashboardMessage').classList.add('d-none');
-    document.getElementById('DashboardMetricList').classList.remove('d-none');
-    //document.getElementById('PrintDashboardMetricData').classList.remove('d-none');
+    document.getElementById('Dashboard_KPIList').classList.remove('d-none');
+    //document.getElementById('PrintDashboard_KPIData').classList.remove('d-none');
     //dxLoadPanel.hide();
 }
-function BuildTQCFormat2(DashboardMetricList) {
+function BuildTQCFormat2(Dashboard_KPIList) {
     let _TQCFormatHTML = "";
     let _panelBodyCategory = document.getElementById(`DashboardPanel`);
     _panelBodyCategory.innerHTML = "";
     //Insert header titles of the format
-    if (DashboardMetricList.length > 0) {
+    if (Dashboard_KPIList.length > 0) {
         _TQCFormatHTML += "<table class=\"table table-bordered\">" +
             "<thead>" +
             "<tr>" +
@@ -151,7 +152,7 @@ function BuildTQCFormat2(DashboardMetricList) {
             "</tr>" +
             "</thead>";
         // Quality
-        let _sortQualityList = DashboardMetricList.filter(function (x) {
+        let _sortQualityList = Dashboard_KPIList.filter(function (x) {
             return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
         });
         //Start build body of the format
@@ -163,35 +164,35 @@ function BuildTQCFormat2(DashboardMetricList) {
             "<h5><strong>" + "Q" + "</strong></h5><strong><p><strong>" + "Quality" + "</strong></p>" +
             "</td>" +
             "</tr>";
-        _sortQualityList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
-            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+        _sortQualityList.forEach(function (Dashboard_KPIDTO) {
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
-                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
-                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
-                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
-                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
+                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+                `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
-                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
-                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+                `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
                 let _value;
                 let _valueTypeIcon;
 
-                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+                let _dasboardLineDTO = Dashboard_KPIDTO.DashboardLineList.filter(function (x) {
                     return x.Month == MonthDTO.value
                 });
 
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
-                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = _fyGoalSymbol;
@@ -202,14 +203,14 @@ function BuildTQCFormat2(DashboardMetricList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
 
 
         // Safety
-        let _sortSafetyList = DashboardMetricList.filter(function (x) {
+        let _sortSafetyList = Dashboard_KPIList.filter(function (x) {
             return x.DashboardCategoryID == Dashboard_Category_Enum.Safety
         });
         //Start build body of the format
@@ -221,36 +222,36 @@ function BuildTQCFormat2(DashboardMetricList) {
             "<h5><strong>" + "S" + "</strong></h5><strong><p><strong>" + "Safety" + "</strong></p>" +
             "</td>" +
             "</tr>";
-        _sortSafetyList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
-            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+        _sortSafetyList.forEach(function (Dashboard_KPIDTO) {
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
-                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
-                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
-                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
-                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
+                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+                `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
-                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
-                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+                `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
                 let _value;
                 let _valueTypeIcon;
 
-                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+                let _dasboardLineDTO = Dashboard_KPIDTO.DashboardLineList.filter(function (x) {
 
                     return x.Month == MonthDTO.value
                 });
 
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
-                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = _fyGoalSymbol;
@@ -261,14 +262,14 @@ function BuildTQCFormat2(DashboardMetricList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
 
 
         // Delivery
-        let _sortDeliveryList = DashboardMetricList.filter(function (x) {
+        let _sortDeliveryList = Dashboard_KPIList.filter(function (x) {
             return x.DashboardCategoryID == Dashboard_Category_Enum.Delivery
         });
         //Start build body of the format
@@ -280,36 +281,36 @@ function BuildTQCFormat2(DashboardMetricList) {
             "<h5><strong>" + "D" + "</strong></h5><strong><p><strong>" + "Delivery" + "</strong></p>" +
             "</td>" +
             "</tr>";
-        _sortDeliveryList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
-            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+        _sortDeliveryList.forEach(function (Dashboard_KPIDTO) {
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
-                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
-                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
-                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
-                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
+                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+                `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
-                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
-                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+                `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
                 let _value;
                 let _valueTypeIcon;
 
-                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+                let _dasboardLineDTO = Dashboard_KPIDTO.DashboardLineList.filter(function (x) {
 
                     return x.Month == MonthDTO.value
                 });
 
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
-                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = _fyGoalSymbol;
@@ -320,13 +321,13 @@ function BuildTQCFormat2(DashboardMetricList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
 
         // Moral
-        let _sortMoralList = DashboardMetricList.filter(function (x) {
+        let _sortMoralList = Dashboard_KPIList.filter(function (x) {
             return x.DashboardCategoryID == Dashboard_Category_Enum.Moral
         });
         //Start build body of the format
@@ -338,36 +339,36 @@ function BuildTQCFormat2(DashboardMetricList) {
             "<h5><strong>" + "M" + "</strong></h5><strong><p><strong>" + "Moral" + "</strong></p>" +
             "</td>" +
             "</tr>";
-        _sortMoralList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
-            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+        _sortMoralList.forEach(function (Dashboard_KPIDTO) {
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
-                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
-                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
-                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
-                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
+                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+                `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
-                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
-                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+                `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
                 let _value;
                 let _valueTypeIcon;
 
-                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+                let _dasboardLineDTO = Dashboard_KPIDTO.DashboardLineList.filter(function (x) {
 
                     return x.Month == MonthDTO.value
                 });
 
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
-                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = _fyGoalSymbol;
@@ -378,12 +379,12 @@ function BuildTQCFormat2(DashboardMetricList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
         // Cost
-        let _sortCostList = DashboardMetricList.filter(function (x) {
+        let _sortCostList = Dashboard_KPIList.filter(function (x) {
             return x.DashboardCategoryID == Dashboard_Category_Enum.Cost
         });
         //Start build body of the format
@@ -395,36 +396,36 @@ function BuildTQCFormat2(DashboardMetricList) {
             "<h5><strong>" + "C" + "</strong></h5><strong><p><strong>" + "Cost" + "</strong></p>" +
             "</td>" +
             "</tr>";
-        _sortCostList.forEach(function (DashboardMetricDTO) {
-            let _fyGoalSymbol = (DashboardMetricDTO.MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(DashboardMetricDTO.MetricDTO);
-            let _fyGoalFormat = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                ConvertToMoney(DashboardMetricDTO.MetricDTO.Goal) : DashboardMetricDTO.MetricDTO.Goal;
+        _sortCostList.forEach(function (Dashboard_KPIDTO) {
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr><td style="width: 80px;"><a class="btn-modal-tendency" ` +
-                `data-dashboardcategoryid=${DashboardMetricDTO.DashboardCategoryID} data-valuetypeid=${DashboardMetricDTO.MetricDTO.ValueTypeID} ` +
-                `data-equivalenceicon=${DashboardMetricDTO.MetricDTO.EquivalenceIcon} data-metricid=${DashboardMetricDTO.MetricID} ` +
-                `data-unitofmeasureid=${DashboardMetricDTO.MetricDTO.UnitOfMeasureID} ` +
-                `data-metricgoal=${DashboardMetricDTO.MetricDTO.Goal} data-metricname='${DashboardMetricDTO.MetricDTO.Name}' data-bs-toggle="modal" ` +
-                `data-bs-target="#DashboardMetricTendencyModal" id=\"DashboardMetricTendencyBtn${DashboardMetricDTO.ID}\")\"" >` +
+                `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
+                `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
+                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+                `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
+                `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
-                `<td style="width: 95px;">${DashboardMetricDTO.MetricDTO.OwnerName}</td>` +
-                `<td style="width: 400px;" class=\"bg-yellow\">${DashboardMetricDTO.MetricName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${DashboardMetricDTO.MetricDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+                `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
+                `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
+                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
                 let _value;
                 let _valueTypeIcon;
 
-                let _dasboardLineDTO = DashboardMetricDTO.DashboardLineList.filter(function (x) {
+                let _dasboardLineDTO = Dashboard_KPIDTO.DashboardLineList.filter(function (x) {
 
                     return x.Month == MonthDTO.value
                 });
 
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
-                    _bgColor = _dasboardLineDTO[0].MonthValue.MetricBackgroundColor;
+                    _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = DashboardMetricDTO.MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = _fyGoalSymbol;
@@ -435,7 +436,7 @@ function BuildTQCFormat2(DashboardMetricList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-metric" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="MetricInformationByDashboardAndMonthBtn${DashboardMetricDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
@@ -444,13 +445,13 @@ function BuildTQCFormat2(DashboardMetricList) {
             "</table>";
         _panelBodyCategory.innerHTML = _TQCFormatHTML;
         //Add event to tendency information
-        let _tendencyMetricList = document.querySelectorAll('.btn-modal-tendency');
-        _tendencyMetricList.forEach(function (_metric) {
-            _metric.addEventListener('click', TendencyMetricEventHandler);
+        let _tendencyKPIList = document.querySelectorAll('.btn-modal-tendency');
+        _tendencyKPIList.forEach(function (_KPI) {
+            _KPI.addEventListener('click', TendencyKPIEventHandler);
         });
 
         //Add evento to update month value
-        let _monthValueList = document.querySelectorAll('.btn-modal-metric');
+        let _monthValueList = document.querySelectorAll('.btn-modal-KPI');
         _monthValueList.forEach(function (_month) {
             _month.addEventListener('click', MonthValueEventHandler);
         })
@@ -458,74 +459,74 @@ function BuildTQCFormat2(DashboardMetricList) {
 }
 //#endregion
 //#region Event handlers
-function TendencyMetricEventHandler() {
-    let _dashboardMetricDTO = {
+function TendencyKPIEventHandler() {
+    let _Dashboard_KPIDTO = {
         DashboardCategoryID: this.dataset.dashboardcategoryid,
-        MetricDTO: {
-            ID: this.dataset.metricid,
-            Name: this.dataset.metricname,
-            Goal: this.dataset.metricgoal,
+        KPIDTO: {
+            ID: this.dataset.KPIid,
+            Name: this.dataset.KPIname,
+            Goal: this.dataset.KPIgoal,
             UnitOfMeasureID: parseInt(this.dataset.unitofmeasureid),
             EquivalenceIcon: this.dataset.equivalenceicon,
             ValueTypeID: this.dataset.valuetypeid
         }
     }
-    $('#DashboardMetricTendencyModal').on('shown.bs.modal', function () {
-        $("#dxMetricTendenceChart").dxChart("instance").render();
+    $('#Dashboard_KPITendencyModal').on('shown.bs.modal', function () {
+        $("#dxKPITendenceChart").dxChart("instance").render();
     });
-    GetDashboardMetricTendence_Global(_dashboardMetricDTO);
+    GetDashboard_KPITendence_Global(_Dashboard_KPIDTO);
 }
 function MonthValueEventHandler() {
     let _dashboardLineID = this.dataset.dashboardlineid;
     let _monthName = this.dataset.monthname;
     if (_dashboardLineID > 0) {
         GetDashboardLineInformation_Global(_dashboardLineID);
-        document.getElementById('MetricValueMonth').innerHTML = _monthName;
+        document.getElementById('KPIValueMonth').innerHTML = _monthName;
     } else {
         toastr["error"]("There isn't information for this month", "Month not available");
     }
 }
 //#endregion
-//#Update Metric Month Value
-async function PopulateMetricInformationByDashboardAndMonth(DashboardLineDTO) {
-    document.getElementById('MetricColumn').innerText = DashboardLineDTO.MetricDTO.Name;
-    document.getElementById('MetricDescriptionColumn').innerText = DashboardLineDTO.MetricDTO.Description
-    document.getElementById('GoalColumn').innerHTML = DashboardLineDTO.MetricDTO.EquivalenceIcon + ' ' + DashboardLineDTO.MetricDTO.Goal;
+//#Update KPI Month Value
+async function PopulateKPIInformationByDashboardAndMonth(DashboardLineDTO) {
+    document.getElementById('KPIColumn').innerText = DashboardLineDTO.KPIDTO.Name;
+    document.getElementById('KPIDescriptionColumn').innerText = DashboardLineDTO.KPIDTO.Description
+    document.getElementById('GoalColumn').innerHTML = DashboardLineDTO.KPIDTO.EquivalenceIcon + ' ' + DashboardLineDTO.KPIDTO.Goal;
     document.getElementById('DashboardDataEntryValue').value = DashboardLineDTO.Value;
     document.getElementById('DashboardDataEntryComments').value = DashboardLineDTO.Comment;
     document.getElementById('hiddenDashboardLineID').value = DashboardLineDTO.ID;
-    $("#DataEntryMetricInfoModal").modal("show");
+    $("#DataEntryKPIInfoModal").modal("show");
 }
 function ClearMonthValueModal() {
     document.getElementById('hiddenDashboardLineID').value = "0"
     document.getElementById('DashboardDataEntryValue').value = "0"
     document.getElementById('DashboardDataEntryComments').value = ""
 }
-function SetSubtitles(MetricDTO) {
-    console.log(MetricDTO)
-    let _fyGoalSymbol = (MetricDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(MetricDTO);
-    let _fyGoalFormat = MetricDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-        ConvertToMoney(MetricDTO.Goal) : MetricDTO.Goal;
+function SetSubtitles(KPIDTO) {
+    console.log(KPIDTO)
+    let _fyGoalSymbol = (KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(KPIDTO);
+    let _fyGoalFormat = KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
+        ConvertToMoney(KPIDTO.Goal) : KPIDTO.Goal;
 
     let _subtitle;
     _subtitle = '<form class="form-inline">' +
         '<div class="form-group">' +
         '<label ><strong>KPI : </strong></label>' +
-        '<label >' + MetricDTO.Name + '</label>' +
+        '<label >' + KPIDTO.Name + '</label>' +
         '<label ><strong> - Goal : </strong></label>' +
-        '<label >' + MetricDTO.EquivalenceIcon + _fyGoalFormat + _fyGoalSymbol + '</label>' +
+        '<label >' + KPIDTO.EquivalenceIcon + _fyGoalFormat + _fyGoalSymbol + '</label>' +
         '</div>' +
         '</form>';
-    $("#dxMetricTendenceChart").dxChart("instance").option("title", {
+    $("#dxKPITendenceChart").dxChart("instance").option("title", {
         subtitle: {
             text: _subtitle
         }
     });
 }
-function UnitOfMeasureFormat(MetricDTO) {
+function UnitOfMeasureFormat(KPIDTO) {
 
     //let valueType;
-    switch (MetricDTO.UnitOfMeasureID) {
+    switch (KPIDTO.UnitOfMeasureID) {
         // Mi base de datos tiene datos que no pude quitar desde Unit Of Measure, por eso los IDs deformes para cada case
         case UnitOfMeasure_Enum.USD:
             return ""
@@ -563,16 +564,16 @@ function ConvertToMoney(Goal) {
     return USDollar.format(Goal);
 }
 //#region Call service functions
-async function GetDashboardMetricListForTable(DashboardDTO) {
+async function GetDashboard_KPIListForTable(DashboardDTO) {
     await dxLoadPanel.show();
     if (DashboardDTO != null && DashboardDTO != undefined) {
         document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
     }
-    const _dashboardMetricList = await GetDashboard_KPIWithUI({
+    const _Dashboard_KPIList = await GetDashboard_KPIWithUI({
         DashboardID: document.getElementById('hiddenDashboardID').value,
         GetDashboardLineList: true
     });
-    await FilterMetricListByCategory(_dashboardMetricList);
+    await FilterKPIListByCategory(_Dashboard_KPIList);
     //GetDashboardRevision();
     await dxLoadPanel.hide();
 }
@@ -580,23 +581,23 @@ async function GetDashboardLineInformation_Global(DashboardLineID) {
     await dxLoadPanel.show();
     const _dashboardLineDTO = await GetDashboardLineInformation({
         ID: DashboardLineID,
-        GetMetricDTO: true
+        GetKPIDTO: true
     })
-    PopulateMetricInformationByDashboardAndMonth(_dashboardLineDTO[0]);
+    PopulateKPIInformationByDashboardAndMonth(_dashboardLineDTO[0]);
     dxLoadPanel.hide();
 }
-async function GetDashboardMetricTendence_Global(DashboardMetricDTO) {
+async function GetDashboard_KPITendence_Global(Dashboard_KPIDTO) {
     await dxLoadPanel.show();
-    const _dashboardMetricTendence = await GetDashboardMetricTendence({
+    const _Dashboard_KPITendence = await GetDashboard_KPITendence({
         DashboardID: document.getElementById('hiddenDashboardID').value,
-        DashboardCategoryID: DashboardMetricDTO.DashboardCategoryID,
-        MetricID: DashboardMetricDTO.MetricDTO.ID,
+        DashboardCategoryID: Dashboard_KPIDTO.DashboardCategoryID,
+        KPIID: Dashboard_KPIDTO.KPIDTO.ID,
 
     });
-    console.log(_dashboardMetricTendence);
-    $("#dxMetricTendenceChart").dxChart('option', 'dataSource', _dashboardMetricTendence);
-    $("#dxMetricTendenceChart").dxChart('instance').render();
-    SetSubtitles(DashboardMetricDTO.MetricDTO)
+    console.log(_Dashboard_KPITendence);
+    $("#dxKPITendenceChart").dxChart('option', 'dataSource', _Dashboard_KPITendence);
+    $("#dxKPITendenceChart").dxChart('instance').render();
+    SetSubtitles(Dashboard_KPIDTO.KPIDTO)
     dxLoadPanel.hide();
 }
 function GetDashboardLineDTO() {
@@ -613,13 +614,13 @@ async function UpdateDashboardLine() {
     const _validation_resultDTO = await AddMonthlyValue(_dashboardLineDTO);
     if (_validation_resultDTO.Result) {
         ClearMonthValueModal();
-        $('#DataEntryMetricInfoModal').modal('hide');
+        $('#DataEntryKPIInfoModal').modal('hide');
     }
     HostResponse(_validation_resultDTO);
-    $('#DashboardMetricTendencyModal').on('shown.bs.modal', function () {
-        $("#dxMetricTendenceChart").dxChart("instance").render();
+    $('#Dashboard_KPITendencyModal').on('shown.bs.modal', function () {
+        $("#dxKPITendenceChart").dxChart("instance").render();
     });
-    GetDashboardMetricListForTable();
+    GetDashboard_KPIListForTable();
     dxLoadPanel.hide();
 }
 //#endregion
@@ -629,8 +630,8 @@ async function UpdateDashboardLine() {
 //#region Assign KPI
 
 async function InitializeTemplateAdministrationControls() {
-    $("#dxDashboardMetric_MetricDataGrid").dxDataGrid({
-        dataSource: await GetDXMetricDataSource({ IsActive: true }),
+    $("#dxDashboard_KPI_KPIDataGrid").dxDataGrid({
+        dataSource: await GetDXKPIDataSource({ IsActive: true }),
         allowColumnReordering: true,
         rowAlternationEnabled: true,
         showBorders: true,
@@ -680,7 +681,7 @@ async function InitializeTemplateAdministrationControls() {
         columns: [
             {
                 dataField: 'Name',
-                caption: 'Metric',
+                caption: 'KPI',
             },
             {
                 dataField: 'DashboardCategoryName',
@@ -717,7 +718,7 @@ async function InitializeTemplateAdministrationControls() {
             }
         ]
     });
-    $("#dxQualityMetrics").dxDataGrid({
+    $("#dxQualityKPIs").dxDataGrid({
         dataSource: [],
         allowColumnReordering: true,
         rowAlternationEnabled: true,
@@ -776,7 +777,7 @@ async function InitializeTemplateAdministrationControls() {
                     var _data = e.itemData;
                     // Change the origin Order to the destination Order
                     _data.Order = newOrderStructureDTO.Order;
-                    UpdateDashboardMetricOrder_Global(_data);
+                    UpdateDashboard_KPIOrder_Global(_data);
                 }
             },
         },
@@ -795,8 +796,8 @@ async function InitializeTemplateAdministrationControls() {
                         + '</span></button>')
                         .height(30)
                         .on('dxclick', function () {
-                            $("#hiddenDashboardMetricID").val(options.data.ID);
-                            ShowDashboardMetricDeleteQuestion(options.data);
+                            $("#hiddenDashboard_KPIID").val(options.data.ID);
+                            ShowDashboard_KPIDeleteQuestion(options.data);
                         }).appendTo(container);
                 },
             },
@@ -812,61 +813,61 @@ async function InitializeTemplateAdministrationControls() {
                 caption: 'Category',
             },
             {
-                dataField: 'MetricDTO.Name',
+                dataField: 'KPIDTO.Name',
                 caption: 'KPI',
             },
             {
-                dataField: 'MetricDTO.Description',
+                dataField: 'KPIDTO.Description',
                 caption: 'Description',
             },
             {
-                dataField: 'MetricDTO.ValueTypeName',
+                dataField: 'KPIDTO.ValueTypeName',
                 caption: 'Value Type',
             },
             {
-                dataField: 'MetricDTO.OwnerName',
+                dataField: 'KPIDTO.OwnerName',
                 caption: 'KPI Owner',
             },
             {
-                dataField: 'MetricDTO.OwnerDepartmentName',
+                dataField: 'KPIDTO.OwnerDepartmentName',
                 caption: 'Department',
             },
             {
-                dataField: 'MetricDTO.ResponsibleName',
+                dataField: 'KPIDTO.ResponsibleName',
                 caption: 'Responsible',
             },
 
             {
-                dataField: 'MetricDTO.ResponsibleDepartmentName',
+                dataField: 'KPIDTO.ResponsibleDepartmentName',
                 caption: 'Responsible Department',
             },
             {
-                dataField: 'MetricDTO.UnitOfMeasureName',
+                dataField: 'KPIDTO.UnitOfMeasureName',
                 caption: 'Unit Of Measure',
             },
 
             {
-                dataField: 'MetricDTO.Goal',
+                dataField: 'KPIDTO.Goal',
                 caption: 'Goal',
             },
             {
-                dataField: 'MetricDTO.GoalRangeValue',
+                dataField: 'KPIDTO.GoalRangeValue',
                 caption: 'Goal Range',
             },
             {
-                dataField: 'MetricDTO.FacilityName',
+                dataField: 'KPIDTO.FacilityName',
                 caption: 'Facility',
             },
             {
-                dataField: 'MetricDTO.EquivalenceName',
+                dataField: 'KPIDTO.EquivalenceName',
                 caption: 'Equivalence',
             },
             {
-                dataField: 'MetricDTO.LastUpdateByName',
+                dataField: 'KPIDTO.LastUpdateByName',
                 caption: 'Last Update By',
             },
             {
-                dataField: 'MetricDTO.LastUpdate',
+                dataField: 'KPIDTO.LastUpdate',
                 caption: 'Last Update Date',
             }
 
@@ -874,114 +875,107 @@ async function InitializeTemplateAdministrationControls() {
     });
 
 }
-async function GetDashboardIDByURL() {
-    let _dashboardID = GetURLParameter("DashboardID");
-    let DashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
-    if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
-        await GetDashboardMetricListForGrid(DashboardDTO);
-    }
-    dxLoadPanel.hide();
-}
-function AssignDashboardMetricOrder(DashboardMetricDTO) {
-    document.getElementById("hiddenDashboardMetricID").value = DashboardMetricDTO.ID;
-    document.getElementById("hiddenDashboardID").value = DashboardMetricDTO.DashboardID;
-    document.getElementById("hiddenMetricID").value = DashboardMetricDTO.MetricID;
-    document.getElementById("hiddenDashboardCategoryID").value = DashboardMetricDTO.DashboardCategoryID;
+
+function AssignDashboard_KPIOrder(Dashboard_KPIDTO) {
+    document.getElementById("hiddenDashboard_KPIID").value = Dashboard_KPIDTO.ID;
+    document.getElementById("hiddenDashboardID").value = Dashboard_KPIDTO.DashboardID;
+    document.getElementById("hiddenKPIID").value = Dashboard_KPIDTO.KPIID;
+    document.getElementById("hiddenDashboardCategoryID").value = Dashboard_KPIDTO.DashboardCategoryID;
 
 }
-function GetDashboardMetricDTO(DashboardDTO) {
-    let _dashboardMetricDTO = {
-        DashboardID: GetURLParameter("DashboardID"),
-        MetricIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
-        DashboardCategoryIDArray: ($("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.DashboardCategoryID),
-        GetMetricDTO: true,
+function GetDashboard_KPIDTO(DashboardDTO) {
+    let _Dashboard_KPIDTO = {
+        DashboardID: document.getElementById('hiddenDashboardID').value,
+        KPIIDArray: ($("#dxDashboard_KPI_KPIDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
+        DashboardCategoryIDArray: ($("#dxDashboard_KPI_KPIDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.DashboardCategoryID),
+        GetKPIDTO: true,
         GetDashboardDTO: true,
         GetDashboardCategoryDTO: true,
         IsActive: true,
     }
-    return _dashboardMetricDTO;
+    return _Dashboard_KPIDTO;
 }
-function ClearDashboardMetricFields() {
-    let keys = $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").deselectRows(keys);
-    $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxDashboardMetric_MetricDataGrid").dxDataGrid("instance").refresh();
+function ClearDashboard_KPIFields() {
+    let keys = $("#dxDashboard_KPI_KPIDataGrid").dxDataGrid("instance").getSelectedRowKeys();
+    $("#dxDashboard_KPI_KPIDataGrid").dxDataGrid("instance").deselectRows(keys);
+    $("#dxDashboard_KPI_KPIDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
+    $("#dxDashboard_KPI_KPIDataGrid").dxDataGrid("instance").refresh();
 }
-async function ShowDashboardMetricDeleteQuestion(DashboardMetricDTO) {
+async function ShowDashboard_KPIDeleteQuestion(Dashboard_KPIDTO) {
     const _alert = await Swal.fire({
-        text: 'You will remove this metric from current dashboard, are you sure?',
+        text: 'You will remove this KPI from current dashboard, are you sure?',
         title: 'Warning',
         confirmButtonText: `Delete`,
         icon: 'warning',
         showCancelButton: true
     });
     if (_alert.isConfirmed) {
-        const _dashboardMetricDTO = DashboardMetricDTO;
-        DeleteDashboardMetric_Global(_dashboardMetricDTO);
+        const _Dashboard_KPIDTO = Dashboard_KPIDTO;
+        DeleteDashboard_KPI_Global(_Dashboard_KPIDTO);
     }
 }
 
 
 //#region CRUD Functions
-async function CreateDashboardMetric_Global() {
+async function CreateDashboard_KPI_Global() {
     await dxLoadPanel.show();
-    const _dashboardMetricDTO = GetDashboardMetricDTO();
-    const _validation_ResultDTO = await CreateDashboardMetricFromMetricList(_dashboardMetricDTO);
-    //Poner aqui funcion que va a recargar las metricas mostradas en pantalla
+    const _Dashboard_KPIDTO = GetDashboard_KPIDTO();
+    const _validation_ResultDTO = await CreateDashboard_KPIFromKPIList(_Dashboard_KPIDTO);
+    //Poner aqui funcion que va a recargar las KPIas mostradas en pantalla
     if (_validation_ResultDTO.Result) {
-        $('#AddMetricsModal').modal('hide');
+        $('#AddKPIsModal').modal('hide');
     }
-    ClearDashboardMetricFields();
-    //GetDashboardMetricList();
+    ClearDashboard_KPIFields();
+    //GetDashboard_KPIList();
     HostResponse(_validation_ResultDTO);
-    $("#dxQualityMetrics").dxDataGrid("instance").refresh();
+    $("#dxQualityKPIs").dxDataGrid("instance").refresh();
     dxLoadPanel.hide();
 }
-async function DeleteDashboardMetric_Global(DashboardMetricDTO) {
+async function DeleteDashboard_KPI_Global(Dashboard_KPIDTO) {
     await dxLoadPanel.show();
-    const _dashboardMetricDTO = DashboardMetricDTO;
-    const _validation_ResultDTO = await DeleteDashboardMetric(_dashboardMetricDTO);
+    const _Dashboard_KPIDTO = Dashboard_KPIDTO;
+    const _validation_ResultDTO = await DeleteDashboard_KPI(_Dashboard_KPIDTO);
     if (_validation_ResultDTO.Result) {
-        document.getElementById("hiddenDashboardMetricID").value = 0;
-        //await GetDashboardMetricList();
+        document.getElementById("hiddenDashboard_KPIID").value = 0;
+        //await GetDashboard_KPIList();
     }
     HostResponse(_validation_ResultDTO);
-    $("#dxQualityMetrics").dxDataGrid("instance").refresh();
+    $("#dxQualityKPIs").dxDataGrid("instance").refresh();
     dxLoadPanel.hide();
 }
 //#endregion
 
 //#region Business Logic functions
-async function GetDashboardMetricListForGrid(DashboardDTO) {
+async function GetDashboard_KPIListForGrid(DashboardDTO) {
     await dxLoadPanel.show();
     document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
-    const _dashboardMetricDTO = GetDashboardMetricDTO(DashboardDTO);
-    $("#dxQualityMetrics").dxDataGrid("instance").option("dataSource", await GetDXDashboardMetricDataSource(_dashboardMetricDTO));
-    document.getElementById('hiddenDashboardID').value = DashboardDTO.DashboardID;
-    document.getElementById('AddMetricBtn').classList.remove('disabled');
+    const _Dashboard_KPIDTO = GetDashboard_KPIDTO(DashboardDTO);
+    $("#dxQualityKPIs").dxDataGrid("instance").option("dataSource", await GetDXDashboard_KPIDataSource(_Dashboard_KPIDTO));
+    /*document.getElementById('hiddenDashboardID').value = DashboardDTO.DashboardID;*/
+    document.getElementById('AddKPIBtn').classList.remove('disabled');
     dxLoadPanel.hide();
 }
 //#endregion
 
 
 // #region Change Order Functions
-function GetDashboardMetricOrderDTO(Data) {
-    let _dashboardMetricDTO = {
+function GetDashboard_KPIOrderDTO(Data) {
+    let _Dashboard_KPIDTO = {
         ID: Data.ID,
         DashboardID: Data.DashboardID,
-        MetricID: Data.MetricID,
+        KPIID: Data.KPIID,
         DashboardCategoryID: Data.DashboardCategoryID,
         Order: Data.Order
     }
-    return _dashboardMetricDTO;
+    return _Dashboard_KPIDTO;
 }
-async function UpdateDashboardMetricOrder_Global(Data) {
+async function UpdateDashboard_KPIOrder_Global(Data) {
     await dxLoadPanel.show();
-    const _dashboardDTO = GetDashboardMetricOrderDTO(Data);
-    const _validation_ResultDTO = await UpdateDashboardMetricOrder(_dashboardDTO);
+    const _dashboardDTO = GetDashboard_KPIOrderDTO(Data);
+    const _validation_ResultDTO = await UpdateDashboard_KPIOrder(_dashboardDTO);
     HostResponse(_validation_ResultDTO);
     if (_validation_ResultDTO.Result) {
-        $("#dxQualityMetrics").dxDataGrid("instance").refresh();
+        $("#dxQualityKPIs").dxDataGrid("instance").refresh();
     }
     dxLoadPanel.hide();
 }

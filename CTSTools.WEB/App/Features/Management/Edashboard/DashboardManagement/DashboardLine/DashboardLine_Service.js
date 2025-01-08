@@ -80,7 +80,7 @@ export async function GetDXDashboardLineDataSource(DashboardLineDTO) {
     return _DashboardLineDataSource;
 }
 
-export async function GetDashboardMetricTendence(DashboardLineDTO) {
+export async function GetDashboard_KPITendence(DashboardLineDTO) {
     let _validation_resultDTO = new Object();
     let params = await BuildSearchParams(DashboardLineDTO);
     try {

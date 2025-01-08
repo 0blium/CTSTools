@@ -96,7 +96,7 @@
                                     <div id="collapseLevel" class="accordion-collapse collapse border border-1 mt-2">
                                         <div class="accordion-body bg-light p-1 text-dark">
                                             <p>If the level doesn’t exist on the list above, create a new level by clicking the link below:</p>
-                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.aspx">Go to the KPI Settings Hub</a>
+                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx">Go to the KPI Settings Hub</a>
                                         </div>
                                     </div>
                                 </div>

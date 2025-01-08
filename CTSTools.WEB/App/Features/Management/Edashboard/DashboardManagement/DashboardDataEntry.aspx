@@ -19,11 +19,11 @@
     <div class="col-lg-12 mt-3 text-center" id="NoDashboardMessage">
         <h5 class="text-muted">No dashboard selected</h5>
     </div>
-    <%--<div class="col-md-12 mb-3 d-none" id="PrintDashboardMetricData">
+    <%--<div class="col-md-12 mb-3 d-none" id="PrintDashboard_KPIData">
         <a class="btn btn-primary me-1">Print Document</a>
 </div>--%>
 
-    <div class="col-lg-12 col-md-12 col-sm-12 d-none" id="DashboardMetricList">
+    <div class="col-lg-12 col-md-12 col-sm-12 d-none" id="Dashboard_KPIList">
         <div class="col-md-12">
             <div class="row">
 
@@ -70,9 +70,9 @@
                         <div class="panel panel-inverse">
                             <div class="panel-body">
                                 <div class="col-md-12 mb-3">
-                                    <a id="AddMetricBtn" class="btn btn-success disabled"><i class="fa-solid fa-circle-plus"></i>&nbsp KPI</a>
+                                    <a id="AddKPIBtn" class="btn btn-success disabled"><i class="fa-solid fa-circle-plus"></i>&nbsp KPI</a>
                                 </div>
-                                <div id="dxQualityMetrics"></div>
+                                <div id="dxQualityKPIs"></div>
                             </div>
                         </div>
                     </div>
@@ -82,8 +82,8 @@
     </div>
 
 
-    <!--Metric Information Modal-->
-    <div class="modal fade" id="DataEntryMetricInfoModal">
+    <!--KPI Information Modal-->
+    <div class="modal fade" id="DataEntryKPIInfoModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -96,11 +96,11 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">KPI</th>
-                                    <td id="MetricColumn"></td>
+                                    <td id="KPIColumn"></td>
                                 </tr>
                                 <tr>
                                     <th>Description</th>
-                                    <td id="MetricDescriptionColumn"></td>
+                                    <td id="KPIDescriptionColumn"></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Goal</th>
@@ -108,7 +108,7 @@
                                 </tr>
                                 <tr>
                                     <th>Month</th>
-                                    <td id="MetricValueMonth"></td>
+                                    <td id="KPIValueMonth"></td>
                                 </tr>
                                 <tr>
                                     <th>Value (<span class="text-danger">*</span>)</th>
@@ -144,15 +144,15 @@
             </div>
         </div>
     </div>
-    <!--Metric Tendency Modal-->
-    <div class="modal fade" id="DashboardMetricTendencyModal">
+    <!--KPI Tendency Modal-->
+    <div class="modal fade" id="Dashboard_KPITendencyModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="dxMetricTendenceChart"></div>
+                    <div id="dxKPITendenceChart"></div>
                 </div>
 
                 <div class="modal-footer">
@@ -161,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="AddMetricsModal" data-bs-backdrop="static">
+    <div class="modal fade" id="AddKPIsModal" data-bs-backdrop="static">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -175,14 +175,14 @@
                         </div>
                         <div class="col-md-12 mt-2">
                             <h6>KPI List(<span class="text-danger">*</span>)</h6>
-                            <div id="dxDashboardMetric_MetricDataGrid"></div>
+                            <div id="dxDashboard_KPI_KPIDataGrid"></div>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-white" id="CloseBtnModal" data-bs-dismiss="modal">Close</a>
-                    <a class="btn btn-success" id="AddMetricButton">Add KPI</a>
+                    <a class="btn btn-success" id="AddKPIButton">Add KPI</a>
                 </div>
             </div>
         </div>
@@ -192,9 +192,9 @@
     <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/DashboardDataEntry.js"></script>
 
 
-    <input type="hidden" id="hiddenDashboardMetricID" />
-    <input type="hidden" id="hiddenMetricID" />
+    <input type="hidden" id="hiddenDashboard_KPIID" />
+    <input type="hidden" id="hiddenKPIID" />
     <input type="hidden" id="hiddenDashboardCategoryID" />
-    <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/TemplateAdministration.js"></script>
+    <%--<script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/TemplateAdministration.js"></script>--%>
 
 </asp:Content>
