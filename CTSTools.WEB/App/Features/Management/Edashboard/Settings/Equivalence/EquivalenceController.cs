@@ -5,7 +5,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
 
-namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
+namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.Equivalence;
 
 public class EquivalenceController : ApiController
 {

@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.KPISettings
+namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings
 {
     public partial class KPISettings : System.Web.UI.Page
     {

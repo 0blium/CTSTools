@@ -5,7 +5,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
 
-namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.KPISettings.ValueType;
+namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.ValueType;
 
 public class ValueTypeController : ApiController
 {

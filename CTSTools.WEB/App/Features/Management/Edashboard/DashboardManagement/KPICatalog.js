@@ -1,4 +1,4 @@
-﻿import { GetDXMetricDataSource, CreateMetric, UpdateMetric, DeleteMetric } from './KPI/KPI_Service.js'
+﻿import { GetDXKPIDataSource, CreateKPI, UpdateKPI, DeleteKPI } from './KPI/KPI_Service.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'
@@ -10,87 +10,87 @@ import { GetDXGoalRangeDataSource } from '../Settings/GoalRange/GoalRange_Servic
 import { GetDXEquivalenceDataSource } from '../Settings/Equivalence/Equivalence_Service.js'
 import { GetDXDashboardCategoryDataSource } from '../Settings/DashboardCategory/DashboardCategory_Service.js'
 
-//#region Metric Behavior Functions
+//#region KPI Behavior Functions
 document.addEventListener("DOMContentLoaded", () => {
-    InitializeMetricCatalogControls();
+    InitializeKPICatalogControls();
 });
-async function InitializeMetricCatalogControls() {
-    $("#dxMetricNameTextBox").dxTextBox({
+async function InitializeKPICatalogControls() {
+    $("#dxKPINameTextBox").dxTextBox({
         placeholder: 'Type name...'
     });
-    $("#dxMetricDescriptionTextArea").dxTextArea({
+    $("#dxKPIDescriptionTextArea").dxTextArea({
         placeholder: 'Type description...',
         height: 110
     });
-    $("#dxMetricGoalNumberBox").dxNumberBox({
+    $("#dxKPIGoalNumberBox").dxNumberBox({
         min: 0,
         placeholder: "Enter the goal",
         format: "#,##0.##",
     });
-    $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox({
+    $("#dxKPIUnitOfMeasureSelectBox").dxSelectBox({
         dataSource: await GetDXUnitOfMeasureDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricCategorySelectBox").dxSelectBox({
+    $("#dxKPICategorySelectBox").dxSelectBox({
         dataSource: await GetDXDashboardCategoryDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricOwnerSelectBox").dxSelectBox({
+    $("#dxKPIOwnerSelectBox").dxSelectBox({
         dataSource: await GetDXUserDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox({
+    $("#dxKPIOwnerDepartmentSelectBox").dxSelectBox({
         dataSource: await GetDXDepartmentDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricResponsibleSelectBox").dxSelectBox({
+    $("#dxKPIResponsibleSelectBox").dxSelectBox({
         dataSource: await GetDXUserDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox({
+    $("#dxKPIResponsibleDepartmentSelectBox").dxSelectBox({
         dataSource: await GetDXDepartmentDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricValueTypeSelectBox").dxSelectBox({
+    $("#dxKPIValueTypeSelectBox").dxSelectBox({
         dataSource: await GetDXValueTypeDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricGoalRangeSelectBox").dxSelectBox({
+    $("#dxKPIGoalRangeSelectBox").dxSelectBox({
         dataSource: await GetDXGoalRangeDataSource({ IsActive: true }),
         displayExpr: "Value",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricFacilitySelectBox").dxSelectBox({
+    $("#dxKPIFacilitySelectBox").dxSelectBox({
         dataSource: await GetDXFacilityDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxMetricEquivalenceSelectBox").dxSelectBox({
+    $("#dxKPIEquivalenceSelectBox").dxSelectBox({
         dataSource: await GetDXEquivalenceDataSource({ IsActive: true }),
         displayExpr: "Name",
         valueExpr: "ID",
@@ -98,20 +98,20 @@ async function InitializeMetricCatalogControls() {
         popupWidth: 450,
     });
 
-    //$("#dxMetricCalculationTypeSelectBox").dxSelectBox({
+    //$("#dxKPICalculationTypeSelectBox").dxSelectBox({
     //    dataSource: GetDXCalculationTypeDataSource({ IsActive: true }),
     //    displayExpr: "Name",
     //    valueExpr: "ID",
     //    searchEnable: true,
     //    popupWidth: 450,
     //});
-    $("#dxMetricIsActiveCheckBox").dxCheckBox({
+    $("#dxKPIIsActiveCheckBox").dxCheckBox({
         value: true,
         visible: false
     });
 
-    $("#dxMetricGrid").dxDataGrid({
-        dataSource: await GetDXMetricDataSource({ IsActive: true }),
+    $("#dxKPIGrid").dxDataGrid({
+        dataSource: await GetDXKPIDataSource({ IsActive: true }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -163,10 +163,10 @@ async function InitializeMetricCatalogControls() {
             visible: true
         },
         onSelectionChanged: function (data) {
-            let _metricData = data.selectedRowsData[0];
-            if (_metricData != null) {
-                MetricActionButtons("Update");
-                PopulateMetricFields(_metricData);
+            let _KPIData = data.selectedRowsData[0];
+            if (_KPIData != null) {
+                KPIActionButtons("Update");
+                PopulateKPIFields(_KPIData);
             }
         },
         columns:
@@ -192,7 +192,7 @@ async function InitializeMetricCatalogControls() {
                                     $('#SaveKPICategoryRecordModal').modal('show');
                                 }
                                 else if (e.itemData.value == 2) {
-                                    document.getElementById('hiddenMetricID').value = options.data.ID;
+                                    document.getElementById('hiddenKPIID').value = options.data.ID;
                                     ShowDeleteQuestion();
                                 }
                             },
@@ -224,162 +224,162 @@ async function InitializeMetricCatalogControls() {
                 { caption: "Is Active", dataField: "IsActive" },
             ],
     });
-    document.getElementById("btnCloseKPICategoryModal").addEventListener("click", ClearMetricFields);
-    MetricActionButtons("Save");
+    document.getElementById("btnCloseKPICategoryModal").addEventListener("click", ClearKPIFields);
+    KPIActionButtons("Save");
 }
-async function PopulateMetricFields(data) {
-    $("#hiddenMetricID").val(data.ID);
+async function PopulateKPIFields(data) {
+    $("#hiddenKPIID").val(data.ID);
     $("#hiddenStatusID").val(data.StatusID);
-    $("#dxMetricNameTextBox").dxTextBox("instance").option("value", data.Name);
-    $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value", data.Goal);
-    $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
-    $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value", data.UnitOfMeasureID);
-    $("#dxMetricCategorySelectBox").dxSelectBox("instance").option("value", data.DashboardCategoryID);
-    $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value", data.ValueTypeID);
-    //$("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value", data.Shared);
-    $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeID);
-    $("#dxMetricFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityID);
-    $("#dxMetricOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
-    $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").option("value", data.OwnerDepartmentID);
-    $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
-    //$("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
-    $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDepartmentID);
-    $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").option("value", data.EquivalenceID)
-    //  //$("#dxMetricStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
-    //$("#dxMetricIsParentCheckBox").dxCheckBox("instance").option("value", data.IsParent);
-    //$("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").option("value", data.CalculationTypeID);
-    $("#dxMetricIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
+    $("#dxKPINameTextBox").dxTextBox("instance").option("value", data.Name);
+    $("#dxKPIGoalNumberBox").dxNumberBox("instance").option("value", data.Goal);
+    $("#dxKPIDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
+    $("#dxKPIUnitOfMeasureSelectBox").dxSelectBox("instance").option("value", data.UnitOfMeasureID);
+    $("#dxKPICategorySelectBox").dxSelectBox("instance").option("value", data.DashboardCategoryID);
+    $("#dxKPIValueTypeSelectBox").dxSelectBox("instance").option("value", data.ValueTypeID);
+    //$("#dxKPISharedCheckBox").dxCheckBox("instance").option("value", data.Shared);
+    $("#dxKPIGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeID);
+    $("#dxKPIFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityID);
+    $("#dxKPIOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
+    $("#dxKPIOwnerDepartmentSelectBox").dxSelectBox("instance").option("value", data.OwnerDepartmentID);
+    $("#dxKPIResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
+    //$("#dxKPIResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
+    $("#dxKPIResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDepartmentID);
+    $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").option("value", data.EquivalenceID)
+    //  //$("#dxKPIStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
+    //$("#dxKPIIsParentCheckBox").dxCheckBox("instance").option("value", data.IsParent);
+    //$("#dxKPICalculationTypeSelectBox").dxSelectBox("instance").option("value", data.CalculationTypeID);
+    $("#dxKPIIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
 }
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
-        title: 'You will remove the metric, are you sure?',
+        title: 'You will remove the KPI, are you sure?',
         confirmButtonText: `Delete`,
         showCancelButton: true
     });
     if (_alert.isConfirmed) {
-        DeleteMetric_Global();
+        DeleteKPI_Global();
     } else {
-        ClearMetricFields();
+        ClearKPIFields();
     }
 
 }
-function MetricActionButtons(Action) {
-    $("#MetricActionButtons").empty();
+function KPIActionButtons(Action) {
+    $("#KPIActionButtons").empty();
     document.getElementById('KPICategoryModalTitle').innerText = '';
     if (Action == "Save") {
-        document.getElementById("NewKPICategoryBtn").addEventListener("click", ClearMetricFields);
+        document.getElementById("NewKPICategoryBtn").addEventListener("click", ClearKPIFields);
         document.getElementById('KPICategoryModalTitle').innerText = 'Add KPI'
-        document.getElementById("MetricActionButtons").innerHTML =
+        document.getElementById("KPIActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success float-end" id="CreateMetricButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateKPIButton" type="button">Save</button>' +
             '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDashboardCategoryButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearDashboardCategoryButton").addEventListener("click", ClearMetricFields);
-        document.getElementById("CreateMetricButton").addEventListener("click", CreateMetric_Global);
+        document.getElementById("ClearDashboardCategoryButton").addEventListener("click", ClearKPIFields);
+        document.getElementById("CreateKPIButton").addEventListener("click", CreateKPI_Global);
     }
     else {
         // Update
         document.getElementById('KPICategoryModalTitle').innerText = 'Update KPI'
-        document.getElementById("MetricActionButtons").innerHTML =
+        document.getElementById("KPIActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success float-end" id="UpdateMetricButton" type="button">Update</button>' +
-            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearMetricButton" type="button">Cancel</button>' +
+            '<button class="btn btn-success float-end" id="UpdateKPIButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearKPIButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearMetricButton").addEventListener("click", ClearMetricFields);
-        document.getElementById("UpdateMetricButton").addEventListener("click", UpdateMetric_Global);
+        document.getElementById("ClearKPIButton").addEventListener("click", ClearKPIFields);
+        document.getElementById("UpdateKPIButton").addEventListener("click", UpdateKPI_Global);
     }
 }
-function ClearMetricFields() {
+function ClearKPIFields() {
     $('#SaveKPICategoryRecordModal').modal('hide');
-    MetricActionButtons("Save");
-    $("#hiddenMetricID").val("");
+    KPIActionButtons("Save");
+    $("#hiddenKPIID").val("");
     $("#hiddenStatusID").val("");
-    $("#dxMetricNameTextBox").dxTextBox("instance").option("value", "");
-    $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value", "0");
-    $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value", "");
-    $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricCategorySelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").reset();
-    //$("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value", true);
-    $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricFacilitySelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").reset();
-    //$("#dxMetricStatusSelectBox").dxSelectBox("instance").reset();
-    //$("#dxMetricIsParentCheckBox").dxCheckBox("instance").option("value", true);
-    //$("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricOwnerSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").reset()
-    $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").reset();
-    $("#dxMetricIsActiveCheckBox").dxCheckBox("instance").option("value", true);
+    $("#dxKPINameTextBox").dxTextBox("instance").option("value", "");
+    $("#dxKPIGoalNumberBox").dxNumberBox("instance").option("value", "0");
+    $("#dxKPIDescriptionTextArea").dxTextArea("instance").option("value", "");
+    $("#dxKPIUnitOfMeasureSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPICategorySelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIValueTypeSelectBox").dxSelectBox("instance").reset();
+    //$("#dxKPISharedCheckBox").dxCheckBox("instance").option("value", true);
+    $("#dxKPIGoalRangeSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIFacilitySelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").reset();
+    //$("#dxKPIStatusSelectBox").dxSelectBox("instance").reset();
+    //$("#dxKPIIsParentCheckBox").dxCheckBox("instance").option("value", true);
+    //$("#dxKPICalculationTypeSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIOwnerDepartmentSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIOwnerSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIResponsibleSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIResponsibleSelectBox").dxSelectBox("instance").reset()
+    $("#dxKPIResponsibleDepartmentSelectBox").dxSelectBox("instance").reset();
+    $("#dxKPIIsActiveCheckBox").dxCheckBox("instance").option("value", true);
 
-    let keys = $("#dxMetricGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxMetricGrid").dxDataGrid("instance").deselectRows(keys);
-    $("#dxMetricGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxMetricGrid").dxDataGrid("instance").refresh();
+    let keys = $("#dxKPIGrid").dxDataGrid("instance").getSelectedRowKeys();
+    $("#dxKPIGrid").dxDataGrid("instance").deselectRows(keys);
+    $("#dxKPIGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
+    $("#dxKPIGrid").dxDataGrid("instance").refresh();
     ClearErrorFeedback();
 }
-function GetMetricDTO() {
-    let _metricDTO = {
-        ID: $("#hiddenMetricID").val(),
+function GetKPIDTO() {
+    let _KPIDTO = {
+        ID: $("#hiddenKPIID").val(),
         StatusID: $("#hiddenStatusID").val(),
-        Name: $("#dxMetricNameTextBox").dxTextBox("instance").option("value"),
-        Goal: $("#dxMetricGoalNumberBox").dxNumberBox("instance").option("value"),
-        Description: $("#dxMetricDescriptionTextArea").dxTextArea("instance").option("value"),
-        UnitOfMeasureID: $("#dxMetricUnitOfMeasureSelectBox").dxSelectBox("instance").option("value"),
-        DashboardCategoryID: $("#dxMetricCategorySelectBox").dxSelectBox("instance").option("value"),
-        ValueTypeID: $("#dxMetricValueTypeSelectBox").dxSelectBox("instance").option("value"),
-        //Shared: $("#dxMetricSharedCheckBox").dxCheckBox("instance").option("value"),
-        GoalRangeID: $("#dxMetricGoalRangeSelectBox").dxSelectBox("instance").option("value"),
-        FacilityID: $("#dxMetricFacilitySelectBox").dxSelectBox("instance").option("value"),
-        EquivalenceID: $("#dxMetricEquivalenceSelectBox").dxSelectBox("instance").option("value"),
-        //IsParent: $("#dxMetricIsParentCheckBox").dxCheckBox("instance").option("value"),
-        //CalculationTypeID: $("#dxMetricCalculationTypeSelectBox").dxSelectBox("instance").option("value"),
-        OwnerID: $("#dxMetricOwnerSelectBox").dxSelectBox("instance").option("value"),
-        OwnerDepartmentID: $("#dxMetricOwnerDepartmentSelectBox").dxSelectBox("instance").option("value"),
-        ResponsibleID: $("#dxMetricResponsibleSelectBox").dxSelectBox("instance").option("value"),
-        ResponsibleDepartmentID: $("#dxMetricResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value"),
-        IsActive: $("#dxMetricIsActiveCheckBox").dxCheckBox("instance").option("value"),
+        Name: $("#dxKPINameTextBox").dxTextBox("instance").option("value"),
+        Goal: $("#dxKPIGoalNumberBox").dxNumberBox("instance").option("value"),
+        Description: $("#dxKPIDescriptionTextArea").dxTextArea("instance").option("value"),
+        UnitOfMeasureID: $("#dxKPIUnitOfMeasureSelectBox").dxSelectBox("instance").option("value"),
+        DashboardCategoryID: $("#dxKPICategorySelectBox").dxSelectBox("instance").option("value"),
+        ValueTypeID: $("#dxKPIValueTypeSelectBox").dxSelectBox("instance").option("value"),
+        //Shared: $("#dxKPISharedCheckBox").dxCheckBox("instance").option("value"),
+        GoalRangeID: $("#dxKPIGoalRangeSelectBox").dxSelectBox("instance").option("value"),
+        FacilityID: $("#dxKPIFacilitySelectBox").dxSelectBox("instance").option("value"),
+        EquivalenceID: $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").option("value"),
+        //IsParent: $("#dxKPIIsParentCheckBox").dxCheckBox("instance").option("value"),
+        //CalculationTypeID: $("#dxKPICalculationTypeSelectBox").dxSelectBox("instance").option("value"),
+        OwnerID: $("#dxKPIOwnerSelectBox").dxSelectBox("instance").option("value"),
+        OwnerDepartmentID: $("#dxKPIOwnerDepartmentSelectBox").dxSelectBox("instance").option("value"),
+        ResponsibleID: $("#dxKPIResponsibleSelectBox").dxSelectBox("instance").option("value"),
+        ResponsibleDepartmentID: $("#dxKPIResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value"),
+        IsActive: $("#dxKPIIsActiveCheckBox").dxCheckBox("instance").option("value"),
 
     }
-    return _metricDTO;
+    return _KPIDTO;
 }
 //#endregion
 
-//#region Metric CRUD Functions
-async function CreateMetric_Global() {
+//#region KPI CRUD Functions
+async function CreateKPI_Global() {
     await dxLoadPanel.show();
-    const _metricDTO = GetMetricDTO();
-    const _validation_ResultDTO = await CreateMetric(_metricDTO)
+    const _KPIDTO = GetKPIDTO();
+    const _validation_ResultDTO = await CreateKPI(_KPIDTO)
     if (_validation_ResultDTO.Result) {
-        $("#dxMetricGrid").dxDataGrid("instance").refresh();
-        ClearMetricFields();
+        $("#dxKPIGrid").dxDataGrid("instance").refresh();
+        ClearKPIFields();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-async function UpdateMetric_Global() {
+async function UpdateKPI_Global() {
     await dxLoadPanel.show();
-    const _metricDTO = GetMetricDTO();
-    const _validation_ResultDTO = await UpdateMetric(_metricDTO)
+    const _KPIDTO = GetKPIDTO();
+    const _validation_ResultDTO = await UpdateKPI(_KPIDTO)
     if (_validation_ResultDTO.Result) {
-        $("#dxMetricGrid").dxDataGrid("instance").refresh();
-        ClearMetricFields();
+        $("#dxKPIGrid").dxDataGrid("instance").refresh();
+        ClearKPIFields();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-async function DeleteMetric_Global() {
+async function DeleteKPI_Global() {
     await dxLoadPanel.show();
-    const _metricDTO = GetMetricDTO();
-    const _validation_ResultDTO = await DeleteMetric(_metricDTO)
+    const _KPIDTO = GetKPIDTO();
+    const _validation_ResultDTO = await DeleteKPI(_KPIDTO)
     if (_validation_ResultDTO.Result) {
-        $("#dxMetricGrid").dxDataGrid("instance").refresh();
-        ClearMetricFields();
+        $("#dxKPIGrid").dxDataGrid("instance").refresh();
+        ClearKPIFields();
     }
     HostResponse(_validation_ResultDTO);
-    ClearMetricFields();
+    ClearKPIFields();
     dxLoadPanel.hide();
 }

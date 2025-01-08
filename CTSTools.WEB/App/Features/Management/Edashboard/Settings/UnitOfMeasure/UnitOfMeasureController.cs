@@ -5,7 +5,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
 
-namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.KPISettings.UnitOfMeasure;
+namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.UnitOfMeasure;
 
 public class UnitOfMeasureController : ApiController
 {

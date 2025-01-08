@@ -5,7 +5,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
 
-namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.KPISettings.Level;
+namespace CTSTools.WEB.App.Features.Management.Edashboard.Settings.Level;
 
 public class LevelController : ApiController
 {

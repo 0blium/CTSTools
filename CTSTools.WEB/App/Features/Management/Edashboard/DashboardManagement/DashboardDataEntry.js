@@ -1,6 +1,6 @@
 ﻿import { GetDXDashboardDataSource, GetDashboardInformation } from './Dashboard/Dashboard_Service.js';
 import { AddMonthlyValue, GetDashboardLineInformation, GetDashboardMetricTendence } from './DashboardLine/DashboardLine_Service.js';
-import { GetDashboardMetricWithUI } from './Dashboard_KPI/Dashboard_KPI_Service.js';
+import { GetDashboard_KPIWithUI } from './Dashboard_KPI/Dashboard_KPI_Service.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetURLParameter } from '../../../../Common/Utils/GetURLParameter.js'
@@ -568,7 +568,7 @@ async function GetDashboardMetricListForTable(DashboardDTO) {
     if (DashboardDTO != null && DashboardDTO != undefined) {
         document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
     }
-    const _dashboardMetricList = await GetDashboardMetricWithUI({
+    const _dashboardMetricList = await GetDashboard_KPIWithUI({
         DashboardID: document.getElementById('hiddenDashboardID').value,
         GetDashboardLineList: true
     });

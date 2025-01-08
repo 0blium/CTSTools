@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="KPICatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Management.Edashboard.KPIManagement.KPICatalog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="KPICatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Management.Edashboard.DashboardManagement.KPICatalog" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="content">
@@ -29,7 +29,7 @@
                                 <a id="NewKPICategoryBtn" href="#SaveKPICategoryRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>KPI</a>
                             </div>
                             <div class="col-lg-12">
-                                <div id="dxMetricGrid"></div>
+                                <div id="dxKPIGrid"></div>
                             </div>
                         </div>
                     </div>
@@ -50,96 +50,96 @@
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Name (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricNameTextBox"></div>
-                                <div class="invalid-feedback" id="MetricNameValidation"></div>
+                                <div id="dxKPINameTextBox"></div>
+                                <div class="invalid-feedback" id="KPINameValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                                <div id="dxMetricDescriptionTextArea"></div>
+                                <div id="dxKPIDescriptionTextArea"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Owner (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricOwnerSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricOwnerValidation"></div>
+                                <div id="dxKPIOwnerSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIOwnerValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Goal  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricGoalNumberBox"></div>
-                                <div class="invalid-feedback" id="MetricGoalValidation"></div>
+                                <div id="dxKPIGoalNumberBox"></div>
+                                <div class="invalid-feedback" id="KPIGoalValidation"></div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Unit Of Measure  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricUnitOfMeasureSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricUnitOfMeasureValidation"></div>
+                                <div id="dxKPIUnitOfMeasureSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIUnitOfMeasureValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Value Type  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricValueTypeSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricValueTypeValidation"></div>
+                                <div id="dxKPIValueTypeSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIValueTypeValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Facility  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricFacilitySelectBox"></div>
-                                <div class="invalid-feedback" id="MetricFacilityValidation"></div>
+                                <div id="dxKPIFacilitySelectBox"></div>
+                                <div class="invalid-feedback" id="KPIFacilityValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Owner Department  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricOwnerDepartmentSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricOwnerDepartmentValidation"></div>
+                                <div id="dxKPIOwnerDepartmentSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIOwnerDepartmentValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Comparison</label>
-                                <div id="dxMetricEquivalenceSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricEquivalenceValidation"></div>
+                                <div id="dxKPIEquivalenceSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIEquivalenceValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Responsible  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricResponsibleSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricResponsibleValidation"></div>
+                                <div id="dxKPIResponsibleSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIResponsibleValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Goal Range  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricGoalRangeSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricGoalRangeValidation"></div>
+                                <div id="dxKPIGoalRangeSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIGoalRangeValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Responsible Department  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricResponsibleDepartmentSelectBox"></div>
-                                <div class="invalid-feedback" id="MetricResponsibleDepartmentValidation"></div>
+                                <div id="dxKPIResponsibleDepartmentSelectBox"></div>
+                                <div class="invalid-feedback" id="KPIResponsibleDepartmentValidation"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Category  (<span class="text-danger">*</span>)</label>
-                                <div id="dxMetricCategorySelectBox"></div>
-                                <div class="invalid-feedback" id="MetricCategoryValidation"></div>
+                                <div id="dxKPICategorySelectBox"></div>
+                                <div class="invalid-feedback" id="KPICategoryValidation"></div>
                             </div>
                         </div>
                         <div class="mb-5">
-                            <div type="text" id="dxMetricIsActiveCheckBox"></div>
+                            <div type="text" id="dxKPIIsActiveCheckBox"></div>
                         </div>
                         <div class="col-md-12 mb-3">
                             <a data-bs-toggle="collapse" data-bs-target="#collapseUser" class="h6 text-color-link">Can't you find the value to select?</a>
@@ -148,7 +148,7 @@
                                     <div class="col-md-12 px-2">
                                         <label class="col-md-12 mt-1">If the value to select doesn´t exits on the list above, create a new value to select clicking on the next link</label>
                                         <div>
-                                            <a class="h6 mt-1 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.aspx">Go to the KPI Settings Hub</a>
+                                            <a class="h6 mt-1 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx">Go to the KPI Settings Hub</a>
                                         </div>
                                     </div>
                                 </div>
@@ -157,12 +157,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="row" id="MetricActionButtons"></div>
+                    <div class="row" id="KPIActionButtons"></div>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" id="hiddenMetricID" value="0" />
+    <input type="hidden" id="hiddenKPIID" value="0" />
     <input type="hidden" id="hiddenStatusID" value="0" />
-    <script type="module" src="/App/Features/Management/Edashboard/KPIManagement/KPICatalog.js"></script>
+    <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.js"></script>
 </asp:Content>
