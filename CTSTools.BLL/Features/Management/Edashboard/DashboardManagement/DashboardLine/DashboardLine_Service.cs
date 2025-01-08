@@ -380,11 +380,51 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                             _tendenceDTO.Tendence = (decimal?)_dashboardLineDTO.Value;
                             _tendenceDTO.Goal = (decimal)_dashboardLineDTO.KPIDTO.Goal;
                             _tendenceDTO.KPI = _dashboardLineDTO.KPIDTO.Name;
-                            _tendenceDTO.Order = _dashboardLineDTO.Month;
+                            //_tendenceDTO.Order = _dashboardLineDTO.Month;
                             if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal) { _tendenceDTO.GoalString = string.Format("&ge; {0}", _dashboardLineDTO.KPIDTO.Goal); }
                             else if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal) { _tendenceDTO.GoalString = string.Format("&le; {0}", _dashboardLineDTO.KPIDTO.Goal); }
                             else if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal) { _tendenceDTO.GoalString = string.Format("= {0}", _dashboardLineDTO.KPIDTO.Goal); }
 
+
+                            switch ((int)_dashboardLineDTO.Month)
+                            {
+                                case 4:  
+                                    _tendenceDTO.Order = 1;
+                                    break;
+                                case 5:  
+                                    _tendenceDTO.Order = 2;
+                                    break;
+                                case 6:  
+                                    _tendenceDTO.Order = 3;
+                                    break;
+                                case 7:  
+                                    _tendenceDTO.Order = 4;
+                                    break;
+                                case 8:  
+                                    _tendenceDTO.Order = 5;
+                                    break;
+                                case 9:  
+                                    _tendenceDTO.Order = 6;
+                                    break;
+                                case 10: 
+                                    _tendenceDTO.Order = 7;
+                                    break;
+                                case 11: 
+                                    _tendenceDTO.Order = 8;
+                                    break;
+                                case 12: 
+                                    _tendenceDTO.Order = 9;
+                                    break;
+                                case 1:  
+                                    _tendenceDTO.Order = 10;
+                                    break;
+                                case 2:  
+                                    _tendenceDTO.Order = 11;
+                                    break;
+                                case 3:  
+                                    _tendenceDTO.Order = 12;
+                                    break;
+                            }
 
                             _tendenceList.Add(_tendenceDTO);
                         }
