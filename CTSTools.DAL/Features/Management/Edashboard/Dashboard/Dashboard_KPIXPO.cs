@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 
-[Persistent(@"DashboardKPI")]
+[Persistent(@"Dashboard_KPI")]
 public class Dashboard_KPIXPO : XPObject
 {
 
