@@ -1,5 +1,5 @@
-﻿import { HostResponse, ClearErrorFeedback } from '../../../../../Common/Utils/Response.js'
-import { dxLoadPanel } from '../../../../../Common/Components/dxLoadPanel.js'
+﻿import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { Catalog_Enum } from "./Catalog_Enum.js"
 import { GetDXUnitOfMeasureDataSource, CreateUnitOfMeasure, UpdateUnitOfMeasure, DeleteUnitOfMeasure } from './UnitOfMeasure/UnitOfMeasure_Service.js'
 import { GetDXEquivalenceDataSource, CreateEquivalence, UpdateEquivalence, DeleteEquivalence } from './Equivalence/Equivalence_Service.js'
@@ -275,9 +275,9 @@ async function ShowDeleteQuestion() {
 function DashboardCategoryActionButtons(Action) {
     $("#DashboardCategoryActionButtons").empty();
     document.getElementById('DashboardCategoryModalTitle').innerText = '';
+    SetModalTitle(Action);
     if (Action == "Save") {
         document.getElementById("NewCatalogItemBtn").addEventListener("click", ClearGenericFields);
-        document.getElementById('DashboardCategoryModalTitle').innerText = 'Add Form'
         document.getElementById("DashboardCategoryActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateDashboardCategoryButton" type="button">Save</button>' +
@@ -288,7 +288,6 @@ function DashboardCategoryActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('DashboardCategoryModalTitle').innerText = 'Update Form'
         document.getElementById("DashboardCategoryActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateDashboardCategoryButton" type="button">Update</button>' +
@@ -298,6 +297,7 @@ function DashboardCategoryActionButtons(Action) {
         document.getElementById("UpdateDashboardCategoryButton").addEventListener("click", UpdateCatalogItem_Global);
     }
 }
+
 
 
 //#endregion
@@ -355,6 +355,31 @@ function ShowGenericFields() {
 
 }
 
+function SetModalTitle(Action) {
+    let _modalTitle = Action == "Save" ? "Add" : "Update";
+    switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
+        case Catalog_Enum.UOM:
+            _modalTitle += " Unit Of Measure";
+            break;
+        case Catalog_Enum.ValueType:
+            _modalTitle += " Value Type";
+            break;
+        case Catalog_Enum.CalculationType:
+            _modalTitle += " Calculation Type";
+            break;
+        case Catalog_Enum.Equivalence:
+            _modalTitle += " Equivalence";
+            break;
+        case Catalog_Enum.Level:
+            _modalTitle += " Level";
+            break;
+        case Catalog_Enum.GoalRange:
+            _modalTitle += " Goal Range";
+            break;
+    }
+    _modalTitle += " Form"
+    document.getElementById('DashboardCategoryModalTitle').innerText = _modalTitle;
+}
 
 async function CreateCatalogItem(GenericDTO) {
     switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {

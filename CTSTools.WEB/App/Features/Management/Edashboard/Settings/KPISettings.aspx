@@ -100,5 +100,5 @@
         </div>
     </div>
     <input type="hidden" id="hiddenCatalogItemID" hidden />
-    <script type="module" src="/App/Features/Management/Edashboard/Settings/KPISettings/KPISettings.js"></script>
+    <script type="module" src="/App/Features/Management/Edashboard/Settings/KPISettings.js"></script>
 </asp:Content>
