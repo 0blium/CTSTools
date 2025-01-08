@@ -1,7 +1,7 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Management.Edashboard.KPISettings;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;

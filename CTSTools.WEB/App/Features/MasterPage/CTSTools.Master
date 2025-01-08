@@ -167,11 +167,7 @@
                                             <div class="menu-text">KPIs</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
-                                        <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Categories</div>
-                                        </a>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -212,6 +208,7 @@
                                         </a>
                                     </div>
 
+
                                 </div>
                             </div>
                             <div class="menu-item">
@@ -222,6 +219,11 @@
                             <div class="menu-item">
                                 <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
                                     <div class="menu-text">Status</div>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Categories</div>
                                 </a>
                             </div>
                         </div>

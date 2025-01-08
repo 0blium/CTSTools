@@ -6,7 +6,7 @@ public class MonthDTO
     public int? Month { get; set; }
     public int? Year { get; set; }
     public string MonthlyValue { get; set; }
-    public string MetricBackgroundColor { get; set; }
+    public string KPIBackgroundColor { get; set; }
     public string ProvitionalValueColumnProperty { get; set; }
     public string FontColor { get; set; }
     public string TooltipText { get; set; }

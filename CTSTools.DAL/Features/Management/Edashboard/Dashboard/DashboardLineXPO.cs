@@ -20,17 +20,17 @@ public class DashboardLineXPO : XPObject
 
     // Default XPObject (VC)
 
-    DashboardMetricXPO fDashboardMetric;
-    public DashboardMetricXPO DashboardMetric
+    Dashboard_KPIXPO fDashboard_KPI;
+    public Dashboard_KPIXPO Dashboard_KPI
     {
-        get { return fDashboardMetric; }
-        set { SetPropertyValue(nameof(DashboardMetric), ref fDashboardMetric, value); }
+        get { return fDashboard_KPI; }
+        set { SetPropertyValue(nameof(Dashboard_KPI), ref fDashboard_KPI, value); }
     }
-    MetricXPO fMetric;
-    public MetricXPO Metric
+    KPIXPO fKPI;
+    public KPIXPO KPI
     {
-        get { return fMetric; }
-        set { SetPropertyValue(nameof(Metric), ref fMetric, value); }
+        get { return fKPI; }
+        set { SetPropertyValue(nameof(KPI), ref fKPI, value); }
     }
     DashboardCategoryXPO fDashboardCategory;
     public DashboardCategoryXPO DashboardCategory
@@ -100,11 +100,11 @@ public class DashboardLineXPO : XPObject
         set { SetPropertyValue<string>(nameof(Comment), ref fComment, value); }
     }
 
-    bool fIgnoreMetric;
-    public bool IgnoreMetric
+    bool fIgnoreKPI;
+    public bool IgnoreKPI
     {
-        get { return fIgnoreMetric; }
-        set { SetPropertyValue<bool>(nameof(IgnoreMetric), ref fIgnoreMetric, value); }
+        get { return fIgnoreKPI; }
+        set { SetPropertyValue<bool>(nameof(IgnoreKPI), ref fIgnoreKPI, value); }
     }
 
     bool fValidated;

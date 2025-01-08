@@ -78,8 +78,7 @@ async function InitializeDashboardCatalogControls() {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "View Dashboard", icon: "fas fa-chart-line text-primary", value: 1 },
-                                    { text: "View KPIs", icon: "fas fa-compass-drafting text-warning", value: 2 },
+                                    { text: "View", icon: "fas fa-chart-line text-primary", value: 1 },
                                     { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 3 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
                                 ]

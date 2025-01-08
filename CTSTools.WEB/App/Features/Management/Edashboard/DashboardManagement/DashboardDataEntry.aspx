@@ -22,20 +22,66 @@
     <%--<div class="col-md-12 mb-3 d-none" id="PrintDashboardMetricData">
         <a class="btn btn-primary me-1">Print Document</a>
 </div>--%>
-    <div class="col-lg-12 col-md-12 col-sm-12 d-none" id="DashboardMetricList">
-        <!-- Safety Panel -->
-        <div class="panel panel-inverse">
-            <div class="panel-body">
 
-                <div class="col-md-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 d-none" id="DashboardMetricList">
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-6">
                     <h3 id="dashboardtitle"></h3>
+
                 </div>
-                <div class="bg-grey-transparent-2 ConnectedSortable text-center metric-panel" id="DashboardPanel">
+                <div class="col-md-6 mb-3 text-end ">
+                    <a class="btn btn-success text-righ" id="dashboardButton"><i class="fa-solid fa-arrow-left"></i></a>
+                    <a class="btn btn-success text-righ" id="KPIButton"><i class="fa-solid fa-gear"></i></a>
                 </div>
             </div>
-
+        </div>
+        <ul class="nav nav-pills mb-2" role="tablist" hidden>
+            <li id="tab1" class="nav-item" role="presentation">
+                <a href="#DashboardTab" data-bs-toggle="tab" class="nav-link active" aria-selected="true" role="tab">
+                    <span class="d-sm-none">Dashboard</span>
+                    <span class="d-sm-block d-none">Dashboard</span>
+                </a>
+            </li>
+            <li id="tab2" class="nav-item" role="presentation">
+                <a id="asd" href="#KPITab" data-bs-toggle="tab" class="nav-link" aria-selected="false" tabindex="-1" role="tab">
+                    <span class="d-sm-none">KPIs</span>
+                    <span class="d-sm-block d-none">KPIs</span>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content rounded-0 m-0">
+            <div class="tab-pane fade active show" id="DashboardTab" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-inverse">
+                            <div class="panel-body">
+                                <div class="bg-grey-transparent-2 ConnectedSortable text-center metric-panel" id="DashboardPanel">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="KPITab">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-inverse">
+                            <div class="panel-body">
+                                <div class="col-md-12 mb-3">
+                                    <a id="AddMetricBtn" class="btn btn-success disabled"><i class="fa-solid fa-circle-plus"></i>&nbsp KPI</a>
+                                </div>
+                                <div id="dxQualityMetrics"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+
     <!--Metric Information Modal-->
     <div class="modal fade" id="DataEntryMetricInfoModal">
         <div class="modal-dialog">
@@ -115,7 +161,40 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="AddMetricsModal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-5">Add KPIs to dashboard section</h4>
+                    <button type="button" id="XBtnModal" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="text-muted">Select the KPIs that you want to add to the selected dashboard</p>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <h6>KPI List(<span class="text-danger">*</span>)</h6>
+                            <div id="dxDashboardMetric_MetricDataGrid"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-white" id="CloseBtnModal" data-bs-dismiss="modal">Close</a>
+                    <a class="btn btn-success" id="AddMetricButton">Add KPI</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <input type="hidden" id="hiddenDashboardLineID" value="0" />
     <input type="hidden" id="hiddenDashboardID" value="0" />
     <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/DashboardDataEntry.js"></script>
+
+
+    <input type="hidden" id="hiddenDashboardMetricID" />
+    <input type="hidden" id="hiddenMetricID" />
+    <input type="hidden" id="hiddenDashboardCategoryID" />
+    <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/TemplateAdministration.js"></script>
+
 </asp:Content>

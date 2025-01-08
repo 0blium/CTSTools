@@ -1,8 +1,8 @@
 ﻿using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardMetric;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using System;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
@@ -11,7 +11,7 @@ public class DashboardLineDTO
 {
     #region Base Properties
     public int? ID { get; set; }
-    public int? DashboardMetricID { get; set; }
+    public int? Dashboard_KPIID { get; set; }
     public float Goal { get; set; }
     public int Month { get; set; }
     public int Year { get; set; }
@@ -20,7 +20,7 @@ public class DashboardLineDTO
     public float Value { get; set; }
     public bool? IsTemporalValue { get; set; }
     public string Comment { get; set; }
-    public bool? IgnoreMetric { get; set; }
+    public bool? IgnoreKPI { get; set; }
     public bool? Validated { get; set; }
     public DateTime? ValidatedDate { get; set; }
     public DateTime? AddedDate { get; set; }
@@ -36,15 +36,15 @@ public class DashboardLineDTO
     #region Extended Properties
 
     public int?[] DashboardLineIDArray { get; set; }
-    public DashboardMetricDTO DashboardMetricDTO { get; set; }
-    public string DashboardMetricName { get; set; }
-    public bool GetDashboardMetricDTO { get; set; }
-    public int?[] DashboardMetricIDArray { get; set; }
-    public MetricDTO MetricDTO { get; set; }
-    public int? MetricID { get; set; }
-    public string MetricName { get; set; }
-    public bool GetMetricDTO { get; set; }
-    public int?[] MetricIDArray { get; set; }
+    public Dashboard_KPIDTO Dashboard_KPIDTO { get; set; }
+    public string Dashboard_KPIName { get; set; }
+    public bool GetDashboard_KPIDTO { get; set; }
+    public int?[] Dashboard_KPIIDArray { get; set; }
+    public KPIDTO KPIDTO { get; set; }
+    public int? KPIID { get; set; }
+    public string KPIName { get; set; }
+    public bool GetKPIDTO { get; set; }
+    public int?[] KPIIDArray { get; set; }
     public DashboardCategoryDTO DashboardCategoryDTO { get; set; }
     public int? DashboardCategoryID { get; set; }
     public string DashboardCategoryName { get; set; }
@@ -65,10 +65,10 @@ public class DashboardLineDTO
     public DashboardLineDTO()
     {
         DashboardLineIDArray = new int?[] { };
-        //DashboardMetricDTO = new DashboardMetricDTO();
-        DashboardMetricIDArray = new int?[] { };
-        MetricDTO = new MetricDTO();
-        MetricIDArray = new int?[] { };
+        //DashboardKPIDTO = new DashboardKPIDTO();
+        Dashboard_KPIIDArray = new int?[] { };
+        KPIDTO = new KPIDTO();
+        KPIIDArray = new int?[] { };
         DashboardCategoryDTO = new DashboardCategoryDTO();
         DashboardCategoryIDArray = new int?[] { };
         DashboardDTO = new DashboardDTO();

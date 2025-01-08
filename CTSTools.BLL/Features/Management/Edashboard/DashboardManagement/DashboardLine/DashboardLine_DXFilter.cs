@@ -20,21 +20,21 @@ public class DashboardLine_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DashboardLineXPO.Oid), DashboardLineDTO.DashboardLineIDArray));
             }
-            if (DashboardLineDTO.DashboardMetricID != null || DashboardLineDTO.DashboardMetricID > 0)
+            if (DashboardLineDTO.Dashboard_KPIID != null || DashboardLineDTO.Dashboard_KPIID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.DashboardMetric), DashboardLineDTO.DashboardMetricID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.Dashboard_KPI), DashboardLineDTO.Dashboard_KPIID));
             }
-            if (DashboardLineDTO.DashboardMetricIDArray != null && DashboardLineDTO.DashboardMetricIDArray.Count() > 0)
+            if (DashboardLineDTO.Dashboard_KPIIDArray != null && DashboardLineDTO.Dashboard_KPIIDArray.Count() > 0)
             {
-                _groupOperator.Operands.Add(new InOperator(nameof(DashboardLineXPO.DashboardMetric), DashboardLineDTO.DashboardMetricIDArray));
+                _groupOperator.Operands.Add(new InOperator(nameof(DashboardLineXPO.Dashboard_KPI), DashboardLineDTO.Dashboard_KPIIDArray));
             }
-            if (DashboardLineDTO.MetricID != null || DashboardLineDTO.MetricID > 0)
+            if (DashboardLineDTO.KPIID != null || DashboardLineDTO.KPIID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.Metric), DashboardLineDTO.MetricID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.KPI), DashboardLineDTO.KPIID));
             }
-            if (DashboardLineDTO.MetricIDArray != null && DashboardLineDTO.MetricIDArray.Count() > 0)
+            if (DashboardLineDTO.KPIIDArray != null && DashboardLineDTO.KPIIDArray.Count() > 0)
             {
-                _groupOperator.Operands.Add(new InOperator(nameof(DashboardLineXPO.Metric), DashboardLineDTO.MetricIDArray));
+                _groupOperator.Operands.Add(new InOperator(nameof(DashboardLineXPO.KPI), DashboardLineDTO.KPIIDArray));
             }
             if (DashboardLineDTO.DashboardCategoryID != null || DashboardLineDTO.DashboardCategoryID > 0)
             {
@@ -68,9 +68,9 @@ public class DashboardLine_DXFilter
             //{
             //    _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.IsTemporalValue), DashboardLineDTO.IsTemporalValue));
             //}
-            //if (DashboardLineDTO.IgnoreMetric != null)
+            //if (DashboardLineDTO.IgnoreKPI != null)
             //{
-            //    _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.IgnoreMetric), DashboardLineDTO.IgnoreMetric));
+            //    _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardLineXPO.IgnoreKPI), DashboardLineDTO.IgnoreKPI));
             //}
             //if (DashboardLineDTO.Validated != null)
             //{

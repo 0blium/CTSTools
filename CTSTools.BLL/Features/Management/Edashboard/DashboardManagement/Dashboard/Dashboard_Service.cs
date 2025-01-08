@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Level;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.Level;
 using System;
 using System.Collections.Generic;
 using System.Linq;

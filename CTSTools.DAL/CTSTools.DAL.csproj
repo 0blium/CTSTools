@@ -88,15 +88,15 @@
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\SupplierXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\DashboardCategoryXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\DashboardLineXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardMetricXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\Dashboard_KPIXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\DashboardXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Dashboard\MetricXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\CalculationTypeXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\EquivalenceXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\GoalRangeXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\LevelXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\UnitOfMeasureXPO.cs" />
-    <Compile Include="Features\Management\Edashboard\Settings\KPISettings\ValueTypeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\KPIXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationTypeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\EquivalenceXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRangeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\LevelXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasureXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueTypeXPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

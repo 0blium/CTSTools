@@ -13,10 +13,10 @@ public class DashboardLineMap
         try
         {
             _dashboardlineDTO.ID = DashboardLineXPO.Oid;
-            //_dashboardlineDTO.DashboardMetricDTO.ID = (DashboardLineXPO.DashboardMetric != null) ? DashboardLineXPO.DashboardMetric.Oid : 0;
-            _dashboardlineDTO.DashboardMetricID = (DashboardLineXPO.DashboardMetric != null) ? DashboardLineXPO.DashboardMetric.Oid : 0;
-            _dashboardlineDTO.MetricID = (DashboardLineXPO.Metric != null) ? DashboardLineXPO.Metric.Oid : 0;
-            _dashboardlineDTO.MetricName = (DashboardLineXPO.Metric != null) ? DashboardLineXPO.Metric.Name : "Unnassigned";
+            //_dashboardlineDTO.DashboardKPIDTO.ID = (DashboardLineXPO.DashboardKPI != null) ? DashboardLineXPO.DashboardKPI.Oid : 0;
+            _dashboardlineDTO.Dashboard_KPIID = (DashboardLineXPO.Dashboard_KPI != null) ? DashboardLineXPO.Dashboard_KPI.Oid : 0;
+            _dashboardlineDTO.KPIID = (DashboardLineXPO.KPI != null) ? DashboardLineXPO.KPI.Oid : 0;
+            _dashboardlineDTO.KPIName = (DashboardLineXPO.KPI != null) ? DashboardLineXPO.KPI.Name : "Unnassigned";
             _dashboardlineDTO.DashboardCategoryID = (DashboardLineXPO.DashboardCategory != null) ? DashboardLineXPO.DashboardCategory.Oid : 0;
             _dashboardlineDTO.DashboardCategoryName = (DashboardLineXPO.DashboardCategory != null) ? DashboardLineXPO.DashboardCategory.Name : "Unnassigned";
             _dashboardlineDTO.DashboardID = (DashboardLineXPO.Dashboard != null) ? DashboardLineXPO.Dashboard.Oid : 0;
@@ -27,7 +27,7 @@ public class DashboardLineMap
             _dashboardlineDTO.IsTemporalValue = DashboardLineXPO.IsTemporalValue;
             _dashboardlineDTO.Value = DashboardLineXPO.Value;
             _dashboardlineDTO.Comment = DashboardLineXPO.Comment;
-            _dashboardlineDTO.IgnoreMetric = DashboardLineXPO.IgnoreMetric;
+            _dashboardlineDTO.IgnoreKPI = DashboardLineXPO.IgnoreKPI;
             _dashboardlineDTO.Validated = DashboardLineXPO.Validated;
             _dashboardlineDTO.ValidatedByID = (DashboardLineXPO.ValidatedBy != null) ? DashboardLineXPO.ValidatedBy.Oid : 0;
             _dashboardlineDTO.ValidatedByName = (DashboardLineXPO.ValidatedBy != null) ? DashboardLineXPO.ValidatedBy.Name : "Unnassigned";
@@ -54,8 +54,8 @@ public class DashboardLineMap
         try
         {
             _dashboardlineXPO = DashboardLineDTO.ID == null || DashboardLineDTO.ID == 0 ? new DashboardLineXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DashboardLineXPO>(DashboardLineDTO.ID);
-            _dashboardlineXPO.DashboardMetric = (_dashboardlineXPO.DashboardMetric != null && _dashboardlineXPO.DashboardMetric.Oid == DashboardLineDTO.DashboardMetricID) ? _dashboardlineXPO.DashboardMetric : UnitOfWork.GetObjectByKey<DashboardMetricXPO>(DashboardLineDTO.DashboardMetricID);
-            _dashboardlineXPO.Metric = (_dashboardlineXPO.Metric != null && _dashboardlineXPO.Metric.Oid == DashboardLineDTO.MetricID) ? _dashboardlineXPO.Metric : UnitOfWork.GetObjectByKey<MetricXPO>(DashboardLineDTO.MetricID);
+            _dashboardlineXPO.Dashboard_KPI = (_dashboardlineXPO.Dashboard_KPI != null && _dashboardlineXPO.Dashboard_KPI.Oid == DashboardLineDTO.Dashboard_KPIID) ? _dashboardlineXPO.Dashboard_KPI : UnitOfWork.GetObjectByKey<Dashboard_KPIXPO>(DashboardLineDTO.Dashboard_KPIID);
+            _dashboardlineXPO.KPI = (_dashboardlineXPO.KPI != null && _dashboardlineXPO.KPI.Oid == DashboardLineDTO.KPIID) ? _dashboardlineXPO.KPI : UnitOfWork.GetObjectByKey<KPIXPO>(DashboardLineDTO.KPIID);
             _dashboardlineXPO.DashboardCategory = (_dashboardlineXPO.DashboardCategory != null && _dashboardlineXPO.DashboardCategory.Oid == DashboardLineDTO.DashboardCategoryDTO.ID) ? _dashboardlineXPO.DashboardCategory : UnitOfWork.GetObjectByKey<DashboardCategoryXPO>(DashboardLineDTO.DashboardCategoryID);
             _dashboardlineXPO.Dashboard = (_dashboardlineXPO.Dashboard != null && _dashboardlineXPO.Dashboard.Oid == DashboardLineDTO.DashboardID) ? _dashboardlineXPO.Dashboard : UnitOfWork.GetObjectByKey<DashboardXPO>(DashboardLineDTO.DashboardID);
             _dashboardlineXPO.Goal = _dashboardlineXPO.Goal == DashboardLineDTO.Goal ? _dashboardlineXPO.Goal : DashboardLineDTO.Goal;
@@ -66,7 +66,7 @@ public class DashboardLineMap
             _dashboardlineXPO.Value = (float)(_dashboardlineXPO.Value == DashboardLineDTO.Value ? _dashboardlineXPO.Value : DashboardLineDTO.Value);
             _dashboardlineXPO.IsTemporalValue = (bool)(_dashboardlineXPO.IsTemporalValue == (DashboardLineDTO.IsTemporalValue ?? false) ? _dashboardlineXPO.IsTemporalValue : DashboardLineDTO.IsTemporalValue ?? false);
             _dashboardlineXPO.Comment = _dashboardlineXPO.Comment == DashboardLineDTO.Comment ? _dashboardlineXPO.Comment : DashboardLineDTO.Comment;
-            _dashboardlineXPO.IgnoreMetric = (bool)(_dashboardlineXPO.IgnoreMetric == (DashboardLineDTO.IgnoreMetric ?? false) ? _dashboardlineXPO.IgnoreMetric : DashboardLineDTO.IgnoreMetric ?? false);
+            _dashboardlineXPO.IgnoreKPI = (bool)(_dashboardlineXPO.IgnoreKPI == (DashboardLineDTO.IgnoreKPI ?? false) ? _dashboardlineXPO.IgnoreKPI : DashboardLineDTO.IgnoreKPI ?? false);
             _dashboardlineXPO.Validated = (bool)(_dashboardlineXPO.Validated == (DashboardLineDTO.Validated ?? false) ? _dashboardlineXPO.Validated : DashboardLineDTO.Validated ?? false);
             _dashboardlineXPO.ValidatedBy = (_dashboardlineXPO.ValidatedBy != null && _dashboardlineXPO.ValidatedBy?.Oid == DashboardLineDTO.ValidatedByID) ? _dashboardlineXPO.ValidatedBy : UnitOfWork.GetObjectByKey<UserXPO>(DashboardLineDTO.ValidatedByID);
             _dashboardlineXPO.ValidatedDate = _dashboardlineXPO.ValidatedDate == DashboardLineDTO.ValidatedDate ? _dashboardlineXPO.ValidatedDate : DashboardLineDTO.ValidatedDate;

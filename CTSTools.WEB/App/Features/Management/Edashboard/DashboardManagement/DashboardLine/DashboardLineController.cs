@@ -39,11 +39,11 @@ public class DashboardLineController : ApiController
         return Json(_validationResultDTO);
     }
     [HttpGet]
-    [Route("api/DashboardLine/GetDashboardMetricTendence")]
+    [Route("api/DashboardLine/GetDashboard_KPITendence")]
     public IHttpActionResult GetDashboardMetricTendence([FromUri] DashboardLineDTO DashboardLineDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = DashboardLine_Service.GetDashboardMetricTendence(DashboardLineDTO);
+        _validationResultDTO.Data = DashboardLine_Service.GetDashboard_KPITendence(DashboardLineDTO);
         return Json(_validationResultDTO);
     }
     [HttpPost]

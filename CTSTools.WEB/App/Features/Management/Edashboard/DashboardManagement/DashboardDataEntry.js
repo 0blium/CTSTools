@@ -14,6 +14,23 @@ document.addEventListener("DOMContentLoaded", async function () {
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
     await GetDashboardIDByURL();
+    $("#dashboardButton").hide();
+
+    document.getElementById('KPIButton').addEventListener('click', function (e) {
+        e.preventDefault()
+        $('#tab2 a[href="#KPITab"]').tab('show')
+        $("#KPIButton").hide();
+        $("#dashboardButton").show();
+
+
+    })
+    document.getElementById('dashboardButton').addEventListener('click', function (e) {
+        e.preventDefault()
+        $('#tab1 a[href="#DashboardTab"]').tab('show')
+        $("#dashboardButton").hide();
+        $("#KPIButton").show();
+
+    })
 
 });
 async function GetDashboardIDByURL() {

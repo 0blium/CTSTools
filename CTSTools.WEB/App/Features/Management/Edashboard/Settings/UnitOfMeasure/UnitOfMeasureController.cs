@@ -1,5 +1,5 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.UnitOfMeasure;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;

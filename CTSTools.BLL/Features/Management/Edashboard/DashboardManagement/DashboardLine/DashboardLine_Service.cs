@@ -2,9 +2,9 @@
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardMetric;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -59,7 +59,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                     _dashboardlineglobalList = _dashboardlineList;
                     return _dashboardlineglobalList;
                 }
-                if (!DashboardLineDTO.GetDashboardMetricDTO && !DashboardLineDTO.GetMetricDTO && !DashboardLineDTO.GetDashboardCategoryDTO && !DashboardLineDTO.GetDashboardDTO)
+                if (!DashboardLineDTO.GetDashboard_KPIDTO && !DashboardLineDTO.GetKPIDTO && !DashboardLineDTO.GetDashboardCategoryDTO && !DashboardLineDTO.GetDashboardDTO)
                 {
                     _dashboardlineglobalList = _dashboardlineList;
                     return _dashboardlineglobalList;
@@ -79,29 +79,29 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
         public static List<DashboardLineDTO> GetDashboardLineRelatedData(DashboardLineDTO DashboardLineDTO, List<DashboardLineDTO> DashboardLineList)
         {
             var _dashboardlineglobalList = new List<DashboardLineDTO>();
-            var _dashboardmetricDict = new Dictionary<int?, DashboardMetricDTO>();
-            var _metricDict = new Dictionary<int?, MetricDTO>();
+            var _dashboardKPIDict = new Dictionary<int?, Dashboard_KPIDTO>();
+            var _KPIDict = new Dictionary<int?, KPIDTO>();
             var _dashboardcategoryDict = new Dictionary<int?, DashboardCategoryDTO>();
             var _dashboardDict = new Dictionary<int?, DashboardDTO>();
 
             try
             {
-                if (DashboardLineDTO.GetDashboardMetricDTO)
+                if (DashboardLineDTO.GetDashboard_KPIDTO)
                 {
-                    DashboardLineDTO.DashboardMetricDTO.DashboardMetricIDArray = DashboardLineList.GroupBy(g => g.DashboardMetricID)
+                    DashboardLineDTO.Dashboard_KPIDTO.Dashboard_KPIIDArray = DashboardLineList.GroupBy(g => g.Dashboard_KPIID)
                             .Select(s => s.Key)
                             .ToArray();
 
-                    _dashboardmetricDict = DashboardMetric_Service.GetDashboardMetricList_Global(DashboardLineDTO.DashboardMetricDTO)
+                    _dashboardKPIDict = Dashboard_KPI_Service.GetDashboard_KPIList_Global(DashboardLineDTO.Dashboard_KPIDTO)
                             .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
                 }
-                if (DashboardLineDTO.GetMetricDTO)
+                if (DashboardLineDTO.GetKPIDTO)
                 {
-                    DashboardLineDTO.MetricDTO.MetricIDArray = DashboardLineList.GroupBy(g => g.MetricID)
+                    DashboardLineDTO.KPIDTO.KPIIDArray = DashboardLineList.GroupBy(g => g.KPIID)
                             .Select(s => s.Key)
                             .ToArray();
 
-                    _metricDict = Metric_Service.GetMetricList_Global(DashboardLineDTO.MetricDTO)
+                    _KPIDict = KPI_Service.GetKPIList_Global(DashboardLineDTO.KPIDTO)
                             .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
                 }
                 if (DashboardLineDTO.GetDashboardCategoryDTO)
@@ -124,13 +124,13 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 }
                 foreach (var _dashboardlineDTO in DashboardLineList)
                 {
-                    if (DashboardLineDTO.GetDashboardMetricDTO && _dashboardmetricDict.ContainsKey(_dashboardlineDTO.DashboardMetricID))
+                    if (DashboardLineDTO.GetDashboard_KPIDTO && _dashboardKPIDict.ContainsKey(_dashboardlineDTO.Dashboard_KPIID))
                     {
-                        _dashboardlineDTO.DashboardMetricDTO = _dashboardmetricDict[_dashboardlineDTO.DashboardMetricID];
+                        _dashboardlineDTO.Dashboard_KPIDTO = _dashboardKPIDict[_dashboardlineDTO.Dashboard_KPIID];
                     }
-                    if (DashboardLineDTO.GetMetricDTO && _metricDict.ContainsKey(_dashboardlineDTO.MetricID))
+                    if (DashboardLineDTO.GetKPIDTO && _KPIDict.ContainsKey(_dashboardlineDTO.KPIID))
                     {
-                        _dashboardlineDTO.MetricDTO = _metricDict[_dashboardlineDTO.MetricID];
+                        _dashboardlineDTO.KPIDTO = _KPIDict[_dashboardlineDTO.KPIID];
                     }
                     if (DashboardLineDTO.GetDashboardCategoryDTO && _dashboardcategoryDict.ContainsKey(_dashboardlineDTO.DashboardCategoryID))
                     {
@@ -184,36 +184,36 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                     foreach (var CategoryID in new int[] { 1, 2, 3, 4, 5, 6 })
                     {
 
-                        var _dashboardMetricEntity = new DashboardMetricDTO
+                        var _dashboardKPIEntity = new Dashboard_KPIDTO
                         {
                             DashboardID = DashboardLineDTO.DashboardID,
                             DashboardCategoryID = CategoryID
                         };
-                        var _dashboardMetriTemplateList = DashboardMetric_Service.GetDashboardMetricList_Global(_dashboardMetricEntity);
+                        var _dashboardMetriTemplateList = Dashboard_KPI_Service.GetDashboard_KPIList_Global(_dashboardKPIEntity);
                         // hace falta crear el IsActive
 
-                        //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada metrica
-                        foreach (var _dashboardMetric in _dashboardMetriTemplateList)
+                        //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada KPIa
+                        foreach (var _dashboardKPI in _dashboardMetriTemplateList)
                         {
                             var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
                             foreach (var _previousMonth in _previousMonthList)
                             {
-                                //DashboardLineDTO.DashboardMetricDTO = new DashboardMetricDTO { ID = _dashboardMetric.ID };
-                                DashboardLineDTO.DashboardMetricID = _dashboardMetric.ID;
-                                DashboardLineDTO.DashboardID = _dashboardMetric.DashboardID;
-                                DashboardLineDTO.MetricID = _dashboardMetric.MetricID;
+                                //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
+                                DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
+                                DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
+                                DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
                                 DashboardLineDTO.DashboardCategoryID = CategoryID;
                                 DashboardLineDTO.FiscalYear = FiscalYear;
                                 DashboardLineDTO.Month = _previousMonth;
 
-                                //varificar si existe la linea del mes actual para cada metrica en el dashboard
+                                //varificar si existe la linea del mes actual para cada KPIa en el dashboard
                                 var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
 
                                 if (_dashboardLineList.Count == 0)
                                 {
-                                    //Si no existe una linea para el mes actual por ese dashboardMetric crearla.
+                                    //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
 
-                                    DashboardLineDTO.Goal = Metric_Service.GetMetricList_Global(new MetricDTO { ID = DashboardLineDTO.MetricID }).FirstOrDefault().Goal;
+                                    DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
 
                                     _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
                                 }
@@ -358,7 +358,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             return _validation_ResultDTO;
         }
 
-        public static List<DashboardChartDTO> GetDashboardMetricTendence(DashboardLineDTO DashboardLineDTO)
+        public static List<DashboardChartDTO> GetDashboard_KPITendence(DashboardLineDTO DashboardLineDTO)
         {
             var _tendenceList = new List<DashboardChartDTO>();
             try
@@ -369,7 +369,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                 //    string _month = _monthInfo.GetMonthName(_previousMonth);
                 if (_fiscalYear > 0 && _fiscalYear != null)
                 {
-                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardID = DashboardLineDTO.DashboardID, MetricID = DashboardLineDTO.MetricID, FiscalYear = _fiscalYear, DashboardCategoryID = DashboardLineDTO.DashboardCategoryID, GetMetricDTO = true });
+                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardID = DashboardLineDTO.DashboardID, KPIID = DashboardLineDTO.KPIID, FiscalYear = _fiscalYear, DashboardCategoryID = DashboardLineDTO.DashboardCategoryID, GetKPIDTO = true });
                     var dashboardLineList = dashboardLineDTOList.Where(x => x.Validated == true && x.Value != null).ToList();
                     if (dashboardLineList.Count() > 0)
                     {
@@ -378,12 +378,12 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                             var _tendenceDTO = new DashboardChartDTO();
                             _tendenceDTO.Month = _monthInfo.GetMonthName((int)_dashboardLineDTO.Month);
                             _tendenceDTO.Tendence = (decimal?)_dashboardLineDTO.Value;
-                            _tendenceDTO.Goal = (decimal)_dashboardLineDTO.MetricDTO.Goal;
-                            _tendenceDTO.Metric = _dashboardLineDTO.MetricDTO.Name;
+                            _tendenceDTO.Goal = (decimal)_dashboardLineDTO.KPIDTO.Goal;
+                            _tendenceDTO.KPI = _dashboardLineDTO.KPIDTO.Name;
                             _tendenceDTO.Order = _dashboardLineDTO.Month;
-                            if (_dashboardLineDTO.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal) { _tendenceDTO.GoalString = string.Format("&ge; {0}", _dashboardLineDTO.MetricDTO.Goal); }
-                            else if (_dashboardLineDTO.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal) { _tendenceDTO.GoalString = string.Format("&le; {0}", _dashboardLineDTO.MetricDTO.Goal); }
-                            else if (_dashboardLineDTO.MetricDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal) { _tendenceDTO.GoalString = string.Format("= {0}", _dashboardLineDTO.MetricDTO.Goal); }
+                            if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal) { _tendenceDTO.GoalString = string.Format("&ge; {0}", _dashboardLineDTO.KPIDTO.Goal); }
+                            else if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal) { _tendenceDTO.GoalString = string.Format("&le; {0}", _dashboardLineDTO.KPIDTO.Goal); }
+                            else if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal) { _tendenceDTO.GoalString = string.Format("= {0}", _dashboardLineDTO.KPIDTO.Goal); }
 
 
                             _tendenceList.Add(_tendenceDTO);

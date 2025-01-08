@@ -1,6 +1,7 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Metric;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.KPISettings.Equivalence;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.Settings;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,24 +21,24 @@ public class DashboardLine_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (DashboardLineDTO.DashboardMetricID == null || DashboardLineDTO.DashboardMetricID == 0)
+            if (DashboardLineDTO.Dashboard_KPIID == null || DashboardLineDTO.Dashboard_KPIID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "DashboardMetric Field Empty",
+                    Message = "DashboardKPI Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardMetricDTO)}",
+                    Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.Dashboard_KPIDTO)}",
                 });
             }
-            if (DashboardLineDTO.MetricID == null || DashboardLineDTO.MetricID == 0)
+            if (DashboardLineDTO.KPIID == null || DashboardLineDTO.KPIID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Metric Field Empty",
+                    Message = "KPI Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.MetricDTO)}",
+                    Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.KPIDTO)}",
                 });
             }
             if (DashboardLineDTO.DashboardCategoryID == null || DashboardLineDTO.DashboardCategoryID == 0)
@@ -77,12 +78,12 @@ public class DashboardLine_Validator
             //        Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.Comment)}",
             //    });
             //}
-            //if (DashboardLineDTO.IgnoreMetric == null)
+            //if (DashboardLineDTO.IgnoreKPI == null)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
             //        Result = false,
-            //        Message = "IgnoreMetric Field Empty",
+            //        Message = "IgnoreKPI Field Empty",
             //        Description = " Please, complete the missing information ",
             //    });
             //}
@@ -154,24 +155,24 @@ public class DashboardLine_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (DashboardLineDTO.DashboardMetricID == null || DashboardLineDTO.DashboardMetricID == 0)
+            if (DashboardLineDTO.Dashboard_KPIID == null || DashboardLineDTO.Dashboard_KPIID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "DashboardMetric Field Empty",
+                    Message = "DashboardKPI Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardMetricDTO)}",
+                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardKPIDTO)}",
                 });
             }
-            if (DashboardLineDTO.MetricID == null || DashboardLineDTO.MetricID == 0)
+            if (DashboardLineDTO.KPIID == null || DashboardLineDTO.KPIID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Metric Field Empty",
+                    Message = "KPI Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.MetricDTO)}",
+                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.KPIDTO)}",
                 });
             }
             if (DashboardLineDTO.DashboardCategoryID == null || DashboardLineDTO.DashboardCategoryID == 0)
@@ -219,12 +220,12 @@ public class DashboardLine_Validator
                 }
             }
             
-            //if (DashboardLineDTO.IgnoreMetric == null)
+            //if (DashboardLineDTO.IgnoreKPI == null)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
             //        Result = false,
-            //        Message = "IgnoreMetric Field Empty",
+            //        Message = "IgnoreKPI Field Empty",
             //        Description = " Please, complete the missing information ",
             //    });
             //}
@@ -331,87 +332,87 @@ public class DashboardLine_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-            var _metricBackgroudColor = string.Empty;
+            var _KPIBackgroudColor = string.Empty;
 
-            var _metricDTO = Metric_Service.GetMetricList_Global(new MetricDTO { ID = DashboardLineDTO.MetricID }).FirstOrDefault();
+            var _KPIDTO = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault();
             var _previousMonthLinesList = DashboardLine_Service.GetDashboardLineList_Global(
                 new DashboardLineDTO
                 {
                     DashboardID = DashboardLineDTO.DashboardID,
-                    MetricID = DashboardLineDTO.MetricID,
-                    DashboardMetricID = DashboardLineDTO.DashboardMetricID,
+                    KPIID = DashboardLineDTO.KPIID,
+                    Dashboard_KPIID = DashboardLineDTO.Dashboard_KPIID,
                     FiscalYear = DashboardLineDTO.FiscalYear
                 }).Where(s => s.Month >= DashboardLineDTO.Month - 2 && s.Month < DashboardLineDTO.Month).ToList();
 
 
             foreach (var _dasboardLineDTO in _previousMonthLinesList)
             {
-                _metricBackgroudColor = string.Empty;
-                if (string.IsNullOrEmpty(_dasboardLineDTO.Value.ToString())) { _metricBackgroudColor = "FFFFFF"; }
-                if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                _KPIBackgroudColor = string.Empty;
+                if (string.IsNullOrEmpty(_dasboardLineDTO.Value.ToString())) { _KPIBackgroudColor = "FFFFFF"; }
+                if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
                 {
                     //Color green
-                    if (Convert.ToDecimal(_dasboardLineDTO.Value) == Convert.ToDecimal(_metricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) == Convert.ToDecimal(_KPIDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
                 }
-                else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                 {
                     //Color green
-                    if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_metricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_KPIDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
                 }
-                else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                 {
                     //Color green
-                    if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_metricDTO.Goal)) { _metricBackgroudColor = "92D050"; }
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_KPIDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
                 }
 
-                if (string.IsNullOrEmpty(_metricBackgroudColor))
+                if (string.IsNullOrEmpty(_KPIBackgroudColor))
                 {
                     //Base on goal calculcate goal range
-                    decimal _goalRangeValue = _metricDTO.Goal != 0 ? (Convert.ToDecimal(_metricDTO.Goal) * Convert.ToDecimal(_metricDTO.GoalRangeValue)) / 100 : Convert.ToDecimal(_metricDTO.GoalRangeValue);
-                    if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                    decimal _goalRangeValue = _KPIDTO.Goal != 0 ? (Convert.ToDecimal(_KPIDTO.Goal) * Convert.ToDecimal(_KPIDTO.GoalRangeValue)) / 100 : Convert.ToDecimal(_KPIDTO.GoalRangeValue);
+                    if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
                     {
                         //If goal needs to be equal to 0 all other values will be red
-                        if (Convert.ToDecimal(_metricDTO.Goal) == 0 && _goalRangeValue == 0)
+                        if (Convert.ToDecimal(_KPIDTO.Goal) == 0 && _goalRangeValue == 0)
                         {
-                            _metricBackgroudColor = "FF0000";
+                            _KPIBackgroudColor = "FF0000";
                         }
                         else
                         {
-                            if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_metricDTO.Goal) + _goalRangeValue || Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_metricDTO.Goal) + _goalRangeValue)
+                            if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_KPIDTO.Goal) + _goalRangeValue || Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_KPIDTO.Goal) + _goalRangeValue)
                             {
-                                _metricBackgroudColor = "FFFF00";
+                                _KPIBackgroudColor = "FFFF00";
                             }
                             else
                             {
-                                _metricBackgroudColor = "FF0000";
+                                _KPIBackgroudColor = "FF0000";
                             }
                         }
                     }
-                    else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                    else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                     {
-                        if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_metricDTO.Goal) - _goalRangeValue)
+                        if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_KPIDTO.Goal) - _goalRangeValue)
                         {
-                            _metricBackgroudColor = "FFFF00";
+                            _KPIBackgroudColor = "FFFF00";
                         }
                         else
                         {
-                            _metricBackgroudColor = "FF0000";
+                            _KPIBackgroudColor = "FF0000";
                         }
                     }
-                    else if (_metricDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                    else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                     {
-                        if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_metricDTO.Goal) + _goalRangeValue)
+                        if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_KPIDTO.Goal) + _goalRangeValue)
                         {
-                            _metricBackgroudColor = "FFFF00";
+                            _KPIBackgroudColor = "FFFF00";
                         }
                         else
                         {
-                            _metricBackgroudColor = "FF0000";
+                            _KPIBackgroudColor = "FF0000";
                         }
                     }
                 }
 
-                if(_metricBackgroudColor == "FFFF00" || _metricBackgroudColor == "FF0000")
+                if(_KPIBackgroudColor == "FFFF00" || _KPIBackgroudColor == "FF0000")
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
