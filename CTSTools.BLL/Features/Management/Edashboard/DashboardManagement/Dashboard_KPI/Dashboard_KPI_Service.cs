@@ -494,7 +494,7 @@ public class Dashboard_KPI_Service
                 }
             }
 
-            return _dashboardKPIList_Global.OrderBy(_order => _order.DashboardCategoryDTO.ID).ToList().OrderBy(_order => _order.Order).ToList();
+            return _dashboardKPIList_Global.OrderBy(_order => _order.DashboardCategoryID).ToList().OrderBy(_order => _order.Order).ToList();
             //return _dashboardKPIList_Global;
 
         }
