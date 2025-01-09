@@ -136,16 +136,6 @@ public class Dashboard_KPI_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (DashboardKPIDTO.StatusID == null || DashboardKPIDTO.StatusID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Status Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard_KPI)}{nameof(DashboardKPIDTO.StatusDTO)}",
-                });
-            }
             if (DashboardKPIDTO.DashboardID == null || DashboardKPIDTO.DashboardID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
