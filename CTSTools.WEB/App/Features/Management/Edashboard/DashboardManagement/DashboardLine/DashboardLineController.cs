@@ -40,7 +40,7 @@ public class DashboardLineController : ApiController
     }
     [HttpGet]
     [Route("api/DashboardLine/GetDashboard_KPITendence")]
-    public IHttpActionResult GetDashboardMetricTendence([FromUri] DashboardLineDTO DashboardLineDTO)
+    public IHttpActionResult GetDashboard_KPITendence([FromUri] DashboardLineDTO DashboardLineDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
         _validationResultDTO.Data = DashboardLine_Service.GetDashboard_KPITendence(DashboardLineDTO);

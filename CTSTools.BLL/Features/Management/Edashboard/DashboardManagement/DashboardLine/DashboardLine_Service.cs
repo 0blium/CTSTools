@@ -319,7 +319,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
 
                 //Calculate fiscal year
                 //int _fiscalYear = CalculateFiscalYear();
-                int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardDTO.ID }).FirstOrDefault().Year;
+                int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardID }).FirstOrDefault().Year;
 
                 if (_fiscalYear > 0 && _fiscalYear != null)
                 {

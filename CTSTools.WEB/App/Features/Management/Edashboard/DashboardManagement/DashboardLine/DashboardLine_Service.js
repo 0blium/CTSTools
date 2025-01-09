@@ -84,7 +84,7 @@ export async function GetDashboard_KPITendence(DashboardLineDTO) {
     let _validation_resultDTO = new Object();
     let params = await BuildSearchParams(DashboardLineDTO);
     try {
-        const _response = await fetch(`${APIURL}/DashboardLine/GetDashboardMetricTendence?` + params.toString(), {
+        const _response = await fetch(`${APIURL}/DashboardLine/GetDashboard_KPITendence?` + params.toString(), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset= UTF-8' }
         });

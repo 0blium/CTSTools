@@ -25,11 +25,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     $("#dashboardButton").hide();
 
     document.getElementById('KPIButton').addEventListener('click', function (e) {
+        $("#dxQualityKPIs").dxDataGrid("instance").refresh();
         e.preventDefault()
         $('#tab2 a[href="#KPITab"]').tab('show')
         $("#KPIButton").hide();
         $("#dashboardButton").show();
-
 
     })
     document.getElementById('dashboardButton').addEventListener('click', function (e) {
@@ -463,9 +463,9 @@ function TendencyKPIEventHandler() {
     let _Dashboard_KPIDTO = {
         DashboardCategoryID: this.dataset.dashboardcategoryid,
         KPIDTO: {
-            ID: this.dataset.KPIid,
-            Name: this.dataset.KPIname,
-            Goal: this.dataset.KPIgoal,
+            ID: this.dataset.kpiid,
+            Name: this.dataset.kpiname,
+            Goal: this.dataset.kpigoal,
             UnitOfMeasureID: parseInt(this.dataset.unitofmeasureid),
             EquivalenceIcon: this.dataset.equivalenceicon,
             ValueTypeID: this.dataset.valuetypeid
