@@ -163,8 +163,8 @@
                                         </a>
                                     </div>
                                     <div class="menu-item">
-                                        <a href="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.aspx" class="menu-link">
-                                            <div class="menu-text">KPIs</div>
+                                        <a href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx" class="menu-link">
+                                            <div class="menu-text">Settings</div>
                                         </a>
                                     </div>
 

@@ -89,11 +89,8 @@ async function InitializeDashboardCatalogControls() {
                                 let _data = options.data;
                                 switch (e.itemData.value) {
                                     case 1:
-                                        window.open("/App/Features/Management/Edashboard/DashboardManagement/DashboardDataEntry.aspx?DashboardID=" + _data.ID)
-                                        break;
-                                    case 2:
-                                        window.open("/App/Features/Management/Edashboard/DashboardManagement/TemplateAdministration.aspx?DashboardID=" + _data.ID)
-                                        break;
+                                        location.href = "/App/Features/Management/Edashboard/DashboardManagement/DashboardDataEntry.aspx?DashboardID=" + _data.ID;
+                                        break;                                  
                                     case 3:
                                         DashboardActionButtons("Update");
                                         PopulateDashboardFields(_data);
