@@ -353,3 +353,9 @@ C:\Crown\CTSTools\CTSTools.WEB\bin\CTSTools.DAL.pdb
 C:\Crown\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.52B27051.Up2Date
 C:\Crown\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.dll
 C:\Crown\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.pdb
+C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.dll
+C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.dll
+C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.pdb
+C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.xml
+C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.pdb
+C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.xml

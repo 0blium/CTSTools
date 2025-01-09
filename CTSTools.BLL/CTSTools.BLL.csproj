@@ -40,6 +40,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Elmah.dll</HintPath>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.5.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\CTSTools.WEB\packages\ExcelDataReader.3.5.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.5.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\CTSTools.WEB\packages\ExcelDataReader.DataSet.3.5.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.ConfigurationManager, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -47,6 +53,7 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,10 +65,13 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Common\Exception_Service.cs" />
     <Compile Include="Common\Files\DirectoryDTO.cs" />
+    <Compile Include="Common\Files\ExcelDataImport_Service.cs" />
+    <Compile Include="Common\Files\ExcelFileDTO.cs" />
     <Compile Include="Common\Files\FileDirectory_Enum.cs" />
     <Compile Include="Common\Files\FileDTO.cs" />
     <Compile Include="Common\Files\FileLimit_Enum.cs" />
     <Compile Include="Common\Files\File_Service.cs" />
+    <Compile Include="Common\Files\GenericCatalogDTO.cs" />
     <Compile Include="Common\PagedResultDTO.cs" />
     <Compile Include="Common\ValidationResultDTO.cs" />
     <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsibleDTO.cs" />
