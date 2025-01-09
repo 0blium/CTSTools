@@ -21,7 +21,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
-    
+    document.getElementById('PrintDashboardBtn').addEventListener('click', printDashboard);
+    document.getElementById('ExpPDFDashboardBtn').addEventListener('click', ExportDashboardToPDF);
+    document.getElementById('ExpExcelDashboardBtn').addEventListener('click', ExportDashboardToExcel);
     $("#dashboardButton").hide();
 
     document.getElementById('KPIButton').addEventListener('click', function (e) {
@@ -29,12 +31,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         e.preventDefault()
         $('#tab2 a[href="#KPITab"]').tab('show')
         $("#KPIButton").hide();
+        $("#PrintDashboardBtn").hide();
+        $("#ExpPDFDashboardBtn").hide();
+        $("#ExpExcelDashboardBtn").hide();
         $("#dashboardButton").show();
 
     })
     document.getElementById('dashboardButton').addEventListener('click', function (e) {
         e.preventDefault()
         $('#tab1 a[href="#DashboardTab"]').tab('show')
+        $("#PrintDashboardBtn").show();
+        $("#ExpPDFDashboardBtn").show();
+        $("#ExpExcelDashboardBtn").show();
         $("#dashboardButton").hide();
         $("#KPIButton").show();
 
@@ -623,6 +631,78 @@ async function UpdateDashboardLine() {
     GetDashboard_KPIListForTable();
     dxLoadPanel.hide();
 }
+//#endregion
+
+//#region Export Dashboard
+function printDashboard() {
+    let divToPrint = document.getElementById("DashboardPanel");
+    let newWin = window.open("");
+    newWin.document.write('<p style="font-family:Open Sans, sans-serif;font-size:22px;">CTS Tools: <strong>Dashboard Format</strong></p><br>');
+    newWin.document.write('<style>td,th {border: 1px solid black;padding: 10px;font-size:14px;' +
+        'color: black!important; text-align: center;} ' + 'th{color:black !important;font-weight:bold;font-family:Open Sans, sans-serif;}</style>');
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
+}
+function ExportDashboardToPDF() {
+
+    html2canvas($('#DashboardPanel')[0], {
+        scale: 2,
+        onrendered: function (canvas) {
+            var data = canvas.toDataURL();
+            var docDefinition = {
+                //compress: false,
+
+                content: [{
+                    image: data,
+                    width: 760
+                }],
+                info: {
+                    title: 'Dashboard_Format',
+                    author: 'CTS Tools',
+                },
+                pageOrientation: 'landscape',
+            };
+            pdfMake.createPdf(docDefinition).open();
+        }
+    });
+}
+function ExportDashboardToExcel() {
+    const tempContainer = document.createElement("div");
+    tempContainer.id = "temp-export-container";
+    tempContainer.style.display = "none"; // Ocultar contenedor en pantalla
+    const titleTable = document.createElement("table");
+    titleTable.innerHTML = `
+        <tr>
+            <td colspan="17" style="text-align: center; font-weight: bold; font-size: 20px; background-color: #f4f4f4;">
+                <strong>${document.getElementById("dashboardtitle").innerText}</strong>
+            </td>
+        </tr>
+    `;
+    tempContainer.appendChild(titleTable);
+    
+    const tableElement = document.getElementById("DashboardPanel");
+    if (tableElement) {
+        const clonedTable = tableElement.cloneNode(true); // Clonar tabla
+        tempContainer.appendChild(clonedTable); // Agregar tabla clonada al contenedor
+    }
+    // Agregar el contenedor al DOM temporalmente
+    document.body.appendChild(tempContainer);
+    // Exportar las tablas combinadas a Excel
+    $("#temp-export-container").table2excel({
+        exclude: ".noExl",
+        preserveColors: true,
+        name: "Dashboard - CTS Tools",
+        filename: "Edashboard_CTSTools", // No incluyas extensión aquí
+        fileext: ".xls", // Extensión del archivo
+        exclude_img: true, // Excluir imágenes
+        exclude_links: true, // Excluir enlaces
+        exclude_inputs: true // Excluir campos input
+    });
+    // Eliminar el contenedor temporal después de exportar
+    document.body.removeChild(tempContainer);
+}
+
 //#endregion
 
 //#endregion

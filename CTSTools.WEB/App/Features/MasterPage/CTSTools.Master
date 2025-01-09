@@ -330,7 +330,12 @@
     <script src="/App/Common/Assets/js/devextreme/localization/dx.messages.es.js"></script>
     <script src="/App/Common/Assets/js/devextreme/dx.aspnet.data.js"></script>
     <script src="/App/Common/Assets/js/devextreme/dx.aspnet.mvc.js"></script>
-
+     <!-- ================== BEGIN Export Documents ================== -->
+    <script src="/App/Common/Assets/js/excel/jquery.table2excel.js"></script>
+    <script src="/App/Common/Assets/js/html2canvas/html2canvas.min.js"></script>
+    <script src="/App/Common/Assets/js/pdfmake/pdfmake.min.js"></script>
+    <script src="/App/Common/Assets/js/printThis/printThis.js"></script>
+    <!-- ================== END Export Documents ================== -->
 
 </body>
 </html>

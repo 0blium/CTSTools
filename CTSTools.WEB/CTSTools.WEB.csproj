@@ -206,6 +206,10 @@
     <Content Include="App\Common\Assets\js\devextreme\globalize\number.min.js" />
     <Content Include="App\Common\Assets\js\devextreme\jszip.min.js" />
     <Content Include="App\Common\Assets\js\devextreme\localization\dx.messages.es.js" />
+    <Content Include="App\Common\Assets\js\excel\jquery.table2excel.js" />
+    <Content Include="App\Common\Assets\js\html2canvas\html2canvas.min.js" />
+    <Content Include="App\Common\Assets\js\pdfmake\pdfmake.min.js" />
+    <Content Include="App\Common\Assets\js\printThis\printThis.js" />
     <Content Include="App\Common\Assets\js\toastr\toastr.min.js" />
     <Content Include="App\Common\Assets\mail\Approval Queue\bgdot.png" />
     <Content Include="App\Common\Assets\mail\Approval Queue\pr_index.html" />
