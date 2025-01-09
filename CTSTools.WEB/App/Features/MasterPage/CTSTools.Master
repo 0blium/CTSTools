@@ -90,7 +90,7 @@
                             <div class="menu-text">Home</div>
                         </a>
                     </div>
-                    <div class="menu-item has-sub">
+                    <div id="Engineering" class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-cube"></i>
@@ -98,7 +98,7 @@
                             <div class="menu-text">Engineering</div>
                             <div class="menu-caret"></div>
                         </a>
-                        <div class="menu-submenu">
+                        <div id="ComponentIDEng" class="menu-submenu">
                             <div class="menu-item has-sub">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-icon">
@@ -108,27 +108,27 @@
                                     <div class="menu-caret"></div>
                                 </a>
                                 <div class="menu-submenu">
-                                    <div class="menu-item">
+                                    <div id="PartCreatorComponentID" class="menu-item">
                                         <a href="/App/Features/Engineering/ComponentID/PartManagement/PartCreator.aspx" class="menu-link">
                                             <div class="menu-text">Part Creator</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="PartListComponentID" class="menu-item">
                                         <a href="/App/Features/Engineering/ComponentID/PartManagement/PartList.aspx" class="menu-link">
                                             <div class="menu-text">Part List</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="DecoderCatalogComponentID" class="menu-item">
                                         <a href="/App/Features/Engineering/ComponentID/DecoderManagement/DecoderCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Decoders</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="ClassAdministrationComponentID" class="menu-item">
                                         <a href="/App/Features/Engineering/ComponentID/AttributeManagement/ClassAdministration.aspx" class="menu-link">
                                             <div class="menu-text">Class & Subs</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="AttributeCatalogComponentID" class="menu-item">
                                         <a href="/App/Features/Engineering/ComponentID/AttributeManagement/AttributeCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Attributes</div>
                                         </a>

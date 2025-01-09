@@ -1,5 +1,6 @@
 ﻿//const { dxLoadPanel } = import("../../Common/Components/dxLoadPanel");
 import { dxLoadPanel } from "../../Common/Components/dxLoadPanel.js"
+import { GetUser_PermissionWithUserID } from '../AdvancedSettings/UserManagement/User_Permission/User_Permission_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await dxLoadPanel.show();
@@ -7,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     CollapseSidebar();
     await ActiveMenuOption();
     await dxLoadPanel.hide();
+    await ShowSidebarByUser_Permissions();
 });
 
 window.addEventListener("resize", () => {
@@ -66,6 +68,17 @@ async function ActiveMenuOption() {
     }
 }
 
-
+async function ShowSidebarByUser_Permissions()
+{
+    debugger;
+    var _validationResultDTO = await GetUser_PermissionWithUserID();
+    if (_validationResultDTO != null)
+    {
+        var _moduleList = _validationResultDTO.Data
+            .filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null)  // Filtra por PermissionDTO y Modulo
+            .map(up => up.PermissionDTO.Module); // Extrae el Modulo de PermissionDTO
+        console.log(_moduleList);
+    }
+}
 
 
