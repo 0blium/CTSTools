@@ -49,3 +49,9 @@ C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.pdb
 C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.xml
 C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.pdb
 C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.xml
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.dll
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.dll
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.pdb
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.xml
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.pdb
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.xml

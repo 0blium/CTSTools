@@ -359,3 +359,9 @@ C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.pdb
 C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.xml
 C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.pdb
 C:\TFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.xml
+C:\CTSTFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.dll
+C:\CTSTFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.dll
+C:\CTSTFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.pdb
+C:\CTSTFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.xml
+C:\CTSTFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.pdb
+C:\CTSTFS\CTSTools\CTSTools.WEB\bin\ExcelDataReader.DataSet.xml
