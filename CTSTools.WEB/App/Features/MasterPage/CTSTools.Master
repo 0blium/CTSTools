@@ -133,7 +133,7 @@
                                             <div class="menu-text">Attributes</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="SupplierCatalogComponentID" class="menu-item">
                                         <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Suppliers</div>
                                         </a>
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="menu-item has-sub">
+                    <div id="Management" class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-chart-line"></i>
@@ -151,18 +151,18 @@
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu">
-                            <div class="menu-item has-sub">
+                            <div id="ManagementE-Dashboard" class="menu-item has-sub">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">e-Dashboard</div>
                                     <div class="menu-caret"></div>
                                 </a>
                                 <div class="menu-submenu">
-                                    <div class="menu-item">
+                                    <div id="DashboardListEDashboard" class="menu-item">
                                         <a href="/App/Features/Management/Edashboard/DashboardManagement/DashboardList.aspx" class="menu-link">
                                             <div class="menu-text">Dashboards</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="KPISettingsEDashboard" class="menu-item">
                                         <a href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx" class="menu-link">
                                             <div class="menu-text">Settings</div>
                                         </a>
@@ -172,7 +172,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="menu-item has-sub">
+                    <div id="AdvSettings" class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-sliders"></i>
@@ -181,28 +181,28 @@
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu">
-                            <div class="menu-item has-sub">
+                            <div id="OrgMgmtAdvSettings" class="menu-item has-sub">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Org Management</div>
                                     <div class="menu-caret"></div>
                                 </a>
                                 <div class="menu-submenu">
-                                    <div class="menu-item">
+                                    <div id="UserCatalogOrgManagement" class="menu-item">
                                         <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Users</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="DomainCatalogOrgManagement" class="menu-item">
                                         <a href="/App/Features/AdvancedSettings/UserManagement/DomainCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Domains</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="RoleAdministrationOrgManagement" class="menu-item">
                                         <a href="/App/Features/AdvancedSettings/SecurityManagement/RoleAdministration.aspx" class="menu-link">
                                             <div class="menu-text">Roles</div>
                                         </a>
                                     </div>
-                                    <div class="menu-item">
+                                    <div id="LocationsCatalogOrgManagement" class="menu-item">
                                         <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Locations</div>
                                         </a>
@@ -211,17 +211,17 @@
 
                                 </div>
                             </div>
-                            <div class="menu-item">
+                            <div id="MailGroupCatalogAdvancedSettings" class="menu-item">
                                 <a href="/App/Features/AdvancedSettings/MailGroupManagement/MailGroupCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Mail Groups </div>
                                 </a>
                             </div>
-                            <div class="menu-item">
+                            <div id="StatusAdministrationAdvancedSettings" class="menu-item">
                                 <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
                                     <div class="menu-text">Status</div>
                                 </a>
                             </div>
-                            <div class="menu-item">
+                            <div id="DashboardCategoryCatalogAdvancedSettings" class="menu-item">
                                 <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Categories</div>
                                 </a>
