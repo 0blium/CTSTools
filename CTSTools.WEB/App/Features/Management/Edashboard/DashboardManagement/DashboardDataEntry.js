@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 //#region Data Entry
 async function GetDashboardIDByURL() {
-
     let _dashboardID = GetURLParameter("DashboardID");
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
@@ -579,6 +578,7 @@ async function GetDashboard_KPIListForTable(DashboardDTO) {
     }
     const _Dashboard_KPIList = await GetDashboard_KPIWithUI({
         DashboardID: document.getElementById('hiddenDashboardID').value,
+        IsActive: true,
         GetDashboardLineList: true
     });
     await FilterKPIListByCategory(_Dashboard_KPIList);

@@ -17,10 +17,14 @@ public class Dashboard_KPI_Service
     public static ValidationResultDTO CreateDashboard_KPI_Global(Dashboard_KPIDTO Dashboard_KPIDTO)
     {
         var _ValidationResultDTO = Dashboard_KPI_Validator.CreateDashboard_KPI_Validation(Dashboard_KPIDTO);
-        if (_ValidationResultDTO.Result)
+        if (_ValidationResultDTO.Result && _ValidationResultDTO.Data == null)
         {
             Dashboard_KPIDTO.AddedDate = DateTime.Now;
             _ValidationResultDTO = Dashboard_KPI_Repository.CreateDashboard_KPI(Dashboard_KPIDTO);
+        }
+        else 
+        {
+            UpdateDashboard_KPI_Global(_ValidationResultDTO.Data);
         }
         return _ValidationResultDTO;
     }
@@ -240,7 +244,7 @@ public class Dashboard_KPI_Service
     {
         var _validation_ResultDTO = new ValidationResultDTO();
 
-        var _dashboardKPIList = GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = DashboardKPIDTO.DashboardID, DashboardCategoryDTO = DashboardKPIDTO.DashboardCategoryDTO }).OrderBy(O => O.Order);
+        var _dashboardKPIList = GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = DashboardKPIDTO.DashboardID, DashboardCategoryDTO = DashboardKPIDTO.DashboardCategoryDTO, IsActive = true }).OrderBy(O => O.Order);
 
         var _Order = 1;
         foreach (var _dashboardKPIDTO in _dashboardKPIList)
@@ -261,7 +265,7 @@ public class Dashboard_KPI_Service
         _validation_ResultDTO = Dashboard_KPI_Validator.CreateDashboard_KPI_FromKPIListValidation(DashboardKPIDTO);
         if (_validation_ResultDTO.Result)
         {
-            var _kpiList = GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = DashboardKPIDTO.DashboardID, DashboardCategoryDTO = DashboardKPIDTO.DashboardCategoryDTO });
+            var _kpiList = GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = DashboardKPIDTO.DashboardID, DashboardCategoryDTO = DashboardKPIDTO.DashboardCategoryDTO, IsActive = true });
             var _order = _kpiList.Count > 0 ? _kpiList.Max(s => s.Order) : 0;
             int _iterate = 0;
 
