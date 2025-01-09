@@ -1009,6 +1009,7 @@ async function CreateDashboard_KPI_Global() {
     //GetDashboard_KPIList();
     HostResponse(_validation_ResultDTO);
     $("#dxQualityKPIs").dxDataGrid("instance").refresh();
+    GetDashboard_KPIListForTable();
     dxLoadPanel.hide();
 }
 async function DeleteDashboard_KPI_Global(Dashboard_KPIDTO) {
@@ -1021,6 +1022,7 @@ async function DeleteDashboard_KPI_Global(Dashboard_KPIDTO) {
     }
     HostResponse(_validation_ResultDTO);
     $("#dxQualityKPIs").dxDataGrid("instance").refresh();
+    GetDashboard_KPIListForTable();
     dxLoadPanel.hide();
 }
 //#endregion
@@ -1056,6 +1058,7 @@ async function UpdateDashboard_KPIOrder_Global(Data) {
     HostResponse(_validation_ResultDTO);
     if (_validation_ResultDTO.Result) {
         $("#dxQualityKPIs").dxDataGrid("instance").refresh();
+        GetDashboard_KPIListForTable();
     }
     dxLoadPanel.hide();
 }
