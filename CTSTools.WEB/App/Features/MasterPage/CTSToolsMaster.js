@@ -67,74 +67,71 @@ async function ActiveMenuOption() {
         });
     }
 }
-
-async function ShowSidebarByUser_Permissions()
-{
+async function ShowSidebarByUser_Permissions() {
     debugger;
     var _validationResultDTO = await GetUser_PermissionWithUserID();
-    if (_validationResultDTO != null)
-    {
+    if (_validationResultDTO != null) {
         var _moduleList = _validationResultDTO.Data
             .filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null)
             .map(up => up.PermissionDTO.Module);
-        let _engineeringList = document.querySelectorAll("[id*='Eng']");
-        let _componentIDList = document.querySelectorAll("[id*='ComponentID']");
-        let _advancedSettingsList = document.querySelectorAll("[id*='AdvancedSettings']");
-        let _orgManagementList = document.querySelectorAll("[id*='OrgManagement']");
-        let _eDashboardList = document.querySelectorAll("[id*='EDashboard']");
 
-        _componentIDList.forEach(componentElement => {
-            // Get the name of the module that is related to the submenu ID
-            let moduleName = componentElement.id.replace("ComponentID", ""); // Extract module name from ID
-            // Check if the user has access to that module
-            if (!_moduleList.includes(moduleName)) {
-                // If the user does not have permission, hide the submenu
-                componentElement.style.display = "none";
-            }
-        });
-        _orgManagementList.forEach(componentElement => {
-            let moduleName = componentElement.id.replace("OrgManagement", "");
-            if (!_moduleList.includes(moduleName)) {
-                componentElement.style.display = "none";
-            }
-        });
-        _advancedSettingsList.forEach(componentElement => {
-            let moduleName = componentElement.id.replace("AdvancedSettings", "");
-            if (!_moduleList.includes(moduleName)) {
-                componentElement.style.display = "none";
-            }
-        });
-        _eDashboardList.forEach(componentElement => {
-            let moduleName = componentElement.id.replace("EDashboard", "");
-            if (!_moduleList.includes(moduleName)) {
-                componentElement.style.display = "none";
-            }
-        });
+        // Define element groups
+        const groups = [
+            { selector: "[id*='Eng']", modulePrefix: "Eng" },
+            { selector: "[id*='ComponentID']", modulePrefix: "ComponentID" },
+            { selector: "[id*='AdvancedSettings']", modulePrefix: "AdvancedSettings" },
+            { selector: "[id*='OrgManagement']", modulePrefix: "OrgManagement" },
+            { selector: "[id*='EDashboard']", modulePrefix: "EDashboard" }
+        ];
 
-        // Check if the user has permissions to at least one ComponentID module
-        let hasVisibleSubMenuComponentID = Array.from(_componentIDList).some(componentElement => componentElement.style.display !== "none");
-        let hasVisibleSubMenuOrgManagement = Array.from(_orgManagementList).some(componentElement => componentElement.style.display !== "none");
-        let hasVisibleSubMenuAdvancedSettings = Array.from(_advancedSettingsList).some(componentElement => componentElement.style.display !== "none");
-        let hasVisibleSubMenuEDashboard = Array.from(_eDashboardList).some(componentElement => componentElement.style.display !== "none");
-
-        // If you do not have permissions to any ComponentID submenus, hide the Engineering menu
-        if (!hasVisibleSubMenuComponentID) {
-            _engineeringList.forEach(engElement => {
-                engElement.style.display = "none";  // Hide the Engineering menu
+        // Hide/show submenus depending on permissions
+        let visibleGroups = {};
+        groups.forEach(group => {
+            debugger;
+            let elements = document.querySelectorAll(group.selector);
+            let hasVisibleItems = false;  // We initialize as false
+            // We use .forEach() to loop through all the elements in the group
+            Array.from(elements).forEach(element => {
+                let moduleName = element.id.replace(group.modulePrefix, "");
+                let hasPermission = _moduleList.includes(moduleName);
+                element.hidden = !hasPermission;  // We hide if you do not have permission
+                if (hasPermission) {
+                    hasVisibleItems = true;  // If at least one has permissions, we mark the group as visible
+                }
             });
+            // We save if the group has visible elements
+            visibleGroups[group.modulePrefix] = hasVisibleItems;
+        });
+
+        // Check visibility and hide main elements if necessary
+        // Hide/show the Engineering menu if it has no visible items
+        if (!visibleGroups["ComponentID"]) {
+            document.querySelector("[id='Engineering']").hidden = true;
+        } else {
+            document.querySelector("[id='Engineering']").hidden = false;
+            document.querySelector("[id='ComponentIDEng']").hidden = false;
         }
-        if (!hasVisibleSubMenuOrgManagement) {
-            _orgManagementList.forEach(engElement => {
-                engElement.style.display = "none";
-            });
-            document.getElementById("OrgMgmtAdvSettings").style.display = "none";
-            if (!hasVisibleSubMenuAdvancedSettings) {
-                document.getElementById("AdvSettings").style.display = "none";
+
+        // Hide/show the Organization menu if it has no visible items
+        if (!visibleGroups["OrgManagement"]) {
+            document.querySelector("[id='OrgMgmtAdvSettings']").hidden = true;
+            if (!visibleGroups["AdvancedSettings"]) {
+                document.querySelector("[id='AdvSettings']").hidden = true;
+            } else {
+                document.querySelector("[id='AdvSettings']").hidden = false;
             }
+        } else {
+            document.querySelector("[id='OrgMgmtAdvSettings']").hidden = false;
+            document.querySelector("[id='AdvSettings']").hidden = !visibleGroups["OrgManagement"];
         }
-        if (!hasVisibleSubMenuEDashboard) {
-            document.getElementById("Management").style.display = "none";
-            document.getElementById("ManagementE-Dashboard").style.display = "none";
+
+        // Hide/show EDashboard menu if it has no visible items
+        if (!visibleGroups["EDashboard"]) {
+            document.querySelector("[id='Management']").hidden = true;
+            document.querySelector("[id='ManagementE-Dashboard']").hidden = true;
+        } else {
+            document.querySelector("[id='Management']").hidden = false;
+            document.querySelector("[id='ManagementE-Dashboard']").hidden = false;
         }
     }
 }
