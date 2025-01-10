@@ -362,3 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /CTSTools.BLL/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/CTSTools.BLL/obj/Debug/CTSTools.BLL.csproj.CoreCompileInputs.cache
+/CTSTools.WEB/obj/Debug/CTSTools.WEB.csproj.CoreCompileInputs.cache
+/CTSTools.WEB/.vs/CTSTools/config/applicationhost.config
+/CTSTools.WEB/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/CTSTools.WEB/obj/Debug/CTSTools.WEB.csproj.AssemblyReference.cache
