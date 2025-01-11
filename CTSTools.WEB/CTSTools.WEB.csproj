@@ -234,6 +234,8 @@
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Service.js" />
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Service.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\Action\Action_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\Permission\Permission_Service.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.js" />
@@ -461,6 +463,13 @@
     <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMemberController.cs" />
     <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroupController.cs" />
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Action\ActionController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx.cs">
+      <DependentUpon>PermissionCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx.designer.cs">
+      <DependentUpon>PermissionCatalog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Permission\PermissionController.cs" />
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx.cs">
       <DependentUpon>RoleAdministration.aspx</DependentUpon>

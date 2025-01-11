@@ -5,6 +5,7 @@ using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
+using System;
 using System.Web.Http;
 
 namespace CTSTools.WEB.App.Features.AdvancedSettings.UserManagement.User_Permission;
@@ -40,7 +41,6 @@ public class User_PermissionController : ApiController
 
         var _validationResultDTO = new ValidationResultDTO();
         _validationResultDTO.Data = User_Permission_Service.GetUser_PermissionList_Global(User_PermissionDTO);
-
         return Json(_validationResultDTO);
     }
 
@@ -50,7 +50,8 @@ public class User_PermissionController : ApiController
     {
         var _userID = Auth_Helper.GetLoggedUserOid();
         var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = User_Permission_Service.GetUser_PermissionList_Global(new User_PermissionDTO { UserID = _userID, IsActive = true, GetPermissionDTO = true });
+        var _user_permissionDTO = new User_PermissionDTO { UserID = _userID, IsActive = true, GetPermissionDTO = true };
+        _validationResultDTO.Data = User_Permission_Service.GetUser_PermissionList_Global(_user_permissionDTO);
         return Json(_validationResultDTO);
     }
 
