@@ -1,6 +1,7 @@
 ﻿//const { dxLoadPanel } = import("../../Common/Components/dxLoadPanel");
 import { dxLoadPanel } from "../../Common/Components/dxLoadPanel.js"
 import { GetUser_PermissionWithUserID } from '../AdvancedSettings/UserManagement/User_Permission/User_Permission_Service.js'
+import { ShowSidebarMenu } from '../../Common/Utils/SidebarNavigationShowItems.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await dxLoadPanel.show();
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     CollapseSidebar();
     await ActiveMenuOption();
     await dxLoadPanel.hide();
-    await ShowSidebarByUser_Permissions();
+    await ShowSidebarMenu();
 });
 
 window.addEventListener("resize", () => {
@@ -67,73 +68,3 @@ async function ActiveMenuOption() {
         });
     }
 }
-async function ShowSidebarByUser_Permissions() {
-    debugger;
-    var _validationResultDTO = await GetUser_PermissionWithUserID();
-    if (_validationResultDTO != null) {
-        var _moduleList = _validationResultDTO.Data
-            .filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null)
-            .map(up => up.PermissionDTO.Module);
-
-        // Define element groups
-        const groups = [
-            { selector: "[id*='Eng']", modulePrefix: "Eng" },
-            { selector: "[id*='ComponentID']", modulePrefix: "ComponentID" },
-            { selector: "[id*='AdvancedSettings']", modulePrefix: "AdvancedSettings" },
-            { selector: "[id*='OrgManagement']", modulePrefix: "OrgManagement" },
-            { selector: "[id*='EDashboard']", modulePrefix: "EDashboard" }
-        ];
-
-        // Hide/show submenus depending on permissions
-        let visibleGroups = {};
-        groups.forEach(group => {
-            debugger;
-            let elements = document.querySelectorAll(group.selector);
-            let hasVisibleItems = false;  // We initialize as false
-            // We use .forEach() to loop through all the elements in the group
-            Array.from(elements).forEach(element => {
-                let moduleName = element.id.replace(group.modulePrefix, "");
-                let hasPermission = _moduleList.includes(moduleName);
-                element.hidden = !hasPermission;  // We hide if you do not have permission
-                if (hasPermission) {
-                    hasVisibleItems = true;  // If at least one has permissions, we mark the group as visible
-                }
-            });
-            // We save if the group has visible elements
-            visibleGroups[group.modulePrefix] = hasVisibleItems;
-        });
-
-        // Check visibility and hide main elements if necessary
-        // Hide/show the Engineering menu if it has no visible items
-        if (!visibleGroups["ComponentID"]) {
-            document.querySelector("[id='Engineering']").hidden = true;
-        } else {
-            document.querySelector("[id='Engineering']").hidden = false;
-            document.querySelector("[id='ComponentIDEng']").hidden = false;
-        }
-
-        // Hide/show the Organization menu if it has no visible items
-        if (!visibleGroups["OrgManagement"]) {
-            document.querySelector("[id='OrgMgmtAdvSettings']").hidden = true;
-            if (!visibleGroups["AdvancedSettings"]) {
-                document.querySelector("[id='AdvSettings']").hidden = true;
-            } else {
-                document.querySelector("[id='AdvSettings']").hidden = false;
-            }
-        } else {
-            document.querySelector("[id='OrgMgmtAdvSettings']").hidden = false;
-            document.querySelector("[id='AdvSettings']").hidden = !visibleGroups["OrgManagement"];
-        }
-
-        // Hide/show EDashboard menu if it has no visible items
-        if (!visibleGroups["EDashboard"]) {
-            document.querySelector("[id='Management']").hidden = true;
-            document.querySelector("[id='ManagementE-Dashboard']").hidden = true;
-        } else {
-            document.querySelector("[id='Management']").hidden = false;
-            document.querySelector("[id='ManagementE-Dashboard']").hidden = false;
-        }
-    }
-}
-
-
