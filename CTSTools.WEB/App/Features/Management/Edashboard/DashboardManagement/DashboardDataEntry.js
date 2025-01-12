@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
     document.getElementById('PrintDashboardBtn').addEventListener('click', printDashboard);
-    document.getElementById('ExpPDFDashboardBtn').addEventListener('click', ExportDashboardToPDF);
-    document.getElementById('ExpExcelDashboardBtn').addEventListener('click', ExportDashboardToExcel);
+    /*document.getElementById('ExpPDFDashboardBtn').addEventListener('click', ExportDashboardToPDF);*/
+    //document.getElementById('ExpExcelDashboardBtn').addEventListener('click', ExportDashboardToExcel);
     $("#dashboardButton").hide();
 
     document.getElementById('KPIButton').addEventListener('click', function (e) {
@@ -635,14 +635,18 @@ async function UpdateDashboardLine() {
 
 //#region Export Dashboard
 function printDashboard() {
-    let divToPrint = document.getElementById("DashboardPanel");
-    let newWin = window.open("");
-    newWin.document.write('<p style="font-family:Open Sans, sans-serif;font-size:22px;">CTS Tools: <strong>Dashboard Format</strong></p><br>');
-    newWin.document.write('<style>td,th {border: 1px solid black;padding: 10px;font-size:14px;' +
-        'color: black!important; text-align: center;} ' + 'th{color:black !important;font-weight:bold;font-family:Open Sans, sans-serif;}</style>');
-    newWin.document.write(divToPrint.outerHTML);
-    newWin.print();
-    newWin.close();
+    let _dashboardID = document.getElementById("hiddenDashboardID").value;
+    if (_dashboardID != 0 && _dashboardID != undefined && _dashboardID != null) {
+        window.open("/App/Features/Management/Edashboard/DashboardManagement/PrintDashboard.aspx?DashboardID=" + _dashboardID)
+    }
+    //let divToPrint = document.getElementById("DashboardPanel");
+    //let newWin = window.open("");
+    //newWin.document.write('<p style="font-family:Open Sans, sans-serif;font-size:22px;">CTS Tools: <strong>Dashboard Format</strong></p><br>');
+    //newWin.document.write('<style>td,th {border: 1px solid black;padding: 10px;font-size:14px;' +
+    //    'color: black!important; text-align: center;} ' + 'th{color:black !important;font-weight:bold;font-family:Open Sans, sans-serif;}</style>');
+    //newWin.document.write(divToPrint.outerHTML);
+    //newWin.print();
+    //newWin.close();
 }
 function ExportDashboardToPDF() {
 

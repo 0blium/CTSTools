@@ -3,6 +3,7 @@ using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Report;
 using System;
 using System.Collections.Generic;
 
@@ -45,10 +46,12 @@ public class Dashboard_KPIDTO
     public DashboardCategoryDTO DashboardCategoryDTO { get; set; }
     public int? DashboardCategoryID { get; set; }
     public string DashboardCategoryName { get; set; }
+    public string DashboardCategoryLetter { get; set; }
     public bool GetDashboardCategoryDTO { get; set; }
     public int?[] DashboardCategoryIDArray { get; set; }
     public List<DashboardLineDTO> DashboardLineList { get; set; }
     public DashboardLineDTO DashboardLineDTO { get; set; }
+    public List<DashboardReportDTO> DashboardReportList { get; set; }
     #endregion
     #region Constructor
     public Dashboard_KPIDTO()
@@ -65,7 +68,7 @@ public class Dashboard_KPIDTO
 
         DashboardLineDTO = new DashboardLineDTO();
         DashboardLineList = new List<DashboardLineDTO>();
-
+        DashboardReportList = new List<DashboardReportDTO> { };
     }
     #endregion
 }

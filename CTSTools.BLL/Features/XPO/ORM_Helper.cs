@@ -2,6 +2,7 @@
 using CTSTools.DAL.Common;
 using Elmah;
 using System;
+using System.Reflection;
 
 namespace CTSTools.BLL.Features.XPO
 {
@@ -16,8 +17,9 @@ namespace CTSTools.BLL.Features.XPO
             try
             {
                 using var _unit = XPO_Helper.GetNewUnitOfWork();
-                _unit.UpdateSchema();
-                _unit.CreateObjectTypeRecords();
+                Assembly[] array = { typeof(DAL.Features.Management.Edashboard.Dashboard.DashboardXPO).Assembly };
+                _unit.UpdateSchema(array);
+                _unit.CreateObjectTypeRecords(array);
             }
             catch (Exception ex)
             {

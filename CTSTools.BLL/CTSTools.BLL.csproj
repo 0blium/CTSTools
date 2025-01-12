@@ -32,10 +32,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Charts.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Drawing.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v23.2.Core, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v22.1.Export, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Elmah.dll</HintPath>
@@ -47,6 +60,7 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -240,6 +254,7 @@
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategoryDTO.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategoryMap.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Enum.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Service.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Validator.cs" />
@@ -269,9 +284,18 @@
     <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Service.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.Designer.cs">
+      <DependentUpon>DashboardReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReportDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\MonthlyTotalDTO.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationTypeDTO.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationTypeMap.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Enum.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Service.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Validator.cs" />
@@ -322,5 +346,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.resx">
+      <DependentUpon>DashboardReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

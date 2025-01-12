@@ -4,6 +4,7 @@ using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Report;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.GoalRange;

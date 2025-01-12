@@ -33,8 +33,8 @@
                 </div>
                 <div class="col-md-6 mb-3 text-end ">
                     <a id="PrintDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-print me-2"></i>Print</a>
-                    <a id="ExpPDFDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-pdf me-2" style="color: darkred"></i>PDF</a>
-                    <a id="ExpExcelDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-excel me-2" style="color: green"></i>Excel</a>                    
+                    <%--<a id="ExpPDFDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-pdf me-2" style="color: darkred"></i>PDF</a>--%>
+                    <%--<a id="ExpExcelDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-excel me-2" style="color: green"></i>Excel</a>--%>                    
                     <a class="btn btn-success text-righ" id="dashboardButton"><i class="fa-solid fa-arrow-left"></i></a>
                     <a class="btn btn-success text-righ" id="KPIButton"><i class="fa-solid fa-gear"></i></a>
 
