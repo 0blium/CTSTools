@@ -670,12 +670,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CTSTools.BLL\CTSTools.BLL.csproj">
-      <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
-      <Name>CTSTools.BLL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="App\Common\Assets\css\DevExtreme\fonts\Roboto-300.ttf" />
     <Content Include="App\Common\Assets\css\DevExtreme\fonts\Roboto-300.woff" />
     <Content Include="App\Common\Assets\css\DevExtreme\fonts\Roboto-300.woff2" />
@@ -731,7 +725,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CTSTools.BLL\CTSTools.BLL.csproj">
+      <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
+      <Name>CTSTools.BLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
