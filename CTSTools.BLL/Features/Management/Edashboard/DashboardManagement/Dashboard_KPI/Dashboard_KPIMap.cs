@@ -57,10 +57,6 @@ public class Dashboard_KPIMap
             _dashboardmetricXPO.LastUpdate = _dashboardmetricXPO.LastUpdate == Dashboard_KPIDTO.LastUpdate ? _dashboardmetricXPO.LastUpdate : Dashboard_KPIDTO.LastUpdate;
             _dashboardmetricXPO.LastUpdateBy = (_dashboardmetricXPO.LastUpdateBy != null && _dashboardmetricXPO.LastUpdateBy.Oid == Dashboard_KPIDTO.LastUpdateByID) ? _dashboardmetricXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(Dashboard_KPIDTO.LastUpdateByID);
             _dashboardmetricXPO.IsActive = (bool)Dashboard_KPIDTO.IsActive;
-            if (_dashboardmetricXPO.IsActive != true)
-            {
-                _dashboardmetricXPO.SetMemberValue(GCRecordField.StaticName, _dashboardmetricXPO.Oid);
-            }
         }
         catch (Exception ex)
         {

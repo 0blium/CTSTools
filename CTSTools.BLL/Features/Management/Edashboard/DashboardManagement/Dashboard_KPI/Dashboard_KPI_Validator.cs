@@ -80,6 +80,13 @@ public class Dashboard_KPI_Validator
             //    }
             //}
 
+            var _dashboardKPIDTO = Dashboard_KPI_Service.GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = DashboardKPIDTO.DashboardID, KPIID = DashboardKPIDTO.KPIID, IsActive = false }).FirstOrDefault();
+            if (_dashboardKPIDTO != null)
+            {
+                _dashboardKPIDTO.Order = DashboardKPIDTO.Order;
+                _dashboardKPIDTO.IsActive = true;
+                _validation_ResultDTO.Data = _dashboardKPIDTO;
+            }
 
             if (DashboardKPIDTO.AddedByID == null || DashboardKPIDTO.AddedByID == 0)
             {
@@ -127,16 +134,6 @@ public class Dashboard_KPI_Validator
                     Result = false,
                     Message = "ID Field Empty",
                     Description = "Please, complete the missing information ",
-                });
-            }
-            if (DashboardKPIDTO.StatusID == null || DashboardKPIDTO.StatusID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Status Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Dashboard_KPI)}{nameof(DashboardKPIDTO.StatusDTO)}",
                 });
             }
             if (DashboardKPIDTO.DashboardID == null || DashboardKPIDTO.DashboardID == 0)
@@ -300,7 +297,7 @@ public class Dashboard_KPI_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            var _dashboardKPIList = Dashboard_KPI_Service.GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = Dashboard_KPIDTO.DashboardID, DashboardCategoryIDArray = Dashboard_KPIDTO.DashboardCategoryIDArray, KPIIDArray = Dashboard_KPIDTO.KPIIDArray });
+            var _dashboardKPIList = Dashboard_KPI_Service.GetDashboard_KPIList_Global(new Dashboard_KPIDTO { DashboardID = Dashboard_KPIDTO.DashboardID, DashboardCategoryIDArray = Dashboard_KPIDTO.DashboardCategoryIDArray, KPIIDArray = Dashboard_KPIDTO.KPIIDArray, IsActive = true});
             if (_dashboardKPIList != null)
             {
                 var _dashboardCategoryIDArray = _dashboardKPIList.Select(metric => metric.DashboardCategoryID).ToArray();

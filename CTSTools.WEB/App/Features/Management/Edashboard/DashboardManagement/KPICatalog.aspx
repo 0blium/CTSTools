@@ -141,19 +141,6 @@
                         <div class="mb-5">
                             <div type="text" id="dxKPIIsActiveCheckBox"></div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <a data-bs-toggle="collapse" data-bs-target="#collapseUser" class="h6 text-color-link">Can't you find the value to select?</a>
-                            <div id="collapseUser" class="accordion-collapse collapse border border-1 mt-1 mb-1" data-bs-parent="#accordion">
-                                <div class="accordion-body accordion-height bg-light p-1  text-dark">
-                                    <div class="col-md-12 px-2">
-                                        <label class="col-md-12 mt-1">If the value to select doesn´t exits on the list above, create a new value to select clicking on the next link</label>
-                                        <div>
-                                            <a class="h6 mt-1 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx">Go to the KPI Settings Hub</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

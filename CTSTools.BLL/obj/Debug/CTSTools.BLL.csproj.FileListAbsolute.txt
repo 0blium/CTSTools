@@ -116,3 +116,15 @@ C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.csproj.CoreCompileInputs.c
 C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.A60F98F7.Up2Date
 C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.dll
 C:\Crown\CTSTools\CTSTools.BLL\obj\Debug\CTSTools.BLL.pdb
+C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.dll
+C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.dll
+C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.pdb
+C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.xml
+C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.pdb
+C:\TFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.xml
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.dll
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.dll
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.pdb
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.xml
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.pdb
+C:\CTSTFS\CTSTools\CTSTools.BLL\bin\Debug\ExcelDataReader.DataSet.xml

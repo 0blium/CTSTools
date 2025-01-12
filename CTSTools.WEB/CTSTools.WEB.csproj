@@ -229,6 +229,7 @@
     <Content Include="App\Common\Utils\Response.js" />
     <Content Include="App\Common\Utils\SearchParamsService.js" />
     <Content Include="App\Common\Utils\Utils.js" />
+    <Content Include="App\Common\Utils\SidebarNavigationShowItems.js" />
     <Content Include="App\Common\Utils\ValidationResultDTO.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Department\Department_Service.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Service.js" />
