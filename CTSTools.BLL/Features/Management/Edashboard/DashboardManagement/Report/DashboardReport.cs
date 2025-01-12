@@ -33,11 +33,11 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Report
                 XRTable _table = CreateTable(_reportDataSourceList[0].FiscalYear);
                 
                 //Start processing data
-                ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Quality).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
                 ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Safety).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
+                ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Quality).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
                 ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Delivery).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
-                ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Moral).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
                 ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Cost).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
+                ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Moral).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
                 ProcessDashboardInformation(_reportDataSourceList.Where(x => x.DashboardCategoryID == (int)DashboardCategory_Enum.Emvioramental).OrderBy(x => x.Order).ToList(), _table, _mainDatasource[0]);
 
                 //Create table total row
