@@ -5,8 +5,8 @@ import { GetDXFacilityDataSource } from '../LocationManagement/Facility/Facility
 import { GetDXDepartmentDataSource } from '../LocationManagement/Department/Department_Service.js'
 import { GetDXRoleDataSource } from '../SecurityManagement/Role/Role_Service.js'
 import { GetDXPermissionDataSource } from '../SecurityManagement/Permission/Permission_Service.js'
-import { GetDXUser_PermissionDataSource, CreateUser_Permission, DeleteUser_Permission } from './User_Permission/User_Permission_Service.js'
-import { GetDXUser_RoleDataSource, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
+import { GetUser_PermissionInformation, CreateUser_Permission, DeleteUser_Permission } from './User_Permission/User_Permission_Service.js'
+import { GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
 
 
 
@@ -14,12 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     InitializeUserCatalogControls();
     InitializeUser_PermissionControls();
     InitializeUser_RoleControls();
-    EventHandlers();
 });
-async function EventHandlers() {
-    document.getElementById("User_PermissionButton").addEventListener("click", ClearUser_PermissionFields);
-    document.getElementById("User_RoleButton").addEventListener("click", ClearUser_RoleFields);
-}
 //#region User Catalog
 async function InitializeUserCatalogControls() {
     $("#dxUserLoginTextBox").dxTextBox({
@@ -128,7 +123,8 @@ async function InitializeUserCatalogControls() {
         },
         selection: {
             mode: 'single'
-        }, headerFilter: {
+        },
+        headerFilter: {
             visible: true
         },
         onSelectionChanged: function (data) {
@@ -138,6 +134,7 @@ async function InitializeUserCatalogControls() {
                 PopulateUserFields(_userData);
             }
         },
+
         columns:
             [
                 {
@@ -183,124 +180,154 @@ async function InitializeUserCatalogControls() {
 function masterDetailTemplate(_, masterDetailOptions) {
     return $('<div>').dxTabPanel({
         items: [{
-            title: 'Permission',
-            template: createPermissionTabTemplate(masterDetailOptions.data),
+            title: 'Permissions',
+            template: PermissionTabTemplate(masterDetailOptions.data),
         }, {
             title: 'Roles',
-            template: createAddressTabTemplate(masterDetailOptions.data),
+            template: RoleTabTemplate(masterDetailOptions.data),
         }],
     });
 }
-function createAddressTabTemplate(data) {
+
+function PermissionTabTemplate(masterDetailData) {
+
     return function () {
-        return $('<div>').addClass('address-form form-container').dxForm({
-            formData: data,
-            colCount: 2,
-            customizeItem(item) {
-                item.template = formItemTemplate;
-            },
-            items: ['Address', 'City', 'Region', 'PostalCode', 'Country', 'Phone'],
-        });
-    };
-}
-function createPermissionTabTemplate(masterDetailData) {
-    return function () {
-        let orderHistoryDataGrid;
-        function onProductChanged(productID) {
-            orderHistoryDataGrid.option('dataSource', createOrderHistoryStore(productID));
-        }
-        function onDataGridInitialized(e) {
-            orderHistoryDataGrid = e.component;
+        //document.getElementById("User_PermissionButton").addEventListener("click", ClearUser_PermissionFields);
+        let _user_permissionDataGrid;
+        async function onDataGridInitialized(e) {
+            _user_permissionDataGrid = e.component;
+            let _user_permissionDTO = await GetUser_PermissionInformation({ UserID: masterDetailData.ID });
+            _user_permissionDataGrid.option('dataSource', _user_permissionDTO);
+
         }
         return $('<div>').addClass('form-container').dxForm({
             labelLocation: 'top',
-            items: [{
-                label: { text: 'Product' },
-                template: createProductSelectBoxTemplate(masterDetailData, onProductChanged),
-            }, {
-                label: { text: 'Order History' },
-                template: createOrderHistoryTemplate(onDataGridInitialized),
-            }],
+            items: [
+                {
+                    template: PermissionButton(masterDetailData.ID)
+                    
+
+                }
+                , {
+                    template: PermissionGridTemplate(onDataGridInitialized, masterDetailData.ID),
+                }],
         });
     };
+}
+function PermissionGridTemplate(onDataGridInitialized, UserID) {
+
+    return function () {
+        return $(`<div id="dxUser_PermissionGrid${UserID}">`).dxDataGrid({
+            onInitialized: onDataGridInitialized,
+            paging: {
+                pageSize: 10,
+            },
+            showBorders: true,
+            columns: [
+                {
+                    caption: "Delete",
+                    alignment: "center",
+                    allowFiltering: false,
+                    allowSorting: false,
+                    width: 70,
+                    cellTemplate: function (container, options) {
+                        container.height(30);
+                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
+                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                            + '</span></button>')
+                            .height(30)
+                            .on('dxclick', function () {                                
+                                $("#hiddenUserID").val(options.data.UserID);
+                                $("#hiddenUser_PermissionID").val(options.data.ID);
+                                ShowUser_PermissionDeleteQuestion();
+                            }).appendTo(container);
+                    },
+                },
+                { caption: "ID", dataField: "ID", visible: false },
+                { caption: "Permission", dataField: "PermissionName" },
+                { caption: "Added By ID", dataField: "AddedByID", visible: false },
+                { caption: "Added By", dataField: "AddedByName" },
+                { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
+                { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
+                { caption: "Last Update By", dataField: "LastUpdateByName" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
+            ]
+        });
+    };
+}
+function PermissionButton(UserID) {
+    return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewPermissionUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Permission</a>`).on("click", $("#hiddenUserID").val(UserID));
+
 }
 
-function createProductSelectBoxTemplate(masterDetailData, onProductChanged) {
+function RoleTabTemplate(masterDetailData) {
+
     return function () {
-        return $('<div>').dxSelectBox({
-            inputAttr: { 'aria-label': 'Product' },
-            //dataSource: DevExpress.data.AspNet.createStore({
-            //    key: 'ProductID',
-            //    loadParams: { SupplierID: masterDetailData.SupplierID },
-            //    loadUrl: `${url}/GetProductsBySupplier`,
-            //}),
-            valueExpr: 'ProductID',
-            displayExpr: 'ProductName',
-            deferRendering: false,
-            onContentReady(e) {
-                const firstItem = e.component.option('items[0]');
-                if (firstItem) {
-                    e.component.option('value', firstItem.ProductID);
+        //document.getElementById("User_RoleButton").addEventListener("click", ClearUser_RoleFields);
+        let _user_roleDataGrid;
+        async function onDataGridInitialized(e, ID) {
+            _user_roleDataGrid = e.component;
+            let _user_roleDTO = await GetUser_RoleInformation({ UserID: masterDetailData.ID });
+            _user_roleDataGrid.option('dataSource', _user_roleDTO);
+
+        }
+        return $('<div>').addClass('form-container').dxForm({
+            labelLocation: 'top',
+            items: [
+                {
+                    template: RoleButton(),
                 }
-            },
-            onValueChanged(e) {
-                onProductChanged(e.value);
-            },
+                , {
+                    template: RoleGridTemplate(onDataGridInitialized),
+                }],
         });
     };
 }
-function formItemTemplate(item) {
-    return $('<span>').text(item.editorOptions.value);
-}
-function createOrderHistoryTemplate(onDataGridInitialized) {
+function RoleGridTemplate(onDataGridInitialized) {
+
     return function () {
         return $('<div>').dxDataGrid({
             onInitialized: onDataGridInitialized,
             paging: {
-                pageSize: 5,
+                pageSize: 10,
             },
             showBorders: true,
             columns: [
-                'OrderID',
                 {
-                    dataField: 'OrderDate',
-                    dataType: 'date',
-                },
-                'ShipCountry',
-                'ShipCity',
-                {
-                    dataField: 'UnitPrice',
-                    format: 'currency',
-                },
-                'Quantity',
-                {
-                    dataField: 'Discount',
-                    format: 'percent',
-                },
-            ],
-            summary: {
-                totalItems: [{
-                    column: 'UnitPrice',
-                    summaryType: 'sum',
-                    valueFormat: {
-                        format: 'currency',
-                        precision: 2,
+                    caption: "Delete",
+                    alignment: "center",
+                    allowFiltering: false,
+                    allowSorting: false,
+                    width: 70,
+                    cellTemplate: function (container, options) {
+                        container.height(30);
+                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
+                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                            + '</span></button>')
+                            .height(30)
+                            .on('dxclick', function () {
+                                $("#hiddenUser_PermissionID").val(options.data.ID);
+                                ShowUser_PermissionDeleteQuestion();
+                            }).appendTo(container);
                     },
-                }, {
-                    column: 'Quantity',
-                    summaryType: 'count',
-                }],
-            },
+                },
+                { caption: "ID", dataField: "ID", visible: false },
+                { caption: "Permission", dataField: "PermissionName" },
+                { caption: "Added By ID", dataField: "AddedByID", visible: false },
+                { caption: "Added By", dataField: "AddedByName" },
+                { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
+                { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
+                { caption: "Last Update By", dataField: "LastUpdateByName" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
+            ]
         });
     };
 }
-function createOrderHistoryStore(productID) {
-    return DevExpress.data.AspNet.createStore({
-        key: 'OrderID',
-        loadParams: { ProductID: productID },
-        loadUrl: `${url}/GetOrdersByProduct`,
-    });
+function RoleButton() {
+    return $('<br><a class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewRoleUserModal" id="User_RoleButton"><i class="fa-solid fa-circle-plus"></i> Role</a>');
 }
+
+
 
 function ClearUserFields() {
     UserActionButtons("Save");
@@ -401,32 +428,8 @@ async function GetFacilityDXDatasource_Global() {
 
 //#region User Permissions
 async function InitializeUser_PermissionControls() {
-    $("#dxUser_PermissionUserSelectBox").dxSelectBox({
-        dataSource: await GetDXUserDataSource(),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        deferRendering: false,
-        searchEnabled: true
-    });
-
-    $("#dxUser_PermissionPermissionTagBox").dxTagBox({
+    $("#dxPermissionDataGrid").dxDataGrid({
         dataSource: await GetDXPermissionDataSource(),
-        displayExpr: "Name",
-        deferRendering: false,
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'instantly',
-        popupWidth: 450,
-    });
-
-    $("#dxUser_PermissionIsActiveCheckBox").dxCheckBox({
-        value: true,
-        text: " Active?"
-    });
-
-    $("#dxUser_PermissionGrid").dxDataGrid({
-        dataSource: await GetDXUser_PermissionDataSource(),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -448,6 +451,9 @@ async function InitializeUser_PermissionControls() {
         groupPanel: {
             visible: true
         },
+        grouping: {
+            autoExpandAll: true,
+        },
         columnChooser: {
             enabled: true
         },
@@ -456,7 +462,7 @@ async function InitializeUser_PermissionControls() {
         },
         "export": {
             enabled: true,
-            fileName: "User_PermissionCatalog",
+            fileName: "Permission Catalog",
             allowExportSelectedData: true
         },
         filterRow: {
@@ -472,46 +478,23 @@ async function InitializeUser_PermissionControls() {
             mode: "multiple"
         },
         selection: {
-            mode: 'single'
-        }, headerFilter: {
-            visible: true
-        },
-        onSelectionChanged: function (data) {
-            let _user_PermissionData = data.selectedRowsData[0];
-            if (_user_PermissionData != null) {
-                PopulateUser_PermissionFields(_user_PermissionData);
-            }
+            mode: 'multiple',
+            selectAllMode: 'page',
+            showCheckBoxesMode: 'always'
         },
         columns:
             [
-                {
-                    caption: "Delete",
-                    alignment: "center",
-                    allowFiltering: false,
-                    allowSorting: false,
-                    width: 70,
-                    cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenUser_PermissionID").val(options.data.ID);
-                                ShowUser_PermissionDeleteQuestion();
-                            }).appendTo(container);
-                    },
-                },
-                { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
-                { caption: "User", dataField: "UserName" },
-                { caption: "Permission", dataField: "PermissionName" },
+                { caption: "Name", dataField: "Name" },
+                { caption: "Module", dataField: "Module", groupIndex: 0 },
+                { caption: "Description", dataField: "Description" },
+                { caption: "Action", dataField: "ActionName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
-                { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
-                { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
+                { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
+                { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
-                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
 
 
             ],
@@ -521,12 +504,11 @@ async function InitializeUser_PermissionControls() {
 function ClearUser_PermissionFields() {
     User_PermissionActionButtons("Save");
     $('#hiddenUser_PermissionID').val("");
-    $("#dxUser_PermissionUserSelectBox").dxSelectBox("instance").reset();
-    $("#dxUser_PermissionPermissionTagBox").dxTagBox("instance").reset();
-    let keys = $("#dxUser_PermissionGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxUser_PermissionGrid").dxDataGrid("instance").deselectRows(keys);
-    $("#dxUser_PermissionGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxUser_PermissionGrid").dxDataGrid("instance").refresh();
+    let dxUser_PermissionPermissionKeys = $("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowKeys();
+    $("#dxPermissionDataGrid").dxDataGrid("instance").deselectRows(dxUser_PermissionPermissionKeys);
+    $("#dxPermissionDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
+    $("#dxPermissionDataGrid").dxDataGrid("instance").refresh();
+
     ClearErrorFeedback();
 }
 function User_PermissionActionButtons(Action) {
@@ -542,15 +524,11 @@ function User_PermissionActionButtons(Action) {
 
     }
 }
-async function PopulateUser_PermissionFields(data) {
-    $('#hiddenUser_PermissionID').val(data.ID);
-}
 function GetUser_PermissionDTO() {
     let _user_PermissionDTO = {
-        ID: $('#hiddenUser_PermissionID').val(),
-        UserID: $("#dxUser_PermissionUserSelectBox").dxSelectBox("instance").option("value"),
-        PermissionIDArray: $("#dxUser_PermissionPermissionTagBox").dxTagBox("instance").option("value"),
-        IsActive: $("#dxUser_PermissionIsActiveCheckBox").dxCheckBox("instance").option("value"),
+        ID: $("#hiddenUser_PermissionID").val(),
+        UserID: $("#hiddenUserID").val(), 
+        PermissionIDArray: ($("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
     }
     return _user_PermissionDTO;
 }
@@ -558,8 +536,8 @@ async function CreateUser_Permission_Global() {
     await dxLoadPanel.show();
     const _user_PermissionDTO = GetUser_PermissionDTO();
     const _validation_ResultDTO = await CreateUser_Permission(_user_PermissionDTO);
-    ReloadRelated();
     if (_validation_ResultDTO.Result) {
+        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
         ClearUser_PermissionFields();
     }
     HostResponse(_validation_ResultDTO);
@@ -569,8 +547,8 @@ async function DeleteUser_Permission_Global() {
     await dxLoadPanel.show();
     const _user_PermissionDTO = GetUser_PermissionDTO();
     const _validation_ResultDTO = await DeleteUser_Permission(_user_PermissionDTO);
-    ReloadRelated();
     if (_validation_ResultDTO.Result) {
+        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
         ClearUser_PermissionFields();
     }
     HostResponse(_validation_ResultDTO);
@@ -596,14 +574,6 @@ async function ShowUser_PermissionDeleteQuestion() {
 
 //#region User Roles
 async function InitializeUser_RoleControls() {
-    $("#dxUser_RoleUserSelectBox").dxSelectBox({
-        dataSource: await GetDXUserDataSource(),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        deferRendering: false,
-        searchEnabled: true
-    });
-
     $("#dxUser_RoleRoleSelectBox").dxSelectBox({
         dataSource: await GetDXRoleDataSource(),
         valueExpr: "ID",
@@ -611,109 +581,11 @@ async function InitializeUser_RoleControls() {
         deferRendering: false,
         searchEnabled: true
     });
-
-    $("#dxUser_RoleIsActiveCheckBox").dxCheckBox({
-        value: true,
-        text: " Active?"
-    });
-
-    $("#dxUser_RoleGrid").dxDataGrid({
-        dataSource: await GetDXUser_RoleDataSource(),
-        keyExpr: "ID",
-        remoteOperations: true,
-        pager: {
-            showPageSizeSelector: true,
-            allowedPageSizes: [15, 50, 100],
-            showInfo: true
-        },
-        allowColumnReordering: true,
-        allowColumnResizing: true,
-        columnResizingMode: 'widget',
-        columnMinWidth: 100,
-        showRowLines: true,
-        showColumnLines: false,
-        showBorders: true,
-        focusedRowEnabled: true,
-        hoverStateEnabled: true,
-        rowAlternationEnabled: false,
-        columnAutoWidth: true,
-        groupPanel: {
-            visible: true
-        },
-        columnChooser: {
-            enabled: true
-        },
-        columnFixing: {
-            enabled: true
-        },
-        "export": {
-            enabled: true,
-            fileName: "User_RoleCatalog",
-            allowExportSelectedData: true
-        },
-        filterRow: {
-            visible: true,
-            applyFilter: "auto"
-        },
-        searchPanel: {
-            visible: true,
-            placeholder: "Search...",
-            width: 300
-        },
-        sorting: {
-            mode: "multiple"
-        },
-        selection: {
-            mode: 'single'
-        }, headerFilter: {
-            visible: true
-        },
-        onSelectionChanged: function (data) {
-            let _user_RoleData = data.selectedRowsData[0];
-            if (_user_RoleData != null) {
-                PopulateUser_RoleFields(_user_RoleData);
-            }
-        },
-        columns:
-            [
-                {
-                    caption: "Delete",
-                    alignment: "center",
-                    allowFiltering: false,
-                    allowSorting: false,
-                    width: 70,
-                    cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenUser_RoleID").val(options.data.ID);
-                                ShowUser_RoleDeleteQuestion();
-                            }).appendTo(container);
-                    },
-                },
-                { caption: "Is Active", dataField: "IsActive" },
-                { caption: "ID", dataField: "ID", visible: false },
-                { caption: "User", dataField: "UserName" },
-                { caption: "Role", dataField: "RoleName" },
-                { caption: "Added By ID", dataField: "AddedByID", visible: false },
-                { caption: "Added By", dataField: "AddedByName" },
-                { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
-                { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
-                { caption: "Last Update By", dataField: "LastUpdateByName" },
-                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
-
-
-            ],
-    });
     User_RoleActionButtons("Save");
 }
 function ClearUser_RoleFields() {
     User_RoleActionButtons("Save");
     $('#hiddenUser_RoleID').val("");
-    $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").reset();
     $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").reset();
     let keys = $("#dxUser_RoleGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxUser_RoleGrid").dxDataGrid("instance").deselectRows(keys);
@@ -746,7 +618,6 @@ function GetUser_RoleDTO() {
         ID: $("#hiddenUser_RoleID").val(),
         UserID: $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").option("value"),
         RoleID: $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").option("value"),
-        IsActive: $("#dxUser_RoleIsActiveCheckBox").dxCheckBox("instance").option("value"),
     }
     return _user_RoleDTO;
 }
@@ -754,7 +625,6 @@ async function CreateUser_Role_Global() {
     await dxLoadPanel.show();
     const _user_RoleDTO = GetUser_RoleDTO();
     const _validation_ResultDTO = await CreateUser_Role(_user_RoleDTO);
-    ReloadRelated();
     if (_validation_ResultDTO.Result) {
         ClearUser_RoleFields();
         $("#AddNewRoleUserModal").modal('hide');
@@ -766,7 +636,6 @@ async function DeleteUser_Role_Global() {
     await dxLoadPanel.show();
     const _user_RoleDTO = GetUser_RoleDTO();
     const _validation_ResultDTO = await DeleteUser_Role(_user_RoleDTO);
-    ReloadRelated();
     if (_validation_ResultDTO.Result) {
         ClearUser_RoleFields();
     }
@@ -801,11 +670,4 @@ async function getUserDataGridDataSource_Global() {
 //#endregion
 
 //Reload SelectBox and TagBox for related fields
-async function ReloadRelated() {
-    $("#dxUser_PermissionUserSelectBox").dxSelectBox("instance").option("dataSource", await GetDXUserDataSource());
-    $("#dxUser_PermissionPermissionTagBox").dxTagBox("instance").option("dataSource", await GetDXPermissionDataSource());
-    $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").option("dataSource", await GetDXUserDataSource());
-    $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").option("dataSource", await GetDXRoleDataSource());
-    $("#dxUser_PermissionGrid").dxDataGrid("instance").refresh();
-    $("#dxUser_RoleGrid").dxDataGrid("instance").refresh();
-}
+

@@ -80,25 +80,12 @@
                                     <label for="dxDashboardOwnerSelectBox" class="form-label">Owner (<span class="text-danger">*</span>)</label>
                                     <div id="dxDashboardOwnerSelectBox"></div>
                                     <div class="invalid-feedback" id="DashboardOwnerValidation"></div>
-                                    <a data-bs-toggle="collapse" data-bs-target="#collapseUser" class="h6 text-color-link">Can't you find the Owner?</a>
-                                    <div id="collapseUser" class="accordion-collapse collapse border border-1 mt-2">
-                                        <div class="accordion-body bg-light p-1 text-dark">
-                                            <p>If the owner doesn’t exist on the list above, create a new owner by clicking the link below:</p>
-                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx">Go to the User</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDashboardLevelSelectBox" class="form-label">Level (<span class="text-danger">*</span>)</label>
                                     <div id="dxDashboardLevelSelectBox"></div>
                                     <div class="invalid-feedback" id="DashboardLevelValidation"></div>
-                                    <a data-bs-toggle="collapse" data-bs-target="#collapseLevel" class="h6 text-color-link">Can't you find the Level?</a>
-                                    <div id="collapseLevel" class="accordion-collapse collapse border border-1 mt-2">
-                                        <div class="accordion-body bg-light p-1 text-dark">
-                                            <p>If the level doesn’t exist on the list above, create a new level by clicking the link below:</p>
-                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx">Go to the KPI Settings Hub</a>
-                                        </div>
-                                    </div>
+   
                                 </div>
                             </div>
 
@@ -113,20 +100,7 @@
                                     <label for="dxDashboardDepartmentSelectBox" class="form-label">Department (<span class="text-danger">*</span>)</label>
                                     <div id="dxDashboardDepartmentSelectBox"></div>
                                     <div class="invalid-feedback" id="DashboardDepartmentValidation"></div>
-                                    <a data-bs-toggle="collapse" data-bs-target="#collapseOrgTree" class="h6 text-color-link">Can't you find the Facility or Department?</a>
-                                    <div id="collapseOrgTree" class="accordion-collapse collapse border border-1 mt-2">
-                                        <div class="accordion-body bg-light p-1 text-dark">
-                                            <p>If the Facility or Department doesn’t exist on the list above, create a new one by clicking the link below:</p>
-                                            <a class="h6 text-color-link" target="_blank" href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx">Go to the Organizational Tree</a>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-
-                            <!-- Is Active -->
-                            <div class="mb-3">
-                                <label for="dxDashboardIsActiveCheckBox" class="form-label">Is Active?</label>
-                                <div id="dxDashboardIsActiveCheckBox"></div>
                             </div>
                         </div>
 

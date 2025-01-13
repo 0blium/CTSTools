@@ -244,6 +244,8 @@
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Service.js" />
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Service.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\Action\Action_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\Permission\Permission_Service.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.js" />
@@ -306,13 +308,10 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardList.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Service.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\PrintDashboard.aspx" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\TemplateAdministration.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategory_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\Dashboard_Category_Enum.js" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.aspx" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPI\KPI_Service.js" />
@@ -472,6 +471,13 @@
     <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMemberController.cs" />
     <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroupController.cs" />
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Action\ActionController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx.cs">
+      <DependentUpon>PermissionCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx.designer.cs">
+      <DependentUpon>PermissionCatalog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Permission\PermissionController.cs" />
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\RoleAdministration.aspx.cs">
       <DependentUpon>RoleAdministration.aspx</DependentUpon>
@@ -628,13 +634,6 @@
       <DependentUpon>DashboardCategoryCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryController.cs" />
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.aspx.cs">
-      <DependentUpon>DashboardCatalog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.aspx.designer.cs">
-      <DependentUpon>DashboardCatalog.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard\DashboardController.cs" />
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx.cs">
       <DependentUpon>KPICatalog.aspx</DependentUpon>

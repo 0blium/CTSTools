@@ -3,7 +3,6 @@
 export async function ShowSidebarMenu() {
     var _validationResultDTO = await GetUser_PermissionWithUserID();
     if (_validationResultDTO != null) {
-        debugger;
         var _moduleList = _validationResultDTO.Data.filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null).map(up => up.PermissionDTO.Module);
         const _moduleNav = document.querySelectorAll('.module-nav');
         const _subMenuNav = document.querySelectorAll('.submenu-nav');

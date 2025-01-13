@@ -117,6 +117,8 @@ public class User_Permission_Service
         }
         return PagedResultDTO.TotalCount;
     }
+
+
     #endregion
 
     #region Business Logic
@@ -134,7 +136,7 @@ public class User_Permission_Service
                     {
                         UserID = User_PermissionDTO.UserID,
                         AddedByID = User_PermissionDTO.AddedByID,
-                        IsActive = User_PermissionDTO.IsActive,
+                        IsActive = true,
                         PermissionID = _permissionID
                     };
 

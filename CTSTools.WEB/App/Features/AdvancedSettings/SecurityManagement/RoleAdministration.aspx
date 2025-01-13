@@ -43,12 +43,6 @@
                             <span class="d-sm-block d-none">Role's Permissions</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a href="#PermissionTab" id="PermissionsTab" data-bs-toggle="tab" class="nav-link" aria-selected="false" tabindex="-1" role="tab">
-                            <span class="d-sm-none">Permissions</span>
-                            <span class="d-sm-block d-none">Permissions</span>
-                        </a>
-                    </li>
                 </ul>
                 <div class="tab-content rounded-0 m-0">
                     <div class="tab-pane fade active show" id="RoleTab" role="tabpanel">
@@ -99,21 +93,6 @@
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="PermissionTab" role="tabpanel">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-inverse">
-                                    <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#PermissionModal" id="PermissionButton"><i class="fa-solid fa-circle-plus"></i>Permission</a>
-                                        <div class="mb-2">
-                                            <a href="#Permission_ActionModal" data-bs-toggle="modal">Can't find the Action you're looking for? Click here</a>
-                                        </div>
-                                        <div id="dxPermissionGrid"></div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -305,51 +284,6 @@
             </div>
         </div>
         <%--        Permission Catalog End--%>
-
-        <%-- Permission Action Modal --%>
-        <div class="modal fade" id="Permission_ActionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add new Actions</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row mb-25px">
-                            <div class="col-md-12 col-lg-4">
-                                <div class="row mb-15px">
-                                    <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
-                                    <div class="col-xl-9 col-md-12">
-                                        <div id="dxActionNameTextBox"></div>
-                                        <div class="invalid-feedback" id="ActionNameValidation"></div>
-                                    </div>
-                                </div>
-                                <div class="row mb-15px">
-                                    <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
-                                    <div class="col-xl-9 col-md-12">
-                                        <div id="dxActionDescriptionTextArea"></div>
-                                    </div>
-                                </div>
-                                <div class="row mb-15px">
-                                    <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
-                                    <div class="col-xl-9 col-md-auto">
-                                        <div class="mt-2 mb-2">
-                                            <div type="text" id="dxActionIsActiveCheckBox"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" id="ActionActionButtons"></div>
-                            </div>
-                            <div class="col-md-12 col-lg-8">
-                                <div class="panel-body">
-                                    <div type="text" id="dxActionGrid"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <input type="hidden" id="hiddenRoleID" hidden />
     <input type="hidden" id="hiddenRoleTypeID" hidden />

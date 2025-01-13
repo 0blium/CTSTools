@@ -23,7 +23,6 @@ public class User_PermissionMap
             _user_permissionDTO.LastUpdate = (User_PermissionXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? User_PermissionXPO.LastUpdate : (DateTime?)null;
             _user_permissionDTO.LastUpdateByID = (User_PermissionXPO.LastUpdateBy != null) ? User_PermissionXPO.LastUpdateBy.Oid : 0;
             _user_permissionDTO.LastUpdateByName = (User_PermissionXPO.LastUpdateBy != null) ? User_PermissionXPO.LastUpdateBy.Name : "Unnassigned";
-            _user_permissionDTO.IsActive = User_PermissionXPO.IsActive;
 
         }
         catch (Exception ex)
@@ -45,7 +44,6 @@ public class User_PermissionMap
             _user_permissionXPO.AddedBy = (_user_permissionXPO.AddedBy != null && _user_permissionXPO.AddedBy.Oid == User_PermissionDTO.AddedByID) ? _user_permissionXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(User_PermissionDTO.AddedByID);
             _user_permissionXPO.LastUpdate = _user_permissionXPO.LastUpdate == User_PermissionDTO.LastUpdate ? _user_permissionXPO.LastUpdate : User_PermissionDTO.LastUpdate;
             _user_permissionXPO.LastUpdateBy = (_user_permissionXPO.LastUpdateBy != null && _user_permissionXPO.LastUpdateBy.Oid == User_PermissionDTO.LastUpdateByID) ? _user_permissionXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(User_PermissionDTO.LastUpdateByID);
-            _user_permissionXPO.IsActive = _user_permissionXPO.IsActive == User_PermissionDTO.IsActive ? (bool)_user_permissionXPO.IsActive : (bool)User_PermissionDTO.IsActive;
 
         }
         catch (Exception ex)

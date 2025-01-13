@@ -44,16 +44,17 @@ export async function DeleteUser_Permission(User_PermissionDTO) {
     }
     return _validationResultDTO;
 }
+
 //Read
 export async function GetUser_PermissionInformation(User_PermissionDTO) {
     let _validation_resultDTO = new Object();
     try {
-        const _response = await fetch(`${APIURL}/User_Permission/GetUser_PermissionList?` + new URLSearchParams(User_PermissionDTO), {
+        const _response = await fetch(`${APIURL}/User_Permission/GetList?` + new URLSearchParams(User_PermissionDTO), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset= UTF-8' }
         });
         const _data = await _response.json();
-        _validation_resultDTO = _data.data;
+        _validation_resultDTO = _data.Data;
     }
     catch (e) {
         _validation_resultDTO.Result = false;

@@ -118,7 +118,6 @@ async function InitializeDashboardCatalogControls() {
                 { caption: "Added By Name", dataField: "AddedByName" },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By Name", dataField: "LastUpdateByName" },
-                { caption: "Is Active", dataField: "IsActive" },
             ],
     });
 
@@ -173,17 +172,17 @@ async function InitializeDashboardCatalogControls() {
             }
         },
     });
-    var _yearStart = 2024;
-    var _date = new Date();
-    var _yearEnd = _date.getFullYear();
-    var _yearsList = [];
+    let _yearStart = 2024;
+    let _date = new Date();
+    let _yearEnd = _date.getFullYear();
+    let _yearsList = [];
 
-    for (var _year = _yearStart; _year <= _yearEnd; _year++) {
+    for (let _year = _yearStart; _year <= _yearEnd; _year++) {
         var _yearObject = { Year: 0 };
         _yearObject.Year = _year;
         _yearsList.push(_yearObject);
     }
-    var _yearsData = _yearsList.reverse();
+    let _yearsData = _yearsList.reverse();
 
     $("#dxDashboardYearSelectBox").dxSelectBox({
         dataSource: _yearsData,
@@ -202,19 +201,9 @@ async function InitializeDashboardCatalogControls() {
         searchEnabled: true,
         placeholder: "Select a Department...",
     });
-
-    $("#dxDashboardIsActiveCheckBox").dxCheckBox({
-        value: true
-    });
-
-
     document.getElementById("btnCloseDashboardModal").addEventListener("click", ClearDashboardFields);
     DashboardActionButtons("Save");
 }
-
-
-
-
 
 //#endregion
 
@@ -228,7 +217,6 @@ async function PopulateDashboardFields(data) {
     $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
     await $("#dxDashboardFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
-    $("#dxDashboardIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
 }
 async function ShowDeleteQuestion() {
@@ -282,8 +270,6 @@ function ClearDashboardFields() {
     $("#dxDashboardYearSelectBox").dxSelectBox("instance").reset();
     $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").reset();
     $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").reset();
-    $("#dxDashboardIsActiveCheckBox").dxCheckBox("instance").option("value", true);
-
     let keys = $("#dxDashboardGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxDashboardGrid").dxDataGrid("instance").deselectRows(keys);
     ClearErrorFeedback();
@@ -298,7 +284,7 @@ function GetDashboardDTO() {
         LevelID: $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value"),
         OwnerID: $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value"),
         Year: $("#dxDashboardYearSelectBox").dxSelectBox("instance").option("value"),
-        IsActive: $("#dxDashboardIsActiveCheckBox").dxCheckBox("instance").option("value"),
+        IsActive: true,
 
     }
     return _dashboardDTO;
@@ -344,26 +330,11 @@ async function DeleteDashboard_Global() {
     dxLoadPanel.hide();
 }
 
-const GetDXDepartmentDataSource_Global = () => {
-    let _departmentDTO = { IsActive: true }
-    return GetDXDepartmentDataSource(_departmentDTO)
-}
 const GetDXLevelDataSource_Global = () => {
     let _levelDTO = { IsActive: true }
     return GetDXLevelDataSource(_levelDTO)
 }
-const GetDXFacilityDataSource_Global = () => {
-    let _statusDTO = { IsActive: true }
-    return GetDXFacilityDataSource(_statusDTO)
-}
-const GetDXUserDataSource_Global = () => {
-    let _statusDTO = { IsActive: true }
-    return GetDXUserDataSource(_statusDTO)
-}
 
-const GetDXDashboardDataSource_Global = () => {
-    return GetDXDashboardDataSource()
-}
 //#endregion
 
 //Reload select box for related fields

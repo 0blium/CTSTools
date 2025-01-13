@@ -1,7 +1,7 @@
 ﻿import { GetDXDashboardDataSource, GetDashboardInformation } from './Dashboard/Dashboard_Service.js';
 import { AddMonthlyValue, GetDashboardLineInformation, GetDashboard_KPITendence } from './DashboardLine/DashboardLine_Service.js';
 import { GetDashboard_KPIWithUI } from './Dashboard_KPI/Dashboard_KPI_Service.js';
-import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+import { HostResponse } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetURLParameter } from '../../../../Common/Utils/GetURLParameter.js'
 import { Dashboard_Category_Enum } from '../Settings/DashboardCategory/Dashboard_Category_Enum.js';
@@ -9,8 +9,6 @@ import { Month_Enum } from '../../../../Common/Utils/Month_Enum.js';
 import { ValueType_Enum } from '../Settings/ValueType/ValueType_Enum.js';
 import { UnitOfMeasure_Enum } from '../Settings/UnitOfMeasure/UnitOfMeasure_Enum.js'
 import { GetDXDashboard_KPIDataSource, CreateDashboard_KPI, UpdateDashboard_KPIOrder, DeleteDashboard_KPI, GetDashboard_KPIInformation, CreateDashboard_KPIFromKPIList } from './Dashboard_KPI/Dashboard_KPI_Service.js';
-
-import { GetDXDashboardCategoryDataSource } from '../Settings/DashboardCategory/DashboardCategory_Service.js'
 import { GetDXKPIDataSource } from './KPI/KPI_Service.js'
 
 
@@ -956,14 +954,6 @@ async function InitializeTemplateAdministrationControls() {
 
         ]
     });
-
-}
-
-function AssignDashboard_KPIOrder(Dashboard_KPIDTO) {
-    document.getElementById("hiddenDashboard_KPIID").value = Dashboard_KPIDTO.ID;
-    document.getElementById("hiddenDashboardID").value = Dashboard_KPIDTO.DashboardID;
-    document.getElementById("hiddenKPIID").value = Dashboard_KPIDTO.KPIID;
-    document.getElementById("hiddenDashboardCategoryID").value = Dashboard_KPIDTO.DashboardCategoryID;
 
 }
 function GetDashboard_KPIDTO(DashboardDTO) {
