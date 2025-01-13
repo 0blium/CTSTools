@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -44,33 +45,47 @@ public class Decoder_Controller : ApiController
     [Route("api/Decoder/Create")]
     public IHttpActionResult CreateDecoder([FromBody] DecoderDTO DecoderDTO)
     {
-
-        DecoderDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Decoder_Service.CreateDecoder_Global(DecoderDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Decoder), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DecoderDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Decoder_Service.CreateDecoder_Global(DecoderDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Decoder/Update")]
     public IHttpActionResult UpdateDecoder([FromBody] DecoderDTO DecoderDTO)
     {
-
-        DecoderDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Decoder_Service.UpdateDecoder_Global(DecoderDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Decoder), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DecoderDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Decoder_Service.UpdateDecoder_Global(DecoderDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Decoder/Delete")]
     public IHttpActionResult DeleteDecoder([FromBody] DecoderDTO DecoderDTO)
     {
-        var _validationResultDTO = Decoder_Service.DeleteDecoder_Global(DecoderDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Decoder), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Decoder_Service.DeleteDecoder_Global(DecoderDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Decoder/SubmitDecoder")]
     public IHttpActionResult SubmitDecoder([FromBody] DecoderDTO DecoderDTO)
     {
-        DecoderDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Decoder_Service.SubmitDecoder_Global(DecoderDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Decoder), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DecoderDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Decoder_Service.SubmitDecoder_Global(DecoderDTO);
+        }
         return Json(_validationResultDTO);
     }
     
@@ -86,9 +101,12 @@ public class Decoder_Controller : ApiController
     [Route("api/Decoder/Edit")]
     public IHttpActionResult EditDecoder([FromBody] DecoderDTO DecoderDTO)
     {
-        DecoderDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-
-        var _validationResultDTO = Decoder_Service.EditDecoder_Global(DecoderDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Decoder), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DecoderDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Decoder_Service.EditDecoder_Global(DecoderDTO);
+        }
         return Json(_validationResultDTO);
     }
     

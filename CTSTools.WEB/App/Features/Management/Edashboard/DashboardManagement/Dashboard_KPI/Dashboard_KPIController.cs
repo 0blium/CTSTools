@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -49,35 +50,48 @@ public class DashboardKPIController : ApiController
     [Route("api/Dashboard_KPI/Create")]
     public IHttpActionResult CreateDashboardKPI([FromBody] Dashboard_KPIDTO DashboardKPIDTO)
     {
-
-        DashboardKPIDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_KPI_Service.CreateDashboard_KPI_Global(DashboardKPIDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard_KPI), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DashboardKPIDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_KPI_Service.CreateDashboard_KPI_Global(DashboardKPIDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Dashboard_KPI/CreateFromKPIList")]
     public IHttpActionResult CreateDashboardKPIFromKPIList([FromBody] Dashboard_KPIDTO DashboardKPIDTO)
     {
-
-        DashboardKPIDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_KPI_Service.CreateDashboard_KPI_FromKPIList(DashboardKPIDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard_KPI), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DashboardKPIDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_KPI_Service.CreateDashboard_KPI_FromKPIList(DashboardKPIDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Dashboard_KPI/Update")]
     public IHttpActionResult UpdateDashboardKPI([FromBody] Dashboard_KPIDTO Dashboard_KPIDTO)
     {
-
-        Dashboard_KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_KPI_Service.UpdateDashboard_KPI_Global(Dashboard_KPIDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard_KPI), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            Dashboard_KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_KPI_Service.UpdateDashboard_KPI_Global(Dashboard_KPIDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Dashboard_KPI/Delete")]
     public IHttpActionResult DeleteDashboardKPI([FromBody] Dashboard_KPIDTO Dashboard_KPIDTO)
     {
-        Dashboard_KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_KPI_Service.DeleteDashboard_KPI_Global(Dashboard_KPIDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard_KPI), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            Dashboard_KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_KPI_Service.DeleteDashboard_KPI_Global(Dashboard_KPIDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -85,9 +99,12 @@ public class DashboardKPIController : ApiController
     [Route("api/Dashboard_KPI/UpdateDashboard_KPIOrder")]
     public IHttpActionResult UpdateDashboardKPIOrder([FromBody] Dashboard_KPIDTO Dashboard_KPIDTO)
     {
-
-        Dashboard_KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_KPI_Service.UpdateDashboard_KPIOrder_Global(Dashboard_KPIDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard_KPI), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            Dashboard_KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_KPI_Service.UpdateDashboard_KPIOrder_Global(Dashboard_KPIDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

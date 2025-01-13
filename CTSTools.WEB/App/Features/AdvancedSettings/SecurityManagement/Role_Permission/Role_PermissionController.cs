@@ -47,12 +47,12 @@ public class Role_PermissionController : ApiController
     [Route("api/Role_Permission/Create")]
     public IHttpActionResult CreateRole_Permission([FromBody] Role_PermissionDTO Role_PermissionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(RolePermission), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        Role_PermissionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Role_Permission_Service.CreateRole_PermissionByArray(Role_PermissionDTO);
-        // }
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Role_Permission), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            Role_PermissionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Role_Permission_Service.CreateRole_PermissionByArray(Role_PermissionDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -60,8 +60,12 @@ public class Role_PermissionController : ApiController
     [Route("api/Role_Permission/Update")]
     public IHttpActionResult UpdateRole_Permission([FromBody] Role_PermissionDTO Role_PermissionDTO)
     {
-        Role_PermissionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Role_Permission_Service.UpdateRole_Permission_Global(Role_PermissionDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Role_Permission), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            Role_PermissionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Role_Permission_Service.UpdateRole_Permission_Global(Role_PermissionDTO);
+        }
         return Json(_validationResultDTO);
     }
 

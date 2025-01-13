@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -43,27 +44,35 @@ public class UnitOfMeasureController : ApiController
     [Route("api/UnitOfMeasure/Create")]
     public IHttpActionResult CreateUnitOfMeasure([FromBody] UnitOfMeasureDTO UnitOfMeasureDTO)
     {
-        //test comment
-        //other test
-        UnitOfMeasureDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = UnitOfMeasure_Service.CreateUnitOfMeasure_Global(UnitOfMeasureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(UnitOfMeasure), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            UnitOfMeasureDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = UnitOfMeasure_Service.CreateUnitOfMeasure_Global(UnitOfMeasureDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/UnitOfMeasure/Update")]
     public IHttpActionResult UpdateUnitOfMeasure([FromBody] UnitOfMeasureDTO UnitOfMeasureDTO)
     {
-
-        UnitOfMeasureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = UnitOfMeasure_Service.UpdateUnitOfMeasure_Global(UnitOfMeasureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(UnitOfMeasure), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            UnitOfMeasureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = UnitOfMeasure_Service.UpdateUnitOfMeasure_Global(UnitOfMeasureDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/UnitOfMeasure/Delete")]
     public IHttpActionResult DeleteUnitOfMeasure([FromBody] UnitOfMeasureDTO UnitOfMeasureDTO)
     {
-
-        var _validationResultDTO = UnitOfMeasure_Service.DeleteUnitOfMeasure_Global(UnitOfMeasureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(UnitOfMeasure), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = UnitOfMeasure_Service.DeleteUnitOfMeasure_Global(UnitOfMeasureDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

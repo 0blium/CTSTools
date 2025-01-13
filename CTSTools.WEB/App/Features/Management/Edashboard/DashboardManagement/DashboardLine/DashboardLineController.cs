@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -50,26 +51,36 @@ public class DashboardLineController : ApiController
     [Route("api/DashboardLine/Create")]
     public IHttpActionResult CreateDashboardLine([FromBody] DashboardLineDTO DashboardLineDTO)
     {
-
-        DashboardLineDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = DashboardLine_Service.CreateDashboardLine_Global(DashboardLineDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardLine), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DashboardLineDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DashboardLine_Service.CreateDashboardLine_Global(DashboardLineDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DashboardLine/Update")]
     public IHttpActionResult UpdateDashboardLine([FromBody] DashboardLineDTO DashboardLineDTO)
     {
-
-        DashboardLineDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = DashboardLine_Service.UpdateDashboardLine_Global(DashboardLineDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardLine), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DashboardLineDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DashboardLine_Service.UpdateDashboardLine_Global(DashboardLineDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DashboardLine/Delete")]
     public IHttpActionResult DeleteDashboardLine([FromBody] DashboardLineDTO DashboardLineDTO)
     {
-        DashboardLineDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = DashboardLine_Service.DeleteDashboardLine_Global(DashboardLineDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardLine), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            DashboardLineDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DashboardLine_Service.DeleteDashboardLine_Global(DashboardLineDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -77,8 +88,13 @@ public class DashboardLineController : ApiController
     [Route("api/DashboardLine/AddMonthlyValue")]
     public ValidationResultDTO AddMonthlyValue([FromBody] DashboardLineDTO DashboardLineDTO)
     {
-        DashboardLineDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        return DashboardLine_Service.AddMonthlyValue(DashboardLineDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardLine), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DashboardLineDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DashboardLine_Service.AddMonthlyValue(DashboardLineDTO);
+        }
+        return _validationResultDTO;
     }
 
 }

@@ -47,12 +47,12 @@ public class MailGroupController : ApiController
     [Route("api/MailGroup/Create")]
     public IHttpActionResult CreateMailGroup([FromBody] MailGroupDTO MailGroupDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(MailGroup), (int)Action_Enum.Create);
-        // if (_validationResultDTO.Result)
-        // {
-        MailGroupDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = MailGroup_Service.CreateMailGroup_Global(MailGroupDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(MailGroup), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            MailGroupDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = MailGroup_Service.CreateMailGroup_Global(MailGroupDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]

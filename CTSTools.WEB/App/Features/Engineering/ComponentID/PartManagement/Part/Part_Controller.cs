@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -34,25 +35,35 @@ public class Part_Controller : ApiController
     [Route("api/Part/Create")]
     public IHttpActionResult CreatePart([FromBody] PartDTO PartDTO)
     {
-
-        PartDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Part_Service.CreatePart_Global(PartDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Part), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            PartDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Part_Service.CreatePart_Global(PartDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Part/Update")]
     public IHttpActionResult UpdatePart([FromBody] PartDTO PartDTO)
     {
-
-        PartDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Part_Service.UpdatePart_Global(PartDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Part), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            PartDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Part_Service.UpdatePart_Global(PartDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Part/Delete")]
     public IHttpActionResult DeletePart([FromBody] PartDTO PartDTO)
     {
-        var _validationResultDTO = Part_Service.DeletePart_Global(PartDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Part), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Part_Service.DeletePart_Global(PartDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

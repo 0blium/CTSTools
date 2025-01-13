@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -31,9 +32,12 @@ public class Class_Controller : ApiController
     [Route("api/Class/Create")]
     public IHttpActionResult CreateClass([FromBody] ClassDTO ClassDTO)
     {
-
-        ClassDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Class_Service.CreateClass_Global(ClassDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Class), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ClassDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Class_Service.CreateClass_Global(ClassDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -41,15 +45,23 @@ public class Class_Controller : ApiController
     [Route("api/Class/Update")]
     public IHttpActionResult UpdateClass([FromBody] ClassDTO ClassDTO)
     {
-        ClassDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Class_Service.UpdateClass_Global(ClassDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Class), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            ClassDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Class_Service.UpdateClass_Global(ClassDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Class/Delete")]
     public IHttpActionResult DeleteClass([FromBody] ClassDTO ClassDTO)
     {
-        var _validationResultDTO = Class_Service.DeleteClass_Global(ClassDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Class), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Class_Service.DeleteClass_Global(ClassDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

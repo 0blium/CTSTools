@@ -60,12 +60,12 @@ public class User_PermissionController : ApiController
     [Route("api/User_Permission/Create")]
     public IHttpActionResult CreateUser_Permission([FromBody] User_PermissionDTO User_PermissionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(User_Permission), (int)Action_Enum.Create);
-        // if (_validationResultDTO.Result)
-        // {
-        User_PermissionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = User_Permission_Service.CreateUser_PermissionByArray(User_PermissionDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(User_Permission), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            User_PermissionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = User_Permission_Service.CreateUser_PermissionByArray(User_PermissionDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]

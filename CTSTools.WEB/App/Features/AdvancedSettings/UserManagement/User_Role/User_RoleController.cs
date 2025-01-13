@@ -46,12 +46,12 @@ public class User_RoleController : ApiController
     [Route("api/User_Role/Create")]
     public IHttpActionResult CreateUser_Role([FromBody] User_RoleDTO User_RoleDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(UserRole), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        User_RoleDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = User_Role_Service.CreateUser_Role_Global(User_RoleDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(User_Role), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            User_RoleDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = User_Role_Service.CreateUser_Role_Global(User_RoleDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -59,11 +59,11 @@ public class User_RoleController : ApiController
     [Route("api/User_Role/Delete")]
     public IHttpActionResult DeleteUser_Role([FromBody] User_RoleDTO User_RoleDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(User_Role), (int)Action_Enum.Delete);
-        //if (_validationResultDTO.Result)
-        // {
-        var _validationResultDTO = User_Role_Service.DeleteUser_Role_Global(User_RoleDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(User_Role), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = User_Role_Service.DeleteUser_Role_Global(User_RoleDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

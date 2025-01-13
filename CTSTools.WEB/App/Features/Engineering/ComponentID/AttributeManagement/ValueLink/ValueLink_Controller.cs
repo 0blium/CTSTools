@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -44,34 +45,47 @@ public class ValueLink_Controller : ApiController
     [Route("api/ValueLink/Create")]
     public IHttpActionResult CreateValueLink([FromBody] ValueLinkDTO ValueLinkDTO)
     {
-
-        ValueLinkDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = ValueLink_Service.CreateValueLink_Global(ValueLinkDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueLink), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ValueLinkDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = ValueLink_Service.CreateValueLink_Global(ValueLinkDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/ValueLink/Update")]
     public IHttpActionResult UpdateValueLink([FromBody] ValueLinkDTO ValueLinkDTO)
     {
-
-        ValueLinkDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = ValueLink_Service.UpdateValueLink_Global(ValueLinkDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueLink), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            ValueLinkDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = ValueLink_Service.UpdateValueLink_Global(ValueLinkDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/ValueLink/CreateMultiple")]
     public IHttpActionResult CreateMultipleValueLink([FromBody] ValueLinkDTO ValueLinkDTO)
     {
-
-        ValueLinkDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = ValueLink_Service.CreateMultipleValueLink(ValueLinkDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueLink), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ValueLinkDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = ValueLink_Service.CreateMultipleValueLink(ValueLinkDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/ValueLink/Delete")]
     public IHttpActionResult DeleteValueLink([FromBody] ValueLinkDTO ValueLinkDTO)
     {
-        var _validationResultDTO = ValueLink_Service.DeleteValueLink_Global(ValueLinkDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueLink), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = ValueLink_Service.DeleteValueLink_Global(ValueLinkDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

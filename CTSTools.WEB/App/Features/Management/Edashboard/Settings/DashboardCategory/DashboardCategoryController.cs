@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -42,23 +43,35 @@ public class DashboardCategoryController : ApiController
     [Route("api/DashboardCategory/Create")]
     public IHttpActionResult CreateDashboardCategory([FromBody] DashboardCategoryDTO DashboardCategoryDTO)
     {
-        DashboardCategoryDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = DashboardCategory_Service.CreateDashboardCategory_Global(DashboardCategoryDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardCategory), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DashboardCategoryDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DashboardCategory_Service.CreateDashboardCategory_Global(DashboardCategoryDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DashboardCategory/Update")]
     public IHttpActionResult UpdateDashboardCategory([FromBody] DashboardCategoryDTO DashboardCategoryDTO)
     {
-        DashboardCategoryDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = DashboardCategory_Service.UpdateDashboardCategory_Global(DashboardCategoryDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardCategory), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DashboardCategoryDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DashboardCategory_Service.UpdateDashboardCategory_Global(DashboardCategoryDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DashboardCategory/Delete")]
     public IHttpActionResult DeleteDashboardCategory([FromBody] DashboardCategoryDTO DashboardCategoryDTO)
     {
-        var _validationResultDTO = DashboardCategory_Service.DeleteDashboardCategory_Global(DashboardCategoryDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DashboardCategory), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = DashboardCategory_Service.DeleteDashboardCategory_Global(DashboardCategoryDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

@@ -59,18 +59,13 @@ public class UserController : ApiController
     [Route("api/User/Create")]
     public IHttpActionResult CreateUser([FromBody] UserDTO UserDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Users), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        //    UserDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        //    _validationResultDTO = User_Service.CreateUser_Global(UserDTO);
-        //}
-        //return Json(_validationResultDTO);
-
-        var _validationResultDTO = new ValidationResultDTO();
-        UserDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        _validationResultDTO = User_Service.CreateUser_Global(UserDTO);
-
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(User), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = new ValidationResultDTO();
+            UserDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = User_Service.CreateUser_Global(UserDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]

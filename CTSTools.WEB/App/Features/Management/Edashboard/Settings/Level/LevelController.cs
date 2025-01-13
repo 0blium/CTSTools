@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Level;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -42,23 +43,35 @@ public class LevelController : ApiController
     [Route("api/Level/Create")]
     public IHttpActionResult CreateLevel([FromBody] LevelDTO LevelDTO)
     {
-        LevelDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Level_Service.CreateLevel_Global(LevelDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Level), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            LevelDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Level_Service.CreateLevel_Global(LevelDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Level/Update")]
     public IHttpActionResult UpdateLevel([FromBody] LevelDTO LevelDTO)
     {
-        LevelDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Level_Service.UpdateLevel_Global(LevelDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Level), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            LevelDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Level_Service.UpdateLevel_Global(LevelDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Level/Delete")]
     public IHttpActionResult DeleteLevel([FromBody] LevelDTO LevelDTO)
     {
-        var _validationResultDTO = Level_Service.DeleteLevel_Global(LevelDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Level), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Level_Service.DeleteLevel_Global(LevelDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

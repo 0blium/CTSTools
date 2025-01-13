@@ -47,12 +47,12 @@ public class StatusTypeController : ApiController
     [Route("api/StatusType/Create")]
     public IHttpActionResult CreateStatusType([FromBody] StatusTypeDTO StatusTypeDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(BLL.Features.Statuses.StatusType), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        StatusTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = StatusType_Service.CreateStatusType_Global(StatusTypeDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(StatusType), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            StatusTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = StatusType_Service.CreateStatusType_Global(StatusTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
 

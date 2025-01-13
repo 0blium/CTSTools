@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -42,23 +43,35 @@ public class EquivalenceController : ApiController
     [Route("api/Equivalence/Create")]
     public IHttpActionResult CreateEquivalence([FromBody] EquivalenceDTO EquivalenceDTO)
     {
-        EquivalenceDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Equivalence_Service.CreateEquivalence_Global(EquivalenceDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Equivalence), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            EquivalenceDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Equivalence_Service.CreateEquivalence_Global(EquivalenceDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Equivalence/Update")]
     public IHttpActionResult UpdateEquivalence([FromBody] EquivalenceDTO EquivalenceDTO)
     {
-        EquivalenceDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Equivalence_Service.UpdateEquivalence_Global(EquivalenceDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Equivalence), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            EquivalenceDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Equivalence_Service.UpdateEquivalence_Global(EquivalenceDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Equivalence/Delete")]
     public IHttpActionResult DeleteEquivalence([FromBody] EquivalenceDTO EquivalenceDTO)
     {
-        var _validationResultDTO = Equivalence_Service.DeleteEquivalence_Global(EquivalenceDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Equivalence), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Equivalence_Service.DeleteEquivalence_Global(EquivalenceDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -43,25 +44,35 @@ public class Value_Controller : ApiController
     [Route("api/Value/Create")]
     public IHttpActionResult CreateValue([FromBody] ValueDTO ValueDTO)
     {
-
-        ValueDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Value_Service.CreateValue_Global(ValueDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Value), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ValueDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Value_Service.CreateValue_Global(ValueDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Value/Update")]
     public IHttpActionResult UpdateValue([FromBody] ValueDTO ValueDTO)
     {
-
-        ValueDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Value_Service.UpdateValue_Global(ValueDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Value), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            ValueDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Value_Service.UpdateValue_Global(ValueDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Value/Delete")]
     public IHttpActionResult DeleteValue([FromBody] ValueDTO ValueDTO)
     {
-        var _validationResultDTO = Value_Service.DeleteValue_Global(ValueDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Value), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteValue_Global(ValueDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -41,23 +42,35 @@ public class ValueTypeController : ApiController
     [Route("api/ValueType/Create")]
     public IHttpActionResult CreateValueType([FromBody] ValueTypeDTO ValueTypeDTO)
     {
-        ValueTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = ValueType_Service.CreateValueType_Global(ValueTypeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueType), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ValueTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = ValueType_Service.CreateValueType_Global(ValueTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/ValueType/Update")]
     public IHttpActionResult UpdateValueType([FromBody] ValueTypeDTO ValueTypeDTO)
     {
-        ValueTypeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = ValueType_Service.UpdateValueType_Global(ValueTypeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueType), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            ValueTypeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = ValueType_Service.UpdateValueType_Global(ValueTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/ValueType/Delete")]
     public IHttpActionResult DeleteValueType([FromBody] ValueTypeDTO ValueTypeDTO)
     {
-        var _validationResultDTO = ValueType_Service.DeleteValueType_Global(ValueTypeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(ValueType), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = ValueType_Service.DeleteValueType_Global(ValueTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

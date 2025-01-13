@@ -44,18 +44,24 @@ public class DashboardController : ApiController
     [Route("api/Dashboard/Create")]
     public IHttpActionResult CreateDashboard([FromBody] DashboardDTO DashboardDTO)
     {
-
-        DashboardDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_Service.CreateDashboard_Global(DashboardDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DashboardDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_Service.CreateDashboard_Global(DashboardDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Dashboard/Update")]
     public IHttpActionResult UpdateDashboard([FromBody] DashboardDTO DashboardDTO)
     {
-
-        DashboardDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Dashboard_Service.UpdateDashboard_Global(DashboardDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Dashboard), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DashboardDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Dashboard_Service.UpdateDashboard_Global(DashboardDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]

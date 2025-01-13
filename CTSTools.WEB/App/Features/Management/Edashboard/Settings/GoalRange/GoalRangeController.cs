@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.GoalRange;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -43,26 +44,35 @@ public class GoalRangeController : ApiController
     [Route("api/GoalRange/Create")]
     public IHttpActionResult CreateGoalRange([FromBody] GoalRangeDTO GoalRangeDTO)
     {
-
-        GoalRangeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = GoalRange_Service.CreateGoalRange_Global(GoalRangeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(GoalRange), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            GoalRangeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = GoalRange_Service.CreateGoalRange_Global(GoalRangeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/GoalRange/Update")]
     public IHttpActionResult UpdateGoalRange([FromBody] GoalRangeDTO GoalRangeDTO)
     {
-
-        GoalRangeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = GoalRange_Service.UpdateGoalRange_Global(GoalRangeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(GoalRange), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            GoalRangeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = GoalRange_Service.UpdateGoalRange_Global(GoalRangeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/GoalRange/Delete")]
     public IHttpActionResult DeleteGoalRange([FromBody] GoalRangeDTO GoalRangeDTO)
     {
-
-        var _validationResultDTO = GoalRange_Service.DeleteGoalRange_Global(GoalRangeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(GoalRange), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = GoalRange_Service.DeleteGoalRange_Global(GoalRangeDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -45,25 +46,35 @@ public class Supplier_Controller : ApiController
     [Route("api/Supplier/Create")]
     public IHttpActionResult CreateSupplier([FromBody] SupplierDTO SupplierDTO)
     {
-
-        SupplierDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Supplier_Service.CreateSupplier_Global(SupplierDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Supplier), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            SupplierDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Supplier_Service.CreateSupplier_Global(SupplierDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Supplier/Update")]
     public IHttpActionResult UpdateSupplier([FromBody] SupplierDTO SupplierDTO)
     {
-
-        SupplierDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Supplier_Service.UpdateSupplier_Global(SupplierDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Supplier), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            SupplierDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Supplier_Service.UpdateSupplier_Global(SupplierDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Supplier/Delete")]
     public IHttpActionResult DeleteSupplier([FromBody] SupplierDTO SupplierDTO)
     {
-        var _validationResultDTO = Supplier_Service.DeleteSupplier_Global(SupplierDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Supplier), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Supplier_Service.DeleteSupplier_Global(SupplierDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

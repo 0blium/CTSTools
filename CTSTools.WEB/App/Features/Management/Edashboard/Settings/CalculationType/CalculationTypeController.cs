@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -42,23 +43,35 @@ public class CalculationTypeController : ApiController
     [Route("api/CalculationType/Create")]
     public IHttpActionResult CreateCalculationType([FromBody] CalculationTypeDTO CalculationTypeDTO)
     {
-        CalculationTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = CalculationType_Service.CreateCalculationType_Global(CalculationTypeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(CalculationType), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            CalculationTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = CalculationType_Service.CreateCalculationType_Global(CalculationTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/CalculationType/Update")]
     public IHttpActionResult UpdateCalculationType([FromBody] CalculationTypeDTO CalculationTypeDTO)
     {
-        CalculationTypeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = CalculationType_Service.UpdateCalculationType_Global(CalculationTypeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(CalculationType), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            CalculationTypeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = CalculationType_Service.UpdateCalculationType_Global(CalculationTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/CalculationType/Delete")]
     public IHttpActionResult DeleteCalculationType([FromBody] CalculationTypeDTO CalculationTypeDTO)
     {
-        var _validationResultDTO = CalculationType_Service.DeleteCalculationType_Global(CalculationTypeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(CalculationType), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = CalculationType_Service.DeleteCalculationType_Global(CalculationTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

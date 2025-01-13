@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -46,38 +47,51 @@ public class DecoderStructure_Controller : ApiController
     [Route("api/DecoderStructure/Create")]
     public IHttpActionResult CreateDecoderStructure([FromBody] DecoderStructureDTO DecoderStructureDTO)
     {
-
-        DecoderStructureDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = DecoderStructure_Service.CreateDecoderStructure_Global(DecoderStructureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DecoderStructure), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DecoderStructureDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DecoderStructure_Service.CreateDecoderStructure_Global(DecoderStructureDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DecoderStructure/Update")]
     public IHttpActionResult UpdateDecoderStructure([FromBody] DecoderStructureDTO DecoderStructureDTO)
     {
-
-        DecoderStructureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        DecoderStructureDTO.LastUpdate = DateTime.Now;
-
-        var _validationResultDTO = DecoderStructure_Service.UpdateDecoderStructure_Global(DecoderStructureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DecoderStructure), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DecoderStructureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            DecoderStructureDTO.LastUpdate = DateTime.Now;
+            _validationResultDTO = DecoderStructure_Service.UpdateDecoderStructure_Global(DecoderStructureDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DecoderStructure/UpdateNumberOrder")]
     public IHttpActionResult UpdateNumberOrder([FromBody] DecoderStructureDTO DecoderStructureDTO)
     {
-        DecoderStructureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        DecoderStructureDTO.LastUpdate = DateTime.Now;
-        var _validationResultDTO = DecoderStructure_Service.UpdateNumberOrder(DecoderStructureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DecoderStructure), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DecoderStructureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            DecoderStructureDTO.LastUpdate = DateTime.Now;
+            _validationResultDTO = DecoderStructure_Service.UpdateNumberOrder(DecoderStructureDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DecoderStructure/UpdateDescriptionOrder")]
     public IHttpActionResult UpdateDescriptionOrder([FromBody] DecoderStructureDTO DecoderStructureDTO)
     {
-        DecoderStructureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        DecoderStructureDTO.LastUpdate = DateTime.Now;
-        var _validationResultDTO = DecoderStructure_Service.UpdateDescriptionOrder(DecoderStructureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DecoderStructure), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DecoderStructureDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            DecoderStructureDTO.LastUpdate = DateTime.Now;
+            _validationResultDTO = DecoderStructure_Service.UpdateDescriptionOrder(DecoderStructureDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -86,10 +100,11 @@ public class DecoderStructure_Controller : ApiController
     [Route("api/DecoderStructure/Delete")]
     public IHttpActionResult DeleteDecoderStructure([FromBody] DecoderStructureDTO DecoderStructureDTO)
     {
-        var _validationResultDTO = DecoderStructure_Service.DeleteDecoderStructure_Global(DecoderStructureDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DecoderStructure), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = DecoderStructure_Service.DeleteDecoderStructure_Global(DecoderStructureDTO);
+        }
         return Json(_validationResultDTO);
     }
-    
-
-    
 }

@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -45,25 +46,35 @@ public class Attribute_Controller : ApiController
     [Route("api/Attribute/Create")]
     public IHttpActionResult CreateAttribute([FromBody] AttributeDTO AttributeDTO)
     {
-
-        AttributeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Attribute_Service.CreateAttribute_Global(AttributeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Attribute), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            AttributeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Attribute_Service.CreateAttribute_Global(AttributeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Attribute/Update")]
     public IHttpActionResult UpdateAttribute([FromBody] AttributeDTO AttributeDTO)
     {
-
-        AttributeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Attribute_Service.UpdateAttribute_Global(AttributeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Attribute), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            AttributeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Attribute_Service.UpdateAttribute_Global(AttributeDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Attribute/Delete")]
     public IHttpActionResult DeleteAttribute([FromBody] AttributeDTO AttributeDTO)
     {
-        var _validationResultDTO = Attribute_Service.DeleteAttribute_Global(AttributeDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Attribute), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Attribute_Service.DeleteAttribute_Global(AttributeDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

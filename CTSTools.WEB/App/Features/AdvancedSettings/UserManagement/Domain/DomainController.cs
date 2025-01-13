@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.Domain;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
@@ -42,9 +43,12 @@ public class DomainController : ApiController
     [Route("api/Domain/Create")]
     public IHttpActionResult CreateDomain([FromBody] DomainDTO DomainDTO)
     {
-
-        DomainDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Domain_Service.CreateDomain_Global(DomainDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Domain), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            DomainDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Domain_Service.CreateDomain_Global(DomainDTO);
+        }
         return Json(_validationResultDTO);
     }
 
@@ -52,15 +56,23 @@ public class DomainController : ApiController
     [Route("api/Domain/Update")]
     public IHttpActionResult UpdateDomain([FromBody] DomainDTO DomainDTO)
     {
-        DomainDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Domain_Service.UpdateDomain_Global(DomainDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Domain), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DomainDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Domain_Service.UpdateDomain_Global(DomainDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/Domain/Delete")]
     public IHttpActionResult DeleteDomain([FromBody] DomainDTO DomainDTO)
     {
-        var _validationResultDTO = Domain_Service.DeleteDomain_Global(DomainDTO);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Domain), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Domain_Service.DeleteDomain_Global(DomainDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

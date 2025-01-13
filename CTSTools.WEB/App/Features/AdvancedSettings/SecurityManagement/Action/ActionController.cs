@@ -46,12 +46,12 @@ public class ActionController : ApiController
     [Route("api/Action/Create")]
     public IHttpActionResult CreateAction([FromBody] ActionDTO ActionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Action), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        ActionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Action_Service.CreateAction_Global(ActionDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Action), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ActionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Action_Service.CreateAction_Global(ActionDTO);
+        }
         return Json(_validationResultDTO);
     }
 

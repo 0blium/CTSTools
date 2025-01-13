@@ -47,12 +47,12 @@ public class RoleTypeController : ApiController
     [Route("api/RoleType/Create")]
     public IHttpActionResult CreateRoleType([FromBody] RoleTypeDTO RoleTypeDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(RoleType), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        RoleTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = RoleType_Service.CreateRoleType_Global(RoleTypeDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(RoleType), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            RoleTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = RoleType_Service.CreateRoleType_Global(RoleTypeDTO);
+        }
         return Json(_validationResultDTO);
     }
 
