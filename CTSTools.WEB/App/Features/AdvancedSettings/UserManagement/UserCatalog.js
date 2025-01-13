@@ -196,7 +196,7 @@ function PermissionTabTemplate(masterDetailData) {
         let _user_permissionDataGrid;
         async function onDataGridInitialized(e) {
             _user_permissionDataGrid = e.component;
-            let _user_permissionDTO = await GetUser_PermissionInformation({ UserID: masterDetailData.ID });
+            let _user_permissionDTO = await GetUser_PermissionInformation({ UserID: masterDetailData.ID, GetPermissionDTO: true });
             _user_permissionDataGrid.option('dataSource', _user_permissionDTO);
 
         }
@@ -219,10 +219,55 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
     return function () {
         return $(`<div id="dxUser_PermissionGrid${UserID}">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
-            paging: {
-                pageSize: 10,
+            keyExpr: "ID",
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [15, 50, 100],
+                showInfo: true
             },
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnResizingMode: 'widget',
+            columnMinWidth: 100,
+            showRowLines: true,
+            showColumnLines: false,
             showBorders: true,
+            focusedRowEnabled: true,
+            hoverStateEnabled: true,
+            rowAlternationEnabled: false,
+            columnAutoWidth: true,
+            groupPanel: {
+                visible: true
+            },
+            columnChooser: {
+                enabled: true
+            },
+            columnFixing: {
+                enabled: true
+            },
+            "export": {
+                enabled: true,
+                fileName: "Permissions",
+                allowExportSelectedData: true
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            searchPanel: {
+                visible: true,
+                placeholder: "Search...",
+                width: 300
+            },
+            sorting: {
+                mode: "multiple"
+            },
+            selection: {
+                mode: 'single'
+            },
+            headerFilter: {
+                visible: true
+            },
             columns: [
                 {
                     caption: "Delete",
@@ -245,12 +290,11 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
                 },
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Permission", dataField: "PermissionName" },
+                { caption: "Module", dataField: "PermissionDTO.Module", groupIndex: 0 },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
-                { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
-                { caption: "Last Update By", dataField: "LastUpdateByName" },
-                { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
+               
             ]
         });
     };
