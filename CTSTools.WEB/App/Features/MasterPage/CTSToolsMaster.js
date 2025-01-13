@@ -1,6 +1,7 @@
 ﻿//const { dxLoadPanel } = import("../../Common/Components/dxLoadPanel");
 import { dxLoadPanel } from "../../Common/Components/dxLoadPanel.js"
 import { GetUser_PermissionWithUserID } from '../AdvancedSettings/UserManagement/User_Permission/User_Permission_Service.js'
+import { ShowSidebarMenu } from '../../Common/Utils/SidebarNavigationShowItems.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await dxLoadPanel.show();
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     CollapseSidebar();
     await ActiveMenuOption();
     await dxLoadPanel.hide();
-    await ShowSidebarByUser_Permissions();
+    await ShowSidebarMenu();
 });
 
 window.addEventListener("resize", () => {
@@ -68,6 +69,7 @@ async function ActiveMenuOption() {
     }
 }
 async function ShowSidebarByUser_Permissions() {
+    debugger;
     var _validationResultDTO = await GetUser_PermissionWithUserID();
     if (_validationResultDTO != null) {
         var _moduleList = _validationResultDTO.Data
@@ -86,6 +88,7 @@ async function ShowSidebarByUser_Permissions() {
         // Hide/show submenus depending on permissions
         let visibleGroups = {};
         groups.forEach(group => {
+            debugger;
             let elements = document.querySelectorAll(group.selector);
             let hasVisibleItems = false;  // We initialize as false
             // We use .forEach() to loop through all the elements in the group
