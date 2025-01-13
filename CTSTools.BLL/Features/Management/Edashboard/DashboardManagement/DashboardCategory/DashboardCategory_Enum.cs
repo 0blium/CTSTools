@@ -13,7 +13,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
         Delivery = 3,
         Safety = 4,
         Moral = 5,
-        Emvioramental = 6,
+        Environmental = 6,
 
     }
 }

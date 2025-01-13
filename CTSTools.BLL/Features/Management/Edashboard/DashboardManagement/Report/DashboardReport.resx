@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="xrLabel8.Text" xml:space="preserve">
+    <value> Criterios para acciones o Monitoreo:
+1 -. 6 meses consecutivos en verde se revisa la meta para actualización por mejora continua.
+2 -. 3 meses consecutivos en amarillo requiere de monitoreo usando graficas..
+3 -. Cualquier meta en rojo requiere acción en la pestaña de acción Item de este documento.
+4 -. Cualquier Indicador sin meta establecida deberá registrarse sin color alguno.
+5 -. La publicación de todos los Dashboards y sus “ACTION ITEMS” deberá ejercerse durante la primera semana del mes en el pizarrón de Dashboards de la planta. 
+</value>
+  </data>
 </root>
