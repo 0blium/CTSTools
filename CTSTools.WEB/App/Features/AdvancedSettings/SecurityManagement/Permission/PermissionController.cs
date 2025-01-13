@@ -47,12 +47,12 @@ public class PermissionController : ApiController
     [Route("api/Permission/Create")]
     public IHttpActionResult CreatePermission([FromBody] PermissionDTO PermissionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Permission), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
-        PermissionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = Permission_Service.CreatePermission_Global(PermissionDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Permission), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            PermissionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Permission_Service.CreatePermission_Global(PermissionDTO);
+        }
         return Json(_validationResultDTO);
     }
 

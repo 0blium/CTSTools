@@ -191,17 +191,7 @@
                                         <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Users</div>
                                         </a>
-                                    </div>
-                                    <div id="DomainCatalogOrgManagement" class="menu-item module-nav" data-tech="DomainCatalog" hidden>
-                                        <a href="/App/Features/AdvancedSettings/UserManagement/DomainCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Domains</div>
-                                        </a>
-                                    </div>
-                                    <div id="RoleAdministrationOrgManagement" class="menu-item module-nav" data-tech="RoleAdministration RoleType Role_Permission Permission Action" hidden>
-                                        <a href="/App/Features/AdvancedSettings/SecurityManagement/RoleAdministration.aspx" class="menu-link">
-                                            <div class="menu-text">Roles</div>
-                                        </a>
-                                    </div>
+                                    </div>                                   
                                     <div id="LocationsCatalogOrgManagement" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog" hidden>
                                         <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Locations</div>

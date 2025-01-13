@@ -44,6 +44,7 @@ export async function DeleteUser_Permission(User_PermissionDTO) {
     }
     return _validationResultDTO;
 }
+
 //Read
 export async function GetUser_PermissionInformation(User_PermissionDTO) {
     let _validation_resultDTO = new Object();

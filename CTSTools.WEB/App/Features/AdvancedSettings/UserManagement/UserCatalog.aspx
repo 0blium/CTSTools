@@ -122,7 +122,7 @@
     </div>
 
     <div class="modal fade" id="AddNewPermissionUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add new permissions to user</h1>
@@ -136,10 +136,8 @@
 
                     </div>
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-md-3">Permissions (<span class="text-danger">*</span>)</label>
-                        <div class="col-md-9">
-                            <div id="dxUser_PermissionPermissionTagBox"></div>
-                            <div class="invalid-feedback" id="User_PermissionPermissionValidation"></div>
+                        <div class="col-md-12">
+                            <div id="dxPermissionDataGrid"></div>
                         </div>
                     </div>
                 </div>

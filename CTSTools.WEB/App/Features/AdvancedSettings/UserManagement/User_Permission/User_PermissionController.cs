@@ -2,6 +2,7 @@
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
@@ -67,7 +68,6 @@ public class User_PermissionController : ApiController
         //}
         return Json(_validationResultDTO);
     }
-
     [HttpPost]
     [Route("api/User_Permission/Delete")]
     public IHttpActionResult DeleteUser_Permission([FromBody] User_PermissionDTO User_PermissionDTO)

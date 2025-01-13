@@ -297,13 +297,10 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardList.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardList.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Service.js" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\TemplateAdministration.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategory_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\Dashboard_Category_Enum.js" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.aspx" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPI\KPI_Service.js" />
@@ -619,13 +616,6 @@
       <DependentUpon>DashboardCategoryCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryController.cs" />
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.aspx.cs">
-      <DependentUpon>DashboardCatalog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\DashboardCatalog.aspx.designer.cs">
-      <DependentUpon>DashboardCatalog.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard\DashboardController.cs" />
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx.cs">
       <DependentUpon>KPICatalog.aspx</DependentUpon>
