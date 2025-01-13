@@ -45,6 +45,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.DataAccess.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v23.2.Core, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v23.2.Core, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Charts.v23.2.Core, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v23.2.Web, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v23.2.Web.WebForms, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExtreme.AspNet.Data, Version=4.0.1.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
       <HintPath>packages\DevExtreme.AspNet.Data.4.0.1\lib\net461\DevExtreme.AspNet.Data.dll</HintPath>
     </Reference>
@@ -297,6 +307,7 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardList.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardList.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Service.js" />
+    <Content Include="App\Features\Management\Edashboard\DashboardManagement\PrintDashboard.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategory_Service.js" />
@@ -608,6 +619,13 @@
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\DashboardList.aspx.designer.cs">
       <DependentUpon>DashboardList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\PrintDashboard.aspx.cs">
+      <DependentUpon>PrintDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\PrintDashboard.aspx.designer.cs">
+      <DependentUpon>PrintDashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.aspx.cs">
       <DependentUpon>DashboardCategoryCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -653,12 +671,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CTSTools.BLL\CTSTools.BLL.csproj">
-      <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
-      <Name>CTSTools.BLL</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Common\Assets\css\DevExtreme\fonts\Roboto-300.ttf" />
@@ -716,7 +728,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CTSTools.BLL\CTSTools.BLL.csproj">
+      <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
+      <Name>CTSTools.BLL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

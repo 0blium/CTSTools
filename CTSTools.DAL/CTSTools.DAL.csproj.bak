@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{173FBF7C-06EE-4919-AF3E-DBA5A592CC23}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CTSTools.DAL</RootNamespace>
+    <AssemblyName>CTSTools.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Drawing.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v23.2.Core, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="Elmah">
+      <HintPath>..\CTSTools.BLL\bin\Debug\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\CTSTools.WEB\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AssetManagementSQL.cs" />
+    <Compile Include="Common\SQLCommonHelper.cs" />
+    <Compile Include="Common\XPO_Helper.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsibleXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\FacilityXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMemberXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\ActionXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\PermissionXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleRelationXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleTypeXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_PermissionXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusTypeXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusTypeXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\DomainXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\TressSQL.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\UserXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_PermissionXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_RoleXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\AttributeXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class_Sequence_SQL.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLinkXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructureXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_SupplierXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\PartXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_AttributeXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\SupplierXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardCategoryXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardLineXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\Dashboard_KPIXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\DashboardXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Dashboard\KPIXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationTypeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\EquivalenceXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRangeXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\LevelXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasureXPO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueTypeXPO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

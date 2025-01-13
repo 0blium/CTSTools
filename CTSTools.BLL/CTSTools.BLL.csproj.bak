@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0935632F-D092-479C-936D-EB5401E975F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CTSTools.BLL</RootNamespace>
+    <AssemblyName>CTSTools.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.Desktop.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Drawing.v23.2, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Pdf.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v23.2.Core, Version=23.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v22.1.Export, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.5.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\CTSTools.WEB\packages\ExcelDataReader.3.5.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.5.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\CTSTools.WEB\packages\ExcelDataReader.DataSet.3.5.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\CTSTools.WEB\packages\System.Configuration.ConfigurationManager.8.0.1\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Common\Exception_Service.cs" />
+    <Compile Include="Common\Files\DirectoryDTO.cs" />
+    <Compile Include="Common\Files\ExcelDataImport_Service.cs" />
+    <Compile Include="Common\Files\ExcelFileDTO.cs" />
+    <Compile Include="Common\Files\FileDirectory_Enum.cs" />
+    <Compile Include="Common\Files\FileDTO.cs" />
+    <Compile Include="Common\Files\FileLimit_Enum.cs" />
+    <Compile Include="Common\Files\File_Service.cs" />
+    <Compile Include="Common\Files\GenericCatalogDTO.cs" />
+    <Compile Include="Common\PagedResultDTO.cs" />
+    <Compile Include="Common\ValidationResultDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsibleDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsibleMap.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsible_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsible_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsible_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsible_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Department\DepartmentDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Department\DepartmentMap.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Department\Department_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Department\Department_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Department\Department_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Department\Department_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\FacilityDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\FacilityMap.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\Facility_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\Facility_Enum.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\Facility_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\Facility_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\LocationManagement\Facility\Facility_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMemberDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMemberMap.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroupDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroupMap.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\ActionDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\ActionMap.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Enum.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\PermissionDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\PermissionMap.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\Permission_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\Permission_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\Permission_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\Permission_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleTypeDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleTypeMap.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_Enum.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleType\RoleType_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\RoleDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\RoleMap.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\Role_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\Role_Enum.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\Role_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\Role_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role\Role_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_PermissionDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_PermissionMap.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_Permission_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_Permission_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_Permission_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Role_Permission\Role_Permission_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusType\StatusTypeDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusType\StatusTypeMap.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusType\StatusType_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusType\StatusType_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusType\StatusType_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\StatusType\StatusType_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\StatusDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\StatusMap.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\Status_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\Status_Enum.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\Status_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\Status_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status\Status_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusTypeDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusTypeMap.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\ActiveDirectory\ActiveDirectoryDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\ActiveDirectory\ActiveDirectory_Helper.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\Domain\DomainDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\Domain\DomainMap.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\Domain\Domain_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\Domain\Domain_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\Domain\Domain_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\Domain\Domain_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User\UserDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User\UserMap.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User\User_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User\User_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User\User_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User\User_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Permission\User_PermissionDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Permission\User_PermissionMap.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Permission\User_Permission_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Permission\User_Permission_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Permission\User_Permission_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Permission\User_Permission_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Role\User_RoleDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Role\User_RoleMap.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Role\User_Role_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Role\User_Role_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Role\User_Role_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\UserManagement\User_Role\User_Role_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\AttributeDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\AttributeMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\Attribute_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\Attribute_Enum.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\Attribute_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\Attribute_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\Attribute_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class\ClassDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class\Class_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class\Class_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class_Sequence\Class_Sequence_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\SubClass\SubClassDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\SubClass\SubClass_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\SubClass\SubClass_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLinkDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLinkMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\ValueDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\ValueMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Enum.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructureDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructureMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructure_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructure_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructure_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructure\DecoderStructure_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\DecoderDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\DecoderMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_ErrorCode.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\Decoder\Decoder_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_SupplierDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_SupplierMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_Supplier_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_Supplier_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_Supplier_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\DecoderManagement\SubClass_Supplier\SubClass_Supplier_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part\PartDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part\PartMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part\Part_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part\Part_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part\Part_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part\Part_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_Attribute\Part_AttributeDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_Attribute\Part_AttributeMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_Attribute\Part_Attribute_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_Attribute\Part_Attribute_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_Attribute\Part_Attribute_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_Attribute\Part_Attribute_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\SupplierDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\SupplierMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategoryDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategoryMap.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Enum.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardChartDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLineDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLineMap.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLine_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLine_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLine_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLine_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardLine\MonthDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPIDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPIMap.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\DashboardDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\DashboardMap.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPIDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPIMap.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.Designer.cs">
+      <DependentUpon>DashboardReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReportDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\MonthlyTotalDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationTypeDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationTypeMap.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Enum.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\CalculationType\CalculationType_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\EquivalenceDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\EquivalenceMap.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\Equivalence_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\Equivalence_Enum.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\Equivalence_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\Equivalence_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Equivalence\Equivalence_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRange\GoalRangeDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRange\GoalRangeMap.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRange\GoalRange_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRange\GoalRange_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRange\GoalRange_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\GoalRange\GoalRange_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Level\LevelDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Level\LevelMap.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Level\Level_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Level\Level_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Level\Level_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\Level\Level_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasureDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasureMap.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasure_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasure_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasure_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasure_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueTypeDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueTypeMap.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Enum.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Validator.cs" />
+    <Compile Include="Features\XPO\DXFilterDTO.cs" />
+    <Compile Include="Features\XPO\DXFilters_Helper.cs" />
+    <Compile Include="Features\XPO\ORM_Helper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CTSTools.DAL\CTSTools.DAL.csproj">
+      <Project>{173fbf7c-06ee-4919-af3e-dba5a592cc23}</Project>
+      <Name>CTSTools.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.resx">
+      <DependentUpon>DashboardReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

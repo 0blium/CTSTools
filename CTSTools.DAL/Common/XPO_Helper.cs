@@ -40,6 +40,7 @@ namespace CTSTools.DAL.Common
 
         private static IDataLayer GetDataLayer()
         {
+
             XpoDefault.Session = null;
             string conn = MSSqlConnectionProvider.GetConnectionString(
                 ConfigurationManager.AppSettings["sql_server"],

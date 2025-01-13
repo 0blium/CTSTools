@@ -24,6 +24,7 @@ public class Dashboard_KPIMap
             _dashboardmetricDTO.Order = Dashboard_KPIXPO.Order;
             _dashboardmetricDTO.DashboardCategoryID = (Dashboard_KPIXPO.KPI?.DashboardCategory != null) ? Dashboard_KPIXPO.KPI?.DashboardCategory?.Oid : 0;
             _dashboardmetricDTO.DashboardCategoryName = (Dashboard_KPIXPO.KPI?.DashboardCategory != null) ? Dashboard_KPIXPO.KPI?.DashboardCategory?.Name : "Unnassigned";
+            _dashboardmetricDTO.DashboardCategoryLetter = (Dashboard_KPIXPO.KPI?.DashboardCategory != null) ? Dashboard_KPIXPO.KPI?.DashboardCategory?.PanelName : "Unnassigned";
             _dashboardmetricDTO.AddedDate = (Dashboard_KPIXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? Dashboard_KPIXPO.AddedDate : (DateTime?)null;
             _dashboardmetricDTO.AddedByID = (Dashboard_KPIXPO.AddedBy != null) ? Dashboard_KPIXPO.AddedBy.Oid : 0;
             _dashboardmetricDTO.AddedByName = (Dashboard_KPIXPO.AddedBy != null) ? Dashboard_KPIXPO.AddedBy.Name : "Unnassigned";
