@@ -41,24 +41,24 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             }
             return _ValidationResultDTO;
         }
-        public static List<PermissionDTO> GetPermissionList_Global(PermissionDTO PermissionDTO,PagedResultDTO<PermissionDTO> PagedResultDTO = null)
+        public static List<PermissionDTO> GetPermissionList_Global(PermissionDTO PermissionDTO, PagedResultDTO<PermissionDTO> PagedResultDTO = null)
         {
             var _permissionglobalList = new List<PermissionDTO>();
             try
             {
-                var _permissionList = Permission_Repository.GetPermissionList(PermissionDTO,PagedResultDTO);
+                var _permissionList = Permission_Repository.GetPermissionList(PermissionDTO, PagedResultDTO);
                 // if Permission is empty, return list
                 if (_permissionList.Count() == 0)
                 {
-                        _permissionglobalList = _permissionList;
-                        return _permissionglobalList;
+                    _permissionglobalList = _permissionList;
+                    return _permissionglobalList;
                 }
                 if (!PermissionDTO.GetActionDTO)
                 {
-                        _permissionglobalList = _permissionList;
-                        return _permissionglobalList;
+                    _permissionglobalList = _permissionList;
+                    return _permissionglobalList;
                 }
-                _permissionglobalList = GetPermissionRelatedData(PermissionDTO,_permissionList);                        
+                _permissionglobalList = GetPermissionRelatedData(PermissionDTO, _permissionList);
 
             }
             catch (Exception ex)
@@ -70,30 +70,30 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
 
 
 
-        public static List<PermissionDTO> GetPermissionRelatedData(PermissionDTO PermissionDTO,List<PermissionDTO> PermissionList)
+        public static List<PermissionDTO> GetPermissionRelatedData(PermissionDTO PermissionDTO, List<PermissionDTO> PermissionList)
         {
             var _permissionglobalList = new List<PermissionDTO>();
-            var _actionDict = new Dictionary<int?,ActionDTO>();
-            
+            var _actionDict = new Dictionary<int?, ActionDTO>();
+
             try
             {
                 if (PermissionDTO.GetActionDTO)
                 {
-                        PermissionDTO.ActionDTO.ActionIDArray = PermissionList.GroupBy(g => g.ActionDTO.ID)
-                                .Select(s => s.Key)
-                                .ToArray();
+                    PermissionDTO.ActionDTO.ActionIDArray = PermissionList.GroupBy(g => g.ActionDTO.ID)
+                            .Select(s => s.Key)
+                            .ToArray();
 
-                        _actionDict = Action_Service.GetActionList_Global(PermissionDTO.ActionDTO)
-                                                    .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+                    _actionDict = Action_Service.GetActionList_Global(PermissionDTO.ActionDTO)
+                                                .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
                 }
                 foreach (var _permissionDTO in PermissionList)
                 {
-                        if (PermissionDTO.GetActionDTO && _actionDict.ContainsKey(_permissionDTO.ActionDTO.ID))
-                        {
-                                _permissionDTO.ActionDTO = _actionDict[_permissionDTO.ActionDTO.ID];
-                        }
-                        _permissionglobalList.Add(_permissionDTO);
-                }                        
+                    if (PermissionDTO.GetActionDTO && _actionDict.ContainsKey(_permissionDTO.ActionDTO.ID))
+                    {
+                        _permissionDTO.ActionDTO = _actionDict[_permissionDTO.ActionDTO.ID];
+                    }
+                    _permissionglobalList.Add(_permissionDTO);
+                }
 
             }
             catch (Exception ex)
@@ -103,10 +103,10 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             return _permissionglobalList;
         }
 
-        
 
 
-         public static int GetPermissionTotalCount(PagedResultDTO<PermissionDTO> PagedResultDTO)
+
+        public static int GetPermissionTotalCount(PagedResultDTO<PermissionDTO> PagedResultDTO)
         {
             try
             {
@@ -128,8 +128,6 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             var _validation_ResultDTO = new ValidationResultDTO();
             try
             {
-                //1. Get permission
-
                 var _permissionDTO = new PermissionDTO
                 {
                     Module = UserDTO.PermissionDTO.Module,
@@ -138,23 +136,21 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                 };
                 _permissionDTO = GetPermissionList_Global(_permissionDTO).FirstOrDefault();
 
-                if(_permissionDTO != null)
-                {
-                    var _user_permissionDTO = User_Permission_Service.GetUser_PermissionList_Global(new User_PermissionDTO
+                if (_permissionDTO == null)
+                    return _validation_ResultDTO = new ValidationResultDTO
                     {
-                        UserID = UserDTO.ID,
-                        PermissionID = _permissionDTO.ID,
-                        IsActive=true
-                    }).FirstOrDefault();
-                    if(_user_permissionDTO != null)
-                    {
-                        return _validation_ResultDTO;
-                    }
-                }
-                _validation_ResultDTO.Result = false;
-                _validation_ResultDTO.Message = "Don't have access to this action.";
-                _validation_ResultDTO.Description = "You can't perform this action. In case this is an error, please contact your system administrator.";
+                        Result = false,
+                        Message = "Don't have access to this action.",
+                        Description = "You can't perform this action. In case this is an error, please contact your system administrator."
+                    };
 
+                var _user_permissionDTO = new User_PermissionDTO
+                {
+                    UserID = UserDTO.ID,
+                    PermissionID = _permissionDTO.ID,
+                };
+                _user_permissionDTO = User_Permission_Service.GetUser_PermissionList_Global(_user_permissionDTO).FirstOrDefault();
+                
             }
             catch (Exception ex)
             {

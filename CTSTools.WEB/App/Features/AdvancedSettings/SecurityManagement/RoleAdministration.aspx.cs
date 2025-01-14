@@ -8,6 +8,6 @@ public partial class RoleAdministration : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Auth_Helper.ValidateAccessPage(Page, nameof(RoleAdministration));
+        Auth_Helper.ValidateAccessPage(Page, nameof(RoleAdministration));
     }
 }

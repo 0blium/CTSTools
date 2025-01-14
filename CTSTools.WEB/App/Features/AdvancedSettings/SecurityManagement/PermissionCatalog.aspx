@@ -27,9 +27,6 @@
                         <div class="panel panel-inverse">
                             <div class="panel-body">
                                 <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#PermissionModal" id="PermissionButton"><i class="fa-solid fa-circle-plus"></i>Permission</a>
-                                <div class="mb-2">
-                                    <a href="#Permission_ActionModal" data-bs-toggle="modal">Can't find the Action you're looking for? Click here</a>
-                                </div>
                                 <div id="dxPermissionGrid"></div>
                             </div>
                         </div>
@@ -73,6 +70,8 @@
                                 <div class="mt-2 mb-2">
                                     <div type="text" id="dxPermissionActionSelectBox"></div>
                                     <div class="invalid-feedback" id="PermissionActionValidation"></div>
+                                    <a href="#Permission_ActionModal" data-bs-toggle="modal">Can't find the Action you're looking for? Click here</a>
+
                                 </div>
                             </div>
                         </div>
