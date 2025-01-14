@@ -74,11 +74,11 @@ export async function GetDXModuleDataSource(ModuleDTO) {
         beforeSend: (sender, ajaxSettings) => {
         },
     });
-    let _ModuleDataSource = new DevExpress.data.DataSource({
+    let _moduleDataSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,
         pageSize: 15,
         remoteOperations: true,
     });
-    return _ModuleDataSource;
+    return _moduleDataSource;
 }

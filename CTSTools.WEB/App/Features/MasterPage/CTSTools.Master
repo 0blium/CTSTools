@@ -223,6 +223,12 @@
                                 </a>
                             </div>--%>
 
+                            <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav"  data-tech="UnitOfMeasureCatalog" hidden>
+                                <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Unit Of Measure</div>
+                                </a>
+                             </div>
+
                         </div>
                     </div>
                     <div class="menu-item has-sub">

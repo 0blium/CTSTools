@@ -1,7 +1,6 @@
 ﻿import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { Catalog_Enum } from "./Catalog_Enum.js"
-import { GetDXUnitOfMeasureDataSource, CreateUnitOfMeasure, UpdateUnitOfMeasure, DeleteUnitOfMeasure } from './UnitOfMeasure/UnitOfMeasure_Service.js'
 import { GetDXEquivalenceDataSource, CreateEquivalence, UpdateEquivalence, DeleteEquivalence } from './Equivalence/Equivalence_Service.js'
 import { GetDXCalculationTypeDataSource, CreateCalculationType, UpdateCalculationType, DeleteCalculationType } from './CalculationType/CalculationType_Service.js'
 import { GetDXLevelDataSource, CreateLevel, UpdateLevel, DeleteLevel } from './Level/Level_Service.js'
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     InitializeDashboardCategoryCatalogControls();
     document.getElementById('NewCatalogItemBtn').classList.add('disabled');
 });
-let _catalogDatasource = [{ ID: Catalog_Enum.UOM, Name: "Unit Of Measure" }, { ID: Catalog_Enum.ValueType, Name: "Value Type" }, { ID: Catalog_Enum.CalculationType, Name: "Calculation Type" }, { ID: Catalog_Enum.Equivalence, Name: "Equivalence" },
+let _catalogDatasource = [{ ID: Catalog_Enum.ValueType, Name: "Value Type" }, { ID: Catalog_Enum.CalculationType, Name: "Calculation Type" }, { ID: Catalog_Enum.Equivalence, Name: "Equivalence" },
 { ID: Catalog_Enum.Level, Name: "Level" }, { ID: Catalog_Enum.GoalRange, Name: "Goal Range" }];
 let _lastCatalogSelected = 0;
 
@@ -217,7 +216,7 @@ async function PopulateCatalogDataGrid() {
     if (_lastCatalogSelected != $("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
         ClearGenericFields();
         let _datagridConfig = null
-        if ([Catalog_Enum.CalculationType, Catalog_Enum.Equivalence, Catalog_Enum.Level, Catalog_Enum.UOM, Catalog_Enum.ValueType].includes($("#dxCatalogSelectBox").dxSelectBox("instance").option("value"))) {
+        if ([Catalog_Enum.CalculationType, Catalog_Enum.Equivalence, Catalog_Enum.Level, Catalog_Enum.ValueType].includes($("#dxCatalogSelectBox").dxSelectBox("instance").option("value"))) {
             _datagridConfig = _DatagridConfiguration.GenericCatalogVersion;
         } else if ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value") == Catalog_Enum.GoalRange) {
             _datagridConfig = _DatagridConfiguration.GoalRangeVersion;
@@ -227,9 +226,6 @@ async function PopulateCatalogDataGrid() {
             $("#dxCatalogGrid").dxDataGrid("instance").option("onSelectionChanged", _datagridConfig.onSelectionChanged)
 
             switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
-                case Catalog_Enum.UOM:
-                    $("#dxCatalogGrid").dxDataGrid("instance").option("dataSource", await GetDXUnitOfMeasureDataSource({}))
-                    break;
                 case Catalog_Enum.ValueType:
                     $("#dxCatalogGrid").dxDataGrid("instance").option("dataSource", await GetDXValueTypeDataSource({}))
                     break;
@@ -358,9 +354,6 @@ function ShowGenericFields() {
 function SetModalTitle(Action) {
     let _modalTitle = Action == "Save" ? "Add" : "Update";
     switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
-        case Catalog_Enum.UOM:
-            _modalTitle += " Unit Of Measure";
-            break;
         case Catalog_Enum.ValueType:
             _modalTitle += " Value Type";
             break;
@@ -383,9 +376,6 @@ function SetModalTitle(Action) {
 
 async function CreateCatalogItem(GenericDTO) {
     switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
-        case Catalog_Enum.UOM:
-            return await CreateUnitOfMeasure(GenericDTO);
-            break;
         case Catalog_Enum.ValueType:
             return await CreateValueType(GenericDTO);
             break;
@@ -407,9 +397,6 @@ async function CreateCatalogItem(GenericDTO) {
 
 async function UpdateCatalogItem(GenericDTO) {
     switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
-        case Catalog_Enum.UOM:
-            return await UpdateUnitOfMeasure(GenericDTO);
-            break;
         case Catalog_Enum.ValueType:
             return await UpdateValueType(GenericDTO);
             break;
@@ -429,9 +416,6 @@ async function UpdateCatalogItem(GenericDTO) {
 }
 async function DeleteCatalogItem(GenericDTO) {
     switch ($("#dxCatalogSelectBox").dxSelectBox("instance").option("value")) {
-        case Catalog_Enum.UOM:
-            return await DeleteUnitOfMeasure(GenericDTO);
-            break;
         case Catalog_Enum.ValueType:
             return await DeleteValueType(GenericDTO);
             break;

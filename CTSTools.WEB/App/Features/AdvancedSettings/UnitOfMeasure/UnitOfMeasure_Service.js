@@ -1,7 +1,7 @@
-﻿import { APIURL } from '../../../../../Common/Utils/Environment.js'
-import { ValidationResultDTO } from '../../../../../Common/Utils/ValidationResultDTO.js'
-import APIRequest from '../../../../../Common/Utils/APIRequest.js'
-import BuildSearchParams from '../../../../../Common/Utils/SearchParamsService.js';
+﻿import { APIURL } from '../../../common/utils/environment.js'
+import { ValidationResultDTO } from '../../../common/utils/ValidationResultDTO.js'
+import APIRequest from '../../../common/utils/apirequest.js'
+import BuildSearchParams from '../../../common/utils/searchparamsservice.js';
 
 export async function CreateUnitOfMeasure(UnitOfMeasureDTO) {
     let _validationResultDTO = ValidationResultDTO;
@@ -73,11 +73,11 @@ export async function GetDXUnitOfMeasureDataSource(UnitOfMeasureDTO) {
         beforeSend: (sender, ajaxSettings) => {
         },
     });
-    let _UnitOfMeasureDataSource = new DevExpress.data.DataSource({
+    let _unitOfMeasureDataSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,
         pageSize: 15,
         remoteOperations: true,
     });
-    return _UnitOfMeasureDataSource;
+    return _unitOfMeasureDataSource;
 }

@@ -72,10 +72,10 @@ async function InitializeModuleCatalogControls() {
             visible: true
         },
         onSelectionChanged: function (data) {
-            let _ModuleData = data.selectedRowsData[0];
-            if (_ModuleData != null) {
+            let _moduleData = data.selectedRowsData[0];
+            if (_moduleData != null) {
                 ModuleActionButtons("Update");
-                PopulateModuleFields(_ModuleData);
+                PopulateModuleFields(_moduleData);
             }
         },
         columns:
@@ -129,7 +129,7 @@ async function PopulateModuleFields(data) {
 }
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
-        title: 'You will remove the dashboard category, are you sure?',
+        title: 'You will remove the module, are you sure?',
         confirmButtonText: `Delete`,
         showCancelButton: true
     });
@@ -177,21 +177,21 @@ function ClearModuleFields() {
     ClearErrorFeedback();
 }
 function GetModuleDTO() {
-    let _ModuleDTO = {
+    let _moduleDTO = {
         ID: $("#hiddenModuleID").val(),
         Name: $("#dxModuleNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxModuleDescription").dxTextArea("instance").option("value"),
         IsActive: $("#dxModuleIsActiveCheckBox").dxCheckBox("instance").option("value")
     }
-    return _ModuleDTO;
+    return _moduleDTO;
 }
 //#endregion
 
 //#region Module CRUD Functions
 async function CreateModule_Global() {
     await dxLoadPanel.show();
-    const _ModuleDTO = GetModuleDTO();
-    const _validation_ResultDTO = await CreateModule(_ModuleDTO)
+    const _moduleDTO = GetModuleDTO();
+    const _validation_ResultDTO = await CreateModule(_moduleDTO)
     if (_validation_ResultDTO.Result) {
         $("#dxModuleGrid").dxDataGrid("instance").refresh();
         ClearModuleFields();
@@ -201,8 +201,8 @@ async function CreateModule_Global() {
 }
 async function UpdateModule_Global() {
     await dxLoadPanel.show();
-    const _ModuleDTO = GetModuleDTO();
-    const _validation_ResultDTO = await UpdateModule(_ModuleDTO)
+    const _moduleDTO = GetModuleDTO();
+    const _validation_ResultDTO = await UpdateModule(_moduleDTO)
     if (_validation_ResultDTO.Result) {
         $("#dxModuleGrid").dxDataGrid("instance").refresh();
         ClearModuleFields();
@@ -212,8 +212,8 @@ async function UpdateModule_Global() {
 }
 async function DeleteModule_Global() {
     await dxLoadPanel.show();
-    const _ModuleDTO = GetModuleDTO();
-    const _validation_ResultDTO = await DeleteModule(_ModuleDTO)
+    const _moduleDTO = GetModuleDTO();
+    const _validation_ResultDTO = await DeleteModule(_moduleDTO)
     if (_validation_ResultDTO.Result) {
         $("#dxModuleGrid").dxDataGrid("instance").refresh();
         ClearModuleFields();

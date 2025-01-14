@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using System;
 using System.Collections.Generic;
 
@@ -24,7 +25,7 @@ public class UnitOfMeasure_Validator
                     Result = false,
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"CatalogItem{nameof(UnitOfMeasureDTO.Name)}",
+                    Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.Name)}",
                 });
             }
 
@@ -74,6 +75,7 @@ public class UnitOfMeasure_Validator
                     Result = false,
                     Message = "ID Field Empty",
                     Description = "Please, complete the missing information ",
+                    Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.ID)}"
                 });
             }
             if (string.IsNullOrEmpty(UnitOfMeasureDTO.Name))
@@ -83,7 +85,7 @@ public class UnitOfMeasure_Validator
                     Result = false,
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"CatalogItem{nameof(UnitOfMeasureDTO.Name)}",
+                    Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.Name)}",
                 });
             }
 
@@ -134,6 +136,7 @@ public class UnitOfMeasure_Validator
                     Result = false,
                     Message = "ID Field Empty",
                     Description = " Please, complete the missing information ",
+                    Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.ID)}"
                 });
             }
 
