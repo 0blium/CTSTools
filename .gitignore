@@ -385,3 +385,5 @@ FodyWeavers.xsd
 /CTSTools.WEB/obj/Debug/CTSTools.WEB.csproj.AssemblyReference.cache
 /CTSTools.WEB/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /CTSTools.DAL/obj/Debug/CTSTools.DAL.csproj.AssemblyReference.cache
+/CTSTools.BLL/obj/Debug/CTSTools.BLL.csproj.CoreCompileInputs.cache
+/CTSTools.BLL/obj/Debug/CTSTools.BLL.csproj.FileListAbsolute.txt
