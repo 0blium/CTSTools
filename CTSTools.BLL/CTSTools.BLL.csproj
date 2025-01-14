@@ -75,7 +75,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Common\Exception_Service.cs" />
     <Compile Include="Common\Files\DirectoryDTO.cs" />
     <Compile Include="Common\Files\ExcelDataImport_Service.cs" />
@@ -125,6 +124,12 @@
     <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Repository.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Service.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\Action\Action_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Module\ModuleDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Module\ModuleMap.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Module\Module_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Module\Module_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Module\Module_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\Module\Module_Validator.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\PermissionDTO.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\PermissionMap.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\Permission\Permission_DXFilter.cs" />

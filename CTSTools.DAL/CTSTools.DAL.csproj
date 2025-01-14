@@ -64,6 +64,7 @@
     <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupMemberXPO.cs" />
     <Compile Include="Features\AdvancedSettings\MailGroupManagement\MailGroupXPO.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\ActionXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\SecurityManagement\ModuleXPO.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\PermissionXPO.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleRelationXPO.cs" />
     <Compile Include="Features\AdvancedSettings\SecurityManagement\RoleTypeXPO.cs" />

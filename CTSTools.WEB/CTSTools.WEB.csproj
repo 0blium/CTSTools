@@ -322,6 +322,9 @@
     <Content Include="App\Features\Management\Edashboard\Settings\KPISettings.aspx" />
     <Content Include="App\Features\Management\Edashboard\Settings\KPISettings.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\Level\Level_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\ModuleCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\ModuleCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\SecurityManagement\Module\Module_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasure_Enum.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasure_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\ValueType\ValueType_Enum.js" />
@@ -654,6 +657,14 @@
       <DependentUpon>KPISettings.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\Level\LevelController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\ModuleCatalog.aspx.cs">
+      <DependentUpon>ModuleCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\ModuleCatalog.aspx.designer.cs">
+      <DependentUpon>ModuleCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Module\ModuleController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\UnitOfMeasure\UnitOfMeasureController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\ValueType\ValueTypeController.cs" />
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPIController.cs" />
@@ -733,6 +744,9 @@
       <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
       <Name>CTSTools.BLL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\ModuleCategory\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
