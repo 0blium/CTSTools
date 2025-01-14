@@ -1,14 +1,21 @@
-﻿import { GetUser_PermissionWithUserID } from '../../Features/AdvancedSettings/UserManagement/User_Permission/User_Permission_Service.js'
+﻿import { GetUser_PermissionInformation } from '../../Features/AdvancedSettings/UserManagement/User_Permission/User_Permission_Service.js'
 
-export async function ShowSidebarMenu() {
-    var _validationResultDTO = await GetUser_PermissionWithUserID();
+export async function ShowSidebarMenu(UserID) {
+    let _user_PermissionDTO = {
+        UserID: UserID,
+        GetPermissionDTO: true
+    }
+    var _validationResultDTO = await GetUser_PermissionInformation(_user_PermissionDTO);
+    debugger;
     if (_validationResultDTO != null) {
-        var _moduleList = _validationResultDTO.Data.filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null).map(up => up.PermissionDTO.Module);
+        debugger;
+        var _moduleList = _validationResultDTO.filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null).map(up => up.PermissionDTO.Module);
         const _moduleNav = document.querySelectorAll('.module-nav');
         const _subMenuNav = document.querySelectorAll('.submenu-nav');
         const _menuNav = document.querySelectorAll('.menu-nav');
         let _subMenuList = [];
         _moduleNav.forEach(item => {
+            debugger;
             // Getting value from data-tech
             const _moduleMenuList = item.getAttribute('data-tech').split(' ');
             // Check if any of the modules in "data-tech" are in the user's permissions

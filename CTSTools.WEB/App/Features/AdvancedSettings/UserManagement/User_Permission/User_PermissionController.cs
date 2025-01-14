@@ -45,17 +45,6 @@ public class User_PermissionController : ApiController
         return Json(_validationResultDTO);
     }
 
-    [HttpGet]
-    [Route("api/User_Permission/GetUser_PermissionListWithUserID")]
-    public IHttpActionResult GetUser_PermissionListWithUserID()
-    {
-        var _userID = Auth_Helper.GetLoggedUserOid();
-        var _validationResultDTO = new ValidationResultDTO();
-        var _user_permissionDTO = new User_PermissionDTO { UserID = _userID, IsActive = true, GetPermissionDTO = true };
-        _validationResultDTO.Data = User_Permission_Service.GetUser_PermissionList_Global(_user_permissionDTO);
-        return Json(_validationResultDTO);
-    }
-
     [HttpPost]
     [Route("api/User_Permission/Create")]
     public IHttpActionResult CreateUser_Permission([FromBody] User_PermissionDTO User_PermissionDTO)

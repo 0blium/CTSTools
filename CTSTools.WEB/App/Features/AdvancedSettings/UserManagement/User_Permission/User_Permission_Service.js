@@ -64,24 +64,7 @@ export async function GetUser_PermissionInformation(User_PermissionDTO) {
     }
     return _validation_resultDTO;
 }
-export async function GetUser_PermissionWithUserID() {
-    let _validation_resultDTO = new Object();
-    try {
-        const _response = await fetch(`${APIURL}/User_Permission/GetUser_PermissionListWithUserID?`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json; charset= UTF-8' }
-        });
-        const _data = await _response.json();
-        _validation_resultDTO = _data;
-    }
-    catch (e) {
-        _validation_resultDTO.Result = false;
-        _validation_resultDTO.Description = "";
-        _validation_resultDTO.Message = "";
 
-    }
-    return _validation_resultDTO;
-}
 //DX DataSource
 export async function GetDXUser_PermissionDataSource(UserPermissionDTO) {
     let params = await BuildSearchParams(UserPermissionDTO);

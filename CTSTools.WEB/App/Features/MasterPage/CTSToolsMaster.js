@@ -1,6 +1,5 @@
 ﻿//const { dxLoadPanel } = import("../../Common/Components/dxLoadPanel");
 import { dxLoadPanel } from "../../Common/Components/dxLoadPanel.js"
-import { GetUser_PermissionWithUserID } from '../AdvancedSettings/UserManagement/User_Permission/User_Permission_Service.js'
 import { ShowSidebarMenu } from '../../Common/Utils/SidebarNavigationShowItems.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -9,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     CollapseSidebar();
     await ActiveMenuOption();
     await dxLoadPanel.hide();
-    await ShowSidebarMenu();
+    await ShowSidebarMenu($("#hiddenUserID").val());
 });
 
 window.addEventListener("resize", () => {
