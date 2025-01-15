@@ -6,7 +6,9 @@ using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using Elmah;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Remoting.Activation;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 public class DecoderStructure_Service
@@ -173,7 +175,7 @@ public class DecoderStructure_Service
                                           .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.ToList());
             }
 
-
+   
 
             foreach (var _decoderstructureDTO in DecoderStructureList)
             {

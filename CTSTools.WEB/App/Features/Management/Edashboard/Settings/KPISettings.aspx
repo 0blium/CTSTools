@@ -15,7 +15,7 @@
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">KPI Settings</h1>
+                <h1 class="page-header">Settings</h1>
             </div>
             <!-- END page-header -->
         </div>
