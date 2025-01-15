@@ -130,9 +130,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="col-md-12">
-                        <label class="text-muted">Select the KPIs that you want to add to the selected dashboard</label>
-                        <br />
-                        <label class="text-muted">(If the value to select doesn´t exits on the list below, create a new value clicking <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/SecurityManagement/PermissionCatalog.aspx">here</a>)</label>
+                        <label class="text-muted">If the value that you want doesn´t exits on the list below, create a new permission clicking <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/SecurityManagement/PermissionCatalog.aspx">here</a>)</label>
 
                     </div>
                     <div class="row mb-15px">
@@ -155,10 +153,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-md-12">
-                        <label class="text-muted">Select the KPIs that you want to add to the selected dashboard</label>
-                        <br />
-                        <label class="text-muted">(If the value to select doesn´t exits on the list below, create a new value clicking <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/SecurityManagement/RoleAdministration.aspx">here</a>)</label>
+                    <div class="col-md-12 mb-2">
+                        <label class="text-muted">If the value that you want doesn´t exits on the list below, create a new role clicking <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/SecurityManagement/RoleAdministration.aspx">here</a>)</label>
 
                     </div>
                     <div class="row mb-15px">

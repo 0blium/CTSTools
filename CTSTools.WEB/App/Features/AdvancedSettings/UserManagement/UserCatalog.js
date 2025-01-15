@@ -290,7 +290,7 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
                 },
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Permission", dataField: "PermissionName" },
-                { caption: "Module", dataField: "PermissionDTO.ModuleName", groupIndex: 0 },
+                { caption: "Module", dataField: "PermissionDTO.Module" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
@@ -443,7 +443,6 @@ async function CreateUser_Global() {
     const _validation_ResultDTO = await CreateUser(_userDTO);
     if (_validation_ResultDTO.Result) {
         ClearUserFields();
-        ReloadRelated();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -530,7 +529,7 @@ async function InitializeUser_PermissionControls() {
             [
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Name", dataField: "Name" },
-                { caption: "Module", dataField: "ModuleName", groupIndex: 0 },
+                { caption: "Module", dataField: "Module", groupIndex: 0 },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Action", dataField: "ActionName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },

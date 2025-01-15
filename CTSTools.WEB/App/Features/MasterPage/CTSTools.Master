@@ -192,7 +192,7 @@
                                             <div class="menu-text">Users</div>
                                         </a>
                                     </div>
-                                    <div id="LocationsCatalogOrgManagement" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog" hidden>
+                                    <div id="LocationsCatalogOrgManagement" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog Facility Department" hidden>
                                         <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Locations</div>
                                         </a>
