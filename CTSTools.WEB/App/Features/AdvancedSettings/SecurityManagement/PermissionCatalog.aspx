@@ -54,10 +54,21 @@
                         <div class="row mb-15px">
                             <label class="form-label col-form-label col-xl-3 col-md-12">Module (<span class="text-danger">*</span>)</label>
                             <div class="col-xl-9 col-md-12">
+                                <div class="mt-2 mb-2">
+                                    <div type="text" id="dxPermissionModuleSelectBox"></div>
+                                    <div class="invalid-feedback" id="PermissionModuleValidation"></div>
+                                    <a href="/App/Features/AdvancedSettings/SecurityManagement/ModuleCatalog.aspx" >Can't find the Module you're looking for? Click here</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <%--<div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-12">Module (<span class="text-danger">*</span>)</label>
+                            <div class="col-xl-9 col-md-12">
                                 <div id="dxPermissionModuleTextBox"></div>
                                 <div class="invalid-feedback" id="PermissionModuleValidation"></div>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="row mb-15px">
                             <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
                             <div class="col-xl-9 col-md-12">
@@ -84,58 +95,58 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <div class="row" id="PermissionActionButtons"></div>
-                    </div>
+                <div class="modal-footer">
+                    <div class="row" id="PermissionActionButtons"></div>
                 </div>
             </div>
         </div>
-        <%--        Permission Catalog End--%>
+    </div>
+    <%--        Permission Catalog End--%>
 
-        <%-- Permission Action Modal --%>
-        <div class="modal fade" id="Permission_ActionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add new Actions</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row mb-25px">
-                            <div class="col-md-12 col-lg-4">
-                                <div class="row mb-15px">
-                                    <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
-                                    <div class="col-xl-9 col-md-12">
-                                        <div id="dxActionNameTextBox"></div>
-                                        <div class="invalid-feedback" id="ActionNameValidation"></div>
-                                    </div>
+    <%-- Permission Action Modal --%>
+    <div class="modal fade" id="Permission_ActionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add new Actions</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-25px">
+                        <div class="col-md-12 col-lg-4">
+                            <div class="row mb-15px">
+                                <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
+                                <div class="col-xl-9 col-md-12">
+                                    <div id="dxActionNameTextBox"></div>
+                                    <div class="invalid-feedback" id="ActionNameValidation"></div>
                                 </div>
-                                <div class="row mb-15px">
-                                    <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
-                                    <div class="col-xl-9 col-md-12">
-                                        <div id="dxActionDescriptionTextArea"></div>
-                                    </div>
-                                </div>
-                                <div class="row mb-15px">
-                                    <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
-                                    <div class="col-xl-9 col-md-auto">
-                                        <div class="mt-2 mb-2">
-                                            <div type="text" id="dxActionIsActiveCheckBox"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" id="ActionActionButtons"></div>
                             </div>
-                            <div class="col-md-12 col-lg-8">
-                                <div class="panel-body">
-                                    <div type="text" id="dxActionGrid"></div>
+                            <div class="row mb-15px">
+                                <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
+                                <div class="col-xl-9 col-md-12">
+                                    <div id="dxActionDescriptionTextArea"></div>
                                 </div>
+                            </div>
+                            <div class="row mb-15px">
+                                <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
+                                <div class="col-xl-9 col-md-auto">
+                                    <div class="mt-2 mb-2">
+                                        <div type="text" id="dxActionIsActiveCheckBox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="ActionActionButtons"></div>
+                        </div>
+                        <div class="col-md-12 col-lg-8">
+                            <div class="panel-body">
+                                <div type="text" id="dxActionGrid"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <input type="hidden" id="hiddenPermissionID" hidden />
     <input type="hidden" id="hiddenActionID" hidden />

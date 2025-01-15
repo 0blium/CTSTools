@@ -47,7 +47,7 @@ public class ModuleController : ApiController
         if (_validationResultDTO.Result)
         {
             ModuleDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-             _validationResultDTO = Module_Service.CreateModule_Global(ModuleDTO);
+            _validationResultDTO = Module_Service.CreateModule_Global(ModuleDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -70,7 +70,7 @@ public class ModuleController : ApiController
         var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Module), (int)Action_Enum.Delete);
         if (_validationResultDTO.Result)
         {
-           _validationResultDTO = Module_Service.DeleteModule_Global(ModuleDTO);
+            _validationResultDTO = Module_Service.DeleteModule_Global(ModuleDTO);
         }
         return Json(_validationResultDTO);
     }

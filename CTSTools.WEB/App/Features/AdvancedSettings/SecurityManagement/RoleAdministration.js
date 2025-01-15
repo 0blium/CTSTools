@@ -549,7 +549,7 @@ async function InitializeRole_PermissionCatalogControls() {
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Permission", dataField: "PermissionName" },
-                { caption: "Module", dataField: "PermissionDTO.Module" },
+                { caption: "Module", dataField: "PermissionDTO.ModuleName" },
                 { caption: "Role", dataField: "RoleName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },

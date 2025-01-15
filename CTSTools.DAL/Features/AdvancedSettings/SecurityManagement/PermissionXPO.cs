@@ -24,17 +24,17 @@ public class PermissionXPO : XPObject
         base.AfterConstruction();
         // Place here your initialization code.
     }
+    ModuleXPO fModule;
+    public ModuleXPO Module
+    {
+        get { return fModule; }
+        set { SetPropertyValue<ModuleXPO>(nameof(Module), ref fModule, value); }
+    }
     string fName;
     public string Name
     {
         get { return fName; }
         set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
-    }
-    string fModule;
-    public string Module
-    {
-        get { return fModule; }
-        set { SetPropertyValue<string>(nameof(Module), ref fModule, value); }
     }
     string fDescription;
     public string Description

@@ -1,5 +1,6 @@
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Module;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
 using Elmah;
@@ -58,6 +59,11 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     _permissionglobalList = _permissionList;
                     return _permissionglobalList;
                 }
+                if (!PermissionDTO.GetModuleDTO)
+                {
+                    _permissionglobalList = _permissionList;
+                    return _permissionglobalList;
+                }
                 _permissionglobalList = GetPermissionRelatedData(PermissionDTO, _permissionList);
 
             }
@@ -74,6 +80,7 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
         {
             var _permissionglobalList = new List<PermissionDTO>();
             var _actionDict = new Dictionary<int?, ActionDTO>();
+            var _moduleDict = new Dictionary<int?, ModuleDTO>();
 
             try
             {
@@ -86,11 +93,24 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     _actionDict = Action_Service.GetActionList_Global(PermissionDTO.ActionDTO)
                                                 .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
                 }
+                if (PermissionDTO.GetModuleDTO)
+                {
+                    PermissionDTO.ModuleDTO.ModuleIDArray = PermissionList.GroupBy(g => g.ModuleDTO.ID)
+                            .Select(s => s.Key)
+                            .ToArray();
+
+                    _moduleDict = Module_Service.GetModuleList_Global(PermissionDTO.ModuleDTO)
+                                                .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+                }
                 foreach (var _permissionDTO in PermissionList)
                 {
                     if (PermissionDTO.GetActionDTO && _actionDict.ContainsKey(_permissionDTO.ActionDTO.ID))
                     {
                         _permissionDTO.ActionDTO = _actionDict[_permissionDTO.ActionDTO.ID];
+                    }
+                    if (PermissionDTO.GetModuleDTO && _moduleDict.ContainsKey(_permissionDTO.ModuleDTO.ID))
+                    {
+                        _permissionDTO.ModuleDTO = _moduleDict[_permissionDTO.ModuleDTO.ID];
                     }
                     _permissionglobalList.Add(_permissionDTO);
                 }
@@ -130,7 +150,7 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             {
                 var _permissionDTO = new PermissionDTO
                 {
-                    Module = UserDTO.PermissionDTO.Module,
+                    ModuleName = UserDTO.PermissionDTO.ModuleName,
                     IsActive = true,
                     ActionID = UserDTO.PermissionDTO.ActionDTO.ID
                 };

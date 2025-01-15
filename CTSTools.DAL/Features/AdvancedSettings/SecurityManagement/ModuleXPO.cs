@@ -4,6 +4,7 @@ using System;
 
 namespace CTSTools.DAL.Features.AdvancedSettings.SecurityManagement
 {
+    [Persistent(@"Module")]
     public class ModuleXPO : XPObject
     {
         public ModuleXPO() : base()

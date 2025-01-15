@@ -30,14 +30,14 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                         Data = $"{nameof(Permission)}{nameof(PermissionDTO.Name)}", 
                     });
                 }
-                if (string.IsNullOrEmpty(PermissionDTO.Module))
+                if (PermissionDTO.ModuleID == null || PermissionDTO.ModuleID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false,
                         Message = "Module Field Empty",
                         Description = " Please, complete the missing information ",
-                        Data = $"{nameof(Permission)}{nameof(PermissionDTO.Module)}",
+                        Data = $"{nameof(Permission)}{nameof(PermissionDTO.ModuleID)}",
                     });
                 }
                 if (PermissionDTO.ActionID == null || PermissionDTO.ActionID == 0 )
@@ -109,14 +109,14 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                         Data = $"{nameof(Permission)}{nameof(PermissionDTO.Name)}", 
                     });
                 }
-                if (string.IsNullOrEmpty(PermissionDTO.Module))
+                if (PermissionDTO.ModuleID == null || PermissionDTO.ModuleID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false,
                         Message = "Module Field Empty",
                         Description = " Please, complete the missing information ",
-                        Data = $"{nameof(Permission)}{nameof(PermissionDTO.Module)}",
+                        Data = $"{nameof(Permission)}{nameof(PermissionDTO.ModuleID)}",
                     });
                 }
                 if (PermissionDTO.ActionID == null || PermissionDTO.ActionID == 0 )

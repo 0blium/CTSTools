@@ -1,3 +1,4 @@
+using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using CTSTools.DAL.Features.AdvancedSettings.SecurityManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using DevExpress.Xpo;
@@ -13,9 +14,10 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             var _permissionDTO = new PermissionDTO();
             try
             {
-                _permissionDTO.ID = PermissionXPO.Oid;
+               _permissionDTO.ID = PermissionXPO.Oid;
                _permissionDTO.Name = PermissionXPO.Name; 
-               _permissionDTO.Module = PermissionXPO.Module; 
+               _permissionDTO.ModuleID = (PermissionXPO.Module != null) ? PermissionXPO.Module.Oid : 0;
+               _permissionDTO.ModuleName = (PermissionXPO.Module != null) ? PermissionXPO.Module.Name : "Unnassigned";
                _permissionDTO.Description = PermissionXPO.Description; 
                _permissionDTO.ActionID = (PermissionXPO.Action != null) ? PermissionXPO.Action.Oid : 0;
                _permissionDTO.ActionName = (PermissionXPO.Action != null) ? PermissionXPO.Action.Name : "Unnassigned"; 
@@ -42,8 +44,8 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             {
                 _permissionXPO = PermissionDTO.ID == null || PermissionDTO.ID == 0 ? new PermissionXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<PermissionXPO>(PermissionDTO.ID);
                 _permissionXPO.Name = _permissionXPO.Name == PermissionDTO.Name ? _permissionXPO.Name : PermissionDTO.Name;
-               _permissionXPO.Module = _permissionXPO.Module == PermissionDTO.Module ? _permissionXPO.Module : PermissionDTO.Module;
-               _permissionXPO.Description = _permissionXPO.Description == PermissionDTO.Description ? _permissionXPO.Description : PermissionDTO.Description;
+                _permissionXPO.Module = (_permissionXPO.Module != null && _permissionXPO.Module.Oid == PermissionDTO.ModuleID) ? _permissionXPO.Module : UnitOfWork.GetObjectByKey<ModuleXPO>(PermissionDTO.ModuleID);
+                _permissionXPO.Description = _permissionXPO.Description == PermissionDTO.Description ? _permissionXPO.Description : PermissionDTO.Description;
                _permissionXPO.Action = (_permissionXPO.Action != null && _permissionXPO.Action.Oid == PermissionDTO.ActionID ) ? _permissionXPO.Action : UnitOfWork.GetObjectByKey<ActionXPO>(PermissionDTO.ActionID);
                _permissionXPO.AddedDate = _permissionXPO.AddedDate != null ? _permissionXPO.AddedDate : PermissionDTO.AddedDate;
                _permissionXPO.AddedBy = (_permissionXPO.AddedBy != null ) ? _permissionXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(PermissionDTO.AddedByID);

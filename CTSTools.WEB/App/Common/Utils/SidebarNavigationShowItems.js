@@ -3,14 +3,15 @@
 export async function ShowSidebarMenu(UserID) {
     let _user_PermissionDTO = {
         UserID: UserID,
-        GetPermissionDTO: true
+        GetPermissionDTO: true,
     }
     var _validationResultDTO = await GetUser_PermissionInformation(_user_PermissionDTO);
     if (_validationResultDTO != null) {
-        var _moduleList = _validationResultDTO.filter(up => up.PermissionDTO != null && up.PermissionDTO.Module != null).map(up => up.PermissionDTO.Module);
+        var _moduleList = _validationResultDTO.filter(up => up.PermissionDTO != null && up.PermissionDTO.ModuleName != null).map(up => up.PermissionDTO.ModuleName);
         const _moduleNav = document.querySelectorAll('.module-nav');
         const _subMenuNav = document.querySelectorAll('.submenu-nav');
         const _menuNav = document.querySelectorAll('.menu-nav');
+        let _moduleNavList = [];
         let _subMenuList = [];
         _moduleNav.forEach(item => {
             // Getting value from data-tech
@@ -20,17 +21,15 @@ export async function ShowSidebarMenu(UserID) {
             // If you have permission, remove the hidden; If not, keep it
             if (_exist) {
                 item.removeAttribute('hidden');
-                const _id = item.id;
-                _subMenuNav.forEach(MenuName => {
-                    if (_id && _id.endsWith(MenuName.id)) {
-                        // Add to list only if it doesn't already exist
-                        if (!_subMenuList.includes(MenuName.id)) {
-                            _subMenuList.push(MenuName.id);
-                        }
-                    }
-                });
+                _moduleNavList.push(item.id);
             } else {
                 item.setAttribute('hidden', true);
+            }
+        });
+        _subMenuNav.forEach(MenuName => {
+            const _exist = _moduleNavList.some(id => id.endsWith(MenuName.id));
+            if (_exist && !_subMenuList.includes(MenuName.id)) {
+                _subMenuList.push(MenuName.id);
             }
         });
         _subMenuList.forEach(MenuName => {

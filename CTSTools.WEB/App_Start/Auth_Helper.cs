@@ -28,7 +28,7 @@ namespace CTSTools.WEB.App_Start
         public static ValidationResultDTO ValidatePermission_Global(string ModuleName, int Action)
         {
             var _userDTO = new UserDTO { ID = GetLoggedUserOid() };
-            _userDTO.PermissionDTO.Module = ModuleName;
+            _userDTO.PermissionDTO.ModuleName = ModuleName;
             _userDTO.PermissionDTO.ActionDTO.ID = Action;
             return Permission_Service.ValidatePermission(_userDTO);
         }
@@ -47,7 +47,7 @@ namespace CTSTools.WEB.App_Start
         public static void ValidateAccessPage(Page Page, string ModuleName)
         {
             var _userDTO = new UserDTO { ID = GetLoggedUserOid() };
-            _userDTO.PermissionDTO.Module = ModuleName;
+            _userDTO.PermissionDTO.ModuleName = ModuleName;
             _userDTO.PermissionDTO.ActionDTO.ID = (int)Action_Enum.Read;
             ///Validate if user can view the page
             var _validation_Result = Permission_Service.ValidatePermission(_userDTO);

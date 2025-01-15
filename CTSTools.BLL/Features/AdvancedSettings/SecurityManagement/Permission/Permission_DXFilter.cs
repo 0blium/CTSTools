@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using DevExpress.Data.Filtering;
 using CTSTools.DAL.Features.AdvancedSettings.SecurityManagement;
+using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 
 namespace CTSTools.BLL.Features.Security.Permissions.Permission;
 
@@ -15,8 +16,12 @@ public class Permission_DXFilter
         {
             if (PermissionDTO.ID > 0)
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(PermissionXPO.Oid), PermissionDTO.ID));
-            if (!string.IsNullOrEmpty(PermissionDTO.Module))
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(PermissionXPO.Module), PermissionDTO.Module));
+            if (PermissionDTO.ModuleID != null || PermissionDTO.ModuleID > 0)
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(PermissionXPO.Module), PermissionDTO.ModuleID));
+            if (!string.IsNullOrEmpty(PermissionDTO.ModuleName))
+                _groupOperator.Operands.Add(new BinaryOperator("Module.Name", PermissionDTO.ModuleName));
+            if (PermissionDTO.ModuleIDArray != null && PermissionDTO.ModuleIDArray.Count() > 0)
+                _groupOperator.Operands.Add(new InOperator(nameof(PermissionXPO.Module), PermissionDTO.ModuleIDArray));
             if (PermissionDTO.PermissionIDArray != null && PermissionDTO.PermissionIDArray.Count() > 0)
                 _groupOperator.Operands.Add(new InOperator(nameof(PermissionXPO.Oid), PermissionDTO.PermissionIDArray));
             if (PermissionDTO.ActionID != null || PermissionDTO.ActionID > 0)

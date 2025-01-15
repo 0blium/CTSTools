@@ -2,6 +2,7 @@
 import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
 import { CreatePermission, UpdatePermission, DeletePermission, GetDXPermissionDataSource } from './Permission/Permission_Service.js'
 import { CreateAction, UpdateAction, DeleteAction, GetDXActionDataSource } from './Action/Action_Service.js'
+import { GetDXModuleDataSource } from '../SecurityManagement/Module/Module_Service.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializePermissionCatalogControls();
@@ -12,8 +13,12 @@ async function InitializePermissionCatalogControls() {
     $("#dxPermissionNameTextBox").dxTextBox({
         placeholder: 'Type name...'
     });
-    $("#dxPermissionModuleTextBox").dxTextBox({
-        placeholder: 'Type module...'
+    $("#dxPermissionModuleSelectBox").dxSelectBox({
+        dataSource: await GetDXModuleDataSource(),
+        valueExpr: "ID",
+        displayExpr: "Name",
+        deferRendering: false,
+        searchEnabled: true
     });
     $("#dxPermissionDescriptionTextArea").dxTextArea({
         placeholder: 'Type description...'
@@ -122,7 +127,7 @@ async function InitializePermissionCatalogControls() {
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Name", dataField: "Name" },
-                { caption: "Module", dataField: "Module", groupIndex: 0 },
+                { caption: "Module", dataField: "ModuleName", groupIndex: 0 },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Action", dataField: "ActionName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
@@ -165,7 +170,7 @@ function ClearPermissionFields() {
     PermissionActionButtons("Save");
     $('#hiddenPermissionID').val("");
     $("#dxPermissionNameTextBox").dxTextBox("instance").option("value", "");
-    $("#dxPermissionModuleTextBox").dxTextBox("instance").option("value", "");
+    $("#dxPermissionModuleSelectBox").dxSelectBox("instance").reset();
     $("#dxPermissionDescriptionTextArea").dxTextArea("instance").option("value", "");
     $("#dxPermissionActionSelectBox").dxSelectBox("instance").reset();
     $("#dxPermissionIsActiveCheckBox").dxCheckBox("instance").option("value", true);
@@ -178,7 +183,7 @@ function ClearPermissionFields() {
 function PopulatePermissionFields(data) {
     $('#hiddenPermissionID').val(data.ID);
     $("#dxPermissionNameTextBox").dxTextBox("instance").option("value", data.Name);
-    $("#dxPermissionModuleTextBox").dxTextBox("instance").option("value", data.Module);
+    $("#dxPermissionModuleSelectBox").dxSelectBox("instance").option("value", data.ModuleID);
     $("#dxPermissionDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     $("#dxPermissionActionSelectBox").dxSelectBox("instance").option("value", data.ActionID);
     $("#dxPermissionIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
@@ -187,7 +192,7 @@ function GetPermissionDTO() {
     let _permissionDTO = {
         ID: $('#hiddenPermissionID').val(),
         Name: $("#dxPermissionNameTextBox").dxTextBox("instance").option("value"),
-        Module: $("#dxPermissionModuleTextBox").dxTextBox("instance").option("value"),
+        ModuleID: $("#dxPermissionModuleSelectBox").dxSelectBox("instance").option("value"),
         Description: $("#dxPermissionDescriptionTextArea").dxTextArea("instance").option("value"),
         ActionID: $("#dxPermissionActionSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxPermissionIsActiveCheckBox").dxCheckBox("instance").option("value"),
