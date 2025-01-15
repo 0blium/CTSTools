@@ -181,47 +181,46 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             {
                 if (FiscalYear > 0 && FiscalYear != null)
                 {
-                    foreach (var CategoryID in new int[] { 1, 2, 3, 4, 5, 6 })
+
+
+                    var _dashboardKPIEntity = new Dashboard_KPIDTO
                     {
+                        DashboardID = DashboardLineDTO.DashboardID,
 
-                        var _dashboardKPIEntity = new Dashboard_KPIDTO
-                        {
-                            DashboardID = DashboardLineDTO.DashboardID,
-                            DashboardCategoryID = CategoryID
-                        };
-                        var _dashboardMetriTemplateList = Dashboard_KPI_Service.GetDashboard_KPIList_Global(_dashboardKPIEntity);
-                        // hace falta crear el IsActive
+                    };
+                    var _dashboardMetriTemplateList = Dashboard_KPI_Service.GetDashboard_KPIList_Global(_dashboardKPIEntity);
+                    // hace falta crear el IsActive
 
-                        //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada KPIa
-                        foreach (var _dashboardKPI in _dashboardMetriTemplateList)
+                    //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada KPIa
+                    foreach (var _dashboardKPI in _dashboardMetriTemplateList)
+                    {
+                        var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
+                        foreach (var _previousMonth in _previousMonthList)
                         {
-                            var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
-                            foreach (var _previousMonth in _previousMonthList)
+                            //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
+                            DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
+                            DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
+                            DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
+                            DashboardLineDTO.DashboardCategoryID = _dashboardKPI.DashboardCategoryID;
+                            DashboardLineDTO.FiscalYear = FiscalYear;
+                            DashboardLineDTO.Month = _previousMonth;
+
+                            //varificar si existe la linea del mes actual para cada KPIa en el dashboard
+                            var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
+
+                            if (_dashboardLineList.Count == 0)
                             {
-                                //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
-                                DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
-                                DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
-                                DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
-                                DashboardLineDTO.DashboardCategoryID = CategoryID;
-                                DashboardLineDTO.FiscalYear = FiscalYear;
-                                DashboardLineDTO.Month = _previousMonth;
+                                //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
 
-                                //varificar si existe la linea del mes actual para cada KPIa en el dashboard
-                                var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
+                                DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
 
-                                if (_dashboardLineList.Count == 0)
-                                {
-                                    //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
-
-                                    DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
-
-                                    _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
-                                }
+                                _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
                             }
-
                         }
 
                     }
+
+
                 }
                 else
                 {
@@ -388,40 +387,40 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
 
                             switch ((int)_dashboardLineDTO.Month)
                             {
-                                case 4:  
+                                case 4:
                                     _tendenceDTO.Order = 1;
                                     break;
-                                case 5:  
+                                case 5:
                                     _tendenceDTO.Order = 2;
                                     break;
-                                case 6:  
+                                case 6:
                                     _tendenceDTO.Order = 3;
                                     break;
-                                case 7:  
+                                case 7:
                                     _tendenceDTO.Order = 4;
                                     break;
-                                case 8:  
+                                case 8:
                                     _tendenceDTO.Order = 5;
                                     break;
-                                case 9:  
+                                case 9:
                                     _tendenceDTO.Order = 6;
                                     break;
-                                case 10: 
+                                case 10:
                                     _tendenceDTO.Order = 7;
                                     break;
-                                case 11: 
+                                case 11:
                                     _tendenceDTO.Order = 8;
                                     break;
-                                case 12: 
+                                case 12:
                                     _tendenceDTO.Order = 9;
                                     break;
-                                case 1:  
+                                case 1:
                                     _tendenceDTO.Order = 10;
                                     break;
-                                case 2:  
+                                case 2:
                                     _tendenceDTO.Order = 11;
                                     break;
-                                case 3:  
+                                case 3:
                                     _tendenceDTO.Order = 12;
                                     break;
                             }

@@ -263,9 +263,8 @@
     <Content Include="App\Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_Service.js" />
     <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasureCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasureCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasure_Enum.js" />
     <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasure_Service.js" />
-    <Content Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.aspx" />
-    <Content Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\UserManagement\Domain\Domain_Service.js" />
     <Content Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.js" />
@@ -511,13 +510,6 @@
       <DependentUpon>UnitOfMeasureCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasureController.cs" />
-    <Compile Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.aspx.cs">
-      <DependentUpon>DomainCatalog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="App\Features\AdvancedSettings\UserManagement\DomainCatalog.aspx.designer.cs">
-      <DependentUpon>DomainCatalog.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App\Features\AdvancedSettings\UserManagement\Domain\DomainController.cs" />
     <Compile Include="App\Features\AdvancedSettings\UserManagement\UserCatalog.aspx.cs">
       <DependentUpon>UserCatalog.aspx</DependentUpon>
