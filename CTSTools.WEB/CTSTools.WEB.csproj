@@ -243,6 +243,9 @@
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMember_Service.js" />
     <Content Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroup_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\MassiveManagement\MassivePartNumberCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\MassiveManagement\MassivePartNumberCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\MassiveManagement\MassivePartNumber_Service.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\Action\Action_Service.js" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.js" />
@@ -473,6 +476,14 @@
     </Compile>
     <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroupMember\MailGroupMemberController.cs" />
     <Compile Include="App\Features\AdvancedSettings\MailGroupManagement\MailGroup\MailGroupController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\MassiveManagement\MassivePartNumberController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\MassiveManagement\MassivePartNumberCatalog.aspx.cs">
+      <DependentUpon>MassivePartNumberCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\MassiveManagement\MassivePartNumberCatalog.aspx.designer.cs">
+      <DependentUpon>MassivePartNumberCatalog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\Action\ActionController.cs" />
     <Compile Include="App\Features\AdvancedSettings\SecurityManagement\PermissionCatalog.aspx.cs">
       <DependentUpon>PermissionCatalog.aspx</DependentUpon>
