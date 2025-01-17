@@ -6,6 +6,9 @@ import { GetDXDepartmentDataSource } from '../LocationManagement/Department/Depa
 import { GetDXRoleDataSource } from '../SecurityManagement/Role/Role_Service.js'
 import { GetDXPermissionDataSource } from '../SecurityManagement/Permission/Permission_Service.js'
 import { GetUser_PermissionInformation, CreateUser_Permission, DeleteUser_Permission } from './User_Permission/User_Permission_Service.js'
+import { GetDXMailGroupDataSource } from '../MailGroupManagement/MailGroup/MailGroup_Service.js'
+import { GetDXMailGroupMemberDataSource, GetMailGroupMemberInformation } from '../MailGroupManagement/MailGroupMember/MailGroupMember_Service.js'
+
 import { GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
 
 
@@ -189,7 +192,7 @@ function masterDetailTemplate(_, masterDetailOptions) {
         },
         {
             title: 'Email Groups',
-            template: RoleTabTemplate(masterDetailOptions.data),
+            template: MailGroupMemberTabTemplate(masterDetailOptions.data),
         }
         ],
     });
@@ -720,4 +723,262 @@ async function getUserDataGridDataSource_Global() {
 }
 //#endregion
 
+
+//#region User Roles
+async function InitializeMailGroupControls() {
+    $("#dxMailGroupDataGrid").dxDataGrid({
+        dataSource: await GetDXMailGroupDataSource(),
+        keyExpr: "ID",
+        remoteOperations: true,
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [15, 50, 100],
+            showInfo: true
+        },
+        allowColumnReordering: true,
+        allowColumnResizing: true,
+        columnResizingMode: 'widget',
+        columnMinWidth: 100,
+        showRowLines: true,
+        showColumnLines: false,
+        showBorders: true,
+        focusedRowEnabled: true,
+        hoverStateEnabled: true,
+        rowAlternationEnabled: false,
+        columnAutoWidth: true,
+        groupPanel: {
+            visible: true
+        },
+        grouping: {
+            autoExpandAll: true,
+        },
+        columnChooser: {
+            enabled: true
+        },
+        columnFixing: {
+            enabled: true
+        },
+        "export": {
+            enabled: true,
+            fileName: "Mail Group Catalog",
+            allowExportSelectedData: true
+        },
+        filterRow: {
+            visible: true,
+            applyFilter: "auto"
+        },
+        searchPanel: {
+            visible: true,
+            placeholder: "Search...",
+            width: 300
+        },
+        sorting: {
+            mode: "multiple"
+        },
+        selection: {
+            mode: 'multiple',
+            selectAllMode: 'page',
+            showCheckBoxesMode: 'always'
+        },
+        columns:
+            [
+                { caption: "ID", dataField: "ID", visible: false },
+                { caption: "Name", dataField: "Name" },
+                { caption: "Description", dataField: "Description" },
+                { caption: "Action", dataField: "ActionName" },
+                { caption: "Added By ID", dataField: "AddedByID", visible: false },
+                { caption: "Added By", dataField: "AddedByName" },
+                { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
+                { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
+                { caption: "Last Update By", dataField: "LastUpdateByName" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
+
+
+            ],
+    });
+    MailGroupMemberActionButtons("Save");
+}
+function MailGroupMemberTabTemplate(masterDetailData) {
+
+    return function () {
+        //document.getElementById("User_PermissionButton").addEventListener("click", ClearUser_PermissionFields);
+        let _user_permissionDataGrid;
+        async function onDataGridInitialized(e) {
+            _user_permissionDataGrid = e.component;
+            let _mailgroupmemberDTO = await GetMailGroupMemberInformation({ UserID: masterDetailData.ID, GetPermissionDTO: true });
+            _user_permissionDataGrid.option('dataSource', _mailgroupmemberDTO);
+
+        }
+        return $('<div>').addClass('form-container').dxForm({
+            labelLocation: 'top',
+            items: [
+                {
+                    template: PermissionButton(masterDetailData.ID)
+
+
+                }
+                , {
+                    template: PermissionGridTemplate(onDataGridInitialized, masterDetailData.ID),
+                }],
+        });
+    };
+}
+function PermissionGridTemplate(onDataGridInitialized, UserID) {
+
+    return function () {
+        return $(`<div id="dxUser_PermissionGrid${UserID}">`).dxDataGrid({
+            onInitialized: onDataGridInitialized,
+            keyExpr: "ID",
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [15, 50, 100],
+                showInfo: true
+            },
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            columnResizingMode: 'widget',
+            columnMinWidth: 100,
+            showRowLines: true,
+            showColumnLines: false,
+            showBorders: true,
+            focusedRowEnabled: true,
+            hoverStateEnabled: true,
+            rowAlternationEnabled: false,
+            columnAutoWidth: true,
+            groupPanel: {
+                visible: true
+            },
+            columnChooser: {
+                enabled: true
+            },
+            columnFixing: {
+                enabled: true
+            },
+            "export": {
+                enabled: true,
+                fileName: "Permissions",
+                allowExportSelectedData: true
+            },
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            searchPanel: {
+                visible: true,
+                placeholder: "Search...",
+                width: 300
+            },
+            sorting: {
+                mode: "multiple"
+            },
+            selection: {
+                mode: 'single'
+            },
+            headerFilter: {
+                visible: true
+            },
+            columns: [
+                {
+                    caption: "Delete",
+                    alignment: "center",
+                    allowFiltering: false,
+                    allowSorting: false,
+                    width: 70,
+                    cellTemplate: function (container, options) {
+                        container.height(30);
+                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
+                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                            + '</span></button>')
+                            .height(30)
+                            .on('dxclick', function () {
+                                $("#hiddenUserID").val(options.data.UserID);
+                                $("#hiddenUser_PermissionID").val(options.data.ID);
+                                ShowUser_PermissionDeleteQuestion();
+                            }).appendTo(container);
+                    },
+                },
+                { caption: "ID", dataField: "ID", visible: false },
+                { caption: "Permission", dataField: "PermissionName" },
+                { caption: "Module", dataField: "PermissionDTO.ModuleName" },
+                { caption: "Added By ID", dataField: "AddedByID", visible: false },
+                { caption: "Added By", dataField: "AddedByName" },
+                { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
+
+            ]
+        });
+    };
+}
+function PermissionButton(UserID) {
+    return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewPermissionUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Permission</a>`).on("click", $("#hiddenUserID").val(UserID));
+
+}
+function ClearUser_PermissionFields() {
+    User_PermissionActionButtons("Save");
+    $('#hiddenUser_PermissionID').val("");
+    let dxUser_PermissionPermissionKeys = $("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowKeys();
+    $("#dxPermissionDataGrid").dxDataGrid("instance").deselectRows(dxUser_PermissionPermissionKeys);
+    $("#dxPermissionDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
+    $("#dxPermissionDataGrid").dxDataGrid("instance").refresh();
+
+    ClearErrorFeedback();
+}
+function User_PermissionActionButtons(Action) {
+
+    document.getElementById("User_PermissionModalCloseButton").addEventListener("click", ClearUser_PermissionFields);
+    $("#UserActionButtons").empty();
+    if (Action == "Save") {
+        document.getElementById("User_PermissionActionButtons").innerHTML =
+            '<div class="col-md-12">' +
+            '<button class="btn btn-success m-b-15 float-end" id="CreateUser_PermissionButton" type="button">Save</button>' +
+            '</div>';
+        document.getElementById("CreateUser_PermissionButton").addEventListener("click", CreateUser_Permission_Global);
+
+    }
+}
+function GetUser_PermissionDTO() {
+    let _user_PermissionDTO = {
+        ID: $("#hiddenUser_PermissionID").val(),
+        UserID: $("#hiddenUserID").val(),
+        PermissionIDArray: ($("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
+    }
+    return _user_PermissionDTO;
+}
+async function CreateUser_Permission_Global() {
+    await dxLoadPanel.show();
+    const _user_PermissionDTO = GetUser_PermissionDTO();
+    const _validation_ResultDTO = await CreateUser_Permission(_user_PermissionDTO);
+    if (_validation_ResultDTO.Result) {
+        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
+        ClearUser_PermissionFields();
+    }
+    HostResponse(_validation_ResultDTO);
+    dxLoadPanel.hide();
+}
+async function DeleteUser_Permission_Global() {
+    await dxLoadPanel.show();
+    const _user_PermissionDTO = GetUser_PermissionDTO();
+    const _validation_ResultDTO = await DeleteUser_Permission(_user_PermissionDTO);
+    if (_validation_ResultDTO.Result) {
+        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
+        ClearUser_PermissionFields();
+    }
+    HostResponse(_validation_ResultDTO);
+    dxLoadPanel.hide();
+}
+async function ShowUser_PermissionDeleteQuestion() {
+    const _alert = await Swal.fire({
+        icon: 'warning',
+        title: 'Are you sure?',
+        text: 'You will remove this permission',
+        confirmButtonText: `Delete`,
+        confirmButtonColor: '#ea4335',
+        showCancelButton: true
+    });
+    if (_alert.isConfirmed) {
+        DeleteUser_Permission_Global();
+    } else {
+        ClearUser_PermissionFields();
+    }
+}
+//#endregion
 
