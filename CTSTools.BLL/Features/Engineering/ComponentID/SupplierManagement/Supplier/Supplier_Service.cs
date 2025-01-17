@@ -118,18 +118,24 @@ public class Supplier_Service
                 var _excelSupplierList = new List<ExcelSupplierDTO>();
                 if (_extension == ".xls" || _extension == ".xlsx")
                 {
-                    _excelSupplierList = GetSupplierInfoListFromExcelFile(_fileBytes);
+                    _validationResultDTO = GetSupplierInfoListFromExcelFile(_fileBytes);
                 }
-
-                _excelSupplierRowsValidation = SupplierFileRowsValidation(_excelSupplierList);
-
-                if (_excelSupplierRowsValidation.SupplierGoodLinesList.Count > 0)
+                if (_validationResultDTO.Data != null)
                 {
-                    foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
+                    _excelSupplierRowsValidation = SupplierFileRowsValidation(_validationResultDTO.Data);
+
+                    if (_excelSupplierRowsValidation.SupplierGoodLinesList.Count > 0)
                     {
-                        _supplierDTO.AddedByID = FileDTO.ID;
-                        var _validationResulDTO = CreateSupplier_Global(_supplierDTO);
+                        foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
+                        {
+                            _supplierDTO.AddedByID = FileDTO.ID;
+                            var _validationResulDTO = CreateSupplier_Global(_supplierDTO);
+                        }
                     }
+                }
+                else
+                {
+                    return _validationResultDTO;
                 }
 
                 _validationResultDTO.Result = _excelSupplierRowsValidation.ValidationResultDTO.Result;
@@ -163,18 +169,18 @@ public class Supplier_Service
             _validationResultDTO.Message = "Invalid file";
         }
         string _missingHeader = string.Empty;
-        _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "isactive,";
-        _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,";
-        _missingHeader += (_fileheaders.Contains("is vendor") == true || _fileheaders.Contains("isvendor") == true) ? string.Empty : "isvendor,";
-        _missingHeader += (_fileheaders.Contains("is manufacturer") == true || _fileheaders.Contains("ismanufacturer") == true) ? string.Empty : "ismanufacturer,";
-        _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,";
+        _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "isactive, <br>";
+        _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name, <br>";
+        _missingHeader += (_fileheaders.Contains("is vendor") == true || _fileheaders.Contains("isvendor") == true) ? string.Empty : "isvendor, <br>";
+        _missingHeader += (_fileheaders.Contains("is manufacturer") == true || _fileheaders.Contains("ismanufacturer") == true) ? string.Empty : "ismanufacturer, <br>";
+        _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description, ";
 
         if (_missingHeader != string.Empty)
         {
             var lastComma = _missingHeader.LastIndexOf(',');
             _missingHeader = _missingHeader.Remove(lastComma, 1).Insert(lastComma, ".");
             _validationResultDTO.Result = false;
-            _validationResultDTO.Description = string.Format("The following columns are missing: {0}", _missingHeader);
+            _validationResultDTO.Description = string.Format("The following columns are missing:<br> {0}", _missingHeader);
             _validationResultDTO.Message = "Error";
         }
         else
@@ -188,8 +194,9 @@ public class Supplier_Service
         return _excelSupplierFileValidationDTO;
     }
 
-    private static List<ExcelSupplierDTO> GetSupplierInfoListFromExcelFile(byte[] FileBytes)
+    private static ValidationResultDTO GetSupplierInfoListFromExcelFile(byte[] FileBytes)
     {
+        var _validationResultDTO = new ValidationResultDTO();
         try
         {
             List<ExcelFileDTO> _excelFileDTOList = new List<ExcelFileDTO>();
@@ -281,12 +288,16 @@ public class Supplier_Service
                     }
                 }
             }
-            return _excelSupplierDTOList;
+            _validationResultDTO.Data = _excelSupplierDTOList;
+            return _validationResultDTO;
         }
         catch (Exception ex)
         {
             ErrorSignal.FromCurrentContext().Raise(ex);
-            throw ex;
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error";
+            _validationResultDTO.Description = string.Format("Verify that the column values ​​are correct. ");
+            return _validationResultDTO;
         }
     }
 
@@ -306,7 +317,7 @@ public class Supplier_Service
                 bool isSucces = true;
                 if (_excelSupplierFileData.SupplierDTO.Name == string.Empty || _excelSupplierFileData.SupplierDTO.Name == null)
                 {
-                    _excelSupplierFileValidationDTO.ValidationResultDTO.Message = "Error, The name is null or empty";
+                    _excelSupplierFileData.SupplierDTO.Name = "Error, The name is null or empty";
                     isSucces = false;
                 }
                 _supplierDTO.Name = _excelSupplierFileData.SupplierDTO.Name;

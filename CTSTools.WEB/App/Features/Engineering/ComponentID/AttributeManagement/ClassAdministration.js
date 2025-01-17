@@ -50,7 +50,33 @@ async function InitializeClassCatalogControls() {
             }
         }
     });
-
+    $("#dxClassFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File
+                    };
+                    await dxLoadPanel.show();
+                    //_validationResultDTO = await CreateMassiveClass(_fileDTO);
+                    //ShowClassValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxClassDescriptionTextArea").dxTextArea({
         placeholder: 'Type a description...'
     });
@@ -171,7 +197,8 @@ async function InitializeClassCatalogControls() {
             ],
     });
     document.getElementById("ClassButton").addEventListener("click", ClearClassFields);
-
+    document.getElementById("UploadExcelClassCloseModalButton").addEventListener("click", ClearExcelClassModalFields);
+    document.getElementById("ClearClassExcelModalButton").addEventListener("click", ClearExcelClassModalFields);
 }
 function ClassActionButtons(Action) {
     $("#ClassActionButtons").empty();
@@ -209,6 +236,18 @@ function ClearClassFields() {
     let keys = $("#dxClassGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxClassGrid").dxDataGrid("instance").deselectRows(keys);
     //    ClearErrorFeedback();
+}
+function ClearExcelClassModalFields() {
+    // Limpiar los mensajes en el modal
+    $('#successClassMessage').hide();
+    $('#errorClassMessages').hide();
+    var uploader = $("#dxClassFileUploader").dxFileUploader("instance");
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    if (uploader) {
+        uploader.reset();
+    }
 }
 function PopulateClassFields(ClassDTO) {
     $("#hiddenClassValueLinkID").val(ClassDTO.ID);

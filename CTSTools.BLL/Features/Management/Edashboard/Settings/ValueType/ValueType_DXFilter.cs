@@ -1,4 +1,5 @@
-﻿using CTSTools.DAL.Features.Management.Edashboard.Settings;
+﻿using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -15,6 +16,10 @@ public class ValueType_DXFilter
             if (ValueTypeDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(ValueTypeXPO.Oid), ValueTypeDTO.ID));
+            }
+            if (!string.IsNullOrEmpty(ValueTypeDTO.Name))
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(ValueTypeXPO.Name), ValueTypeDTO.Name));
             }
             if (ValueTypeDTO.ValueTypeIDArray != null && ValueTypeDTO.ValueTypeIDArray.Count() > 0)
             {

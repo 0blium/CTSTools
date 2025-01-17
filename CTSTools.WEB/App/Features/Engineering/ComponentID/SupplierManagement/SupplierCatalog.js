@@ -27,32 +27,29 @@ async function InitializeSupplierCatalogControls() {
         value: false
     });
     $("#dxSupplirFileUploader").dxFileUploader({
-        accept: ".xlsx", // Filtra solo archivos de Excel
+        accept: ".xlsx",
         selectButtonText: "Select Excel File",
         labelText: "or Drop here",
-        uploadMode: "instantly", // Subida instantánea al seleccionarlos
+        uploadMode: "instantly",
         onValueChanged: function (e) {
-            var file = e.value[0];  // e.value es un array, así que seleccionamos el primer archivo
+            var file = e.value[0];
             let _fileDTO;
             let _validationResultDTO;
             if (file) {
-                // Obtén el nombre del archivo
                 var filename = file.name;
-                // Convertir el archivo a Base64
                 var reader = new FileReader();
                 reader.onload = async function (readerEvent) {
                     var base64File = readerEvent.target.result;
-                    // Asignar a las propiedades que necesitas
                     _fileDTO = {
-                        FileName: filename,  // Nombre del archivo
-                        Data: base64File     // El contenido en Base64 (que es un string)
+                        FileName: filename,
+                        Data: base64File
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveSupplier(_fileDTO);
                     ShowSupplierValidationResults(_validationResultDTO);
                     dxLoadPanel.hide();
                 };
-                reader.readAsDataURL(file);  // Convierte el archivo a Base64
+                reader.readAsDataURL(file);
             }
         }
     });
@@ -201,7 +198,6 @@ function ClearSupplierFields() {
     ClearErrorFeedback();
 }
 function ClearExcelModalFields() {
-    // Limpiar los mensajes en el modal
     $('#successMessage').hide();
     $('#errorMessages').hide();
     var uploader = $("#dxSupplirFileUploader").dxFileUploader("instance");
@@ -215,21 +211,27 @@ function ClearExcelModalFields() {
 function ShowSupplierValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
-    if (_validationResultDTO.Data.SupplierGoodLinesList.length > 0) {
-        successMessage = `Suppliers were created successfully.`;
-        $('#successMessage').text(successMessage).show();  // Mostrar el mensaje de éxito
-        document.getElementById('successMessage').removeAttribute('hidden');
+    if (_validationResultDTO.Data != null)
+    {
+        if (_validationResultDTO.Data.SupplierGoodLinesList.length > 0) {
+            successMessage = `Suppliers were created successfully.`;
+            $('#successMessage').text(successMessage).show();
+            document.getElementById('successMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.SupplierBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.SupplierBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Is Active = ${badLine.IsActive}. Is Vendor = ${badLine.IsVendor}. Is Manufacturer = ${badLine.IsManufacturer}. Description = ${badLine.Description}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorMessages').html(errorMessages).show();
+            document.getElementById('errorMessages').removeAttribute('hidden');
+        }
     }
-    if (_validationResultDTO.Data.SupplierBadLinesList.length > 0) {
-        errorMessages = '<strong>Wrong data:</strong><ul>';
-        _validationResultDTO.Data.SupplierBadLinesList.forEach(function (badLine) {
-            var _name = badLine.Name != null ? badLine.Name : "Name empty";
-            var _description = badLine.Description != null ? badLine.Description : "";
-            errorMessages += `<li>Row error:<br>Name: ${_name}. Is Active = ${badLine.IsActive}. Is Vendor = ${badLine.IsVendor}. Is Manufacturer = ${badLine.IsManufacturer}. Description = ${_description}.</li>`;
-        });
-        errorMessages += '</ul>';
-        $('#errorMessages').html(errorMessages).show();  // Mostrar el mensaje de error
-        document.getElementById('errorMessages').removeAttribute('hidden');  // Mostrar el mensaje de error
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorMessages').html(errorMessages).show();
+        document.getElementById('errorMessages').removeAttribute('hidden');
     }
     $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
     ClearSupplierFields();

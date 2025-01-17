@@ -1,4 +1,6 @@
-﻿using CTSTools.DAL.Features.Management.Edashboard.Settings;
+﻿using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
+using CTSTools.DAL.Features.Engineering.ComponentID.SupplierManagement;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -15,6 +17,10 @@ public class UnitOfMeasure_DXFilter
             if (UnitOfMeasureDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(UnitOfMeasureXPO.Oid), UnitOfMeasureDTO.ID));
+            }
+            if (!string.IsNullOrEmpty(UnitOfMeasureDTO.Name)) 
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UnitOfMeasureXPO.Name), UnitOfMeasureDTO.Name));
             }
             if (UnitOfMeasureDTO.UnitOfMeasureIDArray != null && UnitOfMeasureDTO.UnitOfMeasureIDArray.Count() > 0)
             {

@@ -27,6 +27,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <a id="NewKPICategoryBtn" href="#SaveKPICategoryRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>KPI</a>
+                                <a class="btn btn-success mb-2 float-end" id="UploadExcelKPIModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelKPIModal"><i class="fa-solid fa-file-import"></i> Excel</a>
                             </div>
                             <div class="col-lg-12">
                                 <div id="dxKPIGrid"></div>
@@ -149,6 +150,27 @@
             </div>
         </div>
     </div>
+    <!-- Modal update excel -->
+    <div class="modal fade" id="UploadExcelKPIModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Upload file excel</h1>
+                <button type="button" id="UploadExcelKPICloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-15px">
+                    <div id="dxKPIFileUploader"></div>
+                </div>
+                <div id="successKPIMessage" class="alert alert-success" hidden></div>
+                <div id="errorKPIMessages" class="alert alert-danger" hidden></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary float-end" id="ClearExcelKPIButton" type="button">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
     <input type="hidden" id="hiddenKPIID" value="0" />
     <input type="hidden" id="hiddenStatusID" value="0" />
     <script type="module" src="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.js"></script>

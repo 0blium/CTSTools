@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using CTSTools.WEB.App_Start;
@@ -49,6 +50,18 @@ public class KPIController : ApiController
         {
             KPIDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
             _validationResultDTO = KPI_Service.CreateKPI_Global(KPIDTO);
+        }
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
+    [Route("api/KPI/CreateMassive")]
+    public IHttpActionResult CreateMassiveKPI([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = KPI_Service.KPIFileValidation_Global(FileDTO);
         }
         return Json(_validationResultDTO);
     }
