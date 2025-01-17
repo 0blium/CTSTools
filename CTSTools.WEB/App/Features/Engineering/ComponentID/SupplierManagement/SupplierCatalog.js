@@ -26,7 +26,7 @@ async function InitializeSupplierCatalogControls() {
     $("#dxSupplierIsManufacturerCheckBox").dxCheckBox({
         value: false
     });
-    $("#file-uploader").dxFileUploader({
+    $("#dxSupplirFileUploader").dxFileUploader({
         accept: ".xlsx", // Filtra solo archivos de Excel
         selectButtonText: "Select Excel File",
         labelText: "or Drop here",
@@ -159,8 +159,8 @@ async function InitializeSupplierCatalogControls() {
             ],
     });
     SupplierActionButtons("Save");
-    document.getElementById("UploadExcelCloseModalButton").addEventListener("click", ClearExcelModalFields);
-    document.getElementById("ClearUpdateExcelButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("UploadExcelSupplirCloseModalButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);
 }
 function SupplierActionButtons(Action) {
     $("#SupplierActionButtons").empty();
@@ -204,7 +204,7 @@ function ClearExcelModalFields() {
     // Limpiar los mensajes en el modal
     $('#successMessage').hide();
     $('#errorMessages').hide();
-    var uploader = $("#file-uploader").dxFileUploader("instance");
+    var uploader = $("#dxSupplirFileUploader").dxFileUploader("instance");
     if (uploader) {
         uploader.option("visible", true);
     }
@@ -231,7 +231,7 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         $('#errorMessages').html(errorMessages).show();  // Mostrar el mensaje de error
         document.getElementById('errorMessages').removeAttribute('hidden');  // Mostrar el mensaje de error
     }
-    $("#file-uploader").dxFileUploader("instance").option("visible", false);
+    $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
     ClearSupplierFields();
 }
 function PopulateSupplierFields(data) {
