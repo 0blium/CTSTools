@@ -123,10 +123,13 @@ public class Supplier_Service
 
                 _excelSupplierRowsValidation = SupplierFileRowsValidation(_excelSupplierList);
 
-                foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
+                if (_excelSupplierRowsValidation.SupplierGoodLinesList.Count > 0)
                 {
-                    _supplierDTO.AddedByID = FileDTO.ID;
-                    var _validationResulDTO = CreateSupplier_Global(_supplierDTO);
+                    foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
+                    {
+                        _supplierDTO.AddedByID = FileDTO.ID;
+                        var _validationResulDTO = CreateSupplier_Global(_supplierDTO);
+                    }
                 }
 
                 _validationResultDTO.Result = _excelSupplierRowsValidation.ValidationResultDTO.Result;
