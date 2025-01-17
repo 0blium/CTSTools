@@ -7,6 +7,8 @@
                 <li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
                 <li class="breadcrumb-item"><a href="javascript:;">E-Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="javascript:;">Dashboards</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;"></a></li>
+
             </ol>
         </div>
         <!-- END breadcrumb -->
@@ -21,13 +23,13 @@
             <div class="col-md-6">
                 <h3 id="dashboardtitle"></h3>
 
-                </div>
-                <div class="col-md-6 mb-3 text-end ">
-                    <a id="PrintDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-print me-2"></i>Print</a>
-                    <%--<a id="ExpPDFDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-pdf me-2" style="color: darkred"></i>PDF</a>--%>
-                    <%--<a id="ExpExcelDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-excel me-2" style="color: green"></i>Excel</a>--%>                    
-                    <a class="btn btn-dark text-righ" id="dashboardButton"><i class="fa-solid fa-arrow-left"></i></a>
-                    <a class="btn btn-dark text-righ" id="KPIButton"><i class="fa-solid fa-gear"></i></a>
+            </div>
+            <div class="col-md-6 mb-3 text-end ">
+                <a id="PrintDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-print"></i></a>
+                <%--<a id="ExpPDFDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-pdf me-2" style="color: darkred"></i>PDF</a>--%>
+                <%--<a id="ExpExcelDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-excel me-2" style="color: green"></i>Excel</a>--%>
+                <a class="btn btn-dark text-righ" id="dashboardButton"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="btn btn-dark text-righ" id="KPIButton"><i class="fa-solid fa-gear"></i></a>
 
             </div>
         </div>
@@ -178,7 +180,7 @@
                             <label class="text-muted">Select the KPIs that you want to add to the selected dashboard</label>
                             <br />
                             <label class="text-muted">(If the value to select doesn´t exits on the list below, create a new value clicking <a class="h6 text-color-link" href="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.aspx">here</a>)</label>
-                            
+
                         </div>
                         <div class="col-md-12 mt-2">
                             <h6>KPI List(<span class="text-danger">*</span>)</h6>

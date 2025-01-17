@@ -192,33 +192,33 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                     // hace falta crear el IsActive
 
                     //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada KPIa
-                    foreach (var _dashboardKPI in _dashboardMetriTemplateList)
-                    {
-                        var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
-                        foreach (var _previousMonth in _previousMonthList)
-                        {
-                            //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
-                            DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
-                            DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
-                            DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
-                            DashboardLineDTO.DashboardCategoryID = _dashboardKPI.DashboardCategoryID;
-                            DashboardLineDTO.FiscalYear = FiscalYear;
-                            DashboardLineDTO.Month = _previousMonth;
+                    //foreach (var _dashboardKPI in _dashboardMetriTemplateList)
+                    //{
+                    //    var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
+                    //    foreach (var _previousMonth in _previousMonthList)
+                    //    {
+                    //        //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
+                    //        DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
+                    //        DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
+                    //        DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
+                    //        DashboardLineDTO.DashboardCategoryID = _dashboardKPI.DashboardCategoryID;
+                    //        DashboardLineDTO.FiscalYear = FiscalYear;
+                    //        DashboardLineDTO.Month = _previousMonth;
 
-                            //varificar si existe la linea del mes actual para cada KPIa en el dashboard
-                            var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
+                    //        //varificar si existe la linea del mes actual para cada KPIa en el dashboard
+                    //        var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
 
-                            if (_dashboardLineList.Count == 0)
-                            {
-                                //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
+                    //        if (_dashboardLineList.Count == 0)
+                    //        {
+                    //            //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
 
-                                DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
+                    //            DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
 
-                                _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
-                            }
-                        }
+                    //            _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
+                    //        }
+                    //    }
 
-                    }
+                    //}
 
 
                 }

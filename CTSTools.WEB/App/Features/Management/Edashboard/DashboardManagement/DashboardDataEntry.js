@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 //#region Data Entry
 async function GetDashboardIDByURL() {
+
+    await dxLoadPanel.show();
+
     let _dashboardID = GetURLParameter("DashboardID");
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
@@ -71,11 +74,10 @@ async function GetDashboardIDByURL() {
         GetDashboard_KPIListForTable(_dashboardDTO);
         await GetDashboard_KPIListForGrid(_dashboardDTO);
 
+
     } else {
         toastr["error"]("Please, select a dashboard to get the information", "Dashboard Not selected");
     }
-    console.log(_dashboardDTO);
-
 }
 async function InitializeDashboardDataEntryControls() {
 

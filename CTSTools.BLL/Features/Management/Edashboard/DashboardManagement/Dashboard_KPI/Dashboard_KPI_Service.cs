@@ -26,7 +26,7 @@ public class Dashboard_KPI_Service
             Dashboard_KPIDTO.AddedDate = DateTime.Now;
             _ValidationResultDTO = Dashboard_KPI_Repository.CreateDashboard_KPI(Dashboard_KPIDTO);
         }
-        else 
+        else
         {
             UpdateDashboard_KPI_Global(_ValidationResultDTO.Data);
         }
@@ -340,93 +340,71 @@ public class Dashboard_KPI_Service
 
                 };
                 //Validate if Dashboard Line for current month exist              
-                var _validation_ResultDTO = DashboardLine_Service.ValidateDashboardLineRecord(_dashboardLineDTO);
+                //var _validation_ResultDTO = DashboardLine_Service.ValidateDashboardLineRecord(_dashboardLineDTO);
 
+                DashboardKPIDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
+                DashboardKPIDTO.GetDashboardLineList = true;
+                DashboardKPIDTO.GetDashboardDTO = true;
+                DashboardKPIDTO.GetKPIDTO = true;
+                var _dashboardKPIList = GetDashboard_KPIList_Global(DashboardKPIDTO);
 
-               
-                    DashboardKPIDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
-                    DashboardKPIDTO.GetDashboardLineList = true;
-                    DashboardKPIDTO.GetDashboardDTO = true;
-                    DashboardKPIDTO.GetKPIDTO = true;
-                    var _dashboardKPIList = GetDashboard_KPIList_Global(DashboardKPIDTO);
+                //Get information for selected dashboard, category and fiscal Year
 
-                    //Get information for selected dashboard, category and fiscal Year
-
-
-
-                    if (_dashboardKPIList.Count > 0)
+                if (_dashboardKPIList.Count > 0)
+                {
+                    foreach (var _dashboard_KPIDTOResult in _dashboardKPIList)
                     {
-                        foreach (var _dashboard_KPIDTOResult in _dashboardKPIList)
+
+                        if (_dashboard_KPIDTOResult.DashboardLineList?.Count() > 0)
                         {
-
-                            if (_dashboard_KPIDTOResult.DashboardLineList?.Count() > 0)
+                            var _monthlyList = new List<MonthDTO>();
+                            //Save each value on Monthly List
+                            foreach (var _kpiByMonthResult in _dashboard_KPIDTOResult.DashboardLineList)
                             {
-                                var _monthlyList = new List<MonthDTO>();
-                                //Save each value on Monthly List
-                                foreach (var _kpiByMonthResult in _dashboard_KPIDTOResult.DashboardLineList)
+                                var _monthlyDTO = new MonthDTO
                                 {
-                                    var _monthlyDTO = new MonthDTO();
-                                    _monthlyDTO.ID = _kpiByMonthResult.ID;
-                                    _monthlyDTO.Month = _kpiByMonthResult.Month;
-                                    _monthlyDTO.Year = _kpiByMonthResult.FiscalYear;
-                                   
-                                    
-                                    if ((bool)_kpiByMonthResult.Validated)
-                                    {
-                                        _monthlyDTO.MonthlyValue = _kpiByMonthResult.Value.ToString();
-                                        //Base on KPI goal set column background color
+                                    ID = _kpiByMonthResult.ID,
+                                    Month = _kpiByMonthResult.Month,
+                                    Year = _kpiByMonthResult.FiscalYear,
+                                    ProvitionalValueColumnProperty = "solid 1px"
+                                };
 
-                                        try
-                                        {
-                                            var _kpiBackgroudColor = string.Empty;
-                                             _kpiBackgroudColor = SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _monthlyDTO.MonthlyValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal), Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue));
-                                        
-                                            _monthlyDTO.KPIBackgroundColor = _kpiBackgroudColor;
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            throw;
-                                        }
+                                _kpiByMonthResult.MonthValue = _monthlyDTO;
+                                if ((bool)_kpiByMonthResult.Validated)
+                                {
+                                    _monthlyDTO.MonthlyValue = _kpiByMonthResult.Value.ToString();
+                                    //Base on KPI goal set column background color
 
-                                    }
-                                    else
+                                    try
                                     {
-                                        if (_kpiByMonthResult.IgnoreKPI == false) { _monthlyDTO.MonthlyValue = null; _kpiByMonthResult.Value = 0; _monthlyDTO.ProvitionalValueColumnProperty = "solid 1px"; } else { _monthlyDTO.MonthlyValue = "N/A"; }
-                                    }
+                                        var _kpiBackgroudColor = string.Empty;
+                                        _kpiBackgroudColor = SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _monthlyDTO.MonthlyValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal), Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue));
 
-                                    //Set column color if value is provitional
-                                    if (_kpiByMonthResult.IsTemporalValue == true)
-                                    {
-                                        _monthlyDTO.ProvitionalValueColumnProperty = "dashed 2px #17468F";
-                                        _monthlyDTO.TooltipText = "This is a provitional value";
+                                        _monthlyDTO.KPIBackgroundColor = _kpiBackgroudColor;
                                     }
-                                    else { _monthlyDTO.ProvitionalValueColumnProperty = "solid 1px"; }
-
-                                    // Validate if kpi value was validated
-                                    if (_kpiByMonthResult.Validated == false && _monthlyDTO.MonthlyValue == null && _kpiByMonthResult.IgnoreKPI == false)
+                                    catch (Exception ex)
                                     {
-                                        _monthlyDTO.MonthlyValue = null;
+                                        throw;
                                     }
-                                    _kpiByMonthResult.MonthValue = _monthlyDTO;
-                                    //add month value to linelist
-                                    var index = _dashboard_KPIDTOResult.DashboardLineList.FindIndex(x => x.ID == _kpiByMonthResult.ID);
-                                    if (index == -1)
-                                    {
-                                        _dashboard_KPIDTOResult.DashboardLineList[index] = _kpiByMonthResult;
-                                    }
-                                    _monthlyList.Add(_monthlyDTO);
                                 }
-                                _dashboard_KPIDTOResult.KPIDTO.MonthValue = _monthlyList;
+                                
+                                //add month value to linelist
+                                var index = _dashboard_KPIDTOResult.DashboardLineList.FindIndex(x => x.ID == _kpiByMonthResult.ID);
+                                if (index == -1)
+                                {
+                                    _dashboard_KPIDTOResult.DashboardLineList[index] = _kpiByMonthResult;
+                                }
+                                _monthlyList.Add(_monthlyDTO);
                             }
-
-                            _dashboardKPIList_Global.Add(_dashboard_KPIDTOResult);
+                            _dashboard_KPIDTOResult.KPIDTO.MonthValue = _monthlyList;
                         }
 
+                        _dashboardKPIList_Global.Add(_dashboard_KPIDTOResult);
                     }
 
                 }
-            
 
+            }
             return _dashboardKPIList_Global.OrderBy(_order => _order.DashboardCategoryID).ThenBy(_order => _order.Order).ToList();
             //return _dashboardKPIList_Global;
 
@@ -437,7 +415,100 @@ public class Dashboard_KPI_Service
         }
 
     }
+    //public static List<Dashboard_KPIDTO> GetDashboard_KPIWithUI2(Dashboard_KPIDTO DashboardKPIDTO)
+    //{
+    //    var _dashboardKPIList_Global = new List<Dashboard_KPIDTO>();
+    //    int _previousMonth = DateTime.Now.AddMonths(-1).Month;
+    //    //int _fiscalYear = CalculateFiscalYear();
+    //    int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardKPIDTO.DashboardID }).FirstOrDefault().Year; ;
+    //    try
+    //    {
+    //        if (_fiscalYear > 0 && _fiscalYear != null)
+    //        {
+    //            var _dashboardLineDTO = new DashboardLineDTO()
+    //            {
+    //                DashboardID = DashboardKPIDTO.DashboardID,
 
+    //            };
+    //            //Validate if Dashboard Line for current month exist              
+    //            //var _validation_ResultDTO = DashboardLine_Service.ValidateDashboardLineRecord(_dashboardLineDTO);
+
+
+
+    //            DashboardKPIDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
+    //            DashboardKPIDTO.GetDashboardLineList = true;
+    //            DashboardKPIDTO.GetDashboardDTO = true;
+    //            DashboardKPIDTO.GetKPIDTO = true;
+
+    //            var _dashboard_KPIList = GetDashboard_KPIList_Global(DashboardKPIDTO);
+    //            DashboardKPIDTO.DashboardLineDTO.Dashboard_KPIIDArray = _dashboard_KPIList.Select(s => s.ID).ToArray();
+    //            var _DashboardLineList = DashboardLine_Service.GetDashboardLineList_Global(DashboardKPIDTO.DashboardLineDTO);
+    //            var _dashboard_kpidict = _dashboard_KPIList.ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+    //            var _monthlyList = new List<MonthDTO>();
+
+
+    //            if (_dashboard_KPIList.Count > 0)
+    //            {
+
+    //                if (_DashboardLineList?.Count() > 0)
+    //                {
+    //                    //Save each value on Monthly List
+    //                    foreach (var _kpiByMonthResult in _DashboardLineList)
+    //                    {
+    //                        var _monthlyDTO = new MonthDTO
+    //                        {
+    //                            ID = _kpiByMonthResult.ID,
+    //                            Month = _kpiByMonthResult.Month,
+    //                            Year = _kpiByMonthResult.FiscalYear,
+    //                            ProvitionalValueColumnProperty = "solid 1px",
+    //                            Dashboard_KPIID = _kpiByMonthResult.Dashboard_KPIID,
+    //                        };
+
+    //                        _kpiByMonthResult.MonthValue = _monthlyDTO;
+    //                        if ((bool)_kpiByMonthResult.Validated)
+    //                        {
+    //                            _monthlyDTO.MonthlyValue = _kpiByMonthResult.Value.ToString();
+    //                            //Base on KPI goal set column background color
+
+    //                            try
+    //                            {
+    //                                var _kpiBackgroudColor = string.Empty;
+    //                                _kpiBackgroudColor = SetMetricColumnBackground((int)_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _monthlyDTO.MonthlyValue, Convert.ToDecimal(_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.Goal), Convert.ToDecimal(_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.GoalRangeValue));
+
+    //                                _monthlyDTO.KPIBackgroundColor = _kpiBackgroudColor;
+    //                            }
+    //                            catch (Exception ex)
+    //                            {
+    //                                throw;
+    //                            }
+    //                        }
+    //                        else
+    //                        {
+    //                            _monthlyDTO.MonthlyValue = "N/A";
+    //                        }
+    //                        _monthlyList.Add(_monthlyDTO);
+    //                    }
+    //                    //_dashboard_KPIDTOResult.KPIDTO.MonthValue = _monthlyList;
+    //                    foreach (var _sadasd in _dashboard_KPIList) { 
+                            
+                        
+    //                    }
+    //                }
+    //            }
+
+    //        }
+
+
+    //        return _dashboardKPIList_Global.OrderBy(_order => _order.DashboardCategoryID).ThenBy(_order => _order.Order).ToList();
+    //        //return _dashboardKPIList_Global;
+
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw;
+    //    }
+
+    //}
     public static List<Dashboard_KPIDTO> GetDashboardReportList(int DashboardID)
     {
         var _dashboardKPIList_Global = new List<Dashboard_KPIDTO>();
@@ -479,7 +550,7 @@ public class Dashboard_KPI_Service
                     {
                         foreach (var _dashboard_KPIDTOResult in _dashboardKPIList)
                         {
-                           
+
                             if (_dashboard_KPIDTOResult.DashboardLineList?.Count() > 0)
                             {
 
@@ -545,10 +616,10 @@ public class Dashboard_KPI_Service
                                             }
                                             break;
                                         case 5:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated==true)
+                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.MayValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.MayGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.MayGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.MayBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.MayValue.ToString(), _dashboardReportDTO.MayGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -561,7 +632,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.JuneValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.JuneGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.JuneGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.JuneBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.JuneValue.ToString(), _dashboardReportDTO.JuneGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -574,7 +645,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.JulyValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.JulyGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.JulyGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.JulyBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.JulyValue.ToString(), _dashboardReportDTO.JulyGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -587,7 +658,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.AugustValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.AugustGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.AugustGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.AugustBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.AugustValue.ToString(), _dashboardReportDTO.AugustGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -600,7 +671,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.SepValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.SepGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.SepGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.SepBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.SepValue.ToString(), _dashboardReportDTO.SepGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -613,7 +684,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.OctuberValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.OctuberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.OctuberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.OctuberBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.OctuberValue.ToString(), _dashboardReportDTO.OctuberGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -627,7 +698,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.NovemberValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.NovemberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.NovemberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.NovemberBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.NovemberValue.ToString(), _dashboardReportDTO.NovemberGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -641,7 +712,7 @@ public class Dashboard_KPI_Service
                                             if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                             {
                                                 _dashboardReportDTO.DecemberValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.DecemberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);;
+                                                _dashboardReportDTO.DecemberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
                                                 //Get column background color
                                                 _dashboardReportDTO.DecemberBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.DecemberValue.ToString(), _dashboardReportDTO.DecemberGoalValue, Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.GoalRangeValue)));
                                             }
@@ -657,7 +728,7 @@ public class Dashboard_KPI_Service
 
                                     _dashboardReportDTO.MetricName = _dashboard_KPIDTOResult.KPIDTO.Name;
                                     _dashboardReportDTO.MetricID = (int)_dashboard_KPIDTOResult.KPIDTO.ID;
-                                    
+
                                     _dashboardReportDTO.ValueType = (int)_dashboard_KPIDTOResult.KPIDTO.ValueTypeID;
                                     _dashboardReportDTO.EquivalenceID = (int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID;
                                     _dashboardReportDTO.DashboardCategoryLetter = _dashboard_KPIDTOResult.DashboardCategoryLetter;
@@ -674,18 +745,18 @@ public class Dashboard_KPI_Service
                                 }
                                 _dashboardReportList.Add(_dashboardReportDTO);
                             }
-                            
+
                         }
 
                     }
-                    _mainDashboardKPIDTO.DashboardReportList= _dashboardReportList;
+                    _mainDashboardKPIDTO.DashboardReportList = _dashboardReportList;
 
                 }
                 _dashboardKPIList_Global.Add(_mainDashboardKPIDTO);
             }
-            
+
             return _dashboardKPIList_Global;
-            
+
 
         }
         catch (Exception ex)

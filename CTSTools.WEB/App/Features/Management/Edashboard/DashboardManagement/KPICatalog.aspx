@@ -8,7 +8,9 @@
                 <ol class="breadcrumb float-xl-end">
                     <li class="breadcrumb-item"><a href="javascript:;">Management</a></li>
                     <li class="breadcrumb-item"><a href="javascript:;">E-Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;">Dashboards</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"></a></li>
+
                 </ol>
             </div>
             <!-- END breadcrumb -->

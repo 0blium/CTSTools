@@ -10,4 +10,5 @@ public class MonthDTO
     public string ProvitionalValueColumnProperty { get; set; }
     public string FontColor { get; set; }
     public string TooltipText { get; set; }
+    public int? Dashboard_KPIID { get; set; }
 }
