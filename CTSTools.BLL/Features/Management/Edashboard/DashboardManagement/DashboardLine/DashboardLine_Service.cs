@@ -192,33 +192,34 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
                     // hace falta crear el IsActive
 
                     //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada KPIa
-                    //foreach (var _dashboardKPI in _dashboardMetriTemplateList)
-                    //{
-                    //    var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
-                    //    foreach (var _previousMonth in _previousMonthList)
-                    //    {
-                    //        //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
-                    //        DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
-                    //        DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
-                    //        DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
-                    //        DashboardLineDTO.DashboardCategoryID = _dashboardKPI.DashboardCategoryID;
-                    //        DashboardLineDTO.FiscalYear = FiscalYear;
-                    //        DashboardLineDTO.Month = _previousMonth;
+                    foreach (var _dashboardKPI in _dashboardMetriTemplateList)
+                    {
+                        //var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
+                        var _previousMonthList = GetAllMonthForDashboardYear(FiscalYear);
+                        foreach (var _previousMonth in _previousMonthList)
+                        {
+                            //DashboardLineDTO.DashboardKPIDTO = new DashboardKPIDTO { ID = _dashboardKPI.ID };
+                            DashboardLineDTO.Dashboard_KPIID = _dashboardKPI.ID;
+                            DashboardLineDTO.DashboardID = _dashboardKPI.DashboardID;
+                            DashboardLineDTO.KPIID = _dashboardKPI.KPIID;
+                            DashboardLineDTO.DashboardCategoryID = _dashboardKPI.DashboardCategoryID;
+                            DashboardLineDTO.FiscalYear = FiscalYear;
+                            DashboardLineDTO.Month = _previousMonth;
 
-                    //        //varificar si existe la linea del mes actual para cada KPIa en el dashboard
-                    //        var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
+                            //varificar si existe la linea del mes actual para cada KPIa en el dashboard
+                            var _dashboardLineList = GetDashboardLineList_Global(DashboardLineDTO);
 
-                    //        if (_dashboardLineList.Count == 0)
-                    //        {
-                    //            //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
+                            if (_dashboardLineList.Count == 0)
+                            {
+                                //Si no existe una linea para el mes actual por ese dashboardKPI crearla.
 
-                    //            DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
+                                DashboardLineDTO.Goal = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault().Goal;
 
-                    //            _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
-                    //        }
-                    //    }
+                                _validation_ResultDTO = CreateDashboardLine_Global(DashboardLineDTO);
+                            }
+                        }
 
-                    //}
+                    }
 
 
                 }
@@ -281,7 +282,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
         //    return _previousMonthList;
         //}
 
-        public static List<int> GetPreviousMonthForDashboardYear(int DashboardYear)
+        public static List<int> GetAllMonthForDashboardYear(int DashboardYear)
         {
             DateTime _currentDate = DateTime.Now;
             int currentYear = _currentDate.Year; // Año actual
@@ -289,22 +290,23 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
 
             List<int> _previousMonthList = new List<int>();
 
-            if (DashboardYear < currentYear)
-            {
-                // Si el año ingresado es menor al actual, devolver todos los meses (1 a 12)
-                _previousMonthList.AddRange(Enumerable.Range(1, 12)); // De enero a diciembre
-            }
-            else if (DashboardYear == currentYear)
-            {
-                // Si el año ingresado es igual al actual, devolver de enero hasta el mes anterior
-                _previousMonthList.AddRange(Enumerable.Range(1, currentMonth - 1)); // De enero al mes actual - 1
-            }
-            else
-            {
-                // Si el año ingresado es mayor al actual, no devolver nada
-                // _previousMonthList ya está vacío por defecto
-            }
+            //if (DashboardYear < currentYear)
+            //{
+            //    // Si el año ingresado es menor al actual, devolver todos los meses (1 a 12)
+            //    _previousMonthList.AddRange(Enumerable.Range(1, 12)); // De enero a diciembre
+            //}
+            //else if (DashboardYear == currentYear)
+            //{
+            //    // Si el año ingresado es igual al actual, devolver de enero hasta el mes anterior
+            //    _previousMonthList.AddRange(Enumerable.Range(1, currentMonth - 1)); // De enero al mes actual - 1
+            //}
+            //else
+            //{
+            //    // Si el año ingresado es mayor al actual, no devolver nada
+            //    // _previousMonthList ya está vacío por defecto
+            //}
 
+            _previousMonthList.AddRange(Enumerable.Range(1, 12)); // De enero a diciembre
             return _previousMonthList;
         }
 

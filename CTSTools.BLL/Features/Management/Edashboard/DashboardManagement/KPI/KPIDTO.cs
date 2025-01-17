@@ -92,7 +92,7 @@ public class KPIDTO
     public CalculationTypeDTO CalculationTypeDTO { get; set; }
     public bool GetCalculationTypeDTO { get; set; }
     public int?[] CalculationTypeIDArray { get; set; }
-    public List<MonthDTO> MonthValue { get; set; }
+    //public List<MonthDTO> MonthValue { get; set; }
     public string EquivalenceIcon { get; set; }
 
     #endregion
@@ -118,7 +118,7 @@ public class KPIDTO
         StatusIDArray = new int?[] { };
         CalculationTypeDTO = new CalculationTypeDTO();
         CalculationTypeIDArray = new int?[] { };
-        MonthValue = new List<MonthDTO> { };
+        //MonthValue = new List<MonthDTO> { };
     }
     #endregion
 }
