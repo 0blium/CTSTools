@@ -27,7 +27,7 @@ async function InitializeMassivePartNumberCatalogControls() {
                         FileName: filename,  // Nombre del archivo
                         Data: base64File     // El contenido en Base64 (que es un string)
                     };
-                    CreatePartNumber(_fileDTO);
+                    console.log(CreatePartNumber(_fileDTO));
                 };
                 reader.readAsDataURL(file);  // Convierte el archivo a Base64
             }

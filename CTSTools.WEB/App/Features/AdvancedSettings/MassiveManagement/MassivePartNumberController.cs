@@ -9,7 +9,7 @@ public class MassivePartNumberController : ApiController
     [Route("api/MassivePartNumber/Create")]
     public IHttpActionResult CreateMassivePartNumber([FromBody] FileDTO FileDTO)
     {
-        var _validationResultDTO = ExcelDataImport_Service.PartNumberFileValidation_Global(FileDTO.Data, FileDTO.FileName);
+        var _validationResultDTO = ExcelDataImport_Service.SupplierFileValidation_Global(FileDTO);
         return Json(_validationResultDTO);
     }
 }

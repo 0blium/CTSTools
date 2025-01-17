@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpo;
+﻿using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
+using DevExpress.Xpo;
 using Elmah;
 using ExcelDataReader;
 using System;
@@ -12,12 +13,12 @@ namespace CTSTools.BLL.Common.Files
     public class ExcelDataImport_Service
     {
         #region CRUD
-        private static List<PartNumberDTO> GetPartNumberInfoListFromExcelFile(byte[] FileBytes)
+        private static List<ExcelSupplierDTO> GetSupplierInfoListFromExcelFile(byte[] FileBytes)
         {
             try
             {
                 List<ExcelFileDTO> _excelFileDTOList = new List<ExcelFileDTO>();
-                List<PartNumberDTO> _partNumberDTOList = new List<PartNumberDTO>();
+                List<ExcelSupplierDTO> _excelSupplierDTOList = new List<ExcelSupplierDTO>();
 
                 List<string> _columnName = new List<string>();
                 Stream _fileStream = new MemoryStream(FileBytes);
@@ -33,16 +34,22 @@ namespace CTSTools.BLL.Common.Files
 
                             switch (row[column].ToString().ToUpper())
                             {
-                                case "ID":
+                                case "IS ACTIVE":
+                                case "ISACTIVE":
                                     _excelFileDTO.HeaderName = row[column].ToString();
                                     break;
-                                case "PARTNUMBER":
+                                case "NAME":
+                                    _excelFileDTO.HeaderName = row[column].ToString();
+                                    break;
+                                case "IS VENDOR":
+                                case "ISVENDOR":
+                                    _excelFileDTO.HeaderName = row[column].ToString();
+                                    break;
+                                case "IS MANUFACTURER":
+                                case "ISMANUFACTURER":
                                     _excelFileDTO.HeaderName = row[column].ToString();
                                     break;
                                 case "DESCRIPTION":
-                                    _excelFileDTO.HeaderName = row[column].ToString();
-                                    break;
-                                case "ISACTIVE":
                                     _excelFileDTO.HeaderName = row[column].ToString();
                                     break;
                                 default:
@@ -57,7 +64,7 @@ namespace CTSTools.BLL.Common.Files
                     }
                     foreach (DataRow row in firstTable.Rows)
                     {
-                        PartNumberDTO _partNumberDTO = new PartNumberDTO();
+                        ExcelSupplierDTO _excelSupplierDTO = new ExcelSupplierDTO();
                         bool _haveInfo = false;
                         foreach (var item in _excelFileDTOList)
                         {
@@ -65,20 +72,27 @@ namespace CTSTools.BLL.Common.Files
                             {
                                 switch (item.HeaderName.ToUpper())
                                 {
-                                    case "ID":
-                                        _partNumberDTO.ID = Convert.ToInt32(row[item.ColumnName].ToString());
+                                    case "IS ACTIVE":
+                                    case "ISACTIVE":
+                                        _excelSupplierDTO.SupplierDTO.IsActive = Convert.ToBoolean(row[item.ColumnName].ToString());
                                         _haveInfo = true;
                                         break;
-                                    case "PARTNUMBER":
-                                        _partNumberDTO.PartNumber = row[item.ColumnName].ToString();
+                                    case "NAME":
+                                        _excelSupplierDTO.SupplierDTO.Name = row[item.ColumnName].ToString();
+                                        _haveInfo = true;
+                                        break;
+                                    case "IS VENDOR":
+                                    case "ISVENDOR":
+                                        _excelSupplierDTO.SupplierDTO.IsVendor = Convert.ToBoolean(row[item.ColumnName].ToString());
+                                        _haveInfo = true;
+                                        break;
+                                    case "IS MANUFACTURER":
+                                    case "ISMANUFACTURER":
+                                        _excelSupplierDTO.SupplierDTO.IsManufacturer = Convert.ToBoolean(row[item.ColumnName].ToString());
                                         _haveInfo = true;
                                         break;
                                     case "DESCRIPTION":
-                                        _partNumberDTO.Description = row[item.ColumnName].ToString();
-                                        _haveInfo = true;
-                                        break;
-                                    case "ISACTIVE":
-                                        _partNumberDTO.IsActive = Convert.ToBoolean(row[item.ColumnName].ToString());
+                                        _excelSupplierDTO.SupplierDTO.Description = row[item.ColumnName].ToString();
                                         _haveInfo = true;
                                         break;
                                     default:
@@ -88,11 +102,11 @@ namespace CTSTools.BLL.Common.Files
                         }
                         if (_haveInfo != false)
                         {
-                            _partNumberDTOList.Add(_partNumberDTO);
+                            _excelSupplierDTOList.Add(_excelSupplierDTO);
                         }
                     }
                 }
-                return _partNumberDTOList;
+                return _excelSupplierDTOList;
             }
             catch (Exception ex)
             {
@@ -105,24 +119,24 @@ namespace CTSTools.BLL.Common.Files
 
         #region Business Logic
 
-        public static PartNumberDTO PartNumberFileValidation_Global(string Base64File, string Filename)
+        public static ValidationResultDTO SupplierFileValidation_Global(FileDTO FileDTO)
         {
-            PartNumberDTO _partNumberDTO = new PartNumberDTO();
+            ExcelSupplierDTO _excelSupplierDTO = new ExcelSupplierDTO();
+            ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
             try
             {
-                byte[] _fileBytes = Convert.FromBase64String(Base64File.Split(',')[1]);
-                ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
+                byte[] _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
                 _validationResultDTO.Result = true;
                 _validationResultDTO.Message = "Success";
                 _validationResultDTO.Description = "Comparission was made successfully";
 
-                var _partNumberRowsValidation = new PartNumberDTO();
+                var _excelSupplierRowsValidation = new ExcelSupplierDTO();
                 string _extension = "";
-                if (Filename.Contains(".xlsx"))
+                if (FileDTO.FileName.Contains(".xlsx"))
                 {
                     _extension = ".xlsx";
                 }
-                else if (Filename.Contains(".xls"))
+                else if (FileDTO.FileName.Contains(".xls"))
                 {
                     _extension = ".xls";
                 }
@@ -135,41 +149,44 @@ namespace CTSTools.BLL.Common.Files
                 //Step 1. Validate if the files contains following headers: Number, Name, Address, City, State, Country, Postal Code.
                 // WARNING: The validations allows to contain empty rows above the column headers. If something are above of coliumns, the validation
                 // will take it as an error.
-                _partNumberDTO = ValidatePartNumberFileColumns(_fileBytes, Filename, _extension);
-                _validationResultDTO = _partNumberDTO.ValidationResultDTO;
+                _excelSupplierDTO = ValidateSupplierFileColumns(_fileBytes, FileDTO.FileName, _extension);
+                _validationResultDTO = _excelSupplierDTO.ValidationResultDTO;
 
                 if (_validationResultDTO.Result == true)
                 {
                     //Step 2. Read the file and get the rows in vendordto format
-                    var _partNumberList = new List<PartNumberDTO>();
+                    var _excelSupplierList = new List<ExcelSupplierDTO>();
                     if (_extension == ".xls" || _extension == ".xlsx")
                     {
-                        _partNumberList = GetPartNumberInfoListFromExcelFile(_fileBytes);
+                        _excelSupplierList = GetSupplierInfoListFromExcelFile(_fileBytes);
                     }
-                    //else
-                    //{
-                    //    _vendorFileDataList = GetVendorListFromTxtFile(_fileBytes);
-                    //}
-                    _partNumberRowsValidation = PartNumberFileRowsValidation(_partNumberList);
 
-                    _validationResultDTO.Result = _partNumberRowsValidation.ValidationResultDTO.Result;
-                    _validationResultDTO.Message = _partNumberRowsValidation.ValidationResultDTO.Message;
-                    _validationResultDTO.Description = _partNumberRowsValidation.ValidationResultDTO.Description;
+                    _excelSupplierRowsValidation = SupplierFileRowsValidation(_excelSupplierList);
+
+                    foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
+                    {
+                        _supplierDTO.AddedByID = FileDTO.ID;
+                        var _validationResulDTO = Supplier_Service.CreateSupplier_Global(_supplierDTO);
+                    }
+
+                    _validationResultDTO.Result = _excelSupplierRowsValidation.ValidationResultDTO.Result;
+                    _validationResultDTO.Message = _excelSupplierRowsValidation.ValidationResultDTO.Message;
+                    _validationResultDTO.Description = _excelSupplierRowsValidation.ValidationResultDTO.Description;
                 }
-                _partNumberDTO.ValidationResultDTO = _validationResultDTO;
+                _validationResultDTO.Data = _excelSupplierRowsValidation;
             }
             catch (Exception ex)
             {
                 ErrorSignal.FromCurrentContext().Raise(ex);
                 throw;
             }
-            return _partNumberDTO;
+            return _validationResultDTO;
         }
 
-        private static PartNumberDTO ValidatePartNumberFileColumns(byte[] _fileBytes, string Filename, string Extension)
+        private static ExcelSupplierDTO ValidateSupplierFileColumns(byte[] _fileBytes, string Filename, string Extension)
         {
             string[] _fileheaders = new string[0];
-            PartNumberDTO _partNumberFileValidationDTO = new PartNumberDTO();
+            ExcelSupplierDTO _excelSupplierFileValidationDTO = new ExcelSupplierDTO();
             ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
 
             if (Extension == ".xlsx" || Extension == ".xls")
@@ -183,10 +200,11 @@ namespace CTSTools.BLL.Common.Files
                 _validationResultDTO.Message = "Invalid file";
             }
             string _missingHeader = string.Empty;
-            _missingHeader += (_fileheaders.Contains("id") == true) ? string.Empty : "id,";
-            _missingHeader += (_fileheaders.Contains("partnumber") == true) ? string.Empty : "partnumber,";
+            _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "isactive,";
+            _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,";
+            _missingHeader += (_fileheaders.Contains("is vendor") == true || _fileheaders.Contains("isvendor") == true) ? string.Empty : "isvendor,";
+            _missingHeader += (_fileheaders.Contains("is manufacturer") == true || _fileheaders.Contains("ismanufacturer") == true) ? string.Empty : "ismanufacturer,";
             _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,";
-            _missingHeader += (_fileheaders.Contains("isactive") == true) ? string.Empty : "isactive,";
 
             if (_missingHeader != string.Empty)
             {
@@ -202,9 +220,9 @@ namespace CTSTools.BLL.Common.Files
                 _validationResultDTO.Description = "The file have the correct format ";
                 _validationResultDTO.Message = "Success";
             }
-            _partNumberFileValidationDTO.ValidationResultDTO = _validationResultDTO;
+            _excelSupplierFileValidationDTO.ValidationResultDTO = _validationResultDTO;
 
-            return _partNumberFileValidationDTO;
+            return _excelSupplierFileValidationDTO;
         }
 
         private static string[] GetHeadersFromExcel(byte[] FileBytes)
@@ -239,10 +257,9 @@ namespace CTSTools.BLL.Common.Files
             }
         }
 
-        private static PartNumberDTO PartNumberFileRowsValidation(List<PartNumberDTO> PartNumberFileDataList)
+        private static ExcelSupplierDTO SupplierFileRowsValidation(List<ExcelSupplierDTO> ExcelSupplierFileDataList)
         {
-            PartNumberDTO _partNumberFileValidationDTO = new PartNumberDTO();
-            List<PartNumberDTO> _partNumberFileValidationList = new List<PartNumberDTO>();
+            ExcelSupplierDTO _excelSupplierFileValidationDTO = new ExcelSupplierDTO();
             ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
             _validationResultDTO.Result = true;
             _validationResultDTO.Message = "Success";
@@ -250,49 +267,32 @@ namespace CTSTools.BLL.Common.Files
             try
             {
 
-                foreach (var _partNumberFileData in PartNumberFileDataList)
+                foreach (var _excelSupplierFileData in ExcelSupplierFileDataList)
                 {
-                    PartNumberDTO _partNumberDTO = new PartNumberDTO();
+                    SupplierDTO _supplierDTO = new SupplierDTO();
                     bool isSucces = true;
-                    if (_partNumberFileData.ID == 0 || _partNumberFileData.ID == null)
+                    if (_excelSupplierFileData.SupplierDTO.Name == string.Empty || _excelSupplierFileData.SupplierDTO.Name == null)
                     {
-                        _partNumberDTO.ValidationResultDTO.Message = "Error, The PartNumber ID is null or empty.";
+                        _excelSupplierFileValidationDTO.ValidationResultDTO.Message = "Error, The name is null or empty";
                         isSucces = false;
                     }
-                    if (_partNumberFileData.PartNumber == string.Empty || _partNumberFileData.PartNumber == null)
-                    {
-                        _partNumberDTO.ValidationResultDTO.Message = "Error, The PartNumber number is null or empty";
-                        isSucces = false;
-                    }
-
-                    // Validate if the vendor file rows are not repited
-                    foreach (var _partNumberFileRows in PartNumberFileDataList)
-                    {
-                        if (_partNumberFileRows != _partNumberFileData)
-                        {
-                            if (_partNumberFileRows.ID == _partNumberFileData.ID)
-                            {
-                                _partNumberDTO.ValidationResultDTO.Message = "Error, this ID is repeated with other inside the file.";
-                                isSucces = false;
-                            }
-                            else if (_partNumberFileRows.PartNumber == _partNumberFileData.PartNumber)
-                            {
-                                _partNumberDTO.ValidationResultDTO.Message = "Error, this PartNumber is repeated with other inside the file.";
-                                isSucces = false;
-                            }
-                        }
-                    }
-                    _partNumberDTO.ID = _partNumberFileData.ID;
-                    _partNumberDTO.PartNumber = _partNumberFileData.PartNumber;
-                    _partNumberDTO.IsActive = true;
+                    _supplierDTO.Name = _excelSupplierFileData.SupplierDTO.Name;
+                    _supplierDTO.Description = _excelSupplierFileData.SupplierDTO.Description;
+                    _supplierDTO.IsActive = true;
+                    _supplierDTO.IsVendor = _excelSupplierFileData.SupplierDTO.IsVendor;
+                    _supplierDTO.IsManufacturer = _excelSupplierFileData.SupplierDTO.IsManufacturer;
 
                     if (isSucces == true)
                     {
-                        _partNumberDTO.ValidationResultDTO.Message = "Success";
-                        _partNumberFileValidationList.Add(_partNumberDTO);
+                        _excelSupplierFileValidationDTO.ValidationResultDTO.Message = "Success";
+                        _excelSupplierFileValidationDTO.SupplierGoodLinesList.Add(_supplierDTO);
+                    }
+                    else
+                    {
+                        _excelSupplierFileValidationDTO.ValidationResultDTO.Message = _excelSupplierFileValidationDTO.ValidationResultDTO.Message;
+                        _excelSupplierFileValidationDTO.SupplierBadLinesList.Add(_supplierDTO);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -302,8 +302,8 @@ namespace CTSTools.BLL.Common.Files
                 _validationResultDTO.Description = "The file was read successfully";
                 throw ex;
             }
-            _partNumberFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-            return _partNumberFileValidationDTO;
+            _excelSupplierFileValidationDTO.ValidationResultDTO = _validationResultDTO;
+            return _excelSupplierFileValidationDTO;
         }
 
         #endregion

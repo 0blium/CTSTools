@@ -18,6 +18,20 @@ export async function CreateSupplier(SupplierDTO) {
     return _validationResultDTO;
 }
 
+export async function CreateMassiveSupplier(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Supplier/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
+
 export async function UpdateSupplier(SupplierDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Supplier/Update`;
