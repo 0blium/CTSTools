@@ -7,6 +7,7 @@ public class UnitOfMeasureDTO
     #region Base Properties
     public int? ID { get; set; }
     public string Name { get; set; }
+    public string Abbreviation { get; set; }
     public string Description { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? AddedByID { get; set; }

@@ -26,6 +26,12 @@ public class UnitOfMeasureXPO : XPObject
         get { return fName; }
         set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
+    string fAbbreviation;
+    public string Abbreviation
+    {
+        get { return fAbbreviation; }
+        set { SetPropertyValue<string>(nameof(Abbreviation), ref fAbbreviation, value); }
+    }
     string fDescription;
     public string Description
     {

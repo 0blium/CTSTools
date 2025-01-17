@@ -29,6 +29,17 @@ public class UnitOfMeasure_Validator
                 });
             }
 
+            if (string.IsNullOrEmpty(UnitOfMeasureDTO.Abbreviation))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Abbreviation Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.Abbreviation)}",
+                });
+            }
+
             if (UnitOfMeasureDTO.AddedByID == null || UnitOfMeasureDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -86,6 +97,16 @@ public class UnitOfMeasure_Validator
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.Name)}",
+                });
+            }
+            if (string.IsNullOrEmpty(UnitOfMeasureDTO.Abbreviation))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Abbreviaton Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(UnitOfMeasure)}{nameof(UnitOfMeasureDTO.Abbreviation)}",
                 });
             }
 

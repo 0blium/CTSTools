@@ -14,6 +14,7 @@ public class UnitOfMeasureMap
         {
             _unitofmeasureDTO.ID = UnitOfMeasureXPO.Oid;
             _unitofmeasureDTO.Name = UnitOfMeasureXPO.Name;
+            _unitofmeasureDTO.Abbreviation = UnitOfMeasureXPO.Abbreviation;
             _unitofmeasureDTO.Description = UnitOfMeasureXPO.Description;
             _unitofmeasureDTO.AddedDate = (UnitOfMeasureXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? UnitOfMeasureXPO.AddedDate : (DateTime?)null;
             _unitofmeasureDTO.AddedByID = (UnitOfMeasureXPO.AddedBy != null) ? UnitOfMeasureXPO.AddedBy.Oid : 0;
@@ -38,6 +39,7 @@ public class UnitOfMeasureMap
         {
             _unitofmeasureXPO = UnitOfMeasureDTO.ID == null || UnitOfMeasureDTO.ID == 0 ? new UnitOfMeasureXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<UnitOfMeasureXPO>(UnitOfMeasureDTO.ID);
             _unitofmeasureXPO.Name = _unitofmeasureXPO.Name == UnitOfMeasureDTO.Name ? _unitofmeasureXPO.Name : UnitOfMeasureDTO.Name;
+            _unitofmeasureXPO.Abbreviation = _unitofmeasureXPO.Abbreviation == UnitOfMeasureDTO.Abbreviation ? _unitofmeasureXPO.Abbreviation : UnitOfMeasureDTO.Abbreviation;
             _unitofmeasureXPO.Description = _unitofmeasureXPO.Description == UnitOfMeasureDTO.Description ? _unitofmeasureXPO.Description : UnitOfMeasureDTO.Description;
             _unitofmeasureXPO.AddedDate = _unitofmeasureXPO.AddedDate != null ? _unitofmeasureXPO.AddedDate : UnitOfMeasureDTO.AddedDate;
             _unitofmeasureXPO.AddedBy = (_unitofmeasureXPO.AddedBy != null) ? _unitofmeasureXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(UnitOfMeasureDTO.AddedByID);

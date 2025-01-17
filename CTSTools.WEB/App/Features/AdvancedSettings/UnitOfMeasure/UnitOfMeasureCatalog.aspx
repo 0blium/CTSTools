@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="UnitOfMeasureCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.AdvancedSettings.UnitOfMeasure.UnitOfMeasureCatalog" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
         <!-- BEGIN breadcrumb -->
@@ -19,7 +20,7 @@
         <!-- BEGIN UnitOfMeasure Catalog -->
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-inverse">                    
+                <div class="panel panel-inverse">
                     <div class="panel-body">
                         <div class="col-md-12 ">
                             <a id="NewUnitOfMeasureBtn" href="#SaveUnitOfMeasureRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>Unit of measure</a>
@@ -32,7 +33,7 @@
         <!-- END UnitOfMeasure Catalog -->
     </div>
     <!-- Modal save record -->
-    <div class="modal fade" id="SaveUnitOfMeasureRecordModal"  tabindex="-1" data-bs-backdrop="static" aria-modal="true" role="dialog">
+    <div class="modal fade" id="SaveUnitOfMeasureRecordModal" tabindex="-1" data-bs-backdrop="static" aria-modal="true" role="dialog">
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,7 +48,15 @@
                             <div class="invalid-feedback" id="UnitOfMeasureNameValidation"></div>
                         </div>
                     </div>
-                    
+
+                    <div class="row mb-15px">
+                        <label class="form-label col-form-label col-md-12">Abbreviation (<span class="text-danger">*</span>)</label>
+                        <div class="col-md-12">
+                            <div id="dxUnitOfMeasureAbbreviationTextBox"></div>
+                            <div class="invalid-feedback" id="UnitOfMeasureAbbreviationValidation"></div>
+                        </div>
+                    </div>
+
                     <div class="row mb-15px">
                         <label class="form-label col-form-label col-md-12">Description</label>
                         <div class="col-md-12">
@@ -62,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <div class="row" id="UnitOfMeasureActionButtons"></div>

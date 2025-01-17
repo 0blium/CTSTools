@@ -13,6 +13,9 @@ async function InitializeUnitOfMeasureCatalogControls() {
     $("#dxUnitOfMeasureNameTextBox").dxTextBox({
         placeholder: 'Type name...'
     });
+    $("#dxUnitOfMeasureAbbreviationTextBox").dxTextBox({
+        placeholder: 'Type abbreviation...'
+    });
     $("#dxUnitOfMeasureDescription").dxTextArea({
         placeholder: 'Type description...'
     });
@@ -107,6 +110,7 @@ async function InitializeUnitOfMeasureCatalogControls() {
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Name", dataField: "Name" },
+                { caption: "Abbreviation", dataField: "Abbreviation" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By Name", dataField: "AddedByName" },
@@ -121,6 +125,7 @@ async function InitializeUnitOfMeasureCatalogControls() {
 async function PopulateUnitOfMeasureFields(data) {
     $("#hiddenUnitOfMeasureID").val(data.ID);
     $("#dxUnitOfMeasureNameTextBox").dxTextBox("instance").option("value", data.Name);
+    $("#dxUnitOfMeasureAbbreviationTextBox").dxTextBox("instance").option("value", data.Abbreviation);
     $("#dxUnitOfMeasureDescription").dxTextArea("instance").option("value", data.Description);
     $("#dxUnitOfMeasureIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 }
@@ -167,6 +172,7 @@ function ClearUnitOfMeasureFields() {
     UnitOfMeasureActionButtons("Save");
     $("#hiddenUnitOfMeasureID").val("");
     $("#dxUnitOfMeasureNameTextBox").dxTextBox("instance").option("value", '');
+    $("#dxUnitOfMeasureAbbreviationTextBox").dxTextBox("instance").option("value", '');
     $("#dxUnitOfMeasureDescription").dxTextArea("instance").option("value", '');
     $("#dxUnitOfMeasureIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     let keys = $("#dxUnitOfMeasureGrid").dxDataGrid("instance").getSelectedRowKeys();
@@ -177,6 +183,7 @@ function GetUnitOfMeasureDTO() {
     let _unitOfMeasureDTO = {
         ID: $("#hiddenUnitOfMeasureID").val(),
         Name: $("#dxUnitOfMeasureNameTextBox").dxTextBox("instance").option("value"),
+        Abbreviation: $("#dxUnitOfMeasureAbbreviationTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxUnitOfMeasureDescription").dxTextArea("instance").option("value"),
         IsActive: $("#dxUnitOfMeasureIsActiveCheckBox").dxCheckBox("instance").option("value")
     }
