@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="AttributeCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Engineering.ComponentID.AttributeManagement.AttributeCatalog" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <!-- BEGIN breadcrumb -->
+    <!-- BEGIN breadcrumb -->
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-start">
@@ -123,16 +124,35 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="row" id="AttributeActionButtons"></div>
                         </div>
                         <div class="col-md-12 col-lg-8">
-                            <div class="panel-body">
+                            <div class="panel-body row">
                                 <div type="text" id="dxAttributeGrid"></div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal update excel -->
+    <div class="modal fade" id="UploadExcelAttributeModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelAttributeCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-15px">
+                        <div id="dxAttributeFileUploader"></div>
+                    </div>
+                    <div id="successAttributeMessage" class="alert alert-success" hidden></div>
+                    <div id="errorAttributeMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearExcelAttributeButton" type="button">Clear</button>
                 </div>
             </div>
         </div>

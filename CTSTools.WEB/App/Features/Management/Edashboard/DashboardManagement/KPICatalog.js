@@ -384,6 +384,10 @@ function ShowKPIValidationResults(_validationResultDTO) {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
         $('#errorKPIMessages').html(errorMessages).show();
         document.getElementById('errorKPIMessages').removeAttribute('hidden');
+    } else {
+        $('#UploadExcelKPIModal').modal('hide');
+        ClearExcelModalFields();
+        return HostResponse(_validationResultDTO);
     }
     $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
     ClearKPIFields();

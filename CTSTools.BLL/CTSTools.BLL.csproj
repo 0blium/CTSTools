@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Common\Exception_Service.cs" />
     <Compile Include="Common\Files\DirectoryDTO.cs" />
+    <Compile Include="Common\Files\ExcelAttributeDTO.cs" />
     <Compile Include="Common\Files\ExcelClassDTO.cs" />
     <Compile Include="Common\Files\ExcelDataImport_Service.cs" />
     <Compile Include="Common\Files\ExcelFileDTO.cs" />

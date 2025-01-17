@@ -169,7 +169,6 @@ public class Supplier_Service
             _validationResultDTO.Message = "Invalid file";
         }
         string _missingHeader = string.Empty;
-        _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "isactive, <br>";
         _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name, <br>";
         _missingHeader += (_fileheaders.Contains("is vendor") == true || _fileheaders.Contains("isvendor") == true) ? string.Empty : "isvendor, <br>";
         _missingHeader += (_fileheaders.Contains("is manufacturer") == true || _fileheaders.Contains("ismanufacturer") == true) ? string.Empty : "ismanufacturer, <br>";
@@ -216,10 +215,6 @@ public class Supplier_Service
 
                         switch (row[column].ToString().ToUpper())
                         {
-                            case "IS ACTIVE":
-                            case "ISACTIVE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
                             case "NAME":
                                 _excelFileDTO.HeaderName = row[column].ToString();
                                 break;
@@ -254,11 +249,6 @@ public class Supplier_Service
                         {
                             switch (item.HeaderName.ToUpper())
                             {
-                                case "IS ACTIVE":
-                                case "ISACTIVE":
-                                    _excelSupplierDTO.SupplierDTO.IsActive = Convert.ToBoolean(row[item.ColumnName].ToString());
-                                    _haveInfo = true;
-                                    break;
                                 case "NAME":
                                     _excelSupplierDTO.SupplierDTO.Name = row[item.ColumnName].ToString();
                                     _haveInfo = true;
@@ -320,6 +310,15 @@ public class Supplier_Service
                     _excelSupplierFileData.SupplierDTO.Name = "Error, The name is null or empty";
                     isSucces = false;
                 }
+                if (_excelSupplierFileData.SupplierDTO.IsVendor == null)
+                {
+                    _excelSupplierFileData.SupplierDTO.IsVendor = false;
+                }
+                if (_excelSupplierFileData.SupplierDTO.IsManufacturer == null)
+                {
+                    _excelSupplierFileData.SupplierDTO.IsManufacturer = false;
+                }
+
                 _supplierDTO.Name = _excelSupplierFileData.SupplierDTO.Name;
                 _supplierDTO.Description = _excelSupplierFileData.SupplierDTO.Description;
                 _supplierDTO.IsActive = true;

@@ -1,4 +1,4 @@
-import { CreateAttribute, UpdateAttribute, DeleteAttribute, GetDXAttributeDataSource } from './Attribute/Attribute_Service.js';
+import { CreateAttribute, CreateMassiveAttribute, UpdateAttribute, DeleteAttribute, GetDXAttributeDataSource } from './Attribute/Attribute_Service.js';
 import { CreateValue, UpdateValue, DeleteValue, GetDXValueDataSource } from './Value/Value_Service.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js';
@@ -274,6 +274,33 @@ async function InitializeAttributeListControls() {
     $("#dxHasMultipleOptionsCheckBox").dxCheckBox({
         value: true
     });
+    $("#dxAttributeFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveAttribute(_fileDTO);
+                    ShowAttributeValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxAttributeGrid").dxDataGrid({
         dataSource: await GetDXAttributeDataSource_Global(),
         remoteOperations: true,
@@ -364,6 +391,8 @@ async function InitializeAttributeListControls() {
             ],
     });
     AttributeActionButtons("Save");
+    document.getElementById("UploadExcelAttributeCloseModalButton").addEventListener("click", ClearExcelAttributeModal);
+    document.getElementById("ClearExcelAttributeButton").addEventListener("click", ClearExcelAttributeModal);
 }
 async function PopulateAttributeFields(AttributeDTO) {
     $("#hiddenAttributeID").val(AttributeDTO.ID);
@@ -390,6 +419,7 @@ function AttributeActionButtons(Action) {
     if (Action == "Save") {
         document.getElementById("AttributeActionButtons").innerHTML =
             '<div class="col-md-12">' +
+            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i>Excel</a>'+
             '<button class="btn btn-success m-b-15 float-end" id="CreateAttributeButton" type="button">Save</button>' +
             '</div>';
         document.getElementById("CreateAttributeButton").addEventListener("click", CreateAttribute_Global);
@@ -398,12 +428,57 @@ function AttributeActionButtons(Action) {
         // Update
         document.getElementById("AttributeActionButtons").innerHTML =
             '<div class="col-md-12">' +
+            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i>Excel</a>' +
             '<button class="btn btn-secondary float-end" id="ClearAttributeButton" type="button">Cancel</button>' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateAttributeButton" type="button">Update</button>' +
             '</div>';
         document.getElementById("ClearAttributeButton").addEventListener("click", ClearAttributeFields);
         document.getElementById("UpdateAttributeButton").addEventListener("click", UpdateAttribute_Global);
     }
+}
+function ClearExcelAttributeModal() {
+    $('#successAttributeMessage').hide();
+    $('#errorAttributeMessages').hide();
+    var uploader = $("#dxAttributeFileUploader").dxFileUploader("instance");
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowAttributeValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    debugger;
+    if (_validationResultDTO.Data != null) {
+        if (_validationResultDTO.Data.AttributeGoodLinesList.length > 0) {
+            successMessage = `Attribute were created successfully.`;
+            $('#successAttributeMessage').text(successMessage).show();
+            document.getElementById('successAttributeMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.AttributeBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.AttributeBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Has Multiple Options = ${badLine.HasMultipleOptions}. Is Active = ${badLine.IsActive}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorAttributeMessages').html(errorMessages).show();
+            document.getElementById('errorAttributeMessages').removeAttribute('hidden');
+        }
+    }
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorAttributeMessages').html(errorMessages).show();
+        document.getElementById('errorAttributeMessages').removeAttribute('hidden');
+    } else {
+        $('#UploadExcelAttributeModal').modal('hide');
+        ClearExcelAttributeModal();
+        return HostResponse(_validationResultDTO);
+    }
+    $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxAttributeGrid").dxDataGrid("instance").refresh();
+    ClearAttributeFields();
 }
 function ClearAttributeFields() {
     AttributeActionButtons("Save");

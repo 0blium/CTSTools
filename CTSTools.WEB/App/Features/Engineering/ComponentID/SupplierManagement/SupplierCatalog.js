@@ -232,6 +232,10 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
         $('#errorMessages').html(errorMessages).show();
         document.getElementById('errorMessages').removeAttribute('hidden');
+    } else {
+        $('#UploadExcelSupplirModal').modal('hide');
+        ClearExcelModalFields();
+        return HostResponse(_validationResultDTO);
     }
     $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
     ClearSupplierFields();

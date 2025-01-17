@@ -18,29 +18,37 @@ namespace CTSTools.BLL.Common.Files
 
         #region Business Logic
 
-
         public static string[] GetHeadersFromExcel(byte[] FileBytes)
         {
             try
             {
-                string[] _fileheaders;
+                string[] _fileheaders = new string[0]; // Valor predeterminado para el caso vacío
                 Stream _fileStream = new MemoryStream(FileBytes);
                 using (IExcelDataReader _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
                 {
                     var _excelDataSet = _excelReader.AsDataSet();
-                    int _headerRow = 0;
-                    int _excelRowCounter = _excelDataSet.Tables[0].Rows.Count;
 
-                    for (int i = 0; i < _excelRowCounter; i++)
+                    // Check if table has rows before processing
+                    if (_excelDataSet.Tables.Count > 0 && _excelDataSet.Tables[0].Rows.Count > 0)
                     {
-                        var _excelRow = _excelDataSet.Tables[0].Rows[i].ItemArray.Where(f => f.ToString() != string.Empty);
-                        if (_excelRow.Count() > 0)
+                        int _headerRow = 0;
+                        int _excelRowCounter = _excelDataSet.Tables[0].Rows.Count;
+
+                        // Find non-empty header row
+                        for (int i = 0; i < _excelRowCounter; i++)
                         {
-                            _headerRow = i;
-                            break;
+                            var _excelRow = _excelDataSet.Tables[0].Rows[i].ItemArray.Where(f => f.ToString() != string.Empty);
+                            if (_excelRow.Count() > 0)
+                            {
+                                _headerRow = i;
+                                break;
+                            }
                         }
+                        // Access headers if they exist
+                        _fileheaders = _excelDataSet.Tables[0].Rows[_headerRow].ItemArray
+                                        .Select(f => f.ToString().ToLower())
+                                        .ToArray();
                     }
-                    _fileheaders = _excelDataSet.Tables[0].Rows[_headerRow].ItemArray.Select(f => f.ToString().ToLower()).ToArray();
                 }
                 return _fileheaders;
             }

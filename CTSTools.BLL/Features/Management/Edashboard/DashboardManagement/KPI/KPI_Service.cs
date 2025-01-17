@@ -324,7 +324,6 @@ public class KPI_Service
         _missingHeader += (_fileheaders.Contains("category") == true) ? string.Empty : "category,<br>";
         _missingHeader += (_fileheaders.Contains("owner department") == true || _fileheaders.Contains("ownerdepartment") == true) ? string.Empty : "ownerdepartment,<br>";
         _missingHeader += (_fileheaders.Contains("responsible department") == true || _fileheaders.Contains("responsibledepartment") == true) ? string.Empty : "responsibledepartment,<br>";
-        _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "isactive,<br>";
 
         if (_missingHeader != string.Empty)
         {
@@ -410,10 +409,6 @@ public class KPI_Service
                             case "RESPONSIBLEDEPARTMENT":
                                 _excelFileDTO.HeaderName = row[column].ToString();
                                 break;
-                            case "IS ACTIVE":
-                            case "ISACTIVE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
                             default:
                                 break;
                         }
@@ -489,11 +484,6 @@ public class KPI_Service
                                 case "RESPONSIBLE DEPARTMENT":
                                 case "RESPONSIBLEDEPARTMENT":
                                     _excelKPIDTO.KPIDTO.ResponsibleDepartmentName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "IS ACTIVE":
-                                case "ISACTIVE":
-                                    _excelKPIDTO.KPIDTO.IsActive = Convert.ToBoolean(row[item.ColumnName].ToString());
                                     _haveInfo = true;
                                     break;
                                 default:
