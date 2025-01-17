@@ -1,4 +1,6 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+﻿using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -15,6 +17,10 @@ public class User_DXFilter
             if (UserDTO.ID > 0 || UserDTO.ID != null)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(UserXPO.Oid), UserDTO.ID));
+            }
+            if (!string.IsNullOrEmpty(UserDTO.Name))
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserXPO.Name), UserDTO.Name));
             }
             if (UserDTO.Login != null && UserDTO.Login != string.Empty)
             {

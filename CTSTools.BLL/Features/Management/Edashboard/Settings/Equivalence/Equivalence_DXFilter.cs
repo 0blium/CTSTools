@@ -1,4 +1,5 @@
-﻿using CTSTools.DAL.Features.Management.Edashboard.Settings;
+﻿using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -15,6 +16,10 @@ public class Equivalence_DXFilter
             if (EquivalenceDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(EquivalenceXPO.Oid), EquivalenceDTO.ID));
+            }
+            if (!string.IsNullOrEmpty(EquivalenceDTO.Name))
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(EquivalenceXPO.Name), EquivalenceDTO.Name));
             }
             if (EquivalenceDTO.EquivalenceIDArray != null && EquivalenceDTO.EquivalenceIDArray.Count() > 0)
             {

@@ -1,4 +1,6 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+﻿using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -15,6 +17,10 @@ public class Department_DXFilter
             if (DepartmentDTO.ID > 0 || DepartmentDTO.ID != null)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(DepartmentXPO.Oid), DepartmentDTO.ID));
+            }
+            if (!string.IsNullOrEmpty(DepartmentDTO.Name))
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DepartmentXPO.Name), DepartmentDTO.Name));
             }
             if (DepartmentDTO.DepartmentIDArray != null && DepartmentDTO.DepartmentIDArray.Count() > 0)
             {

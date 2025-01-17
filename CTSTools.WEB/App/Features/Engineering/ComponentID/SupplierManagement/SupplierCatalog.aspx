@@ -23,6 +23,7 @@
         <div class="panel panel-inverse">
             <div class="panel-body">
                 <a class="btn btn-success mb-2" id="SupplierModalButton" data-bs-toggle="modal" data-bs-target="#SupplierModal" id="SupplierButton"><i class="fa-solid fa-circle-plus"></i>Supplier</a>
+                <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSupplirModal"><i class="fa-solid fa-file-import"></i> Excel</a>
                 <div id="dxSupplierGrid"></div>
             </div>
         </div>
@@ -82,7 +83,26 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="UploadExcelSupplirModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelSupplirCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-15px">
+                        <div id="dxSupplirFileUploader"></div>
+                    </div>
+                    <div id="successMessage" class="alert alert-success" hidden></div>
+                    <div id="errorMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearExcelSupplierButton" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <input type="hidden" id="hiddenSupplierID" />
     <script type="module" src="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.js"></script>
 

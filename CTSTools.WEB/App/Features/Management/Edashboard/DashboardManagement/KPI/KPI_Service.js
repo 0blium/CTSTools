@@ -16,7 +16,19 @@ export async function CreateKPI(KPIDTO) {
     }
     return _validationResultDTO;
 }
-
+export async function CreateMassiveKPI(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/KPI/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function UpdateKPI(KPIDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/KPI/Update`;

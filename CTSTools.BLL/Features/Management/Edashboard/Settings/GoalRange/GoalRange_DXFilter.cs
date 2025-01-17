@@ -16,6 +16,10 @@ public class GoalRange_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(GoalRangeXPO.Oid), GoalRangeDTO.ID));
             }
+            if (GoalRangeDTO.Value > 0.0f)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(GoalRangeXPO.Value), GoalRangeDTO.Value));
+            }
             if (GoalRangeDTO.GoalRangeIDArray != null && GoalRangeDTO.GoalRangeIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(GoalRangeXPO.Oid), GoalRangeDTO.GoalRangeIDArray));

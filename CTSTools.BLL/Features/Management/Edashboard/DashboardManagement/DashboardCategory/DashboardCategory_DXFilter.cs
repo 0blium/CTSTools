@@ -1,4 +1,6 @@
-﻿using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
+﻿using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
+using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -15,6 +17,10 @@ public class DashboardCategory_DXFilter
             if (DashboardCategoryDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardCategoryXPO.Oid), DashboardCategoryDTO.ID));
+            }
+            if (!string.IsNullOrEmpty(DashboardCategoryDTO.Name))
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardCategoryXPO.Name), DashboardCategoryDTO.Name));
             }
             if (DashboardCategoryDTO.DashboardCategoryIDArray != null && DashboardCategoryDTO.DashboardCategoryIDArray.Count() > 0)
             {

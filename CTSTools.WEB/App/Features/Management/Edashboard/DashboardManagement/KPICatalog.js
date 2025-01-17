@@ -1,4 +1,4 @@
-﻿import { GetDXKPIDataSource, CreateKPI, UpdateKPI, DeleteKPI } from './KPI/KPI_Service.js'
+﻿import { GetDXKPIDataSource, CreateKPI, CreateMassiveKPI, UpdateKPI, DeleteKPI } from './KPI/KPI_Service.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'
@@ -109,7 +109,33 @@ async function InitializeKPICatalogControls() {
         value: true,
         visible: false
     });
-
+    $("#dxKPIFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveKPI(_fileDTO);
+                    ShowKPIValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxKPIGrid").dxDataGrid({
         dataSource: await GetDXKPIDataSource({ IsActive: true }),
         keyExpr: "ID",
@@ -225,6 +251,8 @@ async function InitializeKPICatalogControls() {
             ],
     });
     document.getElementById("btnCloseKPICategoryModal").addEventListener("click", ClearKPIFields);
+    document.getElementById("UploadExcelKPICloseModalButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("ClearExcelKPIButton").addEventListener("click", ClearExcelModalFields);
     KPIActionButtons("Save");
 }
 async function PopulateKPIFields(data) {
@@ -320,6 +348,45 @@ function ClearKPIFields() {
     $("#dxKPIGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
     $("#dxKPIGrid").dxDataGrid("instance").refresh();
     ClearErrorFeedback();
+}
+function ClearExcelModalFields() {
+    $('#successKPIMessage').hide();
+    $('#errorKPIMessages').hide();
+    var uploader = $("#dxKPIFileUploader").dxFileUploader("instance");
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowKPIValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    if (_validationResultDTO.Data != null)
+    {
+        if (_validationResultDTO.Data.KPIGoodLinesList.length > 0) {
+            successMessage = `KPI were created successfully.`;
+            $('#successKPIMessage').text(successMessage).show();
+            document.getElementById('successKPIMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.KPIBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.KPIBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Unit Of Measure = ${badLine.UnitOfMeasureName}. Value Type = ${badLine.ValueTypeName}. Goal = ${badLine.Goal}. Owner = ${badLine.OwnerName}. Responsible = ${badLine.ResponsibleName}. Goal Range = ${badLine.GoalRangeValue}. Facility = ${badLine.FacilityName}. Equivalence = ${badLine.EquivalenceName}. Category = ${badLine.DashboardCategoryName}. Owner Department = ${badLine.OwnerDepartmentName}. Responsible Department = ${badLine.ResponsibleDepartmentName}. Is Active = ${badLine.IsActive}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorKPIMessages').html(errorMessages).show();
+            document.getElementById('errorKPIMessages').removeAttribute('hidden');
+        }
+    }
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorKPIMessages').html(errorMessages).show();
+        document.getElementById('errorKPIMessages').removeAttribute('hidden');
+    }
+    $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
+    ClearKPIFields();
 }
 function GetKPIDTO() {
     let _KPIDTO = {

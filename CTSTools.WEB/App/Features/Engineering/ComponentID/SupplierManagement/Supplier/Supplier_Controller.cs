@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 using CTSTools.WEB.App_Start;
@@ -51,6 +52,18 @@ public class Supplier_Controller : ApiController
         {
             SupplierDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
             _validationResultDTO = Supplier_Service.CreateSupplier_Global(SupplierDTO);
+        }
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
+    [Route("api/Supplier/CreateMassive")]
+    public IHttpActionResult CreateMassiveSupplier([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Supplier), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Supplier_Service.SupplierFileValidation_Global(FileDTO);
         }
         return Json(_validationResultDTO);
     }

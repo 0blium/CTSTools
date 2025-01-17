@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { CreateSupplier, UpdateSupplier, DeleteSupplier, GetDXSupplierDataSource } from './Supplier/Supplier_Service.js'
+import { CreateSupplier, CreateMassiveSupplier, UpdateSupplier, DeleteSupplier, GetDXSupplierDataSource } from './Supplier/Supplier_Service.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeSupplierCatalogControls();
@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function InitializeSupplierCatalogControls() {
-
     $("#dxSupplierNameTextBox").dxTextBox({
         placeholder: 'Type name...'
     });
@@ -27,7 +26,33 @@ async function InitializeSupplierCatalogControls() {
     $("#dxSupplierIsManufacturerCheckBox").dxCheckBox({
         value: false
     });
-
+    $("#dxSupplirFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveSupplier(_fileDTO);
+                    ShowSupplierValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxSupplierGrid").dxDataGrid({
         dataSource: await GetDXSupplierDataSource(),
         keyExpr: "ID",
@@ -131,8 +156,8 @@ async function InitializeSupplierCatalogControls() {
             ],
     });
     SupplierActionButtons("Save");
-
-
+    document.getElementById("UploadExcelSupplirCloseModalButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);
 }
 function SupplierActionButtons(Action) {
     $("#SupplierActionButtons").empty();
@@ -171,6 +196,45 @@ function ClearSupplierFields() {
     $("#dxSupplierIsVendorCheckBox").dxCheckBox("instance").option("value", false);
     $("#dxSupplierIsManufacturerCheckBox").dxCheckBox("instance").option("value", false);
     ClearErrorFeedback();
+}
+function ClearExcelModalFields() {
+    $('#successMessage').hide();
+    $('#errorMessages').hide();
+    var uploader = $("#dxSupplirFileUploader").dxFileUploader("instance");
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowSupplierValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    if (_validationResultDTO.Data != null)
+    {
+        if (_validationResultDTO.Data.SupplierGoodLinesList.length > 0) {
+            successMessage = `Suppliers were created successfully.`;
+            $('#successMessage').text(successMessage).show();
+            document.getElementById('successMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.SupplierBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.SupplierBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Is Active = ${badLine.IsActive}. Is Vendor = ${badLine.IsVendor}. Is Manufacturer = ${badLine.IsManufacturer}. Description = ${badLine.Description}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorMessages').html(errorMessages).show();
+            document.getElementById('errorMessages').removeAttribute('hidden');
+        }
+    }
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorMessages').html(errorMessages).show();
+        document.getElementById('errorMessages').removeAttribute('hidden');
+    }
+    $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
+    ClearSupplierFields();
 }
 function PopulateSupplierFields(data) {
     $('#hiddenSupplierID').val(data.ID);
