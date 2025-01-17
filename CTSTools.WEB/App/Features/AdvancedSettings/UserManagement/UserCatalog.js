@@ -801,32 +801,30 @@ async function InitializeMailGroupControls() {
 function MailGroupMemberTabTemplate(masterDetailData) {
 
     return function () {
-        //document.getElementById("User_PermissionButton").addEventListener("click", ClearUser_PermissionFields);
-        let _user_permissionDataGrid;
+        let _mailgroupmemberDataGrid;
         async function onDataGridInitialized(e) {
-            _user_permissionDataGrid = e.component;
-            let _mailgroupmemberDTO = await GetMailGroupMemberInformation({ UserID: masterDetailData.ID, GetPermissionDTO: true });
-            _user_permissionDataGrid.option('dataSource', _mailgroupmemberDTO);
-
+            _mailgroupmemberDataGrid = e.component;
+            let _mailgroupmemberDTO = await GetMailGroupMemberInformation({ UserID: masterDetailData.ID });
+            _mailgroupmemberDataGrid.option('dataSource', _mailgroupmemberDTO);
         }
         return $('<div>').addClass('form-container').dxForm({
             labelLocation: 'top',
             items: [
                 {
-                    template: PermissionButton(masterDetailData.ID)
+                    template: MailGroupButton(masterDetailData.ID)
 
 
                 }
                 , {
-                    template: PermissionGridTemplate(onDataGridInitialized, masterDetailData.ID),
+                    template: MailGroupMemberGridTemplate(onDataGridInitialized, masterDetailData.ID),
                 }],
         });
     };
 }
-function PermissionGridTemplate(onDataGridInitialized, UserID) {
+function MailGroupMemberGridTemplate(onDataGridInitialized, UserID) {
 
     return function () {
-        return $(`<div id="dxUser_PermissionGrid${UserID}">`).dxDataGrid({
+        return $(`<div id="dxMailGroupMemberGrid${UserID}">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
             keyExpr: "ID",
             pager: {
@@ -856,7 +854,7 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
             },
             "export": {
                 enabled: true,
-                fileName: "Permissions",
+                fileName: "Mail Group Member",
                 allowExportSelectedData: true
             },
             filterRow: {
@@ -892,39 +890,40 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
                             .height(30)
                             .on('dxclick', function () {
                                 $("#hiddenUserID").val(options.data.UserID);
-                                $("#hiddenUser_PermissionID").val(options.data.ID);
+                                $("#hiddenMailGroupMemberID").val(options.data.ID);
                                 ShowUser_PermissionDeleteQuestion();
                             }).appendTo(container);
                     },
                 },
+                { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
-                { caption: "Permission", dataField: "PermissionName" },
-                { caption: "Module", dataField: "PermissionDTO.ModuleName" },
+                { caption: "Mail Group", dataField: "MailGroupDTO.Name" },
+                { caption: "User", dataField: "UserDTO.Name" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
-                { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
+                { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
 
             ]
         });
     };
 }
-function PermissionButton(UserID) {
-    return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewPermissionUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Permission</a>`).on("click", $("#hiddenUserID").val(UserID));
+function MailGroupButton(UserID) {
+    return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewPermissionUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Mail Group</a>`).on("click", $("#hiddenUserID").val(UserID));
 
 }
-function ClearUser_PermissionFields() {
+function ClearMailGroupFields() {
     User_PermissionActionButtons("Save");
-    $('#hiddenUser_PermissionID').val("");
-    let dxUser_PermissionPermissionKeys = $("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxPermissionDataGrid").dxDataGrid("instance").deselectRows(dxUser_PermissionPermissionKeys);
-    $("#dxPermissionDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxPermissionDataGrid").dxDataGrid("instance").refresh();
+    $('#hiddenMailGroupMemberID').val("");
+    let dxMailGroupKeys = $("#dxMailGroupDataGrid").dxDataGrid("instance").getSelectedRowKeys();
+    $("#dxMailGroupDataGrid").dxDataGrid("instance").deselectRows(dxMailGroupKeys);
+    $("#dxMailGroupDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
+    $("#dxMailGroupDataGrid").dxDataGrid("instance").refresh();
 
     ClearErrorFeedback();
 }
 function User_PermissionActionButtons(Action) {
 
-    document.getElementById("User_PermissionModalCloseButton").addEventListener("click", ClearUser_PermissionFields);
+    document.getElementById("User_PermissionModalCloseButton").addEventListener("click", ClearMailGroupFields);
     $("#UserActionButtons").empty();
     if (Action == "Save") {
         document.getElementById("User_PermissionActionButtons").innerHTML =

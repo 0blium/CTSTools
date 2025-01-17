@@ -398,3 +398,4 @@ FodyWeavers.xsd
 /CTSTools.WEB/obj/Debug/CTSTools.WEB.csproj.AssemblyReference.cache
 /CTSTools.BLL/obj/Debug/CTSTools.BLL.dll
 /CTSTools.BLL/obj/Debug/CTSTools.BLL.dll
+/CTSTools.WEB/bin/CTSTools.BLL.pdb

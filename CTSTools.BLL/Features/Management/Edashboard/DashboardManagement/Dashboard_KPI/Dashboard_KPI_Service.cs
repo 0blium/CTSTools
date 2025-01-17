@@ -346,7 +346,6 @@ public class Dashboard_KPI_Service
                 };
 
 
-
                 DashboardKPIDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
                 //DashboardKPIDTO.GetDashboardLineList = true;
                 DashboardKPIDTO.GetDashboardDTO = true;

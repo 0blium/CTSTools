@@ -175,5 +175,6 @@
     <input type="hidden" id="hiddenUserID" hidden />
     <input type="hidden" id="hiddenUser_PermissionID" hidden />
     <input type="hidden" id="hiddenUser_RoleID" hidden />
+    <input type="hidden" id="hiddenMailGroupMemberID" hidden />
     <script type="module" src="/App/Features/AdvancedSettings/UserManagement/UserCatalog.js"></script>
 </asp:Content>
