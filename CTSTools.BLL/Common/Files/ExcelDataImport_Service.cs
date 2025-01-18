@@ -46,8 +46,10 @@ namespace CTSTools.BLL.Common.Files
                         }
                         // Access headers if they exist
                         _fileheaders = _excelDataSet.Tables[0].Rows[_headerRow].ItemArray
-                                        .Select(f => f.ToString().ToLower())
-                                        .ToArray();
+                                .Select(f => f.ToString().ToLower())
+                                .Select(header => header.Trim())
+                                .Select(header => System.Text.RegularExpressions.Regex.Replace(header, @"\s+", " "))
+                                .ToArray();
                     }
                 }
                 return _fileheaders;

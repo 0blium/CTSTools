@@ -471,7 +471,8 @@ function ShowAttributeValidationResults(_validationResultDTO) {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
         $('#errorAttributeMessages').html(errorMessages).show();
         document.getElementById('errorAttributeMessages').removeAttribute('hidden');
-    } else {
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
         $('#UploadExcelAttributeModal').modal('hide');
         ClearExcelAttributeModal();
         return HostResponse(_validationResultDTO);

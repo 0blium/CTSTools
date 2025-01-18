@@ -219,7 +219,6 @@ public class Attribute_Service
         _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,<br>";
         _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,<br>";
         _missingHeader += (_fileheaders.Contains("has multiple options") == true || _fileheaders.Contains("hasmultipleoptions") == true) ? string.Empty : "has multiple options,<br>";
-        _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "is active,<br>";
 
         if (_missingHeader != string.Empty)
         {
@@ -258,22 +257,23 @@ public class Attribute_Service
                     foreach (DataRow row in firstTable.Rows)
                     {
                         ExcelFileDTO _excelFileDTO = new ExcelFileDTO();
-
-                        switch (row[column].ToString().ToUpper())
+                        string _cellValue = row[column].ToString().Trim();
+                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
+                        switch (_cellValue.ToUpper())
                         {
                             case "NAME":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "DESCRIPTION":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "HAS MULTIPLE OPTIONS":
                             case "HASMULTIPLEOPTIONS":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "IS ACTIVE":
                             case "ISACTIVE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             default:
                                 break;
@@ -291,26 +291,28 @@ public class Attribute_Service
                     bool _haveInfo = false;
                     foreach (var item in _excelFileDTOList)
                     {
-                        if (item.HeaderName != row[item.ColumnName].ToString() && row[item.ColumnName].ToString() != string.Empty)
+                        string _cellValue = row[item.ColumnName].ToString().Trim();
+                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
+                        if (!string.IsNullOrEmpty(_cellValue) && item.HeaderName != _cellValue)
                         {
                             switch (item.HeaderName.ToUpper())
                             {
                                 case "NAME":
-                                    _excelAttributeDTO.AttributeDTO.Name = row[item.ColumnName].ToString();
+                                    _excelAttributeDTO.AttributeDTO.Name = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "DESCRIPTION":
-                                    _excelAttributeDTO.AttributeDTO.Description = row[item.ColumnName].ToString();
+                                    _excelAttributeDTO.AttributeDTO.Description = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "HAS MULTIPLE OPTIONS":
                                 case "HASMULTIPLEOPTIONS":
-                                    _excelAttributeDTO.AttributeDTO.HasMultipleOptions = Convert.ToBoolean(row[item.ColumnName].ToString());
+                                    _excelAttributeDTO.AttributeDTO.HasMultipleOptions = Convert.ToBoolean(_cellValue);
                                     _haveInfo = true;
                                     break;
                                 case "IS ACTIVE":
                                 case "ISACTIVE":
-                                    _excelAttributeDTO.AttributeDTO.IsActive = Convert.ToBoolean(row[item.ColumnName].ToString());
+                                    _excelAttributeDTO.AttributeDTO.IsActive = Convert.ToBoolean(_cellValue);
                                     _haveInfo = true;
                                     break;
                                 default:

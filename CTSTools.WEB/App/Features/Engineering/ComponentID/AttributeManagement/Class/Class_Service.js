@@ -16,7 +16,19 @@ export async function CreateClass(ClassDTO) {
     }
     return _validationResultDTO;
 }
-
+export async function CreateMassiveClass(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Class/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function UpdateClass(ClassDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Class/Update`;

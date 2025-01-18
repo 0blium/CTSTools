@@ -384,12 +384,14 @@ function ShowKPIValidationResults(_validationResultDTO) {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
         $('#errorKPIMessages').html(errorMessages).show();
         document.getElementById('errorKPIMessages').removeAttribute('hidden');
-    } else {
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
         $('#UploadExcelKPIModal').modal('hide');
         ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxKPIGrid").dxDataGrid("instance").refresh();
     ClearKPIFields();
 }
 function GetKPIDTO() {

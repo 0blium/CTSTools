@@ -362,52 +362,53 @@ public class KPI_Service
                     foreach (DataRow row in firstTable.Rows)
                     {
                         ExcelFileDTO _excelFileDTO = new ExcelFileDTO();
-
-                        switch (row[column].ToString().ToUpper())
+                        string _cellValue = row[column].ToString().Trim();
+                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
+                        switch (_cellValue.ToUpper())
                         {
                             case "NAME":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "DESCRIPTION":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "UNIT OF MEASURE":
                             case "UNITOFMEASURE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "VALUE TYPE":
                             case "VALUETYPE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "GOAL":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "OWNER":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "RESPONSIBLE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "GOAL RANGE":
                             case "GOALRANGE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "FACILITY":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "EQUIVALENCE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "CATEGORY":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "OWNER DEPARTMENT":
                             case "OWNERDEPARTMENT":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "RESPONSIBLE DEPARTMENT":
                             case "RESPONSIBLEDEPARTMENT":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             default:
                                 break;
@@ -425,65 +426,67 @@ public class KPI_Service
                     bool _haveInfo = false;
                     foreach (var item in _excelFileDTOList)
                     {
-                        if (item.HeaderName != row[item.ColumnName].ToString() && row[item.ColumnName].ToString() != string.Empty)
+                        string _cellValue = row[item.ColumnName].ToString().Trim();
+                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
+                        if (!string.IsNullOrEmpty(_cellValue) && item.HeaderName != _cellValue)
                         {
                             switch (item.HeaderName.ToUpper())
                             {
                                 case "NAME":
-                                    _excelKPIDTO.KPIDTO.Name = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.Name = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "DESCRIPTION":
-                                    _excelKPIDTO.KPIDTO.Description = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.Description = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "UNIT OF MEASURE":
                                 case "UNITOFMEASURE":
-                                    _excelKPIDTO.KPIDTO.UnitOfMeasureName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.UnitOfMeasureName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "VALUE TYPE":
                                 case "VALUETYPE":
-                                    _excelKPIDTO.KPIDTO.ValueTypeName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.ValueTypeName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "GOAL":
-                                    _excelKPIDTO.KPIDTO.Goal = Convert.ToSingle(row[item.ColumnName].ToString());
+                                    _excelKPIDTO.KPIDTO.Goal = Convert.ToSingle(_cellValue);
                                     _haveInfo = true;
                                     break;
                                 case "OWNER":
-                                    _excelKPIDTO.KPIDTO.OwnerName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.OwnerName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "RESPONSIBLE":
-                                    _excelKPIDTO.KPIDTO.ResponsibleName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.ResponsibleName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "GOAL RANGE":
                                 case "GOALRANGE":
-                                    _excelKPIDTO.KPIDTO.GoalRangeValue = Convert.ToSingle(row[item.ColumnName].ToString());
+                                    _excelKPIDTO.KPIDTO.GoalRangeValue = Convert.ToSingle(_cellValue);
                                     _haveInfo = true;
                                     break;
                                 case "FACILITY":
-                                    _excelKPIDTO.KPIDTO.FacilityName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.FacilityName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "EQUIVALENCE":
-                                    _excelKPIDTO.KPIDTO.EquivalenceName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.EquivalenceName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "CATEGORY":
-                                    _excelKPIDTO.KPIDTO.DashboardCategoryName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.DashboardCategoryName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "OWNER DEPARTMENT":
                                 case "OWNERDEPARTMENT":
-                                    _excelKPIDTO.KPIDTO.OwnerDepartmentName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.OwnerDepartmentName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "RESPONSIBLE DEPARTMENT":
                                 case "RESPONSIBLEDEPARTMENT":
-                                    _excelKPIDTO.KPIDTO.ResponsibleDepartmentName = row[item.ColumnName].ToString();
+                                    _excelKPIDTO.KPIDTO.ResponsibleDepartmentName = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 default:

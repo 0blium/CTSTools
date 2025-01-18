@@ -1,4 +1,4 @@
-﻿import { GetDXClassDataSource, CreateClass, DeleteClass, UpdateClass } from './Class/Class_Service.js'
+﻿import { GetDXClassDataSource, CreateClass, CreateMassiveClass, DeleteClass, UpdateClass } from './Class/Class_Service.js'
 import { GetDXSubClassDataSource, CreateSubClass, DeleteSubClass, UpdateSubClass } from './SubClass/SubClass_Service.js'
 import { GetDXValueDataSource } from './Value/Value_Service.js'
 import { GetDXValueLinkDataSource, GetValueLinkInformation } from './ValueLink/ValueLink_Service.js'
@@ -69,8 +69,8 @@ async function InitializeClassCatalogControls() {
                         Data: base64File
                     };
                     await dxLoadPanel.show();
-                    //_validationResultDTO = await CreateMassiveClass(_fileDTO);
-                    //ShowClassValidationResults(_validationResultDTO);
+                    _validationResultDTO = await CreateMassiveClass(_fileDTO);
+                    ShowClassValidationResults(_validationResultDTO);
                     dxLoadPanel.hide();
                 };
                 reader.readAsDataURL(file);
@@ -238,7 +238,6 @@ function ClearClassFields() {
     //    ClearErrorFeedback();
 }
 function ClearExcelClassModalFields() {
-    // Limpiar los mensajes en el modal
     $('#successClassMessage').hide();
     $('#errorClassMessages').hide();
     var uploader = $("#dxClassFileUploader").dxFileUploader("instance");
@@ -248,6 +247,39 @@ function ClearExcelClassModalFields() {
     if (uploader) {
         uploader.reset();
     }
+}
+function ShowClassValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    if (_validationResultDTO.Data != null) {
+        if (_validationResultDTO.Data.ClassGoodLinesList.length > 0) {
+            successMessage = `Class were created successfully.`;
+            $('#successClassMessage').text(successMessage).show();
+            document.getElementById('successClassMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.ClassBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.ClassBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Name: ${badLine.ClassValueDTO.Name}. Code: ${badLine.ClassValueDTO.Code}. Description = ${badLine.ClassValueDTO.Description}. Attribute: ${badLine.ClassValueDTO.AttributeName}. Parent Attribute: ${badLine.ParentAttributeName}. Parent Value: ${badLine.ParentValueName}. Child Attribute: ${badLine.ChildAttributeName}. Child Value: ${badLine.ChildValueName}. Is Active = ${badLine.IsActive}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorClassMessages').html(errorMessages).show();
+            document.getElementById('errorClassMessages').removeAttribute('hidden');
+        }
+    }
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorClassMessages').html(errorMessages).show();
+        document.getElementById('errorClassMessages').removeAttribute('hidden');
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
+        $('#UploadExcelClassModal').modal('hide');
+        ClearExcelClassModalFields();
+        return HostResponse(_validationResultDTO);
+    }
+    $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxClassGrid").dxDataGrid("instance").refresh();
+    ClearClassFields();
 }
 function PopulateClassFields(ClassDTO) {
     $("#hiddenClassValueLinkID").val(ClassDTO.ID);

@@ -50,6 +50,16 @@ public class Class_Validator
                 });
             }
 
+            if (string.IsNullOrEmpty(ClassDTO.ClassValueDTO.Code))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Code Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+
             if (ClassDTO.AddedByID == null || ClassDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -172,6 +182,15 @@ public class Class_Validator
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
                 });
+            if (string.IsNullOrEmpty(ClassDTO.ClassValueDTO.Code))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Code Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             var _valueLinkDTO = new ValueLinkDTO
             {
                 ParentValueID = (int)ClassDTO.ParentValueID,

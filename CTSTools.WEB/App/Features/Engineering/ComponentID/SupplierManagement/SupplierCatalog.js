@@ -232,7 +232,8 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
         $('#errorMessages').html(errorMessages).show();
         document.getElementById('errorMessages').removeAttribute('hidden');
-    } else {
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
         $('#UploadExcelSupplirModal').modal('hide');
         ClearExcelModalFields();
         return HostResponse(_validationResultDTO);

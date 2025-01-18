@@ -212,22 +212,23 @@ public class Supplier_Service
                     foreach (DataRow row in firstTable.Rows)
                     {
                         ExcelFileDTO _excelFileDTO = new ExcelFileDTO();
-
-                        switch (row[column].ToString().ToUpper())
+                        string _cellValue = row[column].ToString().Trim();
+                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
+                        switch (_cellValue.ToUpper())
                         {
                             case "NAME":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "IS VENDOR":
                             case "ISVENDOR":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "IS MANUFACTURER":
                             case "ISMANUFACTURER":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             case "DESCRIPTION":
-                                _excelFileDTO.HeaderName = row[column].ToString();
+                                _excelFileDTO.HeaderName = _cellValue;
                                 break;
                             default:
                                 break;
@@ -245,26 +246,28 @@ public class Supplier_Service
                     bool _haveInfo = false;
                     foreach (var item in _excelFileDTOList)
                     {
-                        if (item.HeaderName != row[item.ColumnName].ToString() && row[item.ColumnName].ToString() != string.Empty)
+                        string _cellValue = row[item.ColumnName].ToString().Trim();
+                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
+                        if (!string.IsNullOrEmpty(_cellValue) && item.HeaderName != _cellValue)
                         {
                             switch (item.HeaderName.ToUpper())
                             {
                                 case "NAME":
-                                    _excelSupplierDTO.SupplierDTO.Name = row[item.ColumnName].ToString();
+                                    _excelSupplierDTO.SupplierDTO.Name = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 case "IS VENDOR":
                                 case "ISVENDOR":
-                                    _excelSupplierDTO.SupplierDTO.IsVendor = Convert.ToBoolean(row[item.ColumnName].ToString());
+                                    _excelSupplierDTO.SupplierDTO.IsVendor = Convert.ToBoolean(_cellValue);
                                     _haveInfo = true;
                                     break;
                                 case "IS MANUFACTURER":
                                 case "ISMANUFACTURER":
-                                    _excelSupplierDTO.SupplierDTO.IsManufacturer = Convert.ToBoolean(row[item.ColumnName].ToString());
+                                    _excelSupplierDTO.SupplierDTO.IsManufacturer = Convert.ToBoolean(_cellValue);
                                     _haveInfo = true;
                                     break;
                                 case "DESCRIPTION":
-                                    _excelSupplierDTO.SupplierDTO.Description = row[item.ColumnName].ToString();
+                                    _excelSupplierDTO.SupplierDTO.Description = _cellValue;
                                     _haveInfo = true;
                                     break;
                                 default:
