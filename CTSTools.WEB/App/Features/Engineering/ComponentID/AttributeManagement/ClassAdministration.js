@@ -1,5 +1,5 @@
 ﻿import { GetDXClassDataSource, CreateClass, CreateMassiveClass, DeleteClass, UpdateClass } from './Class/Class_Service.js'
-import { GetDXSubClassDataSource, CreateSubClass, DeleteSubClass, UpdateSubClass } from './SubClass/SubClass_Service.js'
+import { GetDXSubClassDataSource, CreateSubClass, CreateMassiveSubClass, DeleteSubClass, UpdateSubClass } from './SubClass/SubClass_Service.js'
 import { GetDXValueDataSource } from './Value/Value_Service.js'
 import { GetDXValueLinkDataSource, GetValueLinkInformation } from './ValueLink/ValueLink_Service.js'
 import { Attributes } from './Attribute/Attribute_Enum.js'
@@ -462,6 +462,33 @@ async function InitializeSubClassCatalogControls() {
     $("#dxSubClassIsActiveCheckBox").dxCheckBox({
         value: true
     });
+    $("#dxSubClassFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveSubClass(_fileDTO);
+                    ShowSubClassValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxSubClassGrid").dxDataGrid({
         dataSource: await GetDXSubClassDataSource(),
         keyExpr: "ID",
@@ -574,8 +601,8 @@ async function InitializeSubClassCatalogControls() {
     });
     document.getElementById("SubClassButton").addEventListener("click", ClearSubClassFields);
     document.getElementById("SubClassButton").addEventListener("click", RefreshSubClassGrid);
-
-   
+    document.getElementById("UploadExcelSubClassCloseModalButton").addEventListener("click", ClearExcelSubClassModalFields);
+    document.getElementById("ClearSubClassExcelModalButton").addEventListener("click", ClearExcelSubClassModalFields);
 }
 function SubClassActionButtons(Action) {
     $("#SubClassActionButtons").empty();
@@ -622,7 +649,50 @@ function ClearSubClassFields() {
     $("#dxSubClassGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxSubClassClassLookup").dxLookup("instance").reset();
     //    ClearErrorFeedback();
-
+}
+function ClearExcelSubClassModalFields() {
+    $('#successSubClassMessage').hide();
+    $('#errorSubClassMessages').hide();
+    var uploader = $("#dxSubClassFileUploader").dxFileUploader("instance");
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowSubClassValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    if (_validationResultDTO.Data != null) {
+        if (_validationResultDTO.Data.SubClassGoodLinesList.length > 0) {
+            successMessage = `SubClass were created successfully.`;
+            $('#successSubClassMessage').text(successMessage).show();
+            document.getElementById('successSubClassMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.SubClassBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.SubClassBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Name: ${badLine.SubClassValueDTO.Name}. Code: ${badLine.SubClassValueDTO.Code}. Description = ${badLine.SubClassValueDTO.Description}. Attribute: ${badLine.SubClassValueDTO.AttributeName}. Parent Attribute: ${badLine.ParentAttributeName}. Parent Value: ${badLine.ParentValueName}. Child Attribute: ${badLine.ChildAttributeName}. Child Value: ${badLine.ChildValueName}. Is Active = ${badLine.IsActive}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorSubClassMessages').html(errorMessages).show();
+            document.getElementById('errorSubClassMessages').removeAttribute('hidden');
+        }
+    }
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorSubClassMessages').html(errorMessages).show();
+        document.getElementById('errorSubClassMessages').removeAttribute('hidden');
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
+        $('#UploadExcelSubClassModal').modal('hide');
+        ClearExcelSubClassModalFields();
+        return HostResponse(_validationResultDTO);
+    }
+    $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxSubClassGrid").dxDataGrid("instance").refresh();
+    ClearSubClassFields();
 }
 function GetSubClassValueLinkDTO() {
     return {
