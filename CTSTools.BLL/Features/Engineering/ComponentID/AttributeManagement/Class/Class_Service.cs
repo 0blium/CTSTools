@@ -283,113 +283,100 @@ public class Class_Service
 
         return _excelClassFileValidationDTO;
     }
-
     private static ValidationResultDTO GetClassInfoListFromExcelFile(byte[] FileBytes)
     {
         var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            List<ExcelFileDTO> _excelFileDTOList = new List<ExcelFileDTO>();
             List<ExcelClassDTO> _excelClassDTOList = new List<ExcelClassDTO>();
-            List<string> _columnName = new List<string>();
-            Stream _fileStream = new MemoryStream(FileBytes);
-            using (IExcelDataReader _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
+            using (var _fileStream = new MemoryStream(FileBytes))
+            using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
-                DataTable firstTable = _excelDataSet.Tables[0];
-                foreach (DataColumn column in firstTable.Columns)
+                DataTable _firstTable = _excelDataSet.Tables[0];
+                // Create a dictionary to store column indexes
+                var _columnHeaderMap = new Dictionary<string, int>();
+                // Fill the dictionary with headings
+                for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
-                    foreach (DataRow row in firstTable.Rows)
+                    string headerName = _firstTable.Rows[0][colIndex].ToString().Trim();
+                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
+                    if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("CODE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("PARENT ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("PARENTATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("PARENT VALUE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("PARENTVALUE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("CHILD ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("CHILDATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExcelFileDTO _excelFileDTO = new ExcelFileDTO();
-                        string _cellValue = row[column].ToString().Trim();
-                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
-                        switch (_cellValue.ToUpper())
-                        {
-                            case "NAME":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "CODE":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "DESCRIPTION":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "ATTRIBUTE":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "PARENT ATTRIBUTE":
-                            case "PARENTATTRIBUTE":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "PARENT VALUE":
-                            case "PARENTVALUE":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "CHILD ATTRIBUTE":
-                            case "CHILDATTRIBUTE":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            default:
-                                break;
-                        }
-                        if (_excelFileDTO.HeaderName != string.Empty && _excelFileDTO.HeaderName != null)
-                        {
-                            _excelFileDTO.ColumnName = column.ColumnName;
-                            _excelFileDTOList.Add(_excelFileDTO);
-                        }
+                        _columnHeaderMap[headerName.ToUpper()] = colIndex;
                     }
                 }
-                foreach (DataRow row in firstTable.Rows)
+                // Process rows starting from the second row (index 1)
+                for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
-                    ExcelClassDTO _excelClassDTO = new ExcelClassDTO();
+                    DataRow row = _firstTable.Rows[rowIndex];
+                    var _excelClassDTO = new ExcelClassDTO();
                     _excelClassDTO.ClassDTO.ClassValueDTO = new ValueDTO();
                     bool _haveInfo = false;
-                    foreach (var item in _excelFileDTOList)
+                    // Assign values ​​directly using the dictionary
+                    if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
                     {
-                        string _cellValue = row[item.ColumnName].ToString().Trim();
-                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
-                        if (!string.IsNullOrEmpty(_cellValue) && item.HeaderName != _cellValue)
-                        {
-                            switch (item.HeaderName.ToUpper())
-                            {
-                                case "NAME":
-                                    _excelClassDTO.ClassDTO.ClassValueDTO.Name = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "CODE":
-                                    _excelClassDTO.ClassDTO.ClassValueDTO.Code = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "DESCRIPTION":
-                                    _excelClassDTO.ClassDTO.ClassValueDTO.Description = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "ATTRIBUTE":
-                                    _excelClassDTO.ClassDTO.ClassValueDTO.AttributeName = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "PARENT ATTRIBUTE":
-                                case "PARENTATTRIBUTE":
-                                    _excelClassDTO.ClassDTO.ParentAttributeName = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "PARENT VALUE":
-                                case "PARENTVALUE":
-                                    _excelClassDTO.ClassDTO.ParentValueName = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "CHILD ATTRIBUTE":
-                                case "CHILDATTRIBUTE":
-                                    _excelClassDTO.ClassDTO.ChildAttributeName = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
+                        string _nameValue = row[NameIndex].ToString().Trim();
+                        _nameValue = System.Text.RegularExpressions.Regex.Replace(_nameValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ClassValueDTO.Name = _nameValue;
+                        _haveInfo = true;
                     }
-                    if (_haveInfo != false)
+                    if (_columnHeaderMap.TryGetValue("CODE", out int CodeIndex))
+                    {
+                        string _codeValue = row[CodeIndex].ToString().Trim();
+                        _codeValue = System.Text.RegularExpressions.Regex.Replace(_codeValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ClassValueDTO.Code = _codeValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("DESCRIPTION", out int DescriptionIndex))
+                    {
+                        string _descriptionValue = row[DescriptionIndex].ToString().Trim();
+                        _descriptionValue = System.Text.RegularExpressions.Regex.Replace(_descriptionValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ClassValueDTO.Description = _descriptionValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("ATTRIBUTE", out int AttributeIndex))
+                    {
+                        string _attributeValue = row[AttributeIndex].ToString().Trim();
+                        _attributeValue = System.Text.RegularExpressions.Regex.Replace(_attributeValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ClassValueDTO.AttributeName = _attributeValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("PARENT ATTRIBUTE", out int ParentAttributeIndex) ||
+                        _columnHeaderMap.TryGetValue("PARENTATTRIBUTE", out ParentAttributeIndex))
+                    {
+                        string _parentAttributeIndexValue = row[ParentAttributeIndex].ToString().Trim();
+                        _parentAttributeIndexValue = System.Text.RegularExpressions.Regex.Replace(_parentAttributeIndexValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ParentAttributeName = _parentAttributeIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("PARENT VALUE", out int ParentValueIndex) ||
+                        _columnHeaderMap.TryGetValue("PARENTVALUE", out ParentValueIndex))
+                    {
+                        string _parentValueIndexValue = row[ParentValueIndex].ToString().Trim();
+                        _parentValueIndexValue = System.Text.RegularExpressions.Regex.Replace(_parentValueIndexValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ParentValueName = _parentValueIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("CHILD ATTRIBUTE", out int ChildAttributeIndex) ||
+                        _columnHeaderMap.TryGetValue("CHILDATTRIBUTE", out ChildAttributeIndex))
+                    {
+                        string _childAttributeIndexValue = row[ChildAttributeIndex].ToString().Trim();
+                        _childAttributeIndexValue = System.Text.RegularExpressions.Regex.Replace(_childAttributeIndexValue, @"\s+", " ");
+                        _excelClassDTO.ClassDTO.ChildAttributeName = _childAttributeIndexValue;
+                        _haveInfo = true;
+                    }
+
+                    if (_haveInfo)
                     {
                         _excelClassDTOList.Add(_excelClassDTO);
                     }
@@ -403,11 +390,10 @@ public class Class_Service
             ErrorSignal.FromCurrentContext().Raise(ex);
             _validationResultDTO.Result = false;
             _validationResultDTO.Message = "Error";
-            _validationResultDTO.Description = string.Format("Verify that the column values ​​are correct. ");
+            _validationResultDTO.Description = ex.Message;
             return _validationResultDTO;
         }
     }
-
     private static ExcelClassDTO ClassFileRowsValidation(List<ExcelClassDTO> ExcelClassFileDataList)
     {
         ExcelClassDTO _excelClassFileValidationDTO = new ExcelClassDTO();

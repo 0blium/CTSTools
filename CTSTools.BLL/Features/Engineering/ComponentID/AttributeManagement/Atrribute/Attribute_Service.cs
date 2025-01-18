@@ -244,83 +244,64 @@ public class Attribute_Service
         var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            List<ExcelFileDTO> _excelFileDTOList = new List<ExcelFileDTO>();
             List<ExcelAttributeDTO> _excelAttributeDTOList = new List<ExcelAttributeDTO>();
-            List<string> _columnName = new List<string>();
-            Stream _fileStream = new MemoryStream(FileBytes);
-            using (IExcelDataReader _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
+            using (var _fileStream = new MemoryStream(FileBytes))
+            using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
-                DataTable firstTable = _excelDataSet.Tables[0];
-                foreach (DataColumn column in firstTable.Columns)
+                DataTable _firstTable = _excelDataSet.Tables[0];
+                // Create a dictionary to store column indexes
+                var _columnHeaderMap = new Dictionary<string, int>();
+                // Fill the dictionary with headings
+                for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
-                    foreach (DataRow row in firstTable.Rows)
+                    string headerName = _firstTable.Rows[0][colIndex].ToString().Trim();
+                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
+                    if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("HASMULTIPLEOPTIONS", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("HAS MULTIPLE OPTIONS", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExcelFileDTO _excelFileDTO = new ExcelFileDTO();
-                        string _cellValue = row[column].ToString().Trim();
-                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
-                        switch (_cellValue.ToUpper())
-                        {
-                            case "NAME":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "DESCRIPTION":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "HAS MULTIPLE OPTIONS":
-                            case "HASMULTIPLEOPTIONS":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            case "IS ACTIVE":
-                            case "ISACTIVE":
-                                _excelFileDTO.HeaderName = _cellValue;
-                                break;
-                            default:
-                                break;
-                        }
-                        if (_excelFileDTO.HeaderName != string.Empty && _excelFileDTO.HeaderName != null)
-                        {
-                            _excelFileDTO.ColumnName = column.ColumnName;
-                            _excelFileDTOList.Add(_excelFileDTO);
-                        }
+                        _columnHeaderMap[headerName.ToUpper()] = colIndex;
                     }
                 }
-                foreach (DataRow row in firstTable.Rows)
+                // Process rows starting from the second row (index 1)
+                for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
-                    ExcelAttributeDTO _excelAttributeDTO = new ExcelAttributeDTO();
+                    DataRow row = _firstTable.Rows[rowIndex];
+                    var _excelAttributeDTO = new ExcelAttributeDTO();
                     bool _haveInfo = false;
-                    foreach (var item in _excelFileDTOList)
+                    // Assign values ​​directly using the dictionary
+                    if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
                     {
-                        string _cellValue = row[item.ColumnName].ToString().Trim();
-                        _cellValue = System.Text.RegularExpressions.Regex.Replace(_cellValue, @"\s+", " ");
-                        if (!string.IsNullOrEmpty(_cellValue) && item.HeaderName != _cellValue)
+                        string _nameValue = row[NameIndex].ToString().Trim();
+                        _nameValue = System.Text.RegularExpressions.Regex.Replace(_nameValue, @"\s+", " ");
+                        _excelAttributeDTO.AttributeDTO.Name = _nameValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("DESCRIPTION", out int DescriptionIndex))
+                    {
+                        string _descriptionValue = row[DescriptionIndex].ToString().Trim();
+                        _descriptionValue = System.Text.RegularExpressions.Regex.Replace(_descriptionValue, @"\s+", " ");
+                        _excelAttributeDTO.AttributeDTO.Description = _descriptionValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("HAS MULTIPLE OPTIONS", out int HasMultipleOptionsIndex) || 
+                        _columnHeaderMap.TryGetValue("HASMULTIPLEOPTIONS", out HasMultipleOptionsIndex))
+                    {
+                        string _hasMultipleOptionsValue = row[HasMultipleOptionsIndex].ToString().Trim();
+                        _hasMultipleOptionsValue = System.Text.RegularExpressions.Regex.Replace(_hasMultipleOptionsValue, @"\s+", " ");
+                        if (bool.TryParse(_hasMultipleOptionsValue, out bool HasMultipleOptions))
                         {
-                            switch (item.HeaderName.ToUpper())
-                            {
-                                case "NAME":
-                                    _excelAttributeDTO.AttributeDTO.Name = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "DESCRIPTION":
-                                    _excelAttributeDTO.AttributeDTO.Description = _cellValue;
-                                    _haveInfo = true;
-                                    break;
-                                case "HAS MULTIPLE OPTIONS":
-                                case "HASMULTIPLEOPTIONS":
-                                    _excelAttributeDTO.AttributeDTO.HasMultipleOptions = Convert.ToBoolean(_cellValue);
-                                    _haveInfo = true;
-                                    break;
-                                case "IS ACTIVE":
-                                case "ISACTIVE":
-                                    _excelAttributeDTO.AttributeDTO.IsActive = Convert.ToBoolean(_cellValue);
-                                    _haveInfo = true;
-                                    break;
-                                default:
-                                    break;
-                            }
+                            _excelAttributeDTO.AttributeDTO.HasMultipleOptions = HasMultipleOptions;
+                            _haveInfo = true;
+                        }
+                        else
+                        {
+                            throw new InvalidCastException($"The value to Has Multiple Options: '{_hasMultipleOptionsValue}', is not a valid boolean.");
                         }
                     }
-                    if (_haveInfo != false)
+                    if (_haveInfo)
                     {
                         _excelAttributeDTOList.Add(_excelAttributeDTO);
                     }
@@ -334,11 +315,10 @@ public class Attribute_Service
             ErrorSignal.FromCurrentContext().Raise(ex);
             _validationResultDTO.Result = false;
             _validationResultDTO.Message = "Error";
-            _validationResultDTO.Description = string.Format("Verify that the column values ​​are correct. ");
+            _validationResultDTO.Description = ex.Message;
             return _validationResultDTO;
         }
     }
-
     private static ExcelAttributeDTO AttributeFileRowsValidation(List<ExcelAttributeDTO> ExcelAttributeFileDataList)
     {
         ExcelAttributeDTO _excelAttributeFileValidationDTO = new ExcelAttributeDTO();

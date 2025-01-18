@@ -83,6 +83,7 @@
     <Compile Include="Common\Files\ExcelDataImport_Service.cs" />
     <Compile Include="Common\Files\ExcelFileDTO.cs" />
     <Compile Include="Common\Files\ExcelKPIDTO.cs" />
+    <Compile Include="Common\Files\ExcelValueDTO.cs" />
     <Compile Include="Common\Files\FileDirectory_Enum.cs" />
     <Compile Include="Common\Files\FileDTO.cs" />
     <Compile Include="Common\Files\FileLimit_Enum.cs" />

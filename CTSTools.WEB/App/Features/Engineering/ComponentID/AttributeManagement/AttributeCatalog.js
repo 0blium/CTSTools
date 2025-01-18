@@ -1,5 +1,5 @@
 import { CreateAttribute, CreateMassiveAttribute, UpdateAttribute, DeleteAttribute, GetDXAttributeDataSource } from './Attribute/Attribute_Service.js';
-import { CreateValue, UpdateValue, DeleteValue, GetDXValueDataSource } from './Value/Value_Service.js'
+import { CreateValue, CreateMassiveValue, UpdateValue, DeleteValue, GetDXValueDataSource } from './Value/Value_Service.js'
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js';
 import { Attributes } from './Attribute/Attribute_Enum.js'
@@ -25,9 +25,33 @@ async function InitializeValueCatalogControls() {
             GetValueGridDataSource();
         }
     });
-
-
-
+    $("#dxValueFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveValue(_fileDTO);
+                    ShowValueValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxValueNameTextBox").dxTextBox({
         placeholder: 'Type name...'
     });
@@ -137,11 +161,12 @@ async function InitializeValueCatalogControls() {
                 { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
                 { caption: "Last Update By", dataField: "LastUpdateByName", visible: false },
                 { caption: "Added By", dataField: "AddedByName", visible: false },
-
                 { caption: "Is Active", dataField: "IsActive" }
             ],
     });
     ValueActionButtons("Save");
+    document.getElementById("UploadExcelValueCloseModalButton").addEventListener("click", ClearExcelValueModal);
+    document.getElementById("ClearExcelValueButton").addEventListener("click", ClearExcelValueModal);
 }
 async function GetValueAttributeDataSource_Global() {
     let _filters = [
@@ -203,6 +228,51 @@ function ClearValueFields() {
     let keys = $("#dxValueGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxValueGrid").dxDataGrid("instance").deselectRows(keys);
     ClearErrorFeedback();
+}
+function ClearExcelValueModal() {
+    $('#successValueMessage').hide();
+    $('#errorValueMessages').hide();
+    var uploader = $("#dxValueFileUploader").dxFileUploader("instance");
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowValueValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    debugger;
+    if (_validationResultDTO.Data != null) {
+        if (_validationResultDTO.Data.ValueGoodLinesList.length > 0) {
+            successMessage = `Value were created successfully.`;
+            $('#successValueMessage').text(successMessage).show();
+            document.getElementById('successValueMessage').removeAttribute('hidden');
+        }
+        if (_validationResultDTO.Data.ValueBadLinesList.length > 0) {
+            errorMessages = '<strong>Wrong data:</strong><ul>';
+            _validationResultDTO.Data.ValueBadLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row error:<br>Attribute: ${badLine.AttributeName}. Name: ${badLine.Name}. Code: ${badLine.Code}. Description = ${badLine.Description}. Is Active = ${badLine.IsActive}.</li>`;
+            });
+            errorMessages += '</ul>';
+            $('#errorValueMessages').html(errorMessages).show();
+            document.getElementById('errorValueMessages').removeAttribute('hidden');
+        }
+    }
+    if (_validationResultDTO.Message == "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        $('#errorValueMessages').html(errorMessages).show();
+        document.getElementById('errorValueMessages').removeAttribute('hidden');
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
+        $('#UploadExcelValueModal').modal('hide');
+        ClearExcelValueModal();
+        return HostResponse(_validationResultDTO);
+    }
+    $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxValueGrid").dxDataGrid("instance").refresh();
+    ClearValueFields();
 }
 function GetValueDTO() {
     let _valueDTO = {
