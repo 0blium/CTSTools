@@ -157,7 +157,7 @@ async function InitializeSupplierCatalogControls() {
     });
     SupplierActionButtons("Save");
     document.getElementById("UploadExcelSupplirCloseModalButton").addEventListener("click", ClearExcelModalFields);
-    document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);   
 }
 function SupplierActionButtons(Action) {
     $("#SupplierActionButtons").empty();

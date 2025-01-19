@@ -81,6 +81,7 @@ public class ValueLink_Repository
             var _valuelinkXPO = ValueLinkMap.DTOtoXPO(ValueLinkDTO, _unit);
             _unit.Save(_valuelinkXPO);
             _unit.CommitChanges();
+            _validationResultDTO.Data = _valuelinkXPO.Oid;
         }
         catch (Exception ex)
         {

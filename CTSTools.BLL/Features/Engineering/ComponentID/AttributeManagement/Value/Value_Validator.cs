@@ -38,16 +38,6 @@ public class Value_Validator
                     Data = $"{nameof(Value)}{nameof(ValueDTO.Name)}", 
                 });
             }
-            if (string.IsNullOrEmpty(ValueDTO.Code))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Code Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Value)}{nameof(ValueDTO.Code)}",
-                });
-            }
 
             if (ValueDTO.AddedByID == null || ValueDTO.AddedByID == 0)
             {

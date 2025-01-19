@@ -306,6 +306,8 @@ public class Class_Service
                         headerName.Equals("ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("PARENT ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("PARENTATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        //headerName.Equals("COMPONENT TYPE", StringComparison.OrdinalIgnoreCase) ||
+                        //headerName.Equals("COMPONENTTYPE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("PARENT VALUE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("PARENTVALUE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("CHILD ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
@@ -351,6 +353,14 @@ public class Class_Service
                         _excelClassDTO.ClassDTO.ClassValueDTO.AttributeName = _attributeValue;
                         _haveInfo = true;
                     }
+                    //if (_columnHeaderMap.TryGetValue("COMPONENT TYPE", out int ComponentTypeIndex) ||
+                    //    _columnHeaderMap.TryGetValue("COMPONENTTYPE", out ComponentTypeIndex))
+                    //{
+                    //    string _componentTypeIndexValue = row[ComponentTypeIndex].ToString().Trim();
+                    //    _componentTypeIndexValue = System.Text.RegularExpressions.Regex.Replace(_componentTypeIndexValue, @"\s+", " ");
+                    //    _excelClassDTO.ClassDTO.ComponentTypeDTO.Name = _componentTypeIndexValue;
+                    //    _haveInfo = true;
+                    //}
                     if (_columnHeaderMap.TryGetValue("PARENT ATTRIBUTE", out int ParentAttributeIndex) ||
                         _columnHeaderMap.TryGetValue("PARENTATTRIBUTE", out ParentAttributeIndex))
                     {
