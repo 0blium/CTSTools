@@ -1,4 +1,5 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
@@ -26,6 +27,8 @@ public class DashboardMap
             _dashboardDTO.DepartmentName = (DashboardXPO.Department != null) ? DashboardXPO.Department.Name : "Unnassigned";
             _dashboardDTO.LevelID = (DashboardXPO.Level != null) ? DashboardXPO.Level.Oid : 0;
             _dashboardDTO.LevelName = (DashboardXPO.Level != null) ? DashboardXPO.Level.Name : "Unnassigned";
+            _dashboardDTO.GoalRangeID = (DashboardXPO.GoalRange != null) ? DashboardXPO.GoalRange.Oid : 0;
+            _dashboardDTO.GoalRangeValue = (DashboardXPO.GoalRange != null) ? DashboardXPO.GoalRange.Value : 0;
             _dashboardDTO.StatusID = (DashboardXPO.Status != null) ? DashboardXPO.Status.Oid : 0;
             _dashboardDTO.StatusName = (DashboardXPO.Status != null) ? DashboardXPO.Status.Name : "Unnassigned";
             _dashboardDTO.AddedDate = (DashboardXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? DashboardXPO.AddedDate : (DateTime?)null;
@@ -54,6 +57,8 @@ public class DashboardMap
             _dashboardXPO.Description = _dashboardXPO.Description == DashboardDTO.Description ? _dashboardXPO.Description : DashboardDTO.Description;
             _dashboardXPO.Revision = _dashboardXPO.Revision == DashboardDTO.Revision ? _dashboardXPO.Revision : DashboardDTO.Revision;
             _dashboardXPO.Year = _dashboardXPO.Year == DashboardDTO.Year ? _dashboardXPO.Year : DashboardDTO.Year;
+            _dashboardXPO.GoalRange = (_dashboardXPO.GoalRange != null && _dashboardXPO.GoalRange.Oid == DashboardDTO.GoalRangeID) ? _dashboardXPO.GoalRange : UnitOfWork.GetObjectByKey<GoalRangeXPO>(DashboardDTO.GoalRangeID);
+
             _dashboardXPO.Owner = (_dashboardXPO.Owner != null && _dashboardXPO.Owner.Oid == DashboardDTO.OwnerID) ? _dashboardXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(DashboardDTO.OwnerID);
             _dashboardXPO.Department = (_dashboardXPO.Department != null && _dashboardXPO.Department.Oid == DashboardDTO.DepartmentID) ? _dashboardXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(DashboardDTO.DepartmentID);
             _dashboardXPO.Level = (_dashboardXPO.Level != null && _dashboardXPO.Level.Oid == DashboardDTO.LevelID) ? _dashboardXPO.Level : UnitOfWork.GetObjectByKey<LevelXPO>(DashboardDTO.LevelID);

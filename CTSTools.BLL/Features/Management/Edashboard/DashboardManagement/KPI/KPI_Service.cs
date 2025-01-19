@@ -4,7 +4,6 @@ using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
-using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
@@ -18,8 +17,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -89,7 +86,6 @@ public class KPI_Service
         var _kpiglobalList = new List<KPIDTO>();
         var _unitofmeasureDict = new Dictionary<int?, UnitOfMeasureDTO>();
         var _valuetypeDict = new Dictionary<int?, ValueTypeDTO>();
-        var _goalrangeDict = new Dictionary<int?, GoalRangeDTO>();
         var _facilityDict = new Dictionary<int?, FacilityDTO>();
         var _equivalenceDict = new Dictionary<int?, EquivalenceDTO>();
         var _statusDict = new Dictionary<int?, StatusDTO>();
@@ -114,16 +110,7 @@ public class KPI_Service
 
                 _valuetypeDict = ValueType_Service.GetValueTypeList_Global(KPIDTO.ValueTypeDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
-            }
-            if (KPIDTO.GetGoalRangeDTO)
-            {
-                KPIDTO.GoalRangeDTO.GoalRangeIDArray = KPIList.GroupBy(g => g.GoalRangeID)
-                        .Select(s => s.Key)
-                        .ToArray();
-
-                _goalrangeDict = GoalRange_Service.GetGoalRangeList_Global(KPIDTO.GoalRangeDTO)
-                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
-            }
+            }            
             if (KPIDTO.GetFacilityDTO)
             {
                 KPIDTO.FacilityDTO.FacilityIDArray = KPIList.GroupBy(g => g.FacilityID)
@@ -169,11 +156,7 @@ public class KPI_Service
                 if (KPIDTO.GetValueTypeDTO && _valuetypeDict.ContainsKey(_kpiDTO.ValueTypeDTO.ID))
                 {
                     _kpiDTO.ValueTypeDTO = _valuetypeDict[_kpiDTO.ValueTypeID];
-                }
-                if (KPIDTO.GetGoalRangeDTO && _goalrangeDict.ContainsKey(_kpiDTO.GoalRangeID))
-                {
-                    _kpiDTO.GoalRangeDTO = _goalrangeDict[_kpiDTO.GoalRangeID];
-                }
+                }               
                 if (KPIDTO.GetFacilityDTO && _facilityDict.ContainsKey(_kpiDTO.FacilityID))
                 {
                     _kpiDTO.FacilityDTO = _facilityDict[_kpiDTO.FacilityID];
@@ -318,7 +301,6 @@ public class KPI_Service
         _missingHeader += (_fileheaders.Contains("goal") == true) ? string.Empty : "goal,<br>";
         _missingHeader += (_fileheaders.Contains("owner") == true) ? string.Empty : "owner,<br>";
         _missingHeader += (_fileheaders.Contains("responsible") == true) ? string.Empty : "responsible,<br>";
-        _missingHeader += (_fileheaders.Contains("goal range") == true || _fileheaders.Contains("goalrange") == true) ? string.Empty : "goalrange,<br>";
         _missingHeader += (_fileheaders.Contains("facility") == true) ? string.Empty : "facility,<br>";
         _missingHeader += (_fileheaders.Contains("equivalence") == true) ? string.Empty : "equivalence,<br>";
         _missingHeader += (_fileheaders.Contains("category") == true) ? string.Empty : "category,<br>";
@@ -389,10 +371,7 @@ public class KPI_Service
                             case "RESPONSIBLE":
                                 _excelFileDTO.HeaderName = row[column].ToString();
                                 break;
-                            case "GOAL RANGE":
-                            case "GOALRANGE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
+                           
                             case "FACILITY":
                                 _excelFileDTO.HeaderName = row[column].ToString();
                                 break;
@@ -464,11 +443,7 @@ public class KPI_Service
                                     _excelKPIDTO.KPIDTO.ResponsibleName = row[item.ColumnName].ToString();
                                     _haveInfo = true;
                                     break;
-                                case "GOAL RANGE":
-                                case "GOALRANGE":
-                                    _excelKPIDTO.KPIDTO.GoalRangeValue = Convert.ToSingle(row[item.ColumnName].ToString());
-                                    _haveInfo = true;
-                                    break;
+                                
                                 case "FACILITY":
                                     _excelKPIDTO.KPIDTO.FacilityName = row[item.ColumnName].ToString();
                                     _haveInfo = true;
@@ -615,25 +590,7 @@ public class KPI_Service
                         _excelKPIFileData.KPIDTO.ResponsibleName = "Error, The Responsible not exist";
                         isSucces = false;
                     }
-                }
-                if (_excelKPIFileData.KPIDTO.GoalRangeValue < 0.0f)
-                {
-                    _kPIDTO.LastUpdateByName = "Error, The GoalRangeValue is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existGoalRangeDTO = GoalRange_Service.GetGoalRangeList_Global(new GoalRangeDTO { Value = _excelKPIFileData.KPIDTO.GoalRangeValue }).FirstOrDefault();
-                    if (_existGoalRangeDTO != null)
-                    {
-                        _kPIDTO.GoalRangeID = _existGoalRangeDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileValidationDTO.ValidationResultDTO.Message = "Error, The GoalRange not exist";
-                        isSucces = false;
-                    }
-                }
+                }                
                 if (_excelKPIFileData.KPIDTO.FacilityName == string.Empty || _excelKPIFileData.KPIDTO.FacilityName == null)
                 {
                     _excelKPIFileData.KPIDTO.FacilityName = "Error, The Facility is null or empty";
@@ -732,7 +689,6 @@ public class KPI_Service
                 _kPIDTO.Goal = _excelKPIFileData.KPIDTO.Goal;
                 _kPIDTO.OwnerName = _excelKPIFileData.KPIDTO.OwnerName;
                 _kPIDTO.ResponsibleName = _excelKPIFileData.KPIDTO.ResponsibleName;
-                _kPIDTO.GoalRangeValue = _excelKPIFileData.KPIDTO.GoalRangeValue;
                 _kPIDTO.FacilityName = _excelKPIFileData.KPIDTO.FacilityName;
                 _kPIDTO.EquivalenceName = _excelKPIFileData.KPIDTO.EquivalenceName;
                 _kPIDTO.DashboardCategoryName = _excelKPIFileData.KPIDTO.DashboardCategoryName;

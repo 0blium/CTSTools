@@ -102,6 +102,12 @@ public class DashboardXPO : XPObject
         get { return fLastUpdateBy; }
         set { SetPropertyValue<UserXPO>(nameof(LastUpdateBy), ref fLastUpdateBy, value); }
     }
+    GoalRangeXPO fGoalRange;
+    public GoalRangeXPO GoalRange
+    {
+        get { return fGoalRange; }
+        set { SetPropertyValue(nameof(GoalRange), ref fGoalRange, value); }
+    }
     bool fIsActive;
     public bool IsActive
     {

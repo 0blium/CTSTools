@@ -90,14 +90,6 @@ public class KPIXPO : XPObject
         get { return fGoal; }
         set { SetPropertyValue(nameof(Goal), ref fGoal, value); }
     }
-
-    GoalRangeXPO fGoalRange;
-    public GoalRangeXPO GoalRange
-    {
-        get { return fGoalRange; }
-        set { SetPropertyValue(nameof(GoalRange), ref fGoalRange, value); }
-    }
-
     FacilityXPO fFacility;
     public FacilityXPO Facility
     {

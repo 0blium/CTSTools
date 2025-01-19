@@ -13,10 +13,12 @@ import { GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './Use
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    InitializeUserCatalogControls();
+document.addEventListener("DOMContentLoaded", async function () {
+    await InitializeUserCatalogControls();
     InitializeUser_PermissionControls();
     InitializeUser_RoleControls();
+    setTimeout(async function () { dxLoadPanel.hide() , 200});
+
 });
 //#region User Catalog
 async function InitializeUserCatalogControls() {
@@ -891,7 +893,7 @@ function MailGroupMemberGridTemplate(onDataGridInitialized, UserID) {
                             .on('dxclick', function () {
                                 $("#hiddenUserID").val(options.data.UserID);
                                 $("#hiddenMailGroupMemberID").val(options.data.ID);
-                                ShowUser_PermissionDeleteQuestion();
+                                ShowMailGroupMemberDeleteQuestion();
                             }).appendTo(container);
                     },
                 },
@@ -912,7 +914,7 @@ function MailGroupButton(UserID) {
 
 }
 function ClearMailGroupFields() {
-    User_PermissionActionButtons("Save");
+    MailGroupMemberActionButtons("Save");
     $('#hiddenMailGroupMemberID').val("");
     let dxMailGroupKeys = $("#dxMailGroupDataGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxMailGroupDataGrid").dxDataGrid("instance").deselectRows(dxMailGroupKeys);
@@ -921,7 +923,7 @@ function ClearMailGroupFields() {
 
     ClearErrorFeedback();
 }
-function User_PermissionActionButtons(Action) {
+function MailGroupMemberActionButtons(Action) {
 
     document.getElementById("User_PermissionModalCloseButton").addEventListener("click", ClearMailGroupFields);
     $("#UserActionButtons").empty();
@@ -930,11 +932,11 @@ function User_PermissionActionButtons(Action) {
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateUser_PermissionButton" type="button">Save</button>' +
             '</div>';
-        document.getElementById("CreateUser_PermissionButton").addEventListener("click", CreateUser_Permission_Global);
+        document.getElementById("CreateUser_PermissionButton").addEventListener("click", CreateMailGroupMember_Global);
 
     }
 }
-function GetUser_PermissionDTO() {
+function GetMailGroupMemberDTO() {
     let _user_PermissionDTO = {
         ID: $("#hiddenUser_PermissionID").val(),
         UserID: $("#hiddenUserID").val(),
@@ -942,9 +944,9 @@ function GetUser_PermissionDTO() {
     }
     return _user_PermissionDTO;
 }
-async function CreateUser_Permission_Global() {
+async function CreateMailGroupMember_Global() {
     await dxLoadPanel.show();
-    const _user_PermissionDTO = GetUser_PermissionDTO();
+    const _user_PermissionDTO = GetMailGroupMemberDTO();
     const _validation_ResultDTO = await CreateUser_Permission(_user_PermissionDTO);
     if (_validation_ResultDTO.Result) {
         $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
@@ -953,9 +955,9 @@ async function CreateUser_Permission_Global() {
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-async function DeleteUser_Permission_Global() {
+async function DeleteMailGroupMember_Global() {
     await dxLoadPanel.show();
-    const _user_PermissionDTO = GetUser_PermissionDTO();
+    const _user_PermissionDTO = GetMailGroupMemberDTO();
     const _validation_ResultDTO = await DeleteUser_Permission(_user_PermissionDTO);
     if (_validation_ResultDTO.Result) {
         $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
@@ -964,7 +966,7 @@ async function DeleteUser_Permission_Global() {
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-async function ShowUser_PermissionDeleteQuestion() {
+async function ShowMailGroupMemberDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
@@ -974,7 +976,7 @@ async function ShowUser_PermissionDeleteQuestion() {
         showCancelButton: true
     });
     if (_alert.isConfirmed) {
-        DeleteUser_Permission_Global();
+        DeleteMailGroupMember_Global();
     } else {
         ClearUser_PermissionFields();
     }

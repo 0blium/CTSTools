@@ -1,8 +1,11 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.GoalRange;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Level;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -78,6 +81,7 @@ public class Dashboard_Service
         var _departmentDict = new Dictionary<int?, DepartmentDTO>();
         var _levelDict = new Dictionary<int?, LevelDTO>();
         var _statusDict = new Dictionary<int?, StatusDTO>();
+        var _goalrangeDict = new Dictionary<int?, GoalRangeDTO>();
 
         try
         {
@@ -106,6 +110,15 @@ public class Dashboard_Service
                         .ToArray();
 
                 _statusDict = Status_Service.GetStatusList_Global(DashboardDTO.StatusDTO)
+                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+            }
+            if (DashboardDTO.GetGoalRangeDTO)
+            {
+                DashboardDTO.GoalRangeDTO.GoalRangeIDArray = DashboardList.GroupBy(g => g.GoalRangeID)
+                        .Select(s => s.Key)
+                        .ToArray();
+
+                _goalrangeDict = GoalRange_Service.GetGoalRangeList_Global(DashboardDTO.GoalRangeDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
             foreach (var _dashboardDTO in DashboardList)

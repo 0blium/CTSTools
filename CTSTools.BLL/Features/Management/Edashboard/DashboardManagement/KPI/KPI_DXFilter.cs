@@ -47,15 +47,7 @@ public class KPI_DXFilter
             if (KPIDTO.Shared != null)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(KPIXPO.Shared), KPIDTO.Shared));
-            }
-            if (KPIDTO.GoalRangeID != null || KPIDTO.GoalRangeID > 0)
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(KPIXPO.GoalRange), KPIDTO.GoalRangeID));
-            }
-            if (KPIDTO.GoalRangeIDArray != null && KPIDTO.GoalRangeIDArray.Count() > 0)
-            {
-                _groupOperator.Operands.Add(new InOperator(nameof(KPIXPO.GoalRange), KPIDTO.GoalRangeIDArray));
-            }
+            }          
             if (KPIDTO.FacilityID != null || KPIDTO.FacilityID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(KPIXPO.Facility), KPIDTO.FacilityID));

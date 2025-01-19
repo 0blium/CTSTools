@@ -232,7 +232,7 @@ public class DashboardLine_Validator
                     });
                 }
             }
-            
+
             //if (DashboardLineDTO.IgnoreKPI == null)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
@@ -346,81 +346,55 @@ public class DashboardLine_Validator
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
             var _KPIBackgroudColor = string.Empty;
-
-            var _KPIDTO = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault();
-
-
-            var mesesAnteriores = new List<int>();
-
-            // Arreglo que mapea cada mes a los meses anteriores
-            Dictionary<int, List<int>> mesesMapeados = new Dictionary<int, List<int>>()
-            {
-                { 4, new List<int>() }, // Abril no tiene meses anteriores
-                { 5, new List<int> { 4 } }, // Mayo retorna solo abril
-                { 6, new List<int> { 5, 4 } }, // Junio retorna mayo y abril
-                { 7, new List<int> { 6, 5 } }, // Julio retorna junio y mayo
-                { 8, new List<int> { 7, 6 } }, // Agosto retorna julio y junio
-                { 9, new List<int> { 8, 7 } }, // Septiembre retorna agosto y julio
-                { 10, new List<int> { 9, 8 } }, // Octubre retorna septiembre y agosto
-                { 11, new List<int> { 10, 9 } }, // Noviembre retorna octubre y septiembre
-                { 12, new List<int> { 11, 10 } }, // Diciembre retorna noviembre y octubre
-                { 1, new List<int> { 12, 11 } }, // Enero retorna diciembre y noviembre
-                { 2, new List<int> { 1, 12 } }, // Febrero retorna enero y diciembre
-                { 3, new List<int> { 2, 1 } } // Marzo retorna febrero y enero
+            var _kpiDTO = new KPIDTO { 
+                ID = DashboardLineDTO.KPIID 
             };
-
-            // Solo agregamos los meses correspondientes al mes de referencia
-            if (mesesMapeados.ContainsKey(DashboardLineDTO.Month))
+            _kpiDTO = KPI_Service.GetKPIList_Global(_kpiDTO).FirstOrDefault();
+            var _dashboardLineDTO = new DashboardLineDTO
             {
-                mesesAnteriores.AddRange(mesesMapeados[DashboardLineDTO.Month]);
-            }
-
-
-
-            var _previousMonthLinesList = DashboardLine_Service.GetDashboardLineList_Global(
-                new DashboardLineDTO
-                {
-                    DashboardID = DashboardLineDTO.DashboardID,
-                    KPIID = DashboardLineDTO.KPIID,
-                    Dashboard_KPIID = DashboardLineDTO.Dashboard_KPIID,
-                    FiscalYear = DashboardLineDTO.FiscalYear
-                }).Where(s => mesesAnteriores.Contains(s.Month)).ToList();
+                DashboardID = DashboardLineDTO.DashboardID,
+                KPIID = DashboardLineDTO.KPIID,
+                Dashboard_KPIID = DashboardLineDTO.Dashboard_KPIID,
+                FiscalYear = DashboardLineDTO.FiscalYear,
+                GetDashboardDTO = true
+            };
+            var _previousMonthLinesList = DashboardLine_Service.GetDashboardLineList_Global(_dashboardLineDTO).Where(s => s.Month >= DashboardLineDTO.Month - 2 && s.Month < DashboardLineDTO.Month).ToList();
 
 
             foreach (var _dasboardLineDTO in _previousMonthLinesList)
             {
                 _KPIBackgroudColor = string.Empty;
                 if (string.IsNullOrEmpty(_dasboardLineDTO.Value.ToString())) { _KPIBackgroudColor = "FFFFFF"; }
-                if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                if (_kpiDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
                 {
                     //Color green
-                    if (Convert.ToDecimal(_dasboardLineDTO.Value) == Convert.ToDecimal(_KPIDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) == Convert.ToDecimal(_kpiDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
                 }
-                else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                else if (_kpiDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                 {
                     //Color green
-                    if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_KPIDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_kpiDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
                 }
-                else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                else if (_kpiDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                 {
                     //Color green
-                    if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_KPIDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
+                    if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_kpiDTO.Goal)) { _KPIBackgroudColor = "92D050"; }
                 }
 
                 if (string.IsNullOrEmpty(_KPIBackgroudColor))
                 {
                     //Base on goal calculcate goal range
-                    decimal _goalRangeValue = _KPIDTO.Goal != 0 ? (Convert.ToDecimal(_KPIDTO.Goal) * Convert.ToDecimal(_KPIDTO.GoalRangeValue)) / 100 : Convert.ToDecimal(_KPIDTO.GoalRangeValue);
-                    if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
+                    decimal _goalRangeValue = _kpiDTO.Goal != 0 ? (Convert.ToDecimal(_kpiDTO.Goal) * Convert.ToDecimal(_dasboardLineDTO.DashboardDTO.GoalRangeValue)) / 100 : Convert.ToDecimal(_dasboardLineDTO.DashboardDTO.GoalRangeValue);
+                    if (_kpiDTO.EquivalenceID == (int)Equivalence_Enum.Equal)
                     {
                         //If goal needs to be equal to 0 all other values will be red
-                        if (Convert.ToDecimal(_KPIDTO.Goal) == 0 && _goalRangeValue == 0)
+                        if (Convert.ToDecimal(_kpiDTO.Goal) == 0 && _goalRangeValue == 0)
                         {
                             _KPIBackgroudColor = "FF0000";
                         }
                         else
                         {
-                            if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_KPIDTO.Goal) + _goalRangeValue || Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_KPIDTO.Goal) + _goalRangeValue)
+                            if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_kpiDTO.Goal) + _goalRangeValue || Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_kpiDTO.Goal) + _goalRangeValue)
                             {
                                 _KPIBackgroudColor = "FFFF00";
                             }
@@ -430,9 +404,9 @@ public class DashboardLine_Validator
                             }
                         }
                     }
-                    else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                    else if (_kpiDTO.EquivalenceID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
                     {
-                        if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_KPIDTO.Goal) - _goalRangeValue)
+                        if (Convert.ToDecimal(_dasboardLineDTO.Value) >= Convert.ToDecimal(_kpiDTO.Goal) - _goalRangeValue)
                         {
                             _KPIBackgroudColor = "FFFF00";
                         }
@@ -441,9 +415,9 @@ public class DashboardLine_Validator
                             _KPIBackgroudColor = "FF0000";
                         }
                     }
-                    else if (_KPIDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                    else if (_kpiDTO.EquivalenceID == (int)Equivalence_Enum.Less_Then_Or_Equal)
                     {
-                        if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_KPIDTO.Goal) + _goalRangeValue)
+                        if (Convert.ToDecimal(_dasboardLineDTO.Value) <= Convert.ToDecimal(_kpiDTO.Goal) + _goalRangeValue)
                         {
                             _KPIBackgroudColor = "FFFF00";
                         }
@@ -454,7 +428,7 @@ public class DashboardLine_Validator
                     }
                 }
 
-                if(_KPIBackgroudColor == "FFFF00" || _KPIBackgroudColor == "FF0000")
+                if (_KPIBackgroudColor == "FFFF00" || _KPIBackgroudColor == "FF0000")
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -466,7 +440,7 @@ public class DashboardLine_Validator
             }
             if (_validation_ResultList.Count > 1)
             {
-                _validation_ResultDTO.Result = false;                
+                _validation_ResultDTO.Result = false;
             }
 
         }

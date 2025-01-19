@@ -1,4 +1,4 @@
-﻿import { GetDXDashboardDataSource, GetDashboardInformation } from './Dashboard/Dashboard_Service.js';
+﻿import { GetDashboardInformation } from './Dashboard/Dashboard_Service.js';
 import { AddMonthlyValue, GetDashboardLineInformation, GetDashboard_KPITendence } from './DashboardLine/DashboardLine_Service.js';
 import { GetDashboard_KPIWithUI } from './Dashboard_KPI/Dashboard_KPI_Service.js';
 import { HostResponse } from '../../../../Common/Utils/Response.js'
@@ -8,49 +8,43 @@ import { Dashboard_Category_Enum } from '../Settings/DashboardCategory/Dashboard
 import { Month_Enum } from '../../../../Common/Utils/Month_Enum.js';
 import { ValueType_Enum } from '../Settings/ValueType/ValueType_Enum.js';
 import { UnitOfMeasure_Enum } from '../../../AdvancedSettings/UnitOfMeasure/UnitOfMeasure_Enum.js'
-import { GetDXDashboard_KPIDataSource, CreateDashboard_KPI, UpdateDashboard_KPIOrder, DeleteDashboard_KPI, GetDashboard_KPIInformation, CreateDashboard_KPIFromKPIList } from './Dashboard_KPI/Dashboard_KPI_Service.js';
+import { GetDXDashboard_KPIDataSource, UpdateDashboard_KPIOrder, DeleteDashboard_KPI, CreateDashboard_KPIFromKPIList } from './Dashboard_KPI/Dashboard_KPI_Service.js';
 import { GetDXKPIDataSource } from './KPI/KPI_Service.js'
 
 
 
 
 document.addEventListener("DOMContentLoaded", async function () {
-    //#region Data Entry
+    await dxLoadPanel.show();
 
+    //#region Data Entry
     await InitializeDashboardDataEntryControls();
     document.getElementById('SaveDashboardLine').addEventListener('click', UpdateDashboardLine);
     document.getElementById('PrintDashboardBtn').addEventListener('click', printDashboard);
-    /*document.getElementById('ExpPDFDashboardBtn').addEventListener('click', ExportDashboardToPDF);*/
-    //document.getElementById('ExpExcelDashboardBtn').addEventListener('click', ExportDashboardToExcel);
-    $("#dashboardButton").hide();
-
     document.getElementById('KPIButton').addEventListener('click', function (e) {
         $("#dxQualityKPIs").dxDataGrid("instance").refresh();
         e.preventDefault()
         $('#tab2 a[href="#KPITab"]').tab('show')
         $("#KPIButton").hide();
         $("#PrintDashboardBtn").hide();
-        $("#ExpPDFDashboardBtn").hide();
-        $("#ExpExcelDashboardBtn").hide();
-        $("#dashboardButton").show();
+        document.getElementById('dashboardButton').hidden = false;
 
     })
     document.getElementById('dashboardButton').addEventListener('click', function (e) {
         e.preventDefault()
         $('#tab1 a[href="#DashboardTab"]').tab('show')
         $("#PrintDashboardBtn").show();
-        $("#ExpPDFDashboardBtn").show();
-        $("#ExpExcelDashboardBtn").show();
-        $("#dashboardButton").hide();
+        document.getElementById('dashboardButton').hidden = true;
         $("#KPIButton").show();
 
     })
+    await GetDashboardIDByURL();
+    await dxLoadPanel.hide();
 
     //#endregion
 
     //#region Assign KPI
 
-    await InitializeTemplateAdministrationControls();
     document.getElementById('AddKPIButton').addEventListener('click', CreateDashboard_KPI_Global);
     document.getElementById('AddKPIBtn').addEventListener('click', function () {
         $('#AddKPIsModal').modal('show');
@@ -59,19 +53,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById('CloseBtnModal').addEventListener('click', ClearDashboard_KPIFields);
     //#endregion
 
-    await GetDashboardIDByURL();
+
+
 });
 
 //#region Data Entry
 async function GetDashboardIDByURL() {
-
-    await dxLoadPanel.show();
-
     let _dashboardID = GetURLParameter("DashboardID");
     let _dashboardDTO = await GetDashboardInformation({ ID: _dashboardID })
     if (_dashboardID != null && _dashboardID != undefined && _dashboardID != 0 && !Number.isNaN(_dashboardID)) {
         document.getElementById('hiddenDashboardID').value = _dashboardID;
-        GetDashboard_KPIListForTable(_dashboardDTO);
+        await InitializeTemplateAdministrationControls();
+
+        await GetDashboard_KPIListForTable(_dashboardDTO);
         await GetDashboard_KPIListForGrid(_dashboardDTO);
 
 
@@ -118,17 +112,10 @@ async function InitializeDashboardDataEntryControls() {
     });
 }
 //#region TQC Format
-async function FilterKPIListByCategory(Dashboard_KPIList) {
-    //await dxLoadPanel.show();
-    //Quality
-    //let _sortKPIQuality = Dashboard_KPIList.filter(function (x) {
-    //    return x.DashboardCategoryID == Dashboard_Category_Enum.Quality
-    //});
+function FilterKPIListByCategory(Dashboard_KPIList) {
     BuildTQCFormat2(Dashboard_KPIList);
     document.getElementById('NoDashboardMessage').classList.add('d-none');
     document.getElementById('Dashboard_KPIList').classList.remove('d-none');
-    //document.getElementById('PrintDashboard_KPIData').classList.remove('d-none');
-    //dxLoadPanel.hide();
 }
 function BuildTQCFormat2(Dashboard_KPIList) {
     let _TQCFormatHTML = "";
@@ -571,18 +558,16 @@ function ConvertToMoney(Goal) {
 }
 //#region Call service functions
 async function GetDashboard_KPIListForTable(DashboardDTO) {
-    await dxLoadPanel.show();
     if (DashboardDTO != null && DashboardDTO != undefined) {
         document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
     }
-    const _Dashboard_KPIList = await GetDashboard_KPIWithUI({
+    const _dashboard_kpiDTO = {
         DashboardID: document.getElementById('hiddenDashboardID').value,
         IsActive: true,
         GetDashboardLineList: true
-    });
-    await FilterKPIListByCategory(_Dashboard_KPIList);
-    //GetDashboardRevision();
-    await dxLoadPanel.hide();
+    }
+    const _Dashboard_KPIList = await GetDashboard_KPIWithUI(_dashboard_kpiDTO);
+    FilterKPIListByCategory(_Dashboard_KPIList);
 }
 async function GetDashboardLineInformation_Global(DashboardLineID) {
     await dxLoadPanel.show();
@@ -1024,13 +1009,11 @@ async function DeleteDashboard_KPI_Global(Dashboard_KPIDTO) {
 
 //#region Business Logic functions
 async function GetDashboard_KPIListForGrid(DashboardDTO) {
-    await dxLoadPanel.show();
     document.getElementById("dashboardtitle").innerHTML = DashboardDTO[0].Name;
     const _Dashboard_KPIDTO = GetDashboard_KPIDTO(DashboardDTO);
     $("#dxQualityKPIs").dxDataGrid("instance").option("dataSource", await GetDXDashboard_KPIDataSource(_Dashboard_KPIDTO));
     /*document.getElementById('hiddenDashboardID').value = DashboardDTO.DashboardID;*/
     document.getElementById('AddKPIBtn').classList.remove('disabled');
-    dxLoadPanel.hide();
 }
 //#endregion
 

@@ -49,7 +49,6 @@ public class KPIDTO
     public DashboardCategoryDTO DashboardCategoryDTO { get; set; }
     public int?[] DashboardCategoryIDArray { get; set; }
     public bool GetDashboardCategoryDTO { get; set; }
-
     public int?[] KPIIDArray { get; set; } 
     public int? UnitOfMeasureID { get; set; }
     public string UnitOfMeasureName { get; set; }
@@ -67,8 +66,6 @@ public class KPIDTO
     public int? ResponsibleID { get; set; }
     public string ResponsibleName { get; set; }
     public UserDTO ResponsibleDTO { get; set; }
-    public int? GoalRangeID { get; set; }
-    public float GoalRangeValue { get; set; }
     public GoalRangeDTO GoalRangeDTO { get; set; }
     public bool GetGoalRangeDTO { get; set; }
     public int?[] GoalRangeIDArray { get; set; }
@@ -108,8 +105,7 @@ public class KPIDTO
         ResponsibleDTO = new UserDTO();
         OwnerDepartmentDTO = new DepartmentDTO();
         ResponsibleDepartmentDTO = new DepartmentDTO();
-        GoalRangeDTO = new GoalRangeDTO();
-        GoalRangeIDArray = new int?[] { };
+      
         FacilityDTO = new FacilityDTO();
         FacilityIDArray = new int?[] { };
         EquivalenceDTO = new EquivalenceDTO();

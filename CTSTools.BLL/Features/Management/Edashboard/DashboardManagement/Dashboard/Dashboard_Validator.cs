@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using System;
 using System.Collections.Generic;
 
@@ -63,6 +64,15 @@ public class Dashboard_Validator
                 {
                     Result = false,
                     Message = "Department Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DashboardDTO.GoalRangeID == null || DashboardDTO.GoalRangeID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Goa lRange Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -152,6 +162,15 @@ public class Dashboard_Validator
                 {
                     Result = false,
                     Message = "Owner Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DashboardDTO.GoalRangeID == null || DashboardDTO.GoalRangeID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Goa lRange Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }

@@ -172,6 +172,36 @@
                             </div>
                         </div>
                     </div>
+                    <div id="Quality" class="menu-item has-sub menu-nav" data-tech="Quality" hidden>
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="menu-text">Quality</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div id="QMS" class="menu-item has-sub submenu-nav" hidden>
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">QMS</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <%--<div id="DashboardListEDashboard" class="menu-item module-nav" data-tech="DashboardList DashboardDataEntry KPICatalog DashboardCatalog" hidden>
+                                        <a href="/App/Features/Management/Edashboard/DashboardManagement/DashboardList.aspx" class="menu-link">
+                                            <div class="menu-text">Dashboards</div>
+                                        </a>
+                                    </div>
+                                    <div id="KPISettingsEDashboard" class="menu-item module-nav" data-tech="KPISettings CalculationType Equivalence GoalRange Level UnitOfMeasure ValueType" hidden>
+                                        <a href="/App/Features/Management/Edashboard/Settings/KPISettings.aspx" class="menu-link">
+                                            <div class="menu-text">Settings</div>
+                                        </a>
+                                    </div>--%>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="AdvancedSettings" class="menu-item has-sub menu-nav submenu-nav" data-tech="AdvancedSettings OrgManagement" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -216,11 +246,11 @@
                                     <div class="menu-text">Categories</div>
                                 </a>
                             </div>
-                            <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav"  data-tech="UnitOfMeasureCatalog" hidden>
+                            <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog" hidden>
                                 <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Unit Of Measure</div>
                                 </a>
-                             </div>
+                            </div>
 
                         </div>
                     </div>

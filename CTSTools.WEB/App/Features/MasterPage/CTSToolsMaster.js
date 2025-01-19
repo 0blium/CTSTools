@@ -3,11 +3,9 @@ import { dxLoadPanel } from "../../Common/Components/dxLoadPanel.js"
 import { ShowSidebarMenu } from '../../Common/Utils/SidebarNavigationShowItems.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await dxLoadPanel.show();
     InitializeDevExtremeStyle();
     CollapseSidebar();
     await ActiveMenuOption();
-    await dxLoadPanel.hide();
     await ShowSidebarMenu($("#hiddenUserID").val());
 });
 
