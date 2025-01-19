@@ -155,6 +155,19 @@ public class DashboardLine_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
+            else
+            {
+                //Validate Month 
+                if (ValidateMonth(DashboardLineDTO).Result)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Month not available",
+                        Description = "This month's date has not yet been met. ",
+                    });
+                }
+            }
             if (DashboardLineDTO.Dashboard_KPIID == null || DashboardLineDTO.Dashboard_KPIID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -335,6 +348,35 @@ public class DashboardLine_Validator
             var _KPIBackgroudColor = string.Empty;
 
             var _KPIDTO = KPI_Service.GetKPIList_Global(new KPIDTO { ID = DashboardLineDTO.KPIID }).FirstOrDefault();
+
+
+            var mesesAnteriores = new List<int>();
+
+            // Arreglo que mapea cada mes a los meses anteriores
+            Dictionary<int, List<int>> mesesMapeados = new Dictionary<int, List<int>>()
+            {
+                { 4, new List<int>() }, // Abril no tiene meses anteriores
+                { 5, new List<int> { 4 } }, // Mayo retorna solo abril
+                { 6, new List<int> { 5, 4 } }, // Junio retorna mayo y abril
+                { 7, new List<int> { 6, 5 } }, // Julio retorna junio y mayo
+                { 8, new List<int> { 7, 6 } }, // Agosto retorna julio y junio
+                { 9, new List<int> { 8, 7 } }, // Septiembre retorna agosto y julio
+                { 10, new List<int> { 9, 8 } }, // Octubre retorna septiembre y agosto
+                { 11, new List<int> { 10, 9 } }, // Noviembre retorna octubre y septiembre
+                { 12, new List<int> { 11, 10 } }, // Diciembre retorna noviembre y octubre
+                { 1, new List<int> { 12, 11 } }, // Enero retorna diciembre y noviembre
+                { 2, new List<int> { 1, 12 } }, // Febrero retorna enero y diciembre
+                { 3, new List<int> { 2, 1 } } // Marzo retorna febrero y enero
+            };
+
+            // Solo agregamos los meses correspondientes al mes de referencia
+            if (mesesMapeados.ContainsKey(DashboardLineDTO.Month))
+            {
+                mesesAnteriores.AddRange(mesesMapeados[DashboardLineDTO.Month]);
+            }
+
+
+
             var _previousMonthLinesList = DashboardLine_Service.GetDashboardLineList_Global(
                 new DashboardLineDTO
                 {
@@ -342,7 +384,7 @@ public class DashboardLine_Validator
                     KPIID = DashboardLineDTO.KPIID,
                     Dashboard_KPIID = DashboardLineDTO.Dashboard_KPIID,
                     FiscalYear = DashboardLineDTO.FiscalYear
-                }).Where(s => s.Month >= DashboardLineDTO.Month - 2 && s.Month < DashboardLineDTO.Month).ToList();
+                }).Where(s => mesesAnteriores.Contains(s.Month)).ToList();
 
 
             foreach (var _dasboardLineDTO in _previousMonthLinesList)
@@ -427,6 +469,48 @@ public class DashboardLine_Validator
                 _validation_ResultDTO.Result = false;                
             }
 
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+
+    public static ValidationResultDTO ValidateMonth(DashboardLineDTO DashboardLineDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            
+            var _dashboardlineDTO = DashboardLine_Service.GetDashboardLineList_Global(new DashboardLineDTO { ID = DashboardLineDTO.ID }).FirstOrDefault();
+
+            var _month = _dashboardlineDTO.Month;
+            //evaluate if month is in January to March  beacuase fiscal year is April Year To March from next year
+            var _year = (_month >= 1 && _month<=3) ? (_dashboardlineDTO.Year +1) : _dashboardlineDTO.Year;
+
+            int _lastDay = DateTime.DaysInMonth(_year, _month);
+
+            DateTime _datetoEvaluate = new DateTime(_year, _month, _lastDay, 23, 59, 59);
+
+            DateTime _currentDate = DateTime.Now;
+
+            if (_currentDate > _datetoEvaluate)
+            {
+                _validation_ResultDTO.Result = true;
+            }
+            else
+            {
+                _validation_ResultDTO.Result = false;
+            }
+
+            
         }
         catch (Exception ex)
         {
