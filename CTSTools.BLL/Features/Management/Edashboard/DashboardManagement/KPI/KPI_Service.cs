@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -86,6 +88,7 @@ public class KPI_Service
         var _kpiglobalList = new List<KPIDTO>();
         var _unitofmeasureDict = new Dictionary<int?, UnitOfMeasureDTO>();
         var _valuetypeDict = new Dictionary<int?, ValueTypeDTO>();
+        var _goalrangeDict = new Dictionary<int?, GoalRangeDTO>();
         var _facilityDict = new Dictionary<int?, FacilityDTO>();
         var _equivalenceDict = new Dictionary<int?, EquivalenceDTO>();
         var _statusDict = new Dictionary<int?, StatusDTO>();
@@ -110,7 +113,16 @@ public class KPI_Service
 
                 _valuetypeDict = ValueType_Service.GetValueTypeList_Global(KPIDTO.ValueTypeDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
-            }            
+            }
+            if (KPIDTO.GetGoalRangeDTO)
+            {
+                KPIDTO.GoalRangeDTO.GoalRangeIDArray = KPIList.GroupBy(g => g.GoalRangeID)
+                        .Select(s => s.Key)
+                        .ToArray();
+
+                _goalrangeDict = GoalRange_Service.GetGoalRangeList_Global(KPIDTO.GoalRangeDTO)
+                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+            }
             if (KPIDTO.GetFacilityDTO)
             {
                 KPIDTO.FacilityDTO.FacilityIDArray = KPIList.GroupBy(g => g.FacilityID)
@@ -156,7 +168,11 @@ public class KPI_Service
                 if (KPIDTO.GetValueTypeDTO && _valuetypeDict.ContainsKey(_kpiDTO.ValueTypeDTO.ID))
                 {
                     _kpiDTO.ValueTypeDTO = _valuetypeDict[_kpiDTO.ValueTypeID];
-                }               
+                }
+                if (KPIDTO.GetGoalRangeDTO && _goalrangeDict.ContainsKey(_kpiDTO.GoalRangeID))
+                {
+                    _kpiDTO.GoalRangeDTO = _goalrangeDict[_kpiDTO.GoalRangeID];
+                }
                 if (KPIDTO.GetFacilityDTO && _facilityDict.ContainsKey(_kpiDTO.FacilityID))
                 {
                     _kpiDTO.FacilityDTO = _facilityDict[_kpiDTO.FacilityID];
@@ -301,12 +317,12 @@ public class KPI_Service
         _missingHeader += (_fileheaders.Contains("goal") == true) ? string.Empty : "goal,<br>";
         _missingHeader += (_fileheaders.Contains("owner") == true) ? string.Empty : "owner,<br>";
         _missingHeader += (_fileheaders.Contains("responsible") == true) ? string.Empty : "responsible,<br>";
+        _missingHeader += (_fileheaders.Contains("goal range") == true || _fileheaders.Contains("goalrange") == true) ? string.Empty : "goalrange,<br>";
         _missingHeader += (_fileheaders.Contains("facility") == true) ? string.Empty : "facility,<br>";
         _missingHeader += (_fileheaders.Contains("equivalence") == true) ? string.Empty : "equivalence,<br>";
         _missingHeader += (_fileheaders.Contains("category") == true) ? string.Empty : "category,<br>";
         _missingHeader += (_fileheaders.Contains("owner department") == true || _fileheaders.Contains("ownerdepartment") == true) ? string.Empty : "ownerdepartment,<br>";
         _missingHeader += (_fileheaders.Contains("responsible department") == true || _fileheaders.Contains("responsibledepartment") == true) ? string.Empty : "responsibledepartment,<br>";
-        _missingHeader += (_fileheaders.Contains("is active") == true || _fileheaders.Contains("isactive") == true) ? string.Empty : "isactive,<br>";
 
         if (_missingHeader != string.Empty)
         {
@@ -332,151 +348,159 @@ public class KPI_Service
         var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            List<ExcelFileDTO> _excelFileDTOList = new List<ExcelFileDTO>();
             List<ExcelKPIDTO> _excelKPIDTOList = new List<ExcelKPIDTO>();
-            List<string> _columnName = new List<string>();
-            Stream _fileStream = new MemoryStream(FileBytes);
-            using (IExcelDataReader _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
+            using (var _fileStream = new MemoryStream(FileBytes))
+            using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
-                DataTable firstTable = _excelDataSet.Tables[0];
-                foreach (DataColumn column in firstTable.Columns)
+                DataTable _firstTable = _excelDataSet.Tables[0];
+                // Create a dictionary to store column indexes
+                var _columnHeaderMap = new Dictionary<string, int>();
+                // Fill the dictionary with headings
+                for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
-                    foreach (DataRow row in firstTable.Rows)
+                    string headerName = _firstTable.Rows[0][colIndex].ToString().Trim();
+                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
+                    if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("UNITOFMEASURE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("UNIT OF MEASURE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("VALUETYPE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("VALUE TYPE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("GOAL", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("OWNER", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("RESPONSIBLE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("GOALRANGE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("GOAL RANGE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("FACILITY", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("EQUIVALENCE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("CATEGORY", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("OWNERDEPARTMENT", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("OWNER DEPARTMENT", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("RESPONSIBLEDEPARTMENT", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("RESPONSIBLE DEPARTMENT", StringComparison.OrdinalIgnoreCase))
                     {
-                        ExcelFileDTO _excelFileDTO = new ExcelFileDTO();
-
-                        switch (row[column].ToString().ToUpper())
-                        {
-                            case "NAME":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "DESCRIPTION":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "UNIT OF MEASURE":
-                            case "UNITOFMEASURE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "VALUE TYPE":
-                            case "VALUETYPE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "GOAL":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "OWNER":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "RESPONSIBLE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                           
-                            case "FACILITY":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "EQUIVALENCE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "CATEGORY":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "OWNER DEPARTMENT":
-                            case "OWNERDEPARTMENT":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "RESPONSIBLE DEPARTMENT":
-                            case "RESPONSIBLEDEPARTMENT":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            case "IS ACTIVE":
-                            case "ISACTIVE":
-                                _excelFileDTO.HeaderName = row[column].ToString();
-                                break;
-                            default:
-                                break;
-                        }
-                        if (_excelFileDTO.HeaderName != string.Empty && _excelFileDTO.HeaderName != null)
-                        {
-                            _excelFileDTO.ColumnName = column.ColumnName;
-                            _excelFileDTOList.Add(_excelFileDTO);
-                        }
+                        _columnHeaderMap[headerName.ToUpper()] = colIndex;
                     }
                 }
-                foreach (DataRow row in firstTable.Rows)
+                // Process rows starting from the second row (index 1)
+                for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
-                    ExcelKPIDTO _excelKPIDTO = new ExcelKPIDTO();
+                    DataRow row = _firstTable.Rows[rowIndex];
+                    var _excelKPIDTO = new ExcelKPIDTO();
                     bool _haveInfo = false;
-                    foreach (var item in _excelFileDTOList)
+                    // Assign values ​​directly using the dictionary
+                    if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
                     {
-                        if (item.HeaderName != row[item.ColumnName].ToString() && row[item.ColumnName].ToString() != string.Empty)
+                        string _nameValue = row[NameIndex].ToString().Trim();
+                        _nameValue = System.Text.RegularExpressions.Regex.Replace(_nameValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.Name = _nameValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("DESCRIPTION", out int DescriptionIndex))
+                    {
+                        string _descriptionValue = row[DescriptionIndex].ToString().Trim();
+                        _descriptionValue = System.Text.RegularExpressions.Regex.Replace(_descriptionValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.Description = _descriptionValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("UNIT OF MEASURE", out int UnitOfMeasureIndex) ||
+                        _columnHeaderMap.TryGetValue("UNITOFMEASURE", out UnitOfMeasureIndex))
+                    {
+                        string _unitOfMeasureIndexValue = row[UnitOfMeasureIndex].ToString().Trim();
+                        _unitOfMeasureIndexValue = System.Text.RegularExpressions.Regex.Replace(_unitOfMeasureIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.UnitOfMeasureName = _unitOfMeasureIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("VALUE TYPE", out int ValueTypeIndex) ||
+                        _columnHeaderMap.TryGetValue("VALUETYPE", out ValueTypeIndex))
+                    {
+                        string _valueTypeIndexValue = row[ValueTypeIndex].ToString().Trim();
+                        _valueTypeIndexValue = System.Text.RegularExpressions.Regex.Replace(_valueTypeIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.ValueTypeName = _valueTypeIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("GOAL", out int GoalIndex))
+                    {
+                        string _goalValue = row[GoalIndex].ToString().Trim();
+                        _goalValue = System.Text.RegularExpressions.Regex.Replace(_goalValue, @"\s+", " ");
+                        if (float.TryParse(_goalValue, out float Goal))
                         {
-                            switch (item.HeaderName.ToUpper())
-                            {
-                                case "NAME":
-                                    _excelKPIDTO.KPIDTO.Name = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "DESCRIPTION":
-                                    _excelKPIDTO.KPIDTO.Description = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "UNIT OF MEASURE":
-                                case "UNITOFMEASURE":
-                                    _excelKPIDTO.KPIDTO.UnitOfMeasureName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "VALUE TYPE":
-                                case "VALUETYPE":
-                                    _excelKPIDTO.KPIDTO.ValueTypeName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "GOAL":
-                                    _excelKPIDTO.KPIDTO.Goal = Convert.ToSingle(row[item.ColumnName].ToString());
-                                    _haveInfo = true;
-                                    break;
-                                case "OWNER":
-                                    _excelKPIDTO.KPIDTO.OwnerName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "RESPONSIBLE":
-                                    _excelKPIDTO.KPIDTO.ResponsibleName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                
-                                case "FACILITY":
-                                    _excelKPIDTO.KPIDTO.FacilityName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "EQUIVALENCE":
-                                    _excelKPIDTO.KPIDTO.EquivalenceName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "CATEGORY":
-                                    _excelKPIDTO.KPIDTO.DashboardCategoryName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "OWNER DEPARTMENT":
-                                case "OWNERDEPARTMENT":
-                                    _excelKPIDTO.KPIDTO.OwnerDepartmentName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "RESPONSIBLE DEPARTMENT":
-                                case "RESPONSIBLEDEPARTMENT":
-                                    _excelKPIDTO.KPIDTO.ResponsibleDepartmentName = row[item.ColumnName].ToString();
-                                    _haveInfo = true;
-                                    break;
-                                case "IS ACTIVE":
-                                case "ISACTIVE":
-                                    _excelKPIDTO.KPIDTO.IsActive = Convert.ToBoolean(row[item.ColumnName].ToString());
-                                    _haveInfo = true;
-                                    break;
-                                default:
-                                    break;
-                            }
+                            _excelKPIDTO.KPIDTO.Goal = Goal;
+                            _haveInfo = true;
+                        }
+                        else
+                        {
+                            throw new InvalidCastException($"The value to Is Goal: '{_goalValue}', is not a valid number.");
                         }
                     }
-                    if (_haveInfo != false)
+                    if (_columnHeaderMap.TryGetValue("OWNER", out int OwnerIndex))
+                    {
+                        string _ownerIndexValue = row[OwnerIndex].ToString().Trim();
+                        _ownerIndexValue = System.Text.RegularExpressions.Regex.Replace(_ownerIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.OwnerName = _ownerIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("RESPONSIBLE", out int ResponsibleIndex))
+                    {
+                        string _responsibleIndexValue = row[ResponsibleIndex].ToString().Trim();
+                        _responsibleIndexValue = System.Text.RegularExpressions.Regex.Replace(_responsibleIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.ResponsibleName = _responsibleIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("GOAL RANGE", out int GoalRangeIndex) ||
+                        _columnHeaderMap.TryGetValue("GOALRANGE", out GoalRangeIndex))
+                    {
+                        string _goalRangeIndexValue = row[GoalRangeIndex].ToString().Trim();
+                        _goalRangeIndexValue = System.Text.RegularExpressions.Regex.Replace(_goalRangeIndexValue, @"\s+", " ");
+                        if (float.TryParse(_goalRangeIndexValue, out float GoalRangeValue))
+                        {
+                            _excelKPIDTO.KPIDTO.GoalRangeValue = GoalRangeValue;
+                            _haveInfo = true;
+                        }
+                        else
+                        {
+                            throw new InvalidCastException($"The value to Goal Range: '{_goalRangeIndexValue}', is not a valid number.");
+                        }
+                    }
+                    if (_columnHeaderMap.TryGetValue("FACILITY", out int FacilityIndex))
+                    {
+                        string _facilityIndexValue = row[FacilityIndex].ToString().Trim();
+                        _facilityIndexValue = System.Text.RegularExpressions.Regex.Replace(_facilityIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.FacilityName = _facilityIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("EQUIVALENCE", out int EquivalenceIndex))
+                    {
+                        string _equivalenceIndexValue = row[EquivalenceIndex].ToString().Trim();
+                        _equivalenceIndexValue = System.Text.RegularExpressions.Regex.Replace(_equivalenceIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.EquivalenceName = _equivalenceIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("CATEGORY", out int CategoryIndex))
+                    {
+                        string _categoryIndexValue = row[CategoryIndex].ToString().Trim();
+                        _categoryIndexValue = System.Text.RegularExpressions.Regex.Replace(_categoryIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.DashboardCategoryName = _categoryIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("OWNER DEPARTMENT", out int OwnerDepartmentIndex) ||
+                        _columnHeaderMap.TryGetValue("OWNERDEPARTMENT", out OwnerDepartmentIndex))
+                    {
+                        string _ownerDepartmentIndexValue = row[OwnerDepartmentIndex].ToString().Trim();
+                        _ownerDepartmentIndexValue = System.Text.RegularExpressions.Regex.Replace(_ownerDepartmentIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.OwnerDepartmentName = _ownerDepartmentIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_columnHeaderMap.TryGetValue("RESPONSIBLE DEPARTMENT", out int ResponsibleDepartmentIndex) ||
+                        _columnHeaderMap.TryGetValue("RESPONSIBLEDEPARTMENT", out ResponsibleDepartmentIndex))
+                    {
+                        string _responsibleDepartmentIndexValue = row[ResponsibleDepartmentIndex].ToString().Trim();
+                        _responsibleDepartmentIndexValue = System.Text.RegularExpressions.Regex.Replace(_responsibleDepartmentIndexValue, @"\s+", " ");
+                        _excelKPIDTO.KPIDTO.ResponsibleDepartmentName = _responsibleDepartmentIndexValue;
+                        _haveInfo = true;
+                    }
+                    if (_haveInfo)
                     {
                         _excelKPIDTOList.Add(_excelKPIDTO);
                     }
@@ -490,11 +514,10 @@ public class KPI_Service
             ErrorSignal.FromCurrentContext().Raise(ex);
             _validationResultDTO.Result = false;
             _validationResultDTO.Message = "Error";
-            _validationResultDTO.Description = string.Format("Verify that the column values ​​are correct. ");
+            _validationResultDTO.Description = ex.Message;
             return _validationResultDTO;
         }
     }
-
     private static ExcelKPIDTO KPIFileRowsValidation(List<ExcelKPIDTO> ExcelKPIFileDataList)
     {
         ExcelKPIDTO _excelKPIFileValidationDTO = new ExcelKPIDTO();
@@ -590,7 +613,25 @@ public class KPI_Service
                         _excelKPIFileData.KPIDTO.ResponsibleName = "Error, The Responsible not exist";
                         isSucces = false;
                     }
-                }                
+                }
+                if (_excelKPIFileData.KPIDTO.GoalRangeValue < 0.0f)
+                {
+                    _kPIDTO.LastUpdateByName = "Error, The GoalRangeValue is null or empty";
+                    isSucces = false;
+                }
+                else
+                {
+                    var _existGoalRangeDTO = GoalRange_Service.GetGoalRangeList_Global(new GoalRangeDTO { Value = _excelKPIFileData.KPIDTO.GoalRangeValue }).FirstOrDefault();
+                    if (_existGoalRangeDTO != null)
+                    {
+                        _kPIDTO.GoalRangeID = _existGoalRangeDTO.ID;
+                    }
+                    else
+                    {
+                        _excelKPIFileValidationDTO.ValidationResultDTO.Message = "Error, The GoalRange not exist";
+                        isSucces = false;
+                    }
+                }
                 if (_excelKPIFileData.KPIDTO.FacilityName == string.Empty || _excelKPIFileData.KPIDTO.FacilityName == null)
                 {
                     _excelKPIFileData.KPIDTO.FacilityName = "Error, The Facility is null or empty";
@@ -689,6 +730,7 @@ public class KPI_Service
                 _kPIDTO.Goal = _excelKPIFileData.KPIDTO.Goal;
                 _kPIDTO.OwnerName = _excelKPIFileData.KPIDTO.OwnerName;
                 _kPIDTO.ResponsibleName = _excelKPIFileData.KPIDTO.ResponsibleName;
+                _kPIDTO.GoalRangeValue = _excelKPIFileData.KPIDTO.GoalRangeValue;
                 _kPIDTO.FacilityName = _excelKPIFileData.KPIDTO.FacilityName;
                 _kPIDTO.EquivalenceName = _excelKPIFileData.KPIDTO.EquivalenceName;
                 _kPIDTO.DashboardCategoryName = _excelKPIFileData.KPIDTO.DashboardCategoryName;

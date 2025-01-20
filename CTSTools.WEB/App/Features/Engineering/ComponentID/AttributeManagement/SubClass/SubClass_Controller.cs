@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.SubClass;
 using CTSTools.WEB.App_Start;
@@ -41,7 +42,18 @@ public class SubClass_Controller : ApiController
         }
         return Json(_validationResultDTO);
     }
-
+    [HttpPost]
+    [Route("api/SubClass/CreateMassive")]
+    public IHttpActionResult CreateMassiveSubClass([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(SubClass), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = SubClass_Service.SubClassFileValidation_Global(FileDTO);
+        }
+        return Json(_validationResultDTO);
+    }
     [HttpPost]
     [Route("api/SubClass/Update")]
     public IHttpActionResult UpdateSubClass([FromBody] SubClassDTO SubClassDTO)

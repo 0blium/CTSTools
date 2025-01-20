@@ -371,7 +371,13 @@ function ShowKPIValidationResults(_validationResultDTO) {
         $('#errorKPIMessages').html(errorMessages).show();
         document.getElementById('errorKPIMessages').removeAttribute('hidden');
     }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
+        $('#UploadExcelKPIModal').modal('hide');
+        ClearExcelModalFields();
+        return HostResponse(_validationResultDTO);
+    }
     $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxKPIGrid").dxDataGrid("instance").refresh();
     ClearKPIFields();
 }
 function GetKPIDTO() {

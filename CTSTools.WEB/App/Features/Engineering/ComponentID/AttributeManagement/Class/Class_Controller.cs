@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.WEB.App_Start;
@@ -40,7 +41,18 @@ public class Class_Controller : ApiController
         }
         return Json(_validationResultDTO);
     }
-
+    [HttpPost]
+    [Route("api/Class/CreateMassive")]
+    public IHttpActionResult CreateMassiveClass([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Class), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Class_Service.ClassFileValidation_Global(FileDTO);
+        }
+        return Json(_validationResultDTO);
+    }
     [HttpPost]
     [Route("api/Class/Update")]
     public IHttpActionResult UpdateClass([FromBody] ClassDTO ClassDTO)

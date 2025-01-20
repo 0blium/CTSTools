@@ -16,7 +16,19 @@ export async function CreateSubClass(SubClassDTO) {
     }
     return _validationResultDTO;
 }
-
+export async function CreateMassiveSubClass(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/SubClass/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function UpdateSubClass(SubClassDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/SubClass/Update`;
