@@ -260,7 +260,7 @@ function ShowClassValidationResults(_validationResultDTO) {
         if (_validationResultDTO.Data.ClassBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
             _validationResultDTO.Data.ClassBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.ClassValueDTO.Name}. Code: ${badLine.ClassValueDTO.Code}. Description = ${badLine.ClassValueDTO.Description}. Attribute: ${badLine.ClassValueDTO.AttributeName}. Parent Attribute: ${badLine.ParentAttributeName}. Parent Value: ${badLine.ParentValueName}. Child Attribute: ${badLine.ChildAttributeName}. Child Value: ${badLine.ChildValueName}. Is Active = ${badLine.IsActive}.</li>`;
+                errorMessages += `<li>Row error:<br>Name: ${badLine.ClassValueDTO.Name}. Code: ${badLine.ClassValueDTO.Code}. Description = ${badLine.ClassValueDTO.Description}. Part Type: ${badLine.PartTypeDTO.Name}. Component Type: ${badLine.ComponentTypeDTO.Name}.</li>`;
             });
             errorMessages += '</ul>';
             $('#errorClassMessages').html(errorMessages).show();
@@ -673,7 +673,7 @@ function ShowSubClassValidationResults(_validationResultDTO) {
         if (_validationResultDTO.Data.SubClassBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
             _validationResultDTO.Data.SubClassBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.SubClassValueDTO.Name}. Code: ${badLine.SubClassValueDTO.Code}. Description = ${badLine.SubClassValueDTO.Description}. Attribute: ${badLine.SubClassValueDTO.AttributeName}. Parent Attribute: ${badLine.ParentAttributeName}. Parent Value: ${badLine.ParentValueName}. Child Attribute: ${badLine.ChildAttributeName}. Child Value: ${badLine.ChildValueName}. Is Active = ${badLine.IsActive}.</li>`;
+                errorMessages += `<li>Row error:<br>Name: ${badLine.SubClassValueDTO.Name}. Code: ${badLine.SubClassValueDTO.Code}. Description = ${badLine.SubClassValueDTO.Description}. Class = ${badLine.ParentValueName}.</li>`;
             });
             errorMessages += '</ul>';
             $('#errorSubClassMessages').html(errorMessages).show();

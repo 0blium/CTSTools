@@ -1,6 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using Elmah;
@@ -236,10 +237,7 @@ public class SubClass_Service
         _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,<br>";
         _missingHeader += (_fileheaders.Contains("code") == true) ? string.Empty : "code,<br>";
         _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,<br>";
-        _missingHeader += (_fileheaders.Contains("attribute") == true) ? string.Empty : "attribute,<br>";
-        _missingHeader += (_fileheaders.Contains("parent attribute") == true || _fileheaders.Contains("parentattribute")) ? string.Empty : "parent attribute,<br>";
-        _missingHeader += (_fileheaders.Contains("parent value") == true || _fileheaders.Contains("parentvalue")) ? string.Empty : "parent value,<br>";
-        _missingHeader += (_fileheaders.Contains("child attribute") == true || _fileheaders.Contains("childattribute")) ? string.Empty : "child attribute,<br>";
+        _missingHeader += (_fileheaders.Contains("class")) ? string.Empty : "class,<br>";
 
         if (_missingHeader != string.Empty)
         {
@@ -279,13 +277,7 @@ public class SubClass_Service
                     headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
                     if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("CODE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("PARENT ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("PARENTATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("PARENT VALUE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("PARENTVALUE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("CHILD ATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("CHILDATTRIBUTE", StringComparison.OrdinalIgnoreCase) ||
+                        headerName.Equals("CLASS", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase))
                     {
                         _columnHeaderMap[headerName.ToUpper()] = colIndex;
@@ -297,6 +289,8 @@ public class SubClass_Service
                     DataRow row = _firstTable.Rows[rowIndex];
                     var _excelSubClassDTO = new ExcelSubClassDTO();
                     _excelSubClassDTO.SubClassDTO.SubClassValueDTO = new ValueDTO();
+                    _excelSubClassDTO.SubClassDTO.PartTypeDTO= new ValueDTO();
+                    _excelSubClassDTO.SubClassDTO.ComponentTypeDTO = new ValueDTO();
                     bool _haveInfo = false;
                     // Assign values ​​directly using the dictionary
                     if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
@@ -320,35 +314,11 @@ public class SubClass_Service
                         _excelSubClassDTO.SubClassDTO.SubClassValueDTO.Description = _descriptionValue;
                         _haveInfo = true;
                     }
-                    if (_columnHeaderMap.TryGetValue("ATTRIBUTE", out int AttributeIndex))
+                    if (_columnHeaderMap.TryGetValue("CLASS", out int ClassIndex))
                     {
-                        string _attributeValue = row[AttributeIndex].ToString().Trim();
-                        _attributeValue = System.Text.RegularExpressions.Regex.Replace(_attributeValue, @"\s+", " ");
-                        _excelSubClassDTO.SubClassDTO.SubClassValueDTO.AttributeName = _attributeValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("PARENT ATTRIBUTE", out int ParentAttributeIndex) ||
-                        _columnHeaderMap.TryGetValue("PARENTATTRIBUTE", out ParentAttributeIndex))
-                    {
-                        string _parentAttributeIndexValue = row[ParentAttributeIndex].ToString().Trim();
-                        _parentAttributeIndexValue = System.Text.RegularExpressions.Regex.Replace(_parentAttributeIndexValue, @"\s+", " ");
-                        _excelSubClassDTO.SubClassDTO.ParentAttributeName = _parentAttributeIndexValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("PARENT VALUE", out int ParentValueIndex) ||
-                        _columnHeaderMap.TryGetValue("PARENTVALUE", out ParentValueIndex))
-                    {
-                        string _parentValueIndexValue = row[ParentValueIndex].ToString().Trim();
-                        _parentValueIndexValue = System.Text.RegularExpressions.Regex.Replace(_parentValueIndexValue, @"\s+", " ");
-                        _excelSubClassDTO.SubClassDTO.ParentValueName = _parentValueIndexValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("CHILD ATTRIBUTE", out int ChildAttributeIndex) ||
-                        _columnHeaderMap.TryGetValue("CHILDATTRIBUTE", out ChildAttributeIndex))
-                    {
-                        string _childAttributeIndexValue = row[ChildAttributeIndex].ToString().Trim();
-                        _childAttributeIndexValue = System.Text.RegularExpressions.Regex.Replace(_childAttributeIndexValue, @"\s+", " ");
-                        _excelSubClassDTO.SubClassDTO.ChildAttributeName = _childAttributeIndexValue;
+                        string _classValue = row[ClassIndex].ToString().Trim();
+                        _classValue = System.Text.RegularExpressions.Regex.Replace(_classValue, @"\s+", " ");
+                        _excelSubClassDTO.SubClassDTO.ParentValueName = _classValue;
                         _haveInfo = true;
                     }
 
@@ -382,111 +352,57 @@ public class SubClass_Service
 
             foreach (var _excelSubClassFileData in ExcelSubClassFileDataList)
             {
-                SubClassDTO _SubClassDTO = new SubClassDTO();
-                _SubClassDTO.SubClassValueDTO = new ValueDTO();
+                SubClassDTO _subClassDTO = new SubClassDTO();
+                _subClassDTO.SubClassValueDTO = new ValueDTO();
                 bool isSucces = true;
-                if (_excelSubClassFileData.SubClassDTO.SubClassValueDTO.Name == string.Empty || _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Name == null)
+                if (string.IsNullOrEmpty(_excelSubClassFileData.SubClassDTO.SubClassValueDTO.Name))
                 {
                     _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Name = "Error, The Name is null or empty";
                     isSucces = false;
                 }
-                if (_excelSubClassFileData.SubClassDTO.SubClassValueDTO.Code == string.Empty || _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Code == null)
+                if (string.IsNullOrEmpty(_excelSubClassFileData.SubClassDTO.SubClassValueDTO.Code))
                 {
                     _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Code = "Error, The Code is null or empty";
                     isSucces = false;
                 }
-                if (_excelSubClassFileData.SubClassDTO.SubClassValueDTO.AttributeName == string.Empty || _excelSubClassFileData.SubClassDTO.SubClassValueDTO.AttributeName == null)
+                if (string.IsNullOrEmpty(_excelSubClassFileData.SubClassDTO.ParentValueName))
                 {
-                    _excelSubClassFileData.SubClassDTO.SubClassValueDTO.AttributeName = "Error, The Attribute is null or empty";
+                    _excelSubClassFileData.SubClassDTO.ParentValueName = "Error, The Class is null or empty";
                     isSucces = false;
                 }
                 else
                 {
-                    var _existAttributeDTO = Attribute_Service.GetAttributeList_Global(new AttributeDTO { Name = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.AttributeName }).FirstOrDefault();
-                    if (_existAttributeDTO != null)
-                    {
-                        _SubClassDTO.SubClassValueDTO.AttributeID = _existAttributeDTO.ID;
-                    }
-                    else
-                    {
-                        _excelSubClassFileData.SubClassDTO.SubClassValueDTO.AttributeName = "Error, The Attribute not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelSubClassFileData.SubClassDTO.ParentAttributeName == string.Empty || _excelSubClassFileData.SubClassDTO.ParentAttributeName == null)
-                {
-                    _excelSubClassFileData.SubClassDTO.ParentAttributeName = "Error, The Parent Attribute is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existParentAttributeDTO = Attribute_Service.GetAttributeList_Global(new AttributeDTO { Name = _excelSubClassFileData.SubClassDTO.ParentAttributeName }).FirstOrDefault();
-                    if (_existParentAttributeDTO != null)
-                    {
-                        _SubClassDTO.ParentAttributeID = _existParentAttributeDTO.ID;
-                    }
-                    else
-                    {
-                        _excelSubClassFileData.SubClassDTO.ParentAttributeName = "Error, The Parent Attribute not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelSubClassFileData.SubClassDTO.ParentValueName == string.Empty || _excelSubClassFileData.SubClassDTO.ParentValueName == null)
-                {
-                    _excelSubClassFileData.SubClassDTO.ParentValueName = "Error, The Parent Value is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existParentValueDTO = Value_Service.GetValueList_Global(new ValueDTO { Name = _excelSubClassFileData.SubClassDTO.ParentValueName }).FirstOrDefault();
+                    _subClassDTO.SubClassValueDTO.AttributeID = (int)Attribute_Enum.SubClass;
+                    var _existParentValueDTO = Value_Service.GetValueList_Global(new ValueDTO { AttributeID = (int)Attribute_Enum.Class, Name = _excelSubClassFileData.SubClassDTO.ParentValueName }).FirstOrDefault();
                     if (_existParentValueDTO != null)
                     {
-                        _SubClassDTO.ParentValueID = _existParentValueDTO.ID;
+                        _subClassDTO.ParentAttributeID = (int)Attribute_Enum.Class;
+                        _subClassDTO.ParentValueID = _existParentValueDTO.ID;
+                        _subClassDTO.ChildAttributeID = (int)Attribute_Enum.SubClass;
                     }
                     else
                     {
-                        _excelSubClassFileData.SubClassDTO.ParentValueName = "Error, The Parent Value not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelSubClassFileData.SubClassDTO.ChildAttributeName == string.Empty || _excelSubClassFileData.SubClassDTO.ChildAttributeName == null)
-                {
-                    _excelSubClassFileData.SubClassDTO.ChildAttributeName = "Error, The Child Attribute is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existChildAttributeDTO = Attribute_Service.GetAttributeList_Global(new AttributeDTO { Name = _excelSubClassFileData.SubClassDTO.ChildAttributeName }).FirstOrDefault();
-                    if (_existChildAttributeDTO != null)
-                    {
-                        _SubClassDTO.ChildAttributeID = _existChildAttributeDTO.ID;
-                    }
-                    else
-                    {
-                        _excelSubClassFileData.SubClassDTO.ChildAttributeName = "Error, The Child Attribute not exist";
+                        _excelSubClassFileData.SubClassDTO.ParentValueName = "Error, The Class is not exist";
                         isSucces = false;
                     }
                 }
 
-                _SubClassDTO.SubClassValueDTO.Name = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Name;
-                _SubClassDTO.SubClassValueDTO.Code = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Code;
-                _SubClassDTO.SubClassValueDTO.Description = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Description;
-                _SubClassDTO.SubClassValueDTO.AttributeName = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.AttributeName;
-                _SubClassDTO.SubClassValueDTO.IsActive = true;
-                _SubClassDTO.ParentAttributeName = _excelSubClassFileData.SubClassDTO.ParentAttributeName;
-                _SubClassDTO.ParentValueName = _excelSubClassFileData.SubClassDTO.ParentValueName;
-                _SubClassDTO.ChildAttributeName = _excelSubClassFileData.SubClassDTO.ChildAttributeName;
-                _SubClassDTO.IsActive = true;
+                _subClassDTO.SubClassValueDTO.Name = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Name;
+                _subClassDTO.SubClassValueDTO.Code = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Code;
+                _subClassDTO.SubClassValueDTO.Description = _excelSubClassFileData.SubClassDTO.SubClassValueDTO.Description;
+                _subClassDTO.ParentValueName = _excelSubClassFileData.SubClassDTO.ParentValueName;
+                _subClassDTO.SubClassValueDTO.IsActive = true;
+                _subClassDTO.IsActive = true;
 
                 if (isSucces == true)
                 {
                     _excelSubClassFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelSubClassFileValidationDTO.SubClassGoodLinesList.Add(_SubClassDTO);
+                    _excelSubClassFileValidationDTO.SubClassGoodLinesList.Add(_subClassDTO);
                 }
                 else
                 {
                     _excelSubClassFileValidationDTO.ValidationResultDTO.Message = _excelSubClassFileValidationDTO.ValidationResultDTO.Message;
-                    _excelSubClassFileValidationDTO.SubClassBadLinesList.Add(_SubClassDTO);
+                    _excelSubClassFileValidationDTO.SubClassBadLinesList.Add(_subClassDTO);
                 }
             }
         }
