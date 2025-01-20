@@ -350,7 +350,7 @@ public class Dashboard_KPI_Service
                 //DashboardKPIDTO.GetDashboardLineList = true;
                 DashboardKPIDTO.GetDashboardDTO = true;
                 DashboardKPIDTO.GetKPIDTO = true;
-
+                DashboardKPIDTO.KPIDTO.GetUnitOfMeasureDTO = true;
                 _dashboardKPIList_Global = GetDashboard_KPIList_Global(DashboardKPIDTO);
                 DashboardKPIDTO.DashboardLineDTO.Dashboard_KPIIDArray = _dashboardKPIList_Global.Select(s => s.ID).ToArray();
                 var _DashboardLineList = DashboardLine_Service.GetDashboardLineList_Global(DashboardKPIDTO.DashboardLineDTO);

@@ -246,7 +246,7 @@
                                     <div class="menu-text">Categories</div>
                                 </a>
                             </div>
-                            <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog" hidden>
+                            <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog UnitOfMeasure" hidden>
                                 <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Unit Of Measure</div>
                                 </a>

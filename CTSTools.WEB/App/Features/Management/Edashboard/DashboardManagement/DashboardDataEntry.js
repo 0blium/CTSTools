@@ -160,7 +160,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortSafetyList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -218,7 +218,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortQualityList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -274,7 +274,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortDeliveryList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -331,7 +331,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortCostList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -388,7 +388,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortMoralList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(Dashboard_KPIDTO.KPIDTO);
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -515,38 +515,6 @@ function SetSubtitles(KPIDTO) {
             text: _subtitle
         }
     });
-}
-function UnitOfMeasureFormat(KPIDTO) {
-
-    //let valueType;
-    switch (KPIDTO.UnitOfMeasureID) {
-        // Mi base de datos tiene datos que no pude quitar desde Unit Of Measure, por eso los IDs deformes para cada case
-        case UnitOfMeasure_Enum.USD:
-            return ""
-            break;
-        case UnitOfMeasure_Enum.KG:
-            return " KG"
-            break;
-        case UnitOfMeasure_Enum.Numeric:
-            return " Units"
-            break;
-        case UnitOfMeasure_Enum.KWHRHR:
-            return " KWHR/HR"
-            break;
-        case UnitOfMeasure_Enum.Hour:
-            return " Hr"
-            break;
-        case UnitOfMeasure_Enum.Minutes:
-            return " Min"
-            break;
-        case UnitOfMeasure_Enum.Days:
-            return " D"
-            break;
-        default:
-            return "";
-            break;
-    }
-
 }
 
 function ConvertToMoney(Goal) {
