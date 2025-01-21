@@ -7,7 +7,6 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">Advanced Settings</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Org Management</a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"></a></li>
                 </ol>
             </div>

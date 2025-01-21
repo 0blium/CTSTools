@@ -12,7 +12,7 @@
         <!-- END breadcrumb -->
         <!-- BEGIN page-header -->
         <div class="row">
-            <h1 class="page-header">Decoder Catalog</h1>
+            <h1 class="page-header">Decoders</h1>
         </div>
         <!-- END page-header -->
     </div>

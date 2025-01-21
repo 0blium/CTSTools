@@ -12,7 +12,7 @@
           <!-- END breadcrumb -->
           <!-- BEGIN page-header -->
           <div class="row">
-              <h1 class="page-header">Part List</h1>
+              <h1 class="page-header">Parts</h1>
           </div>
       </div>
       <div class="row">

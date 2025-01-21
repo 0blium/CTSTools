@@ -14,7 +14,7 @@
         <!-- END breadcrumb -->
         <!-- BEGIN page-header -->
         <div class="row">
-            <h1 class="page-header">Supplier Catalog</h1>
+            <h1 class="page-header">Suppliers</h1>
         </div>
         <!-- END page-header -->
 

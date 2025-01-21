@@ -1,4 +1,5 @@
-﻿import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
+﻿
+import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
 import { CreatePermission, UpdatePermission, DeletePermission, GetDXPermissionDataSource } from './Permission/Permission_Service.js'
 import { CreateAction, UpdateAction, DeleteAction, GetDXActionDataSource } from './Action/Action_Service.js'
@@ -127,7 +128,7 @@ async function InitializePermissionCatalogControls() {
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Name", dataField: "Name" },
-                { caption: "Module", dataField: "ModuleName", groupIndex: 0 },
+                { caption: "Module", dataField: "ModuleName", sortIndex: 0, sortOrder: "asc" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Action", dataField: "ActionName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
