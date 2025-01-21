@@ -44,36 +44,36 @@ public class DocumentRevisionController : ApiController
     [Route("api/DocumentRevision/Create")]
     public IHttpActionResult CreateDocumentRevision([FromBody] DocumentRevisionDTO DocumentRevisionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Create);
-        //if (_validationResultDTO.Result)
-        //{
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
             DocumentRevisionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-            var _validationResultDTO = DocumentRevision_Service.CreateDocumentRevision_Global(DocumentRevisionDTO);
-        //}
+            _validationResultDTO = DocumentRevision_Service.CreateDocumentRevision_Global(DocumentRevisionDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DocumentRevision/Update")]
     public IHttpActionResult UpdateDocumentRevision([FromBody] DocumentRevisionDTO DocumentRevisionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Update);
-        //if (_validationResultDTO.Result)
-        //{
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
             DocumentRevisionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            var _validationResultDTO = DocumentRevision_Service.UpdateDocumentRevision_Global(DocumentRevisionDTO);
-        //}
+            _validationResultDTO = DocumentRevision_Service.UpdateDocumentRevision_Global(DocumentRevisionDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/DocumentRevision/Delete")]
     public IHttpActionResult DeleteDocumentRevision([FromBody] DocumentRevisionDTO DocumentRevisionDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Delete);
-        //if (!_validationResultDTO.Result)
-        //{
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Delete);
+        if (!_validationResultDTO.Result)
+        {
             DocumentRevisionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            var _validationResultDTO = DocumentRevision_Service.DeleteDocumentRevision_Global(DocumentRevisionDTO);
-        //}
+            _validationResultDTO = DocumentRevision_Service.DeleteDocumentRevision_Global(DocumentRevisionDTO);
+        }
         return Json(_validationResultDTO);
     }
 }

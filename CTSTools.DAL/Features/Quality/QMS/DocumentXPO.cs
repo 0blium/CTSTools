@@ -1,4 +1,5 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using DevExpress.Xpo;
 using System;
@@ -51,6 +52,12 @@ public class DocumentXPO : XPObject
     {
         get { return fType; }
         set { SetPropertyValue<DocumentTypeXPO>(nameof(Type), ref fType, value); }
+    }
+    StatusXPO fStatus;
+    public StatusXPO Status
+    {
+        get { return fStatus; }
+        set { SetPropertyValue(nameof(Status), ref fStatus, value); }
     }
     DateTime? fAddedDate;
     public DateTime? AddedDate

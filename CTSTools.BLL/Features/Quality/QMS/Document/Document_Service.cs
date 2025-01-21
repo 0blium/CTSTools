@@ -1,5 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
+using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
+using CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
 using System;
 using System.Collections.Generic;
@@ -54,7 +56,7 @@ public class Document_Service
                 _documentglobalList = _documentList;
                 return _documentglobalList;
             }
-            if (!DocumentDTO.GetDepartmentDTO && !DocumentDTO.GetTypeDTO)
+            if (!DocumentDTO.GetDepartmentDTO && !DocumentDTO.GetTypeDTO && !DocumentDTO.GetStatusDTO)
             {
                 _documentglobalList = _documentList;
                 return _documentglobalList;
@@ -75,6 +77,7 @@ public class Document_Service
         var _documentglobalList = new List<DocumentDTO>();
         var _departmentDict = new Dictionary<int?, DepartmentDTO>();
         var _documentTypeDict = new Dictionary<int?, DocumentTypeDTO>();
+        var _statusDict = new Dictionary<int?, StatusDTO>();
 
         try
         {
@@ -96,6 +99,15 @@ public class Document_Service
                 _documentTypeDict = DocumentType_Service.GetDocumentTypeList_Global(DocumentDTO.TypeDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
+            if (DocumentDTO.GetStatusDTO)
+            {
+                DocumentDTO.StatusDTO.StatusIDArray = DocumentList.GroupBy(g => g.StatusID)
+                        .Select(s => s.Key)
+                        .ToArray();
+
+                _statusDict = Status_Service.GetStatusList_Global(DocumentDTO.StatusDTO)
+                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+            }
             foreach (var _documentDTO in DocumentList)
             {
                 if (DocumentDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_documentDTO.DepartmentID))
@@ -106,7 +118,10 @@ public class Document_Service
                 {
                     _documentDTO.TypeDTO = _documentTypeDict[_documentDTO.TypeID];
                 }
-                
+                if (DocumentDTO.GetStatusDTO && _statusDict.ContainsKey(_documentDTO.StatusID))
+                {
+                    _documentDTO.StatusDTO = _statusDict[_documentDTO.StatusID];
+                }
                 _documentglobalList.Add(_documentDTO);
             }
 

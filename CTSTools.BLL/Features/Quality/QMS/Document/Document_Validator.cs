@@ -49,7 +49,15 @@ public class Document_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-
+            if (DocumentDTO.StatusID == null || DocumentDTO.StatusID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             if (DocumentDTO.AddedByID == null || DocumentDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -133,6 +141,15 @@ public class Document_Validator
                 {
                     Result = false,
                     Message = "Type Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.StatusID == null || DocumentDTO.StatusID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
