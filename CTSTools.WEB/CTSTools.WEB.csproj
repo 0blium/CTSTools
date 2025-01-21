@@ -335,6 +335,15 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Service.js" />
     <Content Include="App\Features\MasterPage\CTSTools.Master.css" />
     <Content Include="App\Features\MasterPage\CTSToolsMaster.js" />
+    <Content Include="App\Features\Quality\QMS\DocumentCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\DocumentCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\DocumentRevisionCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\DocumentRevisionCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\DocumentRevision\DocumentRevision_Service.js" />
+    <Content Include="App\Features\Quality\QMS\DocumentTypeCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\DocumentTypeCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\DocumentType\DocumentType_Service.js" />
+    <Content Include="App\Features\Quality\QMS\Document\Document_Service.js" />
     <Content Include="Content\dx-diagram.css" />
     <Content Include="Content\dx-diagram.min.css" />
     <Content Include="Content\dx-gantt.css" />
@@ -686,6 +695,30 @@
     <Compile Include="App\Features\MasterPage\CTSTools.Master.designer.cs">
       <DependentUpon>CTSTools.Master</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentCatalog.aspx.cs">
+      <DependentUpon>DocumentCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentCatalog.aspx.designer.cs">
+      <DependentUpon>DocumentCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentRevisionCatalog.aspx.cs">
+      <DependentUpon>DocumentRevisionCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentRevisionCatalog.aspx.designer.cs">
+      <DependentUpon>DocumentRevisionCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentRevision\DocumentRevisionController.cs" />
+    <Compile Include="App\Features\Quality\QMS\DocumentTypeCatalog.aspx.cs">
+      <DependentUpon>DocumentTypeCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentTypeCatalog.aspx.designer.cs">
+      <DependentUpon>DocumentTypeCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\DocumentType\DocumentTypeController.cs" />
+    <Compile Include="App\Features\Quality\QMS\Document\DocumentController.cs" />
     <Compile Include="App_Start\Auth_Helper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -756,7 +789,11 @@
       <Name>CTSTools.BLL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\DocumentRevision\" />
+    <Folder Include="Views\DocumentType\" />
+    <Folder Include="Views\Document\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

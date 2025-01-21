@@ -3,7 +3,6 @@ using Elmah;
 using System;
 using System.Collections.Generic;
 
-
 namespace CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Module;
 
 public class Module_Service

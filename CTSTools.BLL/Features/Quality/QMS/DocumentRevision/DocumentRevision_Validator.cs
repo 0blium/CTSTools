@@ -1,0 +1,202 @@
+﻿using CTSTools.BLL.Common;
+using DevExpress.DataAccess.Native;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
+
+public class DocumentRevision_Validator
+{
+    public static ValidationResultDTO CreateDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (string.IsNullOrEmpty(DocumentRevisionDTO.Revision))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Revision Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(DocumentRevision)}{nameof(DocumentRevisionDTO.Revision)}",
+                });
+            } 
+
+            if (DocumentRevisionDTO.DocumentID == null || DocumentRevisionDTO.DocumentID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Document Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentRevisionDTO.StatusID == null || DocumentRevisionDTO.StatusID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+
+            if (DocumentRevisionDTO.AddedByID == null || DocumentRevisionDTO.AddedByID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "AddedByID Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+
+    public static ValidationResultDTO UpdateDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (DocumentRevisionDTO.ID == null || DocumentRevisionDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "ID Field Empty",
+                    Description = "Please, complete the missing information ",
+                });
+            }
+            if (string.IsNullOrEmpty(DocumentRevisionDTO.Revision))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Revision Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(DocumentRevision)}{nameof(DocumentRevisionDTO.Revision)}",
+                });
+            }
+            if (DocumentRevisionDTO.DocumentID == null || DocumentRevisionDTO.DocumentID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Document Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentRevisionDTO.StatusID == null || DocumentRevisionDTO.StatusID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+
+            if (DocumentRevisionDTO.LastUpdateByID == null || DocumentRevisionDTO.LastUpdateByID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "LastUpdateByID Field Empty",
+                    Description = "Please, complete the missing information ",
+                });
+            }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+    public static ValidationResultDTO DeleteDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (DocumentRevisionDTO.ID == null || DocumentRevisionDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "ID Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+
+}
