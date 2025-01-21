@@ -93,7 +93,7 @@
                     <div id="Engineering" class="menu-item has-sub menu-nav" data-tech="ComponentID" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
-                                <i class="fas fa-cube"></i>
+                                <i class="fa-solid fa-microchip"></i>
                             </div>
                             <div class="menu-text">Engineering</div>
                             <div class="menu-caret"></div>
@@ -172,6 +172,37 @@
                             </div>
                         </div>
                     </div>
+                    <div id="Quality" class="menu-item has-sub menu-nav" data-tech="Quality QMS" hidden>
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fa-solid fa-medal"></i>
+
+                            </div>
+                            <div class="menu-text">Quality</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div id="QMS" class="menu-item has-sub submenu-nav" data-tech="QMS" hidden>
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">QMS</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="DocumentQMS" class="menu-item module-nav" data-tech="Document DocumentRevision" hidden>
+                                        <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Document</div>
+                                        </a>
+                                    </div>
+                                    <div id="DocumentTypeQMS" class="menu-item module-nav" data-tech="DocumentType" hidden>
+                                        <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Document Type</div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="AdvancedSettings" class="menu-item has-sub menu-nav submenu-nav" data-tech="AdvancedSettings OrgManagement" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -202,7 +233,11 @@
                                     <div class="menu-text">Permissions</div>
                                 </a>
                             </div>
-
+                            <div id="ModuleCatalogAdvancedSettings" class="menu-item module-nav" data-tech="ModuleCatalog Module" hidden>
+                                <a href="/App/Features/AdvancedSettings/SecurityManagement/ModuleCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Modules</div>
+                                </a>
+                            </div>
                             <div id="StatusAdministrationAdvancedSettings" class="menu-item module-nav" data-tech="StatusAdministration StatusType Status_StatusType" hidden>
                                 <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
                                     <div class="menu-text">Status</div>
@@ -215,43 +250,14 @@
                             </div>
                             <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog UnitOfMeasure" hidden>
                                 <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
-                                    <div class="menu-text">Unit Of Measure</div>
+                                    <div class="menu-text">Unit Of Measures</div>
                                 </a>
                             </div>
 
                         </div>
                     </div>
 
-                    <div id="Quality" class="menu-item has-sub">
-                        <a href="javascript:;" class="menu-link">
-                            <div class="menu-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="menu-text">Quality</div>
-                            <div class="menu-caret"></div>
-                        </a>
-                        <div class="menu-submenu">
-                            <div id="QMS" class="menu-item has-sub">
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">QMS</div>
-                                    <div class="menu-caret"></div>
-                                </a>
-                                <div class="menu-submenu">
-                                    <div id="DocumentQMS" class="menu-item">
-                                        <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Document</div>
-                                        </a>
-                                    </div>
-                                    <div id="DocumentTypeQMS" class="menu-item">
-                                        <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Document Type</div>
-                                        </a>
-                                    </div>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">

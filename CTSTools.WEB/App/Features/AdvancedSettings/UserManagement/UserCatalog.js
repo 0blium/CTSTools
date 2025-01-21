@@ -17,11 +17,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     await InitializeUserCatalogControls();
     InitializeUser_PermissionControls();
     InitializeUser_RoleControls();
-    setTimeout(async function () { dxLoadPanel.hide() , 200});
 
 });
 //#region User Catalog
 async function InitializeUserCatalogControls() {
+    
+    document.getElementById("UserButton").addEventListener("click", function (e) {
+        e.preventDefault();
+        UserActionButtons("Save");
+
+    });
+
+
     $("#dxUserLoginTextBox").dxTextBox({
         value: '',
     });
@@ -180,7 +187,6 @@ async function InitializeUserCatalogControls() {
             template: masterDetailTemplate,
         }
     });
-    UserActionButtons("Save");
 }
 function masterDetailTemplate(_, masterDetailOptions) {
     return $('<div>').dxTabPanel({
@@ -199,12 +205,6 @@ function masterDetailTemplate(_, masterDetailOptions) {
         ],
     });
 }
-
-
-
-
-
-
 function ClearUserFields() {
     UserActionButtons("Save");
     $('#hiddenUserID').val("");

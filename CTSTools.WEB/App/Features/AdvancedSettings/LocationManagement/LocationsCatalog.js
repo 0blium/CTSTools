@@ -450,8 +450,8 @@ async function PopulateDepartmentFields(FacilityDTO) {
     $("#dxDepartmentDescriptionTextArea").dxTextArea("instance").option("value", FacilityDTO.Description);
     await $("#dxDepartmentFacilitySelectBox").dxSelectBox("instance").option("value", FacilityDTO.FacilityID);
 
-    data.ResponsiblesIDArray = [];
-    data.ResponsiblesIDArray = data.Department_ResponsibleList.map(departmentResponsible => departmentResponsible.ResponsibleID)
+    FacilityDTO.ResponsiblesIDArray = [];
+    FacilityDTO.ResponsiblesIDArray = FacilityDTO.Department_ResponsibleList.map(departmentResponsible => departmentResponsible.ResponsibleID)
 
     await $("#dxDepartmentResponsiblesTagBox").dxTagBox("instance").option("value", FacilityDTO.ResponsiblesIDArray);
 
