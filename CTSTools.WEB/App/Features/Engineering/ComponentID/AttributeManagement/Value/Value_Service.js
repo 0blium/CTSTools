@@ -17,6 +17,19 @@ export async function CreateValue(ValueDTO) {
     }
     return _validationResultDTO;
 }
+export async function CreateMassiveValue(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Value/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function UpdateValue(ValueDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Value/Update`;

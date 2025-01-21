@@ -17,6 +17,19 @@ export async function CreateAttribute(AttributeDTO) {
     }
     return _validationResultDTO;
 }
+export async function CreateMassiveAttribute(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Attribute/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function UpdateAttribute(AttributeDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Attribute/Update`;

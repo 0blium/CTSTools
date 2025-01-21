@@ -35,9 +35,7 @@ public class KPIMap
             _KPIDTO.ResponsibleDepartmentName = (KPIXPO.ResponsibleDepartment != null) ? KPIXPO.ResponsibleDepartment.Name : "Unnassigned";
             _KPIDTO.DashboardCategoryID = (KPIXPO.DashboardCategory != null) ? KPIXPO.DashboardCategory.Oid : 0;
             _KPIDTO.DashboardCategoryName = (KPIXPO.DashboardCategory != null) ? KPIXPO.DashboardCategory.Name : "Unnassigned";
-            _KPIDTO.Shared = KPIXPO.Shared;
-            _KPIDTO.GoalRangeID = (KPIXPO.GoalRange != null) ? KPIXPO.GoalRange.Oid : 0;
-            _KPIDTO.GoalRangeValue = (KPIXPO.GoalRange != null) ? KPIXPO.GoalRange.Value : 0;
+            _KPIDTO.Shared = KPIXPO.Shared;          
             _KPIDTO.FacilityID = (KPIXPO.Facility != null) ? KPIXPO.Facility.Oid : 0;
             _KPIDTO.FacilityName = (KPIXPO.Facility != null) ? KPIXPO.Facility.Name : "Unnassigned";
             _KPIDTO.EquivalenceID = (KPIXPO.Equivalence != null) ? KPIXPO.Equivalence.Oid : 0;
@@ -95,7 +93,6 @@ public class KPIMap
             _KPIXPO.DashboardCategory = (_KPIXPO.DashboardCategory != null && _KPIXPO.DashboardCategory.Oid == KPIDTO.DashboardCategoryID) ? _KPIXPO.DashboardCategory : UnitOfWork.GetObjectByKey<DashboardCategoryXPO>(KPIDTO.DashboardCategoryID);
             //_KPIXPO.Shared = (bool)(_KPIXPO.Shared == KPIDTO.Shared ? _KPIXPO.Shared : KPIDTO.Shared);
             _KPIXPO.Goal = _KPIXPO.Goal == KPIDTO.Goal ? _KPIXPO.Goal : KPIDTO.Goal;
-            _KPIXPO.GoalRange = (_KPIXPO.GoalRange != null && _KPIXPO.GoalRange.Oid == KPIDTO.GoalRangeID) ? _KPIXPO.GoalRange : UnitOfWork.GetObjectByKey<GoalRangeXPO>(KPIDTO.GoalRangeID);
             _KPIXPO.Facility = (_KPIXPO.Facility != null && _KPIXPO.Facility.Oid == KPIDTO.FacilityID) ? _KPIXPO.Facility : UnitOfWork.GetObjectByKey<FacilityXPO>(KPIDTO.FacilityID);
             _KPIXPO.Equivalence = (_KPIXPO.Equivalence != null && _KPIXPO.Equivalence.Oid == KPIDTO.EquivalenceID) ? _KPIXPO.Equivalence : UnitOfWork.GetObjectByKey<EquivalenceXPO>(KPIDTO.EquivalenceID);
             _KPIXPO.Status = (_KPIXPO.Status != null && _KPIXPO.Status.Oid == KPIDTO.StatusID) ? _KPIXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(KPIDTO.StatusID);

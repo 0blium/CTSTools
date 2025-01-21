@@ -76,13 +76,6 @@ async function InitializeKPICatalogControls() {
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxKPIGoalRangeSelectBox").dxSelectBox({
-        dataSource: await GetDXGoalRangeDataSource({ IsActive: true }),
-        displayExpr: "Value",
-        valueExpr: "ID",
-        searchEnable: true,
-        popupWidth: 450,
-    });
     $("#dxKPIFacilitySelectBox").dxSelectBox({
         dataSource: await GetDXFacilityDataSource({ IsActive: true }),
         displayExpr: "Name",
@@ -264,18 +257,12 @@ async function PopulateKPIFields(data) {
     $("#dxKPIUnitOfMeasureSelectBox").dxSelectBox("instance").option("value", data.UnitOfMeasureID);
     $("#dxKPICategorySelectBox").dxSelectBox("instance").option("value", data.DashboardCategoryID);
     $("#dxKPIValueTypeSelectBox").dxSelectBox("instance").option("value", data.ValueTypeID);
-    //$("#dxKPISharedCheckBox").dxCheckBox("instance").option("value", data.Shared);
-    $("#dxKPIGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeID);
     $("#dxKPIFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityID);
     $("#dxKPIOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
     $("#dxKPIOwnerDepartmentSelectBox").dxSelectBox("instance").option("value", data.OwnerDepartmentID);
     $("#dxKPIResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
-    //$("#dxKPIResponsibleSelectBox").dxSelectBox("instance").option("value", data.ResponsibleID);
     $("#dxKPIResponsibleDepartmentSelectBox").dxSelectBox("instance").option("value", data.ResponsibleDepartmentID);
     $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").option("value", data.EquivalenceID)
-    //  //$("#dxKPIStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
-    //$("#dxKPIIsParentCheckBox").dxCheckBox("instance").option("value", data.IsParent);
-    //$("#dxKPICalculationTypeSelectBox").dxSelectBox("instance").option("value", data.CalculationTypeID);
     $("#dxKPIIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
 }
@@ -330,7 +317,6 @@ function ClearKPIFields() {
     $("#dxKPICategorySelectBox").dxSelectBox("instance").reset();
     $("#dxKPIValueTypeSelectBox").dxSelectBox("instance").reset();
     //$("#dxKPISharedCheckBox").dxCheckBox("instance").option("value", true);
-    $("#dxKPIGoalRangeSelectBox").dxSelectBox("instance").reset();
     $("#dxKPIFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").reset();
     //$("#dxKPIStatusSelectBox").dxSelectBox("instance").reset();
@@ -385,7 +371,13 @@ function ShowKPIValidationResults(_validationResultDTO) {
         $('#errorKPIMessages').html(errorMessages).show();
         document.getElementById('errorKPIMessages').removeAttribute('hidden');
     }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
+        $('#UploadExcelKPIModal').modal('hide');
+        ClearExcelModalFields();
+        return HostResponse(_validationResultDTO);
+    }
     $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxKPIGrid").dxDataGrid("instance").refresh();
     ClearKPIFields();
 }
 function GetKPIDTO() {
@@ -399,7 +391,6 @@ function GetKPIDTO() {
         DashboardCategoryID: $("#dxKPICategorySelectBox").dxSelectBox("instance").option("value"),
         ValueTypeID: $("#dxKPIValueTypeSelectBox").dxSelectBox("instance").option("value"),
         //Shared: $("#dxKPISharedCheckBox").dxCheckBox("instance").option("value"),
-        GoalRangeID: $("#dxKPIGoalRangeSelectBox").dxSelectBox("instance").option("value"),
         FacilityID: $("#dxKPIFacilitySelectBox").dxSelectBox("instance").option("value"),
         EquivalenceID: $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").option("value"),
         //IsParent: $("#dxKPIIsParentCheckBox").dxCheckBox("instance").option("value"),

@@ -157,7 +157,7 @@ async function InitializeSupplierCatalogControls() {
     });
     SupplierActionButtons("Save");
     document.getElementById("UploadExcelSupplirCloseModalButton").addEventListener("click", ClearExcelModalFields);
-    document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);   
 }
 function SupplierActionButtons(Action) {
     $("#SupplierActionButtons").empty();
@@ -232,6 +232,11 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
         $('#errorMessages').html(errorMessages).show();
         document.getElementById('errorMessages').removeAttribute('hidden');
+    }
+    if (_validationResultDTO.Message == "Don't have access to this action.") {
+        $('#UploadExcelSupplirModal').modal('hide');
+        ClearExcelModalFields();
+        return HostResponse(_validationResultDTO);
     }
     $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
     ClearSupplierFields();

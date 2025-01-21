@@ -1,4 +1,5 @@
-﻿using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
+﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -35,6 +36,10 @@ public class Dashboard_DXFilter
             if (DashboardDTO.LevelID != null || DashboardDTO.LevelID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.Level), DashboardDTO.LevelID));
+            }
+            if (DashboardDTO.GoalRangeID != null || DashboardDTO.GoalRangeID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardXPO.GoalRange), DashboardDTO.GoalRangeID));
             }
             if (DashboardDTO.LevelIDArray != null && DashboardDTO.LevelIDArray.Count() > 0)
             {

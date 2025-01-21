@@ -85,7 +85,7 @@
                                     <label for="dxDashboardLevelSelectBox" class="form-label">Level (<span class="text-danger">*</span>)</label>
                                     <div id="dxDashboardLevelSelectBox"></div>
                                     <div class="invalid-feedback" id="DashboardLevelValidation"></div>
-   
+
                                 </div>
                             </div>
 
@@ -101,6 +101,15 @@
                                     <div id="dxDashboardDepartmentSelectBox"></div>
                                     <div class="invalid-feedback" id="DashboardDepartmentValidation"></div>
                                 </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="dxDashboardFacilitySelectBox" class="form-label">Goal Range (<span class="text-danger">*</span>)</label>
+                                    <div id="dxDashboardGoalRangeSelectBox"></div>
+                                    <div class="invalid-feedback" id="DashboardGoalRangeValidation"></div>
+                                </div>
+                                
                             </div>
                         </div>
 

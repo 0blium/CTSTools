@@ -38,7 +38,7 @@ public class Value_Validator
                     Data = $"{nameof(Value)}{nameof(ValueDTO.Name)}", 
                 });
             }
-            
+
             if (ValueDTO.AddedByID == null || ValueDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO

@@ -65,16 +65,7 @@ public class KPI_Validator
                 });
             }
 
-            if (KPIDTO.GoalRangeID == null || KPIDTO.GoalRangeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "GoalRange Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(KPI)}{nameof(KPIDTO.GoalRangeDTO)}",
-                });
-            }
+            
             if (KPIDTO.FacilityID == null || KPIDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -213,15 +204,7 @@ public class KPI_Validator
                 });
             }
 
-            if (KPIDTO.GoalRangeID == null || KPIDTO.GoalRangeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "GoalRange Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
+           
             if (KPIDTO.FacilityID == null || KPIDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO

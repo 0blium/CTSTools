@@ -27,8 +27,10 @@ export async function ShowSidebarMenu(UserID) {
             }
         });
         _subMenuNav.forEach(MenuName => {
+
             const _exist = _moduleNavList.some(id => id.endsWith(MenuName.id));
             if (_exist && !_subMenuList.includes(MenuName.id)) {
+                console.log(MenuName.id);
                 _subMenuList.push(MenuName.id);
             }
         });
@@ -36,9 +38,12 @@ export async function ShowSidebarMenu(UserID) {
             document.getElementById(MenuName).removeAttribute('hidden');
         });
         _menuNav.forEach(MenuName => {
+
             const _menuNavList = MenuName.getAttribute('data-tech').split(' ');
             let _exist = _menuNavList.some(Menu => _subMenuList.includes(Menu));
             if (_exist) {
+                
+
                 // Cycle through related submenus and display them
                 document.getElementById(MenuName.id).removeAttribute('hidden');
             }

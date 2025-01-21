@@ -28,7 +28,7 @@
                 <a id="PrintDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-print"></i></a>
                 <%--<a id="ExpPDFDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-pdf me-2" style="color: darkred"></i>PDF</a>--%>
                 <%--<a id="ExpExcelDashboardBtn" class="btn btn-dark text-righ"><i class="fas fa-file-excel me-2" style="color: green"></i>Excel</a>--%>
-                <a class="btn btn-dark text-righ" id="dashboardButton"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="btn btn-dark text-righ" id="dashboardButton" hidden><i class="fa-solid fa-arrow-left"></i></a>
                 <a class="btn btn-dark text-righ" id="KPIButton"><i class="fa-solid fa-gear"></i></a>
 
             </div>

@@ -5,10 +5,12 @@ import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationMan
 import { GetDXFacilityDataSource } from '../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
 import { GetDXLevelDataSource } from '../Settings/Level/Level_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { GetDXGoalRangeDataSource } from '../Settings/GoalRange/GoalRange_Service.js'
 
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDashboardCatalogControls();
+
 });
 
 async function InitializeDashboardCatalogControls() {
@@ -130,7 +132,6 @@ async function InitializeDashboardCatalogControls() {
     $("#dxDashboardDescriptionTextArea").dxTextArea({
         placeholder: 'Type description...'
     });
-
     $("#dxDashboardOwnerSelectBox").dxSelectBox({
         dataSource: await GetDXUserDataSource({ IsActive: true }),
         displayExpr: "Name",
@@ -171,6 +172,13 @@ async function InitializeDashboardCatalogControls() {
                 $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("dataSource", []);
             }
         },
+    });
+    $("#dxDashboardGoalRangeSelectBox").dxSelectBox({
+        dataSource: await GetDXGoalRangeDataSource({ IsActive: true }),
+        displayExpr: "Value",
+        valueExpr: "ID",
+        searchEnable: true,
+        popupWidth: 450,
     });
     let _yearStart = 2024;
     let _date = new Date();
@@ -215,6 +223,8 @@ async function PopulateDashboardFields(data) {
     $("#dxDashboardYearSelectBox").dxSelectBox("instance").option("value", data.Year);
     $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value", data.LevelID);
     $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
+    $("#dxDashboardGoalRangeSelectBox").dxSelectBox("instance").option("value", data.GoalRangeID);
+
     await $("#dxDashboardFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
 
@@ -263,6 +273,7 @@ function ClearDashboardFields() {
     DashboardActionButtons("Save");
     $("#hiddenDashboardID").val("");
     $("#dxDashboardNameTextBox").dxTextBox("instance").option("value", "");
+    $("#dxDashboardGoalRangeSelectBox").dxSelectBox("instance").reset();
     $("#dxDashboardRevisionTextBox").dxTextBox("instance").option("value", "");
     $("#dxDashboardDescriptionTextArea").dxTextArea("instance").option("value", "");
     $("#dxDashboardLevelSelectBox").dxSelectBox("instance").reset();
@@ -283,6 +294,7 @@ function GetDashboardDTO() {
         DepartmentID: $("#dxDashboardDepartmentSelectBox").dxSelectBox("instance").option("value"),
         LevelID: $("#dxDashboardLevelSelectBox").dxSelectBox("instance").option("value"),
         OwnerID: $("#dxDashboardOwnerSelectBox").dxSelectBox("instance").option("value"),
+        GoalRangeID: $("#dxDashboardGoalRangeSelectBox").dxSelectBox("instance").option("value"),
         Year: $("#dxDashboardYearSelectBox").dxSelectBox("instance").option("value"),
         IsActive: true,
 

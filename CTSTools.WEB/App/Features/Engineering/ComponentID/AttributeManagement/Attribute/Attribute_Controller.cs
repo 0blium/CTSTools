@@ -1,6 +1,8 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
@@ -51,6 +53,18 @@ public class Attribute_Controller : ApiController
         {
             AttributeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
             _validationResultDTO = Attribute_Service.CreateAttribute_Global(AttributeDTO);
+        }
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
+    [Route("api/Attribute/CreateMassive")]
+    public IHttpActionResult CreateMassiveAttribute([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Attribute), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Attribute_Service.AttributeFileValidation_Global(FileDTO);
         }
         return Json(_validationResultDTO);
     }

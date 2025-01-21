@@ -47,6 +47,7 @@
                                     <div class="panel-body">
                                         <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#SubClassModal" id="SubClassButton"><i class="fa-solid fa-circle-plus"></i>
                                             Sub Class</a>
+                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelSubClassModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSubClassModal"><i class="fa-solid fa-file-import"></i>Excel</a>
                                         <div id="dxSubClassGrid"></div>
                                     </div>
                                 </div>
@@ -60,7 +61,7 @@
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
                                         <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#ClassModal" id="ClassButton"><i class="fa-solid fa-circle-plus"></i>Class</a>
-                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelClassModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelClassModal"><i class="fa-solid fa-file-import"></i>Excel</a>
                                         <div id="dxClassGrid"></div>
                                     </div>
                                 </div>
@@ -203,25 +204,46 @@
     </div>
 
     <div class="modal fade" id="UploadExcelClassModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Upload file excel</h1>
-                <button type="button" id="UploadExcelClassCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-15px">
-                    <div id="dxClassFileUploader"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelClassCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="successClassMessage" class="alert alert-success" hidden></div>
-                <div id="errorClassMessages" class="alert alert-danger" hidden></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary float-end" id="ClearClassExcelModalButton" type="button">Clear</button>
+                <div class="modal-body">
+                    <div class="row mb-15px">
+                        <div id="dxClassFileUploader"></div>
+                    </div>
+                    <div id="successClassMessage" class="alert alert-success" hidden></div>
+                    <div id="errorClassMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearClassExcelModalButton" type="button">Clear</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="UploadExcelSubClassModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelSubClassCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-15px">
+                        <div id="dxSubClassFileUploader"></div>
+                    </div>
+                    <div id="successSubClassMessage" class="alert alert-success" hidden></div>
+                    <div id="errorSubClassMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearSubClassExcelModalButton" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <input type="hidden" id="hiddenClassID" hidden />
     <input type="hidden" id="hiddenClassValueLinkID" hidden />
