@@ -136,29 +136,6 @@ public class Document_Service
     #region Business Logic
 
     // Aqui va la logica 
-    public static string GenerateNewRevisionSequence(string Sequence)
-    {
-        //Convert the revision to a list.
-        var _sequenceList = Sequence.ToList();
-        //Get the last letter of the revision
-        char _letter = _sequenceList[_sequenceList.Count() - 1];
-        //If the letter is 'Z', add a new letter and replace the 'Z' to 'A'
-        if (_letter == 'Z')
-        {
-            _sequenceList.Add('A');
-            Sequence = string.Join("", _sequenceList);
-            Sequence = Sequence.Replace('Z', 'A');
-        }
-        //If the letter is different from 'Z', we increment the char element to get the next value
-        else
-        {
-            _letter++;
-            _sequenceList[_sequenceList.Count() - 1] = _letter;
-            Sequence = string.Join("", _sequenceList);
-        }
-        //return the new sequence
-        return Sequence;
-    }
 
     #endregion
 }

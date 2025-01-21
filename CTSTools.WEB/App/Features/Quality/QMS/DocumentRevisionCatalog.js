@@ -6,16 +6,18 @@ import { GetDXDocumentDataSource, GetDocumentInformation } from './document/docu
 import { GetDXStatusDataSource } from '../../advancedsettings/statusmanagement/status/status_service.js'
 
 document.addEventListener("DOMContentLoaded", async function () {
+    await dxLoadPanel.show();
     await GetDocumentIDByURL();
     await InitializeDocumentRevisionCatalogControls();
+    await dxLoadPanel.hide();
 });
 
 async function GetDocumentIDByURL() {
-    await dxLoadPanel.show();
     let _documentID = GetURLParameter("DocumentID");
-    //let _documentDTO = await GetDocumentInformation({ ID: _documentID })
+    let _documentDTO = await GetDocumentInformation({ ID: _documentID })
     if (_documentID != null && _documentID != undefined && _documentID != 0 && !Number.isNaN(_documentID)) {
         document.getElementById('hiddenDocumentID').value = _documentID;
+        document.getElementById('DocumentRevisionTitle').textContent = _documentDTO[0].Number + " - " + _documentDTO[0].Name;
     } else {
         toastr["error"]("Please, select a document to get the information", "Document Not selected");
     }

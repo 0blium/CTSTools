@@ -20,6 +20,7 @@ public class DocumentMap
             _documentDTO.ID = DocumentXPO.Oid;
             _documentDTO.Name = DocumentXPO.Name;
             _documentDTO.Number = DocumentXPO.Number;
+            _documentDTO.Description = DocumentXPO.Description;
             _documentDTO.OwnerID = (DocumentXPO.Owner != null) ? DocumentXPO.Owner.Oid : 0;
             _documentDTO.OwnerName = (DocumentXPO.Owner != null) ? DocumentXPO.Owner.Name : "Unnassigned";
             _documentDTO.DepartmentID = (DocumentXPO.Department != null) ? DocumentXPO.Department.Oid : 0;
@@ -48,6 +49,7 @@ public class DocumentMap
             _documentXPO = DocumentDTO.ID == null || DocumentDTO.ID == 0 ? new DocumentXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DocumentXPO>(DocumentDTO.ID);
             _documentXPO.Name = _documentXPO.Name == DocumentDTO.Name ? _documentXPO.Name : DocumentDTO.Name;
             _documentXPO.Number = _documentXPO.Number == DocumentDTO.Number ? _documentXPO.Number : DocumentDTO.Number;
+            _documentXPO.Description = _documentXPO.Description == DocumentDTO.Description ? _documentXPO.Description : DocumentDTO.Description;
             _documentXPO.Owner = (_documentXPO.Owner != null && _documentXPO.Owner.Oid == DocumentDTO.OwnerID) ? _documentXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(DocumentDTO.OwnerID);
             _documentXPO.Department = (_documentXPO.Department != null && _documentXPO.Department.Oid == DocumentDTO.DepartmentID) ? _documentXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(DocumentDTO.DepartmentID);
             _documentXPO.Type = (_documentXPO.Type != null && _documentXPO.Type.Oid == DocumentDTO.TypeID) ? _documentXPO.Type : UnitOfWork.GetObjectByKey<DocumentTypeXPO>(DocumentDTO.TypeID);

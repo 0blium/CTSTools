@@ -28,6 +28,12 @@ public class DocumentXPO : XPObject
         get { return fNumber; }
         set { SetPropertyValue<string>(nameof(Number), ref fNumber, value); }
     }
+    string fDescription;
+    public string Description
+    {
+        get { return fDescription; }
+        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
+    }
     UserXPO fOwner;
     public UserXPO Owner
     {

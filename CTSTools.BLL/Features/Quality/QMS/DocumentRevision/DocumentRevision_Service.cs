@@ -1,9 +1,12 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 using CTSTools.BLL.Features.Quality.QMS.Document;
+using DevExpress.DocumentServices.ServiceModel.DataContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,14 +17,26 @@ public class DocumentRevision_Service
     #region Global CRUD
     public static ValidationResultDTO CreateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
-        //test comment
-        var _ValidationResultDTO = DocumentRevision_Validator.CreateDocumentRevision_Validation(DocumentRevisionDTO);
-        if (_ValidationResultDTO.Result)
+        var _lastDocumentRevisionDTO = new DocumentRevisionDTO { DocumentID = DocumentRevisionDTO.DocumentID };
+        _lastDocumentRevisionDTO = GetDocumentRevisionList_Global(_lastDocumentRevisionDTO).LastOrDefault();
+
+        if (_lastDocumentRevisionDTO == null)
         {
-            DocumentRevisionDTO.AddedDate = DateTime.Now;
-            _ValidationResultDTO = DocumentRevision_Repository.CreateDocumentRevision(DocumentRevisionDTO);
+            DocumentRevisionDTO.Revision = "A";
         }
-        return _ValidationResultDTO;
+        else
+        {
+            DocumentRevisionDTO.Revision = GenerateNewRevisionSequence(_lastDocumentRevisionDTO.Revision);
+        }
+
+        //Step 1. Validate fields
+        var _validationResultDTO = DocumentRevision_Validator.CreateDocumentRevision_Validation(DocumentRevisionDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        DocumentRevisionDTO.AddedDate = DateTime.Now;
+        _validationResultDTO = DocumentRevision_Repository.CreateDocumentRevision(DocumentRevisionDTO);
+        return _validationResultDTO;
     }
     public static ValidationResultDTO UpdateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
@@ -136,6 +151,28 @@ public class DocumentRevision_Service
     #region Business Logic
 
     // Aqui va la logica 
-
+    public static string GenerateNewRevisionSequence(string Sequence)
+    {
+        //Convert the revision to a list.
+        var _sequenceList = Sequence.ToList();
+        //Get the last letter of the revision
+        char _letter = _sequenceList[_sequenceList.Count() - 1];
+        //If the letter is 'Z', add a new letter and replace the 'Z' to 'A'
+        if (_letter == 'Z')
+        {
+            _sequenceList.Add('A');
+            Sequence = string.Join("", _sequenceList);
+            Sequence = Sequence.Replace('Z', 'A');
+        }
+        //If the letter is different from 'Z', we increment the char element to get the next value
+        else
+        {
+            _letter++;
+            _sequenceList[_sequenceList.Count() - 1] = _letter;
+            Sequence = string.Join("", _sequenceList);
+        }
+        //return the new sequence
+        return Sequence;
+    }
     #endregion
 }

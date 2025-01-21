@@ -50,33 +50,40 @@
                                 <div class="invalid-feedback" id="DocumentNameValidation"></div>
                             </div>
 
-                            <!-- Number -->
-                            <div class="col-md-6 mb-3">
-                                <label for="dxDocumentNumberTextBox" class="form-label">Number</label>
-                                <div id="dxDocumentNumberTextBox"></div>
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label for="dxDocumentDescriptionTextArea" class="form-label">Description </label>
+                                <div id="dxDocumentDescriptionTextArea"></div>
                             </div>
 
-                            <!-- Row: Owner & Type -->
+                            <!-- Row: Owner & Number -->
                             <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="dxDocumentNumberNumberBox" class="form-label">Number (<span class="text-danger">*</span>)</label>
+                                    <div id="dxDocumentNumberNumberBox"></div>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentOwnerSelectBox" class="form-label">Owner (<span class="text-danger">*</span>)</label>
                                     <div id="dxDocumentOwnerSelectBox"></div>
                                     <div class="invalid-feedback" id="DocumentOwnerValidation"></div>
                                 </div>
+                            </div>
+
+                            <!-- Row: Facility & DocumentType -->
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentTypeSelectBox" class="form-label">Type (<span class="text-danger">*</span>)</label>
                                     <div id="dxDocumentTypeSelectBox"></div>
                                     <div class="invalid-feedback" id="DocumentTypeValidation"></div>
                                 </div>
-                            </div>
-
-                            <!-- Row: Facility & Department -->
-                            <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentFacilitySelectBox" class="form-label">Facility (<span class="text-danger">*</span>)</label>
                                     <div id="dxDocumentFacilitySelectBox"></div>
                                     <div class="invalid-feedback" id="DocumentFacilityValidation"></div>
                                 </div>
+                            </div>
+                            <!-- Row: Department -->
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentDepartmentSelectBox" class="form-label">Department (<span class="text-danger">*</span>)</label>
                                     <div id="dxDocumentDepartmentSelectBox"></div>

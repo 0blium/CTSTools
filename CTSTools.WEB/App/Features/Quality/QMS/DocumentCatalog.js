@@ -107,14 +107,16 @@ async function InitializeDocumentCatalogControls() {
                     }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
+                { caption: "Number", dataField: "Number" },
                 { caption: "Name", dataField: "Name" },
-                { caption: "Number", dataField: "Number" },,
+                { caption: "Revision", dataField: "Revision" },
+                { caption: "Description", dataField: "Description" },
                 { caption: "Owner", dataField: "OwnerName" },
                 { caption: "Department", dataField: "DepartmentName" },
                 { caption: "Type", dataField: "TypeName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
-                { caption: "Last Revision", dataField: "LastRevision" },
+                { caption: "Added Date", dataField: "AddedDate" },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
             ],
@@ -123,7 +125,10 @@ async function InitializeDocumentCatalogControls() {
     $("#dxDocumentNameTextBox").dxTextBox({
         placeholder: 'Type name...'
     });
-    $("#dxDocumentNumberTextBox").dxTextBox({
+    $("#dxDocumentDescriptionTextArea").dxTextArea({
+        placeholder: 'Type description...'
+    });
+    $("#dxDocumentNumberNumberBox").dxNumberBox({
         placeholder: 'Type number...'
     });
 
@@ -186,7 +191,8 @@ async function InitializeDocumentCatalogControls() {
 async function PopulateDocumentFields(data) {
     $("#hiddenDocumentID").val(data.ID);
     $("#dxDocumentNameTextBox").dxTextBox("instance").option("value", data.Name);
-    $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", data.Number);
+    $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
+    $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value", data.Number);
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value", data.TypeID);
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
     await $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
@@ -237,7 +243,8 @@ function ClearDocumentFields() {
     DocumentActionButtons("Save");
     $("#hiddenDocumentID").val("");
     $("#dxDocumentNameTextBox").dxTextBox("instance").option("value", "");
-    $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", "");
+    $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value", "");
+    $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value", "");
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").reset();
@@ -251,7 +258,8 @@ function GetDocumentDTO() {
     let _documentDTO = {
         ID: $("#hiddenDocumentID").val(),
         Name: $("#dxDocumentNameTextBox").dxTextBox("instance").option("value"),
-        Number: $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value"),
+        Description: $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value"),
+        Number: $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value"),
         DepartmentID: $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value"),
         TypeID: $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value"),
         OwnerID: $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value"),

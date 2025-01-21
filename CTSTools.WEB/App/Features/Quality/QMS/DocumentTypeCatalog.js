@@ -110,6 +110,7 @@ async function InitializeDocumentTypeCatalogControls() {
                 { caption: "Description", dataField: "Description" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
+                { caption: "Added Date", dataField: "AddedDate" },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Is Active", dataField: "IsActive" },

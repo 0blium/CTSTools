@@ -14,7 +14,7 @@
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Revisions</h1>
+                <h1 id="DocumentRevisionTitle" class="page-header"></h1>
             </div>
             <!-- END page-header -->
         </div>

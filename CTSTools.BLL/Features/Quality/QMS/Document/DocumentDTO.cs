@@ -11,7 +11,8 @@ public class DocumentDTO
     public int? ID { get; set; }
     public string Name { get; set; }
     public string Number { get; set; }
-    public string LastRevision { get; set; }
+    public string Description { get; set; }
+    public string Revision { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? AddedByID { get; set; }
     public string AddedByName { get; set; }
