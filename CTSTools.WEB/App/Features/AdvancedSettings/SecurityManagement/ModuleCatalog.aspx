@@ -6,7 +6,7 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-end">
                     <li class="breadcrumb-item"><a href="javascript:;">Advanced Settings</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Modules</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;"></a></li>
                 </ol>
             </div>
             <!-- END breadcrumb -->

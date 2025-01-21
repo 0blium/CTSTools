@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
         <div class="col-md-12">
-            <div class="card border-0 theme-gray-600 rounded-4 overflow-hidden" data-bs-theme="dark">
+            <div style="background-color: #263235 !important" class="card border-0 rounded-4 overflow-hidden" data-bs-theme="dark">
                 <div class="row gx-0">
                     <div class="col-xl-12 position-relative">
                         <div class="p-5">

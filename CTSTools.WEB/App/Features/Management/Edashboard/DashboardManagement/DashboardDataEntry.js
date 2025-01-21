@@ -161,8 +161,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</tr>";
         _sortSafetyList.forEach(function (Dashboard_KPIDTO) {
             let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
-            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
+            let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr valign='middle'><td style="width: 80px;"><a class="btn-modal-tendency" ` +
                 `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
@@ -173,7 +172,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
                 `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
                 `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat} ${(_fyGoalSymbol == '$') ? '' : _fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
@@ -188,10 +187,9 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
-                    _valueTypeIcon = _fyGoalSymbol;
+                    _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol ;
                 } else {
                     _value = ""
                     _bgColor = "FFF"
@@ -199,7 +197,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value} ${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
@@ -231,7 +229,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
                 `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
                 `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat} ${(_fyGoalSymbol == '$') ? '' : _fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
@@ -245,10 +243,9 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
-                    _valueTypeIcon = _fyGoalSymbol;
+                    _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;;
                 } else {
                     _value = ""
                     _bgColor = "FFF"
@@ -287,7 +284,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
                 `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
                 `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat} ${(_fyGoalSymbol == '$') ? '' : _fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
@@ -305,7 +302,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                     _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
-                    _valueTypeIcon = _fyGoalSymbol;
+                    _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;
                 } else {
                     _value = ""
                     _bgColor = "FFF"
@@ -344,7 +341,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
                 `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
                 `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+            `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat} ${(_fyGoalSymbol == '$') ? '' : _fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
@@ -362,7 +359,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                     _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
-                    _valueTypeIcon = _fyGoalSymbol;
+                    _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;;
                 } else {
                     _value = ""
                     _bgColor = "FFF"
@@ -401,7 +398,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
                 `<td style="width: 95px;">${Dashboard_KPIDTO.KPIDTO.OwnerName}</td>` +
                 `<td style="width: 400px;" class=\"bg-yellow\">${Dashboard_KPIDTO.KPIName}</td>` +
-                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat}${_fyGoalSymbol}</td>`;
+                `<td class=\"bg-info fw-bold\"> ${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} ${_fyGoalFormat} ${_fyGoalSymbol}</td>`;
             Month_Enum.forEach(function (MonthDTO) {
                 let _bgColor = "";
                 let _fontColor = "";
@@ -419,7 +416,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                     _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
 
-                    _valueTypeIcon = _fyGoalSymbol;
+                    _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;
                 } else {
                     _value = ""
                     _bgColor = "FFF"
@@ -722,7 +719,8 @@ async function InitializeTemplateAdministrationControls() {
             {
                 dataField: 'DashboardCategoryName',
                 caption: 'Category',
-                groupIndex: 0,
+                sortIndex: 0,
+                sortOrder: "asc"
             },
             {
                 dataField: 'OwnerDepartmentName',

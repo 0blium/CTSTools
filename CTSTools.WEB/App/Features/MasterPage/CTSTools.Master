@@ -181,31 +181,28 @@
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu">
-                            <div id="OrgManagement" class="menu-item has-sub submenu-nav" hidden>
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">Org Management</div>
-                                    <div class="menu-caret"></div>
+                            <div id="UserCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UserCatalog User_Permission User_Role" hidden>
+                                <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Users </div>
                                 </a>
-                                <div class="menu-submenu">
-                                    <div id="UserCatalogOrgManagement" class="menu-item module-nav" data-tech="UserCatalog User_Permission User_Role" hidden>
-                                        <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Users</div>
-                                        </a>
-                                    </div>
-                                    <div id="LocationsCatalogOrgManagement" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog Facility Department" hidden>
-                                        <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Locations</div>
-                                        </a>
-                                    </div>
-
-
-                                </div>
+                            </div>
+                            <div id="LocationsCatalogAdvancedSettings" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog Facility Department" hidden>
+                                <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Locations </div>
+                                </a>
                             </div>
                             <div id="MailGroupCatalogAdvancedSettings" class="menu-item module-nav" data-tech="MailGroupCatalog MailGroupMember" hidden>
                                 <a href="/App/Features/AdvancedSettings/MailGroupManagement/MailGroupCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Mail Groups </div>
                                 </a>
                             </div>
+
+                            <div id="PermissionCatalogAdvancedSettings" class="menu-item module-nav" data-tech="PermissionCatalog Permission" hidden>
+                                <a href="/App/Features/AdvancedSettings/SecurityManagement/PermissionCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Permissions</div>
+                                </a>
+                            </div>
+
                             <div id="StatusAdministrationAdvancedSettings" class="menu-item module-nav" data-tech="StatusAdministration StatusType Status_StatusType" hidden>
                                 <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
                                     <div class="menu-text">Status</div>
