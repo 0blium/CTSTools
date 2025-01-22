@@ -8,5 +8,13 @@ public class Status_Enum
         Edit = 4,
         Released = 5
     }
+
+    public enum QMS_Document : int
+    {
+       
+        Released = 5,
+        Obsolete = 6
+    }
+
 }
 

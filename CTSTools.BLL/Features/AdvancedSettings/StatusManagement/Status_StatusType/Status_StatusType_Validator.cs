@@ -21,35 +21,33 @@ class Status_StatusType_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (Status_StatusTypeDTO.StatusDTO.ID == null || Status_StatusTypeDTO.StatusDTO.ID == 0)
+            if (Status_StatusTypeDTO.StatusID == null || Status_StatusTypeDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Status Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Status_StatusType)}{nameof(Status_StatusTypeDTO.StatusDTO)}"
                 });
             }
-            if (Status_StatusTypeDTO.StatusTypeDTO.ID == null || Status_StatusTypeDTO.StatusTypeDTO.ID == 0)
+            if (Status_StatusTypeDTO.StatusTypeID == null || Status_StatusTypeDTO.StatusTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "StatusType Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Status_StatusType)}{nameof(Status_StatusTypeDTO.StatusTypeDTO)}"
                 });
             }
             else
             {
-                var _statusRelationDTO = Status_StatusType_Service.GetStatus_StatusTypeList_Global(
-                    new Status_StatusTypeDTO
-                    {
-                        StatusDTO = Status_StatusTypeDTO.StatusDTO,
-                        StatusTypeDTO = Status_StatusTypeDTO.StatusTypeDTO,
-                    }).FirstOrDefault();
-                if(_statusRelationDTO != null)
+                var _status_StatusTypeDTO = new Status_StatusTypeDTO
+                {
+                    StatusID = Status_StatusTypeDTO.StatusID,
+                    StatusTypeID = Status_StatusTypeDTO.StatusTypeID,
+                };
+                var _statusRelationDTO = Status_StatusType_Service.GetStatus_StatusTypeList_Global(_status_StatusTypeDTO).FirstOrDefault();
+                if (_statusRelationDTO != null)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -109,34 +107,32 @@ class Status_StatusType_Validator
                     Data = $"{nameof(Status_StatusType)}{nameof(Status_StatusTypeDTO.ID)}"
                 });
             }
-            if (Status_StatusTypeDTO.StatusDTO.ID == null || Status_StatusTypeDTO.StatusDTO.ID == 0)
+            if (Status_StatusTypeDTO.StatusID == null || Status_StatusTypeDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "StatusID Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Status_StatusType)}{nameof(Status_StatusTypeDTO.StatusDTO)}"
                 });
             }
-            if (Status_StatusTypeDTO.StatusTypeDTO.ID == null || Status_StatusTypeDTO.StatusTypeDTO.ID == 0)
+            if (Status_StatusTypeDTO.StatusTypeID == null || Status_StatusTypeDTO.StatusTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "StatusTypeID Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Status_StatusType)}{nameof(Status_StatusTypeDTO.StatusTypeDTO)}"
                 });
             }
             else
             {
-                var _statusRelationDTO = Status_StatusType_Service.GetStatus_StatusTypeList_Global(
-                    new Status_StatusTypeDTO
-                    {
-                        StatusDTO = Status_StatusTypeDTO.StatusDTO,
-                        StatusTypeDTO = Status_StatusTypeDTO.StatusTypeDTO,
-                    }).FirstOrDefault();
+                var _status_StatusTypeDTO = new Status_StatusTypeDTO
+                {
+                    StatusID = Status_StatusTypeDTO.StatusID,
+                    StatusTypeID = Status_StatusTypeDTO.StatusTypeID,
+                };
+                var _statusRelationDTO = Status_StatusType_Service.GetStatus_StatusTypeList_Global(_status_StatusTypeDTO).FirstOrDefault();
                 if (_statusRelationDTO != null)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO

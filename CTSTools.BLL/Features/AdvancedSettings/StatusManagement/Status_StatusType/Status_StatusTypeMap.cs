@@ -14,10 +14,10 @@ public class Status_StatusTypeMap
         try
         {
             _status_statustypeDTO.ID = Status_StatusTypeXPO.Oid;
-            _status_statustypeDTO.StatusDTO.Name = (Status_StatusTypeXPO.Status != null) ? Status_StatusTypeXPO.Status.Name : "Unnassigned";
-            _status_statustypeDTO.StatusDTO.ID = (Status_StatusTypeXPO.Status != null) ? Status_StatusTypeXPO.Status.Oid : 0;
-            _status_statustypeDTO.StatusTypeDTO.Name = (Status_StatusTypeXPO.StatusType != null) ? Status_StatusTypeXPO.StatusType.Name : "Unnassigned";
-            _status_statustypeDTO.StatusTypeDTO.ID = (Status_StatusTypeXPO.StatusType != null) ? Status_StatusTypeXPO.StatusType.Oid : 0;
+            _status_statustypeDTO.StatusName = (Status_StatusTypeXPO.Status != null) ? Status_StatusTypeXPO.Status.Name : "Unnassigned";
+            _status_statustypeDTO.StatusID = (Status_StatusTypeXPO.Status != null) ? Status_StatusTypeXPO.Status.Oid : 0;
+            _status_statustypeDTO.StatusTypeName = (Status_StatusTypeXPO.StatusType != null) ? Status_StatusTypeXPO.StatusType.Name : "Unnassigned";
+            _status_statustypeDTO.StatusTypeID = (Status_StatusTypeXPO.StatusType != null) ? Status_StatusTypeXPO.StatusType.Oid : 0;
             _status_statustypeDTO.Description = Status_StatusTypeXPO.Description;
             _status_statustypeDTO.AddedDate = (Status_StatusTypeXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? Status_StatusTypeXPO.AddedDate : (DateTime?)null;
             _status_statustypeDTO.AddedByID = (Status_StatusTypeXPO.AddedBy != null) ? Status_StatusTypeXPO.AddedBy.Oid : 0;
@@ -41,8 +41,8 @@ public class Status_StatusTypeMap
         try
         {
             _status_statustypeXPO = Status_StatusTypeDTO.ID == null || Status_StatusTypeDTO.ID == 0 ? new Status_StatusTypeXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<Status_StatusTypeXPO>(Status_StatusTypeDTO.ID);
-            _status_statustypeXPO.Status =(_status_statustypeXPO.Status != null && _status_statustypeXPO.Status.Oid == Status_StatusTypeDTO.StatusDTO.ID) ? _status_statustypeXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(Status_StatusTypeDTO.StatusDTO.ID);
-            _status_statustypeXPO.StatusType = (_status_statustypeXPO.StatusType != null && _status_statustypeXPO.StatusType.Oid == Status_StatusTypeDTO.StatusTypeDTO.ID) ? _status_statustypeXPO.StatusType : UnitOfWork.GetObjectByKey<StatusTypeXPO>(Status_StatusTypeDTO.StatusTypeDTO.ID);
+            _status_statustypeXPO.Status =(_status_statustypeXPO.Status != null && _status_statustypeXPO.Status.Oid == Status_StatusTypeDTO.StatusID) ? _status_statustypeXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(Status_StatusTypeDTO.StatusID);
+            _status_statustypeXPO.StatusType = (_status_statustypeXPO.StatusType != null && _status_statustypeXPO.StatusType.Oid == Status_StatusTypeDTO.StatusTypeID) ? _status_statustypeXPO.StatusType : UnitOfWork.GetObjectByKey<StatusTypeXPO>(Status_StatusTypeDTO.StatusTypeID);
             _status_statustypeXPO.Description = _status_statustypeXPO.Description == Status_StatusTypeDTO.Description ? _status_statustypeXPO.Description : Status_StatusTypeDTO.Description;
             _status_statustypeXPO.AddedDate = _status_statustypeXPO.AddedDate != null ? _status_statustypeXPO.AddedDate : Status_StatusTypeDTO.AddedDate;
             _status_statustypeXPO.AddedBy = _status_statustypeXPO.AddedBy != null  ? _status_statustypeXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(Status_StatusTypeDTO.AddedByID);

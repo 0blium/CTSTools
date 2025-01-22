@@ -9,10 +9,10 @@ public class Status_StatusTypeDTO
 {
     #region Base Properties
     public int? ID { get; set; }
-    //public string StatusName { get; set; }
-    //public int? StatusID { get; set; }
-    //public string StatusTypeName { get; set; }
-    //public int? StatusTypeID { get; set; }
+    public string StatusName { get; set; }
+    public int? StatusID { get; set; }
+    public string StatusTypeName { get; set; }
+    public int? StatusTypeID { get; set; }
     public string Description { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? AddedByID { get; set; }

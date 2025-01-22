@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status.Status_Enum;
 
 namespace CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
 
@@ -17,25 +18,49 @@ public class DocumentRevision_Service
     #region Global CRUD
     public static ValidationResultDTO CreateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
-        var _lastDocumentRevisionDTO = new DocumentRevisionDTO { DocumentID = DocumentRevisionDTO.DocumentID };
-        _lastDocumentRevisionDTO = GetDocumentRevisionList_Global(_lastDocumentRevisionDTO).LastOrDefault();
+        var _validationResultDTO = new ValidationResultDTO();
+        // Step 1. Assign Revision
+        var _documentRevisionDTO = new DocumentRevisionDTO { DocumentID = DocumentRevisionDTO.DocumentID };
+        var _documentRevisionList = GetDocumentRevisionList_Global(_documentRevisionDTO);
+        var _lastDocumentRevisionDTO = _documentRevisionList.LastOrDefault();
+        DocumentRevisionDTO.Revision = (_lastDocumentRevisionDTO == null) ? "A" : GenerateNewRevisionSequence(_lastDocumentRevisionDTO.Revision);
 
-        if (_lastDocumentRevisionDTO == null)
+        //Step 2. Change statuses if needed
+        if (_documentRevisionList.Count() > 0)
         {
-            DocumentRevisionDTO.Revision = "A";
-        }
-        else
-        {
-            DocumentRevisionDTO.Revision = GenerateNewRevisionSequence(_lastDocumentRevisionDTO.Revision);
+            var _revisionToBeObsoleteList = new List<DocumentRevisionDTO>();
+            // Add new status and validate fields
+            foreach (var _revisionToBeObsoleteDTO in _documentRevisionList)
+            {
+                _revisionToBeObsoleteDTO.StatusID = (int)QMS_Document.Obsolete;
+                _revisionToBeObsoleteDTO.LastUpdateByID = DocumentRevisionDTO.AddedByID;
+                _revisionToBeObsoleteDTO.LastUpdate = DateTime.Now;
+                _validationResultDTO = DocumentRevision_Validator.UpdateDocumentRevision_Validation(_revisionToBeObsoleteDTO);
+                if (!_validationResultDTO.Result)
+                    return _validationResultDTO;
+                _revisionToBeObsoleteList.Add(_revisionToBeObsoleteDTO);
+            }
+            // Update multiple records
+            _validationResultDTO = DocumentRevision_Repository.UpdateMultipleDocumentRevision(_revisionToBeObsoleteList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
         }
 
-        //Step 1. Validate fields
-        var _validationResultDTO = DocumentRevision_Validator.CreateDocumentRevision_Validation(DocumentRevisionDTO);
+        //Step 3. Validate fields
+        _validationResultDTO = DocumentRevision_Validator.CreateDocumentRevision_Validation(DocumentRevisionDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
-
+        // Step 4. Create new document revision
         DocumentRevisionDTO.AddedDate = DateTime.Now;
         _validationResultDTO = DocumentRevision_Repository.CreateDocumentRevision(DocumentRevisionDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 5. Update Document status
+        var _documentDTO = Document_Repository.GetDocumentByID((int)DocumentRevisionDTO.DocumentID);
+        _documentDTO.StatusID = DocumentRevisionDTO.StatusID;
+        _documentDTO.LastUpdateByID = DocumentRevisionDTO.AddedByID;
+        _documentDTO.LastUpdate = DateTime.Now;
+        _validationResultDTO = Document_Service.UpdateDocument_Global(_documentDTO);
         return _validationResultDTO;
     }
     public static ValidationResultDTO UpdateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)

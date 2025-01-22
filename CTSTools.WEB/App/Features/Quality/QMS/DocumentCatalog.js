@@ -109,6 +109,7 @@ async function InitializeDocumentCatalogControls() {
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Number", dataField: "Number" },
                 { caption: "Name", dataField: "Name" },
+                { caption: "Status", dataField: "StatusName" },
                 { caption: "Revision", dataField: "Revision" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Owner", dataField: "OwnerName" },

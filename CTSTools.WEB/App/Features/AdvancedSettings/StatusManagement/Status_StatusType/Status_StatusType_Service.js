@@ -70,17 +70,15 @@ export async function GetStatus_StatusTypeInformation(Status_StatusTypeDTO) {
 
 //DX DataSource
 export async function GetDXStatus_StatusTypeDataSource(Status_StatusTypeDTO) {
-    let params = await BuildSearchParams(Status_StatusTypeDTO);
+
 
     let _store = new DevExpress.data.AspNet.createStore({
-        loadUrl: `${APIURL}/Status_StatusType/GetPagedList?` + params.toString(),
-
-        //loadParams: {
-        //    "Status_StatusTypeDTO": Status_StatusTypeDTO
-        //},
+        loadUrl: `${APIURL}/Status_StatusType/GetPagedList?` + new URLSearchParams(Status_StatusTypeDTO),
+        key: "ID",
         beforeSend: (sender, ajaxSettings) => {
         },
     });
+
     let _Status_StatusTypeDataSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,

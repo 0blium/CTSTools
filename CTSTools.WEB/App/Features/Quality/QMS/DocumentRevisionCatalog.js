@@ -3,7 +3,9 @@ import { HostResponse, ClearErrorFeedback } from '../../../common/utils/response
 import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
 import { GetURLParameter } from '../../../Common/Utils/GetURLParameter.js'
 import { GetDXDocumentDataSource, GetDocumentInformation } from './document/document_service.js'
-import { GetDXStatusDataSource } from '../../advancedsettings/statusmanagement/status/status_service.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
+import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
+
 
 document.addEventListener("DOMContentLoaded", async function () {
     await dxLoadPanel.show();
@@ -130,11 +132,10 @@ async function InitializeDocumentRevisionCatalogControls() {
         placeholder: 'Type revision...'
     });
     $("#dxDocumentRevisionStatusSelectBox").dxSelectBox({
-        dataSource: await GetDXStatusDataSource_Global(),
-        displayExpr: "Name",
-        valueExpr: "ID",
+        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
+        displayExpr: "StatusName",
+        valueExpr: "StatusID",
         searchEnable: true,
-        popupWidth: 450,
     });
     
     $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide();
@@ -168,7 +169,7 @@ function DocumentRevisionActionButtons(Action) {
 
     const revisionField = $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance");
     if (Action == "Save") {
-        document.getElementById('DocumentRevisionModalTitle').innerText = 'Add Document Revision Form';
+        document.getElementById('DocumentRevisionModalTitle').innerText = 'New Revision Form';
         $("#DocumentRevisionActionButtons").html(
             `<div class="col-md-12">
                 <button class="btn btn-success float-end" id="CreateDocumentRevisionButton" type="button">Save</button>
@@ -183,7 +184,7 @@ function DocumentRevisionActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('DocumentRevisionModalTitle').innerText = 'Update Document Revision Form';
+        document.getElementById('DocumentRevisionModalTitle').innerText = 'Update Revision Form';
         $("#DocumentRevisionActionButtons").html(
             `<div class="col-md-12">
                 <button class="btn btn-success float-end" id="UpdateDocumentRevisionButton" type="button">Update</button>

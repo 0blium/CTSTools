@@ -20,17 +20,17 @@ public class Status_StatusType_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Status_StatusTypeXPO.Oid), Status_StatusTypeDTO.Status_StatusTypeIDArray));
             }
-            if (Status_StatusTypeDTO.StatusDTO.ID != null && Status_StatusTypeDTO.StatusDTO.ID > 0)
+            if (Status_StatusTypeDTO.StatusID != null && Status_StatusTypeDTO.StatusID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Status_StatusTypeXPO.Status), Status_StatusTypeDTO.StatusDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Status_StatusTypeXPO.Status), Status_StatusTypeDTO.StatusID));
             }
             if (Status_StatusTypeDTO.StatusIDArray != null && Status_StatusTypeDTO.StatusIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Status_StatusTypeXPO.Status), Status_StatusTypeDTO.StatusIDArray));
             }
-            if (Status_StatusTypeDTO.StatusTypeDTO.ID != null && Status_StatusTypeDTO.StatusTypeDTO.ID > 0)
+            if (Status_StatusTypeDTO.StatusTypeID != null && Status_StatusTypeDTO.StatusTypeID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Status_StatusTypeXPO.StatusType), Status_StatusTypeDTO.StatusTypeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Status_StatusTypeXPO.StatusType), Status_StatusTypeDTO.StatusTypeID));
             }
             if (Status_StatusTypeDTO.StatusTypeIDArray != null && Status_StatusTypeDTO.StatusTypeIDArray.Count() > 0)
             {

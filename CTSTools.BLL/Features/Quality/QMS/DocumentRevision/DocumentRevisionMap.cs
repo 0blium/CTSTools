@@ -1,6 +1,8 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+﻿using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Xpo;
 using System;
@@ -57,5 +59,37 @@ public class DocumentRevisionMap
             throw ex;
         }
         return _documentRevisionXPO;
+    }
+    public static List<DocumentRevisionDTO> XPCollectionToList(XPCollection<DocumentRevisionXPO> DecoderStructureXPCollection)
+    {
+        var _documentRevisionList = new List<DocumentRevisionDTO>();
+        try
+        {
+            foreach (var _decoderStructureXPO in DecoderStructureXPCollection)
+            {
+                _documentRevisionList.Add(XPOToDTO(_decoderStructureXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentRevisionList;
+    }
+    public static List<DocumentRevisionXPO> DTOListToXPOList(List<DocumentRevisionDTO> DecoderStructureList, UnitOfWork UnitOfWork)
+    {
+        var _documentRevisionXPOList = new List<DocumentRevisionXPO>();
+        try
+        {
+            foreach (var _decoderStructureDTO in DecoderStructureList)
+            {
+                _documentRevisionXPOList.Add(DTOtoXPO(_decoderStructureDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentRevisionXPOList;
     }
 }

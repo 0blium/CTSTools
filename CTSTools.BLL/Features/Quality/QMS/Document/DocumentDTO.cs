@@ -12,6 +12,8 @@ public class DocumentDTO
     public int? ID { get; set; }
     public string Name { get; set; }
     public string Number { get; set; }
+    public int? StatusID { get; set; }
+    public string StatusName { get; set; }
     public string Description { get; set; }
     public string Revision { get; set; }
     public DateTime? AddedDate { get; set; }
@@ -38,8 +40,7 @@ public class DocumentDTO
     public bool GetTypeDTO {get; set; }
     public int?[] TypeIDArray { get; set; }
     public StatusDTO StatusDTO { get; set; }
-    public int? StatusID { get; set; }
-    public string StatusName { get; set; }
+    
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
     #endregion

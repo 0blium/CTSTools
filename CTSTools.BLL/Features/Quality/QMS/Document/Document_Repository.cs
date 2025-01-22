@@ -1,6 +1,8 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
+using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
@@ -53,6 +55,23 @@ public class Document_Repository
             //ErrorSignal.FromCurrentContext().Raise(ex);
         }
         return _documentList;
+    }
+    public static DocumentDTO GetDocumentByID(int DocumentID)
+    {
+        var _documentDTO = new DocumentDTO();
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _documentXPO = _unit.GetObjectByKey<DocumentXPO>(DocumentID);
+            if (_documentXPO != null)
+                _documentDTO = DocumentMap.XPOToDTO(_documentXPO);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentDTO;
     }
 
     public static int GetDocumentCount(DocumentDTO DocumentDTO, PagedResultDTO<DocumentDTO> PagedResultDTO = null)
@@ -151,4 +170,5 @@ public class Document_Repository
         }
         return _validationResultDTO;
     }
+
 }

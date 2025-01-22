@@ -69,7 +69,7 @@ public class DocumentRevisionController : ApiController
     public IHttpActionResult DeleteDocumentRevision([FromBody] DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Delete);
-        if (!_validationResultDTO.Result)
+        if (_validationResultDTO.Result)
         {
             DocumentRevisionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
             _validationResultDTO = DocumentRevision_Service.DeleteDocumentRevision_Global(DocumentRevisionDTO);
