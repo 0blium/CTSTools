@@ -29,7 +29,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <a id="NewKPICategoryBtn" href="#SaveKPICategoryRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>KPI</a>
-                                <a class="btn btn-success mb-2 float-end" id="UploadExcelKPIModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelKPIModal"><i class="fa-solid fa-file-import"></i>Excel</a>
+                                <a class="btn btn-success mb-2 float-end" id="UploadExcelKPIModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelKPIModal"><i class="fa-solid fa-file-import"></i> Excel</a>
                             </div>
                             <div class="col-lg-12">
                                 <div id="dxKPIGrid"></div>
@@ -111,8 +111,6 @@
                                 <label class="form-label">Owner (<span class="text-danger">*</span>)</label>
                                 <div id="dxKPIOwnerSelectBox"></div>
                                 <div class="invalid-feedback" id="KPIOwnerValidation"></div>
-
-
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -156,6 +154,11 @@
                     <button type="button" id="UploadExcelKPICloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelKPIFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
                     <div class="row mb-15px">
                         <div id="dxKPIFileUploader"></div>
                     </div>

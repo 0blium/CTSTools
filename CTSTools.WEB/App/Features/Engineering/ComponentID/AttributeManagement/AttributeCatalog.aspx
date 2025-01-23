@@ -146,6 +146,11 @@
                     <button type="button" id="UploadExcelAttributeCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelAttributeFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
                     <div class="row mb-15px">
                         <div id="dxAttributeFileUploader"></div>
                     </div>
@@ -167,6 +172,11 @@
                     <button type="button" id="UploadExcelValueCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelValueFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
                     <div class="row mb-15px">
                         <div id="dxValueFileUploader"></div>
                     </div>

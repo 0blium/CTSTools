@@ -361,8 +361,18 @@ public class SubClass_Service
                     }
                 }
             }
-            _validationResultDTO.Data = _excelSubClassDTOList;
-            return _validationResultDTO;
+            if (_excelSubClassDTOList.Count > 0)
+            {
+                _validationResultDTO.Data = _excelSubClassDTOList;
+                return _validationResultDTO;
+            }
+            else
+            {
+                _validationResultDTO.Result = false;
+                _validationResultDTO.Description = "Column records have no data.";
+                _validationResultDTO.Message = "Error";
+                return _validationResultDTO;
+            }
         }
         catch (Exception ex)
         {

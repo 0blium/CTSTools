@@ -307,8 +307,18 @@ public class Attribute_Service
                     }
                 }
             }
-            _validationResultDTO.Data = _excelAttributeDTOList;
-            return _validationResultDTO;
+            if (_excelAttributeDTOList.Count > 0)
+            {
+                _validationResultDTO.Data = _excelAttributeDTOList;
+                return _validationResultDTO;
+            }
+            else
+            {
+                _validationResultDTO.Result = false;
+                _validationResultDTO.Description = "Column records have no data.";
+                _validationResultDTO.Message = "Error";
+                return _validationResultDTO;
+            }
         }
         catch (Exception ex)
         {

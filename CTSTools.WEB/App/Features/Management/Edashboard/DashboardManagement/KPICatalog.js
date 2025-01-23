@@ -246,6 +246,7 @@ async function InitializeKPICatalogControls() {
     document.getElementById("btnCloseKPICategoryModal").addEventListener("click", ClearKPIFields);
     document.getElementById("UploadExcelKPICloseModalButton").addEventListener("click", ClearExcelModalFields);
     document.getElementById("ClearExcelKPIButton").addEventListener("click", ClearExcelModalFields);
+    document.getElementById("ExcelKPIFormatButton").addEventListener("click", ExportKPIExcelFormat);
     KPIActionButtons("Save");
 }
 async function PopulateKPIFields(data) {
@@ -265,6 +266,36 @@ async function PopulateKPIFields(data) {
     $("#dxKPIEquivalenceSelectBox").dxSelectBox("instance").option("value", data.EquivalenceID)
     $("#dxKPIIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
+}
+function ExportKPIExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Unit Of Measure', key: 'unitofmeasure', width: 25 },
+        { header: 'Value Type', key: 'valuetype', width: 25 },
+        { header: 'Goal', key: 'goal', width: 20 },
+        { header: 'Owner', key: 'owner', width: 25 },
+        { header: 'Responsible', key: 'responsible', width: 25 },
+        { header: 'Facility', key: 'facility', width: 25 },
+        { header: 'Equivalence', key: 'equivalence', width: 25 },
+        { header: 'Category', key: 'category', width: 25 },
+        { header: 'Owner Department', key: 'ownerdepartment', width: 25 },
+        { header: 'Responsible Department', key: 'responsibledepartment', width: 30 }
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'KPIFormat.xlsx';
+        link.click();
+    });
 }
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
@@ -355,11 +386,13 @@ function ShowKPIValidationResults(_validationResultDTO) {
             successMessage = `KPI were created successfully.`;
             $('#successKPIMessage').text(successMessage).show();
             document.getElementById('successKPIMessage').removeAttribute('hidden');
+            $("#dxKPIGrid").dxDataGrid("instance").refresh();
+            ClearKPIFields();
         }
         if (_validationResultDTO.Data.KPIBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
             _validationResultDTO.Data.KPIBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Unit Of Measure = ${badLine.UnitOfMeasureName}. Value Type = ${badLine.ValueTypeName}. Goal = ${badLine.Goal}. Owner = ${badLine.OwnerName}. Responsible = ${badLine.ResponsibleName}. Goal Range = ${badLine.GoalRangeValue}. Facility = ${badLine.FacilityName}. Equivalence = ${badLine.EquivalenceName}. Category = ${badLine.DashboardCategoryName}. Owner Department = ${badLine.OwnerDepartmentName}. Responsible Department = ${badLine.ResponsibleDepartmentName}. Is Active = ${badLine.IsActive}.</li>`;
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Unit Of Measure = ${badLine.UnitOfMeasureName}. Value Type = ${badLine.ValueTypeName}. Goal = ${badLine.Goal}. Owner = ${badLine.OwnerName}. Responsible = ${badLine.ResponsibleName}. Facility = ${badLine.FacilityName}. Equivalence = ${badLine.EquivalenceName}. Category = ${badLine.DashboardCategoryName}. Owner Department = ${badLine.OwnerDepartmentName}. Responsible Department = ${badLine.ResponsibleDepartmentName}.</li>`;
             });
             errorMessages += '</ul>';
             $('#errorKPIMessages').html(errorMessages).show();
@@ -377,8 +410,6 @@ function ShowKPIValidationResults(_validationResultDTO) {
         return HostResponse(_validationResultDTO);
     }
     $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
-    $("#dxKPIGrid").dxDataGrid("instance").refresh();
-    ClearKPIFields();
 }
 function GetKPIDTO() {
     let _KPIDTO = {

@@ -362,6 +362,9 @@
     <script src="/App/Common/Assets/js/pdfmake/pdfmake.min.js"></script>
     <script src="/App/Common/Assets/js/printThis/printThis.js"></script>
     <!-- ================== END Export Documents ================== -->
+    <!-- ================== BEGIN Export excel Documents ================== -->
+    <script src="/App/Common/Assets/js/exceljs/exceljs.min.js"></script>
+    <!-- ================== END Export excel Documents ================== -->
 
 </body>
 </html>

@@ -199,6 +199,7 @@ async function InitializeClassCatalogControls() {
     document.getElementById("ClassButton").addEventListener("click", ClearClassFields);
     document.getElementById("UploadExcelClassCloseModalButton").addEventListener("click", ClearExcelClassModalFields);
     document.getElementById("ClearClassExcelModalButton").addEventListener("click", ClearExcelClassModalFields);
+    document.getElementById("ExcelClassFormatButton").addEventListener("click", ExportClassExcelFormat);
 }
 function ClassActionButtons(Action) {
     $("#ClassActionButtons").empty();
@@ -237,6 +238,29 @@ function ClearClassFields() {
     $("#dxClassGrid").dxDataGrid("instance").deselectRows(keys);
     //    ClearErrorFeedback();
 }
+function ExportClassExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Code', key: 'code', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Part Type', key: 'parttype', width: 30 },
+        { header: 'Component Type', key: 'componenttype', width: 30 }
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'ClassFormat.xlsx';
+        link.click();
+    });
+}
 function ClearExcelClassModalFields() {
     $('#successClassMessage').hide();
     $('#errorClassMessages').hide();
@@ -256,6 +280,8 @@ function ShowClassValidationResults(_validationResultDTO) {
             successMessage = `Class were created successfully.`;
             $('#successClassMessage').text(successMessage).show();
             document.getElementById('successClassMessage').removeAttribute('hidden');
+            $("#dxClassGrid").dxDataGrid("instance").refresh();
+            ClearClassFields();
         }
         if (_validationResultDTO.Data.ClassBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
@@ -278,8 +304,6 @@ function ShowClassValidationResults(_validationResultDTO) {
         return HostResponse(_validationResultDTO);
     }
     $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
-    $("#dxClassGrid").dxDataGrid("instance").refresh();
-    ClearClassFields();
 }
 function PopulateClassFields(ClassDTO) {
     $("#hiddenClassValueLinkID").val(ClassDTO.ID);
@@ -603,6 +627,7 @@ async function InitializeSubClassCatalogControls() {
     document.getElementById("SubClassButton").addEventListener("click", RefreshSubClassGrid);
     document.getElementById("UploadExcelSubClassCloseModalButton").addEventListener("click", ClearExcelSubClassModalFields);
     document.getElementById("ClearSubClassExcelModalButton").addEventListener("click", ClearExcelSubClassModalFields);
+    document.getElementById("ExcelSubClassFormatButton").addEventListener("click", ExportSubClassExcelFormat);
 }
 function SubClassActionButtons(Action) {
     $("#SubClassActionButtons").empty();
@@ -623,6 +648,28 @@ function SubClassActionButtons(Action) {
         document.getElementById("UpdateSubClassButton").addEventListener("click", UpdateSubClass_Global);
         document.getElementById("SubClassCloseModalButton").addEventListener("click", ClearSubClassFields);
     }
+}
+function ExportSubClassExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Code', key: 'code', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Class', key: 'class', width: 30 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'SubClassFormat.xlsx';
+        link.click();
+    });
 }
 async function ShowDeleteSubClassQuestion() {
     const _alert = await Swal.fire({
@@ -669,6 +716,8 @@ function ShowSubClassValidationResults(_validationResultDTO) {
             successMessage = `SubClass were created successfully.`;
             $('#successSubClassMessage').text(successMessage).show();
             document.getElementById('successSubClassMessage').removeAttribute('hidden');
+            $("#dxSubClassGrid").dxDataGrid("instance").refresh();
+            ClearSubClassFields();
         }
         if (_validationResultDTO.Data.SubClassBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
@@ -691,8 +740,6 @@ function ShowSubClassValidationResults(_validationResultDTO) {
         return HostResponse(_validationResultDTO);
     }
     $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);
-    $("#dxSubClassGrid").dxDataGrid("instance").refresh();
-    ClearSubClassFields();
 }
 function GetSubClassValueLinkDTO() {
     return {

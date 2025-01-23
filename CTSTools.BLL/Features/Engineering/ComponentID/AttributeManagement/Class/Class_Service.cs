@@ -363,8 +363,18 @@ public class Class_Service
                     }
                 }
             }
-            _validationResultDTO.Data = _excelClassDTOList;
-            return _validationResultDTO;
+            if (_excelClassDTOList.Count > 0)
+            {
+                _validationResultDTO.Data = _excelClassDTOList;
+                return _validationResultDTO;
+            }
+            else
+            {
+                _validationResultDTO.Result = false;
+                _validationResultDTO.Description = "Column records have no data.";
+                _validationResultDTO.Message = "Error";
+                return _validationResultDTO;
+            }
         }
         catch (Exception ex)
         {
