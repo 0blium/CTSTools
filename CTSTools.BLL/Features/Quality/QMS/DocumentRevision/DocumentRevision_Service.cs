@@ -65,12 +65,24 @@ public class DocumentRevision_Service
     }
     public static ValidationResultDTO UpdateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
+        var _validationResultDTO = new ValidationResultDTO();
+        // Step 1. Validate Fields
         var _ValidationResultDTO = DocumentRevision_Validator.UpdateDocumentRevision_Validation(DocumentRevisionDTO);
-        if (_ValidationResultDTO.Result)
-        {
-            DocumentRevisionDTO.LastUpdate = DateTime.Now;
-            _ValidationResultDTO = DocumentRevision_Repository.UpdateDocumentRevision(DocumentRevisionDTO);
-        }
+        if (!_ValidationResultDTO.Result)
+            return _ValidationResultDTO;
+
+        //Step 2. Update Document Revision
+        DocumentRevisionDTO.LastUpdate = DateTime.Now;
+        _ValidationResultDTO = DocumentRevision_Repository.UpdateDocumentRevision(DocumentRevisionDTO);
+        if (!_ValidationResultDTO.Result)
+            return _ValidationResultDTO;
+
+        //Step 3. Update Document  status
+        var _documentDTO = Document_Repository.GetDocumentByID((int)DocumentRevisionDTO.DocumentID);
+        _documentDTO.StatusID = DocumentRevisionDTO.StatusID;
+        _documentDTO.LastUpdateByID = DocumentRevisionDTO.LastUpdateByID;
+        _documentDTO.LastUpdate = DateTime.Now;
+        _validationResultDTO = Document_Service.UpdateDocument_Global(_documentDTO);
         return _ValidationResultDTO;
     }
     public static ValidationResultDTO DeleteDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)

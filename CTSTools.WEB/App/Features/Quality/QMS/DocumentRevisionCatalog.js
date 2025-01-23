@@ -94,11 +94,20 @@ async function InitializeDocumentRevisionCatalogControls() {
                     allowFiltering: false,
                     allowSorting: false,
                     cellTemplate: function (container, options) {
+                        // Identify the most recent record
+                        const recentID = $("#dxDocumentRevisionGrid")
+                            .dxDataGrid("instance")
+                            .getDataSource()
+                            .items()
+                            .reduce((prev, current) => {
+                                // Compare based on the ID or any other logic
+                                return current.ID > prev.ID ? current : prev;
+                            }).ID;
                         $('<div style="text-align: center;">').appendTo(container).dxMenu({
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    ...(options.data.ID === recentID ? [{ text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 }] : []),
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
                                 ]
                             }],
@@ -122,7 +131,7 @@ async function InitializeDocumentRevisionCatalogControls() {
                 { caption: "Status", dataField: "StatusName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
-                { caption: "Added Date", dataField: "AddedDate" },
+                { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
             ],
