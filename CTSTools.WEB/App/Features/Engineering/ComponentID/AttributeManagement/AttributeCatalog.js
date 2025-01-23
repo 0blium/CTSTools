@@ -167,6 +167,7 @@ async function InitializeValueCatalogControls() {
     ValueActionButtons("Save");
     document.getElementById("UploadExcelValueCloseModalButton").addEventListener("click", ClearExcelValueModal);
     document.getElementById("ClearExcelValueButton").addEventListener("click", ClearExcelValueModal);
+    document.getElementById("ExcelValueFormatButton").addEventListener("click", ExportValueExcelFormat);
 }
 async function GetValueAttributeDataSource_Global() {
     let _filters = [
@@ -179,6 +180,28 @@ async function GetValueAttributeDataSource_Global() {
     ];
     let _atttributeDTO = { IsActive: true }
     return await GetDXAttributeDataSource(_atttributeDTO, _filters)
+}
+function ExportValueExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Attribute', key: 'attribute', width: 30 },
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Code', key: 'code', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'ValueFormat.xlsx';
+        link.click();
+    });
 }
 async function PopulateValueFields(ValueDTO) {
     $("#hiddenValueID").val(ValueDTO.ID);
@@ -249,11 +272,13 @@ function ShowValueValidationResults(_validationResultDTO) {
             successMessage = `Value were created successfully.`;
             $('#successValueMessage').text(successMessage).show();
             document.getElementById('successValueMessage').removeAttribute('hidden');
+            $("#dxValueGrid").dxDataGrid("instance").refresh();
+            ClearValueFields();
         }
         if (_validationResultDTO.Data.ValueBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
             _validationResultDTO.Data.ValueBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Attribute: ${badLine.AttributeName}. Name: ${badLine.Name}. Code: ${badLine.Code}. Description = ${badLine.Description}. Is Active = ${badLine.IsActive}.</li>`;
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Code: ${badLine.Code}. Attribute: ${badLine.AttributeName}. Description = ${badLine.Description}.</li>`;
             });
             errorMessages += '</ul>';
             $('#errorValueMessages').html(errorMessages).show();
@@ -271,8 +296,6 @@ function ShowValueValidationResults(_validationResultDTO) {
         return HostResponse(_validationResultDTO);
     }
     $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
-    $("#dxValueGrid").dxDataGrid("instance").refresh();
-    ClearValueFields();
 }
 function GetValueDTO() {
     let _valueDTO = {
@@ -463,6 +486,7 @@ async function InitializeAttributeListControls() {
     AttributeActionButtons("Save");
     document.getElementById("UploadExcelAttributeCloseModalButton").addEventListener("click", ClearExcelAttributeModal);
     document.getElementById("ClearExcelAttributeButton").addEventListener("click", ClearExcelAttributeModal);
+    document.getElementById("ExcelAttributeFormatButton").addEventListener("click", ExportAttributteExcelFormat);
 }
 async function PopulateAttributeFields(AttributeDTO) {
     $("#hiddenAttributeID").val(AttributeDTO.ID);
@@ -471,6 +495,35 @@ async function PopulateAttributeFields(AttributeDTO) {
     $("#dxAttributeIsActiveCheckBox").dxCheckBox("instance").option("value", AttributeDTO.IsActive);
     $("#dxHasMultipleOptionsCheckBox").dxCheckBox("instance").option("value", AttributeDTO.HasMultipleOptions);
 
+}
+function ExportAttributteExcelFormat() {
+    // Example data
+    var data = [
+        { HasMultipleOptions: 'true' }
+    ];
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Has Multiple Options', key: 'HasMultipleOptions', width: 25 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Add the data to the Excel file
+    data.forEach(item => {
+        worksheet.addRow(item);
+    });
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'AttributteFormat.xlsx';
+        link.click();
+    });
 }
 async function ShowDeleteAttributeQuestion() {
     const _alert = await Swal.fire({
@@ -489,7 +542,7 @@ function AttributeActionButtons(Action) {
     if (Action == "Save") {
         document.getElementById("AttributeActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i>Excel</a>'+
+            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i> Excel</a>'+
             '<button class="btn btn-success m-b-15 float-end" id="CreateAttributeButton" type="button">Save</button>' +
             '</div>';
         document.getElementById("CreateAttributeButton").addEventListener("click", CreateAttribute_Global);
@@ -498,7 +551,7 @@ function AttributeActionButtons(Action) {
         // Update
         document.getElementById("AttributeActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i>Excel</a>' +
+            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i> Excel</a>' +
             '<button class="btn btn-secondary float-end" id="ClearAttributeButton" type="button">Cancel</button>' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateAttributeButton" type="button">Update</button>' +
             '</div>';
@@ -526,11 +579,13 @@ function ShowAttributeValidationResults(_validationResultDTO) {
             successMessage = `Attribute were created successfully.`;
             $('#successAttributeMessage').text(successMessage).show();
             document.getElementById('successAttributeMessage').removeAttribute('hidden');
+            $("#dxAttributeGrid").dxDataGrid("instance").refresh();
+            ClearAttributeFields();
         }
         if (_validationResultDTO.Data.AttributeBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
             _validationResultDTO.Data.AttributeBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Has Multiple Options = ${badLine.HasMultipleOptions}. Is Active = ${badLine.IsActive}.</li>`;
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Has Multiple Options = ${badLine.HasMultipleOptions}.</li>`;
             });
             errorMessages += '</ul>';
             $('#errorAttributeMessages').html(errorMessages).show();
@@ -548,8 +603,6 @@ function ShowAttributeValidationResults(_validationResultDTO) {
         return HostResponse(_validationResultDTO);
     }
     $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);
-    $("#dxAttributeGrid").dxDataGrid("instance").refresh();
-    ClearAttributeFields();
 }
 function ClearAttributeFields() {
     AttributeActionButtons("Save");

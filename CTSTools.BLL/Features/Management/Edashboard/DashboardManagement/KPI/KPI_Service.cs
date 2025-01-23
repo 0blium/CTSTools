@@ -303,7 +303,6 @@ public class KPI_Service
         _missingHeader += (_fileheaders.Contains("goal") == true) ? string.Empty : "goal,<br>";
         _missingHeader += (_fileheaders.Contains("owner") == true) ? string.Empty : "owner,<br>";
         _missingHeader += (_fileheaders.Contains("responsible") == true) ? string.Empty : "responsible,<br>";
-        _missingHeader += (_fileheaders.Contains("goal range") == true || _fileheaders.Contains("goalrange") == true) ? string.Empty : "goalrange,<br>";
         _missingHeader += (_fileheaders.Contains("facility") == true) ? string.Empty : "facility,<br>";
         _missingHeader += (_fileheaders.Contains("equivalence") == true) ? string.Empty : "equivalence,<br>";
         _missingHeader += (_fileheaders.Contains("category") == true) ? string.Empty : "category,<br>";
@@ -356,8 +355,6 @@ public class KPI_Service
                         headerName.Equals("GOAL", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("OWNER", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("RESPONSIBLE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("GOALRANGE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("GOAL RANGE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("FACILITY", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("EQUIVALENCE", StringComparison.OrdinalIgnoreCase) ||
                         headerName.Equals("CATEGORY", StringComparison.OrdinalIgnoreCase) ||
@@ -477,8 +474,18 @@ public class KPI_Service
                     }
                 }
             }
-            _validationResultDTO.Data = _excelKPIDTOList;
-            return _validationResultDTO;
+            if (_excelKPIDTOList.Count > 0)
+            {
+                _validationResultDTO.Data = _excelKPIDTOList;
+                return _validationResultDTO;
+            }
+            else
+            {
+                _validationResultDTO.Result = false;
+                _validationResultDTO.Description = "Column records have no data.";
+                _validationResultDTO.Message = "Error";
+                return _validationResultDTO;
+            }
         }
         catch (Exception ex)
         {

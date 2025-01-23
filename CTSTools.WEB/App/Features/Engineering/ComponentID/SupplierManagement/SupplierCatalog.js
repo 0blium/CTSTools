@@ -158,6 +158,37 @@ async function InitializeSupplierCatalogControls() {
     SupplierActionButtons("Save");
     document.getElementById("UploadExcelSupplirCloseModalButton").addEventListener("click", ClearExcelModalFields);
     document.getElementById("ClearExcelSupplierButton").addEventListener("click", ClearExcelModalFields);   
+    document.getElementById("ExcelSupplierFormatButton").addEventListener("click", ExportSupplierExcelFormat);   
+}
+function ExportSupplierExcelFormat() {
+    // Example data
+    var data = [
+        { isvendor: 'true', ismanufacturer: 'false' }
+    ];
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Is Vendor', key: 'isvendor', width: 20 },
+        { header: 'Is Manufacturer', key: 'ismanufacturer', width: 20 }
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Add the data to the Excel file
+    data.forEach(item => {
+        worksheet.addRow(item);
+    });
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'SupplierFormat.xlsx';
+        link.click();
+    });
 }
 function SupplierActionButtons(Action) {
     $("#SupplierActionButtons").empty();
@@ -217,11 +248,12 @@ function ShowSupplierValidationResults(_validationResultDTO) {
             successMessage = `Suppliers were created successfully.`;
             $('#successMessage').text(successMessage).show();
             document.getElementById('successMessage').removeAttribute('hidden');
+            ClearSupplierFields();
         }
         if (_validationResultDTO.Data.SupplierBadLinesList.length > 0) {
             errorMessages = '<strong>Wrong data:</strong><ul>';
             _validationResultDTO.Data.SupplierBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Is Active = ${badLine.IsActive}. Is Vendor = ${badLine.IsVendor}. Is Manufacturer = ${badLine.IsManufacturer}. Description = ${badLine.Description}.</li>`;
+                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Is Vendor = ${badLine.IsVendor}. Is Manufacturer = ${badLine.IsManufacturer}.</li>`;
             });
             errorMessages += '</ul>';
             $('#errorMessages').html(errorMessages).show();
@@ -239,7 +271,6 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         return HostResponse(_validationResultDTO);
     }
     $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
-    ClearSupplierFields();
 }
 function PopulateSupplierFields(data) {
     $('#hiddenSupplierID').val(data.ID);

@@ -4,6 +4,7 @@ using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribut
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
+using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using Elmah;
 using ExcelDataReader;
 using System;
@@ -101,6 +102,11 @@ public class SubClass_Service
         _validationResultDTO = ValueLink_Service.CreateValueLink_Global(SubClassDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
+        SubClassDTO.ID = _validationResultDTO.Data;
+        //Step 5. Create Decoder
+        _validationResultDTO = CreateDecoderFromSubClass(SubClassDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
 
         return _validationResultDTO;
     }
@@ -143,6 +149,34 @@ public class SubClass_Service
     }
 
     #region Business Logic
+
+    public static ValidationResultDTO CreateDecoderFromSubClass(SubClassDTO SubClassDTO)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        try
+        {
+            var _subClassList = GetSubClassList_Global(new SubClassDTO());
+            var _subClassDTO = _subClassList.Where(w => w.ID == SubClassDTO.ID).FirstOrDefault();
+            if (_subClassDTO != null) 
+            {
+                var _decorderDTO = new DecoderDTO
+                {
+                    SubClassID = SubClassDTO.ChildValueID,
+                    ClassID = SubClassDTO.ParentValueID,
+                    PartTypeID = _subClassDTO.PartTypeDTO.ID,
+                    ComponentTypeID = _subClassDTO.ComponentTypeDTO != null ? _subClassDTO.ComponentTypeDTO.ID : null,
+                    AddedByID = SubClassDTO.AddedByID,
+                    IsActive = true,
+                };
+                _validationResultDTO = Decoder_Service.CreateDecoder_Global(_decorderDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _validationResultDTO;
+    }
 
     #region Update Excel functions
     public static ValidationResultDTO SubClassFileValidation_Global(FileDTO FileDTO)
@@ -216,7 +250,6 @@ public class SubClass_Service
         }
         return _validationResultDTO;
     }
-
     private static ExcelSubClassDTO ValidateSubClassFileColumns(byte[] _fileBytes, string Filename, string Extension)
     {
         string[] _fileheaders = new string[0];
@@ -328,8 +361,18 @@ public class SubClass_Service
                     }
                 }
             }
-            _validationResultDTO.Data = _excelSubClassDTOList;
-            return _validationResultDTO;
+            if (_excelSubClassDTOList.Count > 0)
+            {
+                _validationResultDTO.Data = _excelSubClassDTOList;
+                return _validationResultDTO;
+            }
+            else
+            {
+                _validationResultDTO.Result = false;
+                _validationResultDTO.Description = "Column records have no data.";
+                _validationResultDTO.Message = "Error";
+                return _validationResultDTO;
+            }
         }
         catch (Exception ex)
         {

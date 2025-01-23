@@ -216,6 +216,7 @@
     <Content Include="App\Common\Assets\js\devextreme\globalize\number.min.js" />
     <Content Include="App\Common\Assets\js\devextreme\jszip.min.js" />
     <Content Include="App\Common\Assets\js\devextreme\localization\dx.messages.es.js" />
+    <Content Include="App\Common\Assets\js\exceljs\exceljs.min.js" />
     <Content Include="App\Common\Assets\js\excel\jquery.table2excel.js" />
     <Content Include="App\Common\Assets\js\html2canvas\html2canvas.min.js" />
     <Content Include="App\Common\Assets\js\pdfmake\pdfmake.min.js" />

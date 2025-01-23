@@ -47,7 +47,7 @@
                                     <div class="panel-body">
                                         <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#SubClassModal" id="SubClassButton"><i class="fa-solid fa-circle-plus"></i>
                                             Sub Class</a>
-                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelSubClassModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSubClassModal"><i class="fa-solid fa-file-import"></i>Excel</a>
+                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelSubClassModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSubClassModal"><i class="fa-solid fa-file-import"></i> Excel</a>
                                         <div id="dxSubClassGrid"></div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
                                         <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#ClassModal" id="ClassButton"><i class="fa-solid fa-circle-plus"></i>Class</a>
-                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelClassModal"><i class="fa-solid fa-file-import"></i>Excel</a>
+                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelClassModal"><i class="fa-solid fa-file-import"></i> Excel</a>
                                         <div id="dxClassGrid"></div>
                                     </div>
                                 </div>
@@ -211,6 +211,11 @@
                     <button type="button" id="UploadExcelClassCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelClassFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
                     <div class="row mb-15px">
                         <div id="dxClassFileUploader"></div>
                     </div>
@@ -232,6 +237,11 @@
                     <button type="button" id="UploadExcelSubClassCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelSubClassFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
                     <div class="row mb-15px">
                         <div id="dxSubClassFileUploader"></div>
                     </div>
