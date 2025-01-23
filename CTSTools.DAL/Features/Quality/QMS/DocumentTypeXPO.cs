@@ -26,6 +26,12 @@ namespace CTSTools.DAL.Features.Quality.QMS;
         get { return fDescription; }
         set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
     }
+    string fFolderName;
+    public string FolderName
+    {
+        get { return fFolderName; }
+        set { SetPropertyValue<string>(nameof(FolderName), ref fFolderName, value); }
+    }
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {
