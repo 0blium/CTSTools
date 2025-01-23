@@ -23,8 +23,52 @@
             <div class="col-md-12">
                 <div class="panel panel-inverse">
                     <div class="panel-body">
-                        <div class="col-md-12 mb-3">
-                            <a id="NewDocumentBtn" href="#SaveDocumentRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>&nbsp Document</a>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a id="NewDocumentBtn" href="#SaveDocumentRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>&nbsp Document</a>
+                                </div>
+                                <div class="col-md-6 mb-3 text-end ">
+                                    <a class="btn btn-dark" id="OpenFilterItem_Line" data-bs-toggle="collapse" href="#collapseFilterItemOwner" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-arrow-down-wide-short me-2"></i>Filters</a>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div class="collapse" id="collapseFilterItemOwner">
+                            <div class="p-3 row">
+                                <div class="form-group col-xl-4 col-lg-6">
+                                    <label class="col-form-label col-xl-12 col-lg-12">Received Date</label>
+                                    <div class="col-xl-12 col-lg-12 d-flex align-items-baseline">
+                                        <p class="pe-2">from</p>
+                                        <div class="m-b-5" id="dxItem_LineStartDateDateBox"></div>
+                                        <p class="px-2">to</p>
+                                        <div class="m-b-5" id="dxItem_LineEndDateDateBox"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xl-4 col-lg-6">
+                                    <label class="col-form-label col-xl-12 col-lg-12">Supply Type</label>
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div id="dxItem_LineSupplyTypeTagBox"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xl-4 col-lg-6">
+                                    <label class="col-form-label col-xl-12 col-lg-12">Station</label>
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="m-b-5" id="dxItem_LineStationTagBox"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12 d-flex justify-content-end mt-2">
+                                    <a class="btn btn-secondary mb-1" id="ClearItem_LineFilters">Reset</a>
+                                    <a class="btn btn-success mb-1 ms-1" id="GetItem_LineInformation">Search</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
                         </div>
                         <div id="dxDocumentGrid"></div>
                     </div>

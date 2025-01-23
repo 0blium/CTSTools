@@ -32,7 +32,16 @@ public class DocumentType_Validator
                     Data = $"{nameof(DocumentType)}{nameof(DocumentTypeDTO.Name)}",
                 });
             }
-
+            if (string.IsNullOrEmpty(DocumentTypeDTO.FolderName))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Folder Name Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(DocumentType)}{nameof(DocumentTypeDTO.FolderName)}",
+                });
+            }
             if (DocumentTypeDTO.AddedByID == null || DocumentTypeDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -91,7 +100,16 @@ public class DocumentType_Validator
                     Data = $"{nameof(DocumentType)}{nameof(DocumentTypeDTO.Name)}",
                 });
             }
-
+            if (string.IsNullOrEmpty(DocumentTypeDTO.FolderName))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Folder Name Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(DocumentType)}{nameof(DocumentTypeDTO.FolderName)}",
+                });
+            }
             if (DocumentTypeDTO.LastUpdateByID == null || DocumentTypeDTO.LastUpdateByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
