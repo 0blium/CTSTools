@@ -22,6 +22,7 @@ public class DocumentRevisionMap
         {
             _documentRevisionDTO.ID = DocumentRevisionXPO.Oid;
             _documentRevisionDTO.Revision = DocumentRevisionXPO.Revision;
+            _documentRevisionDTO.ChangeReason = DocumentRevisionXPO.ChangeReason;
             _documentRevisionDTO.DocumentID = (DocumentRevisionXPO.Document != null) ? DocumentRevisionXPO.Document.Oid : 0;
             _documentRevisionDTO.DocumentName = (DocumentRevisionXPO.Document != null) ? DocumentRevisionXPO.Document.Name : "Unnassigned";
             _documentRevisionDTO.StatusID = (DocumentRevisionXPO.Status != null) ? DocumentRevisionXPO.Status.Oid : 0;
@@ -47,6 +48,7 @@ public class DocumentRevisionMap
         {
             _documentRevisionXPO = DocumentRevisionDTO.ID == null || DocumentRevisionDTO.ID == 0 ? new DocumentRevisionXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DocumentRevisionXPO>(DocumentRevisionDTO.ID);
             _documentRevisionXPO.Revision = _documentRevisionXPO.Revision == DocumentRevisionDTO.Revision ? _documentRevisionXPO.Revision : DocumentRevisionDTO.Revision;
+            _documentRevisionXPO.ChangeReason = _documentRevisionXPO.ChangeReason == DocumentRevisionDTO.ChangeReason ? _documentRevisionXPO.ChangeReason : DocumentRevisionDTO.ChangeReason;
             _documentRevisionXPO.Document = (_documentRevisionXPO.Document != null && _documentRevisionXPO.Document.Oid == DocumentRevisionDTO.DocumentID) ? _documentRevisionXPO.Document : UnitOfWork.GetObjectByKey<DocumentXPO>(DocumentRevisionDTO.DocumentID);
             _documentRevisionXPO.Status = (_documentRevisionXPO.Status != null && _documentRevisionXPO.Status.Oid == DocumentRevisionDTO.StatusID) ? _documentRevisionXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DocumentRevisionDTO.StatusID);
             _documentRevisionXPO.AddedDate = _documentRevisionXPO.AddedDate != null ? _documentRevisionXPO.AddedDate : DocumentRevisionDTO.AddedDate;

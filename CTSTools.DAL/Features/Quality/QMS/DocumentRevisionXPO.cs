@@ -21,6 +21,12 @@ public class DocumentRevisionXPO : XPObject
         get { return fRevision; }
         set { SetPropertyValue<string>(nameof(Revision), ref fRevision, value); }
     }
+    string fChangeReason;
+    public string ChangeReason
+    {
+        get { return fChangeReason; }
+        set { SetPropertyValue<string>(nameof(ChangeReason), ref fChangeReason, value); }
+    }
     DocumentXPO fDocument;
     public DocumentXPO Document
     {

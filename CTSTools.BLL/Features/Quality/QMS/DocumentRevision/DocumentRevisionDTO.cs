@@ -16,6 +16,7 @@ public class DocumentRevisionDTO
     #region Base Properties
     public int? ID { get; set; }
     public string Revision { get; set; }
+    public string ChangeReason { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? AddedByID { get; set; }
     public string AddedByName { get; set; }

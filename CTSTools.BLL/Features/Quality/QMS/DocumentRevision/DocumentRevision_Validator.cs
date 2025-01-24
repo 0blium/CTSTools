@@ -31,6 +31,16 @@ public class DocumentRevision_Validator
                     Data = $"{nameof(DocumentRevision)}{nameof(DocumentRevisionDTO.Revision)}",
                 });
             } 
+            if (string.IsNullOrEmpty(DocumentRevisionDTO.ChangeReason))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Change Reason Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(DocumentRevision)}{nameof(DocumentRevisionDTO.ChangeReason)}",
+                });
+            } 
 
             if (DocumentRevisionDTO.DocumentID == null || DocumentRevisionDTO.DocumentID == 0)
             {
@@ -108,6 +118,16 @@ public class DocumentRevision_Validator
                     Message = "Revision Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(DocumentRevision)}{nameof(DocumentRevisionDTO.Revision)}",
+                });
+            }
+            if (string.IsNullOrEmpty(DocumentRevisionDTO.ChangeReason))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Change Reason Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(DocumentRevision)}{nameof(DocumentRevisionDTO.ChangeReason)}",
                 });
             }
             if (DocumentRevisionDTO.DocumentID == null || DocumentRevisionDTO.DocumentID == 0)

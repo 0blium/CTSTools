@@ -49,6 +49,15 @@ public class Document_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
+            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Owner Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             
             if (DocumentDTO.AddedByID == null || DocumentDTO.AddedByID == 0)
             {
@@ -133,6 +142,15 @@ public class Document_Validator
                 {
                     Result = false,
                     Message = "Type Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Owner Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }

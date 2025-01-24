@@ -128,6 +128,7 @@ async function InitializeDocumentRevisionCatalogControls() {
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Revision", dataField: "Revision" },
+                { caption: "Change Reason", dataField: "ChangeReason" },
                 { caption: "Status", dataField: "StatusName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
@@ -137,6 +138,9 @@ async function InitializeDocumentRevisionCatalogControls() {
             ],
     });
 
+    $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea({
+        placeholder: 'Type change reason...'
+    });
     $("#dxDocumentRevisionRevisionTextBox").dxTextBox({
         placeholder: 'Type revision...'
     });
@@ -155,6 +159,7 @@ async function InitializeDocumentRevisionCatalogControls() {
 
 async function PopulateDocumentRevisionFields(data) {
     $("#hiddenDocumentRevisionID").val(data.ID);
+    $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value", data.ChangeReason);
     $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value", data.Revision);
     $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
 }
@@ -212,6 +217,7 @@ function ClearDocumentRevisionFields() {
     $('#SaveDocumentRevisionRecordModal').modal('hide');
     DocumentRevisionActionButtons("Save");
     $("#hiddenDocumentRevisionID").val("");
+    $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value", "");
     $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide(); 
@@ -223,6 +229,7 @@ function ClearDocumentRevisionFields() {
 function GetDocumentRevisionDTO() {
     let _documentRevisionDTO = {
         ID: $("#hiddenDocumentRevisionID").val(),
+        ChangeReason: $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value"),
         Revision: $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value"),
         DocumentID: $("#hiddenDocumentID").val(),
         StatusID: $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").option("value"),

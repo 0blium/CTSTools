@@ -44,6 +44,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="container">
+                            <%-- Document Change Reason --%>
+                            <div class="mb-3">
+                                <label for="dxDocumentRevisionChangeReasonTextArea" class="form-label">Change Reason (<span class="text-danger">*</span>)</label>
+                                <div id="dxDocumentRevisionChangeReasonTextArea"></div>
+                                <div class="invalid-feedback" id="DocumentRevisionChangeReasonValidation"></div>
+                            </div>
                             <!-- Row: Revision and Status  -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">

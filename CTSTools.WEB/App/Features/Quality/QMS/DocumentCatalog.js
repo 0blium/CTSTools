@@ -129,7 +129,7 @@ async function InitializeDocumentCatalogControls() {
     $("#dxDocumentDescriptionTextArea").dxTextArea({
         placeholder: 'Type description...'
     });
-    $("#dxDocumentNumberNumberBox").dxNumberBox({
+    $("#dxDocumentNumberTextBox").dxTextBox({
         placeholder: 'Type number...'
     });
 
@@ -193,7 +193,7 @@ async function PopulateDocumentFields(data) {
     $("#hiddenDocumentID").val(data.ID);
     $("#dxDocumentNameTextBox").dxTextBox("instance").option("value", data.Name);
     $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
-    $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value", data.Number);
+    $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", data.Number);
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value", data.TypeID);
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
     await $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
@@ -245,7 +245,7 @@ function ClearDocumentFields() {
     $("#hiddenDocumentID").val("");
     $("#dxDocumentNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value", "");
-    $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value", "");
+    $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").reset();
@@ -260,7 +260,7 @@ function GetDocumentDTO() {
         ID: $("#hiddenDocumentID").val(),
         Name: $("#dxDocumentNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value"),
-        Number: $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value"),
+        Number: $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value"),
         DepartmentID: $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value"),
         TypeID: $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value"),
         OwnerID: $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value"),

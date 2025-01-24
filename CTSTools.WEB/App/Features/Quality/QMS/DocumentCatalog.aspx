@@ -59,8 +59,8 @@
                             <!-- Row: Owner & Number -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="dxDocumentNumberNumberBox" class="form-label">Number (<span class="text-danger">*</span>)</label>
-                                    <div id="dxDocumentNumberNumberBox"></div>
+                                    <label for="dxDocumentNumberTextBox" class="form-label">Number (<span class="text-danger">*</span>)</label>
+                                    <div id="dxDocumentNumberTextBox"></div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentOwnerSelectBox" class="form-label">Owner (<span class="text-danger">*</span>)</label>
