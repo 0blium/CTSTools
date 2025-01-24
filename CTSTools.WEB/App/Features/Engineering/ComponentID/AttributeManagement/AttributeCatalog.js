@@ -304,7 +304,7 @@ function ShowValueValidationResults(_validationResultDTO) {
     }
     if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelValueModal').modal('hide');
-        ClearExcelModalFields();
+        ClearExcelValueModal();
         return HostResponse(_validationResultDTO);
     }
     $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
@@ -623,7 +623,7 @@ function ShowAttributeValidationResults(_validationResultDTO) {
     }
     if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelAttributeModal').modal('hide');
-        ClearExcelModalFields();
+        ClearExcelAttributeModal();
         return HostResponse(_validationResultDTO);
     }
     $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);

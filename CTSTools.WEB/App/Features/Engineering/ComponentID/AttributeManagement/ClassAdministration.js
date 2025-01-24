@@ -313,7 +313,7 @@ function ShowClassValidationResults(_validationResultDTO) {
     }
     if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelClassModal').modal('hide');
-        ClearExcelModalFields();
+        ClearExcelClassModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
@@ -762,7 +762,7 @@ function ShowSubClassValidationResults(_validationResultDTO) {
     }
     if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelSubClassModal').modal('hide');
-        ClearExcelModalFields();
+        ClearExcelSubClassModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);
