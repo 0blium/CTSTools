@@ -44,14 +44,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <!-- Revision -->
-                            <div class="mb-3">
-                                <label for="dxDocumentRevisionRevisionTextBox" class="form-label">Revision (<span class="text-danger">*</span>)</label>
-                                <div id="dxDocumentRevisionRevisionTextBox"></div>
-                                <div class="invalid-feedback" id="DocumentRevisionRevisionValidation"></div>
-                            </div>
-                            <!-- Row: Status -->
+                            <!-- Row: Revision and Status  -->
                             <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="dxDocumentRevisionRevisionTextBox" class="form-label">Revision (<span class="text-danger">*</span>)</label>
+                                    <div id="dxDocumentRevisionRevisionTextBox"></div>
+                                    <div class="invalid-feedback" id="DocumentRevisionRevisionValidation"></div>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentRevisionStatusSelectBox" class="form-label">Status (<span class="text-danger">*</span>)</label>
                                     <div id="dxDocumentRevisionStatusSelectBox"></div>
