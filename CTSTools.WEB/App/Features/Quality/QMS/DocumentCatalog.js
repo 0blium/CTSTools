@@ -1,18 +1,28 @@
-﻿import { GetDXDocumentDataSource, CreateDocument, UpdateDocument, DeleteDocument } from './Document/Document_Service.js'
-import { HostResponse, ClearErrorFeedback } from '../../../common/utils/response.js'
+﻿import {
+    GetDXDocumentDataSource,
+    CreateDocument,
+    UpdateDocument,
+    DeleteDocument
+} from './Document/Document_Service.js'
+import {
+    HostResponse,
+    ClearErrorFeedback
+} from '../../../common/utils/response.js'
 import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
 import { GetDXDepartmentDataSource } from '../../advancedsettings/locationmanagement/department/department_service.js'
-import { GetDXFacilityDataSource } from '../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
 import { GetDXDocumentTypeDataSource } from './documenttype/documenttype_service.js'
 import { GetDXCustomerDataSource } from './customer/customer_service.js'
 import { GetDXProductDataSource } from './product/Product_Service.js'
 import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
+import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDocumentCatalogControls();
 });
 
 async function InitializeDocumentCatalogControls() {
+    const now = new Date();
 
     $("#dxDocumentGrid").dxDataGrid({
         dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetCustomerDTO: true, GetProductDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
@@ -79,7 +89,7 @@ async function InitializeDocumentCatalogControls() {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "View", icon: "fa-regular fa-eye text-primary", value: 1 },
+                                    { text: "Log", icon: "fa regular fa-code-branch text-primary", value: 1 },
                                     { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 3 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
                                 ]
@@ -108,10 +118,21 @@ async function InitializeDocumentCatalogControls() {
                         });
                     }
                 },
-                { caption: "ID", dataField: "ID", visible: false, width: "auto" },
-                { caption: "Number", dataField: "Number" },
-                { caption: "Name", dataField: "Name" },
-                { 
+                {
+                    caption: "ID",
+                    dataField: "ID",
+                    visible: false,
+                    width: "auto"
+                },
+                {
+                    caption: "Number",
+                    dataField: "Number"
+                },
+                {
+                    caption: "Name",
+                    dataField: "Name"
+                },
+                {
                     caption: "Status",
                     dataField: "StatusName",
                     filterOperations: ["contains", "="],
@@ -130,6 +151,77 @@ async function InitializeDocumentCatalogControls() {
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
             ],
+    });
+    $("#dxAddedStartDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+        value: new Date(now.getFullYear(), now.getMonth(), 1),
+        onValueChanged: function (e) {
+            $("#dxAddedEndDateDateBox").dxDateBox("instance").option("min", e.value);
+        }
+    });
+    $("#dxAddedEndDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+
+        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+        onValueChanged: function (e) {
+            $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
+        }
+    });
+    $("#dxLastUpdateStartDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+        value: new Date(now.getFullYear(), now.getMonth(), 1),
+        onValueChanged: function (e) {
+            $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
+        }
+    });
+    $("#dxLastUpdateEndDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+
+        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+        onValueChanged: function (e) {
+            $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
+        }
+    });
+    $("#dxFilterStatusTagBox").dxTagBox({
+
+        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
+        displayExpr: "StatusName",
+        valueExpr: "StatusID",
+        searchEnabled: true,
+        value: [5],
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
+    });
+    $("#dxFilterDepartmentTagBox").dxTagBox({
+
+        dataSource: await GetDXDepartmentDataSource(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
+    });
+    $("#dxFilterOwnerTagBox").dxTagBox({
+
+        dataSource: await GetDXUserDataSource(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
+    });
+    $("#dxFilterDocumentTypeTagBox").dxTagBox({
+
+        dataSource: await GetDXDocumentTypeDataSource(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
     });
 
     $("#dxDocumentNameTextBox").dxTextBox({
@@ -176,26 +268,6 @@ async function InitializeDocumentCatalogControls() {
         valueExpr: "ID",
         searchEnable: true,
         popupWidth: 450,
-    });
-    $("#dxDocumentFacilitySelectBox").dxSelectBox({
-        dataSource: await GetDXFacilityDataSource(),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        deferRendering: false,
-        searchEnabled: true,
-        placeholder: "Select a Facility...",
-        onValueChanged: async function (e) {
-            if (e.value != 0 && e.value != null) {
-                let _departmentDTO = {
-                    IsActive: true,
-                    FacilityID: e.value
-                }
-                $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").reset();
-                $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("dataSource", await GetDXDepartmentDataSource(_departmentDTO));
-            } else {
-                $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("dataSource", []);
-            }
-        },
     });
 
     $("#dxDocumentDepartmentSelectBox").dxSelectBox({
@@ -354,6 +426,5 @@ const GetDXProductDataSource_Global = () => {
 
 //Reload select box for related fields
 async function ReloadLocationsSelectBox() {
-    $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("dataSource", await GetDXFacilityDataSource());
     $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("dataSource", await GetDXDepartmentDataSource());
 }

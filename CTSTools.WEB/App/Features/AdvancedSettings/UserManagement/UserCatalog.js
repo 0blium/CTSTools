@@ -9,7 +9,7 @@ import { GetUser_PermissionInformation, CreateUser_Permission, DeleteUser_Permis
 import { GetDXMailGroupDataSource } from '../MailGroupManagement/MailGroup/MailGroup_Service.js'
 import { GetDXMailGroupMemberDataSource, GetMailGroupMemberInformation } from '../MailGroupManagement/MailGroupMember/MailGroupMember_Service.js'
 
-import { GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
+import { GetDXUser_RoleDataSource, GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
 
 
 
@@ -577,9 +577,11 @@ function RoleTabTemplate(masterDetailData) {
     return function () {
         //document.getElementById("User_RoleButton").addEventListener("click", ClearUser_RoleFields);
         let _user_roleDataGrid;
-        async function onDataGridInitialized(e, ID) {
+        async function onDataGridInitialized(e) {
             _user_roleDataGrid = e.component;
-            let _user_roleDTO = await GetUser_RoleInformation({ UserID: masterDetailData.ID });
+            let _user_roleDTO = await GetDXUser_RoleDataSource({ UserID: masterDetailData.ID })
+            console.log(_user_roleDTO)
+            console.log(masterDetailData.ID)
             _user_roleDataGrid.option('dataSource', _user_roleDTO);
 
         }
@@ -597,7 +599,7 @@ function RoleTabTemplate(masterDetailData) {
 }
 function RoleGridTemplate(onDataGridInitialized) {
 
-    return function () {
+     return async function () {
         return $('<div>').dxDataGrid({
             onInitialized: onDataGridInitialized,
             paging: {
@@ -624,7 +626,7 @@ function RoleGridTemplate(onDataGridInitialized) {
                     },
                 },
                 { caption: "ID", dataField: "ID", visible: false },
-                { caption: "Permission", dataField: "PermissionName" },
+                { caption: "Role", dataField: "RoleName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },

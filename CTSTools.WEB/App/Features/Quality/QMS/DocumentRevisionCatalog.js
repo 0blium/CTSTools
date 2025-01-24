@@ -135,6 +135,8 @@ async function InitializeDocumentRevisionCatalogControls() {
                 { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
+
             ],
     });
 
