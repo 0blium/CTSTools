@@ -26,7 +26,7 @@ async function InitializeSupplierCatalogControls() {
     $("#dxSupplierIsManufacturerCheckBox").dxCheckBox({
         value: false
     });
-    $("#dxSupplirFileUploader").dxFileUploader({
+    $("#dxSupplierFileUploader").dxFileUploader({
         accept: ".xlsx",
         selectButtonText: "Select Excel File",
         labelText: "or Drop here",
@@ -231,7 +231,7 @@ function ClearSupplierFields() {
 function ClearExcelModalFields() {
     $('#successMessage').hide();
     $('#errorMessages').hide();
-    var uploader = $("#dxSupplirFileUploader").dxFileUploader("instance");
+    var uploader = $("#dxSupplierFileUploader").dxFileUploader("instance");
     if (uploader) {
         uploader.option("visible", true);
     }
@@ -239,38 +239,51 @@ function ClearExcelModalFields() {
         uploader.reset();
     }
 }
+function ShowSuccessMessage(message) {
+    $('#successMessage').text(message).show();
+    $('#successMessage').removeAttr('hidden');
+}
+
+function ShowErrorMessages(messages) {
+    $('#errorMessages').html(messages).show();
+    $('#errorMessages').removeAttr('hidden');
+}
+
 function ShowSupplierValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
-    if (_validationResultDTO.Data != null)
-    {
-        if (_validationResultDTO.Data.SupplierGoodLinesList.length > 0) {
-            successMessage = `Suppliers were created successfully.`;
-            $('#successMessage').text(successMessage).show();
-            document.getElementById('successMessage').removeAttribute('hidden');
+    if (_validationResultDTO.Data != null) {
+        const hasGoodLines = _validationResultDTO.Data.SupplierGoodLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.SupplierBadLinesList.length > 0;
+        if (hasGoodLines && !hasBadLines) {
+            successMessage = "Suppliers were created successfully.";
+            ShowSuccessMessage(successMessage);
             ClearSupplierFields();
         }
-        if (_validationResultDTO.Data.SupplierBadLinesList.length > 0) {
-            errorMessages = '<strong>Wrong data:</strong><ul>';
+        else if (hasGoodLines && hasBadLines) {
+            successMessage = "Suppliers created: Some were skipped due to missing or invalid data.";
+            ShowSuccessMessage(successMessage);
+            ClearSupplierFields();
+        }
+        if (hasBadLines) {
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.SupplierBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Is Vendor = ${badLine.IsVendor}. Is Manufacturer = ${badLine.IsManufacturer}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Description = ${badLine.Description}, Is Vendor = ${badLine.IsVendor}, Is Manufacturer = ${badLine.IsManufacturer}.</li>`;
             });
             errorMessages += '</ul>';
-            $('#errorMessages').html(errorMessages).show();
-            document.getElementById('errorMessages').removeAttribute('hidden');
+            ShowErrorMessages(errorMessages);
         }
     }
-    if (_validationResultDTO.Message == "Error") {
+    if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        $('#errorMessages').html(errorMessages).show();
-        document.getElementById('errorMessages').removeAttribute('hidden');
+        ShowErrorMessages(errorMessages);
     }
-    if (_validationResultDTO.Message == "Don't have access to this action.") {
-        $('#UploadExcelSupplirModal').modal('hide');
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
+        $('#UploadExcelSupplierModal').modal('hide');
         ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
-    $("#dxSupplirFileUploader").dxFileUploader("instance").option("visible", false);
+    $("#dxSupplierFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function PopulateSupplierFields(data) {
     $('#hiddenSupplierID').val(data.ID);

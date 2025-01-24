@@ -8,6 +8,7 @@ using CTSTools.BLL.Common.Files;
 using System.Data;
 using System.IO;
 using ExcelDataReader;
+using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 namespace CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 
 public class Attribute_Service
@@ -176,7 +177,7 @@ public class Attribute_Service
                         foreach (var _attributeDTO in _excelAttributeRowsValidation.AttributeGoodLinesList)
                         {
                             _attributeDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateAttribute_Global(_attributeDTO);
+                            _validationResultDTO = CreateAttribute_Global(_attributeDTO);
                         }
                     }
                 }
@@ -298,11 +299,12 @@ public class Attribute_Service
                         }
                         else
                         {
-                            throw new InvalidCastException($"The value to Has Multiple Options: '{_hasMultipleOptionsValue}', is not a valid boolean.");
+                            throw new InvalidCastException($"The value for Has Multiple Options in Row {rowIndex + 1} is not a valid boolean.");
                         }
                     }
                     if (_haveInfo)
                     {
+                        _excelAttributeDTO.RowIteration = rowIndex + 1;
                         _excelAttributeDTOList.Add(_excelAttributeDTO);
                     }
                 }
@@ -365,6 +367,7 @@ public class Attribute_Service
                 }
                 else
                 {
+                    _attributeDTO.ID = _excelAttributeFileData.RowIteration;
                     _excelAttributeFileValidationDTO.ValidationResultDTO.Message = _excelAttributeFileValidationDTO.ValidationResultDTO.Message;
                     _excelAttributeFileValidationDTO.AttributeBadLinesList.Add(_attributeDTO);
                 }

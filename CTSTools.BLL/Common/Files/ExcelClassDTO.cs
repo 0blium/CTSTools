@@ -10,6 +10,7 @@ namespace CTSTools.BLL.Common.Files
     public class ExcelClassDTO
     {
         #region Base Properties
+        public int? RowIteration { get; set; }
         public ClassDTO ClassDTO { get; set; }
         public List<ClassDTO> ClassGoodLinesList { get; set; }
         public List<ClassDTO> ClassBadLinesList { get; set; }

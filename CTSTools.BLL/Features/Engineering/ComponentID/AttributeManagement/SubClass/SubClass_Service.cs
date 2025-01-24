@@ -228,7 +228,7 @@ public class SubClass_Service
                         foreach (var _SubClassDTO in _excelSubClassRowsValidation.SubClassGoodLinesList)
                         {
                             _SubClassDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateSubClass_Global(_SubClassDTO);
+                            _validationResultDTO = CreateSubClass_Global(_SubClassDTO);
                         }
                     }
                 }
@@ -357,6 +357,7 @@ public class SubClass_Service
 
                     if (_haveInfo)
                     {
+                        _excelSubClassDTO.RowIteration = rowIndex + 1;
                         _excelSubClassDTOList.Add(_excelSubClassDTO);
                     }
                 }
@@ -444,6 +445,7 @@ public class SubClass_Service
                 }
                 else
                 {
+                    _subClassDTO.ID = _excelSubClassFileData.RowIteration;
                     _excelSubClassFileValidationDTO.ValidationResultDTO.Message = _excelSubClassFileValidationDTO.ValidationResultDTO.Message;
                     _excelSubClassFileValidationDTO.SubClassBadLinesList.Add(_subClassDTO);
                 }

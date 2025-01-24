@@ -23,7 +23,7 @@
         <div class="panel panel-inverse">
             <div class="panel-body">
                 <a class="btn btn-success mb-2" id="SupplierModalButton" data-bs-toggle="modal" data-bs-target="#SupplierModal" id="SupplierButton"><i class="fa-solid fa-circle-plus"></i>Supplier</a>
-                <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSupplirModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSupplierModal"><i class="fa-solid fa-file-import"></i> Excel</a>
                 <div id="dxSupplierGrid"></div>
             </div>
         </div>
@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="UploadExcelSupplirModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal fade" id="UploadExcelSupplierModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -97,7 +97,7 @@
                         <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
                     </div>
                     <div class="row mb-15px">
-                        <div id="dxSupplirFileUploader"></div>
+                        <div id="dxSupplierFileUploader"></div>
                     </div>
                     <div id="successMessage" class="alert alert-success" hidden></div>
                     <div id="errorMessages" class="alert alert-danger" hidden></div>

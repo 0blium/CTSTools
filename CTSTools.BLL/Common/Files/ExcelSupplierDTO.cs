@@ -11,6 +11,7 @@ namespace CTSTools.BLL.Common.Files
     public class ExcelSupplierDTO
     {
         #region Base Properties
+        public int? RowIteration { get; set; }
         public SupplierDTO SupplierDTO { get; set; }
         public List<SupplierDTO> SupplierGoodLinesList { get; set; }
         public List<SupplierDTO> SupplierBadLinesList { get; set; }

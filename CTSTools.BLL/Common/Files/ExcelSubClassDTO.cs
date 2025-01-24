@@ -11,6 +11,7 @@ namespace CTSTools.BLL.Common.Files
     public class ExcelSubClassDTO
     {
         #region Base Properties
+        public int? RowIteration { get; set; }
         public SubClassDTO SubClassDTO { get; set; }
         public List<SubClassDTO> SubClassGoodLinesList { get; set; }
         public List<SubClassDTO> SubClassBadLinesList { get; set; }

@@ -129,7 +129,7 @@ public class Supplier_Service
                         foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
                         {
                             _supplierDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateSupplier_Global(_supplierDTO);
+                            _validationResultDTO = CreateSupplier_Global(_supplierDTO);
                         }
                     }
                 }
@@ -254,7 +254,7 @@ public class Supplier_Service
                         }
                         else
                         {
-                            throw new InvalidCastException($"The value to Is Manufacturer: '{_isManufacturerValue}', is not a valid boolean.");
+                            throw new InvalidCastException($"The value for Is Manufacturer in Row {rowIndex + 1} is not a valid boolean.");
                         }
                     }
                     if (_columnHeaderMap.TryGetValue("IS VENDOR", out int IsVendorIndex) ||
@@ -269,11 +269,12 @@ public class Supplier_Service
                         }
                         else
                         {
-                            throw new InvalidCastException($"The value to Is Vendor: '{_isVendorIndexValue}', is not a valid boolean.");
+                            throw new InvalidCastException($"The value for Is Vendor in Row {rowIndex + 1} is not a valid boolean.");
                         }
                     }
                     if (_haveInfo)
                     {
+                        _excelSupplierDTO.RowIteration = rowIndex + 1;
                         _excelSupplierDTOList.Add(_excelSupplierDTO);
                     }
                 }
@@ -333,6 +334,7 @@ public class Supplier_Service
                 }
                 else
                 {
+                    _supplierDTO.ID = _excelSupplierFileData.RowIteration;
                     _excelSupplierFileValidationDTO.ValidationResultDTO.Message = _excelSupplierFileValidationDTO.ValidationResultDTO.Message;
                     _excelSupplierFileValidationDTO.SupplierBadLinesList.Add(_supplierDTO);
                 }

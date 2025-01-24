@@ -217,7 +217,7 @@ public class Class_Service
                         foreach (var _classDTO in _excelClassRowsValidation.ClassGoodLinesList)
                         {
                             _classDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateClass_Global(_classDTO);
+                            _validationResultDTO = CreateClass_Global(_classDTO);
                         }
                     }
                 }
@@ -359,6 +359,7 @@ public class Class_Service
                     }
                     if (_haveInfo)
                     {
+                        _excelClassDTO.RowIteration = rowIndex + 1;
                         _excelClassDTOList.Add(_excelClassDTO);
                     }
                 }
@@ -471,6 +472,7 @@ public class Class_Service
                 }
                 else
                 {
+                    _classDTO.ID = _excelClassFileData.RowIteration;
                     _excelClassFileValidationDTO.ValidationResultDTO.Message = _excelClassFileValidationDTO.ValidationResultDTO.Message;
                     _excelClassFileValidationDTO.ClassBadLinesList.Add(_classDTO);
                 }

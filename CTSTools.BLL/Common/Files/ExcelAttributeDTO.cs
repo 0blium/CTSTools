@@ -10,6 +10,7 @@ namespace CTSTools.BLL.Common.Files
     public class ExcelAttributeDTO
     {
         #region Base Properties
+        public int? RowIteration { get; set; }
         public AttributeDTO AttributeDTO { get; set; }
         public List<AttributeDTO> AttributeGoodLinesList { get; set; }
         public List<AttributeDTO> AttributeBadLinesList { get; set; }

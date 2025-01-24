@@ -272,35 +272,48 @@ function ClearExcelClassModalFields() {
         uploader.reset();
     }
 }
+function ShowClassSuccessMessage(message) {
+    $('#successClassMessage').text(message).show();
+    $('#successClassMessage').removeAttr('hidden');
+}
+
+function ShowClassErrorMessages(messages) {
+    $('#errorClassMessages').html(messages).show();
+    $('#errorClassMessages').removeAttr('hidden');
+}
+
 function ShowClassValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        if (_validationResultDTO.Data.ClassGoodLinesList.length > 0) {
-            successMessage = `Class were created successfully.`;
-            $('#successClassMessage').text(successMessage).show();
-            document.getElementById('successClassMessage').removeAttribute('hidden');
-            $("#dxClassGrid").dxDataGrid("instance").refresh();
+        const hasGoodLines = _validationResultDTO.Data.ClassGoodLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.ClassBadLinesList.length > 0;
+        if (hasGoodLines && !hasBadLines) {
+            successMessage = "Class were created successfully.";
+            ShowClassSuccessMessage(successMessage);
             ClearClassFields();
         }
-        if (_validationResultDTO.Data.ClassBadLinesList.length > 0) {
-            errorMessages = '<strong>Wrong data:</strong><ul>';
+        else if (hasGoodLines && hasBadLines) {
+            successMessage = "Class created: Some were skipped due to missing or invalid data.";
+            ShowClassSuccessMessage(successMessage);
+            ClearClassFields();
+        }
+        if (hasBadLines) {
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.ClassBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.ClassValueDTO.Name}. Code: ${badLine.ClassValueDTO.Code}. Description = ${badLine.ClassValueDTO.Description}. Part Type: ${badLine.PartTypeDTO.Name}. Component Type: ${badLine.ComponentTypeDTO.Name}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.ClassValueDTO.Name}, Code: ${badLine.ClassValueDTO.Code}, Description = ${badLine.ClassValueDTO.Description}, Part Type: ${badLine.PartTypeDTO.Name}, Component Type: ${badLine.ComponentTypeDTO.Name}.</li>`;
             });
             errorMessages += '</ul>';
-            $('#errorClassMessages').html(errorMessages).show();
-            document.getElementById('errorClassMessages').removeAttribute('hidden');
+            ShowClassErrorMessages(errorMessages);
         }
     }
-    if (_validationResultDTO.Message == "Error") {
+    if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        $('#errorClassMessages').html(errorMessages).show();
-        document.getElementById('errorClassMessages').removeAttribute('hidden');
+        ShowClassErrorMessages(errorMessages);
     }
-    if (_validationResultDTO.Message == "Don't have access to this action.") {
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelClassModal').modal('hide');
-        ClearExcelClassModalFields();
+        ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
@@ -708,35 +721,48 @@ function ClearExcelSubClassModalFields() {
         uploader.reset();
     }
 }
+function ShowSubClassSuccessMessage(message) {
+    $('#successSubClassMessage').text(message).show();
+    $('#successSubClassMessage').removeAttr('hidden');
+}
+
+function ShowSubClassErrorMessages(messages) {
+    $('#errorSubClassMessages').html(messages).show();
+    $('#errorSubClassMessages').removeAttr('hidden');
+}
+
 function ShowSubClassValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        if (_validationResultDTO.Data.SubClassGoodLinesList.length > 0) {
-            successMessage = `SubClass were created successfully.`;
-            $('#successSubClassMessage').text(successMessage).show();
-            document.getElementById('successSubClassMessage').removeAttribute('hidden');
-            $("#dxSubClassGrid").dxDataGrid("instance").refresh();
+        const hasGoodLines = _validationResultDTO.Data.SubClassGoodLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.SubClassBadLinesList.length > 0;
+        if (hasGoodLines && !hasBadLines) {
+            successMessage = "SubClass were created successfully.";
+            ShowSubClassSuccessMessage(successMessage);
             ClearSubClassFields();
         }
-        if (_validationResultDTO.Data.SubClassBadLinesList.length > 0) {
-            errorMessages = '<strong>Wrong data:</strong><ul>';
+        else if (hasGoodLines && hasBadLines) {
+            successMessage = "SubClass created: Some were skipped due to missing or invalid data.";
+            ShowSubClassSuccessMessage(successMessage);
+            ClearSubClassFields();
+        }
+        if (hasBadLines) {
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.SubClassBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.SubClassValueDTO.Name}. Code: ${badLine.SubClassValueDTO.Code}. Description = ${badLine.SubClassValueDTO.Description}. Class = ${badLine.ParentValueName}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.SubClassValueDTO.Name}, Code: ${badLine.SubClassValueDTO.Code}, Description = ${badLine.SubClassValueDTO.Description}, Class = ${badLine.ParentValueName}.</li>`;
             });
             errorMessages += '</ul>';
-            $('#errorSubClassMessages').html(errorMessages).show();
-            document.getElementById('errorSubClassMessages').removeAttribute('hidden');
+            ShowSubClassErrorMessages(errorMessages);
         }
     }
-    if (_validationResultDTO.Message == "Error") {
+    if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        $('#errorSubClassMessages').html(errorMessages).show();
-        document.getElementById('errorSubClassMessages').removeAttribute('hidden');
+        ShowSubClassErrorMessages(errorMessages);
     }
-    if (_validationResultDTO.Message == "Don't have access to this action.") {
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelSubClassModal').modal('hide');
-        ClearExcelSubClassModalFields();
+        ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);

@@ -263,36 +263,48 @@ function ClearExcelValueModal() {
         uploader.reset();
     }
 }
+function ShowValueSuccessMessage(message) {
+    $('#successValueMessage').text(message).show();
+    $('#successValueMessage').removeAttr('hidden');
+}
+
+function ShowValueErrorMessages(messages) {
+    $('#errorValueMessages').html(messages).show();
+    $('#errorValueMessages').removeAttr('hidden');
+}
+
 function ShowValueValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
-    debugger;
     if (_validationResultDTO.Data != null) {
-        if (_validationResultDTO.Data.ValueGoodLinesList.length > 0) {
-            successMessage = `Value were created successfully.`;
-            $('#successValueMessage').text(successMessage).show();
-            document.getElementById('successValueMessage').removeAttribute('hidden');
-            $("#dxValueGrid").dxDataGrid("instance").refresh();
+        const hasGoodLines = _validationResultDTO.Data.ValueGoodLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.ValueBadLinesList.length > 0;
+        if (hasGoodLines && !hasBadLines) {
+            successMessage = "Values were created successfully.";
+            ShowValueSuccessMessage(successMessage);
             ClearValueFields();
         }
-        if (_validationResultDTO.Data.ValueBadLinesList.length > 0) {
-            errorMessages = '<strong>Wrong data:</strong><ul>';
+        else if (hasGoodLines && hasBadLines) {
+            successMessage = "Values created: Some were skipped due to missing or invalid data.";
+            ShowValueSuccessMessage(successMessage);
+            ClearValueFields();
+        }
+        if (hasBadLines) {
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.ValueBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Code: ${badLine.Code}. Attribute: ${badLine.AttributeName}. Description = ${badLine.Description}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Code: ${badLine.Code}, Attribute: ${badLine.AttributeName}, Description = ${badLine.Description}.</li>`;
             });
             errorMessages += '</ul>';
-            $('#errorValueMessages').html(errorMessages).show();
-            document.getElementById('errorValueMessages').removeAttribute('hidden');
+            ShowValueErrorMessages(errorMessages);
         }
     }
-    if (_validationResultDTO.Message == "Error") {
+    if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        $('#errorValueMessages').html(errorMessages).show();
-        document.getElementById('errorValueMessages').removeAttribute('hidden');
+        ShowValueErrorMessages(errorMessages);
     }
-    if (_validationResultDTO.Message == "Don't have access to this action.") {
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelValueModal').modal('hide');
-        ClearExcelValueModal();
+        ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
@@ -570,36 +582,48 @@ function ClearExcelAttributeModal() {
         uploader.reset();
     }
 }
+function ShowAttributeSuccessMessage(message) {
+    $('#successAttributeMessage').text(message).show();
+    $('#successAttributeMessage').removeAttr('hidden');
+}
+
+function ShowAttributeErrorMessages(messages) {
+    $('#errorAttributeMessages').html(messages).show();
+    $('#errorAttributeMessages').removeAttr('hidden');
+}
+
 function ShowAttributeValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
-    debugger;
     if (_validationResultDTO.Data != null) {
-        if (_validationResultDTO.Data.AttributeGoodLinesList.length > 0) {
-            successMessage = `Attribute were created successfully.`;
-            $('#successAttributeMessage').text(successMessage).show();
-            document.getElementById('successAttributeMessage').removeAttribute('hidden');
-            $("#dxAttributeGrid").dxDataGrid("instance").refresh();
+        const hasGoodLines = _validationResultDTO.Data.AttributeGoodLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.AttributeBadLinesList.length > 0;
+        if (hasGoodLines && !hasBadLines) {
+            successMessage = "Attributes were created successfully.";
+            ShowAttributeSuccessMessage(successMessage);
             ClearAttributeFields();
         }
-        if (_validationResultDTO.Data.AttributeBadLinesList.length > 0) {
-            errorMessages = '<strong>Wrong data:</strong><ul>';
+        else if (hasGoodLines && hasBadLines) {
+            successMessage = "Attributes created: Some were skipped due to missing or invalid data.";
+            ShowAttributeSuccessMessage(successMessage);
+            ClearAttributeFields();
+        }
+        if (hasBadLines) {
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.AttributeBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Has Multiple Options = ${badLine.HasMultipleOptions}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Description = ${badLine.Description}, Has Multiple Options = ${badLine.HasMultipleOptions}.</li>`;
             });
             errorMessages += '</ul>';
-            $('#errorAttributeMessages').html(errorMessages).show();
-            document.getElementById('errorAttributeMessages').removeAttribute('hidden');
+            ShowAttributeErrorMessages(errorMessages);
         }
     }
-    if (_validationResultDTO.Message == "Error") {
+    if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        $('#errorAttributeMessages').html(errorMessages).show();
-        document.getElementById('errorAttributeMessages').removeAttribute('hidden');
+        ShowAttributeErrorMessages(errorMessages);
     }
-    if (_validationResultDTO.Message == "Don't have access to this action.") {
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelAttributeModal').modal('hide');
-        ClearExcelAttributeModal();
+        ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
     $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);

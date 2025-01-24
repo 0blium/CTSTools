@@ -174,7 +174,7 @@ public class Value_Service
                         foreach (var _ValueDTO in _excelValueRowsValidation.ValueGoodLinesList)
                         {
                             _ValueDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateValue_Global(_ValueDTO);
+                            _validationResultDTO = CreateValue_Global(_ValueDTO);
                         }
                     }
                 }
@@ -301,6 +301,7 @@ public class Value_Service
                     }
                     if (_haveInfo)
                     {
+                        _excelValueDTO.RowIteration = rowIndex + 1;
                         _excelValueDTOList.Add(_excelValueDTO);
                     }
                 }
@@ -384,6 +385,7 @@ public class Value_Service
                 }
                 else
                 {
+                    _ValueDTO.ID = _excelValueFileData.RowIteration;
                     _excelValueFileValidationDTO.ValidationResultDTO.Message = _excelValueFileValidationDTO.ValidationResultDTO.Message;
                     _excelValueFileValidationDTO.ValueBadLinesList.Add(_ValueDTO);
                 }

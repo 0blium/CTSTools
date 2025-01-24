@@ -10,6 +10,7 @@ namespace CTSTools.BLL.Common.Files
     public class ExcelKPIDTO
     {
         #region Base Properties
+        public int? RowIteration { get; set; }
         public KPIDTO KPIDTO { get; set; }
         public List<KPIDTO> KPIGoodLinesList { get; set; }
         public List<KPIDTO> KPIBadLinesList { get; set; }

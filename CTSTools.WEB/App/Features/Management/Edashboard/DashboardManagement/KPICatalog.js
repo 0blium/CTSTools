@@ -377,34 +377,47 @@ function ClearExcelModalFields() {
         uploader.reset();
     }
 }
+function ShowKPISuccessMessage(message) {
+    $('#successKPIMessage').text(message).show();
+    $('#successKPIMessage').removeAttr('hidden');
+}
+
+function ShowKPIErrorMessages(messages) {
+    $('#errorKPIMessages').html(messages).show();
+    $('#errorKPIMessages').removeAttr('hidden');
+}
+
 function ShowKPIValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
-    if (_validationResultDTO.Data != null)
-    {
-        if (_validationResultDTO.Data.KPIGoodLinesList.length > 0) {
-            successMessage = `KPI were created successfully.`;
-            $('#successKPIMessage').text(successMessage).show();
-            document.getElementById('successKPIMessage').removeAttribute('hidden');
-            $("#dxKPIGrid").dxDataGrid("instance").refresh();
+    if (_validationResultDTO.Data != null) {
+        debugger;
+        const hasGoodLines = _validationResultDTO.Data.KPIGoodLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.KPIBadLinesList.length > 0;
+        if (hasGoodLines && !hasBadLines) {
+            successMessage = "KPIs were created successfully.";
+            ShowKPISuccessMessage(successMessage);
             ClearKPIFields();
         }
-        if (_validationResultDTO.Data.KPIBadLinesList.length > 0) {
-            errorMessages = '<strong>Wrong data:</strong><ul>';
+        else if (hasGoodLines && hasBadLines) {
+            successMessage = "KPIs created: Some were skipped due to missing or invalid data.";
+            ShowKPISuccessMessage(successMessage);
+            ClearKPIFields();
+        }
+        if (hasBadLines) {
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.KPIBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row error:<br>Name: ${badLine.Name}. Description = ${badLine.Description}. Unit Of Measure = ${badLine.UnitOfMeasureName}. Value Type = ${badLine.ValueTypeName}. Goal = ${badLine.Goal}. Owner = ${badLine.OwnerName}. Responsible = ${badLine.ResponsibleName}. Facility = ${badLine.FacilityName}. Equivalence = ${badLine.EquivalenceName}. Category = ${badLine.DashboardCategoryName}. Owner Department = ${badLine.OwnerDepartmentName}. Responsible Department = ${badLine.ResponsibleDepartmentName}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Description = ${badLine.Description}, Unit Of Measure = ${badLine.UnitOfMeasureName}, Value Type = ${badLine.ValueTypeName}, Goal = ${badLine.Goal}, Owner = ${badLine.OwnerName}, Responsible = ${badLine.ResponsibleName}, Facility = ${badLine.FacilityName}, Equivalence = ${badLine.EquivalenceName}, Category = ${badLine.DashboardCategoryName}, Owner Department = ${badLine.OwnerDepartmentName}, Responsible Department = ${badLine.ResponsibleDepartmentName}.</li>`;
             });
             errorMessages += '</ul>';
-            $('#errorKPIMessages').html(errorMessages).show();
-            document.getElementById('errorKPIMessages').removeAttribute('hidden');
+            ShowKPIErrorMessages(errorMessages);
         }
     }
-    if (_validationResultDTO.Message == "Error") {
+    if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        $('#errorKPIMessages').html(errorMessages).show();
-        document.getElementById('errorKPIMessages').removeAttribute('hidden');
+        ShowKPIErrorMessages(errorMessages);
     }
-    if (_validationResultDTO.Message == "Don't have access to this action.") {
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelKPIModal').modal('hide');
         ClearExcelModalFields();
         return HostResponse(_validationResultDTO);

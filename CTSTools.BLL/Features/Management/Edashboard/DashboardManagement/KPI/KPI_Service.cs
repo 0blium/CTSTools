@@ -4,6 +4,7 @@ using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
@@ -256,7 +257,7 @@ public class KPI_Service
                         foreach (var _kPIDTO in _excelKPIRowsValidation.KPIGoodLinesList)
                         {
                             _kPIDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateKPI_Global(_kPIDTO);
+                            _validationResultDTO = CreateKPI_Global(_kPIDTO);
                         }
                     }
                 }
@@ -414,7 +415,7 @@ public class KPI_Service
                         }
                         else
                         {
-                            throw new InvalidCastException($"The value to Is Goal: '{_goalValue}', is not a valid number.");
+                            throw new InvalidCastException($"The value for Goal in Row {rowIndex + 1} is not a valid number.");
                         }
                     }
                     if (_columnHeaderMap.TryGetValue("OWNER", out int OwnerIndex))
@@ -470,6 +471,7 @@ public class KPI_Service
                     }
                     if (_haveInfo)
                     {
+                        _excelKPIDTO.RowIteration = rowIndex + 1;
                         _excelKPIDTOList.Add(_excelKPIDTO);
                     }
                 }
@@ -704,6 +706,7 @@ public class KPI_Service
                 }
                 else
                 {
+                    _kPIDTO.ID = _excelKPIFileData.RowIteration;
                     _excelKPIFileValidationDTO.ValidationResultDTO.Message = _excelKPIFileValidationDTO.ValidationResultDTO.Message;
                     _excelKPIFileValidationDTO.KPIBadLinesList.Add(_kPIDTO);
                 }
