@@ -384,7 +384,7 @@ public class Dashboard_KPI_Service
                                 try
                                 {
                                     var _kpiBackgroudColor = string.Empty;
-                                    _kpiBackgroudColor = SetMetricColumnBackground((int)_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _monthlyDTO.MonthlyValue, Convert.ToDecimal(_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.Goal), Convert.ToDecimal(_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue));
+                                    _kpiBackgroudColor = SetKPIColumnBackground((int)_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _monthlyDTO.MonthlyValue, Convert.ToDecimal(_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].KPIDTO.Goal), Convert.ToDecimal(_dashboard_kpidict[_kpiByMonthResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue));
 
                                     _monthlyDTO.KPIBackgroundColor = _kpiBackgroudColor;
                                 }
@@ -422,8 +422,6 @@ public class Dashboard_KPI_Service
     public static List<Dashboard_KPIDTO> GetDashboardReportList(int DashboardID)
     {
         var _dashboardKPIList_Global = new List<Dashboard_KPIDTO>();
-        int _previousMonth = DateTime.Now.AddMonths(-1).Month;
-        //int _fiscalYear = CalculateFiscalYear();
         int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardID }).FirstOrDefault().Year; ;
         try
         {
@@ -440,231 +438,223 @@ public class Dashboard_KPI_Service
                 _mainDashboardKPIDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
                 _mainDashboardKPIDTO.GetDashboardDTO = true;
                 _mainDashboardKPIDTO.GetKPIDTO = true;
+                _mainDashboardKPIDTO.KPIDTO.GetUnitOfMeasureDTO = true;
+
+                var _dashboard_kpidict = GetDashboard_KPIList_Global(_mainDashboardKPIDTO).ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+                _mainDashboardKPIDTO.DashboardLineDTO.Dashboard_KPIIDArray = _dashboard_kpidict.Keys.ToArray();
+                var _DashboardLineList = DashboardLine_Service.GetDashboardLineList_Global(_mainDashboardKPIDTO.DashboardLineDTO);
+                
                 _mainDashboardKPIDTO = GetDashboard_KPIList_Global(_mainDashboardKPIDTO).FirstOrDefault();
-
+                
                 var _dashboardReportList = new List<DashboardReportDTO>();
-
-                var DashboardKPIDTO = new Dashboard_KPIDTO();
-                DashboardKPIDTO.DashboardID = DashboardID;
-                DashboardKPIDTO.DashboardLineDTO.FiscalYear = _fiscalYear;
-                DashboardKPIDTO.GetDashboardLineList = true;
-                DashboardKPIDTO.GetDashboardDTO = true;
-                DashboardKPIDTO.GetKPIDTO = true;
-                var _dashboardKPIList = GetDashboard_KPIList_Global(DashboardKPIDTO);
-
-                //Get information for selected dashboard, category and fiscal Year
-
-                if (_dashboardKPIList.Count > 0)
+                foreach (var _dasboard_KPIID in _dashboard_kpidict.Keys)
                 {
-                    foreach (var _dashboard_KPIDTOResult in _dashboardKPIList)
+                    _dashboardReportList.Add(new DashboardReportDTO { Dashboard_KPIID = _dasboard_KPIID });
+                }
+                var _dashboardReportDict = _dashboardReportList.ToDictionary(keySelector: m => m.Dashboard_KPIID, elementSelector: m => m);
+
+
+                if (_dashboard_kpidict.Keys.Count > 0)
+                {
+
+                    if (_DashboardLineList.Count() > 0)
                     {
 
-                        if (_dashboard_KPIDTOResult.DashboardLineList?.Count() > 0)
+                        foreach (var _dashboardLineResult in _DashboardLineList)
                         {
-
-
-                                var _dashboardReportDTO = new DashboardReportDTO();
-                                foreach (var _dashboardLineResult in _dashboard_KPIDTOResult.DashboardLineList)
-                                {
-                                    switch (_dashboardLineResult.Month)
+                            switch (_dashboardLineResult.Month)
+                            {
+                                case 1:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
                                     {
-                                        case 1:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.JanuaryValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.JanuaryGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);
-                                                //Get column background color
-                                                _dashboardReportDTO.JanuaryBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.JanuaryValue.ToString(), _dashboardReportDTO.JanuaryGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.JanuaryBackgroundColor = "#FFFFFF";
-                                            }
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JanuaryValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JanuaryGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal);
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JanuaryBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JanuaryValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JanuaryGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JanuaryBackgroundColor = "#FFFFFF";
+                                    }
 
-                                            break;
-                                        case 2:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.FebruaryValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.FebruaryGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.FebruaryBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.FebruaryValue.ToString(), _dashboardReportDTO.FebruaryGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.FebruaryBackgroundColor = "#FFFFFF";
-                                            }
+                                    break;
+                                case 2:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FebruaryValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FebruaryGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FebruaryBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FebruaryValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FebruaryGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FebruaryBackgroundColor = "#FFFFFF";
+                                    }
 
-                                            break;
-                                        case 3:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.MarchValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.MarchGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);
-                                                //Get column background color
-                                                _dashboardReportDTO.MarchBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.MarchValue.ToString(), _dashboardReportDTO.MarchGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.MarchBackgroundColor = "#FFFFFF";
-                                            }
+                                    break;
+                                case 3:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MarchValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MarchGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal);
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MarchBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MarchValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MarchGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MarchBackgroundColor = "#FFFFFF";
+                                    }
 
-                                            break;
-                                        case 4:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.AprilValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.AprilGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal);
-                                                //Get column background color
-                                                _dashboardReportDTO.AprilBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.AprilValue.ToString(), _dashboardReportDTO.AprilGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.AprilBackgroundColor = "#FFFFFF";
-                                            }
-                                            break;
-                                        case 5:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.MayValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.MayGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.MayBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.MayValue.ToString(), _dashboardReportDTO.MayGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.MayBackgroundColor = "#FFFFFF";
-                                            }
-                                            break;
-                                        case 6:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.JuneValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.JuneGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.JuneBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.JuneValue.ToString(), _dashboardReportDTO.JuneGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.JuneBackgroundColor = "#FFFFFF";
-                                            }
-                                            break;
-                                        case 7:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.JulyValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.JulyGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.JulyBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.JulyValue.ToString(), _dashboardReportDTO.JulyGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.JulyBackgroundColor = "#FFFFFF";
-                                            }
-                                            break;
-                                        case 8:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.AugustValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.AugustGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.AugustBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.AugustValue.ToString(), _dashboardReportDTO.AugustGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.AugustBackgroundColor = "#FFFFFF";
-                                            }
-                                            break;
-                                        case 9:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.SepValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.SepGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.SepBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.SepValue.ToString(), _dashboardReportDTO.SepGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.SepBackgroundColor = "#FFFFFF";
-                                            }
-                                            break;
-                                        case 10:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.OctuberValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.OctuberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.OctuberBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.OctuberValue.ToString(), _dashboardReportDTO.OctuberGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.OctuberBackgroundColor = "#FFFFFF";
-                                            }
+                                    break;
+                                case 4:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AprilValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AprilGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal);
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AprilBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AprilValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AprilGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AprilBackgroundColor = "#FFFFFF";
+                                    }
+                                    break;
+                                case 5:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MayValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MayGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MayBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MayValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MayGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].MayBackgroundColor = "#FFFFFF";
+                                    }
+                                    break;
+                                case 6:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JuneValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JuneGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JuneBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JuneValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JuneGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JuneBackgroundColor = "#FFFFFF";
+                                    }
+                                    break;
+                                case 7:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JulyValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JulyGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JulyBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JulyValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JulyGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].JulyBackgroundColor = "#FFFFFF";
+                                    }
+                                    break;
+                                case 8:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AugustValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AugustGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AugustBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AugustValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AugustGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].AugustBackgroundColor = "#FFFFFF";
+                                    }
+                                    break;
+                                case 9:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].SepValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].SepGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].SepBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].SepValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].SepGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].SepBackgroundColor = "#FFFFFF";
+                                    }
+                                    break;
+                                case 10:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].OctuberValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].OctuberGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].OctuberBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].OctuberValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].OctuberGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].OctuberBackgroundColor = "#FFFFFF";
+                                    }
 
-                                            break;
-                                        case 11:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.NovemberValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.NovemberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.NovemberBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.NovemberValue.ToString(), _dashboardReportDTO.NovemberGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.NovemberBackgroundColor = "#FFFFFF";
-                                            }
+                                    break;
+                                case 11:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].NovemberValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].NovemberGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].NovemberBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].NovemberValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].NovemberGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].NovemberBackgroundColor = "#FFFFFF";
+                                    }
 
-                                            break;
-                                        case 12:
-                                            if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
-                                            {
-                                                _dashboardReportDTO.DecemberValue = Convert.ToDecimal(_dashboardLineResult.Value);
-                                                _dashboardReportDTO.DecemberGoalValue = Convert.ToDecimal(_dashboard_KPIDTOResult.KPIDTO.Goal); ;
-                                                //Get column background color
-                                                _dashboardReportDTO.DecemberBackgroundColor = String.Format("#{0}", SetMetricColumnBackground((int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID, _dashboardReportDTO.DecemberValue.ToString(), _dashboardReportDTO.DecemberGoalValue, Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue)));
-                                            }
-                                            else
-                                            {
-                                                _dashboardReportDTO.DecemberBackgroundColor = "#FFFFFF";
-                                            }
+                                    break;
+                                case 12:
+                                    if (_dashboardLineResult.Value != null && _dashboardLineResult.Validated == true)
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DecemberValue = Convert.ToDecimal(_dashboardLineResult.Value);
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DecemberGoalValue = Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal); ;
+                                        //Get column background color
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DecemberBackgroundColor = String.Format("#{0}", SetKPIColumnBackground((int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID, _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DecemberValue.ToString(), _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DecemberGoalValue, Convert.ToDecimal(_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardDTO.GoalRangeValue)));
+                                    }
+                                    else
+                                    {
+                                        _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DecemberBackgroundColor = "#FFFFFF";
+                                    }
 
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                _dashboardReportDTO.MetricName = _dashboard_KPIDTOResult.KPIDTO.Name;
-                                _dashboardReportDTO.MetricID = (int)_dashboard_KPIDTOResult.KPIDTO.ID;
-
-                                    _dashboardReportDTO.ValueType = (int)_dashboard_KPIDTOResult.KPIDTO.ValueTypeID;
-                                    _dashboardReportDTO.EquivalenceID = (int)_dashboard_KPIDTOResult.KPIDTO.EquivalenceID;
-                                    _dashboardReportDTO.DashboardCategoryLetter = _dashboard_KPIDTOResult.DashboardCategoryLetter;
-                                    _dashboardReportDTO.DashboardCategoryName = _dashboard_KPIDTOResult.DashboardCategoryName;
-                                    _dashboardReportDTO.DashboardCategoryID = (int)_dashboard_KPIDTOResult.DashboardCategoryID;
-                                    _dashboardReportDTO.Responsible = _dashboard_KPIDTOResult.KPIDTO.OwnerName;
-                                    _dashboardReportDTO.DepartmentInteraction = _dashboard_KPIDTOResult.KPIDTO.OwnerDepartmentName;
-                                    _dashboardReportDTO.Order = _dashboard_KPIDTOResult.Order;
-                                    _dashboardReportDTO.GoalRange = Convert.ToDecimal(DashboardKPIDTO.DashboardDTO.GoalRangeValue);
-                                    _dashboardReportDTO.Goal = _dashboard_KPIDTOResult.KPIDTO.Goal.ToString();
-                                    _dashboardReportDTO.FiscalYear = _fiscalYear;
-                                    _dashboardReportDTO.FiscalYearCalculationTypeID = (int)CalculationType_Enum.Average;/*(int)_dashboard_KPIDTOResult.KPIDTO.FiscalYearCalculationTypeID;*/
-                                    _dashboardReportDTO.MetricBackgroundColor = "#FFFFFF";
-                                }
-                                _dashboardReportList.Add(_dashboardReportDTO);
+                                    break;
+                                default:
+                                    break;
                             }
 
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].KPIName = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Name;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].KPIID = (int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.ID;
+
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].ValueType = (int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.ValueTypeID;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].EquivalenceID = (int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.EquivalenceID;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DashboardCategoryLetter = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardCategoryLetter;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DashboardCategoryName = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardCategoryName;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DashboardCategoryID = (int)_dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].DashboardCategoryID;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].Responsible = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.OwnerName;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].DepartmentInteraction = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.OwnerDepartmentName;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].Order = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].Order;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].GoalRange = Convert.ToDecimal(_mainDashboardKPIDTO.DashboardDTO.GoalRangeValue);
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].Goal = _dashboard_kpidict[_dashboardLineResult.Dashboard_KPIID].KPIDTO.Goal.ToString();
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FiscalYear = _fiscalYear;
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].FiscalYearCalculationTypeID = (int)CalculationType_Enum.Average;/*(int)_dashboard_KPIDTOResult.KPIDTO.FiscalYearCalculationTypeID;*/
+                            _dashboardReportDict[_dashboardLineResult.Dashboard_KPIID].KPIBackgroundColor = "#FFFFFF";
+                        }
                     }
 
                 }
-                _mainDashboardKPIDTO.DashboardReportList = _dashboardReportList;
-
+                _mainDashboardKPIDTO.DashboardReportList.AddRange(_dashboardReportDict.Values.ToList());
 
                 _dashboardKPIList_Global.Add(_mainDashboardKPIDTO);
             }
-
             return _dashboardKPIList_Global;
-
 
         }
         catch (Exception ex)
@@ -673,7 +663,7 @@ public class Dashboard_KPI_Service
         }
     }
 
-    public static string SetMetricColumnBackground(int MetricEquivalenceID, string MonthlyValue, Decimal MetricGoal, Decimal GoalRange)
+    public static string SetKPIColumnBackground(int MetricEquivalenceID, string MonthlyValue, Decimal MetricGoal, Decimal GoalRange)
     {
         string _metricBackgroundColorHex = String.Empty;
         try
