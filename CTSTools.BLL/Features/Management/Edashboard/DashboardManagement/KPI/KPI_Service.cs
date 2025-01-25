@@ -207,70 +207,54 @@ public class KPI_Service
 
     #region Business Logic
 
-    #region Update Excel functions
-    public static ValidationResultDTO KPIFileValidation_Global(FileDTO FileDTO)
+    #region Upload Excel functions
+    public static ValidationResultDTO GenerateKPIsFromExcel(FileDTO FileDTO)
     {
-        ExcelKPIDTO _excelKPIDTO = new ExcelKPIDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
+        var _excelKPIDTO = new ExcelKPIDTO();
+        var _validationResultDTO = new ValidationResultDTO 
+        {
+            Description = "The record has been create successfully.."
+        };
         try
         {
-            byte[] _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "Comparission was made successfully";
-
-            var _excelKPIRowsValidation = new ExcelKPIDTO();
-            string _extension = "";
-            if (FileDTO.FileName.Contains(".xlsx"))
+            // step 1. Validate that it is an excel file
+            _validationResultDTO = ExcelDataImport_Service.ExcelFile_Validation(FileDTO);
+            if (_validationResultDTO.Result) 
             {
-                _extension = ".xlsx";
+                FileDTO.FileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
+                _validationResultDTO = KPI_Validator.ExcelKPIHeaderColumns_Validation(FileDTO);
             }
-            else if (FileDTO.FileName.Contains(".xls"))
+            // step 2. Bring the information from excel
+            if (_validationResultDTO.Result)
             {
-                _extension = ".xls";
+                _validationResultDTO = GetKPIListFromExcel(FileDTO.FileBytes);
+            }
+            // step 3. Validate that the list of data comes
+            if (_validationResultDTO.Data != null)
+            {
+                // step 4. Validate which columns have information
+                _validationResultDTO = KPI_Validator.ExcelKPIRows_Validation(_validationResultDTO.Data);
+                // step 5. Validate that the column information exists in the db
+                _validationResultDTO = KPI_Validator.ExcelKPIInformation_Validation(_validationResultDTO.Data);
+                _excelKPIDTO = _validationResultDTO.Data;
+                if (_excelKPIDTO.KPIGoodLinesList.Count > 0)
+                {
+                    foreach (var _kPIDTO in _excelKPIDTO.KPIGoodLinesList)
+                    {
+                        // Step 6. Create records
+                        _kPIDTO.AddedByID = FileDTO.ID;
+                        _validationResultDTO = CreateKPI_Global(_kPIDTO);
+                    }
+                }
             }
             else
             {
-                _validationResultDTO.Result = false;
-                _validationResultDTO.Description = "Input only excel files.";
-                _validationResultDTO.Message = "Invalid file";
+                return _validationResultDTO;
             }
-            //Step 1. Validate if the files contains following headers: Number, Name, Address, City, State, Country, Postal Code.
-            // WARNING: The validations allows to contain empty rows above the column headers. If something are above of coliumns, the validation
-            // will take it as an error.
-            _excelKPIDTO = ValidateKPIFileColumns(_fileBytes, FileDTO.FileName, _extension);
-            _validationResultDTO = _excelKPIDTO.ValidationResultDTO;
-
-            if (_validationResultDTO.Result == true)
-            {
-                //Step 2. Read the file and get the rows in vendordto format
-                if (_extension == ".xls" || _extension == ".xlsx")
-                {
-                    _validationResultDTO = GetKPIInfoListFromExcelFile(_fileBytes);
-                }
-                if (_validationResultDTO.Data != null)
-                {
-                    _excelKPIRowsValidation = KPIFileRowsValidation(_validationResultDTO.Data);
-
-                    if (_excelKPIRowsValidation.KPIGoodLinesList.Count > 0)
-                    {
-                        foreach (var _kPIDTO in _excelKPIRowsValidation.KPIGoodLinesList)
-                        {
-                            _kPIDTO.AddedByID = FileDTO.ID;
-                            _validationResultDTO = CreateKPI_Global(_kPIDTO);
-                        }
-                    }
-                }
-                else 
-                {
-                    return _validationResultDTO;
-                }
-
-                _validationResultDTO.Result = _excelKPIRowsValidation.ValidationResultDTO.Result;
-                _validationResultDTO.Message = _excelKPIRowsValidation.ValidationResultDTO.Message;
-                _validationResultDTO.Description = _excelKPIRowsValidation.ValidationResultDTO.Description;
-            }
-            _validationResultDTO.Data = _excelKPIRowsValidation;
+            _validationResultDTO.Result = _excelKPIDTO.ValidationResultDTO.Result;
+            _validationResultDTO.Message = _excelKPIDTO.ValidationResultDTO.Message;
+            _validationResultDTO.Description = _excelKPIDTO.ValidationResultDTO.Description;
+            _validationResultDTO.Data = _excelKPIDTO;
         }
         catch (Exception ex)
         {
@@ -280,56 +264,7 @@ public class KPI_Service
         return _validationResultDTO;
     }
 
-    private static ExcelKPIDTO ValidateKPIFileColumns(byte[] _fileBytes, string Filename, string Extension)
-    {
-        string[] _fileheaders = new string[0];
-        ExcelKPIDTO _excelKPIFileValidationDTO = new ExcelKPIDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-
-        if (Extension == ".xlsx" || Extension == ".xls")
-        {
-            _fileheaders = ExcelDataImport_Service.GetHeadersFromExcel(_fileBytes);
-        }
-        else
-        {
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = "Input only excel files.";
-            _validationResultDTO.Message = "Invalid file";
-        }
-        string _missingHeader = string.Empty;
-        _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,<br>";
-        _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,<br>";
-        _missingHeader += (_fileheaders.Contains("unit of measure") == true || _fileheaders.Contains("unitofmeasure")) ? string.Empty : "unitofmeasure,<br>";
-        _missingHeader += (_fileheaders.Contains("value type") == true || _fileheaders.Contains("valuetype")) ? string.Empty : "valuetype,<br>";
-        _missingHeader += (_fileheaders.Contains("goal") == true) ? string.Empty : "goal,<br>";
-        _missingHeader += (_fileheaders.Contains("owner") == true) ? string.Empty : "owner,<br>";
-        _missingHeader += (_fileheaders.Contains("responsible") == true) ? string.Empty : "responsible,<br>";
-        _missingHeader += (_fileheaders.Contains("facility") == true) ? string.Empty : "facility,<br>";
-        _missingHeader += (_fileheaders.Contains("equivalence") == true) ? string.Empty : "equivalence,<br>";
-        _missingHeader += (_fileheaders.Contains("category") == true) ? string.Empty : "category,<br>";
-        _missingHeader += (_fileheaders.Contains("owner department") == true || _fileheaders.Contains("ownerdepartment") == true) ? string.Empty : "ownerdepartment,<br>";
-        _missingHeader += (_fileheaders.Contains("responsible department") == true || _fileheaders.Contains("responsibledepartment") == true) ? string.Empty : "responsibledepartment,<br>";
-
-        if (_missingHeader != string.Empty)
-        {
-            var lastComma = _missingHeader.LastIndexOf(',');
-            _missingHeader = _missingHeader.Remove(lastComma, 1).Insert(lastComma, ".");
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = string.Format("The following columns are missing:<br> {0}", _missingHeader);
-            _validationResultDTO.Message = "Error";
-        }
-        else
-        {
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Description = "The file have the correct format ";
-            _validationResultDTO.Message = "Success";
-        }
-        _excelKPIFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-
-        return _excelKPIFileValidationDTO;
-    }
-
-    private static ValidationResultDTO GetKPIInfoListFromExcelFile(byte[] FileBytes)
+    private static ValidationResultDTO GetKPIListFromExcel(byte[] FileBytes)
     {
         var _validationResultDTO = new ValidationResultDTO();
         try
@@ -498,232 +433,8 @@ public class KPI_Service
             return _validationResultDTO;
         }
     }
-    private static ExcelKPIDTO KPIFileRowsValidation(List<ExcelKPIDTO> ExcelKPIFileDataList)
-    {
-        ExcelKPIDTO _excelKPIFileValidationDTO = new ExcelKPIDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Result = true;
-        _validationResultDTO.Message = "Success";
-        _validationResultDTO.Description = "";
-        try
-        {
-
-            foreach (var _excelKPIFileData in ExcelKPIFileDataList)
-            {
-                KPIDTO _kPIDTO = new KPIDTO();
-                bool isSucces = true;
-                if (_excelKPIFileData.KPIDTO.Name == string.Empty || _excelKPIFileData.KPIDTO.Name == null)
-                {
-                    _excelKPIFileData.KPIDTO.Name = "Error, The name is null or empty";
-                    isSucces = false;
-                }
-                if (_excelKPIFileData.KPIDTO.UnitOfMeasureName == string.Empty || _excelKPIFileData.KPIDTO.UnitOfMeasureName == null)
-                {
-                    _excelKPIFileData.KPIDTO.UnitOfMeasureName = "Error, The Unit Of Measure is null or empty";
-                    isSucces = false;
-                }
-                else 
-                {
-                    var _existUnitOfMeasureDTO = UnitOfMeasure_Service.GetUnitOfMeasureList_Global(new UnitOfMeasureDTO { Name = _excelKPIFileData.KPIDTO.UnitOfMeasureName }).FirstOrDefault();
-                    if (_existUnitOfMeasureDTO != null)
-                    {
-                        _kPIDTO.UnitOfMeasureID = _existUnitOfMeasureDTO.ID;
-                    }
-                    else 
-                    {
-                        _excelKPIFileData.KPIDTO.UnitOfMeasureName = "Error, The Unit Of Measure not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.ValueTypeName == string.Empty || _excelKPIFileData.KPIDTO.ValueTypeName == null)
-                {
-                    _excelKPIFileData.KPIDTO.ValueTypeName = "Error, The Value Type is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existValueTypeDTO = ValueType_Service.GetValueTypeList_Global(new ValueTypeDTO { Name = _excelKPIFileData.KPIDTO.ValueTypeName }).FirstOrDefault();
-                    if (_existValueTypeDTO != null)
-                    {
-                        _kPIDTO.ValueTypeID = _existValueTypeDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.ValueTypeName = "Error, The Value Type not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.Goal < 0.0f)
-                {
-                    _kPIDTO.AddedByName = "Error, The Goal is null or less than zero";
-                    isSucces = false;
-                }
-                if (_excelKPIFileData.KPIDTO.OwnerName == string.Empty || _excelKPIFileData.KPIDTO.OwnerName == null)
-                {
-                    _excelKPIFileData.KPIDTO.OwnerName = "Error, The Owner is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existUserDTO = User_Service.GetUserList_Global(new UserDTO { Name = _excelKPIFileData.KPIDTO.OwnerName }).FirstOrDefault();
-                    if (_existUserDTO != null)
-                    {
-                        _kPIDTO.OwnerID = _existUserDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.OwnerName = "Error, The Owner not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.ResponsibleName == string.Empty || _excelKPIFileData.KPIDTO.ResponsibleName == null)
-                {
-                    _excelKPIFileData.KPIDTO.ResponsibleName = "Error, The Responsible is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existUserDTO = User_Service.GetUserList_Global(new UserDTO { Name = _excelKPIFileData.KPIDTO.ResponsibleName }).FirstOrDefault();
-                    if (_existUserDTO != null)
-                    {
-                        _kPIDTO.ResponsibleID = _existUserDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.ResponsibleName = "Error, The Responsible not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.FacilityName == string.Empty || _excelKPIFileData.KPIDTO.FacilityName == null)
-                {
-                    _excelKPIFileData.KPIDTO.FacilityName = "Error, The Facility is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existFacilityDTO = Facility_Service.GetFacilityList_Global(new FacilityDTO { Name = _excelKPIFileData.KPIDTO.FacilityName }).FirstOrDefault();
-                    if (_existFacilityDTO != null)
-                    {
-                        _kPIDTO.FacilityID = _existFacilityDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.FacilityName = "Error, The Facility not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.EquivalenceName == string.Empty || _excelKPIFileData.KPIDTO.EquivalenceName == null)
-                {
-                    _excelKPIFileData.KPIDTO.EquivalenceName = "Error, The Equivalence is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existEquivalenceDTO = Equivalence_Service.GetEquivalenceList_Global(new EquivalenceDTO { Name = _excelKPIFileData.KPIDTO.EquivalenceName }).FirstOrDefault();
-                    if (_existEquivalenceDTO != null)
-                    {
-                        _kPIDTO.EquivalenceID = _existEquivalenceDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.EquivalenceName = "Error, The Equivalence not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.DashboardCategoryName == string.Empty || _excelKPIFileData.KPIDTO.DashboardCategoryName == null)
-                {
-                    _excelKPIFileData.KPIDTO.DashboardCategoryName = "Error, The Category is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existDashboardCategoryDTO = DashboardCategory_Service.GetDashboardCategoryList_Global(new DashboardCategoryDTO { Name = _excelKPIFileData.KPIDTO.DashboardCategoryName }).FirstOrDefault();
-                    if (_existDashboardCategoryDTO != null)
-                    {
-                        _kPIDTO.DashboardCategoryID = _existDashboardCategoryDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.DashboardCategoryName = "Error, The Dashboard Category not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.OwnerDepartmentName == string.Empty || _excelKPIFileData.KPIDTO.OwnerDepartmentName == null)
-                {
-                    _excelKPIFileData.KPIDTO.OwnerDepartmentName = "Error, The Owner Department is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existDepartmentDTO = Department_Service.GetDepartmentList_Global(new DepartmentDTO { Name = _excelKPIFileData.KPIDTO.OwnerDepartmentName }).FirstOrDefault();
-                    if (_existDepartmentDTO != null)
-                    {
-                        _kPIDTO.OwnerDepartmentID = _existDepartmentDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.OwnerDepartmentName = "Error, The Owner Department not exist";
-                        isSucces = false;
-                    }
-                }
-                if (_excelKPIFileData.KPIDTO.ResponsibleDepartmentName == string.Empty || _excelKPIFileData.KPIDTO.ResponsibleDepartmentName == null)
-                {
-                    _excelKPIFileData.KPIDTO.ResponsibleDepartmentName = "Error, The Responsible Department is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    var _existDepartmentDTO = Department_Service.GetDepartmentList_Global(new DepartmentDTO { Name = _excelKPIFileData.KPIDTO.ResponsibleDepartmentName }).FirstOrDefault();
-                    if (_existDepartmentDTO != null)
-                    {
-                        _kPIDTO.ResponsibleDepartmentID = _existDepartmentDTO.ID;
-                    }
-                    else
-                    {
-                        _excelKPIFileData.KPIDTO.ResponsibleDepartmentName = "Error, The Responsible Department not exist";
-                        isSucces = false;
-                    }
-                }
-
-                _kPIDTO.Name = _excelKPIFileData.KPIDTO.Name;
-                _kPIDTO.Description = _excelKPIFileData.KPIDTO.Description;
-                _kPIDTO.UnitOfMeasureName = _excelKPIFileData.KPIDTO.UnitOfMeasureName;
-                _kPIDTO.ValueTypeName = _excelKPIFileData.KPIDTO.ValueTypeName;
-                _kPIDTO.Goal = _excelKPIFileData.KPIDTO.Goal;
-                _kPIDTO.OwnerName = _excelKPIFileData.KPIDTO.OwnerName;
-                _kPIDTO.ResponsibleName = _excelKPIFileData.KPIDTO.ResponsibleName;
-                _kPIDTO.FacilityName = _excelKPIFileData.KPIDTO.FacilityName;
-                _kPIDTO.EquivalenceName = _excelKPIFileData.KPIDTO.EquivalenceName;
-                _kPIDTO.DashboardCategoryName = _excelKPIFileData.KPIDTO.DashboardCategoryName;
-                _kPIDTO.OwnerDepartmentName = _excelKPIFileData.KPIDTO.OwnerDepartmentName;
-                _kPIDTO.ResponsibleDepartmentName = _excelKPIFileData.KPIDTO.ResponsibleDepartmentName;
-                _kPIDTO.IsActive = true;
-
-                if (isSucces == true)
-                {
-                    _excelKPIFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelKPIFileValidationDTO.KPIGoodLinesList.Add(_kPIDTO);
-                }
-                else
-                {
-                    _kPIDTO.ID = _excelKPIFileData.RowIteration;
-                    _excelKPIFileValidationDTO.ValidationResultDTO.Message = _excelKPIFileValidationDTO.ValidationResultDTO.Message;
-                    _excelKPIFileValidationDTO.KPIBadLinesList.Add(_kPIDTO);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorSignal.FromCurrentContext().Raise(ex);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "The file was read successfully";
-            throw ex;
-        }
-        _excelKPIFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-        return _excelKPIFileValidationDTO;
-    }
     #endregion
+
 
     #endregion
 }

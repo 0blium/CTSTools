@@ -61,7 +61,7 @@ public class KPIController : ApiController
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = KPI_Service.KPIFileValidation_Global(FileDTO);
+            _validationResultDTO = KPI_Service.GenerateKPIsFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

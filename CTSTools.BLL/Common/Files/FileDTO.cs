@@ -19,6 +19,7 @@ namespace CTSTools.BLL.Common.Files
         public string URL { get; set; }
         public string FileName { get; set; }
         public int FileDirectory { get; set; }
+        public byte[] FileBytes { get; set; }
         #endregion
         #region Extended Properties
         public string TreeViewID { get; set; }

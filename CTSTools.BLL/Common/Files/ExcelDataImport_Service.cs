@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using DevExpress.Xpo;
 using Elmah;
 using ExcelDataReader;
@@ -12,11 +13,6 @@ namespace CTSTools.BLL.Common.Files
 {
     public class ExcelDataImport_Service
     {
-        #region CRUD
-
-        #endregion
-
-        #region Business Logic
 
         public static string[] GetHeadersFromExcel(byte[] FileBytes)
         {
@@ -61,6 +57,51 @@ namespace CTSTools.BLL.Common.Files
             }
         }
 
-        #endregion
+        public static ValidationResultDTO ExcelFile_Validation(FileDTO FileDTO)
+        {
+            var _validation_ResultDTO = new ValidationResultDTO
+            {
+                Description = "The record has been validated successfully.."
+            };
+            try
+            {
+                var _validation_ResultList = new List<ValidationResultDTO>();
+
+                if (!FileDTO.FileName.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Invalid file extension.",
+                        Description = "Only .xlsx files are allowed."
+                    });
+                }
+                if (string.IsNullOrEmpty(FileDTO.Data))
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Empty file",
+                        Description = "The file does not have information"
+                    });
+                }
+
+                // if list contains a error, update main validation result
+                if (_validation_ResultList.Count > 0)
+                {
+                    _validation_ResultDTO.Result = false;
+                    _validation_ResultDTO.Message = "Errors!";
+                    _validation_ResultDTO.Description = "There is a list of errors exist.";
+                    _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+                }
+            }
+            catch (Exception ex)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Error";
+                _validation_ResultDTO.Description = $"An error occurred while validating the file: {ex.Message}";
+            }
+            return _validation_ResultDTO;
+        }
     }
 }

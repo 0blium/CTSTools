@@ -1,11 +1,11 @@
-﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+﻿using CTSTools.BLL.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CTSTools.BLL.Common.Files
+namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI
 {
     public class ExcelKPIDTO
     {
