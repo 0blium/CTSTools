@@ -271,7 +271,7 @@ async function InitializeDocumentCatalogControls() {
     });
 
     $("#dxDocumentDepartmentSelectBox").dxSelectBox({
-        dataSource: [],
+        dataSource: await GetDXDepartmentDataSource({ Facility:  }),
         valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,

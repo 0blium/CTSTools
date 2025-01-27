@@ -104,13 +104,12 @@ async function InitializeDocumentRevisionCatalogControls() {
                                 return current.ID > prev.ID ? current : prev;
                             }).ID;
                         $('<div style="text-align: center;">').appendTo(container).dxMenu({
-                            items: [{
+                            items: options.data.ID === recentID ? [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    ...(options.data.ID === recentID ? [{ text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 }] : []),
-                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
-                                ]
-                            }],
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 }]
+                            }] : [],
                             showFirstSubmenuMode: 'onClick',
                             hideSubmenuOnMouseLeave: true,
                             onItemClick: function (e) {
@@ -152,9 +151,9 @@ async function InitializeDocumentRevisionCatalogControls() {
         valueExpr: "StatusID",
         searchEnable: true,
     });
-    
+
     $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide();
-    
+
     document.getElementById("btnCloseDocumentRevisionModal").addEventListener("click", ClearDocumentRevisionFields);
     DocumentRevisionActionButtons("Save");
 }
@@ -192,7 +191,7 @@ function DocumentRevisionActionButtons(Action) {
                 <button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentRevisionButton" type="button">Cancel</button>
             </div>`
         );
-        revisionField.option("disabled", true); 
+        revisionField.option("disabled", true);
         $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide();
 
         document.getElementById("ClearDocumentRevisionButton").addEventListener("click", ClearDocumentRevisionFields);
@@ -207,8 +206,8 @@ function DocumentRevisionActionButtons(Action) {
                 <button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentRevisionButton" type="button">Cancel</button>
             </div>`
         );
-        revisionField.option("disabled", true); 
-        $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").show(); 
+        revisionField.option("disabled", true);
+        $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").show();
 
         document.getElementById("ClearDocumentRevisionButton").addEventListener("click", ClearDocumentRevisionFields);
         document.getElementById("UpdateDocumentRevisionButton").addEventListener("click", UpdateDocumentRevision_Global);
@@ -222,7 +221,7 @@ function ClearDocumentRevisionFields() {
     $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value", "");
     $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").reset();
-    $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide(); 
+    $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide();
     let keys = $("#dxDocumentRevisionGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxDocumentRevisionGrid").dxDataGrid("instance").deselectRows(keys);
     ClearErrorFeedback();
@@ -248,7 +247,7 @@ async function CreateDocumentRevision_Global() {
     if (_validation_ResultDTO.Result) {
         $("#dxDocumentRevisionGrid").dxDataGrid("instance").refresh();
         ClearDocumentRevisionFields();
-        
+
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -260,7 +259,7 @@ async function UpdateDocumentRevision_Global() {
     if (_validation_ResultDTO.Result) {
         $("#dxDocumentRevisionGrid").dxDataGrid("instance").refresh();
         ClearDocumentRevisionFields();
-        
+
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -272,7 +271,7 @@ async function DeleteDocumentRevision_Global() {
     if (_validation_ResultDTO.Result) {
         $("#dxDocumentRevisionGrid").dxDataGrid("instance").refresh();
         ClearDocumentRevisionFields();
-        
+
     }
     HostResponse(_validation_ResultDTO);
     ClearDocumentRevisionFields();

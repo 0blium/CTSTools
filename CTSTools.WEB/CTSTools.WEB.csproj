@@ -237,6 +237,7 @@
     <Content Include="App\Common\Utils\SidebarNavigationShowItems.js" />
     <Content Include="App\Common\Utils\ValidationResultDTO.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Department\Department_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Enum.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Service.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.js" />
