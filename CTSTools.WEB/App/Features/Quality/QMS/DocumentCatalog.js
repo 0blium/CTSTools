@@ -136,7 +136,7 @@ async function InitializeDocumentCatalogControls() {
                     cellTemplate: function (container, options) {
                         console.log(options.data)
                         $('<a>' + options.data.LastRevision + '</a>')
-                            //.attr('href', URL.createObjectURL(options.data.FileDTO.URL))
+                            .attr('href', options.data.FileDTO.URL)
                             //.attr('download', options.data.FileDTO.Name )
                             .appendTo(container);  
 
@@ -307,7 +307,6 @@ async function PopulateDocumentFields(data) {
     $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").option("value", data.CustomerID);
     $("#dxDocumentProductSelectBox").dxSelectBox("instance").option("value", data.ProductID);
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
-    await $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
 }
 

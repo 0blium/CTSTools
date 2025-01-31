@@ -172,6 +172,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div id="Quality" class="menu-item has-sub menu-nav" data-tech="Quality QMS" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -213,7 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="AdvancedSettings" class="menu-item has-sub menu-nav submenu-nav" data-tech="AdvancedSettings OrgManagement" hidden>
+                    <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings OrgManagement" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-sliders"></i>
@@ -221,7 +222,7 @@
                             <div class="menu-text">Advanced Settings</div>
                             <div class="menu-caret"></div>
                         </a>
-                        <div class="menu-submenu">
+                        <div class="menu-submenu ">
                             <div id="UserCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UserCatalog User_Permission User_Role" hidden>
                                 <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Users </div>

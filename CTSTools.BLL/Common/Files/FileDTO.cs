@@ -14,6 +14,7 @@ public class FileDTO
     public string Data { get; set; }
     public string Icon { get; set; }
     public string URL { get; set; }
+    public string MIMEType { get; set; }
     public string FileName { get; set; }
     public int? FileDirectory { get; set; }
     #endregion

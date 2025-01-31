@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Web;
 
 namespace CTSTools.BLL.Common.Files;
 
@@ -105,7 +106,9 @@ public class File_Service
                 return FileDTO;
 
             FileDTO.Name = Path.GetFileNameWithoutExtension(FileDTO.DirectoryArray[0]);
+            FileDTO.FileName = Path.GetFileName(FileDTO.DirectoryArray[0]);
             FileDTO.Extension = Path.GetExtension(FileDTO.DirectoryArray[0]);
+            FileDTO.MIMEType = MimeMapping.GetMimeMapping(FileDTO.FileName);
             FileDTO.URL = string.Format("{0}\\{1}", FileDTO.URL, Path.GetFileName(FileDTO.DirectoryArray[0])).Replace("\\", "/");
             var bytes = File.ReadAllBytes(FileDTO.URL);
             FileDTO.Data = Convert.ToBase64String(bytes);
