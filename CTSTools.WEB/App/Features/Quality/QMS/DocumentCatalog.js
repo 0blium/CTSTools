@@ -359,7 +359,6 @@ function ClearDocumentFields() {
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentProductSelectBox").dxSelectBox("instance").reset();
-    $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").reset();
     let keys = $("#dxDocumentGrid").dxDataGrid("instance").getSelectedRowKeys();
