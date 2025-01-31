@@ -76,12 +76,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ExcelImport_Validator.cs" />
     <Compile Include="Common\Exception_Service.cs" />
     <Compile Include="Common\Files\DirectoryDTO.cs" />
     <Compile Include="Common\Files\ExcelAttributeDTO.cs" />
     <Compile Include="Common\Files\ExcelClassDTO.cs" />
-    <Compile Include="Common\Files\ExcelDataImport_Service.cs" />
-    <Compile Include="Common\Files\ExcelFileDTO.cs" />
+    <Compile Include="Common\ExcelImport_Service.cs" />
+    <Compile Include="Common\ExcelRowDTO.cs" />
     <Compile Include="Common\Files\ExcelSubClassDTO.cs" />
     <Compile Include="Common\Files\ExcelValueDTO.cs" />
     <Compile Include="Common\Files\FileDirectory_Enum.cs" />
@@ -297,7 +298,6 @@
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Service.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Validator.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\ExcelKPIDTO.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPIDTO.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPIMap.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_DXFilter.cs" />

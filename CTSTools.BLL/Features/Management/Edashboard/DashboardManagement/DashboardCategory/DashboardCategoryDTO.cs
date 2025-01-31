@@ -22,12 +22,14 @@ public class DashboardCategoryDTO
     #region Extended Properties
 
     public int?[] DashboardCategoryIDArray { get; set; }
+    public string[] DashboardCategoryNameArray { get; set; }
 
     #endregion
     #region Constructor
     public DashboardCategoryDTO()
     {
         DashboardCategoryIDArray = new int?[] { };
+        DashboardCategoryNameArray = new string[] { };
 
     }
     #endregion

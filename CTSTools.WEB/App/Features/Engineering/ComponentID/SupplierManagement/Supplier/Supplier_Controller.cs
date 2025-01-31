@@ -63,7 +63,7 @@ public class Supplier_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Supplier_Service.SupplierFileValidation_Global(FileDTO);
+            _validationResultDTO = Supplier_Service.GenerateSupplierFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

@@ -118,7 +118,8 @@ async function InitializeKPICatalogControls() {
                     var base64File = readerEvent.target.result;
                     _fileDTO = {
                         FileName: filename,
-                        Data: base64File
+                        Data: base64File,
+                        DirectoryArray: Object.keys(GetKPIDTO())
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveKPI(_fileDTO);
@@ -392,8 +393,8 @@ function ShowKPIValidationResults(_validationResultDTO) {
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
         debugger;
-        const hasGoodLines = _validationResultDTO.Data.KPIGoodLinesList.length > 0;
-        const hasBadLines = _validationResultDTO.Data.KPIBadLinesList.length > 0;
+        const hasGoodLines = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.BadRowLinesList.length > 0;
         if (hasGoodLines && !hasBadLines) {
             successMessage = "KPIs were created successfully.";
             ShowKPISuccessMessage(successMessage);
@@ -406,8 +407,9 @@ function ShowKPIValidationResults(_validationResultDTO) {
         }
         if (hasBadLines) {
             errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
-            _validationResultDTO.Data.KPIBadLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Description = ${badLine.Description}, Unit Of Measure = ${badLine.UnitOfMeasureName}, Value Type = ${badLine.ValueTypeName}, Goal = ${badLine.Goal}, Owner = ${badLine.OwnerName}, Responsible = ${badLine.ResponsibleName}, Facility = ${badLine.FacilityName}, Equivalence = ${badLine.EquivalenceName}, Category = ${badLine.DashboardCategoryName}, Owner Department = ${badLine.OwnerDepartmentName}, Responsible Department = ${badLine.ResponsibleDepartmentName}.</li>`;
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (BadLine) {
+                var _goal = BadLine.Goal == -1 ? "Error, The Goal is null or different of numbers" : BadLine.Goal;
+                errorMessages += `<li>Row ${BadLine.ID}:<br>Name: ${BadLine.Name}, Description = ${BadLine.Description}, Unit Of Measure = ${BadLine.UnitOfMeasureName}, Value Type = ${BadLine.ValueTypeName}, Goal = ${_goal}, Owner = ${BadLine.OwnerName}, Responsible = ${BadLine.ResponsibleName}, Facility = ${BadLine.FacilityName}, Equivalence = ${BadLine.EquivalenceName}, Category = ${BadLine.DashboardCategoryName}, Owner Department = ${BadLine.OwnerDepartmentName}, Responsible Department = ${BadLine.ResponsibleDepartmentName}.</li>`;
             });
             errorMessages += '</ul>';
             ShowKPIErrorMessages(errorMessages);
@@ -427,7 +429,7 @@ function ShowKPIValidationResults(_validationResultDTO) {
 function GetKPIDTO() {
     let _KPIDTO = {
         ID: $("#hiddenKPIID").val(),
-        StatusID: $("#hiddenStatusID").val(),
+        //StatusID: $("#hiddenStatusID").val(),
         Name: $("#dxKPINameTextBox").dxTextBox("instance").option("value"),
         Goal: $("#dxKPIGoalNumberBox").dxNumberBox("instance").option("value"),
         Description: $("#dxKPIDescriptionTextArea").dxTextArea("instance").option("value"),

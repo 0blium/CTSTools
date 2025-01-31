@@ -208,7 +208,7 @@ public class Attribute_Service
 
         if (Extension == ".xlsx" || Extension == ".xls")
         {
-            _fileheaders = ExcelDataImport_Service.GetHeadersFromExcel(_fileBytes);
+            _fileheaders = ExcelImport_Service.GetHeadersFromExcel(_fileBytes);
         }
         else
         {

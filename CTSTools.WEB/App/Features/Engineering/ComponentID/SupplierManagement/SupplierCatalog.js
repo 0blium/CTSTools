@@ -42,7 +42,8 @@ async function InitializeSupplierCatalogControls() {
                     var base64File = readerEvent.target.result;
                     _fileDTO = {
                         FileName: filename,
-                        Data: base64File
+                        Data: base64File,
+                        DirectoryArray: Object.keys(GetSupplierDTO())
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveSupplier(_fileDTO);
@@ -253,8 +254,8 @@ function ShowSupplierValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        const hasGoodLines = _validationResultDTO.Data.SupplierGoodLinesList.length > 0;
-        const hasBadLines = _validationResultDTO.Data.SupplierBadLinesList.length > 0;
+        const hasGoodLines = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const hasBadLines = _validationResultDTO.Data.BadRowLinesList.length > 0;
         if (hasGoodLines && !hasBadLines) {
             successMessage = "Suppliers were created successfully.";
             ShowSuccessMessage(successMessage);
@@ -267,7 +268,7 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         }
         if (hasBadLines) {
             errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
-            _validationResultDTO.Data.SupplierBadLinesList.forEach(function (badLine) {
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
                 errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Description = ${badLine.Description}, Is Vendor = ${badLine.IsVendor}, Is Manufacturer = ${badLine.IsManufacturer}.</li>`;
             });
             errorMessages += '</ul>';

@@ -26,6 +26,10 @@ public class Department_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DepartmentXPO.Oid), DepartmentDTO.DepartmentIDArray));
             }
+            if (DepartmentDTO.DepartmentNameArray != null && DepartmentDTO.DepartmentNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(DepartmentXPO.Name), DepartmentDTO.DepartmentNameArray));
+            }
             if (DepartmentDTO.FacilityDTO.ID != null || DepartmentDTO.FacilityDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(DepartmentXPO.Facility), DepartmentDTO.FacilityDTO.ID));

@@ -1,5 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using Elmah;
 using ExcelDataReader;
 using System;
@@ -79,70 +80,42 @@ public class Supplier_Service
     #region Business Logic
 
     #region Update Excel functions
-    public static ValidationResultDTO SupplierFileValidation_Global(FileDTO FileDTO)
+
+    public static ValidationResultDTO GenerateSupplierFromExcel(FileDTO FileDTO)
     {
-        ExcelSupplierDTO _excelSupplierDTO = new ExcelSupplierDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
+        var _excelRowDTO = new ExcelRowDTO();
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been create successfully.."
+        };
         try
         {
-            byte[] _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "Comparission was made successfully";
+            // step 1. Validate that it is an excel file
+            _validationResultDTO = ExcelImport_Validator.ExcelFile_Validation(FileDTO);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // step 2. Bring the information from excel
+            FileDTO.FileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
+            _validationResultDTO = ExcelImport_Validator.ExcelHeaderColumns_Validation(FileDTO);
 
-            var _excelSupplierRowsValidation = new ExcelSupplierDTO();
-            string _extension = "";
-            if (FileDTO.FileName.Contains(".xlsx"))
-            {
-                _extension = ".xlsx";
-            }
-            else if (FileDTO.FileName.Contains(".xls"))
-            {
-                _extension = ".xls";
-            }
-            else
-            {
-                _validationResultDTO.Result = false;
-                _validationResultDTO.Description = "Input only excel files.";
-                _validationResultDTO.Message = "Invalid file";
-            }
-            //Step 1. Validate if the files contains following headers: Number, Name, Address, City, State, Country, Postal Code.
-            // WARNING: The validations allows to contain empty rows above the column headers. If something are above of coliumns, the validation
-            // will take it as an error.
-            _excelSupplierDTO = ValidateSupplierFileColumns(_fileBytes, FileDTO.FileName, _extension);
-            _validationResultDTO = _excelSupplierDTO.ValidationResultDTO;
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // step 3. Validate that the list of data comes
+            FileDTO.DirectoryArray = _validationResultDTO.Data;
+            _validationResultDTO = GetSupplierListFromExcel(FileDTO);
 
-            if (_validationResultDTO.Result == true)
-            {
-                //Step 2. Read the file and get the rows in vendordto format
-                var _excelSupplierList = new List<ExcelSupplierDTO>();
-                if (_extension == ".xls" || _extension == ".xlsx")
-                {
-                    _validationResultDTO = GetSupplierInfoListFromExcelFile(_fileBytes);
-                }
-                if (_validationResultDTO.Data != null)
-                {
-                    _excelSupplierRowsValidation = SupplierFileRowsValidation(_validationResultDTO.Data);
+            if (_validationResultDTO.Data == null)
+                return _validationResultDTO;
+            // step 4. Validate that the column information exists in the db
+            _validationResultDTO = Supplier_Validator.ExcelSupplierInformation_Validation(_validationResultDTO.Data);
+            _excelRowDTO = _validationResultDTO.Data;
 
-                    if (_excelSupplierRowsValidation.SupplierGoodLinesList.Count > 0)
-                    {
-                        foreach (var _supplierDTO in _excelSupplierRowsValidation.SupplierGoodLinesList)
-                        {
-                            _supplierDTO.AddedByID = FileDTO.ID;
-                            _validationResultDTO = CreateSupplier_Global(_supplierDTO);
-                        }
-                    }
-                }
-                else
-                {
-                    return _validationResultDTO;
-                }
+            if (_excelRowDTO.GoodRowLinesList.Count <= 0)
+                return _validationResultDTO;
+            // step 5. Create Supplier
+            //_validationResultDTO = Supplier_Repository.CreateMultipleSupplier(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO.Data = _excelRowDTO;
 
-                _validationResultDTO.Result = _excelSupplierRowsValidation.ValidationResultDTO.Result;
-                _validationResultDTO.Message = _excelSupplierRowsValidation.ValidationResultDTO.Message;
-                _validationResultDTO.Description = _excelSupplierRowsValidation.ValidationResultDTO.Description;
-            }
-            _validationResultDTO.Data = _excelSupplierRowsValidation;
         }
         catch (Exception ex)
         {
@@ -151,140 +124,100 @@ public class Supplier_Service
         }
         return _validationResultDTO;
     }
-
-    private static ExcelSupplierDTO ValidateSupplierFileColumns(byte[] _fileBytes, string Filename, string Extension)
-    {
-        string[] _fileheaders = new string[0];
-        ExcelSupplierDTO _excelSupplierFileValidationDTO = new ExcelSupplierDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-
-        if (Extension == ".xlsx" || Extension == ".xls")
-        {
-            _fileheaders = ExcelDataImport_Service.GetHeadersFromExcel(_fileBytes);
-        }
-        else
-        {
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = "Input only excel files.";
-            _validationResultDTO.Message = "Invalid file";
-        }
-        string _missingHeader = string.Empty;
-        _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name, <br>";
-        _missingHeader += (_fileheaders.Contains("is vendor") == true || _fileheaders.Contains("isvendor") == true) ? string.Empty : "isvendor, <br>";
-        _missingHeader += (_fileheaders.Contains("is manufacturer") == true || _fileheaders.Contains("ismanufacturer") == true) ? string.Empty : "ismanufacturer, <br>";
-        _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description, ";
-
-        if (_missingHeader != string.Empty)
-        {
-            var lastComma = _missingHeader.LastIndexOf(',');
-            _missingHeader = _missingHeader.Remove(lastComma, 1).Insert(lastComma, ".");
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = string.Format("The following columns are missing:<br> {0}", _missingHeader);
-            _validationResultDTO.Message = "Error";
-        }
-        else
-        {
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Description = "The file have the correct format ";
-            _validationResultDTO.Message = "Success";
-        }
-        _excelSupplierFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-
-        return _excelSupplierFileValidationDTO;
-    }
-
-    private static ValidationResultDTO GetSupplierInfoListFromExcelFile(byte[] FileBytes)
+    private static ValidationResultDTO GetSupplierListFromExcel(FileDTO FileDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            List<ExcelSupplierDTO> _excelSupplierDTOList = new List<ExcelSupplierDTO>();
-            using (var _fileStream = new MemoryStream(FileBytes))
+            var _excelRowDTO = new ExcelRowDTO
+            {
+                GoodRowLinesList = new List<SupplierDTO>(),
+                BadRowLinesList = new List<SupplierDTO>()
+            };
+            using (var _fileStream = new MemoryStream(FileDTO.FileBytes))
             using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
                 DataTable _firstTable = _excelDataSet.Tables[0];
                 // Create a dictionary to store column indexes
                 var _columnHeaderMap = new Dictionary<string, int>();
-                // Fill the dictionary with headings
+                var _rowHeaderDic = FileDTO.DirectoryArray.ToDictionary(header => header.ToUpper(), header => header.ToUpper());
+
                 for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
-                    string headerName = _firstTable.Rows[0][colIndex].ToString().Trim();
-                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
-                    if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("ISMANUFACTURER", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("IS MANUFACTURER", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("ISVENDOR", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("IS VENDOR", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase))
+                    string headerName = _firstTable.Rows[0][colIndex].ToString().ToUpper();
+                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", "");
+                    if (_rowHeaderDic.TryGetValue(headerName, out string mappedHeader))
                     {
-                        _columnHeaderMap[headerName.ToUpper()] = colIndex;
+                        _columnHeaderMap[mappedHeader] = colIndex;
                     }
                 }
+
                 // Process rows starting from the second row (index 1)
                 for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
                     DataRow row = _firstTable.Rows[rowIndex];
-                    var _excelSupplierDTO = new ExcelSupplierDTO();
+                    var _supplierDTO = new SupplierDTO();
                     bool _haveInfo = false;
-                    // Assign values ​​directly using the dictionary
-                    if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
+
+                    // Mapping Dictionary: Map columns to _supplierDTO properties
+                    var _propertyMap = new Dictionary<string, Action<string>>
                     {
-                        string _nameValue = row[NameIndex].ToString().Trim();
-                        _nameValue = System.Text.RegularExpressions.Regex.Replace(_nameValue, @"\s+", " ");
-                        _excelSupplierDTO.SupplierDTO.Name = _nameValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("DESCRIPTION", out int DescriptionIndex))
+                        { "NAME", value => _supplierDTO.Name = value },
+                        { "DESCRIPTION", value => _supplierDTO.Description = value }
+                    };
+
+                    // Iterate over the dictionary and assign values
+                    foreach (var entry in _propertyMap)
                     {
-                        string _descriptionValue = row[DescriptionIndex].ToString().Trim();
-                        _descriptionValue = System.Text.RegularExpressions.Regex.Replace(_descriptionValue, @"\s+", " ");
-                        _excelSupplierDTO.SupplierDTO.Description = _descriptionValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("IS MANUFACTURER", out int IsManufacturerIndex) ||
-                        _columnHeaderMap.TryGetValue("ISMANUFACTURER", out IsManufacturerIndex))
-                    {
-                        string _isManufacturerValue = row[IsManufacturerIndex].ToString().Trim();
-                        _isManufacturerValue = System.Text.RegularExpressions.Regex.Replace(_isManufacturerValue, @"\s+", " ");
-                        if (bool.TryParse(_isManufacturerValue, out bool IsManufacturer))
+                        if (_columnHeaderMap.TryGetValue(entry.Key, out int index))
                         {
-                            _excelSupplierDTO.SupplierDTO.IsManufacturer = IsManufacturer;
+                            entry.Value(ExcelImport_Service.CleanRowString(row[index]?.ToString()));
                             _haveInfo = true;
                         }
-                        else
-                        {
-                            throw new InvalidCastException($"The value for Is Manufacturer in Row {rowIndex + 1} is not a valid boolean.");
-                        }
                     }
-                    if (_columnHeaderMap.TryGetValue("IS VENDOR", out int IsVendorIndex) ||
-                        _columnHeaderMap.TryGetValue("ISVENDOR", out IsVendorIndex))
+
+                    if (_columnHeaderMap.TryGetValue("ISVENDOR", out int IsVendorIndex))
                     {
                         string _isVendorIndexValue = row[IsVendorIndex].ToString().Trim();
                         _isVendorIndexValue = System.Text.RegularExpressions.Regex.Replace(_isVendorIndexValue, @"\s+", " ");
                         if (bool.TryParse(_isVendorIndexValue, out bool IsVendor))
-                        {
-                            _excelSupplierDTO.SupplierDTO.IsVendor = IsVendor;
-                            _haveInfo = true;
-                        }
+                            _supplierDTO.IsVendor = IsVendor;
                         else
-                        {
-                            throw new InvalidCastException($"The value for Is Vendor in Row {rowIndex + 1} is not a valid boolean.");
-                        }
+                            _supplierDTO.IsVendor = false;
+                        _haveInfo = true;
                     }
+                    if (_columnHeaderMap.TryGetValue("ISMANUFACTURER", out int IsManufacturerIndex))
+                    {
+                        string _isManufacturerIndexValue = row[IsManufacturerIndex].ToString().Trim();
+                        _isManufacturerIndexValue = System.Text.RegularExpressions.Regex.Replace(_isManufacturerIndexValue, @"\s+", " ");
+                        if (bool.TryParse(_isManufacturerIndexValue, out bool IsManufacturer))
+                            _supplierDTO.IsManufacturer = IsManufacturer;
+                        else
+                            _supplierDTO.IsManufacturer = false;
+                        _haveInfo = true;
+                    }
+
                     if (_haveInfo)
                     {
-                        _excelSupplierDTO.RowIteration = rowIndex + 1;
-                        _excelSupplierDTOList.Add(_excelSupplierDTO);
+                        _supplierDTO.ID = rowIndex + 1;
+                        _supplierDTO.AddedByID = FileDTO.ID;
+                        _validationResultDTO = Supplier_Validator.ExcelSupplierRows_Validation(_supplierDTO);
                     }
+
+                    if (_validationResultDTO.Data.GoodRowLinesList.Count > 0)
+                        _excelRowDTO.GoodRowLinesList.AddRange(_validationResultDTO.Data.GoodRowLinesList);
+                    else
+                        _excelRowDTO.BadRowLinesList.AddRange(_validationResultDTO.Data.BadRowLinesList);
                 }
             }
-            if (_excelSupplierDTOList.Count > 0)
+            if (_excelRowDTO.GoodRowLinesList.Count > 0 || _excelRowDTO.BadRowLinesList.Count > 0)
             {
-                _validationResultDTO.Data = _excelSupplierDTOList;
+                _validationResultDTO.Data = _excelRowDTO;
                 return _validationResultDTO;
             }
-            else {
+            else
+            {
                 _validationResultDTO.Result = false;
                 _validationResultDTO.Description = "Column records have no data.";
                 _validationResultDTO.Message = "Error";
@@ -299,57 +232,6 @@ public class Supplier_Service
             _validationResultDTO.Description = ex.Message;
             return _validationResultDTO;
         }
-    }
-
-    private static ExcelSupplierDTO SupplierFileRowsValidation(List<ExcelSupplierDTO> ExcelSupplierFileDataList)
-    {
-        ExcelSupplierDTO _excelSupplierFileValidationDTO = new ExcelSupplierDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Result = true;
-        _validationResultDTO.Message = "Success";
-        _validationResultDTO.Description = "";
-        try
-        {
-
-            foreach (var _excelSupplierFileData in ExcelSupplierFileDataList)
-            {
-                SupplierDTO _supplierDTO = new SupplierDTO();
-                bool isSucces = true;
-                if (_excelSupplierFileData.SupplierDTO.Name == string.Empty || _excelSupplierFileData.SupplierDTO.Name == null)
-                {
-                    _excelSupplierFileData.SupplierDTO.Name = "Error, The name is null or empty";
-                    isSucces = false;
-                }
-
-                _supplierDTO.Name = _excelSupplierFileData.SupplierDTO.Name;
-                _supplierDTO.Description = _excelSupplierFileData.SupplierDTO.Description;
-                _supplierDTO.IsActive = true;
-                _supplierDTO.IsVendor = _excelSupplierFileData.SupplierDTO.IsVendor;
-                _supplierDTO.IsManufacturer = _excelSupplierFileData.SupplierDTO.IsManufacturer;
-
-                if (isSucces == true)
-                {
-                    _excelSupplierFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelSupplierFileValidationDTO.SupplierGoodLinesList.Add(_supplierDTO);
-                }
-                else
-                {
-                    _supplierDTO.ID = _excelSupplierFileData.RowIteration;
-                    _excelSupplierFileValidationDTO.ValidationResultDTO.Message = _excelSupplierFileValidationDTO.ValidationResultDTO.Message;
-                    _excelSupplierFileValidationDTO.SupplierBadLinesList.Add(_supplierDTO);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorSignal.FromCurrentContext().Raise(ex);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "The file was read successfully";
-            throw ex;
-        }
-        _excelSupplierFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-        return _excelSupplierFileValidationDTO;
     }
     #endregion
 

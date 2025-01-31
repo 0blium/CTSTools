@@ -12,11 +12,14 @@ using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.ReportServer.ServiceModel.DataContracts;
+using DevExpress.XtraGauges.Core.Model;
 using Elmah;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -81,7 +84,7 @@ public class KPI_Validator
                 });
             }
 
-            
+
             if (KPIDTO.FacilityID == null || KPIDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -220,7 +223,7 @@ public class KPI_Validator
                 });
             }
 
-           
+
             if (KPIDTO.FacilityID == null || KPIDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -324,317 +327,54 @@ public class KPI_Validator
     }
 
     #region Excel KPI Validation
-    public static ValidationResultDTO ExcelKPIHeaderColumns_Validation(FileDTO FileDTO)
+    public static ValidationResultDTO ExcelKPIRows_Validation(KPIDTO KPIDTO)
     {
-        var _validationResultDTO = new ValidationResultDTO {
-            Description = "The file has the correct format."
-        };
-        // Expected headers
-        var _expectedHeaders = new string[]
-        {
-        "name", "description", "unit of measure", "value type",
-        "goal", "owner", "responsible", "facility", "equivalence", "category",
-        "owner department", "responsible department"
-        };
-        // Load headers from Excel file
-        var _fileHeaders = ExcelDataImport_Service.GetHeadersFromExcel(FileDTO.FileBytes);
-        // Use StringBuilder to improve performance when building the message
-        var _missingHeaders = new StringBuilder();
-        foreach (var Header in _expectedHeaders)
-        {
-            if (!_fileHeaders.Contains(Header, StringComparer.OrdinalIgnoreCase))
-            {
-                _missingHeaders.Append(Header + ",<br>");
-            }
-        }
-        // Check for missing headers
-        if (_missingHeaders.Length > 0)
-        {
-            // Delete the last comma and replace it with a period
-            _missingHeaders.Length -= 5;
-            _missingHeaders.Append(".");
-            return new ValidationResultDTO
-            {
-                Result = false,
-                Description = $"The following columns are missing:<br> {_missingHeaders}",
-                Message = "Error"
-            };
-        }
-        return _validationResultDTO;
-    }
-    public static ValidationResultDTO ExcelKPIRows_Validation(List<ExcelKPIDTO> ExcelKPIFileDataList)
-    {
-        ExcelKPIDTO _excelKPIFileValidationDTO = new ExcelKPIDTO();
-        var _validationResultDTO = new ValidationResultDTO {
-            Description = "The file has the correct format."
-        };
-        try
-        {
-
-            foreach (var _excelKPIFileData in ExcelKPIFileDataList)
-            {
-                KPIDTO _kPIDTO = new KPIDTO();
-                bool isSucces = true;
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.Name))
-                {
-                    _excelKPIFileData.KPIDTO.Name = "Error, The name is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.UnitOfMeasureName))
-                {
-                    _excelKPIFileData.KPIDTO.UnitOfMeasureName = "Error, The Unit Of Measure is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.ValueTypeName))
-                {
-                    _excelKPIFileData.KPIDTO.ValueTypeName = "Error, The Value Type is null or empty";
-                    isSucces = false;
-                }
-                if (_excelKPIFileData.KPIDTO.Goal < 0.0f)
-                {
-                    _kPIDTO.AddedByName = "Error, The Goal is null or less than zero";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.OwnerName))
-                {
-                    _excelKPIFileData.KPIDTO.OwnerName = "Error, The Owner is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.ResponsibleName))
-                {
-                    _excelKPIFileData.KPIDTO.ResponsibleName = "Error, The Responsible is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.FacilityName))
-                {
-                    _excelKPIFileData.KPIDTO.FacilityName = "Error, The Facility is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.EquivalenceName))
-                {
-                    _excelKPIFileData.KPIDTO.EquivalenceName = "Error, The Equivalence is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.DashboardCategoryName))
-                {
-                    _excelKPIFileData.KPIDTO.DashboardCategoryName = "Error, The Category is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.OwnerDepartmentName))
-                {
-                    _excelKPIFileData.KPIDTO.OwnerDepartmentName = "Error, The Owner Department is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelKPIFileData.KPIDTO.ResponsibleDepartmentName))
-                {
-                    _excelKPIFileData.KPIDTO.ResponsibleDepartmentName = "Error, The Responsible Department is null or empty";
-                    isSucces = false;
-                }
-
-                _kPIDTO.ID = _excelKPIFileData.RowIteration;
-                _kPIDTO.Name = _excelKPIFileData.KPIDTO.Name;
-                _kPIDTO.Description = _excelKPIFileData.KPIDTO.Description;
-                _kPIDTO.UnitOfMeasureName = _excelKPIFileData.KPIDTO.UnitOfMeasureName;
-                _kPIDTO.ValueTypeName = _excelKPIFileData.KPIDTO.ValueTypeName;
-                _kPIDTO.Goal = _excelKPIFileData.KPIDTO.Goal;
-                _kPIDTO.OwnerName = _excelKPIFileData.KPIDTO.OwnerName;
-                _kPIDTO.ResponsibleName = _excelKPIFileData.KPIDTO.ResponsibleName;
-                _kPIDTO.FacilityName = _excelKPIFileData.KPIDTO.FacilityName;
-                _kPIDTO.EquivalenceName = _excelKPIFileData.KPIDTO.EquivalenceName;
-                _kPIDTO.DashboardCategoryName = _excelKPIFileData.KPIDTO.DashboardCategoryName;
-                _kPIDTO.OwnerDepartmentName = _excelKPIFileData.KPIDTO.OwnerDepartmentName;
-                _kPIDTO.ResponsibleDepartmentName = _excelKPIFileData.KPIDTO.ResponsibleDepartmentName;
-                _kPIDTO.IsActive = true;
-
-                if (isSucces == true)
-                {
-                    _excelKPIFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelKPIFileValidationDTO.KPIGoodLinesList.Add(_kPIDTO);
-                }
-                else
-                {
-                    _excelKPIFileValidationDTO.ValidationResultDTO.Message = _excelKPIFileValidationDTO.ValidationResultDTO.Message;
-                    _excelKPIFileValidationDTO.KPIBadLinesList.Add(_kPIDTO);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorSignal.FromCurrentContext().Raise(ex);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "The file was read successfully";
-            throw ex;
-        }
-        _validationResultDTO.Data = _excelKPIFileValidationDTO;
-        return _validationResultDTO;
-    }
-    public static ValidationResultDTO ExcelKPIInformation_Validation(ExcelKPIDTO ExcelKPIFileDataList)
-    {
-        ExcelKPIDTO _excelKPIFileValidationDTO = new ExcelKPIDTO();
+        var _excelRowDTO = new ExcelRowDTO();
+        _excelRowDTO.GoodRowLinesList = new List<KPIDTO>();
+        _excelRowDTO.BadRowLinesList = new List<KPIDTO>();
         var _validationResultDTO = new ValidationResultDTO
         {
             Description = "The file has the correct format."
         };
         try
         {
-            // Get the lists
-            var _unitOfMeasureDTO = new UnitOfMeasureDTO();
-            var _unitOfMeasureList = UnitOfMeasure_Service.GetUnitOfMeasureList_Global(_unitOfMeasureDTO);
-            var _valueTypeDTO = new ValueTypeDTO();
-            var _valueTypeList = ValueType_Service.GetValueTypeList_Global(_valueTypeDTO);
-            var _userDTO = new UserDTO();
-            var _userList = User_Service.GetUserList_Global(_userDTO);
-            var _facilityDTO = new FacilityDTO();
-            var _facilityList = Facility_Service.GetFacilityList_Global(_facilityDTO);
-            var _equivalenceDTO = new EquivalenceDTO();
-            var _equivalenceList = Equivalence_Service.GetEquivalenceList_Global(_equivalenceDTO);
-            var _categoryDTO = new DashboardCategoryDTO();
-            var _categoryList = DashboardCategory_Service.GetDashboardCategoryList_Global(_categoryDTO);
-            var _departmentDTO = new DepartmentDTO();
-            var _departmentList = Department_Service.GetDepartmentList_Global(_departmentDTO);
+            bool isSucces = true;
+            KPIDTO _kPIDTO = new KPIDTO
+            {
+                ID = KPIDTO.ID,
+                Name = !string.IsNullOrEmpty(KPIDTO.Name) ? KPIDTO.Name : "Error, The name is null or empty",
+                UnitOfMeasureName = !string.IsNullOrEmpty(KPIDTO.UnitOfMeasureName) ? KPIDTO.UnitOfMeasureName : "Error, The Unit Of Measure is null or empty",
+                ValueTypeName = !string.IsNullOrEmpty(KPIDTO.ValueTypeName) ? KPIDTO.ValueTypeName : "Error, The Value Type is null or empty",
+                Goal = KPIDTO.Goal,
+                OwnerName = !string.IsNullOrEmpty(KPIDTO.OwnerName) ? KPIDTO.OwnerName : "Error, The Owner is null or empty",
+                ResponsibleName = !string.IsNullOrEmpty(KPIDTO.ResponsibleName) ? KPIDTO.ResponsibleName : "Error, The Responsible is null or empty",
+                FacilityName = !string.IsNullOrEmpty(KPIDTO.FacilityName) ? KPIDTO.FacilityName : "Error, The Facility is null or empty",
+                EquivalenceName = !string.IsNullOrEmpty(KPIDTO.EquivalenceName) ? KPIDTO.EquivalenceName : "Error, The Equivalence is null or empty",
+                DashboardCategoryName = !string.IsNullOrEmpty(KPIDTO.DashboardCategoryName) ? KPIDTO.DashboardCategoryName : "Error, The Category is null or empty",
+                OwnerDepartmentName = !string.IsNullOrEmpty(KPIDTO.OwnerDepartmentName) ? KPIDTO.OwnerDepartmentName : "Error, The Owner Department is null or empty",
+                ResponsibleDepartmentName = !string.IsNullOrEmpty(KPIDTO.ResponsibleDepartmentName) ? KPIDTO.ResponsibleDepartmentName : "Error, The Responsible Department is null or empty",
+                IsActive = true
+            };
 
-            // Directory creation
-            var _unitOfMeasureDict = new Dictionary<string, int?>();
-            var _valueTypeDict = new Dictionary<string, int?>();
-            var _ownerDict = new Dictionary<string, int?>();
-            var _responsibleDict = new Dictionary<string, int?>();
-            var _facilityDict = new Dictionary<string, int?>();
-            var _equivalenceDict = new Dictionary<string, int?>();
-            var _categoryDict = new Dictionary<string, int?>();
-            var _ownerDepartmentDict = new Dictionary<string, int?>();
-            var _responsibleDepartmentDict = new Dictionary<string, int?>();
-
-            // Assign values ​​to dictionaries
-            foreach (var UnitOfMeasureDTO in _unitOfMeasureList)
+            if (_kPIDTO.Name.StartsWith("Error") ||
+                _kPIDTO.UnitOfMeasureName.StartsWith("Error") ||
+                _kPIDTO.ValueTypeName.StartsWith("Error") ||
+                _kPIDTO.OwnerName.StartsWith("Error") ||
+                _kPIDTO.ResponsibleName.StartsWith("Error") ||
+                _kPIDTO.FacilityName.StartsWith("Error") ||
+                _kPIDTO.EquivalenceName.StartsWith("Error") ||
+                _kPIDTO.DashboardCategoryName.StartsWith("Error") ||
+                _kPIDTO.OwnerDepartmentName.StartsWith("Error") ||
+                _kPIDTO.ResponsibleDepartmentName.StartsWith("Error") ||
+                _kPIDTO.Goal < 0.0f)
             {
-                _unitOfMeasureDict[UnitOfMeasureDTO.Name.ToLower()] = UnitOfMeasureDTO.ID;
-            }
-            foreach (var ValueTypeDTO in _valueTypeList)
-            {
-                _valueTypeDict[ValueTypeDTO.Name.ToLower()] = ValueTypeDTO.ID;
-            }
-            foreach (var UserDTO in _userList)
-            {
-                _ownerDict[UserDTO.Name.ToLower()] = UserDTO.ID;
-                _responsibleDict[UserDTO.Name.ToLower()] = UserDTO.ID;
-            }
-            foreach (var FacilityDTO in _facilityList)
-            {
-                _facilityDict[FacilityDTO.Name.ToLower()] = FacilityDTO.ID;
-            }
-            foreach (var EquivalenceDTO in _equivalenceList)
-            {
-                _equivalenceDict[EquivalenceDTO.Name.ToLower()] = EquivalenceDTO.ID;
-            }
-            foreach (var CategoryDTO in _categoryList)
-            {
-                _categoryDict[CategoryDTO.Name.ToLower()] = CategoryDTO.ID;
-            }
-            foreach (var DepartmentDTO in _departmentList)
-            {
-                _ownerDepartmentDict[DepartmentDTO.Name.ToLower()] = DepartmentDTO.ID;
-                _responsibleDepartmentDict[DepartmentDTO.Name.ToLower()] = DepartmentDTO.ID;
+                isSucces = false;
             }
 
-            // Iterate over the lines of the file and assign corresponding IDs
-            foreach (var _excelKPIFileData in ExcelKPIFileDataList.KPIGoodLinesList)
-            {
-                bool isSucces = true;
-                if (_unitOfMeasureDict.ContainsKey(_excelKPIFileData.UnitOfMeasureName.ToLower()))
-                {
-                    _excelKPIFileData.UnitOfMeasureID = _unitOfMeasureDict[_excelKPIFileData.UnitOfMeasureName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.UnitOfMeasureName = "Error: The Unit Of Measure does not exist";
-                    isSucces = false;
-                }
-                if (_valueTypeDict.ContainsKey(_excelKPIFileData.ValueTypeName.ToLower()))
-                {
-                    _excelKPIFileData.ValueTypeID = _valueTypeDict[_excelKPIFileData.ValueTypeName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.ValueTypeName = "Error: The Value Type does not exist";
-                    isSucces = false;
-                }
-                if (_ownerDict.ContainsKey(_excelKPIFileData.OwnerName.ToLower()))
-                {
-                    _excelKPIFileData.OwnerID = _ownerDict[_excelKPIFileData.OwnerName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.OwnerName = "Error: The Owner does not exist";
-                    isSucces = false;
-                }
-                if (_responsibleDict.ContainsKey(_excelKPIFileData.ResponsibleName.ToLower()))
-                {
-                    _excelKPIFileData.ResponsibleID = _responsibleDict[_excelKPIFileData.ResponsibleName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.ResponsibleName = "Error: The Responsible does not exist";
-                    isSucces = false;
-                }
-                if (_facilityDict.ContainsKey(_excelKPIFileData.FacilityName.ToLower()))
-                {
-                    _excelKPIFileData.FacilityID = _facilityDict[_excelKPIFileData.FacilityName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.FacilityName = "Error: The Facility does not exist";
-                    isSucces = false;
-                }
-                if (_equivalenceDict.ContainsKey(_excelKPIFileData.EquivalenceName.ToLower()))
-                {
-                    _excelKPIFileData.EquivalenceID = _equivalenceDict[_excelKPIFileData.EquivalenceName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.EquivalenceName = "Error: The Equivalence does not exist";
-                    isSucces = false;
-                }
-                if (_categoryDict.ContainsKey(_excelKPIFileData.DashboardCategoryName.ToLower()))
-                {
-                    _excelKPIFileData.DashboardCategoryID = _categoryDict[_excelKPIFileData.DashboardCategoryName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.DashboardCategoryName = "Error: The Category does not exist";
-                    isSucces = false;
-                }
-                if (_ownerDepartmentDict.ContainsKey(_excelKPIFileData.OwnerDepartmentName.ToLower()))
-                {
-                    _excelKPIFileData.OwnerDepartmentID = _ownerDepartmentDict[_excelKPIFileData.OwnerDepartmentName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.OwnerDepartmentName = "Error: The Owner Department does not exist";
-                    isSucces = false;
-                }
-                if (_responsibleDepartmentDict.ContainsKey(_excelKPIFileData.ResponsibleDepartmentName.ToLower()))
-                {
-                    _excelKPIFileData.ResponsibleDepartmentID = _responsibleDepartmentDict[_excelKPIFileData.ResponsibleDepartmentName.ToLower()].Value;
-                }
-                else
-                {
-                    _excelKPIFileData.ResponsibleDepartmentName = "Error: The Responsible Department does not exist";
-                    isSucces = false;
-                }
-
-                if (isSucces == true)
-                {
-                    _excelKPIFileData.ID = null;
-                    _excelKPIFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelKPIFileValidationDTO.KPIGoodLinesList.Add(_excelKPIFileData);
-                }
-                else
-                {
-                    _excelKPIFileValidationDTO.ValidationResultDTO.Message = _excelKPIFileValidationDTO.ValidationResultDTO.Message;
-                    _excelKPIFileValidationDTO.KPIBadLinesList.Add(_excelKPIFileData);
-                }
-            }
+            if (isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_kPIDTO);
+            else
+                _excelRowDTO.BadRowLinesList.Add(_kPIDTO);
         }
         catch (Exception ex)
         {
@@ -644,8 +384,100 @@ public class KPI_Validator
             _validationResultDTO.Description = "The file was read successfully";
             throw ex;
         }
-        _excelKPIFileValidationDTO.KPIBadLinesList.AddRange(ExcelKPIFileDataList.KPIBadLinesList);
-        _validationResultDTO.Data = _excelKPIFileValidationDTO;
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelKPIInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO();
+        _excelRowDTO.GoodRowLinesList = new List<KPIDTO>();
+        _excelRowDTO.BadRowLinesList = new List<KPIDTO>();
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            var _kPIDTOList = ExcelRowDTO.GoodRowLinesList as List<KPIDTO> ?? new List<KPIDTO>();
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+
+            // We normalize names to lowercase only once
+            var _unitOfMeasureDTO = new UnitOfMeasureDTO { UnitOfMeasureNameArray = _kPIDTOList.Select(k => k.UnitOfMeasureName?.ToLower()).Distinct().ToArray() };
+            var _valueTypeDTO = new ValueTypeDTO { ValueTypeNameArray = _kPIDTOList.Select(k => k.ValueTypeName?.ToLower()).Distinct().ToArray() };
+            var _userDTO = new UserDTO { UserNameArray = _kPIDTOList.SelectMany(k => new[] { k.OwnerName?.ToLower(), k.ResponsibleName?.ToLower() }).Distinct().ToArray() };
+            var _facilityDTO = new FacilityDTO { FacilityNameArray = _kPIDTOList.Select(k => k.FacilityName?.ToLower()).Distinct().ToArray() };
+            var _equivalenceDTO = new EquivalenceDTO { EquivalenceNameArray = _kPIDTOList.Select(k => k.EquivalenceName?.ToLower()).Distinct().ToArray() };
+            var _categoryDTO = new DashboardCategoryDTO { DashboardCategoryNameArray = _kPIDTOList.Select(k => k.DashboardCategoryName?.ToLower()).Distinct().ToArray() };
+            var _departmentDTO = new DepartmentDTO { DepartmentNameArray = _kPIDTOList.SelectMany(k => new[] { k.OwnerDepartmentName?.ToLower(), k.ResponsibleDepartmentName?.ToLower() }).Distinct().ToArray() };
+
+            // Go for the data in the db
+            var _unitOfMeasureList = UnitOfMeasure_Service.GetUnitOfMeasureList_Global(_unitOfMeasureDTO);
+            var _valueTypeList = ValueType_Service.GetValueTypeList_Global(_valueTypeDTO);
+            var _userList = User_Service.GetUserList_Global(_userDTO);
+            var _facilityList = Facility_Service.GetFacilityList_Global(_facilityDTO);
+            var _equivalenceList = Equivalence_Service.GetEquivalenceList_Global(_equivalenceDTO);
+            var _categoryList = DashboardCategory_Service.GetDashboardCategoryList_Global(_categoryDTO);
+            var _departmentList = Department_Service.GetDepartmentList_Global(_departmentDTO);
+
+            // We create dictionaries with normalized keys (in lowercase)
+            var _unitOfMeasureDict = _unitOfMeasureList.ToDictionary(UnitOfMeasureDTO => UnitOfMeasureDTO.Name.ToLower(), UnitOfMeasureDTO => (int?)UnitOfMeasureDTO.ID);
+            var _valueTypeDict = _valueTypeList.ToDictionary(ValueTypeDTO => ValueTypeDTO.Name.ToLower(), ValueTypeDTO => (int?)ValueTypeDTO.ID);
+            var _userDict = _userList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
+            var _facilityDict = _facilityList.ToDictionary(FacilityDTO => FacilityDTO.Name.ToLower(), FacilityDTO => (int?)FacilityDTO.ID);
+            var _equivalenceDict = _equivalenceList.ToDictionary(EquivalenceDTO => EquivalenceDTO.Name.ToLower(), EquivalenceDTO => (int?)EquivalenceDTO.ID);
+            var _categoryDict = _categoryList.ToDictionary(CategoryDTO => CategoryDTO.Name.ToLower(), CategoryDTO => (int?)CategoryDTO.ID);
+            var _departmentDict = _departmentList.ToDictionary(DepartmentDTO => DepartmentDTO.Name.ToLower(), DepartmentDTO => (int?)DepartmentDTO.ID);
+
+            foreach (var _kPIDTO in _kPIDTOList)
+            {
+                bool isSuccess = true;
+
+                // We search the normalized dictionaries without using `ToLower()` on each iteration
+                if (_unitOfMeasureDict.TryGetValue(_kPIDTO.UnitOfMeasureName?.ToLower() ?? "", out int? UnitOfMeasureID)) _kPIDTO.UnitOfMeasureID = UnitOfMeasureID;
+                else { _kPIDTO.UnitOfMeasureName = "Error: The Unit Of Measure does not exist"; isSuccess = false; }
+
+                if (_valueTypeDict.TryGetValue(_kPIDTO.ValueTypeName?.ToLower() ?? "", out int? ValueTypeID)) _kPIDTO.ValueTypeID = ValueTypeID;
+                else { _kPIDTO.ValueTypeName = "Error: The Value Type does not exist"; isSuccess = false; }
+
+                if (_userDict.TryGetValue(_kPIDTO.OwnerName?.ToLower() ?? "", out int? OwnerID)) _kPIDTO.OwnerID = OwnerID;
+                else { _kPIDTO.OwnerName = "Error: The Owner does not exist"; isSuccess = false; }
+
+                if (_userDict.TryGetValue(_kPIDTO.ResponsibleName?.ToLower() ?? "", out int? ResponsibleID)) _kPIDTO.ResponsibleID = ResponsibleID;
+                else { _kPIDTO.ResponsibleName = "Error: The Responsible does not exist"; isSuccess = false; }
+
+                if (_facilityDict.TryGetValue(_kPIDTO.FacilityName?.ToLower() ?? "", out int? FacilityID)) _kPIDTO.FacilityID = FacilityID;
+                else { _kPIDTO.FacilityName = "Error: The Facility does not exist"; isSuccess = false; }
+
+                if (_equivalenceDict.TryGetValue(_kPIDTO.EquivalenceName?.ToLower() ?? "", out int? EquivalenceID)) _kPIDTO.EquivalenceID = EquivalenceID;
+                else { _kPIDTO.EquivalenceName = "Error: The Equivalence does not exist"; isSuccess = false; }
+
+                if (_categoryDict.TryGetValue(_kPIDTO.DashboardCategoryName?.ToLower() ?? "", out int? DashboardCategoryID)) _kPIDTO.DashboardCategoryID = DashboardCategoryID;
+                else { _kPIDTO.DashboardCategoryName = "Error: The Category does not exist"; isSuccess = false; }
+
+                if (_departmentDict.TryGetValue(_kPIDTO.OwnerDepartmentName?.ToLower() ?? "", out int? OwnerDepartmentID)) _kPIDTO.OwnerDepartmentID = OwnerDepartmentID;
+                else { _kPIDTO.OwnerDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
+
+                if (_departmentDict.TryGetValue(_kPIDTO.ResponsibleDepartmentName?.ToLower() ?? "", out int? ResponsibleDepartmentID)) _kPIDTO.ResponsibleDepartmentID = ResponsibleDepartmentID;
+                else { _kPIDTO.ResponsibleDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
+
+                if (isSuccess)
+                {
+                    _kPIDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(_kPIDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(_kPIDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
         return _validationResultDTO;
     }
     #endregion

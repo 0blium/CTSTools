@@ -21,12 +21,14 @@ public class EquivalenceDTO
     #region Extended Properties
 
     public int?[] EquivalenceIDArray { get; set; }
+    public string[] EquivalenceNameArray { get; set; }
 
     #endregion
     #region Constructor
     public EquivalenceDTO()
     {
         EquivalenceIDArray = new int?[] { };
+        EquivalenceNameArray = new string[] { };
 
     }
     #endregion

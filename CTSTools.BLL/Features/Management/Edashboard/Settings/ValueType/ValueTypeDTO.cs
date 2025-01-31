@@ -21,13 +21,14 @@ public class ValueTypeDTO
     #region Extended Properties
 
     public int?[] ValueTypeIDArray { get; set; }
+    public string[] ValueTypeNameArray { get; set; }
 
     #endregion
     #region Constructor
     public ValueTypeDTO()
     {
         ValueTypeIDArray = new int?[] { };
-
+        ValueTypeNameArray = new string[] { };
     }
     #endregion
 }

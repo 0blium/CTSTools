@@ -27,12 +27,14 @@ public class SupplierDTO
     #region Extended Properties
 
     public int?[] SupplierIDArray { get; set; }
+    public string[] SupplierNameArray { get; set; }
 
     #endregion
     #region Constructor
     public SupplierDTO()
     {
         SupplierIDArray = [];
+        SupplierNameArray = [];
     }
     #endregion
 }

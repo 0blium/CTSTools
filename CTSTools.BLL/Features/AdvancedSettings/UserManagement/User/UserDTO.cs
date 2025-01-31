@@ -29,6 +29,7 @@ public class UserDTO
     #region Extended Properties
     public bool hasSystemRole { get; set; }
     public int?[] UserIDArray { get; set; }
+    public string[] UserNameArray { get; set; }
     public bool GetRoleArray { get; set; }
     public int?[] RoleIDArray { get; set; }
     public bool GetSupportGroupArray { get; set; }
@@ -46,6 +47,7 @@ public class UserDTO
     public UserDTO()
     {
         UserIDArray = [];
+        UserNameArray = [];
         FacilityDTO = new FacilityDTO();
         FacilityIDArray = [];
         RoleIDArray = [];

@@ -1,5 +1,12 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
+using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
+using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -191,4 +198,111 @@ public class Supplier_Validator
         }
         return _validation_ResultDTO;
     }
+    #region Excel Supplier Validation
+    public static ValidationResultDTO ExcelSupplierRows_Validation(SupplierDTO SupplierDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO 
+        {
+            GoodRowLinesList = new List<SupplierDTO>(),
+            BadRowLinesList = new List<SupplierDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+        try
+        {
+            bool isSucces = true;
+            SupplierDTO _supplierDTO = new SupplierDTO
+            {
+                ID = SupplierDTO.ID,
+                Name = !string.IsNullOrEmpty(SupplierDTO.Name) ? SupplierDTO.Name : "Error, The name is null or empty",
+                IsManufacturer = SupplierDTO.IsManufacturer,
+                IsVendor = SupplierDTO.IsVendor,
+                IsActive = true
+            };
+
+            if (_supplierDTO.Name.StartsWith("Error"))
+                isSucces = false;
+            if (_supplierDTO.IsManufacturer == false && _supplierDTO.IsVendor == false) 
+            {
+                _supplierDTO.Description = "Error, Supplier must be vendor or manufacturer";
+                isSucces = false;
+            }
+
+            if (isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_supplierDTO);
+            else
+                _excelRowDTO.BadRowLinesList.Add(_supplierDTO);
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw ex;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelSupplierInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<SupplierDTO>(),
+            BadRowLinesList = new List<SupplierDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            var _supplierDTOList = ExcelRowDTO.GoodRowLinesList as List<SupplierDTO> ?? new List<SupplierDTO>();
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+            var _newSupplierList = _supplierDTOList.GroupBy(supplier => supplier.Name?.ToLower()).Select(group => group.First()).ToList();
+
+            // We normalize names to lowercase only once
+            var _supplierDTO = new SupplierDTO { SupplierNameArray = _newSupplierList.Select(SupplierDTO => SupplierDTO.Name?.ToLower()).ToArray() };
+
+            // Go for the data in the db
+            var _supplierList = Supplier_Service.GetSupplierList_Global(_supplierDTO);
+
+            // We create dictionaries with normalized keys (in lowercase)
+            var _supplierDict = _supplierList.ToDictionary(SupplierDTO => SupplierDTO.Name.ToLower(), SupplierDTO => (int?)SupplierDTO.ID);
+
+            foreach (var SupplierDTO in _newSupplierList)
+            {
+                bool isSuccess = true;
+
+                // We search the normalized dictionaries without using `ToLower()` on each iteration
+                if (_supplierDict.ContainsKey(SupplierDTO.Name?.ToLower() ?? ""))
+                {
+                    var _name = SupplierDTO.Name;
+                    SupplierDTO.Name = $"Error: The Name: {_name}, already exists"; 
+                    isSuccess = false; 
+                }
+
+                if (isSuccess)
+                {
+                    SupplierDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(SupplierDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(SupplierDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    #endregion
 }

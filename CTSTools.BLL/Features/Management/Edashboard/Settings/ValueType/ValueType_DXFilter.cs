@@ -25,6 +25,10 @@ public class ValueType_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(ValueTypeXPO.Oid), ValueTypeDTO.ValueTypeIDArray));
             }
+            if (ValueTypeDTO.ValueTypeNameArray != null && ValueTypeDTO.ValueTypeNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(ValueTypeXPO.Name), ValueTypeDTO.ValueTypeNameArray));
+            }
             if (ValueTypeDTO.AddedByID != null && ValueTypeDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(ValueTypeXPO.AddedBy), ValueTypeDTO.AddedByID));
