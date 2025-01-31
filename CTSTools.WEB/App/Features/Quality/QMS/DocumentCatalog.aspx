@@ -95,6 +95,14 @@
                                     <div class="invalid-feedback" id="DocumentCustomerValidation"></div>
                                 </div>
                             </div>
+                            <%-- Row: Product --%>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="dxDocumentProductSelectBox" class="form-label">Product (<span class="text-danger">*</span>)</label>
+                                    <div id="dxDocumentProductSelectBox"></div>
+                                    <div class="invalid-feedback" id="DocumentProductValidation"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

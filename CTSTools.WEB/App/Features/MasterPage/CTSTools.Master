@@ -188,19 +188,24 @@
                                     <div class="menu-caret"></div>
                                 </a>
                                 <div class="menu-submenu">
-                                    <div id="DocumentQMS" class="menu-item " data-tech="Document DocumentRevision" hidden>
+                                    <div id="DocumentQMS" class="menu-item module-nav" data-tech="Document DocumentRevision" hidden>
                                         <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Document</div>
                                         </a>
                                     </div>
-                                    <div id="DocumentTypeQMS" class="menu-item " data-tech="DocumentType" hidden>
+                                    <div id="DocumentTypeQMS" class="menu-item module-nav" data-tech="DocumentType" hidden>
                                         <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Document Type</div>
                                         </a>
                                     </div>
-                                    <div id="CustomerQMS" class="menu-item " data-tech="Customer" hidden>
+                                    <div id="CustomerQMS" class="menu-item module-nav" data-tech="Customer" hidden>
                                         <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Customer</div>
+                                        </a>
+                                    </div>
+                                    <div id="ProductQMS" class="menu-item module-nav" data-tech="Product" hidden>
+                                        <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Product</div>
                                         </a>
                                     </div>
 

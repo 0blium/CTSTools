@@ -348,6 +348,9 @@
     <Content Include="App\Features\Quality\QMS\DocumentTypeCatalog.js" />
     <Content Include="App\Features\Quality\QMS\DocumentType\DocumentType_Service.js" />
     <Content Include="App\Features\Quality\QMS\Document\Document_Service.js" />
+    <Content Include="App\Features\Quality\QMS\ProductCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\ProductCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\Product\Product_Service.js" />
     <Content Include="Content\dx-diagram.css" />
     <Content Include="Content\dx-diagram.min.css" />
     <Content Include="Content\dx-gantt.css" />
@@ -731,6 +734,14 @@
     </Compile>
     <Compile Include="App\Features\Quality\QMS\DocumentType\DocumentTypeController.cs" />
     <Compile Include="App\Features\Quality\QMS\Document\DocumentController.cs" />
+    <Compile Include="App\Features\Quality\QMS\ProductCatalog.aspx.cs">
+      <DependentUpon>ProductCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\ProductCatalog.aspx.designer.cs">
+      <DependentUpon>ProductCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\Product\Product_Controller.cs" />
     <Compile Include="App_Start\Auth_Helper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -803,6 +814,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Product_\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

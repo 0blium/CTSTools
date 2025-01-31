@@ -3,6 +3,7 @@ using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Quality.QMS.Customer;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
+using CTSTools.BLL.Features.Quality.QMS.Product;
 using System;
 
 namespace CTSTools.BLL.Features.Quality.QMS.Document;
@@ -45,6 +46,11 @@ public class DocumentDTO
     public string CustomerName { get; set; }
     public bool GetCustomerDTO { get; set; }
     public int?[] CustomerIDArray { get; set; }
+    public ProductDTO ProductDTO { get; set; }
+    public int? ProductID { get; set; }
+    public string ProductName { get; set; }
+    public bool GetProductDTO { get; set; }
+    public int?[] ProductIDArray { get; set; }
     public StatusDTO StatusDTO { get; set; }
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
@@ -61,6 +67,8 @@ public class DocumentDTO
         TypeIDArray = new int?[] { };
         CustomerDTO = new CustomerDTO();
         CustomerIDArray = new int?[] { };
+        ProductDTO = new ProductDTO();
+        ProductIDArray = new int?[] { };
         StatusDTO = new StatusDTO();
         StatusIDArray = new int?[] { };
     }

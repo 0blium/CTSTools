@@ -58,6 +58,15 @@ public class Document_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
+            if (DocumentDTO.ProductID == null || DocumentDTO.ProductID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Product Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -160,6 +169,15 @@ public class Document_Validator
                 {
                     Result = false,
                     Message = "Customer Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.ProductID == null || DocumentDTO.ProductID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Product Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }

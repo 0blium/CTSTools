@@ -5,6 +5,7 @@ import { GetDXDepartmentDataSource } from '../../advancedsettings/locationmanage
 import { GetDXFacilityDataSource } from '../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
 import { GetDXDocumentTypeDataSource } from './documenttype/documenttype_service.js'
 import { GetDXCustomerDataSource } from './customer/customer_service.js'
+import { GetDXProductDataSource } from './product/Product_Service.js'
 import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function InitializeDocumentCatalogControls() {
 
     $("#dxDocumentGrid").dxDataGrid({
-        dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetCustomerDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
+        dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetCustomerDTO: true, GetProductDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -117,6 +118,7 @@ async function InitializeDocumentCatalogControls() {
                 { caption: "Department", dataField: "DepartmentName" },
                 { caption: "Type", dataField: "TypeName" },
                 { caption: "Customer", dataField: "CustomerName" },
+                { caption: "Product", dataField: "ProductName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
@@ -151,6 +153,13 @@ async function InitializeDocumentCatalogControls() {
     });
     $("#dxDocumentCustomerSelectBox").dxSelectBox({
         dataSource: await GetDXCustomerDataSource_Global(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnable: true,
+        popupWidth: 450,
+    });
+    $("#dxDocumentProductSelectBox").dxSelectBox({
+        dataSource: await GetDXProductDataSource_Global(),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnable: true,
@@ -205,6 +214,7 @@ async function PopulateDocumentFields(data) {
     $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", data.Number);
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value", data.TypeID);
     $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").option("value", data.CustomerID);
+    $("#dxDocumentProductSelectBox").dxSelectBox("instance").option("value", data.ProductID);
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
     await $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
@@ -258,6 +268,7 @@ function ClearDocumentFields() {
     $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").reset();
+    $("#dxDocumentProductSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").reset();
@@ -275,6 +286,7 @@ function GetDocumentDTO() {
         DepartmentID: $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value"),
         TypeID: $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value"),
         CustomerID: $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").option("value"),
+        ProductID: $("#dxDocumentProductSelectBox").dxSelectBox("instance").option("value"),
         OwnerID: $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value"),
     }
     return _documentDTO;
@@ -327,6 +339,10 @@ const GetDXTypeDataSource_Global = () => {
 const GetDXCustomerDataSource_Global = () => {
     let _customerDTO = { IsActive: true }
     return GetDXCustomerDataSource(_customerDTO)
+}
+const GetDXProductDataSource_Global = () => {
+    let _productDTO = { IsActive: true }
+    return GetDXProductDataSource(_productDTO)
 }
 
 //#endregion

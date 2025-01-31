@@ -104,6 +104,7 @@
     <Compile Include="Features\Quality\QMS\DocumentRevisionXPO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentTypeXPO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentXPO.cs" />
+    <Compile Include="Features\Quality\QMS\ProductXPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

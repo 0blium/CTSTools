@@ -3,6 +3,7 @@ using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.Quality.QMS.Customer;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
+using CTSTools.BLL.Features.Quality.QMS.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ public class Document_Service
                 _documentglobalList = _documentList;
                 return _documentglobalList;
             }
-            if (!DocumentDTO.GetDepartmentDTO && !DocumentDTO.GetTypeDTO && !DocumentDTO.GetStatusDTO && !DocumentDTO.GetCustomerDTO)
+            if (!DocumentDTO.GetDepartmentDTO && !DocumentDTO.GetTypeDTO && !DocumentDTO.GetStatusDTO && !DocumentDTO.GetCustomerDTO && !DocumentDTO.GetProductDTO)
             {
                 _documentglobalList = _documentList;
                 return _documentglobalList;
@@ -78,6 +79,7 @@ public class Document_Service
         var _departmentDict = new Dictionary<int?, DepartmentDTO>();
         var _documentTypeDict = new Dictionary<int?, DocumentTypeDTO>();
         var _customerDict = new Dictionary<int?, CustomerDTO>();
+        var _productDict = new Dictionary<int?, ProductDTO>();
         var _statusDict = new Dictionary<int?, StatusDTO>();
 
         try
@@ -102,11 +104,20 @@ public class Document_Service
             }
             if (DocumentDTO.GetCustomerDTO)
             {
-                DocumentDTO.CustomerDTO.CustomerIDArray = DocumentList.GroupBy(g => g.TypeID)
+                DocumentDTO.CustomerDTO.CustomerIDArray = DocumentList.GroupBy(g => g.CustomerID)
                         .Select(s => s.Key)
                         .ToArray();
 
                 _customerDict = Customer_Service.GetCustomerList_Global(DocumentDTO.CustomerDTO)
+                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+            }
+            if (DocumentDTO.GetProductDTO)
+            {
+                DocumentDTO.ProductDTO.ProductIDArray = DocumentList.GroupBy(g => g.ProductID)
+                        .Select(s => s.Key)
+                        .ToArray();
+
+                _productDict = Product_Service.GetProductList_Global(DocumentDTO.ProductDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
             if (DocumentDTO.GetStatusDTO)
@@ -131,6 +142,10 @@ public class Document_Service
                 if (DocumentDTO.GetCustomerDTO && _customerDict.ContainsKey(_documentDTO.CustomerID))
                 {
                     _documentDTO.CustomerDTO = _customerDict[_documentDTO.CustomerID];
+                }
+                if (DocumentDTO.GetProductDTO && _productDict.ContainsKey(_documentDTO.ProductID))
+                {
+                    _documentDTO.ProductDTO = _productDict[_documentDTO.ProductID];
                 }
                 if (DocumentDTO.GetStatusDTO && _statusDict.ContainsKey(_documentDTO.StatusID))
                 {

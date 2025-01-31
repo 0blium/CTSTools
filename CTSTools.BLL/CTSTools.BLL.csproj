@@ -375,6 +375,12 @@
     <Compile Include="Features\Quality\QMS\Document\Document_Repository.cs" />
     <Compile Include="Features\Quality\QMS\Document\Document_Service.cs" />
     <Compile Include="Features\Quality\QMS\Document\Document_Validator.cs" />
+    <Compile Include="Features\Quality\QMS\Product\ProductDTO.cs" />
+    <Compile Include="Features\Quality\QMS\Product\ProductMap.cs" />
+    <Compile Include="Features\Quality\QMS\Product\Product_DXFilter.cs" />
+    <Compile Include="Features\Quality\QMS\Product\Product_Repository.cs" />
+    <Compile Include="Features\Quality\QMS\Product\Product_Service.cs" />
+    <Compile Include="Features\Quality\QMS\Product\Product_Validator.cs" />
     <Compile Include="Features\XPO\DXFilterDTO.cs" />
     <Compile Include="Features\XPO\DXFilters_Helper.cs" />
     <Compile Include="Features\XPO\ORM_Helper.cs" />
