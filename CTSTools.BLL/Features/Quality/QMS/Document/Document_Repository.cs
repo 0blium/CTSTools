@@ -1,8 +1,6 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
-using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;

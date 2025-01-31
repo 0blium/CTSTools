@@ -54,7 +54,22 @@ public class DocumentType_Service
         }
         return _documentTypeglobalList;
     }
+    public static DocumentTypeDTO GetDocumentTypeByID_Global(DocumentTypeDTO DocumentTypeDTO)
+    {
+        var _documentTypeDTO = new DocumentTypeDTO();
+        try
+        {
+            _documentTypeDTO = DocumentType_Repository.GetDocumentTypeByID((int)DocumentTypeDTO.ID);
+            // if DocumentType is empty, return list
 
+
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+        }
+        return _documentTypeDTO;
+    }
 
     public static int GetDocumentTypeTotalCount(PagedResultDTO<DocumentTypeDTO> PagedResultDTO)
     {

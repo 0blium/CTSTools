@@ -1,5 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+using CTSTools.BLL.Features.Quality.QMS.Document;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
 using CTSTools.DAL.Features.Quality.QMS;
@@ -55,6 +56,23 @@ public class DocumentRevision_Repository
         }
         return _documentRevisionList;
     }
+    public static DocumentRevisionDTO GetDocumentByID(int DocumentRevisionID)
+    {
+        var _documentRevisionDTO = new DocumentRevisionDTO();
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _documentRevisionXPO = _unit.GetObjectByKey<DocumentRevisionXPO>(DocumentRevisionID);
+            if (_documentRevisionXPO != null)
+                _documentRevisionDTO = DocumentRevisionMap.XPOToDTO(_documentRevisionXPO);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentRevisionDTO;
+    }
     public static int GetDocumentRevisionCount(DocumentRevisionDTO DocumentRevisionDTO, PagedResultDTO<DocumentRevisionDTO> PagedResultDTO = null)
     {
         try
@@ -99,7 +117,6 @@ public class DocumentRevision_Repository
         }
         return _validationResultDTO;
     }
-
     public static ValidationResultDTO UpdateMultipleDocumentRevision(List<DocumentRevisionDTO> DocumentRevisionList)
     {
         var _validationResultDTO = new ValidationResultDTO
@@ -123,7 +140,6 @@ public class DocumentRevision_Repository
         }
         return _validationResultDTO;
     }
-
     public static ValidationResultDTO UpdateDocumentRevision(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validationResultDTO = new ValidationResultDTO

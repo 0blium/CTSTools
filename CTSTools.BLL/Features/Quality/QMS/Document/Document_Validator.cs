@@ -136,6 +136,15 @@ public class Document_Validator
                     Data = $"{nameof(Document)}{nameof(DocumentDTO.Name)}",
                 });
             }
+            if (DocumentDTO.StatusID == null || DocumentDTO.StatusID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO

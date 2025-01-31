@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using System.Collections.Generic;
 
-namespace CTSTools.BLL.Common.Files
+namespace CTSTools.BLL.Common.Excel
 {
     public class ExcelValueDTO
     {

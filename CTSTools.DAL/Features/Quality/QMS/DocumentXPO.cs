@@ -29,6 +29,12 @@ public class DocumentXPO : XPObject
         get { return fNumber; }
         set { SetPropertyValue<string>(nameof(Number), ref fNumber, value); }
     }
+    string fLastRevision;
+    public string LastRevision
+    {
+        get { return fLastRevision; }
+        set { SetPropertyValue<string>(nameof(LastRevision), ref fLastRevision, value); }
+    }
     string fDescription;
     public string Description
     {

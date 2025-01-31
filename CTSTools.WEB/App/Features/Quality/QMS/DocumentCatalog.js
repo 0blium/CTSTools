@@ -16,6 +16,7 @@ import { GetDXProductDataSource } from './product/Product_Service.js'
 import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
 import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
+import { Facility_Enum } from '../../advancedsettings/locationmanagement/facility/Facility_Enum.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDocumentCatalogControls();
@@ -129,6 +130,19 @@ async function InitializeDocumentCatalogControls() {
                     dataField: "Number"
                 },
                 {
+                    caption: "Revision",
+                    dataField: "LastRevision",
+                    alignment: 'center',
+                    cellTemplate: function (container, options) {
+                        console.log(options.data)
+                        $('<a>' + options.data.LastRevision + '</a>')
+                            //.attr('href', URL.createObjectURL(options.data.FileDTO.URL))
+                            //.attr('download', options.data.FileDTO.Name )
+                            .appendTo(container);  
+
+                    }
+                },
+                {
                     caption: "Name",
                     dataField: "Name"
                 },
@@ -198,7 +212,7 @@ async function InitializeDocumentCatalogControls() {
     });
     $("#dxFilterDepartmentTagBox").dxTagBox({
 
-        dataSource: await GetDXDepartmentDataSource(),
+        dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
         displayExpr: "Name",
         valueExpr: "ID",
         searchEnabled: true,
@@ -271,7 +285,7 @@ async function InitializeDocumentCatalogControls() {
     });
 
     $("#dxDocumentDepartmentSelectBox").dxSelectBox({
-        dataSource: await GetDXDepartmentDataSource({ Facility:  }),
+        dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
         valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,

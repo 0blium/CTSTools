@@ -8,7 +8,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace CTSTools.BLL.Common.Files
+namespace CTSTools.BLL.Common.Excel
 {
     public class ExcelDataImport_Service
     {

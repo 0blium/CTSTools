@@ -89,7 +89,6 @@ public class DocumentRevision_Validator
         }
         return _validation_ResultDTO;
     }
-
     public static ValidationResultDTO UpdateDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO

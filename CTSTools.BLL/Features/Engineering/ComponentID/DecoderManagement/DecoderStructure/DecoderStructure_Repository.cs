@@ -180,9 +180,6 @@ public class DecoderStructure_Repository
         return _validationResultDTO;
     }
 
-    internal static DecoderStructureDTO GetDecoderStructureByID(int? newChangedDecoderStructureID)
-    {
-        throw new NotImplementedException();
-    }
+    
 }
 

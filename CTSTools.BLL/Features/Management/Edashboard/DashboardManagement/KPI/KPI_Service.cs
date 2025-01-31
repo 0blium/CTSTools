@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
@@ -7,7 +8,6 @@ using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.GoalRange;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using Elmah;

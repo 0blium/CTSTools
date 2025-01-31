@@ -1,4 +1,6 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Directories;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.Quality.QMS.Customer;
@@ -6,9 +8,8 @@ using CTSTools.BLL.Features.Quality.QMS.DocumentType;
 using CTSTools.BLL.Features.Quality.QMS.Product;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Quality.QMS.Document;
 
@@ -17,14 +18,19 @@ public class Document_Service
     #region Global CRUD
     public static ValidationResultDTO CreateDocument_Global(DocumentDTO DocumentDTO)
     {
-        //test comment
-        var _ValidationResultDTO = Document_Validator.CreateDocument_Validation(DocumentDTO);
-        if (_ValidationResultDTO.Result)
-        {
-            DocumentDTO.AddedDate = DateTime.Now;
-            _ValidationResultDTO = Document_Repository.CreateDocument(DocumentDTO);
-        }
-        return _ValidationResultDTO;
+        //Step 1. 
+        DocumentDTO.StatusID = (int)Status_Enum.QMS_Document.New;
+        var _validationResultDTO = Document_Validator.CreateDocument_Validation(DocumentDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        //Step 2. 
+        DocumentDTO.AddedDate = DateTime.Now;
+        _validationResultDTO = Document_Repository.CreateDocument(DocumentDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 3. 
+        _validationResultDTO = CreateDocumentDirectory(DocumentDTO);
+        return _validationResultDTO;
     }
     public static ValidationResultDTO UpdateDocument_Global(DocumentDTO DocumentDTO)
     {
@@ -71,8 +77,6 @@ public class Document_Service
         }
         return _documentglobalList;
     }
-
-
     public static List<DocumentDTO> GetDocumentRelatedData(DocumentDTO DocumentDTO, List<DocumentDTO> DocumentList)
     {
         var _documentglobalList = new List<DocumentDTO>();
@@ -161,7 +165,6 @@ public class Document_Service
         }
         return _documentglobalList;
     }
-
     public static int GetDocumentTotalCount(PagedResultDTO<DocumentDTO> PagedResultDTO)
     {
         try
@@ -178,8 +181,21 @@ public class Document_Service
     #endregion
 
     #region Business Logic
-
-    // Aqui va la logica 
+    public static ValidationResultDTO CreateDocumentDirectory(DocumentDTO DocumentDTO) {
+        var _validationResultDTO = new ValidationResultDTO();   
+        try
+        {
+            var _documentTypeDTO = new DocumentTypeDTO { ID = DocumentDTO.TypeID };
+            _documentTypeDTO = DocumentType_Service.GetDocumentTypeByID_Global(_documentTypeDTO);
+            string _path = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentTypeDTO.Name}\\{DocumentDTO.Number}\\";
+            _validationResultDTO = Directory_Service.CreateDirectory(_path);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _validationResultDTO;
+    }
 
     #endregion
 }

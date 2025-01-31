@@ -1,6 +1,8 @@
-﻿import { GetDXDocumentRevisionDataSource, CreateDocumentRevision, UpdateDocumentRevision, DeleteDocumentRevision } from './DocumentRevision/DocumentRevision_Service.js'
+﻿import { GetDXDocumentRevisionDataSource, UpdateDocumentFile, CreateDocumentRevision, UpdateDocumentRevision, DeleteDocumentRevision } from './DocumentRevision/DocumentRevision_Service.js'
 import { HostResponse, ClearErrorFeedback } from '../../../common/utils/response.js'
 import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
+import { GetFileDTO } from '../../../common/utils/GetFileDTO.js'
+
 import { GetURLParameter } from '../../../Common/Utils/GetURLParameter.js'
 import { GetDXDocumentDataSource, GetDocumentInformation } from './document/document_service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
@@ -26,14 +28,31 @@ async function GetDocumentIDByURL() {
 }
 
 async function InitializeDocumentRevisionCatalogControls() {
+    document.getElementById("UpdateDocumentButton").addEventListener("click", UpdateDocument_Global);
+    
+    $("#dxRevisionFileUploader").dxFileUploader({
+        selectButtonText: "Select File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
 
+        }
+    });
+    $("#dxUpdateRevisionFileUploader").dxFileUploader({
+        selectButtonText: "Select File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+
+        }
+    });
     $("#dxDocumentRevisionGrid").dxDataGrid({
         dataSource: await GetDXDocumentRevisionDataSource({ GetDocumentDTO: true, GetStatusDTO: true, DocumentID: document.getElementById('hiddenDocumentID').value }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
             showPageSizeSelector: true,
-            allowedPageSizes: [15, 50, 100],
+            allowedPageSizes: [10, 50, 100],
             showInfo: true
         },
         allowColumnReordering: true,
@@ -108,16 +127,24 @@ async function InitializeDocumentRevisionCatalogControls() {
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
                                     { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 },
-                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 }]
+                                    { text: "Upload", icon: "fa fa-cloud-arrow-up text-info", value: 2 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 3 }]
                             }] : [],
                             showFirstSubmenuMode: 'onClick',
                             hideSubmenuOnMouseLeave: true,
                             onItemClick: function (e) {
                                 if (e.itemData.value == 1) {
+                                    document.getElementById('RevisionFileSection').hidden = true;
+                                    document.getElementById('StatusSection').hidden = false;
+
                                     $('#SaveDocumentRevisionRecordModal').modal('show');
                                     DocumentRevisionActionButtons("Update");
                                 }
                                 else if (e.itemData.value == 2) {
+                                    $('#UpdateDocumentModal').modal('show');
+
+                                }
+                                else if (e.itemData.value == 3) {
                                     document.getElementById('hiddenDocumentRevisionID').value = options.data.ID;
                                     ShowDeleteQuestion();
                                 }
@@ -126,7 +153,10 @@ async function InitializeDocumentRevisionCatalogControls() {
                     }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
-                { caption: "Revision", dataField: "Revision" },
+                {
+                    caption: "Revision", dataField: "Revision", alignment: 'center', sortOrder: "desc"
+
+                },
                 { caption: "Change Reason", dataField: "ChangeReason" },
                 { caption: "Status", dataField: "StatusName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
@@ -215,6 +245,9 @@ function DocumentRevisionActionButtons(Action) {
 }
 
 function ClearDocumentRevisionFields() {
+    document.getElementById('RevisionFileSection').hidden = false;
+    document.getElementById('StatusSection').hidden = true;
+
     $('#SaveDocumentRevisionRecordModal').modal('hide');
     DocumentRevisionActionButtons("Save");
     $("#hiddenDocumentRevisionID").val("");
@@ -227,13 +260,17 @@ function ClearDocumentRevisionFields() {
     ClearErrorFeedback();
 }
 
-function GetDocumentRevisionDTO() {
+async function GetDocumentRevisionDTO() {
+    let file = $("#dxRevisionFileUploader").dxFileUploader("instance").option("value")[0];
+    let _fileDTO = await GetFileDTO(file)
     let _documentRevisionDTO = {
         ID: $("#hiddenDocumentRevisionID").val(),
         ChangeReason: $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value"),
+        FileDTO: (_fileDTO == null) ? null : _fileDTO,
         Revision: $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value"),
         DocumentID: $("#hiddenDocumentID").val(),
         StatusID: $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").option("value"),
+
     }
     return _documentRevisionDTO;
 }
@@ -242,12 +279,14 @@ function GetDocumentRevisionDTO() {
 //#region DocumentRevision CRUD Functions
 async function CreateDocumentRevision_Global() {
     await dxLoadPanel.show();
-    const _documentRevisionDTO = GetDocumentRevisionDTO();
+    let _file = $("#dxRevisionFileUploader").dxFileUploader("instance").option("value")[0];
+    if (!DocumentFile_Validation(_file))
+        return;
+    const _documentRevisionDTO = await GetDocumentRevisionDTO();
     const _validation_ResultDTO = await CreateDocumentRevision(_documentRevisionDTO)
     if (_validation_ResultDTO.Result) {
         $("#dxDocumentRevisionGrid").dxDataGrid("instance").refresh();
         ClearDocumentRevisionFields();
-
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -277,10 +316,34 @@ async function DeleteDocumentRevision_Global() {
     ClearDocumentRevisionFields();
     dxLoadPanel.hide();
 }
+async function UpdateDocument_Global() {
+    await dxLoadPanel.show();
+    let _file = $("#dxUpdateRevisionFileUploader").dxFileUploader("instance").option("value")[0];
+    if (!DocumentFile_Validation(_file))
+        return;
+    const _documentRevisionDTO = {
+        FileDTO: await GetFileDTO(_file),
+        ID: $("#hiddenDocumentRevisionID").val(),
+        DocumentID: $("#hiddenDocumentID").val()
+    }
+    const _validation_ResultDTO = await UpdateDocumentFile(_documentRevisionDTO)
+    if (_validation_ResultDTO.Result) {
+        $("#dxDocumentRevisionGrid").dxDataGrid("instance").refresh();
+        $("#dxUpdateRevisionFileUploader").dxFileUploader("instance").reset();
+        $('#UpdateDocumentModal').modal('hide');
 
-const GetDXStatusDataSource_Global = () => {
-    let _statusDTO = { IsActive: true }
-    return GetDXStatusDataSource(_statusDTO)
+    }
+    HostResponse(_validation_ResultDTO);
+    dxLoadPanel.hide();
 }
+function DocumentFile_Validation(file) {
+    if ( file == null) {
+        Swal.fire("Error", "You must attach a file before to save a record", "error");
+        dxLoadPanel.hide();
+        return false;
+    }
+    return true;
+}
+
 
 //#endregion

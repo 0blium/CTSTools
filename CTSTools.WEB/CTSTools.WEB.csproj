@@ -229,6 +229,7 @@
     <Content Include="App\Common\Components\dxLoadPanel.js" />
     <Content Include="App\Common\Utils\APIRequest.js" />
     <Content Include="App\Common\Utils\Environment.js" />
+    <Content Include="App\Common\Utils\GetFileDTO.js" />
     <Content Include="App\Common\Utils\GetURLParameter.js" />
     <Content Include="App\Common\Utils\Month_Enum.js" />
     <Content Include="App\Common\Utils\Response.js" />

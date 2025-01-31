@@ -1,3 +1,3 @@
-﻿export const Facility = Object.freeze({
-    PartType: 1
+﻿export const Facility_Enum = Object.freeze({
+    Texas: 1
 });
