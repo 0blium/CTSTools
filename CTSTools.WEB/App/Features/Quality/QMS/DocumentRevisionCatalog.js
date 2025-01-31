@@ -29,7 +29,7 @@ async function GetDocumentIDByURL() {
 
 async function InitializeDocumentRevisionCatalogControls() {
     document.getElementById("UpdateDocumentButton").addEventListener("click", UpdateDocument_Global);
-    
+
     $("#dxRevisionFileUploader").dxFileUploader({
         selectButtonText: "Select File",
         labelText: "or Drop here",
@@ -47,7 +47,12 @@ async function InitializeDocumentRevisionCatalogControls() {
         }
     });
     $("#dxDocumentRevisionGrid").dxDataGrid({
-        dataSource: await GetDXDocumentRevisionDataSource({ GetDocumentDTO: true, GetStatusDTO: true, DocumentID: document.getElementById('hiddenDocumentID').value }),
+        dataSource: await GetDXDocumentRevisionDataSource({
+            GetDocumentDTO: true,
+            GetStatusDTO: true,
+            DocumentID: document.getElementById('hiddenDocumentID').value,
+            GetFileDTO: true
+        }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -154,7 +159,18 @@ async function InitializeDocumentRevisionCatalogControls() {
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 {
-                    caption: "Revision", dataField: "Revision", alignment: 'center', sortOrder: "desc"
+                    caption: "Revision",
+                    dataField: "Revision",
+                    alignment: 'center',
+                    sortOrder: "desc",
+                    cellTemplate: function (container, options) {
+                        console.log(options.data)
+                        const _link = `data:${options.data.FileDTO.MIMEType};base64,${options.data.FileDTO.Data}`
+                        $('<a style="text-decoration:none;">' + options.data.Revision + '</a>')
+                            .attr('href', _link)
+                            .attr('download', options.data.FileDTO.FileName)
+                            .appendTo(container);
+                    }
 
                 },
                 { caption: "Change Reason", dataField: "ChangeReason" },
@@ -337,7 +353,7 @@ async function UpdateDocument_Global() {
     dxLoadPanel.hide();
 }
 function DocumentFile_Validation(file) {
-    if ( file == null) {
+    if (file == null) {
         Swal.fire("Error", "You must attach a file before to save a record", "error");
         dxLoadPanel.hide();
         return false;

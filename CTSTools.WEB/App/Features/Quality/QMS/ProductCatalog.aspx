@@ -5,14 +5,14 @@
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-end">
-                <li class="breadcrumb-item"><a href="javascript:;">Quality</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Document Type</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;"></a></li>
             </ol>
         </div>
         <!-- END breadcrumb -->
         <!-- BEGIN page-header -->
         <div class="row">
-            <h1 class="page-header">Document Type</h1>
+            <h1 class="page-header">Products</h1>
         </div>
         <!-- END page-header -->
     </div>
@@ -22,7 +22,7 @@
             <div class="panel panel-inverse">
                 <div class="panel-body">
                     <div class="col-md-12 ">
-                        <a id="NewProductBtn" href="#SaveProductRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>Document Type</a>
+                        <a id="NewProductBtn" href="#SaveProductRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Product</a>
                     </div>
                     <div id="dxProductGrid"></div>
                 </div>

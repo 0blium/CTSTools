@@ -100,7 +100,7 @@ public class DocumentRevision_Service
         try
         {
             _documentRevisionList = DocumentRevision_Repository.GetDocumentRevisionList(DocumentRevisionDTO, PagedResultDTO);
-            if (_documentRevisionList.Count() == 0 || !DocumentRevisionDTO.GetDocumentDTO && !DocumentRevisionDTO.GetStatusDTO)
+            if (_documentRevisionList.Count() == 0 || !DocumentRevisionDTO.GetDocumentDTO && !DocumentRevisionDTO.GetStatusDTO && DocumentRevisionDTO.GetFileDTO)
                 return _documentRevisionList;
 
             DocumentRevisionDTO = GetDocumentRevisionRelatedData(DocumentRevisionDTO, _documentRevisionList);
@@ -119,7 +119,7 @@ public class DocumentRevision_Service
         {
             DocumentRevisionDTO = DocumentRevision_Repository.GetDocumentByID((int)DocumentRevisionDTO.ID);
             // if DocumentRevision is empty, return list
-            if (DocumentRevisionDTO == null || !DocumentRevisionDTO.GetDocumentDTO && !DocumentRevisionDTO.GetStatusDTO)
+            if (DocumentRevisionDTO == null || !DocumentRevisionDTO.GetDocumentDTO && !DocumentRevisionDTO.GetStatusDTO && !DocumentRevisionDTO.GetFileDTO)
                 return DocumentRevisionDTO;
             DocumentRevisionDTO = GetDocumentRevisionRelatedData(DocumentRevisionDTO);
             DocumentRevisionDTO = DocumentRevisionMap.DictionaryToDTO(DocumentRevisionDTO);

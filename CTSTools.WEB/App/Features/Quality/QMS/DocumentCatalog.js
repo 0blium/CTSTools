@@ -16,7 +16,7 @@ import { GetDXProductDataSource } from './product/Product_Service.js'
 import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
 import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
-import { StatusType_Enum } from '../../advancedsettings/statusmanagement/Statuus/Status_Enum.js'
+import { Status_Enum } from '../../advancedsettings/statusmanagement/Status/Status_Enum.js'
 import { Facility_Enum } from '../../advancedsettings/locationmanagement/facility/Facility_Enum.js'
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -136,18 +136,14 @@ async function InitializeDocumentCatalogControls() {
                     alignment: 'center',
                     cellTemplate: function (container, options) {
                         console.log(options.data)
-                        const _link = `data:${options.data.FileDTO.MIMEtype};base64,${options.data.FileDTO.Data}`
-                        if (options.data.StatusID == ) {
-                            $('<a>' + options.data.LastRevision + '</a>')
+                        const _link = `data:${options.data.FileDTO.MIMEType};base64,${options.data.FileDTO.Data}`
+                        if (options.data.StatusID == Status_Enum.Released) {
+                            $('<a style="text-decoration:none;">' + options.data.LastRevision + '</a>')
                                 .attr('href', _link)
                                 .attr('download', options.data.FileDTO.FileName)
                                 .appendTo(container);  
                         }
-                        else {
-                            $('<label>' + options.data.LastRevision + '</label>')
-                                .appendTo(container); 
-                        }
-                       
+                                           
 
                     }
                 },

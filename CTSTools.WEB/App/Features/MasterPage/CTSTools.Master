@@ -133,11 +133,7 @@
                                             <div class="menu-text">Attributes</div>
                                         </a>
                                     </div>
-                                    <div id="SupplierCatalogComponentID" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
-                                        <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Suppliers</div>
-                                        </a>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -191,22 +187,12 @@
                                 <div class="menu-submenu">
                                     <div id="DocumentQMS" class="menu-item module-nav" data-tech="Document DocumentRevision" hidden>
                                         <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Document</div>
+                                            <div class="menu-text">Documents</div>
                                         </a>
                                     </div>
                                     <div id="DocumentTypeQMS" class="menu-item module-nav" data-tech="DocumentType" hidden>
                                         <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Document Type</div>
-                                        </a>
-                                    </div>
-                                    <div id="CustomerQMS" class="menu-item module-nav" data-tech="Customer" hidden>
-                                        <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Customer</div>
-                                        </a>
-                                    </div>
-                                    <div id="ProductQMS" class="menu-item module-nav" data-tech="Product" hidden>
-                                        <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Product</div>
+                                            <div class="menu-text">Types</div>
                                         </a>
                                     </div>
 
@@ -219,7 +205,7 @@
                             <div class="menu-icon">
                                 <i class="fas fa-sliders"></i>
                             </div>
-                            <div class="menu-text">Advanced Settings</div>
+                            <div class="menu-text">Settings</div>
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu ">
@@ -262,6 +248,21 @@
                             <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog UnitOfMeasure" hidden>
                                 <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Unit Of Measures</div>
+                                </a>
+                            </div>
+                            <div id="CustomerAdvancedSettings" class="menu-item module-nav" data-tech="Customer" hidden>
+                                <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Customers</div>
+                                </a>
+                            </div>
+                            <div id="ProductAdvancedSettings" class="menu-item module-nav" data-tech="Product" hidden>
+                                <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Products</div>
+                                </a>
+                            </div>
+                            <div id="SupplierCatalogAdvancedSettings" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
+                                <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Suppliers</div>
                                 </a>
                             </div>
 

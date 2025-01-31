@@ -5,14 +5,14 @@
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-end">
-                <li class="breadcrumb-item"><a href="javascript:;">Quality</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Document Type</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;"></a></li>
             </ol>
         </div>
         <!-- END breadcrumb -->
         <!-- BEGIN page-header -->
         <div class="row">
-            <h1 class="page-header">Customer</h1>
+            <h1 class="page-header">Customers</h1>
         </div>
         <!-- END page-header -->
     </div>

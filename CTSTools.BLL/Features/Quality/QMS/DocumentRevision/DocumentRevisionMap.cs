@@ -1,4 +1,6 @@
-﻿using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+﻿using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+using CTSTools.BLL.Features.Quality.QMS.Document;
 using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
@@ -7,6 +9,7 @@ using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +36,7 @@ public class DocumentRevisionMap
             _documentRevisionDTO.LastUpdate = (DocumentRevisionXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? DocumentRevisionXPO.LastUpdate : (DateTime?)null;
             _documentRevisionDTO.LastUpdateByID = (DocumentRevisionXPO.LastUpdateBy != null) ? DocumentRevisionXPO.LastUpdateBy.Oid : 0;
             _documentRevisionDTO.LastUpdateByName = (DocumentRevisionXPO.LastUpdateBy != null) ? DocumentRevisionXPO.LastUpdateBy.Name : "Unnassigned";
+          
         }
         catch (Exception ex)
         {
@@ -104,8 +108,9 @@ public class DocumentRevisionMap
                 _documentRevisionDTO.GetDocumentDTO = DocumentRevisionDTO.GetDocumentDTO;
                 _documentRevisionDTO.GetStatusDTO = DocumentRevisionDTO.GetStatusDTO;
                 _documentRevisionDTO.StatusDict = DocumentRevisionDTO.StatusDict;
+                _documentRevisionDTO.GetFileDTO = DocumentRevisionDTO.GetFileDTO;
                 var _newDocumentRevisionDTO = DictionaryToDTO(_documentRevisionDTO);
-                _documentRevisionList.Add(_documentRevisionDTO);
+                _documentRevisionList.Add(_newDocumentRevisionDTO);
             }
         }
         catch (Exception ex)
@@ -116,25 +121,30 @@ public class DocumentRevisionMap
     }
     public static DocumentRevisionDTO DictionaryToDTO(DocumentRevisionDTO DocumentRevisionDTO)
     {
-        var _documentRevisionDTO = new DocumentRevisionDTO();
         try
         {
-            if (DocumentRevisionDTO.GetDocumentDTO && DocumentRevisionDTO.DocumentDict.ContainsKey(_documentRevisionDTO.DocumentID))
+            if (DocumentRevisionDTO.GetDocumentDTO && DocumentRevisionDTO.DocumentDict.ContainsKey(DocumentRevisionDTO.DocumentID))
             {
-                _documentRevisionDTO.DocumentDTO = DocumentRevisionDTO.DocumentDict[_documentRevisionDTO.DocumentID];
-                _documentRevisionDTO.DocumentDict = null;
+                DocumentRevisionDTO.DocumentDTO = DocumentRevisionDTO.DocumentDict[DocumentRevisionDTO.DocumentID];
+                DocumentRevisionDTO.DocumentDict = null;
             }
-            if (DocumentRevisionDTO.GetStatusDTO && DocumentRevisionDTO.StatusDict.ContainsKey(_documentRevisionDTO.StatusID))
+            if (DocumentRevisionDTO.GetStatusDTO && DocumentRevisionDTO.StatusDict.ContainsKey(DocumentRevisionDTO.StatusID))
             {
-                _documentRevisionDTO.StatusDTO = DocumentRevisionDTO.StatusDict[_documentRevisionDTO.StatusID];
-                _documentRevisionDTO.StatusDict = null;
+                DocumentRevisionDTO.StatusDTO = DocumentRevisionDTO.StatusDict[DocumentRevisionDTO.StatusID];
+                DocumentRevisionDTO.StatusDict = null;
             }
+            if (DocumentRevisionDTO.GetFileDTO)
+            {
+                var _fileDTO = new FileDTO { URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{DocumentRevisionDTO.DocumentDTO.TypeName}\\{DocumentRevisionDTO.DocumentDTO.Number}\\{DocumentRevisionDTO.Revision}" };
+                DocumentRevisionDTO.FileDTO = File_Service.GetFile(_fileDTO);
+            }          
+
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _documentRevisionDTO;
+        return DocumentRevisionDTO;
     }
 
 
