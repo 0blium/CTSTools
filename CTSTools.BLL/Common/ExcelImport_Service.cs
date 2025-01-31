@@ -58,10 +58,12 @@ namespace CTSTools.BLL.Common
                 throw ex;
             }
         }
-        public static string CleanRowString(string input)
+        public static string CleanRowString(string RowContent)
         {
-            if (string.IsNullOrWhiteSpace(input)) return string.Empty;
-            return System.Text.RegularExpressions.Regex.Replace(input.Trim(), @"\s+", " ");
+            // null, empty, or contains only whitespace
+            if (string.IsNullOrWhiteSpace(RowContent)) 
+                return string.Empty;
+            return System.Text.RegularExpressions.Regex.Replace(RowContent.Trim(), @"\s+", " ");
         }
     }
 }

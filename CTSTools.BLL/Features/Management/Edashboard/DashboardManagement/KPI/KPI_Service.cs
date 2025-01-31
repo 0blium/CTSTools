@@ -1,17 +1,11 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Files;
-using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
-using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
-using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.GoalRange;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
-using DevExpress.XtraRichEdit.Model;
 using Elmah;
 using ExcelDataReader;
 using System;
@@ -19,8 +13,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -270,15 +262,15 @@ public class KPI_Service
                 DataTable _firstTable = _excelDataSet.Tables[0];
                 // Create a dictionary to store column indexes
                 var _columnHeaderMap = new Dictionary<string, int>();
-                var _rowHeaderDic = FileDTO.DirectoryArray.ToDictionary(header => header.ToUpper(), header => header.ToUpper());
+                var _columnHeaderNameList = FileDTO.DirectoryArray.Select(ColumnName => ColumnName.ToUpper()).ToList();
 
                 for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
                     string headerName = _firstTable.Rows[0][colIndex].ToString().ToUpper();
                     headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", "");
-                    if (_rowHeaderDic.TryGetValue(headerName, out string mappedHeader))
+                    if (_columnHeaderNameList.Contains(headerName))
                     {
-                        _columnHeaderMap[mappedHeader] = colIndex;
+                        _columnHeaderMap[headerName] = colIndex;
                     }
                 }
 
@@ -289,36 +281,79 @@ public class KPI_Service
                     var _kPIDTO = new KPIDTO();
                     bool _haveInfo = false;
 
-                    // Mapping Dictionary: Map columns to _kPIDTO properties
-                    var _propertyMap = new Dictionary<string, Action<string>>
+                    if (_columnHeaderMap.ContainsKey("NAME"))
                     {
-                        { "NAME", value => _kPIDTO.Name = value },
-                        { "DESCRIPTION", value => _kPIDTO.Description = value },
-                        { "UNITOFMEASURE", value => _kPIDTO.UnitOfMeasureName = value },
-                        { "VALUETYPE", value => _kPIDTO.ValueTypeName = value },
-                        { "OWNER", value => _kPIDTO.OwnerName = value },
-                        { "RESPONSIBLE", value => _kPIDTO.ResponsibleName = value },
-                        { "FACILITY", value => _kPIDTO.FacilityName = value },
-                        { "EQUIVALENCE", value => _kPIDTO.EquivalenceName = value },
-                        { "CATEGORY", value => _kPIDTO.DashboardCategoryName = value },
-                        { "OWNERDEPARTMENT", value => _kPIDTO.OwnerDepartmentName = value },
-                        { "RESPONSIBLEDEPARTMENT", value => _kPIDTO.ResponsibleDepartmentName = value }
-                    };
-
-                    // Iterate over the dictionary and assign values
-                    foreach (var entry in _propertyMap)
-                    {
-                        if (_columnHeaderMap.TryGetValue(entry.Key, out int index))
-                        {
-                            entry.Value(ExcelImport_Service.CleanRowString(row[index]?.ToString()));
-                            _haveInfo = true;
-                        }
+                        _kPIDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["NAME"]]?.ToString());
+                        _haveInfo = true;
                     }
 
-                    if (_columnHeaderMap.TryGetValue("GOAL", out int GoalIndex))
+                    if (_columnHeaderMap.ContainsKey("DESCRIPTION"))
                     {
-                        string goalValue = ExcelImport_Service.CleanRowString(row[GoalIndex]?.ToString());
-                        _kPIDTO.Goal = float.TryParse(goalValue, out float Goal) ? Goal : -1;
+                        _kPIDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("GOAL"))
+                    {
+                        string _rowValue = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["GOAL"]]?.ToString());
+                        if (float.TryParse(_rowValue, out float Goal))
+                            _kPIDTO.Goal = Goal;
+                        else
+                            _kPIDTO.Goal = -1;
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("UNITOFMEASURE"))
+                    {
+                        _kPIDTO.UnitOfMeasureName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["UNITOFMEASURE"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("VALUETYPE"))
+                    {
+                        _kPIDTO.ValueTypeName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["VALUETYPE"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("OWNER"))
+                    {
+                        _kPIDTO.OwnerName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNER"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("RESPONSIBLE"))
+                    {
+                        _kPIDTO.ResponsibleName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["RESPONSIBLE"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("FACILITY"))
+                    {
+                        _kPIDTO.FacilityName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["FACILITY"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("EQUIVALENCE"))
+                    {
+                        _kPIDTO.EquivalenceName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["EQUIVALENCE"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("CATEGORY"))
+                    {
+                        _kPIDTO.DashboardCategoryName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CATEGORY"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("OWNERDEPARTMENT"))
+                    {
+                        _kPIDTO.OwnerDepartmentName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNERDEPARTMENT"]]?.ToString());
+                        _haveInfo = true;
+                    }
+
+                    if (_columnHeaderMap.ContainsKey("RESPONSIBLEDEPARTMENT"))
+                    {
+                        _kPIDTO.ResponsibleDepartmentName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["RESPONSIBLEDEPARTMENT"]]?.ToString());
                         _haveInfo = true;
                     }
 

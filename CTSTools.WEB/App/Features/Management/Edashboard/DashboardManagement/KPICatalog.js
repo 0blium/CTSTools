@@ -116,10 +116,11 @@ async function InitializeKPICatalogControls() {
                 var reader = new FileReader();
                 reader.onload = async function (readerEvent) {
                     var base64File = readerEvent.target.result;
+                    var _propetieNameList = Object.keys(GetKPIDTO());
                     _fileDTO = {
                         FileName: filename,
                         Data: base64File,
-                        DirectoryArray: Object.keys(GetKPIDTO())
+                        DirectoryArray: _propetieNameList
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveKPI(_fileDTO);
@@ -392,7 +393,6 @@ function ShowKPIValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        debugger;
         const hasGoodLines = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const hasBadLines = _validationResultDTO.Data.BadRowLinesList.length > 0;
         if (hasGoodLines && !hasBadLines) {

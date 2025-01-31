@@ -389,9 +389,11 @@ public class KPI_Validator
     }
     public static ValidationResultDTO ExcelKPIInformation_Validation(ExcelRowDTO ExcelRowDTO)
     {
-        var _excelRowDTO = new ExcelRowDTO();
-        _excelRowDTO.GoodRowLinesList = new List<KPIDTO>();
-        _excelRowDTO.BadRowLinesList = new List<KPIDTO>();
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<KPIDTO>(),
+            BadRowLinesList = new List<KPIDTO>()
+        };
         var _validationResultDTO = new ValidationResultDTO
         {
             Description = "The file has the correct format."
@@ -399,8 +401,14 @@ public class KPI_Validator
 
         try
         {
-            var _kPIDTOList = ExcelRowDTO.GoodRowLinesList as List<KPIDTO> ?? new List<KPIDTO>();
+            var _kPIDTOList = (List<KPIDTO>)ExcelRowDTO.GoodRowLinesList;
             _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+
+            if (_kPIDTOList.Count <= 0) 
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
 
             // We normalize names to lowercase only once
             var _unitOfMeasureDTO = new UnitOfMeasureDTO { UnitOfMeasureNameArray = _kPIDTOList.Select(k => k.UnitOfMeasureName?.ToLower()).Distinct().ToArray() };
@@ -434,31 +442,31 @@ public class KPI_Validator
                 bool isSuccess = true;
 
                 // We search the normalized dictionaries without using `ToLower()` on each iteration
-                if (_unitOfMeasureDict.TryGetValue(_kPIDTO.UnitOfMeasureName?.ToLower() ?? "", out int? UnitOfMeasureID)) _kPIDTO.UnitOfMeasureID = UnitOfMeasureID;
+                if (_unitOfMeasureDict.TryGetValue(_kPIDTO.UnitOfMeasureName.ToLower(), out int? UnitOfMeasureID)) _kPIDTO.UnitOfMeasureID = UnitOfMeasureID;
                 else { _kPIDTO.UnitOfMeasureName = "Error: The Unit Of Measure does not exist"; isSuccess = false; }
 
-                if (_valueTypeDict.TryGetValue(_kPIDTO.ValueTypeName?.ToLower() ?? "", out int? ValueTypeID)) _kPIDTO.ValueTypeID = ValueTypeID;
+                if (_valueTypeDict.TryGetValue(_kPIDTO.ValueTypeName.ToLower(), out int? ValueTypeID)) _kPIDTO.ValueTypeID = ValueTypeID;
                 else { _kPIDTO.ValueTypeName = "Error: The Value Type does not exist"; isSuccess = false; }
 
-                if (_userDict.TryGetValue(_kPIDTO.OwnerName?.ToLower() ?? "", out int? OwnerID)) _kPIDTO.OwnerID = OwnerID;
+                if (_userDict.TryGetValue(_kPIDTO.OwnerName.ToLower(), out int? OwnerID)) _kPIDTO.OwnerID = OwnerID;
                 else { _kPIDTO.OwnerName = "Error: The Owner does not exist"; isSuccess = false; }
 
-                if (_userDict.TryGetValue(_kPIDTO.ResponsibleName?.ToLower() ?? "", out int? ResponsibleID)) _kPIDTO.ResponsibleID = ResponsibleID;
+                if (_userDict.TryGetValue(_kPIDTO.ResponsibleName.ToLower(), out int? ResponsibleID)) _kPIDTO.ResponsibleID = ResponsibleID;
                 else { _kPIDTO.ResponsibleName = "Error: The Responsible does not exist"; isSuccess = false; }
 
-                if (_facilityDict.TryGetValue(_kPIDTO.FacilityName?.ToLower() ?? "", out int? FacilityID)) _kPIDTO.FacilityID = FacilityID;
+                if (_facilityDict.TryGetValue(_kPIDTO.FacilityName.ToLower(), out int? FacilityID)) _kPIDTO.FacilityID = FacilityID;
                 else { _kPIDTO.FacilityName = "Error: The Facility does not exist"; isSuccess = false; }
 
-                if (_equivalenceDict.TryGetValue(_kPIDTO.EquivalenceName?.ToLower() ?? "", out int? EquivalenceID)) _kPIDTO.EquivalenceID = EquivalenceID;
+                if (_equivalenceDict.TryGetValue(_kPIDTO.EquivalenceName.ToLower(), out int? EquivalenceID)) _kPIDTO.EquivalenceID = EquivalenceID;
                 else { _kPIDTO.EquivalenceName = "Error: The Equivalence does not exist"; isSuccess = false; }
 
-                if (_categoryDict.TryGetValue(_kPIDTO.DashboardCategoryName?.ToLower() ?? "", out int? DashboardCategoryID)) _kPIDTO.DashboardCategoryID = DashboardCategoryID;
+                if (_categoryDict.TryGetValue(_kPIDTO.DashboardCategoryName.ToLower(), out int? DashboardCategoryID)) _kPIDTO.DashboardCategoryID = DashboardCategoryID;
                 else { _kPIDTO.DashboardCategoryName = "Error: The Category does not exist"; isSuccess = false; }
 
-                if (_departmentDict.TryGetValue(_kPIDTO.OwnerDepartmentName?.ToLower() ?? "", out int? OwnerDepartmentID)) _kPIDTO.OwnerDepartmentID = OwnerDepartmentID;
+                if (_departmentDict.TryGetValue(_kPIDTO.OwnerDepartmentName.ToLower(), out int? OwnerDepartmentID)) _kPIDTO.OwnerDepartmentID = OwnerDepartmentID;
                 else { _kPIDTO.OwnerDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
 
-                if (_departmentDict.TryGetValue(_kPIDTO.ResponsibleDepartmentName?.ToLower() ?? "", out int? ResponsibleDepartmentID)) _kPIDTO.ResponsibleDepartmentID = ResponsibleDepartmentID;
+                if (_departmentDict.TryGetValue(_kPIDTO.ResponsibleDepartmentName.ToLower(), out int? ResponsibleDepartmentID)) _kPIDTO.ResponsibleDepartmentID = ResponsibleDepartmentID;
                 else { _kPIDTO.ResponsibleDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
 
                 if (isSuccess)
