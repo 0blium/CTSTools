@@ -229,6 +229,7 @@
     <Content Include="App\Common\Components\dxLoadPanel.js" />
     <Content Include="App\Common\Utils\APIRequest.js" />
     <Content Include="App\Common\Utils\Environment.js" />
+    <Content Include="App\Common\Utils\GetFileDTO.js" />
     <Content Include="App\Common\Utils\GetURLParameter.js" />
     <Content Include="App\Common\Utils\Month_Enum.js" />
     <Content Include="App\Common\Utils\Response.js" />
@@ -237,6 +238,7 @@
     <Content Include="App\Common\Utils\SidebarNavigationShowItems.js" />
     <Content Include="App\Common\Utils\ValidationResultDTO.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Department\Department_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Enum.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Service.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.js" />
@@ -336,6 +338,9 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Service.js" />
     <Content Include="App\Features\MasterPage\CTSTools.Master.css" />
     <Content Include="App\Features\MasterPage\CTSToolsMaster.js" />
+    <Content Include="App\Features\Quality\QMS\CustomerCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\CustomerCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\Customer\Customer_Service.js" />
     <Content Include="App\Features\Quality\QMS\DocumentCatalog.aspx" />
     <Content Include="App\Features\Quality\QMS\DocumentCatalog.js" />
     <Content Include="App\Features\Quality\QMS\DocumentRevisionCatalog.aspx" />
@@ -345,6 +350,9 @@
     <Content Include="App\Features\Quality\QMS\DocumentTypeCatalog.js" />
     <Content Include="App\Features\Quality\QMS\DocumentType\DocumentType_Service.js" />
     <Content Include="App\Features\Quality\QMS\Document\Document_Service.js" />
+    <Content Include="App\Features\Quality\QMS\ProductCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\ProductCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\Product\Product_Service.js" />
     <Content Include="Content\dx-diagram.css" />
     <Content Include="Content\dx-diagram.min.css" />
     <Content Include="Content\dx-gantt.css" />
@@ -696,6 +704,14 @@
     <Compile Include="App\Features\MasterPage\CTSTools.Master.designer.cs">
       <DependentUpon>CTSTools.Master</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Quality\QMS\CustomerCatalog.aspx.cs">
+      <DependentUpon>CustomerCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\CustomerCatalog.aspx.designer.cs">
+      <DependentUpon>CustomerCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\Customer\CustomerController.cs" />
     <Compile Include="App\Features\Quality\QMS\DocumentCatalog.aspx.cs">
       <DependentUpon>DocumentCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -720,6 +736,14 @@
     </Compile>
     <Compile Include="App\Features\Quality\QMS\DocumentType\DocumentTypeController.cs" />
     <Compile Include="App\Features\Quality\QMS\Document\DocumentController.cs" />
+    <Compile Include="App\Features\Quality\QMS\ProductCatalog.aspx.cs">
+      <DependentUpon>ProductCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\ProductCatalog.aspx.designer.cs">
+      <DependentUpon>ProductCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\Product\Product_Controller.cs" />
     <Compile Include="App_Start\Auth_Helper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -790,7 +814,10 @@
       <Name>CTSTools.BLL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Product_\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

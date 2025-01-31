@@ -11,7 +11,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+<<<<<<<< HEAD:CTSTools.BLL/Common/ExcelImport_Service.cs
 namespace CTSTools.BLL.Common
+========
+namespace CTSTools.BLL.Common.Excel
+>>>>>>>> origin/Edashboard:CTSTools.BLL/Common/Excel/ExcelDataImport_Service.cs
 {
     public class ExcelImport_Service
     {

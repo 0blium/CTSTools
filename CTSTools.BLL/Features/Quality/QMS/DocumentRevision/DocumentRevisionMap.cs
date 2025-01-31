@@ -22,6 +22,7 @@ public class DocumentRevisionMap
         {
             _documentRevisionDTO.ID = DocumentRevisionXPO.Oid;
             _documentRevisionDTO.Revision = DocumentRevisionXPO.Revision;
+            _documentRevisionDTO.ChangeReason = DocumentRevisionXPO.ChangeReason;
             _documentRevisionDTO.DocumentID = (DocumentRevisionXPO.Document != null) ? DocumentRevisionXPO.Document.Oid : 0;
             _documentRevisionDTO.DocumentName = (DocumentRevisionXPO.Document != null) ? DocumentRevisionXPO.Document.Name : "Unnassigned";
             _documentRevisionDTO.StatusID = (DocumentRevisionXPO.Status != null) ? DocumentRevisionXPO.Status.Oid : 0;
@@ -39,7 +40,6 @@ public class DocumentRevisionMap
         }
         return _documentRevisionDTO;
     }
-
     public static DocumentRevisionXPO DTOtoXPO(DocumentRevisionDTO DocumentRevisionDTO, UnitOfWork UnitOfWork)
     {
         DocumentRevisionXPO _documentRevisionXPO;
@@ -47,6 +47,7 @@ public class DocumentRevisionMap
         {
             _documentRevisionXPO = DocumentRevisionDTO.ID == null || DocumentRevisionDTO.ID == 0 ? new DocumentRevisionXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DocumentRevisionXPO>(DocumentRevisionDTO.ID);
             _documentRevisionXPO.Revision = _documentRevisionXPO.Revision == DocumentRevisionDTO.Revision ? _documentRevisionXPO.Revision : DocumentRevisionDTO.Revision;
+            _documentRevisionXPO.ChangeReason = _documentRevisionXPO.ChangeReason == DocumentRevisionDTO.ChangeReason ? _documentRevisionXPO.ChangeReason : DocumentRevisionDTO.ChangeReason;
             _documentRevisionXPO.Document = (_documentRevisionXPO.Document != null && _documentRevisionXPO.Document.Oid == DocumentRevisionDTO.DocumentID) ? _documentRevisionXPO.Document : UnitOfWork.GetObjectByKey<DocumentXPO>(DocumentRevisionDTO.DocumentID);
             _documentRevisionXPO.Status = (_documentRevisionXPO.Status != null && _documentRevisionXPO.Status.Oid == DocumentRevisionDTO.StatusID) ? _documentRevisionXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DocumentRevisionDTO.StatusID);
             _documentRevisionXPO.AddedDate = _documentRevisionXPO.AddedDate != null ? _documentRevisionXPO.AddedDate : DocumentRevisionDTO.AddedDate;
@@ -92,4 +93,49 @@ public class DocumentRevisionMap
         }
         return _documentRevisionXPOList;
     }
+    public static List<DocumentRevisionDTO> DictionariesToList(DocumentRevisionDTO DocumentRevisionDTO, List<DocumentRevisionDTO> DocumentRevisionList)
+    {
+        var _documentRevisionList = new List<DocumentRevisionDTO>();
+        try
+        {
+            foreach (var _documentRevisionDTO in DocumentRevisionList)
+            {
+                _documentRevisionDTO.DocumentDict = DocumentRevisionDTO.DocumentDict;
+                _documentRevisionDTO.GetDocumentDTO = DocumentRevisionDTO.GetDocumentDTO;
+                _documentRevisionDTO.GetStatusDTO = DocumentRevisionDTO.GetStatusDTO;
+                _documentRevisionDTO.StatusDict = DocumentRevisionDTO.StatusDict;
+                var _newDocumentRevisionDTO = DictionaryToDTO(_documentRevisionDTO);
+                _documentRevisionList.Add(_documentRevisionDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentRevisionList;
+    }
+    public static DocumentRevisionDTO DictionaryToDTO(DocumentRevisionDTO DocumentRevisionDTO)
+    {
+        var _documentRevisionDTO = new DocumentRevisionDTO();
+        try
+        {
+            if (DocumentRevisionDTO.GetDocumentDTO && DocumentRevisionDTO.DocumentDict.ContainsKey(_documentRevisionDTO.DocumentID))
+            {
+                _documentRevisionDTO.DocumentDTO = DocumentRevisionDTO.DocumentDict[_documentRevisionDTO.DocumentID];
+                _documentRevisionDTO.DocumentDict = null;
+            }
+            if (DocumentRevisionDTO.GetStatusDTO && DocumentRevisionDTO.StatusDict.ContainsKey(_documentRevisionDTO.StatusID))
+            {
+                _documentRevisionDTO.StatusDTO = DocumentRevisionDTO.StatusDict[_documentRevisionDTO.StatusID];
+                _documentRevisionDTO.StatusDict = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentRevisionDTO;
+    }
+
+
 }

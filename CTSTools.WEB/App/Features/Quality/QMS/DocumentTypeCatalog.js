@@ -1,6 +1,16 @@
-﻿import { GetDXDocumentTypeDataSource, CreateDocumentType, UpdateDocumentType, DeleteDocumentType } from './DocumentType/DocumentType_Service.js'
-import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js';
-import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js';
+﻿import {
+    GetDXDocumentTypeDataSource,
+    CreateDocumentType,
+    UpdateDocumentType,
+    DeleteDocumentType
+} from './DocumentType/DocumentType_Service.js'
+import {
+    dxLoadPanel
+} from '../../../Common/Components/dxLoadPanel.js';
+import {
+    HostResponse,
+    ClearErrorFeedback
+} from '../../../Common/Utils/Response.js';
 
 //#region DocumentType Behavior Functions
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,10 +21,15 @@ async function InitializeDocumentTypeCatalogControls() {
         value: true
     });
     $("#dxDocumentTypeNameTextBox").dxTextBox({
-        placeholder: 'Type name...'
+        placeholder: 'Type a name...'
+    });
+
+
+    $("#dxDocumentTypeFolderNameTextBox").dxTextBox({
+        placeholder: 'Type a folder name...'
     });
     $("#dxDocumentTypeDescription").dxTextArea({
-        placeholder: 'Type description...'
+        placeholder: 'Type a description...'
     });
     $("#dxDocumentTypeGrid").dxDataGrid({
         dataSource: await GetDXDocumentTypeDataSource_Global({ IsActive: true }),
@@ -107,6 +122,7 @@ async function InitializeDocumentTypeCatalogControls() {
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Name", dataField: "Name" },
+                { caption: "Folder Name", dataField: "FolderName" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
@@ -119,11 +135,12 @@ async function InitializeDocumentTypeCatalogControls() {
     document.getElementById("btnCloseDocumentTypeModal").addEventListener("click", ClearDocumentTypeFields);
     DocumentTypeActionButtons("Save");
 }
-async function PopulateDocumentTypeFields(data) {
-    $("#hiddenDocumentTypeID").val(data.ID);
-    $("#dxDocumentTypeNameTextBox").dxTextBox("instance").option("value", data.Name);
-    $("#dxDocumentTypeDescription").dxTextArea("instance").option("value", data.Description);
-    $("#dxDocumentTypeIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
+async function PopulateDocumentTypeFields(DocumentTypeDTO) {
+    $("#hiddenDocumentTypeID").val(DocumentTypeDTO.ID);
+    $("#dxDocumentTypeNameTextBox").dxTextBox("instance").option("value", DocumentTypeDTO.Name);
+    $("#dxDocumentTypeFolderNameTextBox").dxTextBox("instance").option("value", DocumentTypeDTO.FolderName);
+    $("#dxDocumentTypeDescription").dxTextArea("instance").option("value", DocumentTypeDTO.Description);
+    $("#dxDocumentTypeIsActiveCheckBox").dxCheckBox("instance").option("value", DocumentTypeDTO.IsActive);
 }
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
@@ -142,7 +159,7 @@ function DocumentTypeActionButtons(Action) {
     document.getElementById('DocumentTypeModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewDocumentTypeBtn").addEventListener("click", ClearDocumentTypeFields);
-        document.getElementById('DocumentTypeModalTitle').innerText = 'Add DocumentType'
+        document.getElementById('DocumentTypeModalTitle').innerText = 'Add Document Type'
         document.getElementById("DocumentTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateDocumentTypeButton" type="button">Save</button>' +
@@ -153,7 +170,7 @@ function DocumentTypeActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('DocumentTypeModalTitle').innerText = 'Update DocumentType'
+        document.getElementById('DocumentTypeModalTitle').innerText = 'Update Document Type'
         document.getElementById("DocumentTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateDocumentTypeButton" type="button">Update</button>' +
@@ -168,6 +185,7 @@ function ClearDocumentTypeFields() {
     DocumentTypeActionButtons("Save");
     $("#hiddenDocumentTypeID").val("");
     $("#dxDocumentTypeNameTextBox").dxTextBox("instance").option("value", '');
+    $("#dxDocumentTypeFolderNameTextBox").dxTextBox("instance").option("value", '');
     $("#dxDocumentTypeDescription").dxTextArea("instance").option("value", '');
     $("#dxDocumentTypeIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     let keys = $("#dxDocumentTypeGrid").dxDataGrid("instance").getSelectedRowKeys();
@@ -178,6 +196,7 @@ function GetDocumentTypeDTO() {
     let _documentTypeDTO = {
         ID: $("#hiddenDocumentTypeID").val(),
         Name: $("#dxDocumentTypeNameTextBox").dxTextBox("instance").option("value"),
+        FolderName: $("#dxDocumentTypeFolderNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxDocumentTypeDescription").dxTextArea("instance").option("value"),
         IsActive: $("#dxDocumentTypeIsActiveCheckBox").dxCheckBox("instance").option("value")
     }

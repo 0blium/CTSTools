@@ -13,7 +13,8 @@ public class Status_Enum
     {
        
         Released = 5,
-        Obsolete = 6
+        Obsolete = 6,
+        New = 7
     }
 
 }

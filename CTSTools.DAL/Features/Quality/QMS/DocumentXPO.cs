@@ -29,6 +29,12 @@ public class DocumentXPO : XPObject
         get { return fNumber; }
         set { SetPropertyValue<string>(nameof(Number), ref fNumber, value); }
     }
+    string fLastRevision;
+    public string LastRevision
+    {
+        get { return fLastRevision; }
+        set { SetPropertyValue<string>(nameof(LastRevision), ref fLastRevision, value); }
+    }
     string fDescription;
     public string Description
     {
@@ -52,6 +58,18 @@ public class DocumentXPO : XPObject
     {
         get { return fType; }
         set { SetPropertyValue<DocumentTypeXPO>(nameof(Type), ref fType, value); }
+    }
+    CustomerXPO fCustomer;
+    public CustomerXPO Customer
+    {
+        get { return fCustomer; }
+        set { SetPropertyValue<CustomerXPO>(nameof(Customer), ref fCustomer, value); }
+    }
+    ProductXPO fProduct;
+    public ProductXPO Product
+    {
+        get { return fProduct; }
+        set { SetPropertyValue<ProductXPO>(nameof(Product), ref fProduct, value); }
     }
     StatusXPO fStatus;
     public StatusXPO Status

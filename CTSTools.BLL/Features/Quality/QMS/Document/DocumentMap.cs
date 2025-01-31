@@ -1,9 +1,13 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+﻿using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Quality.QMS.DocumentType;
+using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Xpo;
 using System;
+using System.Configuration;
+using System.Drawing.Imaging;
 
 namespace CTSTools.BLL.Features.Quality.QMS.Document;
 
@@ -17,6 +21,7 @@ public class DocumentMap
             _documentDTO.ID = DocumentXPO.Oid;
             _documentDTO.Name = DocumentXPO.Name;
             _documentDTO.Number = DocumentXPO.Number;
+            _documentDTO.LastRevision = DocumentXPO.LastRevision;
             _documentDTO.Description = DocumentXPO.Description;
             _documentDTO.OwnerID = (DocumentXPO.Owner != null) ? DocumentXPO.Owner.Oid : 0;
             _documentDTO.OwnerName = (DocumentXPO.Owner != null) ? DocumentXPO.Owner.Name : "Unnassigned";
@@ -24,6 +29,10 @@ public class DocumentMap
             _documentDTO.DepartmentName = (DocumentXPO.Department != null) ? DocumentXPO.Department.Name : "Unnassigned";
             _documentDTO.TypeID = (DocumentXPO.Type != null) ? DocumentXPO.Type.Oid : 0;
             _documentDTO.TypeName = (DocumentXPO.Type != null) ? DocumentXPO.Type.Name : "Unnassigned";
+            _documentDTO.CustomerID = (DocumentXPO.Customer != null) ? DocumentXPO.Customer.Oid : 0;
+            _documentDTO.CustomerName = (DocumentXPO.Customer != null) ? DocumentXPO.Customer.Name : "Unnassigned";
+            _documentDTO.ProductID = (DocumentXPO.Product != null) ? DocumentXPO.Product.Oid : 0;
+            _documentDTO.ProductName = (DocumentXPO.Product != null) ? DocumentXPO.Product.Name : "Unnassigned";
             _documentDTO.StatusID = (DocumentXPO.Status != null) ? DocumentXPO.Status.Oid : 0;
             _documentDTO.StatusName = (DocumentXPO.Status != null) ? DocumentXPO.Status.Name : "Unnassigned";
             _documentDTO.AddedDate = (DocumentXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? DocumentXPO.AddedDate : (DateTime?)null;
@@ -32,6 +41,10 @@ public class DocumentMap
             _documentDTO.LastUpdate = (DocumentXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? DocumentXPO.LastUpdate : (DateTime?)null;
             _documentDTO.LastUpdateByID = (DocumentXPO.LastUpdateBy != null) ? DocumentXPO.LastUpdateBy.Oid : 0;
             _documentDTO.LastUpdateByName = (DocumentXPO.LastUpdateBy != null) ? DocumentXPO.LastUpdateBy.Name : "Unnassigned";
+            var _fileDTO = new FileDTO { URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentDTO.TypeName}\\{_documentDTO.Number}\\{_documentDTO.LastRevision}" };
+            _documentDTO.FileDTO = File_Service.GetFile(_fileDTO);
+
+
         }
         catch (Exception ex)
         {
@@ -48,10 +61,13 @@ public class DocumentMap
             _documentXPO = DocumentDTO.ID == null || DocumentDTO.ID == 0 ? new DocumentXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DocumentXPO>(DocumentDTO.ID);
             _documentXPO.Name = _documentXPO.Name == DocumentDTO.Name ? _documentXPO.Name : DocumentDTO.Name;
             _documentXPO.Number = _documentXPO.Number == DocumentDTO.Number ? _documentXPO.Number : DocumentDTO.Number;
+            _documentXPO.LastRevision = _documentXPO.LastRevision == DocumentDTO.LastRevision ? _documentXPO.LastRevision : DocumentDTO.LastRevision;
             _documentXPO.Description = _documentXPO.Description == DocumentDTO.Description ? _documentXPO.Description : DocumentDTO.Description;
             _documentXPO.Owner = (_documentXPO.Owner != null && _documentXPO.Owner.Oid == DocumentDTO.OwnerID) ? _documentXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(DocumentDTO.OwnerID);
             _documentXPO.Department = (_documentXPO.Department != null && _documentXPO.Department.Oid == DocumentDTO.DepartmentID) ? _documentXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(DocumentDTO.DepartmentID);
             _documentXPO.Type = (_documentXPO.Type != null && _documentXPO.Type.Oid == DocumentDTO.TypeID) ? _documentXPO.Type : UnitOfWork.GetObjectByKey<DocumentTypeXPO>(DocumentDTO.TypeID);
+            _documentXPO.Customer = (_documentXPO.Customer != null && _documentXPO.Customer.Oid == DocumentDTO.CustomerID) ? _documentXPO.Customer : UnitOfWork.GetObjectByKey<CustomerXPO>(DocumentDTO.CustomerID);
+            _documentXPO.Product = (_documentXPO.Product != null && _documentXPO.Product.Oid == DocumentDTO.ProductID) ? _documentXPO.Product : UnitOfWork.GetObjectByKey<ProductXPO>(DocumentDTO.ProductID);
             _documentXPO.Status = (_documentXPO.Status != null && _documentXPO.Status.Oid == DocumentDTO.StatusID) ? _documentXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DocumentDTO.StatusID);
             _documentXPO.AddedDate = _documentXPO.AddedDate != null ? _documentXPO.AddedDate : DocumentDTO.AddedDate;
             _documentXPO.AddedBy = (_documentXPO.AddedBy != null) ? _documentXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DocumentDTO.AddedByID);

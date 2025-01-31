@@ -20,6 +20,7 @@ public class DocumentTypeMap
             _documentTypeDTO.ID = DocumentTypeXPO.Oid;
             _documentTypeDTO.Name = DocumentTypeXPO.Name;
             _documentTypeDTO.Description = DocumentTypeXPO.Description;
+            _documentTypeDTO.FolderName = DocumentTypeXPO.FolderName;
             _documentTypeDTO.AddedDate = (DocumentTypeXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? DocumentTypeXPO.AddedDate : (DateTime?)null;
             _documentTypeDTO.AddedByID = (DocumentTypeXPO.AddedBy != null) ? DocumentTypeXPO.AddedBy.Oid : 0;
             _documentTypeDTO.AddedByName = (DocumentTypeXPO.AddedBy != null) ? DocumentTypeXPO.AddedBy.Name : "Unnassigned";
@@ -44,6 +45,7 @@ public class DocumentTypeMap
             _documentTypeXPO = DocumentTypeDTO.ID == null || DocumentTypeDTO.ID == 0 ? new DocumentTypeXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<DocumentTypeXPO>(DocumentTypeDTO.ID);
             _documentTypeXPO.Name = _documentTypeXPO.Name == DocumentTypeDTO.Name ? _documentTypeXPO.Name : DocumentTypeDTO.Name;
             _documentTypeXPO.Description = _documentTypeXPO.Description == DocumentTypeDTO.Description ? _documentTypeXPO.Description : DocumentTypeDTO.Description;
+            _documentTypeXPO.FolderName = _documentTypeXPO.FolderName == DocumentTypeDTO.FolderName ? _documentTypeXPO.FolderName : DocumentTypeDTO.FolderName;
             _documentTypeXPO.AddedDate = _documentTypeXPO.AddedDate != null ? _documentTypeXPO.AddedDate : DocumentTypeDTO.AddedDate;
             _documentTypeXPO.AddedBy = (_documentTypeXPO.AddedBy != null) ? _documentTypeXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DocumentTypeDTO.AddedByID);
             _documentTypeXPO.LastUpdate = _documentTypeXPO.LastUpdate == DocumentTypeDTO.LastUpdate ? _documentTypeXPO.LastUpdate : DocumentTypeDTO.LastUpdate;

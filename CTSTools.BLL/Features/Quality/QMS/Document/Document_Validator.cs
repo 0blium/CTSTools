@@ -49,6 +49,33 @@ public class Document_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
+            if (DocumentDTO.CustomerID == null || DocumentDTO.CustomerID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Customer Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.ProductID == null || DocumentDTO.ProductID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Product Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Owner Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             
             if (DocumentDTO.AddedByID == null || DocumentDTO.AddedByID == 0)
             {
@@ -109,6 +136,15 @@ public class Document_Validator
                     Data = $"{nameof(Document)}{nameof(DocumentDTO.Name)}",
                 });
             }
+            if (DocumentDTO.StatusID == null || DocumentDTO.StatusID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
             if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -133,6 +169,33 @@ public class Document_Validator
                 {
                     Result = false,
                     Message = "Type Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.CustomerID == null || DocumentDTO.CustomerID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Customer Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.ProductID == null || DocumentDTO.ProductID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Product Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Owner Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }

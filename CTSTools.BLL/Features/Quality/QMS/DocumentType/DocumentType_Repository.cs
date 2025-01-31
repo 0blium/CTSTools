@@ -9,6 +9,8 @@ using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
 using Elmah;
 using CTSTools.DAL.Features.Quality.QMS;
+using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 
 namespace CTSTools.BLL.Features.Quality.QMS.DocumentType;
 
@@ -54,6 +56,24 @@ public class DocumentType_Repository
         }
         return _documentTypeList;
     }
+    public static DocumentTypeDTO GetDocumentTypeByID(int DocumentTypeID)
+    {
+        var _documentTypeDTO = new DocumentTypeDTO();
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _documentTypeXPO = _unit.GetObjectByKey<DocumentTypeXPO>(DocumentTypeID);
+            if (_documentTypeXPO != null)
+                _documentTypeDTO = DocumentTypeMap.XPOToDTO(_documentTypeXPO);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentTypeDTO;
+    }
+
     public static int GetDocumentTypeCount(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
     {
         try

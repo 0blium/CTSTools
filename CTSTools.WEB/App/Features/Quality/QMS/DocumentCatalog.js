@@ -1,19 +1,33 @@
-﻿import { GetDXDocumentDataSource, CreateDocument, UpdateDocument, DeleteDocument } from './Document/Document_Service.js'
-import { HostResponse, ClearErrorFeedback } from '../../../common/utils/response.js'
+﻿import {
+    GetDXDocumentDataSource,
+    CreateDocument,
+    UpdateDocument,
+    DeleteDocument
+} from './Document/Document_Service.js'
+import {
+    HostResponse,
+    ClearErrorFeedback
+} from '../../../common/utils/response.js'
 import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
 import { GetDXDepartmentDataSource } from '../../advancedsettings/locationmanagement/department/department_service.js'
-import { GetDXFacilityDataSource } from '../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
 import { GetDXDocumentTypeDataSource } from './documenttype/documenttype_service.js'
+import { GetDXCustomerDataSource } from './customer/customer_service.js'
+import { GetDXProductDataSource } from './product/Product_Service.js'
 import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
+import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
+import { StatusType_Enum } from '../../advancedsettings/statusmanagement/Statuus/Status_Enum.js'
+import { Facility_Enum } from '../../advancedsettings/locationmanagement/facility/Facility_Enum.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDocumentCatalogControls();
 });
 
 async function InitializeDocumentCatalogControls() {
+    const now = new Date();
 
     $("#dxDocumentGrid").dxDataGrid({
-        dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
+        dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetCustomerDTO: true, GetProductDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -77,7 +91,7 @@ async function InitializeDocumentCatalogControls() {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "View", icon: "fa-regular fa-eye text-primary", value: 1 },
+                                    { text: "Log", icon: "fa regular fa-code-branch text-primary", value: 1 },
                                     { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 3 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
                                 ]
@@ -106,21 +120,131 @@ async function InitializeDocumentCatalogControls() {
                         });
                     }
                 },
-                { caption: "ID", dataField: "ID", visible: false, width: "auto" },
-                { caption: "Number", dataField: "Number" },
-                { caption: "Name", dataField: "Name" },
-                { caption: "Status", dataField: "StatusName" },
+                {
+                    caption: "ID",
+                    dataField: "ID",
+                    visible: false,
+                    width: "auto"
+                },
+                {
+                    caption: "Number",
+                    dataField: "Number"
+                },
+                {
+                    caption: "Revision",
+                    dataField: "LastRevision",
+                    alignment: 'center',
+                    cellTemplate: function (container, options) {
+                        console.log(options.data)
+                        const _link = `data:${options.data.FileDTO.MIMEtype};base64,${options.data.FileDTO.Data}`
+                        if (options.data.StatusID == ) {
+                            $('<a>' + options.data.LastRevision + '</a>')
+                                .attr('href', _link)
+                                .attr('download', options.data.FileDTO.FileName)
+                                .appendTo(container);  
+                        }
+                        else {
+                            $('<label>' + options.data.LastRevision + '</label>')
+                                .appendTo(container); 
+                        }
+                       
+
+                    }
+                },
+                {
+                    caption: "Name",
+                    dataField: "Name"
+                },
+                {
+                    caption: "Status",
+                    dataField: "StatusName",
+                    filterOperations: ["contains", "="],
+                    selectedFilterOperation: "contains",
+                    filterValue: "Released"  },
                 { caption: "Revision", dataField: "Revision" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Owner", dataField: "OwnerName" },
                 { caption: "Department", dataField: "DepartmentName" },
                 { caption: "Type", dataField: "TypeName" },
+                { caption: "Customer", dataField: "CustomerName" },
+                { caption: "Product", dataField: "ProductName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
             ],
+    });
+    $("#dxAddedStartDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+        value: new Date(now.getFullYear(), now.getMonth(), 1),
+        onValueChanged: function (e) {
+            $("#dxAddedEndDateDateBox").dxDateBox("instance").option("min", e.value);
+        }
+    });
+    $("#dxAddedEndDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+
+        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+        onValueChanged: function (e) {
+            $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
+        }
+    });
+    $("#dxLastUpdateStartDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+        value: new Date(now.getFullYear(), now.getMonth(), 1),
+        onValueChanged: function (e) {
+            $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
+        }
+    });
+    $("#dxLastUpdateEndDateDateBox").dxDateBox({
+        type: "date",
+        format: "MM/dd/yyyy",
+
+        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+        onValueChanged: function (e) {
+            $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
+        }
+    });
+    $("#dxFilterStatusTagBox").dxTagBox({
+
+        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
+        displayExpr: "StatusName",
+        valueExpr: "StatusID",
+        searchEnabled: true,
+        value: [5],
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
+    });
+    $("#dxFilterDepartmentTagBox").dxTagBox({
+
+        dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
+    });
+    $("#dxFilterOwnerTagBox").dxTagBox({
+
+        dataSource: await GetDXUserDataSource(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
+    });
+    $("#dxFilterDocumentTypeTagBox").dxTagBox({
+
+        dataSource: await GetDXDocumentTypeDataSource(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons'
     });
 
     $("#dxDocumentNameTextBox").dxTextBox({
@@ -129,7 +253,7 @@ async function InitializeDocumentCatalogControls() {
     $("#dxDocumentDescriptionTextArea").dxTextArea({
         placeholder: 'Type description...'
     });
-    $("#dxDocumentNumberNumberBox").dxNumberBox({
+    $("#dxDocumentNumberTextBox").dxTextBox({
         placeholder: 'Type number...'
     });
 
@@ -147,6 +271,20 @@ async function InitializeDocumentCatalogControls() {
         searchEnable: true,
         popupWidth: 450,
     });
+    $("#dxDocumentCustomerSelectBox").dxSelectBox({
+        dataSource: await GetDXCustomerDataSource_Global(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnable: true,
+        popupWidth: 450,
+    });
+    $("#dxDocumentProductSelectBox").dxSelectBox({
+        dataSource: await GetDXProductDataSource_Global(),
+        displayExpr: "Name",
+        valueExpr: "ID",
+        searchEnable: true,
+        popupWidth: 450,
+    });
     $("#dxDocumentDepartmentSelectBox").dxSelectBox({
         dataSource: [],
         displayExpr: "Name",
@@ -154,29 +292,9 @@ async function InitializeDocumentCatalogControls() {
         searchEnable: true,
         popupWidth: 450,
     });
-    $("#dxDocumentFacilitySelectBox").dxSelectBox({
-        dataSource: await GetDXFacilityDataSource(),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        deferRendering: false,
-        searchEnabled: true,
-        placeholder: "Select a Facility...",
-        onValueChanged: async function (e) {
-            if (e.value != 0 && e.value != null) {
-                let _departmentDTO = {
-                    IsActive: true,
-                    FacilityID: e.value
-                }
-                $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").reset();
-                $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("dataSource", await GetDXDepartmentDataSource(_departmentDTO));
-            } else {
-                $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("dataSource", []);
-            }
-        },
-    });
 
     $("#dxDocumentDepartmentSelectBox").dxSelectBox({
-        dataSource: [],
+        dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
         valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,
@@ -193,10 +311,11 @@ async function PopulateDocumentFields(data) {
     $("#hiddenDocumentID").val(data.ID);
     $("#dxDocumentNameTextBox").dxTextBox("instance").option("value", data.Name);
     $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
-    $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value", data.Number);
+    $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", data.Number);
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value", data.TypeID);
+    $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").option("value", data.CustomerID);
+    $("#dxDocumentProductSelectBox").dxSelectBox("instance").option("value", data.ProductID);
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value", data.OwnerID);
-    await $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
 }
 
@@ -245,9 +364,10 @@ function ClearDocumentFields() {
     $("#hiddenDocumentID").val("");
     $("#dxDocumentNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value", "");
-    $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value", "");
+    $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxDocumentTypeSelectBox").dxSelectBox("instance").reset();
-    $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").reset();
+    $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").reset();
+    $("#dxDocumentProductSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").reset();
     $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").reset();
     let keys = $("#dxDocumentGrid").dxDataGrid("instance").getSelectedRowKeys();
@@ -260,9 +380,11 @@ function GetDocumentDTO() {
         ID: $("#hiddenDocumentID").val(),
         Name: $("#dxDocumentNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxDocumentDescriptionTextArea").dxTextArea("instance").option("value"),
-        Number: $("#dxDocumentNumberNumberBox").dxNumberBox("instance").option("value"),
+        Number: $("#dxDocumentNumberTextBox").dxTextBox("instance").option("value"),
         DepartmentID: $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("value"),
         TypeID: $("#dxDocumentTypeSelectBox").dxSelectBox("instance").option("value"),
+        CustomerID: $("#dxDocumentCustomerSelectBox").dxSelectBox("instance").option("value"),
+        ProductID: $("#dxDocumentProductSelectBox").dxSelectBox("instance").option("value"),
         OwnerID: $("#dxDocumentOwnerSelectBox").dxSelectBox("instance").option("value"),
     }
     return _documentDTO;
@@ -312,11 +434,18 @@ const GetDXTypeDataSource_Global = () => {
     let _typeDTO = { IsActive: true }
     return GetDXDocumentTypeDataSource(_typeDTO)
 }
+const GetDXCustomerDataSource_Global = () => {
+    let _customerDTO = { IsActive: true }
+    return GetDXCustomerDataSource(_customerDTO)
+}
+const GetDXProductDataSource_Global = () => {
+    let _productDTO = { IsActive: true }
+    return GetDXProductDataSource(_productDTO)
+}
 
 //#endregion
 
 //Reload select box for related fields
 async function ReloadLocationsSelectBox() {
-    $("#dxDocumentFacilitySelectBox").dxSelectBox("instance").option("dataSource", await GetDXFacilityDataSource());
     $("#dxDocumentDepartmentSelectBox").dxSelectBox("instance").option("dataSource", await GetDXDepartmentDataSource());
 }

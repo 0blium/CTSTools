@@ -12,6 +12,7 @@ public class DocumentTypeDTO
     public int? ID { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public string FolderName { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? AddedByID { get; set; }
     public string AddedByName { get; set; }

@@ -33,6 +33,20 @@ export async function UpdateDocumentRevision(DocumentRevisionDTO) {
     return _validationResultDTO;
 }
 
+export async function UpdateDocumentFile(DocumentRevisionDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/DocumentRevision/UpdateDocumentFile`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', DocumentRevisionDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
+
 export async function DeleteDocumentRevision(DocumentRevisionDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/DocumentRevision/Delete`;

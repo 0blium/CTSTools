@@ -65,6 +65,20 @@ public class DocumentRevisionController : ApiController
         return Json(_validationResultDTO);
     }
     [HttpPost]
+    [Route("api/DocumentRevision/UpdateDocumentFile")]
+    public IHttpActionResult UpdateDocumentFile([FromBody] DocumentRevisionDTO DocumentRevisionDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentRevision), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            DocumentRevisionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = DocumentRevision_Service.UpdateDocumentFile(DocumentRevisionDTO);
+        }
+        return Json(_validationResultDTO);
+    }   
+
+
+    [HttpPost]
     [Route("api/DocumentRevision/Delete")]
     public IHttpActionResult DeleteDocumentRevision([FromBody] DocumentRevisionDTO DocumentRevisionDTO)
     {
