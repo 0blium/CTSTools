@@ -479,3 +479,4 @@ C:\CTSTFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.52B27051.Up2Date
 C:\CTSTFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.dll
 C:\CTSTFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.pdb
 C:\CTSTFS\CTSTools\CTSTools.WEB\bin\CTSTools.BLL.dll.config
+C:\TFS\CTSTools\CTSTools.WEB\bin\CTSTools.BLL.dll.config
