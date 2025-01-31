@@ -24,6 +24,8 @@ public class DocumentMap
             _documentDTO.DepartmentName = (DocumentXPO.Department != null) ? DocumentXPO.Department.Name : "Unnassigned";
             _documentDTO.TypeID = (DocumentXPO.Type != null) ? DocumentXPO.Type.Oid : 0;
             _documentDTO.TypeName = (DocumentXPO.Type != null) ? DocumentXPO.Type.Name : "Unnassigned";
+            _documentDTO.CustomerID = (DocumentXPO.Customer != null) ? DocumentXPO.Customer.Oid : 0;
+            _documentDTO.CustomerName = (DocumentXPO.Customer != null) ? DocumentXPO.Customer.Name : "Unnassigned";
             _documentDTO.StatusID = (DocumentXPO.Status != null) ? DocumentXPO.Status.Oid : 0;
             _documentDTO.StatusName = (DocumentXPO.Status != null) ? DocumentXPO.Status.Name : "Unnassigned";
             _documentDTO.AddedDate = (DocumentXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? DocumentXPO.AddedDate : (DateTime?)null;
@@ -52,6 +54,7 @@ public class DocumentMap
             _documentXPO.Owner = (_documentXPO.Owner != null && _documentXPO.Owner.Oid == DocumentDTO.OwnerID) ? _documentXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(DocumentDTO.OwnerID);
             _documentXPO.Department = (_documentXPO.Department != null && _documentXPO.Department.Oid == DocumentDTO.DepartmentID) ? _documentXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(DocumentDTO.DepartmentID);
             _documentXPO.Type = (_documentXPO.Type != null && _documentXPO.Type.Oid == DocumentDTO.TypeID) ? _documentXPO.Type : UnitOfWork.GetObjectByKey<DocumentTypeXPO>(DocumentDTO.TypeID);
+            _documentXPO.Customer = (_documentXPO.Customer != null && _documentXPO.Customer.Oid == DocumentDTO.CustomerID) ? _documentXPO.Customer : UnitOfWork.GetObjectByKey<CustomerXPO>(DocumentDTO.CustomerID);
             _documentXPO.Status = (_documentXPO.Status != null && _documentXPO.Status.Oid == DocumentDTO.StatusID) ? _documentXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(DocumentDTO.StatusID);
             _documentXPO.AddedDate = _documentXPO.AddedDate != null ? _documentXPO.AddedDate : DocumentDTO.AddedDate;
             _documentXPO.AddedBy = (_documentXPO.AddedBy != null) ? _documentXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DocumentDTO.AddedByID);

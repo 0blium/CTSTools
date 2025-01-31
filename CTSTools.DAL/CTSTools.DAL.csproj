@@ -100,6 +100,7 @@
     <Compile Include="Features\Management\Edashboard\Settings\LevelXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\UnitOfMeasureXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\ValueTypeXPO.cs" />
+    <Compile Include="Features\Quality\QMS\CustomerXPO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevisionXPO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentTypeXPO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentXPO.cs" />

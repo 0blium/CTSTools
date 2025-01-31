@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
-using CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
+using CTSTools.BLL.Features.Quality.QMS.Customer;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ public class Document_Service
                 _documentglobalList = _documentList;
                 return _documentglobalList;
             }
-            if (!DocumentDTO.GetDepartmentDTO && !DocumentDTO.GetTypeDTO && !DocumentDTO.GetStatusDTO)
+            if (!DocumentDTO.GetDepartmentDTO && !DocumentDTO.GetTypeDTO && !DocumentDTO.GetStatusDTO && !DocumentDTO.GetCustomerDTO)
             {
                 _documentglobalList = _documentList;
                 return _documentglobalList;
@@ -77,6 +77,7 @@ public class Document_Service
         var _documentglobalList = new List<DocumentDTO>();
         var _departmentDict = new Dictionary<int?, DepartmentDTO>();
         var _documentTypeDict = new Dictionary<int?, DocumentTypeDTO>();
+        var _customerDict = new Dictionary<int?, CustomerDTO>();
         var _statusDict = new Dictionary<int?, StatusDTO>();
 
         try
@@ -99,6 +100,15 @@ public class Document_Service
                 _documentTypeDict = DocumentType_Service.GetDocumentTypeList_Global(DocumentDTO.TypeDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
+            if (DocumentDTO.GetCustomerDTO)
+            {
+                DocumentDTO.CustomerDTO.CustomerIDArray = DocumentList.GroupBy(g => g.TypeID)
+                        .Select(s => s.Key)
+                        .ToArray();
+
+                _customerDict = Customer_Service.GetCustomerList_Global(DocumentDTO.CustomerDTO)
+                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+            }
             if (DocumentDTO.GetStatusDTO)
             {
                 DocumentDTO.StatusDTO.StatusIDArray = DocumentList.GroupBy(g => g.StatusID)
@@ -117,6 +127,10 @@ public class Document_Service
                 if (DocumentDTO.GetTypeDTO && _documentTypeDict.ContainsKey(_documentDTO.TypeID))
                 {
                     _documentDTO.TypeDTO = _documentTypeDict[_documentDTO.TypeID];
+                }
+                if (DocumentDTO.GetCustomerDTO && _customerDict.ContainsKey(_documentDTO.CustomerID))
+                {
+                    _documentDTO.CustomerDTO = _customerDict[_documentDTO.CustomerID];
                 }
                 if (DocumentDTO.GetStatusDTO && _statusDict.ContainsKey(_documentDTO.StatusID))
                 {

@@ -43,6 +43,14 @@ public class Document_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DocumentXPO.Type), DocumentDTO.TypeIDArray));
             }
+            if (DocumentDTO.CustomerID != null || DocumentDTO.CustomerID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(DocumentXPO.Customer), DocumentDTO.CustomerID));
+            }
+            if (DocumentDTO.CustomerIDArray != null && DocumentDTO.CustomerIDArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(DocumentXPO.Customer), DocumentDTO.CustomerIDArray));
+            }
             if (DocumentDTO.StatusID != null || DocumentDTO.StatusID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(DocumentXPO.Status), DocumentDTO.StatusID));

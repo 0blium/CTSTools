@@ -53,6 +53,12 @@ public class DocumentXPO : XPObject
         get { return fType; }
         set { SetPropertyValue<DocumentTypeXPO>(nameof(Type), ref fType, value); }
     }
+    CustomerXPO fCustomer;
+    public CustomerXPO Customer
+    {
+        get { return fCustomer; }
+        set { SetPropertyValue<CustomerXPO>(nameof(Customer), ref fCustomer, value); }
+    }
     StatusXPO fStatus;
     public StatusXPO Status
     {

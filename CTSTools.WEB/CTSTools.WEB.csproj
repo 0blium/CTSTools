@@ -336,6 +336,9 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Service.js" />
     <Content Include="App\Features\MasterPage\CTSTools.Master.css" />
     <Content Include="App\Features\MasterPage\CTSToolsMaster.js" />
+    <Content Include="App\Features\Quality\QMS\CustomerCatalog.aspx" />
+    <Content Include="App\Features\Quality\QMS\CustomerCatalog.js" />
+    <Content Include="App\Features\Quality\QMS\Customer\Customer_Service.js" />
     <Content Include="App\Features\Quality\QMS\DocumentCatalog.aspx" />
     <Content Include="App\Features\Quality\QMS\DocumentCatalog.js" />
     <Content Include="App\Features\Quality\QMS\DocumentRevisionCatalog.aspx" />
@@ -696,6 +699,14 @@
     <Compile Include="App\Features\MasterPage\CTSTools.Master.designer.cs">
       <DependentUpon>CTSTools.Master</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Quality\QMS\CustomerCatalog.aspx.cs">
+      <DependentUpon>CustomerCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\CustomerCatalog.aspx.designer.cs">
+      <DependentUpon>CustomerCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Quality\QMS\Customer\CustomerController.cs" />
     <Compile Include="App\Features\Quality\QMS\DocumentCatalog.aspx.cs">
       <DependentUpon>DocumentCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -790,7 +801,9 @@
       <Name>CTSTools.BLL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Customer\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

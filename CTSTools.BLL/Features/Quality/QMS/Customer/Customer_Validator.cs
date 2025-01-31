@@ -1,15 +1,16 @@
 ﻿using CTSTools.BLL.Common;
+using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CTSTools.BLL.Features.Quality.QMS.Document;
+namespace CTSTools.BLL.Features.Quality.QMS.Customer;
 
-public class Document_Validator
+public class Customer_Validator
 {
-    public static ValidationResultDTO CreateDocument_Validation(DocumentDTO DocumentDTO)
+    public static ValidationResultDTO CreateCustomer_Validation(CustomerDTO CustomerDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -20,55 +21,18 @@ public class Document_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (string.IsNullOrEmpty(DocumentDTO.Name))
+            if (string.IsNullOrEmpty(CustomerDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Document)}{nameof(DocumentDTO.Name)}",
+                    Data = $"{nameof(Customer)}{nameof(CustomerDTO.Name)}",
                 });
             }
 
-            if (DocumentDTO.DepartmentID == null || DocumentDTO.DepartmentID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Department Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.TypeID == null || DocumentDTO.TypeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Type Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.CustomerID == null || DocumentDTO.CustomerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Customer Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Owner Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            
-            if (DocumentDTO.AddedByID == null || DocumentDTO.AddedByID == 0)
+            if (CustomerDTO.AddedByID == null || CustomerDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -89,15 +53,14 @@ public class Document_Validator
         }
         catch (Exception ex)
         {
-            //ErrorSignal.FromCurrentContext().Raise(ex);
+            ErrorSignal.FromCurrentContext().Raise(ex);
             _validation_ResultDTO.Result = false;
             _validation_ResultDTO.Message = "Error!";
             _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
         }
         return _validation_ResultDTO;
     }
-
-    public static ValidationResultDTO UpdateDocument_Validation(DocumentDTO DocumentDTO)
+    public static ValidationResultDTO UpdateCustomer_Validation(CustomerDTO CustomerDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -108,7 +71,7 @@ public class Document_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (DocumentDTO.ID == null || DocumentDTO.ID == 0)
+            if (CustomerDTO.ID == null || CustomerDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -117,64 +80,18 @@ public class Document_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (string.IsNullOrEmpty(DocumentDTO.Name))
+            if (string.IsNullOrEmpty(CustomerDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Document)}{nameof(DocumentDTO.Name)}",
+                    Data = $"{nameof(Customer)}{nameof(CustomerDTO.Name)}",
                 });
             }
-            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Owner Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.DepartmentID == null || DocumentDTO.DepartmentID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Department Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.TypeID == null || DocumentDTO.TypeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Type Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.CustomerID == null || DocumentDTO.CustomerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Customer Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Owner Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            
 
-            if (DocumentDTO.LastUpdateByID == null || DocumentDTO.LastUpdateByID == 0)
+            if (CustomerDTO.LastUpdateByID == null || CustomerDTO.LastUpdateByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -196,15 +113,14 @@ public class Document_Validator
         }
         catch (Exception ex)
         {
-            //ErrorSignal.FromCurrentContext().Raise(ex);
+            ErrorSignal.FromCurrentContext().Raise(ex);
             _validation_ResultDTO.Result = false;
             _validation_ResultDTO.Message = "Error!";
             _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
         }
         return _validation_ResultDTO;
     }
-
-    public static ValidationResultDTO DeleteDocument_Validation(DocumentDTO DocumentDTO)
+    public static ValidationResultDTO DeleteCustomer_Validation(CustomerDTO CustomerDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -215,7 +131,7 @@ public class Document_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (DocumentDTO.ID == null || DocumentDTO.ID == 0)
+            if (CustomerDTO.ID == null || CustomerDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -237,11 +153,12 @@ public class Document_Validator
         }
         catch (Exception ex)
         {
-            //ErrorSignal.FromCurrentContext().Raise(ex);
+            ErrorSignal.FromCurrentContext().Raise(ex);
             _validation_ResultDTO.Result = false;
             _validation_ResultDTO.Message = "Error!";
             _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
         }
         return _validation_ResultDTO;
     }
+
 }

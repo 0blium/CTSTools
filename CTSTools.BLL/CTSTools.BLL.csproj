@@ -351,6 +351,12 @@
     <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Service.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Validator.cs" />
+    <Compile Include="Features\Quality\QMS\Customer\CustomerDTO.cs" />
+    <Compile Include="Features\Quality\QMS\Customer\CustomerMap.cs" />
+    <Compile Include="Features\Quality\QMS\Customer\Customer_DXFilter.cs" />
+    <Compile Include="Features\Quality\QMS\Customer\Customer_Repository.cs" />
+    <Compile Include="Features\Quality\QMS\Customer\Customer_Service.cs" />
+    <Compile Include="Features\Quality\QMS\Customer\Customer_Validator.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevision\DocumentRevisionDTO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevision\DocumentRevisionMap.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevision\DocumentRevision_DXFilter.cs" />

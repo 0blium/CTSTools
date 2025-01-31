@@ -82,12 +82,17 @@
                                     <div class="invalid-feedback" id="DocumentFacilityValidation"></div>
                                 </div>
                             </div>
-                            <!-- Row: Department -->
+                            <!-- Row: Department & Customer-->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dxDocumentDepartmentSelectBox" class="form-label">Department (<span class="text-danger">*</span>)</label>
                                     <div id="dxDocumentDepartmentSelectBox"></div>
                                     <div class="invalid-feedback" id="DocumentDepartmentValidation"></div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="dxDocumentCustomerSelectBox" class="form-label">Customer (<span class="text-danger">*</span>)</label>
+                                    <div id="dxDocumentCustomerSelectBox"></div>
+                                    <div class="invalid-feedback" id="DocumentCustomerValidation"></div>
                                 </div>
                             </div>
                         </div>

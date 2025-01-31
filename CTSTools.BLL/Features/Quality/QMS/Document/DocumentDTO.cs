@@ -1,6 +1,7 @@
 ﻿using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Quality.QMS.Customer;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
 using System;
 
@@ -39,8 +40,12 @@ public class DocumentDTO
     public string TypeName { get; set; }
     public bool GetTypeDTO {get; set; }
     public int?[] TypeIDArray { get; set; }
+    public CustomerDTO CustomerDTO { get; set; }
+    public int? CustomerID { get; set; }
+    public string CustomerName { get; set; }
+    public bool GetCustomerDTO { get; set; }
+    public int?[] CustomerIDArray { get; set; }
     public StatusDTO StatusDTO { get; set; }
-    
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
     #endregion
@@ -54,6 +59,8 @@ public class DocumentDTO
         DepartmentIDArray = new int?[] { };
         TypeDTO = new DocumentTypeDTO();
         TypeIDArray = new int?[] { };
+        CustomerDTO = new CustomerDTO();
+        CustomerIDArray = new int?[] { };
         StatusDTO = new StatusDTO();
         StatusIDArray = new int?[] { };
     }
