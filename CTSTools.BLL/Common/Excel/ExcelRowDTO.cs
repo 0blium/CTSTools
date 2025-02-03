@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Common.Excel
 {
-    public class ExcelFileDTO
+    public class ExcelRowDTO
     {
-        public string ColumnName { get; set; }
-        public string HeaderName { get; set; }
+        public dynamic GoodRowLinesList { get; set; }
+        public dynamic BadRowLinesList { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Common.Files;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using Elmah;
 using ExcelDataReader;
 using System;
@@ -9,8 +8,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 
@@ -96,7 +93,6 @@ public class Supplier_Service
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
             // step 2. Bring the information from excel
-            FileDTO.FileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
             _validationResultDTO = ExcelImport_Validator.ExcelHeaderColumns_Validation(FileDTO);
 
             if (!_validationResultDTO.Result)
@@ -114,7 +110,7 @@ public class Supplier_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create Supplier
-            //_validationResultDTO = Supplier_Repository.CreateMultipleSupplier(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = Supplier_Repository.CreateMultipleSupplier(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }
@@ -135,83 +131,78 @@ public class Supplier_Service
                 GoodRowLinesList = new List<SupplierDTO>(),
                 BadRowLinesList = new List<SupplierDTO>()
             };
-            using (var _fileStream = new MemoryStream(FileDTO.FileBytes))
+            // Converts the Base64 string contained in FileDTO.Data to a byte array,
+            // To later process it and read the content of the Excel file.
+            var _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
+            using (var _fileStream = new MemoryStream(_fileBytes))
             using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
                 DataTable _firstTable = _excelDataSet.Tables[0];
-                // Create a dictionary to store column indexes
+                // Create a dictionary to store the excel column indexes
                 var _columnHeaderMap = new Dictionary<string, int>();
-                var _rowHeaderDic = FileDTO.DirectoryArray.ToDictionary(header => header.ToUpper(), header => header.ToUpper());
-
+                // Create the list with the name of the columns that were previously validated
+                var _columnHeaderNameList = FileDTO.DirectoryArray.Select(ColumnName => ColumnName.ToUpper()).ToList();
+                // This is to identify the columns within the Excel, to later bring the information contained in the row
                 for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
+                    // We take the column name, put it in capital letters to compare it with our list (_columnHeaderNameList) 
+                    // and we remove all the spaces from the name before comparing it with the list. (e.g. " Unit  Of Measure " -> "UnitOfMeasure")
                     string headerName = _firstTable.Rows[0][colIndex].ToString().ToUpper();
+                    // The regular expression @"\s+", Removes all whitespace from the column name
                     headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", "");
-                    if (_rowHeaderDic.TryGetValue(headerName, out string mappedHeader))
+                    if (_columnHeaderNameList.Contains(headerName))
                     {
-                        _columnHeaderMap[mappedHeader] = colIndex;
+                        // If the column name exists, it stores it in the dirctory (_columnHeaderMap) and assigns its identifier
+                        _columnHeaderMap[headerName] = colIndex;
                     }
                 }
 
-                // Process rows starting from the second row (index 1)
+                // Process rows starting from the second row (index 1), to take the information to store in each iteration
                 for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
                     DataRow row = _firstTable.Rows[rowIndex];
+                    // We create a DTO where we will store the content of the excel to later validate it
                     var _supplierDTO = new SupplierDTO();
-                    bool _haveInfo = false;
+                    // The assigned ID is to have the Excel row identified in case it does not pass the validations.
+                    _supplierDTO.ID = rowIndex + 1;
+                    // The row[_columnHeaderMap["NAME"]] returns the index of that directory name (e.g row[0] -> TestName) and turns it into string
+                    // What the CleanRowString function does is remove all the spaces on the sides and internal in each word,
+                    // Leaving only one space between the words (e.g. " Unit  Of Measure " -> "Unit Of Measure")
+                    _supplierDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["NAME"]].ToString());
+                    _supplierDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]].ToString());
+                    _supplierDTO.AddedByID = FileDTO.ID;
 
-                    // Mapping Dictionary: Map columns to _supplierDTO properties
-                    var _propertyMap = new Dictionary<string, Action<string>>
-                    {
-                        { "NAME", value => _supplierDTO.Name = value },
-                        { "DESCRIPTION", value => _supplierDTO.Description = value }
-                    };
+                    // Gets the value of the "ISVENDOR" column from the Excel file and cleans it of unwanted characters.
+                    string _rowIsVendorValue = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["ISVENDOR"]]?.ToString());
+                    // bool.TryParse try to convert the value (_rowIsVendorValue) to a text of type boolean
+                    // Note: TryParse will not throw an exception if the conversion fails.
+                    // The 'out' keyword indicates that IsVendor is an output parameter.
+                    if (bool.TryParse(_rowIsVendorValue, out bool IsVendor))
+                        // If the conversion is successful, the converted value will be assigned to the Goal variable.
+                        _supplierDTO.IsVendor = IsVendor;
+                    else
+                        _supplierDTO.IsVendor = false;
 
-                    // Iterate over the dictionary and assign values
-                    foreach (var entry in _propertyMap)
-                    {
-                        if (_columnHeaderMap.TryGetValue(entry.Key, out int index))
-                        {
-                            entry.Value(ExcelImport_Service.CleanRowString(row[index]?.ToString()));
-                            _haveInfo = true;
-                        }
-                    }
+                    string _rowIsManufacturerValue = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["ISMANUFACTURER"]]?.ToString());
+                    if (bool.TryParse(_rowIsManufacturerValue, out bool IsManufacturer))
+                        _supplierDTO.IsManufacturer = IsManufacturer;
+                    else
+                        _supplierDTO.IsManufacturer = false;
 
-                    if (_columnHeaderMap.TryGetValue("ISVENDOR", out int IsVendorIndex))
-                    {
-                        string _isVendorIndexValue = row[IsVendorIndex].ToString().Trim();
-                        _isVendorIndexValue = System.Text.RegularExpressions.Regex.Replace(_isVendorIndexValue, @"\s+", " ");
-                        if (bool.TryParse(_isVendorIndexValue, out bool IsVendor))
-                            _supplierDTO.IsVendor = IsVendor;
-                        else
-                            _supplierDTO.IsVendor = false;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("ISMANUFACTURER", out int IsManufacturerIndex))
-                    {
-                        string _isManufacturerIndexValue = row[IsManufacturerIndex].ToString().Trim();
-                        _isManufacturerIndexValue = System.Text.RegularExpressions.Regex.Replace(_isManufacturerIndexValue, @"\s+", " ");
-                        if (bool.TryParse(_isManufacturerIndexValue, out bool IsManufacturer))
-                            _supplierDTO.IsManufacturer = IsManufacturer;
-                        else
-                            _supplierDTO.IsManufacturer = false;
-                        _haveInfo = true;
-                    }
+                    // We validate the DTO to verify that our properties are not null
+                    _validationResultDTO = Supplier_Validator.ExcelSupplierRows_Validation(_supplierDTO);
 
-                    if (_haveInfo)
-                    {
-                        _supplierDTO.ID = rowIndex + 1;
-                        _supplierDTO.AddedByID = FileDTO.ID;
-                        _validationResultDTO = Supplier_Validator.ExcelSupplierRows_Validation(_supplierDTO);
-                    }
-
+                    // We verify if our DTO complied with the validations
                     if (_validationResultDTO.Data.GoodRowLinesList.Count > 0)
+                        // If the DTO does not have null properties, it is stored in the GoodRowLines.
                         _excelRowDTO.GoodRowLinesList.AddRange(_validationResultDTO.Data.GoodRowLinesList);
                     else
+                        // If any of the DTO properties is null, it is stored on a BadRowLines.
                         _excelRowDTO.BadRowLinesList.AddRange(_validationResultDTO.Data.BadRowLinesList);
                 }
             }
+            // Verify if there were good or bad lines to return _excelRowDTO
             if (_excelRowDTO.GoodRowLinesList.Count > 0 || _excelRowDTO.BadRowLinesList.Count > 0)
             {
                 _validationResultDTO.Data = _excelRowDTO;

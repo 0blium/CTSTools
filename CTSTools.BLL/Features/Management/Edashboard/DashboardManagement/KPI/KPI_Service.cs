@@ -216,7 +216,6 @@ public class KPI_Service
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
             // step 2. Bring the information from excel
-            FileDTO.FileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
             _validationResultDTO = ExcelImport_Validator.ExcelHeaderColumns_Validation(FileDTO);
 
             if (!_validationResultDTO.Result)
@@ -234,7 +233,7 @@ public class KPI_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create KPIs
-            //_validationResultDTO = KPI_Repository.CreateMultipleKPI(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = KPI_Repository.CreateMultipleKPI(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }
@@ -256,121 +255,83 @@ public class KPI_Service
                 GoodRowLinesList = new List<KPIDTO>(),
                 BadRowLinesList = new List<KPIDTO>()
             };
-            using (var _fileStream = new MemoryStream(FileDTO.FileBytes))
+            // Converts the Base64 string contained in FileDTO.Data to a byte array,
+            // To later process it and read the content of the Excel file.
+            var _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
+            using (var _fileStream = new MemoryStream(_fileBytes))
             using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
                 DataTable _firstTable = _excelDataSet.Tables[0];
-                // Create a dictionary to store column indexes
+                // Create a dictionary to store the excel column indexes
                 var _columnHeaderMap = new Dictionary<string, int>();
+                // Create the list with the name of the columns that were previously validated
                 var _columnHeaderNameList = FileDTO.DirectoryArray.Select(ColumnName => ColumnName.ToUpper()).ToList();
-
+                // This is to identify the columns within the Excel, to later bring the information contained in the row
                 for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
+                    // We take the column name, put it in capital letters to compare it with our list (_columnHeaderNameList) 
+                    // and we remove all the spaces from the name before comparing it with the list. (e.g. " Unit  Of Measure " -> "UnitOfMeasure")
                     string headerName = _firstTable.Rows[0][colIndex].ToString().ToUpper();
+                    // The regular expression @"\s+", Removes all whitespace from the column name
                     headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", "");
                     if (_columnHeaderNameList.Contains(headerName))
                     {
+                        // If the column name exists, it stores it in the dirctory (_columnHeaderMap) and assigns its identifier
                         _columnHeaderMap[headerName] = colIndex;
                     }
                 }
 
-                // Process rows starting from the second row (index 1)
+                // Process rows starting from the second row (index 1), to take the information to store in each iteration
                 for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
                     DataRow row = _firstTable.Rows[rowIndex];
+                    // We create a DTO where we will store the content of the excel to later validate it
                     var _kPIDTO = new KPIDTO();
-                    bool _haveInfo = false;
+                    // The assigned ID is to have the Excel row identified in case it does not pass the validations.
+                    _kPIDTO.ID = rowIndex + 1;
+                    // The row[_columnHeaderMap["NAME"]] returns the index of that directory name (e.g row[0] -> TestName) and turns it into string
+                    // What the CleanRowString function does is remove all the spaces on the sides and internal in each word,
+                    // Leaving only one space between the words (e.g. " Unit  Of Measure " -> "Unit Of Measure")
+                    _kPIDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["NAME"]].ToString());
+                    _kPIDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]].ToString());
+                    _kPIDTO.UnitOfMeasureName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["UNITOFMEASURE"]].ToString());
+                    _kPIDTO.ValueTypeName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["VALUETYPE"]].ToString());
+                    _kPIDTO.OwnerName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNER"]].ToString());
+                    _kPIDTO.ResponsibleName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["RESPONSIBLE"]].ToString());
+                    _kPIDTO.FacilityName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["FACILITY"]].ToString());
+                    _kPIDTO.EquivalenceName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["EQUIVALENCE"]].ToString());
+                    _kPIDTO.DashboardCategoryName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CATEGORY"]].ToString());
+                    _kPIDTO.OwnerDepartmentName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNERDEPARTMENT"]].ToString());
+                    _kPIDTO.ResponsibleDepartmentName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["RESPONSIBLEDEPARTMENT"]].ToString());
+                    _kPIDTO.AddedByID = FileDTO.ID;
 
-                    if (_columnHeaderMap.ContainsKey("NAME"))
-                    {
-                        _kPIDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["NAME"]]?.ToString());
-                        _haveInfo = true;
-                    }
+                    // Gets the value of the "GOAL" column from the Excel file and cleans it of unwanted characters.
+                    string _rowValue = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["GOAL"]]?.ToString());
+                    // float.TryParse try to convert the value (_rowValue) to a number of type float
+                    // Note: TryParse will not throw an exception if the conversion fails. Instead, it will return a boolean value.
+                    // The 'out' keyword indicates that Goal is an output parameter.
+                    // e.g. If _rowValue is "3.14" then TryParse will return true and Goal will be set to 3.14.
+                    if (float.TryParse(_rowValue, out float Goal))
+                        // If the conversion is successful, the converted value will be assigned to the Goal variable.
+                        _kPIDTO.Goal = Goal;
+                    else
+                        // Returns a -1, to identify that Goal does not comply with the format or is null
+                        _kPIDTO.Goal = -1;
 
-                    if (_columnHeaderMap.ContainsKey("DESCRIPTION"))
-                    {
-                        _kPIDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]]?.ToString());
-                        _haveInfo = true;
-                    }
+                    // We validate the DTO to verify that our properties are not null
+                    _validationResultDTO = KPI_Validator.ExcelKPIRows_Validation(_kPIDTO);
 
-                    if (_columnHeaderMap.ContainsKey("GOAL"))
-                    {
-                        string _rowValue = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["GOAL"]]?.ToString());
-                        if (float.TryParse(_rowValue, out float Goal))
-                            _kPIDTO.Goal = Goal;
-                        else
-                            _kPIDTO.Goal = -1;
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("UNITOFMEASURE"))
-                    {
-                        _kPIDTO.UnitOfMeasureName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["UNITOFMEASURE"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("VALUETYPE"))
-                    {
-                        _kPIDTO.ValueTypeName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["VALUETYPE"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("OWNER"))
-                    {
-                        _kPIDTO.OwnerName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNER"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("RESPONSIBLE"))
-                    {
-                        _kPIDTO.ResponsibleName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["RESPONSIBLE"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("FACILITY"))
-                    {
-                        _kPIDTO.FacilityName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["FACILITY"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("EQUIVALENCE"))
-                    {
-                        _kPIDTO.EquivalenceName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["EQUIVALENCE"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("CATEGORY"))
-                    {
-                        _kPIDTO.DashboardCategoryName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CATEGORY"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("OWNERDEPARTMENT"))
-                    {
-                        _kPIDTO.OwnerDepartmentName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNERDEPARTMENT"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_columnHeaderMap.ContainsKey("RESPONSIBLEDEPARTMENT"))
-                    {
-                        _kPIDTO.ResponsibleDepartmentName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["RESPONSIBLEDEPARTMENT"]]?.ToString());
-                        _haveInfo = true;
-                    }
-
-                    if (_haveInfo)
-                    {
-                        _kPIDTO.ID = rowIndex + 1;
-                        _kPIDTO.AddedByID = FileDTO.ID;
-                        _validationResultDTO = KPI_Validator.ExcelKPIRows_Validation(_kPIDTO);
-                    }
-
+                    // We verify if our DTO complied with the validations
                     if (_validationResultDTO.Data.GoodRowLinesList.Count > 0)
+                        // If the DTO does not have null properties, it is stored in the GoodRowLines.
                         _excelRowDTO.GoodRowLinesList.AddRange(_validationResultDTO.Data.GoodRowLinesList);
                     else
+                        // If any of the DTO properties is null, it is stored on a BadRowLines.
                         _excelRowDTO.BadRowLinesList.AddRange(_validationResultDTO.Data.BadRowLinesList);
                 }
             }
+            // Verify if there were good or bad lines to return _excelRowDTO
             if (_excelRowDTO.GoodRowLinesList.Count > 0 || _excelRowDTO.BadRowLinesList.Count > 0)
             {
                 _validationResultDTO.Data = _excelRowDTO;

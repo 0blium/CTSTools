@@ -1,12 +1,5 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
-using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
-using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
-using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
+using CTSTools.BLL.Common.Excel;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -219,20 +212,25 @@ public class Supplier_Validator
                 Name = !string.IsNullOrEmpty(SupplierDTO.Name) ? SupplierDTO.Name : "Error, The name is null or empty",
                 IsManufacturer = SupplierDTO.IsManufacturer,
                 IsVendor = SupplierDTO.IsVendor,
+                AddedByID = SupplierDTO.AddedByID,
+                AddedDate = DateTime.Now,
                 IsActive = true
             };
 
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
             if (_supplierDTO.Name.StartsWith("Error"))
                 isSucces = false;
+            // or if both properties are false it returns an error message
             if (_supplierDTO.IsManufacturer == false && _supplierDTO.IsVendor == false) 
             {
                 _supplierDTO.Description = "Error, Supplier must be vendor or manufacturer";
                 isSucces = false;
             }
 
+            // If it meets all the validations, it saves it in GoodRowLinesList else
             if (isSucces)
                 _excelRowDTO.GoodRowLinesList.Add(_supplierDTO);
-            else
+            else // If not save it BadRowLinesList
                 _excelRowDTO.BadRowLinesList.Add(_supplierDTO);
         }
         catch (Exception ex)
@@ -260,28 +258,35 @@ public class Supplier_Validator
 
         try
         {
-            var _supplierDTOList = ExcelRowDTO.GoodRowLinesList as List<SupplierDTO> ?? new List<SupplierDTO>();
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the kpis that passed the first validation
+            var _supplierDTOList = (List<SupplierDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous kpis that did not pass the first validation
             _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
-            var _newSupplierList = _supplierDTOList.GroupBy(supplier => supplier.Name?.ToLower()).Select(group => group.First()).ToList();
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
+            if (_supplierDTOList.Count <= 0)
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
 
-            // We normalize names to lowercase only once
-            var _supplierDTO = new SupplierDTO { SupplierNameArray = _newSupplierList.Select(SupplierDTO => SupplierDTO.Name?.ToLower()).ToArray() };
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            var _supplierDTO = new SupplierDTO { SupplierNameArray = _supplierDTOList.Select(SupplierDTO => SupplierDTO.Name?.ToLower()).Distinct().ToArray() };
 
-            // Go for the data in the db
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _supplierList = Supplier_Service.GetSupplierList_Global(_supplierDTO);
 
-            // We create dictionaries with normalized keys (in lowercase)
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _supplierDict = _supplierList.ToDictionary(SupplierDTO => SupplierDTO.Name.ToLower(), SupplierDTO => (int?)SupplierDTO.ID);
 
-            foreach (var SupplierDTO in _newSupplierList)
+            foreach (var SupplierDTO in _supplierDTOList)
             {
                 bool isSuccess = true;
 
-                // We search the normalized dictionaries without using `ToLower()` on each iteration
-                if (_supplierDict.ContainsKey(SupplierDTO.Name?.ToLower() ?? ""))
+                if (_supplierDict.ContainsKey(SupplierDTO.Name.ToLower()))
                 {
                     var _name = SupplierDTO.Name;
-                    SupplierDTO.Name = $"Error: The Name: {_name}, already exists"; 
+                    SupplierDTO.Name = $"Error: The Name: {_name}, already exists";
                     isSuccess = false; 
                 }
 
@@ -301,6 +306,10 @@ public class Supplier_Validator
             _validationResultDTO.Description = "The file was read successfully";
             throw;
         }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<SupplierDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(SupplierDTO => SupplierDTO.ID).ToList();
         _validationResultDTO.Data = _excelRowDTO;
         return _validationResultDTO;
     }

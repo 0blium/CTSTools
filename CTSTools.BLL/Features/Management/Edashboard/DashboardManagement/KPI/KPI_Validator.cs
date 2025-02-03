@@ -1,25 +1,16 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
-using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.CalculationType;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
-using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
-using CTSTools.DAL.Features.Management.Edashboard.Settings;
-using DevExpress.ReportServer.ServiceModel.DataContracts;
-using DevExpress.XtraGauges.Core.Model;
 using Elmah;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -329,16 +320,18 @@ public class KPI_Validator
     #region Excel KPI Validation
     public static ValidationResultDTO ExcelKPIRows_Validation(KPIDTO KPIDTO)
     {
-        var _excelRowDTO = new ExcelRowDTO();
-        _excelRowDTO.GoodRowLinesList = new List<KPIDTO>();
-        _excelRowDTO.BadRowLinesList = new List<KPIDTO>();
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<KPIDTO>(),
+            BadRowLinesList = new List<KPIDTO>()
+        };
         var _validationResultDTO = new ValidationResultDTO
         {
             Description = "The file has the correct format."
         };
         try
         {
-            bool isSucces = true;
+            bool _isSucces = true;
             KPIDTO _kPIDTO = new KPIDTO
             {
                 ID = KPIDTO.ID,
@@ -353,9 +346,12 @@ public class KPI_Validator
                 DashboardCategoryName = !string.IsNullOrEmpty(KPIDTO.DashboardCategoryName) ? KPIDTO.DashboardCategoryName : "Error, The Category is null or empty",
                 OwnerDepartmentName = !string.IsNullOrEmpty(KPIDTO.OwnerDepartmentName) ? KPIDTO.OwnerDepartmentName : "Error, The Owner Department is null or empty",
                 ResponsibleDepartmentName = !string.IsNullOrEmpty(KPIDTO.ResponsibleDepartmentName) ? KPIDTO.ResponsibleDepartmentName : "Error, The Responsible Department is null or empty",
+                AddedByID = KPIDTO.AddedByID,
+                AddedDate = DateTime.Now,
                 IsActive = true
             };
 
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
             if (_kPIDTO.Name.StartsWith("Error") ||
                 _kPIDTO.UnitOfMeasureName.StartsWith("Error") ||
                 _kPIDTO.ValueTypeName.StartsWith("Error") ||
@@ -368,12 +364,13 @@ public class KPI_Validator
                 _kPIDTO.ResponsibleDepartmentName.StartsWith("Error") ||
                 _kPIDTO.Goal < 0.0f)
             {
-                isSucces = false;
+                _isSucces = false;
             }
 
-            if (isSucces)
+            // If it meets all the validations, it saves it in GoodRowLinesList else
+            if (_isSucces)
                 _excelRowDTO.GoodRowLinesList.Add(_kPIDTO);
-            else
+            else // If not save it BadRowLinesList
                 _excelRowDTO.BadRowLinesList.Add(_kPIDTO);
         }
         catch (Exception ex)
@@ -401,25 +398,31 @@ public class KPI_Validator
 
         try
         {
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the kpis that passed the first validation
             var _kPIDTOList = (List<KPIDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous kpis that did not pass the first validation
             _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
-
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
             if (_kPIDTOList.Count <= 0) 
             {
                 _validationResultDTO.Data = _excelRowDTO;
                 return _validationResultDTO;
             }
 
-            // We normalize names to lowercase only once
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            // This is for each of the catalogs that are related to our DTO
             var _unitOfMeasureDTO = new UnitOfMeasureDTO { UnitOfMeasureNameArray = _kPIDTOList.Select(k => k.UnitOfMeasureName?.ToLower()).Distinct().ToArray() };
             var _valueTypeDTO = new ValueTypeDTO { ValueTypeNameArray = _kPIDTOList.Select(k => k.ValueTypeName?.ToLower()).Distinct().ToArray() };
+            // In this case, we have two properties that are related to user (OwnerName y ResponsibleName),
+            // for this we use SelectMany this allows us to work with both sets of names at the same time and to eliminate names that are repeated with Distinct
             var _userDTO = new UserDTO { UserNameArray = _kPIDTOList.SelectMany(k => new[] { k.OwnerName?.ToLower(), k.ResponsibleName?.ToLower() }).Distinct().ToArray() };
             var _facilityDTO = new FacilityDTO { FacilityNameArray = _kPIDTOList.Select(k => k.FacilityName?.ToLower()).Distinct().ToArray() };
             var _equivalenceDTO = new EquivalenceDTO { EquivalenceNameArray = _kPIDTOList.Select(k => k.EquivalenceName?.ToLower()).Distinct().ToArray() };
             var _categoryDTO = new DashboardCategoryDTO { DashboardCategoryNameArray = _kPIDTOList.Select(k => k.DashboardCategoryName?.ToLower()).Distinct().ToArray() };
             var _departmentDTO = new DepartmentDTO { DepartmentNameArray = _kPIDTOList.SelectMany(k => new[] { k.OwnerDepartmentName?.ToLower(), k.ResponsibleDepartmentName?.ToLower() }).Distinct().ToArray() };
 
-            // Go for the data in the db
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _unitOfMeasureList = UnitOfMeasure_Service.GetUnitOfMeasureList_Global(_unitOfMeasureDTO);
             var _valueTypeList = ValueType_Service.GetValueTypeList_Global(_valueTypeDTO);
             var _userList = User_Service.GetUserList_Global(_userDTO);
@@ -428,7 +431,7 @@ public class KPI_Validator
             var _categoryList = DashboardCategory_Service.GetDashboardCategoryList_Global(_categoryDTO);
             var _departmentList = Department_Service.GetDepartmentList_Global(_departmentDTO);
 
-            // We create dictionaries with normalized keys (in lowercase)
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _unitOfMeasureDict = _unitOfMeasureList.ToDictionary(UnitOfMeasureDTO => UnitOfMeasureDTO.Name.ToLower(), UnitOfMeasureDTO => (int?)UnitOfMeasureDTO.ID);
             var _valueTypeDict = _valueTypeList.ToDictionary(ValueTypeDTO => ValueTypeDTO.Name.ToLower(), ValueTypeDTO => (int?)ValueTypeDTO.ID);
             var _userDict = _userList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
@@ -441,7 +444,9 @@ public class KPI_Validator
             {
                 bool isSuccess = true;
 
-                // We search the normalized dictionaries without using `ToLower()` on each iteration
+                // we use TryGetValue to try to get the value associated with the key from the dictionary,
+                // If the value of UnitOfMeasureName is found, it is assigned with the corresponding value (ID) from the dictionary.
+                // 'out' keyword indicates that UnitOfMeasureID is an output parameter, if the name is not found, save the error message.
                 if (_unitOfMeasureDict.TryGetValue(_kPIDTO.UnitOfMeasureName.ToLower(), out int? UnitOfMeasureID)) _kPIDTO.UnitOfMeasureID = UnitOfMeasureID;
                 else { _kPIDTO.UnitOfMeasureName = "Error: The Unit Of Measure does not exist"; isSuccess = false; }
 
@@ -470,7 +475,7 @@ public class KPI_Validator
                 else { _kPIDTO.ResponsibleDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
 
                 if (isSuccess)
-                {
+                { // If it meets the validations, it deletes the ID that contained the value of the row row and saves it in the list
                     _kPIDTO.ID = null;
                     _excelRowDTO.GoodRowLinesList.Add(_kPIDTO);
                 }
@@ -485,6 +490,10 @@ public class KPI_Validator
             _validationResultDTO.Description = "The file was read successfully";
             throw;
         }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<KPIDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(KPIDTO => KPIDTO.ID).ToList();
         _validationResultDTO.Data = _excelRowDTO;
         return _validationResultDTO;
     }

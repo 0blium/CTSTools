@@ -809,14 +809,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Product_\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CTSTools.BLL\CTSTools.BLL.csproj">
       <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
       <Name>CTSTools.BLL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Product_\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

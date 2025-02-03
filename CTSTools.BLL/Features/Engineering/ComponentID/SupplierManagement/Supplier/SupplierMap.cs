@@ -2,6 +2,7 @@
 using CTSTools.DAL.Features.Engineering.ComponentID.SupplierManagement;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 
@@ -55,5 +56,37 @@ public class SupplierMap
             throw ex;
         }
         return _supplierXPO;
+    }
+    public static List<SupplierXPO> DTOListToXPOList(List<SupplierDTO> SupplierDTOList, UnitOfWork UnitOfWork)
+    {
+        var _supplierXPOList = new List<SupplierXPO>();
+        try
+        {
+            foreach (var _supplierDTO in SupplierDTOList)
+            {
+                _supplierXPOList.Add(DTOtoXPO(_supplierDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _supplierXPOList;
+    }
+    public static List<SupplierDTO> XPCollectionToList(XPCollection<SupplierXPO> SupplierXPCollection)
+    {
+        var _supplierDTOList = new List<SupplierDTO>();
+        try
+        {
+            foreach (var _supplierXPO in SupplierXPCollection)
+            {
+                _supplierDTOList.Add(XPOToDTO(_supplierXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _supplierDTOList;
     }
 }

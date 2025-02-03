@@ -116,15 +116,15 @@ async function InitializeKPICatalogControls() {
                 var reader = new FileReader();
                 reader.onload = async function (readerEvent) {
                     var base64File = readerEvent.target.result;
-                    var _propetieNameList = Object.keys(GetKPIDTO());
+                    var _propetieNameArray = KPIPropertyNameArray();
                     _fileDTO = {
                         FileName: filename,
                         Data: base64File,
-                        DirectoryArray: _propetieNameList
+                        DirectoryArray: _propetieNameArray
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveKPI(_fileDTO);
-                    ShowKPIValidationResults(_validationResultDTO);
+                    ShowMessagesKPIExcelModal(_validationResultDTO);
                     dxLoadPanel.hide();
                 };
                 reader.readAsDataURL(file);
@@ -269,36 +269,6 @@ async function PopulateKPIFields(data) {
     $("#dxKPIIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 
 }
-function ExportKPIExcelFormat() {
-    // Create the Excel workbook and sheet
-    var workbook = new ExcelJS.Workbook();
-    var worksheet = workbook.addWorksheet('Sheet');
-    // Define the columns of the sheet
-    worksheet.columns = [
-        { header: 'Name', key: 'name', width: 30 },
-        { header: 'Description', key: 'description', width: 30 },
-        { header: 'Unit Of Measure', key: 'unitofmeasure', width: 25 },
-        { header: 'Value Type', key: 'valuetype', width: 25 },
-        { header: 'Goal', key: 'goal', width: 20 },
-        { header: 'Owner', key: 'owner', width: 25 },
-        { header: 'Responsible', key: 'responsible', width: 25 },
-        { header: 'Facility', key: 'facility', width: 25 },
-        { header: 'Equivalence', key: 'equivalence', width: 25 },
-        { header: 'Category', key: 'category', width: 25 },
-        { header: 'Owner Department', key: 'ownerdepartment', width: 25 },
-        { header: 'Responsible Department', key: 'responsibledepartment', width: 30 }
-    ];
-    // Set the header style to bold
-    worksheet.getRow(1).font = { bold: true };
-    // Create the Excel file and download it
-    workbook.xlsx.writeBuffer().then(function (buffer) {
-        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        var link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'KPIFormat.xlsx';
-        link.click();
-    });
-}
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
         title: 'You will remove the KPI, are you sure?',
@@ -368,64 +338,6 @@ function ClearKPIFields() {
     $("#dxKPIGrid").dxDataGrid("instance").refresh();
     ClearErrorFeedback();
 }
-function ClearExcelModalFields() {
-    $('#successKPIMessage').hide();
-    $('#errorKPIMessages').hide();
-    var uploader = $("#dxKPIFileUploader").dxFileUploader("instance");
-    if (uploader) {
-        uploader.option("visible", true);
-    }
-    if (uploader) {
-        uploader.reset();
-    }
-}
-function ShowKPISuccessMessage(message) {
-    $('#successKPIMessage').text(message).show();
-    $('#successKPIMessage').removeAttr('hidden');
-}
-
-function ShowKPIErrorMessages(messages) {
-    $('#errorKPIMessages').html(messages).show();
-    $('#errorKPIMessages').removeAttr('hidden');
-}
-
-function ShowKPIValidationResults(_validationResultDTO) {
-    let successMessage = '';
-    let errorMessages = '';
-    if (_validationResultDTO.Data != null) {
-        const hasGoodLines = _validationResultDTO.Data.GoodRowLinesList.length > 0;
-        const hasBadLines = _validationResultDTO.Data.BadRowLinesList.length > 0;
-        if (hasGoodLines && !hasBadLines) {
-            successMessage = "KPIs were created successfully.";
-            ShowKPISuccessMessage(successMessage);
-            ClearKPIFields();
-        }
-        else if (hasGoodLines && hasBadLines) {
-            successMessage = "KPIs created: Some were skipped due to missing or invalid data.";
-            ShowKPISuccessMessage(successMessage);
-            ClearKPIFields();
-        }
-        if (hasBadLines) {
-            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
-            _validationResultDTO.Data.BadRowLinesList.forEach(function (BadLine) {
-                var _goal = BadLine.Goal == -1 ? "Error, The Goal is null or different of numbers" : BadLine.Goal;
-                errorMessages += `<li>Row ${BadLine.ID}:<br>Name: ${BadLine.Name}, Description = ${BadLine.Description}, Unit Of Measure = ${BadLine.UnitOfMeasureName}, Value Type = ${BadLine.ValueTypeName}, Goal = ${_goal}, Owner = ${BadLine.OwnerName}, Responsible = ${BadLine.ResponsibleName}, Facility = ${BadLine.FacilityName}, Equivalence = ${BadLine.EquivalenceName}, Category = ${BadLine.DashboardCategoryName}, Owner Department = ${BadLine.OwnerDepartmentName}, Responsible Department = ${BadLine.ResponsibleDepartmentName}.</li>`;
-            });
-            errorMessages += '</ul>';
-            ShowKPIErrorMessages(errorMessages);
-        }
-    }
-    if (_validationResultDTO.Message === "Error") {
-        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        ShowKPIErrorMessages(errorMessages);
-    }
-    if (_validationResultDTO.Message === "Don't have access to this action.") {
-        $('#UploadExcelKPIModal').modal('hide');
-        ClearExcelModalFields();
-        return HostResponse(_validationResultDTO);
-    }
-    $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
-}
 function GetKPIDTO() {
     let _KPIDTO = {
         ID: $("#hiddenKPIID").val(),
@@ -450,6 +362,112 @@ function GetKPIDTO() {
     }
     return _KPIDTO;
 }
+
+//#region KPI Excel functions
+function ExportKPIExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Unit Of Measure', key: 'unitofmeasure', width: 25 },
+        { header: 'Value Type', key: 'valuetype', width: 25 },
+        { header: 'Goal', key: 'goal', width: 20 },
+        { header: 'Owner', key: 'owner', width: 25 },
+        { header: 'Responsible', key: 'responsible', width: 25 },
+        { header: 'Facility', key: 'facility', width: 25 },
+        { header: 'Equivalence', key: 'equivalence', width: 25 },
+        { header: 'Category', key: 'category', width: 25 },
+        { header: 'Owner Department', key: 'ownerdepartment', width: 25 },
+        { header: 'Responsible Department', key: 'responsibledepartment', width: 30 }
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'KPIFormat.xlsx';
+        link.click();
+    });
+}
+function ShowKPISuccessMessageExcelModal(Message) {
+    $('#successKPIMessage').text(Message).show();
+    $('#successKPIMessage').removeAttr('hidden');
+}
+function ShowKPIErrorMessagesExcelModal(Message) {
+    $('#errorKPIMessages').html(Message).show();
+    $('#errorKPIMessages').removeAttr('hidden');
+}
+function ShowMessagesKPIExcelModal(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    if (_validationResultDTO.Data != null) {
+        const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
+        if (_goodLinesList && !_badLinesList) {
+            // If there are no bad lines, a message is sent that all the data was created.
+            successMessage = "KPIs were created successfully.";
+            ShowKPISuccessMessageExcelModal(successMessage);
+            ClearKPIFields();
+        }
+        else if (_goodLinesList && _badLinesList) {
+            // If there are good and bad lines, a message is sent that there was missing data to save.
+            successMessage = "KPIs created: Some were skipped due to missing or invalid data.";
+            ShowKPISuccessMessageExcelModal(successMessage);
+            ClearKPIFields();
+        }
+        if (_badLinesList) {
+            // If there are bad lines, add each one in the message
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (BadLine) {
+                var _goal = BadLine.Goal == -1 ? "Error, The Goal is null or different of numbers" : BadLine.Goal;
+                errorMessages += `<li>Row ${BadLine.ID}:<br>Name: ${BadLine.Name}, Description = ${BadLine.Description}, Unit Of Measure = ${BadLine.UnitOfMeasureName}, Value Type = ${BadLine.ValueTypeName}, Goal = ${_goal}, Owner = ${BadLine.OwnerName}, Responsible = ${BadLine.ResponsibleName}, Facility = ${BadLine.FacilityName}, Equivalence = ${BadLine.EquivalenceName}, Category = ${BadLine.DashboardCategoryName}, Owner Department = ${BadLine.OwnerDepartmentName}, Responsible Department = ${BadLine.ResponsibleDepartmentName}.</li>`;
+            });
+            errorMessages += '</ul>';
+            ShowKPIErrorMessagesExcelModal(errorMessages);
+        }
+    }
+    if (_validationResultDTO.Message === "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        ShowKPIErrorMessagesExcelModal(errorMessages);
+    }
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
+        $('#UploadExcelKPIModal').modal('hide');
+        ClearExcelModalFields();
+        return HostResponse(_validationResultDTO);
+    }
+    // Hide FileUploader to show messages
+    $("#dxKPIFileUploader").dxFileUploader("instance").option("visible", false);
+}
+function ClearExcelModalFields() {
+    $('#successKPIMessage').hide();
+    $('#errorKPIMessages').hide();
+    var _uploader = $("#dxKPIFileUploader").dxFileUploader("instance");
+    // Show FileUploader
+    if (_uploader) {
+        _uploader.option("visible", true);
+    }
+    // reset FileUploader to upload another file
+    if (_uploader) {
+        _uploader.reset();
+    }
+}
+function KPIPropertyNameArray() {
+    // With Object.keys we create an array of properties of the KPIDTO object
+    var _propertyNameArray = Object.keys(GetKPIDTO());
+    // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
+    // In this case of the KPI we will change the name of DashboardCategoryID to Category
+    // this so that it matches the names of the excel column
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive")
+        .map(PropertyName => PropertyName.includes("DashboardCategoryID") ? "Category" : PropertyName);
+    return _propertyNameArray;
+}
+//#endregion
+
 //#endregion
 
 //#region KPI CRUD Functions
