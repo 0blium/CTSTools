@@ -1,7 +1,8 @@
-using System;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using DevExpress.Xpo;
+using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 
@@ -54,6 +55,37 @@ public class AttributeMap
         }
         return _attributeXPO;
     }
-
+    public static List<AttributeXPO> DTOListToXPOList(List<AttributeDTO> AttributeDTOList, UnitOfWork UnitOfWork)
+    {
+        var _attributeXPOList = new List<AttributeXPO>();
+        try
+        {
+            foreach (var _attributeDTO in AttributeDTOList)
+            {
+                _attributeXPOList.Add(DTOtoXPO(_attributeDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _attributeXPOList;
+    }
+    public static List<AttributeDTO> XPCollectionToList(XPCollection<AttributeXPO> AttributeXPCollection)
+    {
+        var _attributeDTOList = new List<AttributeDTO>();
+        try
+        {
+            foreach (var _attributeXPO in AttributeXPCollection)
+            {
+                _attributeDTOList.Add(XPOToDTO(_attributeXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _attributeDTOList;
+    }
 }
 

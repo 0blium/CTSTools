@@ -77,7 +77,7 @@ public class Supplier_Service
 
     #region Business Logic
 
-    #region Update Excel functions
+    #region Upload Excel functions
 
     public static ValidationResultDTO GenerateSupplierFromExcel(FileDTO FileDTO)
     {

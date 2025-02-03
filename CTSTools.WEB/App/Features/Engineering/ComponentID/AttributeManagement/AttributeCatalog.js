@@ -393,9 +393,11 @@ async function InitializeAttributeListControls() {
                 var reader = new FileReader();
                 reader.onload = async function (readerEvent) {
                     var base64File = readerEvent.target.result;
+                    var _propetieNameArray = AttributePropertyNameArray();
                     _fileDTO = {
                         FileName: filename,
-                        Data: base64File
+                        Data: base64File,
+                        DirectoryArray: _propetieNameArray
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveAttribute(_fileDTO);
@@ -508,35 +510,6 @@ async function PopulateAttributeFields(AttributeDTO) {
     $("#dxHasMultipleOptionsCheckBox").dxCheckBox("instance").option("value", AttributeDTO.HasMultipleOptions);
 
 }
-function ExportAttributteExcelFormat() {
-    // Example data
-    var data = [
-        { HasMultipleOptions: 'true' }
-    ];
-    // Create the Excel workbook and sheet
-    var workbook = new ExcelJS.Workbook();
-    var worksheet = workbook.addWorksheet('Sheet');
-    // Define the columns of the sheet
-    worksheet.columns = [
-        { header: 'Name', key: 'name', width: 30 },
-        { header: 'Description', key: 'description', width: 30 },
-        { header: 'Has Multiple Options', key: 'HasMultipleOptions', width: 25 },
-    ];
-    // Set the header style to bold
-    worksheet.getRow(1).font = { bold: true };
-    // Add the data to the Excel file
-    data.forEach(item => {
-        worksheet.addRow(item);
-    });
-    // Create the Excel file and download it
-    workbook.xlsx.writeBuffer().then(function (buffer) {
-        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        var link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'AttributteFormat.xlsx';
-        link.click();
-    });
-}
 async function ShowDeleteAttributeQuestion() {
     const _alert = await Swal.fire({
         title: 'You will delete the attribute, are you sure?',
@@ -571,63 +544,107 @@ function AttributeActionButtons(Action) {
         document.getElementById("UpdateAttributeButton").addEventListener("click", UpdateAttribute_Global);
     }
 }
+//#region Attributte Excel functions
+function ExportAttributteExcelFormat() {
+    // Example data
+    var data = [
+        { HasMultipleOptions: 'true' }
+    ];
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Has Multiple Options', key: 'HasMultipleOptions', width: 25 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Add the data to the Excel file
+    data.forEach(item => {
+        worksheet.addRow(item);
+    });
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'AttributteFormat.xlsx';
+        link.click();
+    });
+}
 function ClearExcelAttributeModal() {
     $('#successAttributeMessage').hide();
     $('#errorAttributeMessages').hide();
     var uploader = $("#dxAttributeFileUploader").dxFileUploader("instance");
+    // Show FileUploader
     if (uploader) {
         uploader.option("visible", true);
     }
+    // reset FileUploader to upload another file
     if (uploader) {
         uploader.reset();
     }
 }
-function ShowAttributeSuccessMessage(message) {
-    $('#successAttributeMessage').text(message).show();
+function ShowAttributeSuccessMessageExcelModal(Messages) {
+    $('#successAttributeMessage').text(Messages).show();
     $('#successAttributeMessage').removeAttr('hidden');
 }
-
-function ShowAttributeErrorMessages(messages) {
-    $('#errorAttributeMessages').html(messages).show();
+function ShowAttributeErrorMessagesExcelModal(Message) {
+    $('#errorAttributeMessages').html(Message).show();
     $('#errorAttributeMessages').removeAttr('hidden');
 }
-
 function ShowAttributeValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        const hasGoodLines = _validationResultDTO.Data.AttributeGoodLinesList.length > 0;
-        const hasBadLines = _validationResultDTO.Data.AttributeBadLinesList.length > 0;
-        if (hasGoodLines && !hasBadLines) {
+        const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
+        if (_goodLinesList && !_badLinesList) {
+            // If there are no bad lines, a message is sent that all the data was created.
             successMessage = "Attributes were created successfully.";
-            ShowAttributeSuccessMessage(successMessage);
+            ShowAttributeSuccessMessageExcelModal(successMessage);
+            $("#dxAttributeGrid").dxDataGrid("instance").refresh();
             ClearAttributeFields();
         }
-        else if (hasGoodLines && hasBadLines) {
+        else if (_goodLinesList && _badLinesList) {
+            // If there are good and bad lines, a message is sent that there was missing data to save.
             successMessage = "Attributes created: Some were skipped due to missing or invalid data.";
-            ShowAttributeSuccessMessage(successMessage);
+            ShowAttributeSuccessMessageExcelModal(successMessage);
+            $("#dxAttributeGrid").dxDataGrid("instance").refresh();
             ClearAttributeFields();
         }
-        if (hasBadLines) {
+        if (_badLinesList) {
+            // If there are bad lines, add each one in the message
             errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
-            _validationResultDTO.Data.AttributeBadLinesList.forEach(function (badLine) {
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
                 errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.Name}, Description = ${badLine.Description}, Has Multiple Options = ${badLine.HasMultipleOptions}.</li>`;
             });
             errorMessages += '</ul>';
-            ShowAttributeErrorMessages(errorMessages);
+            ShowAttributeErrorMessagesExcelModal(errorMessages);
         }
     }
     if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        ShowAttributeErrorMessages(errorMessages);
+        ShowAttributeErrorMessagesExcelModal(errorMessages);
     }
     if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelAttributeModal').modal('hide');
         ClearExcelAttributeModal();
         return HostResponse(_validationResultDTO);
     }
+    // Hide FileUploader to show messages
     $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);
 }
+function AttributePropertyNameArray() {
+    // With Object.keys we create an array of properties of the SupplierDTO object
+    var _propertyNameArray = Object.keys(GetAttributeDTO());
+    // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive");
+    return _propertyNameArray;
+}
+//#endregion
 function ClearAttributeFields() {
     AttributeActionButtons("Save");
     $("#hiddenAttributeID").val("");

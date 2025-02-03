@@ -206,7 +206,7 @@ public class Supplier_Validator
         try
         {
             bool isSucces = true;
-            SupplierDTO _supplierDTO = new SupplierDTO
+            var _supplierDTO = new SupplierDTO
             {
                 ID = SupplierDTO.ID,
                 Name = !string.IsNullOrEmpty(SupplierDTO.Name) ? SupplierDTO.Name : "Error, The name is null or empty",
@@ -259,9 +259,9 @@ public class Supplier_Validator
         try
         {
             // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
-            // This list contains the kpis that passed the first validation
+            // This list contains the Suppliers that passed the first validation
             var _supplierDTOList = (List<SupplierDTO>)ExcelRowDTO.GoodRowLinesList;
-            // We add the previous kpis that did not pass the first validation
+            // We add the previous Suppliers that did not pass the first validation
             _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
             // If it does not contain data, return _validationResultDTO with _excelRowDTO
             if (_supplierDTOList.Count <= 0)
@@ -278,6 +278,9 @@ public class Supplier_Validator
 
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _supplierDict = _supplierList.ToDictionary(SupplierDTO => SupplierDTO.Name.ToLower(), SupplierDTO => (int?)SupplierDTO.ID);
+
+            // Before sending the list, we will remove the names that are repeated, this is in case they do not exist in the db, so as not to duplicate them
+            _supplierDTOList = _supplierDTOList.GroupBy(SupplierDTO => SupplierDTO.Name.ToLower()).Select(group => group.First()).ToList();
 
             foreach (var SupplierDTO in _supplierDTOList)
             {
