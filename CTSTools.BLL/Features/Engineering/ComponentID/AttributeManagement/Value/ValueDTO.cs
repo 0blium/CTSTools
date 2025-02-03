@@ -23,6 +23,7 @@ public class ValueDTO
     #region Extended Properties
 
     public int?[] ValueIDArray { get; set; }
+    public string[] ValueNameArray { get; set; }
     public AttributeDTO AttributeDTO { get; set; }
     public int? AttributeID { get; set; }
     public string AttributeName { get; set; }
@@ -33,7 +34,8 @@ public class ValueDTO
     #region Constructor
     public ValueDTO()
     {
-        ValueIDArray = new int?[] { };        
+        ValueIDArray = new int?[] { };
+        ValueNameArray = new string[] { };        
         AttributeIDArray = new int?[] { };
     }
     #endregion

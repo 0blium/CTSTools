@@ -129,7 +129,7 @@ public class Attribute_Service
 
     #region Upload Excel functions
 
-    public static ValidationResultDTO GenerateSupplierFromExcel(FileDTO FileDTO)
+    public static ValidationResultDTO GenerateAttributeFromExcel(FileDTO FileDTO)
     {
         var _excelRowDTO = new ExcelRowDTO();
         var _validationResultDTO = new ValidationResultDTO

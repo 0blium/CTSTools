@@ -62,7 +62,7 @@ public class Attribute_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Attribute_Service.GenerateSupplierFromExcel(FileDTO);
+            _validationResultDTO = Attribute_Service.GenerateAttributeFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

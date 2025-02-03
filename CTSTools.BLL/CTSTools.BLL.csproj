@@ -110,7 +110,6 @@
     <Compile Include="Common\Directories\DirectoryDTO.cs" />
     <Compile Include="Common\Excel\ExcelClassDTO.cs" />
     <Compile Include="Common\Excel\ExcelSubClassDTO.cs" />
-    <Compile Include="Common\Excel\ExcelValueDTO.cs" />
     <Compile Include="Common\Files\FileDTO.cs" />
     <Compile Include="Common\Files\File_Enum.cs" />
     <Compile Include="Common\Files\File_Service.cs" />

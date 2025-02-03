@@ -1,16 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
 using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
-using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
 using Elmah;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 
@@ -139,6 +137,29 @@ public class Value_Repository
             _unit.Delete(_valueXPO);
             _unit.CommitChanges();
             _unit.PurgeDeletedObjects();
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO CreateMultipleValue(List<ValueDTO> ValueDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _valueXPOList = ValueMap.DTOListToXPOList(ValueDTOList, _unit);
+            _unit.Save(_valueXPOList);
+            _unit.CommitChanges();
+
         }
         catch (Exception ex)
         {

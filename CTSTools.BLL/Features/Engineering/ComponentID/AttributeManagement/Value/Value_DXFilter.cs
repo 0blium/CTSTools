@@ -20,7 +20,9 @@ public class Value_DXFilter
             if (!string.IsNullOrEmpty(ValueDTO.Code))
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(ValueXPO.Code), ValueDTO.Code));
             if (ValueDTO.ValueIDArray != null && ValueDTO.ValueIDArray.Count() > 0)            
-                _groupOperator.Operands.Add(new InOperator(nameof(ValueXPO.Oid), ValueDTO.ValueIDArray));            
+                _groupOperator.Operands.Add(new InOperator(nameof(ValueXPO.Oid), ValueDTO.ValueIDArray));
+            if (ValueDTO.ValueNameArray != null && ValueDTO.ValueNameArray.Count() > 0)
+                _groupOperator.Operands.Add(new InOperator(nameof(ValueXPO.Name), ValueDTO.ValueNameArray));
             if (ValueDTO.AttributeID != null || ValueDTO.AttributeID > 0)
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(ValueXPO.Attribute), ValueDTO.AttributeID));            
             if (ValueDTO.AttributeIDArray != null && ValueDTO.AttributeIDArray.Count() > 0)            

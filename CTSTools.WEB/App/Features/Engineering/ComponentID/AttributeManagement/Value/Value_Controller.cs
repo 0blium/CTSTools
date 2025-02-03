@@ -61,7 +61,7 @@ public class Value_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Value_Service.ValueFileValidation_Global(FileDTO);
+            _validationResultDTO = Value_Service.GenerateValueFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }
