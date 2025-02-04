@@ -23,11 +23,11 @@ public class DocumentTypeController : ApiController
             SortPropertyName = loadOptions.Sort?[0].Selector.Replace("DTO", ""),
             Filter = DocumentTypeDTO
         };
-        _pagedDocumentTypeDTO.DataList = DocumentType_Service.GetDocumentTypeList_Global(DocumentTypeDTO, _pagedDocumentTypeDTO);
+        _pagedDocumentTypeDTO.DataList = DocumentType_Service.GetList_Global(DocumentTypeDTO, _pagedDocumentTypeDTO);
         loadOptions.Skip = 0;
 
         var _dsLoader = DataSourceLoader.Load(_pagedDocumentTypeDTO.DataList, loadOptions);
-        _dsLoader.totalCount = DocumentType_Service.GetDocumentTypeTotalCount(_pagedDocumentTypeDTO);
+        _dsLoader.totalCount = DocumentType_Service.GetTotalCount(_pagedDocumentTypeDTO);
         return Json(_dsLoader);
     }
     [HttpGet]
@@ -35,7 +35,7 @@ public class DocumentTypeController : ApiController
     public IHttpActionResult GetDocumentTypeList([FromUri] DocumentTypeDTO DocumentTypeDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = DocumentType_Service.GetDocumentTypeList_Global(DocumentTypeDTO);
+        _validationResultDTO.Data = DocumentType_Service.GetList_Global(DocumentTypeDTO);
         return Json(_validationResultDTO);
     }
 
@@ -47,7 +47,7 @@ public class DocumentTypeController : ApiController
         if (_validationResultDTO.Result)
         {
             DocumentTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = DocumentType_Service.CreateDocumentType_Global(DocumentTypeDTO);
+            _validationResultDTO = DocumentType_Service.Create_Global(DocumentTypeDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -59,7 +59,7 @@ public class DocumentTypeController : ApiController
         if (_validationResultDTO.Result)
         {
             DocumentTypeDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = DocumentType_Service.UpdateDocumentType_Global(DocumentTypeDTO);
+            _validationResultDTO = DocumentType_Service.Update_Global(DocumentTypeDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -70,7 +70,7 @@ public class DocumentTypeController : ApiController
         var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(DocumentType), (int)Action_Enum.Delete);
         if (_validationResultDTO.Result)
         {
-            _validationResultDTO = DocumentType_Service.DeleteDocumentType_Global(DocumentTypeDTO);
+            _validationResultDTO = DocumentType_Service.Delete_Global(DocumentTypeDTO);
         }
         return Json(_validationResultDTO);
     }

@@ -6,14 +6,14 @@
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item"><a href="javascript:;">Advanced Settings</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
                     <li class="breadcrumb-item"><a href="javascript:;"></a></li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Role Management</h1>
+                <h1 class="page-header">Roles</h1>
             </div>
             <!-- END page-header -->
 

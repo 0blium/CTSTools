@@ -1,15 +1,11 @@
 ﻿using CTSTools.BLL.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CTSTools.BLL.Features.Quality.QMS.Document;
 
 public class Document_Validator
 {
-    public static ValidationResultDTO CreateDocument_Validation(DocumentDTO DocumentDTO)
+    public static ValidationResultDTO Create_Validation(DocumentDTO DocumentDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -106,7 +102,7 @@ public class Document_Validator
         return _validation_ResultDTO;
     }
 
-    public static ValidationResultDTO UpdateDocument_Validation(DocumentDTO DocumentDTO)
+    public static ValidationResultDTO Update_Validation(DocumentDTO DocumentDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -136,15 +132,7 @@ public class Document_Validator
                     Data = $"{nameof(Document)}{nameof(DocumentDTO.Name)}",
                 });
             }
-            if (DocumentDTO.StatusID == null || DocumentDTO.StatusID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Status Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
+            
             if (DocumentDTO.OwnerID == null || DocumentDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -231,7 +219,7 @@ public class Document_Validator
         return _validation_ResultDTO;
     }
 
-    public static ValidationResultDTO DeleteDocument_Validation(DocumentDTO DocumentDTO)
+    public static ValidationResultDTO Delete_Validation(DocumentDTO DocumentDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {

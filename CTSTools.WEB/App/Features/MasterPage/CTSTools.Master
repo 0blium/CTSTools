@@ -78,9 +78,9 @@
                             <iframe src="http://project/Navbar.aspx?ProjectID=26" width="100%" height="275px" frameborder="0" style="max-height: 275px;"></iframe>
                         </a>
                     </div>--%>
-                    <div class="menu-search mb-n3">
+                  <%--  <div class="menu-search mb-n3">
                         <input type="text" class="form-control" placeholder="Search..." data-sidebar-search="true">
-                    </div>
+                    </div>--%>
                     <div class="menu-header">Navigation</div>
                     <div class="menu-item">
                         <a href="/" class="menu-link theme-teal">
@@ -90,6 +90,7 @@
                             <div class="menu-text">Home</div>
                         </a>
                     </div>
+
                     <div id="Engineering" class="menu-item has-sub menu-nav" data-tech="ComponentID" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -113,6 +114,7 @@
                                             <div class="menu-text">Part Creator</div>
                                         </a>
                                     </div>
+                                
                                     <div id="PartListComponentID" class="menu-item module-nav" data-tech="PartList" hidden>
                                         <a href="/App/Features/Engineering/ComponentID/PartManagement/PartList.aspx" class="menu-link">
                                             <div class="menu-text">Part List</div>
@@ -200,7 +202,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings OrgManagement" hidden>
+                    <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-sliders"></i>
@@ -271,16 +273,16 @@
 
 
 
-                    <div class="menu-item has-sub">
+                    <%--       <div class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-circle-question"></i>
                             </div>
                             <div class="menu-text">Help</div>
                             <div class="menu-caret"></div>
-                        </a>
-                        <div class="menu-submenu">
-                            <%--<div class="menu-item">
+                        </a>--%>
+                    <%--                        <div class="menu-submenu">--%>
+                    <%--<div class="menu-item">
                                 <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20usuario.pdf" class="menu-link">
                                     <div class="menu-text">Guia de usuario</div>
                                 </a>
@@ -290,8 +292,8 @@
                                     <div class="menu-text">Guia de grupo de soporte</div>
                                 </a>
                             </div>--%>
-                        </div>
-                        <%--<div class="menu-item has-sub">
+                    <%--                        </div>--%>
+                    <%--<div class="menu-item has-sub">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Spanish</div>
                                     <div class="menu-caret"></div>
@@ -329,8 +331,7 @@
                                 </div>
                             </div>
                         </div>--%>
-                    </div>
-
+                    <%--                    </div>--%>
                 </div>
                 <!-- END menu -->
             </div>

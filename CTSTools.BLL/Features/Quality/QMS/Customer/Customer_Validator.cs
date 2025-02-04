@@ -10,7 +10,7 @@ namespace CTSTools.BLL.Features.Quality.QMS.Customer;
 
 public class Customer_Validator
 {
-    public static ValidationResultDTO CreateCustomer_Validation(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Create_Validation(CustomerDTO CustomerDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -60,7 +60,7 @@ public class Customer_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO UpdateCustomer_Validation(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Update_Validation(CustomerDTO CustomerDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -120,7 +120,7 @@ public class Customer_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO DeleteCustomer_Validation(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Delete_Validation(CustomerDTO CustomerDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {

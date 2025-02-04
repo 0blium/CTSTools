@@ -10,7 +10,7 @@ namespace CTSTools.BLL.Features.Quality.QMS.Document;
 
 public class Document_DXFilter
 {
-    public static GroupOperator GetDocument_DXFilter(DocumentDTO DocumentDTO)
+    public static GroupOperator GetDXFilter(DocumentDTO DocumentDTO)
     {
         var _groupOperator = new GroupOperator();
         try

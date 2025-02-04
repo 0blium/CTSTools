@@ -8,41 +8,41 @@ namespace CTSTools.BLL.Features.Quality.QMS.DocumentType;
 public class DocumentType_Service
 {
     #region Global CRUD
-    public static ValidationResultDTO CreateDocumentType_Global(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Create_Global(DocumentTypeDTO DocumentTypeDTO)
     {
-        var _ValidationResultDTO = DocumentType_Validator.CreateDocumentType_Validation(DocumentTypeDTO);
+        var _ValidationResultDTO = DocumentType_Validator.Create_Validation(DocumentTypeDTO);
         if (_ValidationResultDTO.Result)
         {
             DocumentTypeDTO.AddedDate = DateTime.Now;
-            _ValidationResultDTO = DocumentType_Repository.CreateDocumentType(DocumentTypeDTO);
+            _ValidationResultDTO = DocumentType_Repository.Create(DocumentTypeDTO);
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO UpdateDocumentType_Global(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Update_Global(DocumentTypeDTO DocumentTypeDTO)
     {
-        var _ValidationResultDTO = DocumentType_Validator.UpdateDocumentType_Validation(DocumentTypeDTO);
+        var _ValidationResultDTO = DocumentType_Validator.Update_Validation(DocumentTypeDTO);
         if (_ValidationResultDTO.Result)
         {
             DocumentTypeDTO.LastUpdate = DateTime.Now;
-            _ValidationResultDTO = DocumentType_Repository.UpdateDocumentType(DocumentTypeDTO);
+            _ValidationResultDTO = DocumentType_Repository.Update(DocumentTypeDTO);
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO DeleteDocumentType_Global(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Delete_Global(DocumentTypeDTO DocumentTypeDTO)
     {
-        var _ValidationResultDTO = DocumentType_Validator.DeleteDocumentType_Validation(DocumentTypeDTO);
+        var _ValidationResultDTO = DocumentType_Validator.Delete_Validation(DocumentTypeDTO);
         if (_ValidationResultDTO.Result)
         {
-            _ValidationResultDTO = DocumentType_Repository.DeleteDocumentType(DocumentTypeDTO);
+            _ValidationResultDTO = DocumentType_Repository.Delete(DocumentTypeDTO);
         }
         return _ValidationResultDTO;
     }
-    public static List<DocumentTypeDTO> GetDocumentTypeList_Global(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
+    public static List<DocumentTypeDTO> GetList_Global(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
     {
         var _documentTypeglobalList = new List<DocumentTypeDTO>();
         try
         {
-            var _documentTypeList = DocumentType_Repository.GetDocumentTypeList(DocumentTypeDTO, PagedResultDTO);
+            var _documentTypeList = DocumentType_Repository.GetList(DocumentTypeDTO, PagedResultDTO);
             // if DocumentType is empty, return list
             _documentTypeglobalList = _documentTypeList;
 
@@ -54,12 +54,12 @@ public class DocumentType_Service
         }
         return _documentTypeglobalList;
     }
-    public static DocumentTypeDTO GetDocumentTypeByID_Global(DocumentTypeDTO DocumentTypeDTO)
+    public static DocumentTypeDTO GetByID_Global(DocumentTypeDTO DocumentTypeDTO)
     {
         var _documentTypeDTO = new DocumentTypeDTO();
         try
         {
-            _documentTypeDTO = DocumentType_Repository.GetDocumentTypeByID((int)DocumentTypeDTO.ID);
+            _documentTypeDTO = DocumentType_Repository.GetByID((int)DocumentTypeDTO.ID);
             // if DocumentType is empty, return list
 
 
@@ -71,12 +71,12 @@ public class DocumentType_Service
         return _documentTypeDTO;
     }
 
-    public static int GetDocumentTypeTotalCount(PagedResultDTO<DocumentTypeDTO> PagedResultDTO)
+    public static int GetTotalCount(PagedResultDTO<DocumentTypeDTO> PagedResultDTO)
     {
         try
         {
             //Get Total Count
-            PagedResultDTO.TotalCount = DocumentType_Repository.GetDocumentTypeCount(PagedResultDTO.Filter, PagedResultDTO);
+            PagedResultDTO.TotalCount = DocumentType_Repository.GetCount(PagedResultDTO.Filter, PagedResultDTO);
         }
         catch (Exception ex)
         {

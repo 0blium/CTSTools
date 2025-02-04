@@ -1,11 +1,9 @@
-﻿using DevExpress.RichEdit.Export;
-using Elmah;
-using Microsoft.AspNetCore.Http;
+﻿using Elmah;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace CTSTools.BLL.Common.Files;
@@ -77,7 +75,7 @@ public class File_Service
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
             // Delete all files
-            _validationResultDTO = DeleteAllFiles(FileDTO);
+            _validationResultDTO = DeleteMultipleFiles(FileDTO);
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
             // Save File
@@ -176,21 +174,20 @@ public class File_Service
                 // Create Directory
                 Directory.CreateDirectory(FileDTO.URL);
 
-
+            
             // Save file on new folder
             File.WriteAllBytes(String.Format("{0}\\{1}", FileDTO.URL, FileDTO.Name), _convertImageBytes);
             _ValidationResultDTO.Data = FileDTO.URL;
         }
         catch (Exception ex)
         {
-            ErrorSignal.FromCurrentContext().Raise(ex);
             _ValidationResultDTO.Result = false;
             _ValidationResultDTO.Message = "Error";
-            _ValidationResultDTO.Description = "There was an error trying to upload the file";
+            _ValidationResultDTO.Description = ex.Message;
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO DeleteAllFiles(FileDTO FileDTO)
+    public static ValidationResultDTO DeleteMultipleFiles(FileDTO FileDTO)
     {
         var _ValidationResultDTO = new ValidationResultDTO
         {

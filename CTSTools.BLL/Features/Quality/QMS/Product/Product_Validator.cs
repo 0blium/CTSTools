@@ -10,7 +10,7 @@ namespace CTSTools.BLL.Features.Quality.QMS.Product;
 
 public class Product_Validator
 {
-    public static ValidationResultDTO CreateProduct_Validation(ProductDTO ProductDTO)
+    public static ValidationResultDTO Create_Validation(ProductDTO ProductDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -60,7 +60,7 @@ public class Product_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO UpdateProduct_Validation(ProductDTO ProductDTO)
+    public static ValidationResultDTO Update_Validation(ProductDTO ProductDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -120,7 +120,7 @@ public class Product_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO DeleteProduct_Validation(ProductDTO ProductDTO)
+    public static ValidationResultDTO Delete_Validation(ProductDTO ProductDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {

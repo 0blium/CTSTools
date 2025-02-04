@@ -36,7 +36,7 @@ public class DocumentRevisionMap
             _documentRevisionDTO.LastUpdate = (DocumentRevisionXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? DocumentRevisionXPO.LastUpdate : (DateTime?)null;
             _documentRevisionDTO.LastUpdateByID = (DocumentRevisionXPO.LastUpdateBy != null) ? DocumentRevisionXPO.LastUpdateBy.Oid : 0;
             _documentRevisionDTO.LastUpdateByName = (DocumentRevisionXPO.LastUpdateBy != null) ? DocumentRevisionXPO.LastUpdateBy.Name : "Unnassigned";
-          
+            
         }
         catch (Exception ex)
         {
@@ -135,9 +135,9 @@ public class DocumentRevisionMap
             }
             if (DocumentRevisionDTO.GetFileDTO)
             {
-                var _fileDTO = new FileDTO { URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{DocumentRevisionDTO.DocumentDTO.TypeName}\\{DocumentRevisionDTO.DocumentDTO.Number}\\{DocumentRevisionDTO.Revision}" };
+                var _fileDTO = new FileDTO { URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{DocumentRevisionDTO.DocumentDTO.FolderName}\\{DocumentRevisionDTO.DocumentDTO.Number}\\{DocumentRevisionDTO.Revision}" };
                 DocumentRevisionDTO.FileDTO = File_Service.GetFile(_fileDTO);
-            }          
+            }
 
         }
         catch (Exception ex)

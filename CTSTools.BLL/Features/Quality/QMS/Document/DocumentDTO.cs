@@ -6,6 +6,7 @@ using CTSTools.BLL.Features.Quality.QMS.Customer;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
 using CTSTools.BLL.Features.Quality.QMS.Product;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Quality.QMS.Document;
 
@@ -15,8 +16,8 @@ public class DocumentDTO
     public int? ID { get; set; }
     public string Name { get; set; }
     public string Number { get; set; }
-    public string URL { get; set; }
     public string LastRevision { get; set; }
+    public string FolderName { get; set; }
     public int? StatusID { get; set; }
     public string StatusName { get; set; }
     public string Description { get; set; }
@@ -40,7 +41,7 @@ public class DocumentDTO
     public UserDTO OwnerDTO { get; set; }
    
     public DepartmentDTO DepartmentDTO { get; set; }
-   
+    public int MyProperty { get; set; }
     public bool GetDepartmentDTO { get; set; }
     public int?[] DepartmentIDArray { get; set; }
     public DocumentTypeDTO TypeDTO { get; set; }
@@ -60,8 +61,15 @@ public class DocumentDTO
     public StatusDTO StatusDTO { get; set; }
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
-
     public FileDTO FileDTO { get; set; }
+    public bool GetFileDTO { get; set; }
+    public Dictionary<int?, DepartmentDTO> DepartmentDict { get; set; }
+    public Dictionary<int?, DocumentTypeDTO> DocumentTypeDict { get; set; }
+    public Dictionary<int?, CustomerDTO> CustomerDict { get; set; }
+    public Dictionary<int?, ProductDTO> ProductDict { get; set; }
+    public Dictionary<int?, StatusDTO> StatusDict { get; set; }
+
+
     #endregion
 
     #region Constructor
@@ -72,14 +80,19 @@ public class DocumentDTO
         DepartmentDTO = new DepartmentDTO();
         DepartmentIDArray = [];
         TypeDTO = new DocumentTypeDTO();
-        TypeIDArray = new int?[] { };
+        TypeIDArray = [];
         CustomerDTO = new CustomerDTO();
-        CustomerIDArray = new int?[] { };
+        CustomerIDArray = [];
         ProductDTO = new ProductDTO();
-        ProductIDArray = new int?[] { };
+        ProductIDArray = [];
         StatusDTO = new StatusDTO();
         StatusIDArray = [];
         FileDTO = new FileDTO();
+        DepartmentDict = [];
+        DocumentTypeDict = [];
+        CustomerDict = [];
+        ProductDict  = [];
+        StatusDict = [];
     }
     #endregion
 }

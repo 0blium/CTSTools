@@ -27,7 +27,14 @@ async function InitializeDocumentCatalogControls() {
     const now = new Date();
 
     $("#dxDocumentGrid").dxDataGrid({
-        dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetCustomerDTO: true, GetProductDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
+        dataSource: await GetDXDocumentDataSource({
+            GetTypeDTO: true,
+            GetCustomerDTO: true,
+            GetProductDTO: true,
+            GetFacilityDTO: true,
+            GetDepartmentDTO: true,
+            GetFileDTO: true
+        }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -154,10 +161,10 @@ async function InitializeDocumentCatalogControls() {
                 {
                     caption: "Status",
                     dataField: "StatusName",
-                    filterOperations: ["contains", "="],
-                    selectedFilterOperation: "contains",
-                    filterValue: "Released"  },
-                { caption: "Revision", dataField: "Revision" },
+                    //filterOperations: ["contains", "="],
+                    //selectedFilterOperation: "contains",
+                    //filterValue: "Released"  
+                },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Owner", dataField: "OwnerName" },
                 { caption: "Department", dataField: "DepartmentName" },
@@ -179,69 +186,69 @@ async function InitializeDocumentCatalogControls() {
             $("#dxAddedEndDateDateBox").dxDateBox("instance").option("min", e.value);
         }
     });
-    $("#dxAddedEndDateDateBox").dxDateBox({
-        type: "date",
-        format: "MM/dd/yyyy",
+    //$("#dxAddedEndDateDateBox").dxDateBox({
+    //    type: "date",
+    //    format: "MM/dd/yyyy",
 
-        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
-        onValueChanged: function (e) {
-            $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
-        }
-    });
-    $("#dxLastUpdateStartDateDateBox").dxDateBox({
-        type: "date",
-        format: "MM/dd/yyyy",
-        value: new Date(now.getFullYear(), now.getMonth(), 1),
-        onValueChanged: function (e) {
-            $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
-        }
-    });
-    $("#dxLastUpdateEndDateDateBox").dxDateBox({
-        type: "date",
-        format: "MM/dd/yyyy",
+    //    value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+    //    onValueChanged: function (e) {
+    //        $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
+    //    }
+    //});
+    //$("#dxLastUpdateStartDateDateBox").dxDateBox({
+    //    type: "date",
+    //    format: "MM/dd/yyyy",
+    //    value: new Date(now.getFullYear(), now.getMonth(), 1),
+    //    onValueChanged: function (e) {
+    //        $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
+    //    }
+    //});
+    //$("#dxLastUpdateEndDateDateBox").dxDateBox({
+    //    type: "date",
+    //    format: "MM/dd/yyyy",
 
-        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
-        onValueChanged: function (e) {
-            $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
-        }
-    });
-    $("#dxFilterStatusTagBox").dxTagBox({
+    //    value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+    //    onValueChanged: function (e) {
+    //        $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
+    //    }
+    //});
+    //$("#dxFilterStatusTagBox").dxTagBox({
 
-        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
-        displayExpr: "StatusName",
-        valueExpr: "StatusID",
-        searchEnabled: true,
-        value: [5],
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
-    $("#dxFilterDepartmentTagBox").dxTagBox({
+    //    dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
+    //    displayExpr: "StatusName",
+    //    valueExpr: "StatusID",
+    //    searchEnabled: true,
+    //    value: [5],
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
+    //$("#dxFilterDepartmentTagBox").dxTagBox({
 
-        dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
-        displayExpr: "Name",
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
-    $("#dxFilterOwnerTagBox").dxTagBox({
+    //    dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
+    //    displayExpr: "Name",
+    //    valueExpr: "ID",
+    //    searchEnabled: true,
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
+    //$("#dxFilterOwnerTagBox").dxTagBox({
 
-        dataSource: await GetDXUserDataSource(),
-        displayExpr: "Name",
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
-    $("#dxFilterDocumentTypeTagBox").dxTagBox({
+    //    dataSource: await GetDXUserDataSource(),
+    //    displayExpr: "Name",
+    //    valueExpr: "ID",
+    //    searchEnabled: true,
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
+    //$("#dxFilterDocumentTypeTagBox").dxTagBox({
 
-        dataSource: await GetDXDocumentTypeDataSource(),
-        displayExpr: "Name",
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
+    //    dataSource: await GetDXDocumentTypeDataSource(),
+    //    displayExpr: "Name",
+    //    valueExpr: "ID",
+    //    searchEnabled: true,
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
 
     $("#dxDocumentNameTextBox").dxTextBox({
         placeholder: 'Type name...'
@@ -337,9 +344,7 @@ function DocumentActionButtons(Action) {
         document.getElementById("DocumentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateDocumentButton" type="button">Save</button>' +
-            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearDocumentButton").addEventListener("click", ClearDocumentFields);
         document.getElementById("CreateDocumentButton").addEventListener("click", CreateDocument_Global);
     }
     else {
@@ -348,9 +353,7 @@ function DocumentActionButtons(Action) {
         document.getElementById("DocumentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateDocumentButton" type="button">Update</button>' +
-            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearDocumentButton").addEventListener("click", ClearDocumentFields);
         document.getElementById("UpdateDocumentButton").addEventListener("click", UpdateDocument_Global);
     }
 }

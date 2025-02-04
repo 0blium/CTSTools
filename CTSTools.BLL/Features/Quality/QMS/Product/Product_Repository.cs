@@ -14,39 +14,30 @@ namespace CTSTools.BLL.Features.Quality.QMS.Product;
 
 public class Product_Repository
 {
-    public static List<ProductDTO> GetProductList(ProductDTO ProductDTO, PagedResultDTO<ProductDTO> PagedResultDTO = null)
+    public static List<ProductDTO> GetList(ProductDTO ProductDTO, PagedResultDTO<ProductDTO> PagedResultDTO = null)
     {
         var _productList = new List<ProductDTO>();
         try
         {
             // Product Filters
-            var _groupOperator = Product_DXFilter.GetProduct_DXFilter(ProductDTO);
+            var _groupOperator = Product_DXFilter.GetDXFilter(ProductDTO);
             var _sortProperty = new SortProperty();
             if (PagedResultDTO?.SortPropertyName != null)
-            {
-                //Sorting
                 _sortProperty = DXFilters_Helper.GetDXSorting(PagedResultDTO);
-            }
+
             if (PagedResultDTO?.dxFilters != null)
-            {
-                //DevExtreme Filter
                 _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
-            }
 
-            using (var _session = XPO_Helper.GetNewSession())
+            using var _session = XPO_Helper.GetNewSession();
+            var _productCollection = new XPCollection<ProductXPO>(_session, _groupOperator, _sortProperty)
             {
-                var _productCollection = new XPCollection<ProductXPO>(_session, _groupOperator, _sortProperty)
-                {
-                    TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
-                    SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
-                    Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(ProductXPO.Oid), SortingDirection.Ascending))
-                };
+                TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
+                SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
+                Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(ProductXPO.Oid), SortingDirection.Ascending))
+            };
 
-                if (_productCollection.AsQueryable().Count() > 0)
-                {
-                    _productList = _productCollection.Select(ProductXPO => ProductMap.XPOToDTO(ProductXPO)).ToList();
-                }
-            }
+            if (_productCollection.AsQueryable().Count() > 0)
+                _productList = _productCollection.Select(ProductXPO => ProductMap.XPOToDTO(ProductXPO)).ToList();
         }
         catch (Exception ex)
         {
@@ -54,27 +45,22 @@ public class Product_Repository
         }
         return _productList;
     }
-    public static int GetProductCount(ProductDTO ProductDTO, PagedResultDTO<ProductDTO> PagedResultDTO = null)
+    public static int GetCount(ProductDTO ProductDTO, PagedResultDTO<ProductDTO> PagedResultDTO = null)
     {
         try
         {
-            var _groupOperator = Product_DXFilter.GetProduct_DXFilter(ProductDTO);
+            var _groupOperator = Product_DXFilter.GetDXFilter(ProductDTO);
             if (PagedResultDTO?.dxFilters != null)
-            {
-                //DevExtreme Filter
                 _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
-            }
-            using (var _session = XPO_Helper.GetNewSession())
-            {
-                return (int)_session.Evaluate<ProductXPO>(new AggregateOperand(null, Aggregate.Count), _groupOperator);
-            }
+            using var _session = XPO_Helper.GetNewSession();
+            return (int)_session.Evaluate<ProductXPO>(new AggregateOperand(null, Aggregate.Count), _groupOperator);
         }
         catch (Exception ex)
         {
             throw ex;
         }
     }
-    public static ValidationResultDTO CreateProduct(ProductDTO ProductDTO)
+    public static ValidationResultDTO Create(ProductDTO ProductDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -82,12 +68,10 @@ public class Product_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _productXPO = ProductMap.DTOtoXPO(ProductDTO, _unit);
-                _unit.Save(_productXPO);
-                _unit.CommitChanges();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _productXPO = ProductMap.DTOtoXPO(ProductDTO, _unit);
+            _unit.Save(_productXPO);
+            _unit.CommitChanges();
         }
         catch (Exception ex)
         {
@@ -98,7 +82,7 @@ public class Product_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO UpdateProduct(ProductDTO ProductDTO)
+    public static ValidationResultDTO Update(ProductDTO ProductDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -106,12 +90,10 @@ public class Product_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _productXPO = ProductMap.DTOtoXPO(ProductDTO, _unit);
-                _unit.Save(_productXPO);
-                _unit.CommitChanges();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _productXPO = ProductMap.DTOtoXPO(ProductDTO, _unit);
+            _unit.Save(_productXPO);
+            _unit.CommitChanges();
         }
         catch (Exception ex)
         {
@@ -122,7 +104,7 @@ public class Product_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO DeleteProduct(ProductDTO ProductDTO)
+    public static ValidationResultDTO Delete(ProductDTO ProductDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -130,13 +112,11 @@ public class Product_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _productXPO = ProductMap.DTOtoXPO(ProductDTO, _unit);
-                _unit.Delete(_productXPO);
-                _unit.CommitChanges();
-                _unit.PurgeDeletedObjects();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _productXPO = ProductMap.DTOtoXPO(ProductDTO, _unit);
+            _unit.Delete(_productXPO);
+            _unit.CommitChanges();
+            _unit.PurgeDeletedObjects();
         }
         catch (Exception ex)
         {

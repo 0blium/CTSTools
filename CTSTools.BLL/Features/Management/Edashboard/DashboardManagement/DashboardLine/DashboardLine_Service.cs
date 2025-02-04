@@ -366,72 +366,96 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             {
                 DateTimeFormatInfo _monthInfo = new DateTimeFormatInfo();
                 //int _fiscalYear = CalculateFiscalYear();
-                int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardDTO.ID }).FirstOrDefault().Year;
-                //    string _month = _monthInfo.GetMonthName(_previousMonth);
-                if (_fiscalYear > 0 && _fiscalYear != null)
+
+                var _dashboardDTO = new DashboardDTO
                 {
-                    var dashboardLineDTOList = GetDashboardLineList_Global(new DashboardLineDTO { DashboardID = DashboardLineDTO.DashboardID, KPIID = DashboardLineDTO.KPIID, FiscalYear = _fiscalYear, DashboardCategoryID = DashboardLineDTO.DashboardCategoryID, GetKPIDTO = true });
-                    var dashboardLineList = dashboardLineDTOList.Where(x => x.Validated == true && x.Value != null).ToList();
-                    if (dashboardLineList.Count() > 0)
+                    ID = DashboardLineDTO.DashboardDTO.ID
+                };
+                int _fiscalYear = Dashboard_Service.GetDashboardList_Global(_dashboardDTO).FirstOrDefault().Year;
+                //    string _month = _monthInfo.GetMonthName(_previousMonth);
+                if (_fiscalYear == 0 && _fiscalYear == null)
+                    return _tendenceList.OrderBy(_order => _order.Order).ToList();
+
+                DashboardLineDTO.KPIDTO.GetUnitOfMeasureDTO = true;
+                var _dashboardLineDTO = new DashboardLineDTO
+                {
+                    DashboardID = DashboardLineDTO.DashboardID,
+                    KPIID = DashboardLineDTO.KPIID,
+                    FiscalYear = _fiscalYear,
+                    DashboardCategoryID = DashboardLineDTO.DashboardCategoryID,
+                    GetKPIDTO = true,
+                    KPIDTO = DashboardLineDTO.KPIDTO
+                };
+
+                var dashboardLineDTOList = GetDashboardLineList_Global(_dashboardLineDTO);
+                var dashboardLineList = dashboardLineDTOList.Where(x => x.Validated == true && x.Value != null).ToList();
+                if (dashboardLineList.Count() == 0)
+                    return _tendenceList;
+
+                foreach (var dashboardLineDTO in dashboardLineList)
+                {
+                    var _tendenceDTO = new DashboardChartDTO
                     {
-                        foreach (var _dashboardLineDTO in dashboardLineList)
-                        {
-                            var _tendenceDTO = new DashboardChartDTO();
-                            _tendenceDTO.Month = _monthInfo.GetMonthName((int)_dashboardLineDTO.Month);
-                            _tendenceDTO.Tendence = (decimal?)_dashboardLineDTO.Value;
-                            _tendenceDTO.Goal = (decimal)_dashboardLineDTO.KPIDTO.Goal;
-                            _tendenceDTO.KPI = _dashboardLineDTO.KPIDTO.Name;
-                            //_tendenceDTO.Order = _dashboardLineDTO.Month;
-                            if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal) { _tendenceDTO.GoalString = string.Format("&ge; {0}", _dashboardLineDTO.KPIDTO.Goal); }
-                            else if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal) { _tendenceDTO.GoalString = string.Format("&le; {0}", _dashboardLineDTO.KPIDTO.Goal); }
-                            else if (_dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal) { _tendenceDTO.GoalString = string.Format("= {0}", _dashboardLineDTO.KPIDTO.Goal); }
-
-
-                            switch ((int)_dashboardLineDTO.Month)
-                            {
-                                case 4:
-                                    _tendenceDTO.Order = 1;
-                                    break;
-                                case 5:
-                                    _tendenceDTO.Order = 2;
-                                    break;
-                                case 6:
-                                    _tendenceDTO.Order = 3;
-                                    break;
-                                case 7:
-                                    _tendenceDTO.Order = 4;
-                                    break;
-                                case 8:
-                                    _tendenceDTO.Order = 5;
-                                    break;
-                                case 9:
-                                    _tendenceDTO.Order = 6;
-                                    break;
-                                case 10:
-                                    _tendenceDTO.Order = 7;
-                                    break;
-                                case 11:
-                                    _tendenceDTO.Order = 8;
-                                    break;
-                                case 12:
-                                    _tendenceDTO.Order = 9;
-                                    break;
-                                case 1:
-                                    _tendenceDTO.Order = 10;
-                                    break;
-                                case 2:
-                                    _tendenceDTO.Order = 11;
-                                    break;
-                                case 3:
-                                    _tendenceDTO.Order = 12;
-                                    break;
-                            }
-
-                            _tendenceList.Add(_tendenceDTO);
-                        }
+                        Month = _monthInfo.GetMonthName((int)dashboardLineDTO.Month),
+                        Tendence = (decimal?)dashboardLineDTO.Value,
+                        Goal = (decimal)dashboardLineDTO.KPIDTO.Goal,
+                        KPI = dashboardLineDTO.KPIDTO.Name
+                    };
+                    //_tendenceDTO.Order = _dashboardLineDTO.Month;
+                    if (dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Greater_Than_Or_Equal)
+                    {
+                        _tendenceDTO.GoalString = string.Format("&ge; {0}", dashboardLineDTO.KPIDTO.Goal);
                     }
-                }
+                    else if (dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Less_Then_Or_Equal)
+                    {
+                        _tendenceDTO.GoalString = string.Format("&le; {0}", dashboardLineDTO.KPIDTO.Goal);
+                    }
+                    else if (dashboardLineDTO.KPIDTO.EquivalenceDTO.ID == (int)Equivalence_Enum.Equal)
+                    {
+                        _tendenceDTO.GoalString = string.Format("= {0}", dashboardLineDTO.KPIDTO.Goal);
+                    }
+                    switch ((int)dashboardLineDTO.Month)
+                    {
+                        case 4:
+                            _tendenceDTO.Order = 1;
+                            break;
+                        case 5:
+                            _tendenceDTO.Order = 2;
+                            break;
+                        case 6:
+                            _tendenceDTO.Order = 3;
+                            break;
+                        case 7:
+                            _tendenceDTO.Order = 4;
+                            break;
+                        case 8:
+                            _tendenceDTO.Order = 5;
+                            break;
+                        case 9:
+                            _tendenceDTO.Order = 6;
+                            break;
+                        case 10:
+                            _tendenceDTO.Order = 7;
+                            break;
+                        case 11:
+                            _tendenceDTO.Order = 8;
+                            break;
+                        case 12:
+                            _tendenceDTO.Order = 9;
+                            break;
+                        case 1:
+                            _tendenceDTO.Order = 10;
+                            break;
+                        case 2:
+                            _tendenceDTO.Order = 11;
+                            break;
+                        case 3:
+                            _tendenceDTO.Order = 12;
+                            break;
+                    }
 
+                    _tendenceList.Add(_tendenceDTO);
+                }
 
                 return _tendenceList.OrderBy(_order => _order.Order).ToList();
             }

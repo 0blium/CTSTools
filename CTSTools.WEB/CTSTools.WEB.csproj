@@ -188,6 +188,10 @@
     <Content Include="App\Common\Assets\css\DevExtreme\dx.material-teal.css" />
     <Content Include="App\Common\Assets\css\DevExtreme\dx.material.css" />
     <Content Include="App\Common\Assets\css\toastr\toastr.min.css" />
+    <Content Include="App\Common\Assets\img\Crown-Technical-Systems_Logo_A-Flex-Company_Color_300dpi.png" />
+    <Content Include="App\Common\Assets\img\Crown-Technical-Systems_Logo_A-Flex-Company_White_300dpi.png" />
+    <Content Include="App\Common\Assets\img\cts-logo-color-flex.png" />
+    <Content Include="App\Common\Assets\img\cts-logo-white-flex.png" />
     <Content Include="App\Common\Assets\img\favicon.ico" />
     <Content Include="App\Common\Assets\img\Festive\cupid.gif" />
     <Content Include="App\Common\Assets\img\FileIcons\doc.png" />

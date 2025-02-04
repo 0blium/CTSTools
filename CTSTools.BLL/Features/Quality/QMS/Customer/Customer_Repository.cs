@@ -15,39 +15,28 @@ namespace CTSTools.BLL.Features.Quality.QMS.Customer;
 
 public class Customer_Repository
 {
-    public static List<CustomerDTO> GetCustomerList(CustomerDTO CustomerDTO, PagedResultDTO<CustomerDTO> PagedResultDTO = null)
+    public static List<CustomerDTO> GetList(CustomerDTO CustomerDTO, PagedResultDTO<CustomerDTO> PagedResultDTO = null)
     {
         var _customerList = new List<CustomerDTO>();
         try
         {
             // Customer Filters
-            var _groupOperator = Customer_DXFilter.GetCustomer_DXFilter(CustomerDTO);
+            var _groupOperator = Customer_DXFilter.GetDXFilter(CustomerDTO);
             var _sortProperty = new SortProperty();
             if (PagedResultDTO?.SortPropertyName != null)
-            {
-                //Sorting
                 _sortProperty = DXFilters_Helper.GetDXSorting(PagedResultDTO);
-            }
             if (PagedResultDTO?.dxFilters != null)
-            {
-                //DevExtreme Filter
                 _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
-            }
 
-            using (var _session = XPO_Helper.GetNewSession())
+            using var _session = XPO_Helper.GetNewSession();
+            var _customerCollection = new XPCollection<CustomerXPO>(_session, _groupOperator, _sortProperty)
             {
-                var _customerCollection = new XPCollection<CustomerXPO>(_session, _groupOperator, _sortProperty)
-                {
-                    TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
-                    SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
-                    Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(CustomerXPO.Oid), SortingDirection.Ascending))
-                };
-
-                if (_customerCollection.AsQueryable().Count() > 0)
-                {
-                    _customerList = _customerCollection.Select(CustomerXPO => CustomerMap.XPOToDTO(CustomerXPO)).ToList();
-                }
-            }
+                TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
+                SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
+                Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(CustomerXPO.Oid), SortingDirection.Ascending))
+            };
+            if (_customerCollection.AsQueryable().Count() > 0)
+                _customerList = _customerCollection.Select(CustomerXPO => CustomerMap.XPOToDTO(CustomerXPO)).ToList();
         }
         catch (Exception ex)
         {
@@ -55,27 +44,22 @@ public class Customer_Repository
         }
         return _customerList;
     }
-    public static int GetCustomerCount(CustomerDTO CustomerDTO, PagedResultDTO<CustomerDTO> PagedResultDTO = null)
+    public static int GetCount(CustomerDTO CustomerDTO, PagedResultDTO<CustomerDTO> PagedResultDTO = null)
     {
         try
         {
-            var _groupOperator = Customer_DXFilter.GetCustomer_DXFilter(CustomerDTO);
+            var _groupOperator = Customer_DXFilter.GetDXFilter(CustomerDTO);
             if (PagedResultDTO?.dxFilters != null)
-            {
-                //DevExtreme Filter
-                _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
-            }
-            using (var _session = XPO_Helper.GetNewSession())
-            {
-                return (int)_session.Evaluate<CustomerXPO>(new AggregateOperand(null, Aggregate.Count), _groupOperator);
-            }
+                  _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
+            using var _session = XPO_Helper.GetNewSession();
+            return (int)_session.Evaluate<CustomerXPO>(new AggregateOperand(null, Aggregate.Count), _groupOperator);
         }
         catch (Exception ex)
         {
             throw ex;
         }
     }
-    public static ValidationResultDTO CreateCustomer(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Create(CustomerDTO CustomerDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -83,12 +67,10 @@ public class Customer_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _customerXPO = CustomerMap.DTOtoXPO(CustomerDTO, _unit);
-                _unit.Save(_customerXPO);
-                _unit.CommitChanges();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _customerXPO = CustomerMap.DTOtoXPO(CustomerDTO, _unit);
+            _unit.Save(_customerXPO);
+            _unit.CommitChanges();
         }
         catch (Exception ex)
         {
@@ -99,7 +81,7 @@ public class Customer_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO UpdateCustomer(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Update(CustomerDTO CustomerDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -107,12 +89,10 @@ public class Customer_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _customerXPO = CustomerMap.DTOtoXPO(CustomerDTO, _unit);
-                _unit.Save(_customerXPO);
-                _unit.CommitChanges();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _customerXPO = CustomerMap.DTOtoXPO(CustomerDTO, _unit);
+            _unit.Save(_customerXPO);
+            _unit.CommitChanges();
         }
         catch (Exception ex)
         {
@@ -123,7 +103,7 @@ public class Customer_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO DeleteCustomer(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Delete(CustomerDTO CustomerDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -131,13 +111,11 @@ public class Customer_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _customerXPO = CustomerMap.DTOtoXPO(CustomerDTO, _unit);
-                _unit.Delete(_customerXPO);
-                _unit.CommitChanges();
-                _unit.PurgeDeletedObjects();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _customerXPO = CustomerMap.DTOtoXPO(CustomerDTO, _unit);
+            _unit.Delete(_customerXPO);
+            _unit.CommitChanges();
+            _unit.PurgeDeletedObjects();
         }
         catch (Exception ex)
         {

@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Directories;
 using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.Quality.QMS.Document;
@@ -13,97 +14,111 @@ namespace CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
 public class DocumentRevision_Service
 {
     #region Global CRUD
-    public static ValidationResultDTO CreateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
+    public static ValidationResultDTO Create_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
         // Step 1. Assign Revision
         var _documentRevisionDTO = new DocumentRevisionDTO { DocumentID = DocumentRevisionDTO.DocumentID };
-        var _documentRevisionList = GetDocumentRevisionList_Global(_documentRevisionDTO);
+        var _documentRevisionList = GetList_Global(_documentRevisionDTO);
         var _lastDocumentRevisionDTO = _documentRevisionList.LastOrDefault();
         DocumentRevisionDTO.Revision = (_lastDocumentRevisionDTO == null) ? "A" : GenerateNewRevisionSequence(_lastDocumentRevisionDTO.Revision);
         DocumentRevisionDTO.StatusID = (int)QMS_Document.Released;
         //Step 2. Validate fields
-        _validationResultDTO = DocumentRevision_Validator.CreateDocumentRevision_Validation(DocumentRevisionDTO);
+        _validationResultDTO = DocumentRevision_Validator.Create_Validation(DocumentRevisionDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
         //Step 3. Change statuses if needed
-        if (_documentRevisionList.Count() == 0)
-            return _validationResultDTO;
-
-        var _revisionToBeObsoleteList = new List<DocumentRevisionDTO>();
-        // Add new status and validate fields
-        foreach (var _revisionToBeObsoleteDTO in _documentRevisionList)
+        if (_documentRevisionList.Count != 0)
         {
-            _revisionToBeObsoleteDTO.StatusID = (int)QMS_Document.Obsolete;
-            _revisionToBeObsoleteDTO.LastUpdateByID = DocumentRevisionDTO.AddedByID;
-            _revisionToBeObsoleteDTO.LastUpdate = DateTime.Now;
-            _revisionToBeObsoleteList.Add(_revisionToBeObsoleteDTO);
+            var _revisionToBeObsoleteList = new List<DocumentRevisionDTO>();
+            // Add new status and validate fields
+            foreach (var _revisionToBeObsoleteDTO in _documentRevisionList)
+            {
+                _revisionToBeObsoleteDTO.StatusID = (int)QMS_Document.Obsolete;
+                _revisionToBeObsoleteDTO.LastUpdateByID = DocumentRevisionDTO.AddedByID;
+                _revisionToBeObsoleteDTO.LastUpdate = DateTime.Now;
+                _revisionToBeObsoleteList.Add(_revisionToBeObsoleteDTO);
+            }
+            // Update multiple records
+            _validationResultDTO = DocumentRevision_Repository.UpdateMultiple(_revisionToBeObsoleteList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
         }
-        // Update multiple records
-        _validationResultDTO = DocumentRevision_Repository.UpdateMultipleDocumentRevision(_revisionToBeObsoleteList);
-        if (!_validationResultDTO.Result)
-            return _validationResultDTO;
-
         // Step 4. Create new document revision
         DocumentRevisionDTO.AddedDate = DateTime.Now;
-        _validationResultDTO = DocumentRevision_Repository.CreateDocumentRevision(DocumentRevisionDTO);
+        _validationResultDTO = DocumentRevision_Repository.Create(DocumentRevisionDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
         // Step 5. Update Document status
-        var _documentDTO = Document_Repository.GetDocumentByID((int)DocumentRevisionDTO.DocumentID);
+
+        var _documentDTO = new DocumentDTO
+        {
+            ID = DocumentRevisionDTO.DocumentID,
+            GetTypeDTO = true
+        };
+        _documentDTO = Document_Service.GetByID_Global(_documentDTO);
         _documentDTO.StatusID = DocumentRevisionDTO.StatusID;
         _documentDTO.LastRevision = DocumentRevisionDTO.Revision;
         _documentDTO.LastUpdateByID = DocumentRevisionDTO.AddedByID;
         _documentDTO.LastUpdate = DateTime.Now;
-        _validationResultDTO = Document_Service.UpdateDocument_Global(_documentDTO);
+        _validationResultDTO = Document_Service.Update_Global(_documentDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
         //Step 6. Upload a file
-        DocumentRevisionDTO.FileDTO.URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentDTO.TypeName}\\{_documentDTO.Number}\\{DocumentRevisionDTO.Revision}\\";
+        DocumentRevisionDTO.FileDTO.URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentDTO.FolderName}\\{_documentDTO.Number}\\{DocumentRevisionDTO.Revision}\\";
         _validationResultDTO = File_Service.CreateFile(DocumentRevisionDTO.FileDTO);
         return _validationResultDTO;
     }
-    public static ValidationResultDTO UpdateDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
+    public static ValidationResultDTO Update_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
         // Step 1. Validate Fields
-        var _ValidationResultDTO = DocumentRevision_Validator.UpdateDocumentRevision_Validation(DocumentRevisionDTO);
+        var _ValidationResultDTO = DocumentRevision_Validator.Update_Validation(DocumentRevisionDTO);
         if (!_ValidationResultDTO.Result)
             return _ValidationResultDTO;
 
         //Step 2. Update Document Revision
         DocumentRevisionDTO.LastUpdate = DateTime.Now;
-        _ValidationResultDTO = DocumentRevision_Repository.UpdateDocumentRevision(DocumentRevisionDTO);
+        _ValidationResultDTO = DocumentRevision_Repository.Update(DocumentRevisionDTO);
         if (!_ValidationResultDTO.Result)
             return _ValidationResultDTO;
 
         //Step 3. Update Document  status
-        var _documentDTO = Document_Repository.GetDocumentByID((int)DocumentRevisionDTO.DocumentID);
+        var _documentDTO = Document_Repository.GetByID((int)DocumentRevisionDTO.DocumentID);
         _documentDTO.StatusID = DocumentRevisionDTO.StatusID;
         _documentDTO.LastUpdateByID = DocumentRevisionDTO.LastUpdateByID;
         _documentDTO.LastUpdate = DateTime.Now;
-        _validationResultDTO = Document_Service.UpdateDocument_Global(_documentDTO);
+        _validationResultDTO = Document_Service.Update_Global(_documentDTO);
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO DeleteDocumentRevision_Global(DocumentRevisionDTO DocumentRevisionDTO)
+    public static ValidationResultDTO Delete_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
-        var _ValidationResultDTO = DocumentRevision_Validator.DeleteDocumentRevision_Validation(DocumentRevisionDTO);
-        if (_ValidationResultDTO.Result)
-        {
-            _ValidationResultDTO = DocumentRevision_Repository.DeleteDocumentRevision(DocumentRevisionDTO);
-        }
-        return _ValidationResultDTO;
+        // Step 1. Validate Fields
+        var _validationResultDTO = DocumentRevision_Validator.Delete_Validation(DocumentRevisionDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 2. Delete Revision Directory
+        DocumentRevisionDTO.GetDocumentDTO = true;
+        DocumentRevisionDTO = GetByID_Global(DocumentRevisionDTO);
+        DocumentRevisionDTO.FileDTO.URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{DocumentRevisionDTO.DocumentDTO.FolderName}\\{DocumentRevisionDTO.DocumentDTO.Number}\\{DocumentRevisionDTO.Revision}\\";
+        _validationResultDTO = Directory_Service.Delete(DocumentRevisionDTO.FileDTO.URL);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 3. Delete Document Revision
+        _validationResultDTO = DocumentRevision_Repository.Delete(DocumentRevisionDTO);
+
+        return _validationResultDTO;
     }
-    public static List<DocumentRevisionDTO> GetDocumentRevisionList_Global(DocumentRevisionDTO DocumentRevisionDTO, PagedResultDTO<DocumentRevisionDTO> PagedResultDTO = null)
+    public static List<DocumentRevisionDTO> GetList_Global(DocumentRevisionDTO DocumentRevisionDTO, PagedResultDTO<DocumentRevisionDTO> PagedResultDTO = null)
     {
         var _documentRevisionList = new List<DocumentRevisionDTO>();
         try
         {
-            _documentRevisionList = DocumentRevision_Repository.GetDocumentRevisionList(DocumentRevisionDTO, PagedResultDTO);
+            _documentRevisionList = DocumentRevision_Repository.GetList(DocumentRevisionDTO, PagedResultDTO);
             if (_documentRevisionList.Count() == 0 || !DocumentRevisionDTO.GetDocumentDTO && !DocumentRevisionDTO.GetStatusDTO && DocumentRevisionDTO.GetFileDTO)
                 return _documentRevisionList;
 
-            DocumentRevisionDTO = GetDocumentRevisionRelatedData(DocumentRevisionDTO, _documentRevisionList);
+            DocumentRevisionDTO = GetRelatedData(DocumentRevisionDTO, _documentRevisionList);
             _documentRevisionList = DocumentRevisionMap.DictionariesToList(DocumentRevisionDTO, _documentRevisionList);
 
         }
@@ -113,15 +128,15 @@ public class DocumentRevision_Service
         }
         return _documentRevisionList;
     }
-    public static DocumentRevisionDTO GetDocumentRevisionByID_Global(DocumentRevisionDTO DocumentRevisionDTO)
+    public static DocumentRevisionDTO GetByID_Global(DocumentRevisionDTO DocumentRevisionDTO)
     {
         try
         {
-            DocumentRevisionDTO = DocumentRevision_Repository.GetDocumentByID((int)DocumentRevisionDTO.ID);
+            DocumentRevisionDTO = DocumentRevision_Repository.GetByID((int)DocumentRevisionDTO.ID);
             // if DocumentRevision is empty, return list
             if (DocumentRevisionDTO == null || !DocumentRevisionDTO.GetDocumentDTO && !DocumentRevisionDTO.GetStatusDTO && !DocumentRevisionDTO.GetFileDTO)
                 return DocumentRevisionDTO;
-            DocumentRevisionDTO = GetDocumentRevisionRelatedData(DocumentRevisionDTO);
+            DocumentRevisionDTO = GetRelatedData(DocumentRevisionDTO);
             DocumentRevisionDTO = DocumentRevisionMap.DictionaryToDTO(DocumentRevisionDTO);
         }
         catch (Exception ex)
@@ -130,7 +145,7 @@ public class DocumentRevision_Service
         }
         return DocumentRevisionDTO;
     }
-    internal static DocumentRevisionDTO GetDocumentRevisionRelatedData(DocumentRevisionDTO DocumentRevisionDTO, List<DocumentRevisionDTO> DocumentRevisionList = null)
+    internal static DocumentRevisionDTO GetRelatedData(DocumentRevisionDTO DocumentRevisionDTO, List<DocumentRevisionDTO> DocumentRevisionList = null)
     {
         try
         {
@@ -142,7 +157,7 @@ public class DocumentRevision_Service
                                                                                       .Select(s => s.Key)
                                                                                       .ToArray();
 
-                DocumentRevisionDTO.DocumentDict = Document_Service.GetDocumentList_Global(DocumentRevisionDTO.DocumentDTO)
+                DocumentRevisionDTO.DocumentDict = Document_Service.GetList_Global(DocumentRevisionDTO.DocumentDTO)
                                                                    .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
             if (DocumentRevisionDTO.GetStatusDTO)
@@ -156,6 +171,7 @@ public class DocumentRevision_Service
                 DocumentRevisionDTO.StatusDict = Status_Service.GetStatusList_Global(DocumentRevisionDTO.StatusDTO)
                                                                .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
+
         }
         catch (Exception ex)
         {
@@ -164,12 +180,12 @@ public class DocumentRevision_Service
         return DocumentRevisionDTO;
 
     }
-    public static int GetDocumentRevisionTotalCount(PagedResultDTO<DocumentRevisionDTO> PagedResultDTO)
+    public static int GetTotalCount(PagedResultDTO<DocumentRevisionDTO> PagedResultDTO)
     {
         try
         {
             //Get Total Count
-            PagedResultDTO.TotalCount = DocumentRevision_Repository.GetDocumentRevisionCount(PagedResultDTO.Filter, PagedResultDTO);
+            PagedResultDTO.TotalCount = DocumentRevision_Repository.GetCount(PagedResultDTO.Filter, PagedResultDTO);
         }
         catch (Exception ex)
         {
@@ -206,23 +222,29 @@ public class DocumentRevision_Service
     public static ValidationResultDTO UpdateDocumentFile(DocumentRevisionDTO DocumentRevisionDTO)
     {
         //Step 1. Update Document
-        var _documentDTO = Document_Repository.GetDocumentByID((int)DocumentRevisionDTO.DocumentID);
+
+        var _documentDTO = new DocumentDTO
+        {
+            ID = DocumentRevisionDTO.DocumentID,
+            GetTypeDTO = true
+        };
+        _documentDTO = Document_Service.GetByID_Global(_documentDTO);
         _documentDTO.LastUpdateByID = DocumentRevisionDTO.LastUpdateByID;
         _documentDTO.LastUpdate = DateTime.Now;
-        var _validationResultDTO = Document_Service.UpdateDocument_Global(_documentDTO);
+        var _validationResultDTO = Document_Service.Update_Global(_documentDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
 
         // Step 2. Update Document status
-        var _documentRevisionDTO = GetDocumentRevisionByID_Global(DocumentRevisionDTO);
+        var _documentRevisionDTO = GetByID_Global(DocumentRevisionDTO);
         _documentRevisionDTO.LastUpdate = DateTime.Now;
         _documentRevisionDTO.LastUpdateByID = DocumentRevisionDTO.LastUpdateByID;
-        _validationResultDTO = UpdateDocumentRevision_Global(_documentRevisionDTO);
+        _validationResultDTO = Update_Global(_documentRevisionDTO);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
 
         //Step 3. Upload a file
-        DocumentRevisionDTO.FileDTO.URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentDTO.TypeName}\\{_documentDTO.Number}\\{_documentRevisionDTO.Revision}\\";
+        DocumentRevisionDTO.FileDTO.URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentDTO.FolderName}\\{_documentDTO.Number}\\{_documentRevisionDTO.Revision}\\";
         _validationResultDTO = File_Service.UpdateFile_Global(DocumentRevisionDTO.FileDTO);
         return _validationResultDTO;
     }
