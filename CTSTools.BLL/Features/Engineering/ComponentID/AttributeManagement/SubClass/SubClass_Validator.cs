@@ -1,5 +1,7 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using Elmah;
@@ -70,7 +72,7 @@ public class SubClass_Validator
                         Description = $"Code: {SubClassDTO.SubClassValueDTO.Code} is already on the database."
                     };
                 }
-                
+
             }
             var _sameNameList = _valueLinkList.Count() > 0 ? _valueLinkList.Where(w => w.ChildValueDTO.Name.ToUpper().Trim().Replace(" ", "") == SubClassDTO.SubClassValueDTO.Name.ToUpper().Trim().Replace(" ", "") && w.ParentValueID == SubClassDTO.ParentValueID).ToList() : null;
             if (_sameNameList != null)
@@ -279,5 +281,127 @@ public class SubClass_Validator
         return _validation_ResultDTO;
     }
 
+    #region Excel SubClass Validation
+    public static ValidationResultDTO ExcelSubClassRows_Validation(SubClassDTO SubClassDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<SubClassDTO>(),
+            BadRowLinesList = new List<SubClassDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+        try
+        {
+            bool isSucces = true;
+            var _subClassDTO = new SubClassDTO { SubClassValueDTO = new ValueDTO() };
 
+            _subClassDTO.ID = SubClassDTO.ID;
+            _subClassDTO.SubClassValueDTO.Name = !string.IsNullOrEmpty(SubClassDTO.SubClassValueDTO.Name) ? SubClassDTO.SubClassValueDTO.Name : "Error, The name is null or empty";
+            _subClassDTO.SubClassValueDTO.Code = SubClassDTO.SubClassValueDTO.Code;
+            _subClassDTO.SubClassValueDTO.Description = SubClassDTO.SubClassValueDTO.Description;
+            _subClassDTO.SubClassValueDTO.AttributeID = (int)Attribute_Enum.SubClass;
+            _subClassDTO.ParentValueName = !string.IsNullOrEmpty(SubClassDTO.ParentValueName) ? SubClassDTO.ParentValueName : "Error, The class is null or empty";
+            _subClassDTO.SubClassValueDTO.AddedDate = DateTime.Now;
+            _subClassDTO.SubClassValueDTO.IsActive = true;
+            _subClassDTO.IsActive = true;
+
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
+            if (_subClassDTO.SubClassValueDTO.Name.StartsWith("Error") ||
+                _subClassDTO.ParentValueName.StartsWith("Error"))
+                isSucces = false;
+
+            // If it meets all the validations, it saves it in GoodRowLinesList else
+            if (isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_subClassDTO);
+            else // If not save it BadRowLinesList
+                _excelRowDTO.BadRowLinesList.Add(_subClassDTO);
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw ex;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelSubClassInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<SubClassDTO>(),
+            BadRowLinesList = new List<SubClassDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the SubClass that passed the first validation
+            var _subClassDTOList = (List<SubClassDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous SubClass that did not pass the first validation
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
+            if (_subClassDTOList.Count <= 0)
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
+
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            var _classDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.Class, ValueNameArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.ParentValueName.ToLower()).Distinct().ToArray() };
+
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
+            var _classList = Value_Service.GetValueList_Global(_classDTO);
+
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
+            var _classDict = _classList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => (int?)SubClassDTO.ID);
+
+            foreach (var SubClassDTO in _subClassDTOList)
+            {
+                bool isSuccess = true;
+
+                // we use TryGetValue to try to get the value associated with the key from the dictionary,
+                // If the value of ParentValueName is found, it is assigned with the corresponding value (ID) from the dictionary.
+                // 'out' keyword indicates that ClassID is an output parameter, if the name is not found, save the error message.
+                if (_classDict.TryGetValue(SubClassDTO.ParentValueName.ToLower(), out int? ClassID))
+                {
+                    SubClassDTO.ParentAttributeID = (int)Attribute_Enum.Class;
+                    SubClassDTO.ParentValueID = ClassID;
+                    SubClassDTO.ChildAttributeID = (int)Attribute_Enum.SubClass;
+                }
+                else { SubClassDTO.ParentValueName = "Error: The class does not exist"; isSuccess = false; }
+
+                if (isSuccess)
+                {
+                    SubClassDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(SubClassDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(SubClassDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<SubClassDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(SubClassDTO => SubClassDTO.ID).ToList();
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    #endregion
 }

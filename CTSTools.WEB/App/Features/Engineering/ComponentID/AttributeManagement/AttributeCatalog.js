@@ -315,6 +315,7 @@ function ShowValueValidationResults(_validationResultDTO) {
         ClearExcelValueModal();
         return HostResponse(_validationResultDTO);
     }
+    // Hide FileUploader to show messages
     $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function ValuePropertyNameArray() {
@@ -603,8 +604,8 @@ function ClearExcelAttributeModal() {
         uploader.reset();
     }
 }
-function ShowAttributeSuccessMessageExcelModal(Messages) {
-    $('#successAttributeMessage').text(Messages).show();
+function ShowAttributeSuccessMessageExcelModal(Message) {
+    $('#successAttributeMessage').text(Message).show();
     $('#successAttributeMessage').removeAttr('hidden');
 }
 function ShowAttributeErrorMessagesExcelModal(Message) {

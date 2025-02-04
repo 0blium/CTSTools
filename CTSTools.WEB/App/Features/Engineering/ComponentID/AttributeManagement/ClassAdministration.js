@@ -64,9 +64,11 @@ async function InitializeClassCatalogControls() {
                 var reader = new FileReader();
                 reader.onload = async function (readerEvent) {
                     var base64File = readerEvent.target.result;
+                    var _propetieNameArray = ClassPropertyNameArray();
                     _fileDTO = {
                         FileName: filename,
-                        Data: base64File
+                        Data: base64File,
+                        DirectoryArray: _propetieNameArray
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveClass(_fileDTO);
@@ -238,6 +240,7 @@ function ClearClassFields() {
     $("#dxClassGrid").dxDataGrid("instance").deselectRows(keys);
     //    ClearErrorFeedback();
 }
+//#region Class Excel functions
 function ExportClassExcelFormat() {
     // Create the Excel workbook and sheet
     var workbook = new ExcelJS.Workbook();
@@ -265,59 +268,78 @@ function ClearExcelClassModalFields() {
     $('#successClassMessage').hide();
     $('#errorClassMessages').hide();
     var uploader = $("#dxClassFileUploader").dxFileUploader("instance");
+    // Show FileUploader
     if (uploader) {
         uploader.option("visible", true);
     }
+    // reset FileUploader to upload another file
     if (uploader) {
         uploader.reset();
     }
 }
-function ShowClassSuccessMessage(message) {
-    $('#successClassMessage').text(message).show();
+function ShowClassSuccessMessageExcelModal(Message) {
+    $('#successClassMessage').text(Message).show();
     $('#successClassMessage').removeAttr('hidden');
 }
-
-function ShowClassErrorMessages(messages) {
-    $('#errorClassMessages').html(messages).show();
+function ShowClassErrorMessagesExcelModal(Message) {
+    $('#errorClassMessages').html(Message).show();
     $('#errorClassMessages').removeAttr('hidden');
 }
-
 function ShowClassValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        const hasGoodLines = _validationResultDTO.Data.ClassGoodLinesList.length > 0;
-        const hasBadLines = _validationResultDTO.Data.ClassBadLinesList.length > 0;
-        if (hasGoodLines && !hasBadLines) {
+        const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
+        if (_goodLinesList && !_badLinesList) {
+            // If there are no bad lines, a message is sent that all the data was created.
             successMessage = "Class were created successfully.";
-            ShowClassSuccessMessage(successMessage);
+            ShowClassSuccessMessageExcelModal(successMessage);
+            $("#dxClassGrid").dxDataGrid("instance").refresh();
             ClearClassFields();
         }
-        else if (hasGoodLines && hasBadLines) {
+        else if (_goodLinesList && _badLinesList) {
+            // If there are good and bad lines, a message is sent that there was missing data to save.
             successMessage = "Class created: Some were skipped due to missing or invalid data.";
-            ShowClassSuccessMessage(successMessage);
+            ShowClassSuccessMessageExcelModal(successMessage);
+            $("#dxClassGrid").dxDataGrid("instance").refresh();
             ClearClassFields();
         }
-        if (hasBadLines) {
+        if (_badLinesList) {
+            // If there are bad lines, add each one in the message
             errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
-            _validationResultDTO.Data.ClassBadLinesList.forEach(function (badLine) {
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
                 errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.ClassValueDTO.Name}, Code: ${badLine.ClassValueDTO.Code}, Description = ${badLine.ClassValueDTO.Description}, Part Type: ${badLine.PartTypeDTO.Name}, Component Type: ${badLine.ComponentTypeDTO.Name}.</li>`;
             });
             errorMessages += '</ul>';
-            ShowClassErrorMessages(errorMessages);
+            ShowClassErrorMessagesExcelModal(errorMessages);
         }
     }
     if (_validationResultDTO.Message === "Error") {
         errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
-        ShowClassErrorMessages(errorMessages);
+        ShowClassErrorMessagesExcelModal(errorMessages);
     }
     if (_validationResultDTO.Message === "Don't have access to this action.") {
         $('#UploadExcelClassModal').modal('hide');
         ClearExcelClassModalFields();
         return HostResponse(_validationResultDTO);
     }
+    // Hide FileUploader to show messages
     $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
 }
+function ClassPropertyNameArray() {
+    // With Object.keys we create an array of properties of the ClassDTO object
+    var _propertyNameArray = Object.keys(GetClassAttributeValueDTO());
+    // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
+    // In this case of the Class we will change the name of AttributeID to Part Type
+    // this so that it matches the names of the excel column
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive")
+        .map(PropertyName => PropertyName.includes("AttributeID") ? "PartType" : PropertyName);
+    // In this case we add the missing columns
+    _propertyNameArray.push("ComponentType");
+    return _propertyNameArray;
+}
+//#endregion
 function PopulateClassFields(ClassDTO) {
     $("#hiddenClassValueLinkID").val(ClassDTO.ID);
     $("#hiddenClassID").val(ClassDTO.ClassValueDTO.ID);
@@ -513,9 +535,11 @@ async function InitializeSubClassCatalogControls() {
                 var reader = new FileReader();
                 reader.onload = async function (readerEvent) {
                     var base64File = readerEvent.target.result;
+                    var _propetieNameArray = SubClassPropertyNameArray();
                     _fileDTO = {
                         FileName: filename,
-                        Data: base64File
+                        Data: base64File,
+                        DirectoryArray: _propetieNameArray
                     };
                     await dxLoadPanel.show();
                     _validationResultDTO = await CreateMassiveSubClass(_fileDTO);
@@ -662,28 +686,6 @@ function SubClassActionButtons(Action) {
         document.getElementById("SubClassCloseModalButton").addEventListener("click", ClearSubClassFields);
     }
 }
-function ExportSubClassExcelFormat() {
-    // Create the Excel workbook and sheet
-    var workbook = new ExcelJS.Workbook();
-    var worksheet = workbook.addWorksheet('Sheet');
-    // Define the columns of the sheet
-    worksheet.columns = [
-        { header: 'Name', key: 'name', width: 30 },
-        { header: 'Code', key: 'code', width: 30 },
-        { header: 'Description', key: 'description', width: 30 },
-        { header: 'Class', key: 'class', width: 30 },
-    ];
-    // Set the header style to bold
-    worksheet.getRow(1).font = { bold: true };
-    // Create the Excel file and download it
-    workbook.xlsx.writeBuffer().then(function (buffer) {
-        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        var link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'SubClassFormat.xlsx';
-        link.click();
-    });
-}
 async function ShowDeleteSubClassQuestion() {
     const _alert = await Swal.fire({
         title: 'You will remove this sub class, are you sure?',
@@ -710,24 +712,49 @@ function ClearSubClassFields() {
     $("#dxSubClassClassLookup").dxLookup("instance").reset();
     //    ClearErrorFeedback();
 }
+//#region SubClass Excel functions
+function ExportSubClassExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Code', key: 'code', width: 30 },
+        { header: 'Description', key: 'description', width: 30 },
+        { header: 'Class', key: 'class', width: 30 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'SubClassFormat.xlsx';
+        link.click();
+    });
+}
 function ClearExcelSubClassModalFields() {
     $('#successSubClassMessage').hide();
     $('#errorSubClassMessages').hide();
     var uploader = $("#dxSubClassFileUploader").dxFileUploader("instance");
+    // Show FileUploader
     if (uploader) {
         uploader.option("visible", true);
     }
+    // reset FileUploader to upload another file
     if (uploader) {
         uploader.reset();
     }
 }
-function ShowSubClassSuccessMessage(message) {
-    $('#successSubClassMessage').text(message).show();
+function ShowSubClassSuccessMessage(Message) {
+    $('#successSubClassMessage').text(Message).show();
     $('#successSubClassMessage').removeAttr('hidden');
 }
 
-function ShowSubClassErrorMessages(messages) {
-    $('#errorSubClassMessages').html(messages).show();
+function ShowSubClassErrorMessages(Message) {
+    $('#errorSubClassMessages').html(Message).show();
     $('#errorSubClassMessages').removeAttr('hidden');
 }
 
@@ -735,21 +762,26 @@ function ShowSubClassValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
     if (_validationResultDTO.Data != null) {
-        const hasGoodLines = _validationResultDTO.Data.SubClassGoodLinesList.length > 0;
-        const hasBadLines = _validationResultDTO.Data.SubClassBadLinesList.length > 0;
-        if (hasGoodLines && !hasBadLines) {
+        const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
+        if (_goodLinesList && !_badLinesList) {
+            // If there are no bad lines, a message is sent that all the data was created.
             successMessage = "SubClass were created successfully.";
             ShowSubClassSuccessMessage(successMessage);
+            RefreshSubClassGrid();
             ClearSubClassFields();
         }
-        else if (hasGoodLines && hasBadLines) {
+        else if (_goodLinesList && _badLinesList) {
+            // If there are good and bad lines, a message is sent that there was missing data to save.
             successMessage = "SubClass created: Some were skipped due to missing or invalid data.";
             ShowSubClassSuccessMessage(successMessage);
+            RefreshSubClassGrid();
             ClearSubClassFields();
         }
-        if (hasBadLines) {
+        if (_badLinesList) {
+            // If there are bad lines, add each one in the message
             errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
-            _validationResultDTO.Data.SubClassBadLinesList.forEach(function (badLine) {
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
                 errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.SubClassValueDTO.Name}, Code: ${badLine.SubClassValueDTO.Code}, Description = ${badLine.SubClassValueDTO.Description}, Class = ${badLine.ParentValueName}.</li>`;
             });
             errorMessages += '</ul>';
@@ -765,8 +797,20 @@ function ShowSubClassValidationResults(_validationResultDTO) {
         ClearExcelSubClassModalFields();
         return HostResponse(_validationResultDTO);
     }
+    // Hide FileUploader to show messages
     $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);
 }
+function SubClassPropertyNameArray() {
+    // With Object.keys we create an array of properties of the SubClassDTO object
+    var _propertyNameArray = Object.keys(GetSubClassAttributeValueDTO());
+    // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
+    // In this case of the Class we will change the name of AttributeID to Class
+    // this so that it matches the names of the excel column
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive")
+        .map(PropertyName => PropertyName.includes("AttributeID") ? "Class" : PropertyName);
+    return _propertyNameArray;
+}
+//#endregion
 function GetSubClassValueLinkDTO() {
     return {
         ID: $("#hiddenSubClassValueLinkID").val(),
