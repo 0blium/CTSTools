@@ -149,7 +149,7 @@ public class KPI_Repository
         return _validationResultDTO;
     }
 
-    public static ValidationResultDTO CreateMultipleKPI(List<KPIDTO> KPIDTOList)
+    public static ValidationResultDTO CreateMultiple(List<KPIDTO> KPIDTOList)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -158,8 +158,8 @@ public class KPI_Repository
         try
         {
             using var _unit = XPO_Helper.GetNewUnitOfWork();
-            var _kPIXPOList = KPIMap.DTOListToXPOList(KPIDTOList, _unit);
-            _unit.Save(_kPIXPOList);
+            var _xPOList = KPIMap.DTOListToXPOList(KPIDTOList, _unit);
+            _unit.Save(_xPOList);
             _unit.CommitChanges();
 
         }

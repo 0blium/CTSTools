@@ -1,11 +1,11 @@
-﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
-using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using CTSTools.DAL.Features.Management.Edashboard.Settings;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 
@@ -76,5 +76,36 @@ public class DashboardMap
         }
         return _dashboardXPO;
     }
-
+    public static List<DashboardXPO> DTOListToXPOList(List<DashboardDTO> DashboardDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<DashboardXPO>();
+        try
+        {
+            foreach (var _dashboardDTO in DashboardDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_dashboardDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<DashboardDTO> XPCollectionToList(XPCollection<DashboardXPO> DashboardXPCollection)
+    {
+        var _dTOList = new List<DashboardDTO>();
+        try
+        {
+            foreach (var _dashboardXPO in DashboardXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_dashboardXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
+    }
 }

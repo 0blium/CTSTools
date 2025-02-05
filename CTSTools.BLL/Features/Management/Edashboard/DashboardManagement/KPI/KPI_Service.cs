@@ -233,7 +233,7 @@ public class KPI_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create KPIs
-            _validationResultDTO = KPI_Repository.CreateMultipleKPI(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = KPI_Repository.CreateMultiple(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }

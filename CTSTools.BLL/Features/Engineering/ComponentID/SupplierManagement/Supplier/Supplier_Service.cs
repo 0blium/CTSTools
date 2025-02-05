@@ -110,7 +110,7 @@ public class Supplier_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create Supplier
-            _validationResultDTO = Supplier_Repository.CreateMultipleSupplier(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = Supplier_Repository.CreateMultiple(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }

@@ -59,34 +59,34 @@ public class SupplierMap
     }
     public static List<SupplierXPO> DTOListToXPOList(List<SupplierDTO> SupplierDTOList, UnitOfWork UnitOfWork)
     {
-        var _supplierXPOList = new List<SupplierXPO>();
+        var _xPOList = new List<SupplierXPO>();
         try
         {
             foreach (var _supplierDTO in SupplierDTOList)
             {
-                _supplierXPOList.Add(DTOtoXPO(_supplierDTO, UnitOfWork));
+                _xPOList.Add(DTOtoXPO(_supplierDTO, UnitOfWork));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _supplierXPOList;
+        return _xPOList;
     }
     public static List<SupplierDTO> XPCollectionToList(XPCollection<SupplierXPO> SupplierXPCollection)
     {
-        var _supplierDTOList = new List<SupplierDTO>();
+        var _dTOList = new List<SupplierDTO>();
         try
         {
             foreach (var _supplierXPO in SupplierXPCollection)
             {
-                _supplierDTOList.Add(XPOToDTO(_supplierXPO));
+                _dTOList.Add(XPOToDTO(_supplierXPO));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _supplierDTOList;
+        return _dTOList;
     }
 }

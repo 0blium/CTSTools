@@ -3,13 +3,12 @@ using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
 using CTSTools.DAL.Features.Engineering.ComponentID.PartManagement;
 using DevExpress.Data.Filtering;
-using DevExpress.Xpo.DB;
 using DevExpress.Xpo;
+using DevExpress.Xpo.DB;
 using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part_Attribute;
 

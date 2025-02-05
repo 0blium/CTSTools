@@ -61,35 +61,35 @@ public class ValueMap
     }
     public static List<ValueXPO> DTOListToXPOList(List<ValueDTO> ValueDTOList, UnitOfWork UnitOfWork)
     {
-        var _valueXPOList = new List<ValueXPO>();
+        var _xPOList = new List<ValueXPO>();
         try
         {
             foreach (var _valueDTO in ValueDTOList)
             {
-                _valueXPOList.Add(DTOtoXPO(_valueDTO, UnitOfWork));
+                _xPOList.Add(DTOtoXPO(_valueDTO, UnitOfWork));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _valueXPOList;
+        return _xPOList;
     }
     public static List<ValueDTO> XPCollectionToList(XPCollection<ValueXPO> ValueXPCollection)
     {
-        var _valueDTOList = new List<ValueDTO>();
+        var _dTOList = new List<ValueDTO>();
         try
         {
             foreach (var _ValueXPO in ValueXPCollection)
             {
-                _valueDTOList.Add(XPOToDTO(_ValueXPO));
+                _dTOList.Add(XPOToDTO(_ValueXPO));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _valueDTOList;
+        return _dTOList;
     }
 }
 

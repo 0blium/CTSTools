@@ -147,7 +147,7 @@ public class Value_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO CreateMultipleValue(List<ValueDTO> ValueDTOList)
+    public static ValidationResultDTO CreateMultiple(List<ValueDTO> ValueDTOList)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -156,10 +156,9 @@ public class Value_Repository
         try
         {
             using var _unit = XPO_Helper.GetNewUnitOfWork();
-            var _valueXPOList = ValueMap.DTOListToXPOList(ValueDTOList, _unit);
-            _unit.Save(_valueXPOList);
+            var _xPOList = ValueMap.DTOListToXPOList(ValueDTOList, _unit);
+            _unit.Save(_xPOList);
             _unit.CommitChanges();
-
         }
         catch (Exception ex)
         {

@@ -118,35 +118,35 @@ public class KPIMap
 
     public static List<KPIXPO> DTOListToXPOList(List<KPIDTO> KPIList, UnitOfWork UnitOfWork)
     {
-        var _kPIXPOList = new List<KPIXPO>();
+        var _xPOList = new List<KPIXPO>();
         try
         {
             foreach (var _kPIDTO in KPIList)
             {
-                _kPIXPOList.Add(DTOtoXPO(_kPIDTO, UnitOfWork));
+                _xPOList.Add(DTOtoXPO(_kPIDTO, UnitOfWork));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _kPIXPOList;
+        return _xPOList;
     }
     public static List<KPIDTO> XPCollectionToList(XPCollection<KPIXPO> KPIXPCollection)
     {
-        var _kPIList = new List<KPIDTO>();
+        var _dTOList = new List<KPIDTO>();
         try
         {
             foreach (var _kPIXPO in KPIXPCollection)
             {
-                _kPIList.Add(XPOToDTO(_kPIXPO));
+                _dTOList.Add(XPOToDTO(_kPIXPO));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _kPIList;
+        return _dTOList;
     }
 
 }

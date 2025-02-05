@@ -155,7 +155,7 @@ public class Value_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create Value
-            _validationResultDTO = Value_Repository.CreateMultipleValue(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = Value_Repository.CreateMultiple(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }

@@ -64,35 +64,35 @@ public class ValueLinkMap
 
     public static List<ValueLinkDTO> XPCollectionToList(XPCollection<ValueLinkXPO> ValueLinkXPCollection)
     {
-        var _valueLinkList = new List<ValueLinkDTO>();
+        var _dTOList = new List<ValueLinkDTO>();
         try
         {
             foreach (var _valueLinkXPO in ValueLinkXPCollection)
             {
-                _valueLinkList.Add(XPOToDTO(_valueLinkXPO));
+                _dTOList.Add(XPOToDTO(_valueLinkXPO));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _valueLinkList;
+        return _dTOList;
     }
-    public static List<ValueLinkXPO> ListToXPCollection(List<ValueLinkDTO> ValueLinkList, UnitOfWork UnitOfWork)
+    public static List<ValueLinkXPO> DTOListToXPOList(List<ValueLinkDTO> ValueLinkList, UnitOfWork UnitOfWork)
     {
-        var _xpList = new List<ValueLinkXPO>();
+        var _xPOList = new List<ValueLinkXPO>();
         try
         {
             foreach (var _valueLinkDTO in ValueLinkList)
             {
-                var _valueLinkXPO = DTOtoXPO(_valueLinkDTO, UnitOfWork);
-                _xpList.Add(_valueLinkXPO);
+                var _xPO = DTOtoXPO(_valueLinkDTO, UnitOfWork);
+                _xPOList.Add(_xPO);
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _xpList;
+        return _xPOList;
     }
 }

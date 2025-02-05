@@ -159,7 +159,7 @@ internal class Supplier_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO CreateMultipleSupplier(List<SupplierDTO> SupplierDTOList)
+    public static ValidationResultDTO CreateMultiple(List<SupplierDTO> SupplierDTOList)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -168,8 +168,8 @@ internal class Supplier_Repository
         try
         {
             using var _unit = XPO_Helper.GetNewUnitOfWork();
-            var _supplierXPOList = SupplierMap.DTOListToXPOList(SupplierDTOList, _unit);
-            _unit.Save(_supplierXPOList);
+            var _xPOList = SupplierMap.DTOListToXPOList(SupplierDTOList, _unit);
+            _unit.Save(_xPOList);
             _unit.CommitChanges();
 
         }
