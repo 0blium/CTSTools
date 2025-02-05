@@ -23,11 +23,11 @@ public class Product_Controller : ApiController
             SortPropertyName = loadOptions.Sort?[0].Selector.Replace("DTO", ""),
             Filter = ProductDTO
         };
-        _pagedProductDTO.DataList = Product_Service.GetProductList_Global(ProductDTO, _pagedProductDTO);
+        _pagedProductDTO.DataList = Product_Service.GetList_Global(ProductDTO, _pagedProductDTO);
         loadOptions.Skip = 0;
 
         var _dsLoader = DataSourceLoader.Load(_pagedProductDTO.DataList, loadOptions);
-        _dsLoader.totalCount = Product_Service.GetProductTotalCount(_pagedProductDTO);
+        _dsLoader.totalCount = Product_Service.GetTotalCount(_pagedProductDTO);
         return Json(_dsLoader);
     }
     [HttpGet]
@@ -35,7 +35,7 @@ public class Product_Controller : ApiController
     public IHttpActionResult GetProductList([FromUri] ProductDTO ProductDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = Product_Service.GetProductList_Global(ProductDTO);
+        _validationResultDTO.Data = Product_Service.GetList_Global(ProductDTO);
         return Json(_validationResultDTO);
     }
 
@@ -47,7 +47,7 @@ public class Product_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             ProductDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Product_Service.CreateProduct_Global(ProductDTO);
+            _validationResultDTO = Product_Service.Create_Global(ProductDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -59,7 +59,7 @@ public class Product_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             ProductDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Product_Service.UpdateProduct_Global(ProductDTO);
+            _validationResultDTO = Product_Service.Update_Global(ProductDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -70,7 +70,7 @@ public class Product_Controller : ApiController
         var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Product), (int)Action_Enum.Delete);
         if (_validationResultDTO.Result)
         {
-            _validationResultDTO = Product_Service.DeleteProduct_Global(ProductDTO);
+            _validationResultDTO = Product_Service.Delete_Global(ProductDTO);
         }
         return Json(_validationResultDTO);
     }

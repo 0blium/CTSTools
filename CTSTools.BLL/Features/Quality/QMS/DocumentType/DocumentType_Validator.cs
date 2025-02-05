@@ -11,7 +11,7 @@ namespace CTSTools.BLL.Features.Quality.QMS.DocumentType;
 
 public class DocumentType_Validator
 {
-    public static ValidationResultDTO CreateDocumentType_Validation(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Create_Validation(DocumentTypeDTO DocumentTypeDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -70,7 +70,7 @@ public class DocumentType_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO UpdateDocumentType_Validation(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Update_Validation(DocumentTypeDTO DocumentTypeDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -139,7 +139,7 @@ public class DocumentType_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO DeleteDocumentType_Validation(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Delete_Validation(DocumentTypeDTO DocumentTypeDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {

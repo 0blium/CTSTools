@@ -29,13 +29,13 @@
                                 <div class="col-md-6">
                                     <a id="NewDocumentBtn" href="#SaveDocumentRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>&nbsp Document</a>
                                 </div>
-                                <div class="col-md-6 mb-3 text-end ">
+                              <%--  <div class="col-md-6 mb-3 text-end ">
                                     <a class="btn btn-dark" id="OpenFilterItem_Line" data-bs-toggle="collapse" href="#collapseFilterItemOwner" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa-solid fa-filter"></i></a>
-                                </div>
+                                </div>--%>
                             </div>
                         </div>
                         <div class="col-md-12"></div>
-                        <div class="collapse" id="collapseFilterItemOwner">
+                      <%--  <div class="collapse" id="collapseFilterItemOwner">
                             <div class="p-3 row">
                                 <div class="form-group col-xl-4 col-lg-6">
                                     <label class="col-form-label col-xl-12 col-lg-12">Added Date</label>
@@ -86,7 +86,7 @@
                                     <a class="btn btn-success mb-1 ms-1" id="GetItem_LineInformation">Search</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="col-12">
                         </div>
                         <div id="dxDocumentGrid"></div>

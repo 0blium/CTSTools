@@ -1,16 +1,10 @@
 ﻿using CTSTools.BLL.Common;
-using DevExpress.DataAccess.Native;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
-
 public class DocumentRevision_Validator
 {
-    public static ValidationResultDTO CreateDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
+    public static ValidationResultDTO Create_Validation(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -89,7 +83,7 @@ public class DocumentRevision_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO UpdateDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
+    public static ValidationResultDTO Update_Validation(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -177,7 +171,7 @@ public class DocumentRevision_Validator
         }
         return _validation_ResultDTO;
     }
-    public static ValidationResultDTO DeleteDocumentRevision_Validation(DocumentRevisionDTO DocumentRevisionDTO)
+    public static ValidationResultDTO Delete_Validation(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {

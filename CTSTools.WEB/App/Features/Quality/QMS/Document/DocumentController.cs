@@ -24,11 +24,11 @@ namespace CTSTools.WEB.App.Features.Quality.QMS.Document
                 SortPropertyName = loadOptions.Sort?[0].Selector.Replace("DTO", ""),
                 Filter = DocumentDTO
             };
-            _pagedDocumentDTO.DataList = Document_Service.GetDocumentList_Global(DocumentDTO, _pagedDocumentDTO);
+            _pagedDocumentDTO.DataList = Document_Service.GetList_Global(DocumentDTO, _pagedDocumentDTO);
             loadOptions.Skip = 0;
 
             var _dsLoader = DataSourceLoader.Load(_pagedDocumentDTO.DataList, loadOptions);
-            _dsLoader.totalCount = Document_Service.GetDocumentTotalCount(_pagedDocumentDTO);
+            _dsLoader.totalCount = Document_Service.GetTotalCount(_pagedDocumentDTO);
             return Json(_dsLoader);
         }
         [HttpGet]
@@ -36,7 +36,7 @@ namespace CTSTools.WEB.App.Features.Quality.QMS.Document
         public IHttpActionResult GetDocumentList([FromUri] DocumentDTO DocumentDTO)
         {
             var _validationResultDTO = new ValidationResultDTO();
-            _validationResultDTO.Data = Document_Service.GetDocumentList_Global(DocumentDTO);
+            _validationResultDTO.Data = Document_Service.GetList_Global(DocumentDTO);
             return Json(_validationResultDTO);
         }
 
@@ -48,7 +48,7 @@ namespace CTSTools.WEB.App.Features.Quality.QMS.Document
             if (_validationResultDTO.Result)
             {
                 DocumentDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-                _validationResultDTO = Document_Service.CreateDocument_Global(DocumentDTO);
+                _validationResultDTO = Document_Service.Create_Global(DocumentDTO);
             }
             return Json(_validationResultDTO);
         }
@@ -60,7 +60,7 @@ namespace CTSTools.WEB.App.Features.Quality.QMS.Document
             if (_validationResultDTO.Result)
             {
                 DocumentDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-                _validationResultDTO = Document_Service.UpdateDocument_Global(DocumentDTO);
+                _validationResultDTO = Document_Service.Update_Global(DocumentDTO);
             }
             return Json(_validationResultDTO);
         }
@@ -69,10 +69,10 @@ namespace CTSTools.WEB.App.Features.Quality.QMS.Document
         public IHttpActionResult DeleteDocument([FromBody] DocumentDTO DocumentDTO)
         {
             var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Document), (int)Action_Enum.Delete);
-            if (!_validationResultDTO.Result)
+            if (_validationResultDTO.Result)
             {
                 DocumentDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-                _validationResultDTO = Document_Service.DeleteDocument_Global(DocumentDTO);
+                _validationResultDTO = Document_Service.Delete_Global(DocumentDTO);
             }
             return Json(_validationResultDTO);
         }

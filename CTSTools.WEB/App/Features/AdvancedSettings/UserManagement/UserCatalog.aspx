@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item">Advanced Settings</li>
+                    <li class="breadcrumb-item">Settings</li>
                     <li class="breadcrumb-item"></li>
 
                 </ol>

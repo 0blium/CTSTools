@@ -4,7 +4,7 @@ import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
 import { GetFileDTO } from '../../../common/utils/GetFileDTO.js'
 
 import { GetURLParameter } from '../../../Common/Utils/GetURLParameter.js'
-import { GetDXDocumentDataSource, GetDocumentInformation } from './document/document_service.js'
+import { GetDocumentInformation } from './document/document_service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
 import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
 
@@ -28,8 +28,7 @@ async function GetDocumentIDByURL() {
 }
 
 async function InitializeDocumentRevisionCatalogControls() {
-    document.getElementById("UpdateDocumentButton").addEventListener("click", UpdateDocument_Global);
-    
+
     $("#dxRevisionFileUploader").dxFileUploader({
         selectButtonText: "Select File",
         labelText: "or Drop here",
@@ -46,8 +45,19 @@ async function InitializeDocumentRevisionCatalogControls() {
 
         }
     });
+    $("#dxDocumentRevisionStatusSelectBox").dxSelectBox({
+        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
+        displayExpr: "StatusName",
+        valueExpr: "StatusID",
+        searchEnable: true
+    });
     $("#dxDocumentRevisionGrid").dxDataGrid({
-        dataSource: await GetDXDocumentRevisionDataSource({ GetDocumentDTO: true, GetStatusDTO: true, DocumentID: document.getElementById('hiddenDocumentID').value }),
+        dataSource: await GetDXDocumentRevisionDataSource({
+            GetDocumentDTO: true,
+            GetStatusDTO: true,
+            DocumentID: document.getElementById('hiddenDocumentID').value,
+            GetFileDTO: true
+        }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -98,13 +108,6 @@ async function InitializeDocumentRevisionCatalogControls() {
         headerFilter: {
             visible: true
         },
-        onSelectionChanged: function (data) {
-            let _documentRevisionData = data.selectedRowsData[0];
-            if (_documentRevisionData != null) {
-                DocumentRevisionActionButtons("Update");
-                PopulateDocumentRevisionFields(_documentRevisionData);
-            }
-        },
         columns:
             [
                 {
@@ -136,8 +139,8 @@ async function InitializeDocumentRevisionCatalogControls() {
                                 if (e.itemData.value == 1) {
                                     document.getElementById('RevisionFileSection').hidden = true;
                                     document.getElementById('StatusSection').hidden = false;
-
                                     $('#SaveDocumentRevisionRecordModal').modal('show');
+                                    PopulateDocumentRevisionFields(options.data);
                                     DocumentRevisionActionButtons("Update");
                                 }
                                 else if (e.itemData.value == 2) {
@@ -154,7 +157,18 @@ async function InitializeDocumentRevisionCatalogControls() {
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 {
-                    caption: "Revision", dataField: "Revision", alignment: 'center', sortOrder: "desc"
+                    caption: "Revision",
+                    dataField: "Revision",
+                    alignment: 'center',
+                    sortOrder: "desc",
+                    cellTemplate: function (container, options) {
+                        console.log(options.data)
+                        const _link = `data:${options.data.FileDTO.MIMEType};base64,${options.data.FileDTO.Data}`
+                        $('<a style="text-decoration:none;">' + options.data.Revision + '</a>')
+                            .attr('href', _link)
+                            .attr('download', options.data.FileDTO.FileName)
+                            .appendTo(container);
+                    }
 
                 },
                 { caption: "Change Reason", dataField: "ChangeReason" },
@@ -175,25 +189,16 @@ async function InitializeDocumentRevisionCatalogControls() {
     $("#dxDocumentRevisionRevisionTextBox").dxTextBox({
         placeholder: 'Type revision...'
     });
-    $("#dxDocumentRevisionStatusSelectBox").dxSelectBox({
-        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
-        displayExpr: "StatusName",
-        valueExpr: "StatusID",
-        searchEnable: true,
-    });
+
 
     $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide();
+    document.getElementById("UpdateDocumentButton").addEventListener("click", UpdateDocument_Global);
 
     document.getElementById("btnCloseDocumentRevisionModal").addEventListener("click", ClearDocumentRevisionFields);
     DocumentRevisionActionButtons("Save");
 }
 
-async function PopulateDocumentRevisionFields(data) {
-    $("#hiddenDocumentRevisionID").val(data.ID);
-    $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value", data.ChangeReason);
-    $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value", data.Revision);
-    $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
-}
+
 
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
@@ -218,13 +223,11 @@ function DocumentRevisionActionButtons(Action) {
         $("#DocumentRevisionActionButtons").html(
             `<div class="col-md-12">
                 <button class="btn btn-success float-end" id="CreateDocumentRevisionButton" type="button">Save</button>
-                <button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentRevisionButton" type="button">Cancel</button>
             </div>`
         );
         revisionField.option("disabled", true);
         $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").hide();
 
-        document.getElementById("ClearDocumentRevisionButton").addEventListener("click", ClearDocumentRevisionFields);
         document.getElementById("CreateDocumentRevisionButton").addEventListener("click", CreateDocumentRevision_Global);
     }
     else {
@@ -233,13 +236,10 @@ function DocumentRevisionActionButtons(Action) {
         $("#DocumentRevisionActionButtons").html(
             `<div class="col-md-12">
                 <button class="btn btn-success float-end" id="UpdateDocumentRevisionButton" type="button">Update</button>
-                <button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentRevisionButton" type="button">Cancel</button>
             </div>`
         );
         revisionField.option("disabled", true);
         $("#dxDocumentRevisionRevisionTextBox").closest(".mb-3").show();
-
-        document.getElementById("ClearDocumentRevisionButton").addEventListener("click", ClearDocumentRevisionFields);
         document.getElementById("UpdateDocumentRevisionButton").addEventListener("click", UpdateDocumentRevision_Global);
     }
 }
@@ -249,6 +249,7 @@ function ClearDocumentRevisionFields() {
     document.getElementById('StatusSection').hidden = true;
 
     $('#SaveDocumentRevisionRecordModal').modal('hide');
+    $("#dxRevisionFileUploader").dxFileUploader("instance").reset();
     DocumentRevisionActionButtons("Save");
     $("#hiddenDocumentRevisionID").val("");
     $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value", "");
@@ -262,17 +263,23 @@ function ClearDocumentRevisionFields() {
 
 async function GetDocumentRevisionDTO() {
     let file = $("#dxRevisionFileUploader").dxFileUploader("instance").option("value")[0];
-    let _fileDTO = await GetFileDTO(file)
+    let _fileDTO = $("#dxRevisionFileUploader").dxFileUploader("instance").option("value").length == 0 ? null : await GetFileDTO(file)
     let _documentRevisionDTO = {
         ID: $("#hiddenDocumentRevisionID").val(),
         ChangeReason: $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value"),
-        FileDTO: (_fileDTO == null) ? null : _fileDTO,
+        FileDTO: _fileDTO,
         Revision: $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value"),
         DocumentID: $("#hiddenDocumentID").val(),
         StatusID: $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").option("value"),
 
     }
     return _documentRevisionDTO;
+}
+function PopulateDocumentRevisionFields(data) {
+    $("#hiddenDocumentRevisionID").val(data.ID);
+    $("#dxDocumentRevisionChangeReasonTextArea").dxTextArea("instance").option("value", data.ChangeReason);
+    $("#dxDocumentRevisionStatusSelectBox").dxSelectBox("instance").option("value", data.StatusID);
+    $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance").option("value", data.Revision);
 }
 //#endregion
 
@@ -293,7 +300,7 @@ async function CreateDocumentRevision_Global() {
 }
 async function UpdateDocumentRevision_Global() {
     await dxLoadPanel.show();
-    const _documentRevisionDTO = GetDocumentRevisionDTO();
+    const _documentRevisionDTO = await GetDocumentRevisionDTO();
     const _validation_ResultDTO = await UpdateDocumentRevision(_documentRevisionDTO)
     if (_validation_ResultDTO.Result) {
         $("#dxDocumentRevisionGrid").dxDataGrid("instance").refresh();
@@ -337,7 +344,7 @@ async function UpdateDocument_Global() {
     dxLoadPanel.hide();
 }
 function DocumentFile_Validation(file) {
-    if ( file == null) {
+    if (file == null) {
         Swal.fire("Error", "You must attach a file before to save a record", "error");
         dxLoadPanel.hide();
         return false;

@@ -11,7 +11,7 @@ namespace CTSTools.BLL.Features.Quality.QMS.Product;
 
 public class Product_DXFilter
 {
-    public static GroupOperator GetProduct_DXFilter(ProductDTO ProductDTO)
+    public static GroupOperator GetDXFilter(ProductDTO ProductDTO)
     {
         var _groupOperator = new GroupOperator();
         try

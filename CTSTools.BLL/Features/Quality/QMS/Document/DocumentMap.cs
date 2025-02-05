@@ -1,4 +1,5 @@
 ﻿using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
 using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
@@ -6,6 +7,7 @@ using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing.Imaging;
 
@@ -29,6 +31,7 @@ public class DocumentMap
             _documentDTO.DepartmentName = (DocumentXPO.Department != null) ? DocumentXPO.Department.Name : "Unnassigned";
             _documentDTO.TypeID = (DocumentXPO.Type != null) ? DocumentXPO.Type.Oid : 0;
             _documentDTO.TypeName = (DocumentXPO.Type != null) ? DocumentXPO.Type.Name : "Unnassigned";
+            _documentDTO.FolderName = (DocumentXPO.Type != null) ? DocumentXPO.Type.FolderName : "";
             _documentDTO.CustomerID = (DocumentXPO.Customer != null) ? DocumentXPO.Customer.Oid : 0;
             _documentDTO.CustomerName = (DocumentXPO.Customer != null) ? DocumentXPO.Customer.Name : "Unnassigned";
             _documentDTO.ProductID = (DocumentXPO.Product != null) ? DocumentXPO.Product.Oid : 0;
@@ -41,9 +44,7 @@ public class DocumentMap
             _documentDTO.LastUpdate = (DocumentXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? DocumentXPO.LastUpdate : (DateTime?)null;
             _documentDTO.LastUpdateByID = (DocumentXPO.LastUpdateBy != null) ? DocumentXPO.LastUpdateBy.Oid : 0;
             _documentDTO.LastUpdateByName = (DocumentXPO.LastUpdateBy != null) ? DocumentXPO.LastUpdateBy.Name : "Unnassigned";
-            var _fileDTO = new FileDTO { URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{_documentDTO.TypeName}\\{_documentDTO.Number}\\{_documentDTO.LastRevision}" };
-            _documentDTO.FileDTO = File_Service.GetFile(_fileDTO);
-
+            
 
         }
         catch (Exception ex)
@@ -52,7 +53,6 @@ public class DocumentMap
         }
         return _documentDTO;
     }
-
     public static DocumentXPO DTOtoXPO(DocumentDTO DocumentDTO, UnitOfWork UnitOfWork)
     {
         DocumentXPO _documentXPO;
@@ -79,5 +79,77 @@ public class DocumentMap
             throw ex;
         }
         return _documentXPO;
+    }
+
+
+    public static List<DocumentDTO> DictionariesToList(DocumentDTO DocumentDTO, List<DocumentDTO> DocumentList)
+    {
+        var _documentList = new List<DocumentDTO>();
+        try
+        {
+            foreach (var _documentDTO in DocumentList)
+            {
+                _documentDTO.StatusDict =   DocumentDTO.StatusDict;
+                _documentDTO.CustomerDict =   DocumentDTO.CustomerDict;
+                _documentDTO.DocumentTypeDict = DocumentDTO.DocumentTypeDict;
+                _documentDTO.ProductDict = DocumentDTO.ProductDict;
+                _documentDTO.DepartmentDict = DocumentDTO.DepartmentDict;
+                _documentDTO.GetFileDTO = DocumentDTO.GetFileDTO;
+                var _newDocumentDTO = DictionaryToDTO(_documentDTO);
+                _documentList.Add(_newDocumentDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _documentList;
+    }
+    public static DocumentDTO DictionaryToDTO(DocumentDTO DocumentDTO)
+    {
+        try
+        {
+            if (DocumentDTO.DepartmentDict.TryGetValue(DocumentDTO.DepartmentID, out var departmentDTO))
+            {
+                DocumentDTO.DepartmentDTO = departmentDTO;
+                DocumentDTO.DepartmentDict = null;
+            }
+            if (DocumentDTO.DocumentTypeDict.TryGetValue(DocumentDTO.TypeID, out var typeDTO))
+            {
+                DocumentDTO.TypeDTO = typeDTO;
+                DocumentDTO.DocumentTypeDict = null;
+            }
+            if (DocumentDTO.CustomerDict.TryGetValue(DocumentDTO.CustomerID, out var customerDTO))
+            {
+                DocumentDTO.CustomerDTO = customerDTO;
+                DocumentDTO.CustomerDict = null;
+            }
+
+            if (DocumentDTO.ProductDict.TryGetValue(DocumentDTO.ProductID, out var productDTO))
+            {
+                DocumentDTO.ProductDTO = productDTO;
+                DocumentDTO.ProductDict = null;
+            }
+
+            if (DocumentDTO.StatusDict.TryGetValue(DocumentDTO.StatusID, out var statusDTO))
+            {
+                DocumentDTO.StatusDTO = statusDTO;
+                DocumentDTO.StatusDict = null;
+            }
+            if (DocumentDTO.GetFileDTO && !string.IsNullOrEmpty(DocumentDTO.FolderName) && !string.IsNullOrEmpty(DocumentDTO.Number) && !string.IsNullOrEmpty(DocumentDTO.LastRevision))
+            {
+                var _fileDTO = new FileDTO
+                {
+                    URL = $"{ConfigurationManager.AppSettings["QMSDirectory"]}{DocumentDTO.FolderName}\\{DocumentDTO.Number}\\{DocumentDTO.LastRevision}"
+                };
+                DocumentDTO.FileDTO = File_Service.GetFile(_fileDTO);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return DocumentDTO;
     }
 }

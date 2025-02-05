@@ -5,9 +5,9 @@ using Elmah;
 
 namespace CTSTools.BLL.Common.Directories;
 
-internal class Directory_Service
+public class Directory_Service
 {
-    public static ValidationResultDTO CreateDirectory(string URL)
+    public static ValidationResultDTO Create(string URL)
     {
         var _validationResultDTO = new ValidationResultDTO();
         try
@@ -33,7 +33,7 @@ internal class Directory_Service
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO DeleteDirectory(string URL)
+    public static ValidationResultDTO Delete(string URL)
     {
         var _ValidationResultDTO = new ValidationResultDTO
         {

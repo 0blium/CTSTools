@@ -34,6 +34,7 @@ public class DocumentRevisionDTO
     public Dictionary<int?, StatusDTO> StatusDict  { get; set; }
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
+    public bool GetFileDTO { get; set; }
     public FileDTO FileDTO { get; set; }
     #endregion
 

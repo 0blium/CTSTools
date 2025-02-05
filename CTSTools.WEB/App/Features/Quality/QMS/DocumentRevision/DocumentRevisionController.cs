@@ -24,11 +24,11 @@ public class DocumentRevisionController : ApiController
             SortPropertyName = loadOptions.Sort?[0].Selector.Replace("DTO", ""),
             Filter = DocumentRevisionDTO
         };
-        _pagedDocumentRevisionDTO.DataList = DocumentRevision_Service.GetDocumentRevisionList_Global(DocumentRevisionDTO, _pagedDocumentRevisionDTO);
+        _pagedDocumentRevisionDTO.DataList = DocumentRevision_Service.GetList_Global(DocumentRevisionDTO, _pagedDocumentRevisionDTO);
         loadOptions.Skip = 0;
 
         var _dsLoader = DataSourceLoader.Load(_pagedDocumentRevisionDTO.DataList, loadOptions);
-        _dsLoader.totalCount = DocumentRevision_Service.GetDocumentRevisionTotalCount(_pagedDocumentRevisionDTO);
+        _dsLoader.totalCount = DocumentRevision_Service.GetTotalCount(_pagedDocumentRevisionDTO);
         return Json(_dsLoader);
     }
     [HttpGet]
@@ -36,7 +36,7 @@ public class DocumentRevisionController : ApiController
     public IHttpActionResult GetDocumentRevisionList([FromUri] DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = DocumentRevision_Service.GetDocumentRevisionList_Global(DocumentRevisionDTO);
+        _validationResultDTO.Data = DocumentRevision_Service.GetList_Global(DocumentRevisionDTO);
         return Json(_validationResultDTO);
     }
 
@@ -48,7 +48,7 @@ public class DocumentRevisionController : ApiController
         if (_validationResultDTO.Result)
         {
             DocumentRevisionDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = DocumentRevision_Service.CreateDocumentRevision_Global(DocumentRevisionDTO);
+            _validationResultDTO = DocumentRevision_Service.Create_Global(DocumentRevisionDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -60,7 +60,7 @@ public class DocumentRevisionController : ApiController
         if (_validationResultDTO.Result)
         {
             DocumentRevisionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = DocumentRevision_Service.UpdateDocumentRevision_Global(DocumentRevisionDTO);
+            _validationResultDTO = DocumentRevision_Service.Update_Global(DocumentRevisionDTO);
         }
         return Json(_validationResultDTO);
     }
@@ -86,7 +86,7 @@ public class DocumentRevisionController : ApiController
         if (_validationResultDTO.Result)
         {
             DocumentRevisionDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = DocumentRevision_Service.DeleteDocumentRevision_Global(DocumentRevisionDTO);
+            _validationResultDTO = DocumentRevision_Service.Delete_Global(DocumentRevisionDTO);
         }
         return Json(_validationResultDTO);
     }

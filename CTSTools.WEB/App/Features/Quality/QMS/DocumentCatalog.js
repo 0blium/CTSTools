@@ -16,7 +16,7 @@ import { GetDXProductDataSource } from './product/Product_Service.js'
 import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
 import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
-import { StatusType_Enum } from '../../advancedsettings/statusmanagement/Statuus/Status_Enum.js'
+import { Status_Enum } from '../../advancedsettings/statusmanagement/Status/Status_Enum.js'
 import { Facility_Enum } from '../../advancedsettings/locationmanagement/facility/Facility_Enum.js'
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,7 +27,14 @@ async function InitializeDocumentCatalogControls() {
     const now = new Date();
 
     $("#dxDocumentGrid").dxDataGrid({
-        dataSource: await GetDXDocumentDataSource({ GetTypeDTO: true, GetCustomerDTO: true, GetProductDTO: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
+        dataSource: await GetDXDocumentDataSource({
+            GetTypeDTO: true,
+            GetCustomerDTO: true,
+            GetProductDTO: true,
+            GetFacilityDTO: true,
+            GetDepartmentDTO: true,
+            GetFileDTO: true
+        }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -136,18 +143,14 @@ async function InitializeDocumentCatalogControls() {
                     alignment: 'center',
                     cellTemplate: function (container, options) {
                         console.log(options.data)
-                        const _link = `data:${options.data.FileDTO.MIMEtype};base64,${options.data.FileDTO.Data}`
-                        if (options.data.StatusID == ) {
-                            $('<a>' + options.data.LastRevision + '</a>')
+                        const _link = `data:${options.data.FileDTO.MIMEType};base64,${options.data.FileDTO.Data}`
+                        if (options.data.StatusID == Status_Enum.Released) {
+                            $('<a style="text-decoration:none;">' + options.data.LastRevision + '</a>')
                                 .attr('href', _link)
                                 .attr('download', options.data.FileDTO.FileName)
                                 .appendTo(container);  
                         }
-                        else {
-                            $('<label>' + options.data.LastRevision + '</label>')
-                                .appendTo(container); 
-                        }
-                       
+                                           
 
                     }
                 },
@@ -158,10 +161,10 @@ async function InitializeDocumentCatalogControls() {
                 {
                     caption: "Status",
                     dataField: "StatusName",
-                    filterOperations: ["contains", "="],
-                    selectedFilterOperation: "contains",
-                    filterValue: "Released"  },
-                { caption: "Revision", dataField: "Revision" },
+                    //filterOperations: ["contains", "="],
+                    //selectedFilterOperation: "contains",
+                    //filterValue: "Released"  
+                },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Owner", dataField: "OwnerName" },
                 { caption: "Department", dataField: "DepartmentName" },
@@ -183,69 +186,69 @@ async function InitializeDocumentCatalogControls() {
             $("#dxAddedEndDateDateBox").dxDateBox("instance").option("min", e.value);
         }
     });
-    $("#dxAddedEndDateDateBox").dxDateBox({
-        type: "date",
-        format: "MM/dd/yyyy",
+    //$("#dxAddedEndDateDateBox").dxDateBox({
+    //    type: "date",
+    //    format: "MM/dd/yyyy",
 
-        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
-        onValueChanged: function (e) {
-            $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
-        }
-    });
-    $("#dxLastUpdateStartDateDateBox").dxDateBox({
-        type: "date",
-        format: "MM/dd/yyyy",
-        value: new Date(now.getFullYear(), now.getMonth(), 1),
-        onValueChanged: function (e) {
-            $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
-        }
-    });
-    $("#dxLastUpdateEndDateDateBox").dxDateBox({
-        type: "date",
-        format: "MM/dd/yyyy",
+    //    value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+    //    onValueChanged: function (e) {
+    //        $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
+    //    }
+    //});
+    //$("#dxLastUpdateStartDateDateBox").dxDateBox({
+    //    type: "date",
+    //    format: "MM/dd/yyyy",
+    //    value: new Date(now.getFullYear(), now.getMonth(), 1),
+    //    onValueChanged: function (e) {
+    //        $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
+    //    }
+    //});
+    //$("#dxLastUpdateEndDateDateBox").dxDateBox({
+    //    type: "date",
+    //    format: "MM/dd/yyyy",
 
-        value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
-        onValueChanged: function (e) {
-            $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
-        }
-    });
-    $("#dxFilterStatusTagBox").dxTagBox({
+    //    value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+    //    onValueChanged: function (e) {
+    //        $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
+    //    }
+    //});
+    //$("#dxFilterStatusTagBox").dxTagBox({
 
-        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
-        displayExpr: "StatusName",
-        valueExpr: "StatusID",
-        searchEnabled: true,
-        value: [5],
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
-    $("#dxFilterDepartmentTagBox").dxTagBox({
+    //    dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
+    //    displayExpr: "StatusName",
+    //    valueExpr: "StatusID",
+    //    searchEnabled: true,
+    //    value: [5],
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
+    //$("#dxFilterDepartmentTagBox").dxTagBox({
 
-        dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
-        displayExpr: "Name",
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
-    $("#dxFilterOwnerTagBox").dxTagBox({
+    //    dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
+    //    displayExpr: "Name",
+    //    valueExpr: "ID",
+    //    searchEnabled: true,
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
+    //$("#dxFilterOwnerTagBox").dxTagBox({
 
-        dataSource: await GetDXUserDataSource(),
-        displayExpr: "Name",
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
-    $("#dxFilterDocumentTypeTagBox").dxTagBox({
+    //    dataSource: await GetDXUserDataSource(),
+    //    displayExpr: "Name",
+    //    valueExpr: "ID",
+    //    searchEnabled: true,
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
+    //$("#dxFilterDocumentTypeTagBox").dxTagBox({
 
-        dataSource: await GetDXDocumentTypeDataSource(),
-        displayExpr: "Name",
-        valueExpr: "ID",
-        searchEnabled: true,
-        showSelectionControls: true,
-        applyValueMode: 'useButtons'
-    });
+    //    dataSource: await GetDXDocumentTypeDataSource(),
+    //    displayExpr: "Name",
+    //    valueExpr: "ID",
+    //    searchEnabled: true,
+    //    showSelectionControls: true,
+    //    applyValueMode: 'useButtons'
+    //});
 
     $("#dxDocumentNameTextBox").dxTextBox({
         placeholder: 'Type name...'
@@ -341,9 +344,7 @@ function DocumentActionButtons(Action) {
         document.getElementById("DocumentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateDocumentButton" type="button">Save</button>' +
-            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearDocumentButton").addEventListener("click", ClearDocumentFields);
         document.getElementById("CreateDocumentButton").addEventListener("click", CreateDocument_Global);
     }
     else {
@@ -352,9 +353,7 @@ function DocumentActionButtons(Action) {
         document.getElementById("DocumentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateDocumentButton" type="button">Update</button>' +
-            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearDocumentButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearDocumentButton").addEventListener("click", ClearDocumentFields);
         document.getElementById("UpdateDocumentButton").addEventListener("click", UpdateDocument_Global);
     }
 }

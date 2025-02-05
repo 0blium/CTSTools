@@ -10,7 +10,7 @@ namespace CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
 
 public class DocumentRevision_DXFilter
 {
-    public static GroupOperator GetDocumentRevision_DXFilter(DocumentRevisionDTO DocumentRevisionDTO)
+    public static GroupOperator GetDXFilter(DocumentRevisionDTO DocumentRevisionDTO)
     {
         var _groupOperator = new GroupOperator();
         try

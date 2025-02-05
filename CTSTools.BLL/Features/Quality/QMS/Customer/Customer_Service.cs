@@ -11,41 +11,41 @@ namespace CTSTools.BLL.Features.Quality.QMS.Customer;
 public class Customer_Service
 {
     #region Global CRUD
-    public static ValidationResultDTO CreateCustomer_Global(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Create_Global(CustomerDTO CustomerDTO)
     {
-        var _ValidationResultDTO = Customer_Validator.CreateCustomer_Validation(CustomerDTO);
+        var _ValidationResultDTO = Customer_Validator.Create_Validation(CustomerDTO);
         if (_ValidationResultDTO.Result)
         {
             CustomerDTO.AddedDate = DateTime.Now;
-            _ValidationResultDTO = Customer_Repository.CreateCustomer(CustomerDTO);
+            _ValidationResultDTO = Customer_Repository.Create(CustomerDTO);
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO UpdateCustomer_Global(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Update_Global(CustomerDTO CustomerDTO)
     {
-        var _ValidationResultDTO = Customer_Validator.UpdateCustomer_Validation(CustomerDTO);
+        var _ValidationResultDTO = Customer_Validator.Update_Validation(CustomerDTO);
         if (_ValidationResultDTO.Result)
         {
             CustomerDTO.LastUpdate = DateTime.Now;
-            _ValidationResultDTO = Customer_Repository.UpdateCustomer(CustomerDTO);
+            _ValidationResultDTO = Customer_Repository.Update(CustomerDTO);
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO DeleteCustomer_Global(CustomerDTO CustomerDTO)
+    public static ValidationResultDTO Delete_Global(CustomerDTO CustomerDTO)
     {
-        var _ValidationResultDTO = Customer_Validator.DeleteCustomer_Validation(CustomerDTO);
+        var _ValidationResultDTO = Customer_Validator.Delete_Validation(CustomerDTO);
         if (_ValidationResultDTO.Result)
         {
-            _ValidationResultDTO = Customer_Repository.DeleteCustomer(CustomerDTO);
+            _ValidationResultDTO = Customer_Repository.Delete(CustomerDTO);
         }
         return _ValidationResultDTO;
     }
-    public static List<CustomerDTO> GetCustomerList_Global(CustomerDTO CustomerDTO, PagedResultDTO<CustomerDTO> PagedResultDTO = null)
+    public static List<CustomerDTO> GetList_Global(CustomerDTO CustomerDTO, PagedResultDTO<CustomerDTO> PagedResultDTO = null)
     {
         var _CustomerglobalList = new List<CustomerDTO>();
         try
         {
-            var _CustomerList = Customer_Repository.GetCustomerList(CustomerDTO, PagedResultDTO);
+            var _CustomerList = Customer_Repository.GetList(CustomerDTO, PagedResultDTO);
             // if Customer is empty, return list
             _CustomerglobalList = _CustomerList;
 
@@ -59,12 +59,12 @@ public class Customer_Service
     }
 
 
-    public static int GetCustomerTotalCount(PagedResultDTO<CustomerDTO> PagedResultDTO)
+    public static int GetTotalCount(PagedResultDTO<CustomerDTO> PagedResultDTO)
     {
         try
         {
             //Get Total Count
-            PagedResultDTO.TotalCount = Customer_Repository.GetCustomerCount(PagedResultDTO.Filter, PagedResultDTO);
+            PagedResultDTO.TotalCount = Customer_Repository.GetCount(PagedResultDTO.Filter, PagedResultDTO);
         }
         catch (Exception ex)
         {

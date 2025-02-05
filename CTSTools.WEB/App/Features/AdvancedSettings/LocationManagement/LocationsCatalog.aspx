@@ -6,8 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item">Advanced Settings</li>
-                    <li class="breadcrumb-item">Org. Management</li>
+                    <li class="breadcrumb-item">Settings</li>
                     <li class="breadcrumb-item"></li>
 
                 </ol>
@@ -15,7 +14,7 @@
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Location Management</h1>
+                <h1 class="page-header">Locations</h1>
             </div>
             <!-- END page-header -->
 

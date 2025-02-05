@@ -16,39 +16,29 @@ namespace CTSTools.BLL.Features.Quality.QMS.DocumentType;
 
 public class DocumentType_Repository
 {
-    public static List<DocumentTypeDTO> GetDocumentTypeList(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
+    public static List<DocumentTypeDTO> GetList(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
     {
         var _documentTypeList = new List<DocumentTypeDTO>();
         try
         {
             // DocumentType Filters
-            var _groupOperator = DocumentType_DXFilter.GetDocumentType_DXFilter(DocumentTypeDTO);
+            var _groupOperator = DocumentType_DXFilter.GetDXFilter(DocumentTypeDTO);
             var _sortProperty = new SortProperty();
             if (PagedResultDTO?.SortPropertyName != null)
-            {
-                //Sorting
                 _sortProperty = DXFilters_Helper.GetDXSorting(PagedResultDTO);
-            }
             if (PagedResultDTO?.dxFilters != null)
-            {
-                //DevExtreme Filter
                 _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
-            }
 
-            using (var _session = XPO_Helper.GetNewSession())
+            using var _session = XPO_Helper.GetNewSession();
+            var _documentTypeCollection = new XPCollection<DocumentTypeXPO>(_session, _groupOperator, _sortProperty)
             {
-                var _documentTypeCollection = new XPCollection<DocumentTypeXPO>(_session, _groupOperator, _sortProperty)
-                {
-                    TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
-                    SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
-                    Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(DocumentTypeXPO.Oid), SortingDirection.Ascending))
-                };
+                TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
+                SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
+                Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(DocumentTypeXPO.Oid), SortingDirection.Ascending))
+            };
 
-                if (_documentTypeCollection.AsQueryable().Count() > 0)
-                {
-                    _documentTypeList = _documentTypeCollection.Select(DocumentTypeXPO => DocumentTypeMap.XPOToDTO(DocumentTypeXPO)).ToList();
-                }
-            }
+            if (_documentTypeCollection.AsQueryable().Count() > 0)
+                _documentTypeList = _documentTypeCollection.Select(DocumentTypeXPO => DocumentTypeMap.XPOToDTO(DocumentTypeXPO)).ToList();
         }
         catch (Exception ex)
         {
@@ -56,7 +46,7 @@ public class DocumentType_Repository
         }
         return _documentTypeList;
     }
-    public static DocumentTypeDTO GetDocumentTypeByID(int DocumentTypeID)
+    public static DocumentTypeDTO GetByID(int DocumentTypeID)
     {
         var _documentTypeDTO = new DocumentTypeDTO();
         try
@@ -74,27 +64,22 @@ public class DocumentType_Repository
         return _documentTypeDTO;
     }
 
-    public static int GetDocumentTypeCount(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
+    public static int GetCount(DocumentTypeDTO DocumentTypeDTO, PagedResultDTO<DocumentTypeDTO> PagedResultDTO = null)
     {
         try
         {
-            var _groupOperator = DocumentType_DXFilter.GetDocumentType_DXFilter(DocumentTypeDTO);
+            var _groupOperator = DocumentType_DXFilter.GetDXFilter(DocumentTypeDTO);
             if (PagedResultDTO?.dxFilters != null)
-            {
-                //DevExtreme Filter
                 _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO)); ;
-            }
-            using (var _session = XPO_Helper.GetNewSession())
-            {
-                return (int)_session.Evaluate<DocumentTypeXPO>(new AggregateOperand(null, Aggregate.Count), _groupOperator);
-            }
+            using var _session = XPO_Helper.GetNewSession();
+            return (int)_session.Evaluate<DocumentTypeXPO>(new AggregateOperand(null, Aggregate.Count), _groupOperator);
         }
         catch (Exception ex)
         {
             throw ex;
         }
     }
-    public static ValidationResultDTO CreateDocumentType(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Create(DocumentTypeDTO DocumentTypeDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -118,7 +103,7 @@ public class DocumentType_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO UpdateDocumentType(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Update(DocumentTypeDTO DocumentTypeDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -126,12 +111,10 @@ public class DocumentType_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _documentTypeXPO = DocumentTypeMap.DTOtoXPO(DocumentTypeDTO, _unit);
-                _unit.Save(_documentTypeXPO);
-                _unit.CommitChanges();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _documentTypeXPO = DocumentTypeMap.DTOtoXPO(DocumentTypeDTO, _unit);
+            _unit.Save(_documentTypeXPO);
+            _unit.CommitChanges();
         }
         catch (Exception ex)
         {
@@ -142,7 +125,7 @@ public class DocumentType_Repository
         }
         return _validationResultDTO;
     }
-    public static ValidationResultDTO DeleteDocumentType(DocumentTypeDTO DocumentTypeDTO)
+    public static ValidationResultDTO Delete(DocumentTypeDTO DocumentTypeDTO)
     {
         var _validationResultDTO = new ValidationResultDTO
         {
@@ -150,13 +133,11 @@ public class DocumentType_Repository
         };
         try
         {
-            using (var _unit = XPO_Helper.GetNewUnitOfWork())
-            {
-                var _documentTypeXPO = DocumentTypeMap.DTOtoXPO(DocumentTypeDTO, _unit);
-                _unit.Delete(_documentTypeXPO);
-                _unit.CommitChanges();
-                _unit.PurgeDeletedObjects();
-            }
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _documentTypeXPO = DocumentTypeMap.DTOtoXPO(DocumentTypeDTO, _unit);
+            _unit.Delete(_documentTypeXPO);
+            _unit.CommitChanges();
+            _unit.PurgeDeletedObjects();
         }
         catch (Exception ex)
         {

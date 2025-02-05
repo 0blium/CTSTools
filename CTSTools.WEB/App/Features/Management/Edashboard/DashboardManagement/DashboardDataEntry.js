@@ -166,7 +166,9 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `<tr valign='middle'><td style="width: 80px;"><a class="btn-modal-tendency" ` +
                 `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
                 `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
-                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-abbreviation=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation} ` +
+
                 `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
@@ -197,7 +199,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                     _valueTypeIcon = ""
                 }
 
-                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value} ${_valueTypeIcon}</a></td>`;
+                _TQCFormatHTML += `<td class="btn-modal-KPI" data-monthname=${MonthDTO.name} data-dashboardlineid=${(_dasboardLineDTO.length > 0) ? _dasboardLineDTO[0].ID : 0} style=background-color:#${_bgColor};cursor:pointer;><a class="fw-bold" style="color:#${_fontColor} !important;text-decoration:none;" id="KPIInformationByDashboardAndMonthBtn${Dashboard_KPIDTO.ID}" >${_value}${_valueTypeIcon}</a></td>`;
             });
         });
         _TQCFormatHTML += '</tr>'
@@ -223,7 +225,9 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `<tr valign='middle'><td style="width: 80px;"><a class="btn-modal-tendency" ` +
                 `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
                 `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
-                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-abbreviation=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation} ` +
+
                 `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
@@ -278,7 +282,9 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `<tr  valign='middle'><td style="width: 80px;"><a class="btn-modal-tendency" ` +
                 `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
                 `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
-                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-abbreviation=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation} ` +
+
                 `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
@@ -335,7 +341,8 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `<tr valign='middle'><td style="width: 80px;"><a class="btn-modal-tendency" ` +
                 `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
                 `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
-                `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+            `data-abbreviation=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation} ` +
                 `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
@@ -393,6 +400,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 `data-dashboardcategoryid=${Dashboard_KPIDTO.DashboardCategoryID} data-valuetypeid=${Dashboard_KPIDTO.KPIDTO.ValueTypeID} ` +
                 `data-equivalenceicon=${Dashboard_KPIDTO.KPIDTO.EquivalenceIcon} data-KPIid=${Dashboard_KPIDTO.KPIID} ` +
                 `data-unitofmeasureid=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID} ` +
+                `data-abbreviation=${Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation} ` +
                 `data-KPIgoal=${Dashboard_KPIDTO.KPIDTO.Goal} data-KPIname='${Dashboard_KPIDTO.KPIDTO.Name}' data-bs-toggle="modal" ` +
                 `data-bs-target="#Dashboard_KPITendencyModal" id=\"Dashboard_KPITendencyBtn${Dashboard_KPIDTO.ID}\")\"" >` +
                 `</i><i class=\"fas fa-chart-line me-2 fa-2x\"></i></a></td>` +
@@ -450,6 +458,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
 //#endregion
 //#region Event handlers
 function TendencyKPIEventHandler() {
+    console.log(this);
     let _Dashboard_KPIDTO = {
         DashboardCategoryID: this.dataset.dashboardcategoryid,
         KPIDTO: {
@@ -458,9 +467,11 @@ function TendencyKPIEventHandler() {
             Goal: this.dataset.kpigoal,
             UnitOfMeasureID: parseInt(this.dataset.unitofmeasureid),
             EquivalenceIcon: this.dataset.equivalenceicon,
-            ValueTypeID: this.dataset.valuetypeid
+            ValueTypeID: this.dataset.valuetypeid,
+            Abbreviation: this.dataset.abbreviation
         }
     }
+    console.log(_Dashboard_KPIDTO);
     $('#Dashboard_KPITendencyModal').on('shown.bs.modal', function () {
         $("#dxKPITendenceChart").dxChart("instance").render();
     });
@@ -494,7 +505,7 @@ function ClearMonthValueModal() {
 }
 function SetSubtitles(KPIDTO) {
     console.log(KPIDTO)
-    let _fyGoalSymbol = (KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : UnitOfMeasureFormat(KPIDTO);
+    let _fyGoalSymbol = (KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : KPIDTO.Abbreviation;
     let _fyGoalFormat = KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
         ConvertToMoney(KPIDTO.Goal) : KPIDTO.Goal;
 
@@ -504,7 +515,7 @@ function SetSubtitles(KPIDTO) {
         '<label ><strong>KPI : </strong></label>' +
         '<label >' + KPIDTO.Name + '</label>' +
         '<label ><strong> - Goal : </strong></label>' +
-        '<label >' + KPIDTO.EquivalenceIcon + _fyGoalFormat + _fyGoalSymbol + '</label>' +
+        '<label >' + KPIDTO.EquivalenceIcon + _fyGoalFormat + " " + _fyGoalSymbol + '</label>' +
         '</div>' +
         '</form>';
     $("#dxKPITendenceChart").dxChart("instance").option("title", {
@@ -548,10 +559,8 @@ async function GetDashboard_KPITendence_Global(Dashboard_KPIDTO) {
     const _Dashboard_KPITendence = await GetDashboard_KPITendence({
         DashboardID: document.getElementById('hiddenDashboardID').value,
         DashboardCategoryID: Dashboard_KPIDTO.DashboardCategoryID,
-        KPIID: Dashboard_KPIDTO.KPIDTO.ID,
-
+        KPIID: Dashboard_KPIDTO.KPIDTO.ID
     });
-    console.log(_Dashboard_KPITendence);
     $("#dxKPITendenceChart").dxChart('option', 'dataSource', _Dashboard_KPITendence);
     $("#dxKPITendenceChart").dxChart('instance').render();
     SetSubtitles(Dashboard_KPIDTO.KPIDTO)

@@ -78,9 +78,9 @@
                             <iframe src="http://project/Navbar.aspx?ProjectID=26" width="100%" height="275px" frameborder="0" style="max-height: 275px;"></iframe>
                         </a>
                     </div>--%>
-                    <div class="menu-search mb-n3">
+                  <%--  <div class="menu-search mb-n3">
                         <input type="text" class="form-control" placeholder="Search..." data-sidebar-search="true">
-                    </div>
+                    </div>--%>
                     <div class="menu-header">Navigation</div>
                     <div class="menu-item">
                         <a href="/" class="menu-link theme-teal">
@@ -90,6 +90,7 @@
                             <div class="menu-text">Home</div>
                         </a>
                     </div>
+
                     <div id="Engineering" class="menu-item has-sub menu-nav" data-tech="ComponentID" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -113,6 +114,7 @@
                                             <div class="menu-text">Part Creator</div>
                                         </a>
                                     </div>
+                                
                                     <div id="PartListComponentID" class="menu-item module-nav" data-tech="PartList" hidden>
                                         <a href="/App/Features/Engineering/ComponentID/PartManagement/PartList.aspx" class="menu-link">
                                             <div class="menu-text">Part List</div>
@@ -133,11 +135,7 @@
                                             <div class="menu-text">Attributes</div>
                                         </a>
                                     </div>
-                                    <div id="SupplierCatalogComponentID" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
-                                        <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Suppliers</div>
-                                        </a>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -191,22 +189,12 @@
                                 <div class="menu-submenu">
                                     <div id="DocumentQMS" class="menu-item module-nav" data-tech="Document DocumentRevision" hidden>
                                         <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Document</div>
+                                            <div class="menu-text">Documents</div>
                                         </a>
                                     </div>
                                     <div id="DocumentTypeQMS" class="menu-item module-nav" data-tech="DocumentType" hidden>
                                         <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Document Type</div>
-                                        </a>
-                                    </div>
-                                    <div id="CustomerQMS" class="menu-item module-nav" data-tech="Customer" hidden>
-                                        <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Customer</div>
-                                        </a>
-                                    </div>
-                                    <div id="ProductQMS" class="menu-item module-nav" data-tech="Product" hidden>
-                                        <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Product</div>
+                                            <div class="menu-text">Types</div>
                                         </a>
                                     </div>
 
@@ -214,12 +202,12 @@
                             </div>
                         </div>
                     </div>
-                    <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings OrgManagement" hidden>
+                    <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-sliders"></i>
                             </div>
-                            <div class="menu-text">Advanced Settings</div>
+                            <div class="menu-text">Settings</div>
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu ">
@@ -264,22 +252,37 @@
                                     <div class="menu-text">Unit Of Measures</div>
                                 </a>
                             </div>
+                            <div id="CustomerAdvancedSettings" class="menu-item module-nav" data-tech="Customer" hidden>
+                                <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Customers</div>
+                                </a>
+                            </div>
+                            <div id="ProductAdvancedSettings" class="menu-item module-nav" data-tech="Product" hidden>
+                                <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Products</div>
+                                </a>
+                            </div>
+                            <div id="SupplierCatalogAdvancedSettings" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
+                                <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Suppliers</div>
+                                </a>
+                            </div>
 
                         </div>
                     </div>
 
 
 
-                    <div class="menu-item has-sub">
+                    <%--       <div class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-circle-question"></i>
                             </div>
                             <div class="menu-text">Help</div>
                             <div class="menu-caret"></div>
-                        </a>
-                        <div class="menu-submenu">
-                            <%--<div class="menu-item">
+                        </a>--%>
+                    <%--                        <div class="menu-submenu">--%>
+                    <%--<div class="menu-item">
                                 <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20usuario.pdf" class="menu-link">
                                     <div class="menu-text">Guia de usuario</div>
                                 </a>
@@ -289,8 +292,8 @@
                                     <div class="menu-text">Guia de grupo de soporte</div>
                                 </a>
                             </div>--%>
-                        </div>
-                        <%--<div class="menu-item has-sub">
+                    <%--                        </div>--%>
+                    <%--<div class="menu-item has-sub">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Spanish</div>
                                     <div class="menu-caret"></div>
@@ -328,8 +331,7 @@
                                 </div>
                             </div>
                         </div>--%>
-                    </div>
-
+                    <%--                    </div>--%>
                 </div>
                 <!-- END menu -->
             </div>

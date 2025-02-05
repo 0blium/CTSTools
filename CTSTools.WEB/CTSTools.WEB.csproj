@@ -188,6 +188,10 @@
     <Content Include="App\Common\Assets\css\DevExtreme\dx.material-teal.css" />
     <Content Include="App\Common\Assets\css\DevExtreme\dx.material.css" />
     <Content Include="App\Common\Assets\css\toastr\toastr.min.css" />
+    <Content Include="App\Common\Assets\img\Crown-Technical-Systems_Logo_A-Flex-Company_Color_300dpi.png" />
+    <Content Include="App\Common\Assets\img\Crown-Technical-Systems_Logo_A-Flex-Company_White_300dpi.png" />
+    <Content Include="App\Common\Assets\img\cts-logo-color-flex.png" />
+    <Content Include="App\Common\Assets\img\cts-logo-white-flex.png" />
     <Content Include="App\Common\Assets\img\favicon.ico" />
     <Content Include="App\Common\Assets\img\Festive\cupid.gif" />
     <Content Include="App\Common\Assets\img\FileIcons\doc.png" />
@@ -809,15 +813,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Product_\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CTSTools.BLL\CTSTools.BLL.csproj">
       <Project>{0935632f-d092-479c-936d-eb5401e975f3}</Project>
       <Name>CTSTools.BLL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

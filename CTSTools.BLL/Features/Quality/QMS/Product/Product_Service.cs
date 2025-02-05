@@ -12,41 +12,41 @@ namespace CTSTools.BLL.Features.Quality.QMS.Product;
 public class Product_Service
 {
     #region Global CRUD
-    public static ValidationResultDTO CreateProduct_Global(ProductDTO ProductDTO)
+    public static ValidationResultDTO Create_Global(ProductDTO ProductDTO)
     {
-        var _ValidationResultDTO = Product_Validator.CreateProduct_Validation(ProductDTO);
+        var _ValidationResultDTO = Product_Validator.Create_Validation(ProductDTO);
         if (_ValidationResultDTO.Result)
         {
             ProductDTO.AddedDate = DateTime.Now;
-            _ValidationResultDTO = Product_Repository.CreateProduct(ProductDTO);
+            _ValidationResultDTO = Product_Repository.Create(ProductDTO);
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO UpdateProduct_Global(ProductDTO ProductDTO)
+    public static ValidationResultDTO Update_Global(ProductDTO ProductDTO)
     {
-        var _ValidationResultDTO = Product_Validator.UpdateProduct_Validation(ProductDTO);
+        var _ValidationResultDTO = Product_Validator.Update_Validation(ProductDTO);
         if (_ValidationResultDTO.Result)
         {
             ProductDTO.LastUpdate = DateTime.Now;
-            _ValidationResultDTO = Product_Repository.UpdateProduct(ProductDTO);
+            _ValidationResultDTO = Product_Repository.Update(ProductDTO);
         }
         return _ValidationResultDTO;
     }
-    public static ValidationResultDTO DeleteProduct_Global(ProductDTO ProductDTO)
+    public static ValidationResultDTO Delete_Global(ProductDTO ProductDTO)
     {
-        var _ValidationResultDTO = Product_Validator.DeleteProduct_Validation(ProductDTO);
+        var _ValidationResultDTO = Product_Validator.Delete_Validation(ProductDTO);
         if (_ValidationResultDTO.Result)
         {
-            _ValidationResultDTO = Product_Repository.DeleteProduct(ProductDTO);
+            _ValidationResultDTO = Product_Repository.Delete(ProductDTO);
         }
         return _ValidationResultDTO;
     }
-    public static List<ProductDTO> GetProductList_Global(ProductDTO ProductDTO, PagedResultDTO<ProductDTO> PagedResultDTO = null)
+    public static List<ProductDTO> GetList_Global(ProductDTO ProductDTO, PagedResultDTO<ProductDTO> PagedResultDTO = null)
     {
         var _productglobalList = new List<ProductDTO>();
         try
         {
-            var _productList = Product_Repository.GetProductList(ProductDTO, PagedResultDTO);
+            var _productList = Product_Repository.GetList(ProductDTO, PagedResultDTO);
             // if Product is empty, return list
             _productglobalList = _productList;
 
@@ -60,12 +60,12 @@ public class Product_Service
     }
 
 
-    public static int GetProductTotalCount(PagedResultDTO<ProductDTO> PagedResultDTO)
+    public static int GetTotalCount(PagedResultDTO<ProductDTO> PagedResultDTO)
     {
         try
         {
             //Get Total Count
-            PagedResultDTO.TotalCount = Product_Repository.GetProductCount(PagedResultDTO.Filter, PagedResultDTO);
+            PagedResultDTO.TotalCount = Product_Repository.GetCount(PagedResultDTO.Filter, PagedResultDTO);
         }
         catch (Exception ex)
         {
