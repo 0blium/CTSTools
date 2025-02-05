@@ -5,7 +5,7 @@ using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
-using DevExpress.Xpo.Metadata.Helpers;
+using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -140,6 +140,28 @@ public class Dashboard_KPI_Repository
         catch (Exception ex)
         {
             //ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO CreateMultiple(List<Dashboard_KPIDTO> Dashboard_KPIDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = Dashboard_KPIMap.DTOListToXPOList(Dashboard_KPIDTOList, _unit);
+            _unit.Save(_xPOList);
+            _unit.CommitChanges();
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
             _validationResultDTO.Result = false;
             _validationResultDTO.Message = "Error!";
             _validationResultDTO.Description = string.Format("There was an error trying to save the record.");

@@ -2,8 +2,8 @@
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Xpo;
-using DevExpress.Xpo.Metadata.Helpers;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
 
@@ -64,5 +64,36 @@ public class Dashboard_KPIMap
         }
         return _dashboardmetricXPO;
     }
-
+    public static List<Dashboard_KPIXPO> DTOListToXPOList(List<Dashboard_KPIDTO> Dashboard_KPIDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<Dashboard_KPIXPO>();
+        try
+        {
+            foreach (var _dashboard_KPIDTO in Dashboard_KPIDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_dashboard_KPIDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<Dashboard_KPIDTO> XPCollectionToList(XPCollection<Dashboard_KPIXPO> Dashboard_KPIXPCollection)
+    {
+        var _dTOList = new List<Dashboard_KPIDTO>();
+        try
+        {
+            foreach (var _dashboard_KPIXPO in Dashboard_KPIXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_dashboard_KPIXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
+    }
 }
