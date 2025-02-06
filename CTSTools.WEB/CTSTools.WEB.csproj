@@ -238,6 +238,7 @@
     <Content Include="App\Common\Utils\Month_Enum.js" />
     <Content Include="App\Common\Utils\Response.js" />
     <Content Include="App\Common\Utils\SearchParamsService.js" />
+    <Content Include="App\Common\Utils\ShowUploadExcelButton.js" />
     <Content Include="App\Common\Utils\Utils.js" />
     <Content Include="App\Common\Utils\SidebarNavigationShowItems.js" />
     <Content Include="App\Common\Utils\ValidationResultDTO.js" />

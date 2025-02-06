@@ -544,7 +544,6 @@ function AttributeActionButtons(Action) {
     if (Action == "Save") {
         document.getElementById("AttributeActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i> Excel</a>'+
             '<button class="btn btn-success m-b-15 float-end" id="CreateAttributeButton" type="button">Save</button>' +
             '</div>';
         document.getElementById("CreateAttributeButton").addEventListener("click", CreateAttribute_Global);
@@ -553,7 +552,6 @@ function AttributeActionButtons(Action) {
         // Update
         document.getElementById("AttributeActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<a class="btn btn-success mb-2" id="UploadExcelAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal"><i class="fa-solid fa-file-import"></i> Excel</a>' +
             '<button class="btn btn-secondary float-end" id="ClearAttributeButton" type="button">Cancel</button>' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateAttributeButton" type="button">Update</button>' +
             '</div>';

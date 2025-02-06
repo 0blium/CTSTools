@@ -23,7 +23,7 @@
         <div class="panel panel-inverse">
             <div class="panel-body">
                 <a class="btn btn-success mb-2" id="SupplierModalButton" data-bs-toggle="modal" data-bs-target="#SupplierModal" id="SupplierButton"><i class="fa-solid fa-circle-plus"></i>Supplier</a>
-                <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSupplierModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                <a class="btn btn-success mb-2 float-end" id="UploadMassiveSupplierModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSupplierModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
                 <div id="dxSupplierGrid"></div>
             </div>
         </div>
