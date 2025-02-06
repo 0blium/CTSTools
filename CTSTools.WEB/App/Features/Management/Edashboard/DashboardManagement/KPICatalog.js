@@ -227,7 +227,6 @@ async function InitializeKPICatalogControls() {
                 { caption: "Owner", dataField: "OwnerName" },
                 { caption: "Responsible", dataField: "ResponsibleName" },
                 //{ caption: "Shared", dataField: "Shared",  },
-                { caption: "Goal Range", dataField: "GoalRangeValue" },
                 { caption: "Facility", dataField: "FacilityName" },
                 { caption: "Equivalence", dataField: "EquivalenceName" },
                 { caption: "Category", dataField: "DashboardCategoryName" },

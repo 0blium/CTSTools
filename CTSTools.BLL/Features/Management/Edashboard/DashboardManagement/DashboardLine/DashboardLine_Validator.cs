@@ -4,6 +4,7 @@ using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 using CTSTools.BLL.Features.Management.Edashboard.Settings;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -221,6 +222,16 @@ public class DashboardLine_Validator
             };
             _kpiDTO = KPI_Service.GetKPIList_Global(_kpiDTO).FirstOrDefault();
 
+            //Format Decimals
+            if (_kpiDTO.ValueTypeID == (int)ValueType_Enum.Decimal || _kpiDTO.ValueTypeID == (int)ValueType_Enum.Percent)
+            {
+                DashboardLineDTO.Value = (float)Math.Round(DashboardLineDTO.Value, 2);
+            }
+            else if (_kpiDTO.ValueTypeID == (int)ValueType_Enum.Absolute)
+            {
+                DashboardLineDTO.Value = (float)Math.Truncate(DashboardLineDTO.Value);
+            }
+
             var _dashboardDTO = new DashboardDTO
             {
                 ID = DashboardLineDTO.DashboardID
@@ -246,6 +257,9 @@ public class DashboardLine_Validator
                 }
 
             }
+
+            
+
 
             if (DashboardLineDTO.ValidatedByID == null || DashboardLineDTO.ValidatedByID == 0)
             {

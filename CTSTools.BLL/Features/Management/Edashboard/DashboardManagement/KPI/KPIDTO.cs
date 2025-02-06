@@ -66,9 +66,7 @@ public class KPIDTO
     public int? ResponsibleID { get; set; }
     public string ResponsibleName { get; set; }
     public UserDTO ResponsibleDTO { get; set; }
-    public GoalRangeDTO GoalRangeDTO { get; set; }
     public bool GetGoalRangeDTO { get; set; }
-    public int?[] GoalRangeIDArray { get; set; }
     public FacilityDTO FacilityDTO { get; set; }
     public int? FacilityID { get; set; }
     public string FacilityName { get; set; }
