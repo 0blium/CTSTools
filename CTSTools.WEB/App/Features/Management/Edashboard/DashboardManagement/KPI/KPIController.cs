@@ -69,23 +69,23 @@ public class KPIController : ApiController
     [Route("api/KPI/Update")]
     public IHttpActionResult UpdateKPI([FromBody] KPIDTO KPIDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Update);
-        //if (_validationResultDTO.Result)
-        //{
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
             KPIDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
-            var _validationResultDTO = KPI_Service.UpdateKPI_Global(KPIDTO);
-        //}
+            _validationResultDTO = KPI_Service.UpdateKPI_Global(KPIDTO);
+        }
         return Json(_validationResultDTO);
     }
     [HttpPost]
     [Route("api/KPI/Delete")]
     public IHttpActionResult DeleteKPI([FromBody] KPIDTO KPIDTO)
     {
-        //var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Delete);
-        //if (_validationResultDTO.Result)
-        //{
-           var _validationResultDTO = KPI_Service.DeleteKPI_Global(KPIDTO);
-        //}
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Delete);
+        if (_validationResultDTO.Result)
+        {
+             _validationResultDTO = KPI_Service.DeleteKPI_Global(KPIDTO);
+        }
         return Json(_validationResultDTO);
     }
 }
