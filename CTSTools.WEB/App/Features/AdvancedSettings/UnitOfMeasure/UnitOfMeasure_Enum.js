@@ -5,5 +5,6 @@
     KWHRHR: 4,
     Hour: 5,
     Minutes: 6,
-    Days: 7
+    Days: 7,
+    Times: 8
 }

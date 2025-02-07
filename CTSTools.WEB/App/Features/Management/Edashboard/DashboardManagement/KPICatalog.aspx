@@ -29,7 +29,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <a id="NewKPICategoryBtn" href="#SaveKPICategoryRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>KPI</a>
-                                <a class="btn btn-success mb-2 float-end" id="UploadExcelKPIModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelKPIModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                                <a class="btn btn-success mb-2 float-end" id="UploadExcelKPIModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelKPIModal"><i class="fa-solid fa-file-import"></i>Excel</a>
                             </div>
                             <div class="col-lg-12">
                                 <div id="dxKPIGrid"></div>
@@ -134,8 +134,14 @@
                                 <div class="invalid-feedback" id="KPICategoryValidation"></div>
                             </div>
                         </div>
-                        <div class="mb-5">
-                            <div type="text" id="dxKPIIsActiveCheckBox"></div>
+                        <div class="row mb-5">
+                            <label class="form-label col-form-label col-md-auto">Is Active?</label>
+                            <div class="col-md-auto">
+                                <div class="mt-2 mb-2">
+                                    <div type="text" id="dxKPIIsActiveCheckBox"></div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

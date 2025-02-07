@@ -160,7 +160,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortSafetyList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID != UnitOfMeasure_Enum.Times ? Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation : "";
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
                 `<tr valign='middle'><td style="width: 80px;"><a class="btn-modal-tendency" ` +
@@ -189,7 +189,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : Dashboard_KPIDTO.KPIDTO.ValueTypeID != ValueType_Enum.Absolute ? parseFloat(_dasboardLineDTO[0].Value).toFixed(2) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol ;
                 } else {
@@ -218,7 +218,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortQualityList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID != UnitOfMeasure_Enum.Times ? Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation : "";
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -247,7 +247,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : Dashboard_KPIDTO.KPIDTO.ValueTypeID != ValueType_Enum.Absolute ? parseFloat(_dasboardLineDTO[0].Value).toFixed(2) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;;
                 } else {
@@ -275,7 +275,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortDeliveryList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID != UnitOfMeasure_Enum.Times ? Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation : "";
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -305,8 +305,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : Dashboard_KPIDTO.KPIDTO.ValueTypeID != ValueType_Enum.Absolute ? parseFloat(_dasboardLineDTO[0].Value).toFixed(2) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;
                 } else {
@@ -334,7 +333,8 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortCostList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID != UnitOfMeasure_Enum.Times ? Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation : "";           
+
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -363,8 +363,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : Dashboard_KPIDTO.KPIDTO.ValueTypeID != ValueType_Enum.Absolute ? parseFloat(_dasboardLineDTO[0].Value).toFixed(2) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;;
                 } else {
@@ -392,7 +391,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
             "</td>" +
             "</tr>";
         _sortMoralList.forEach(function (Dashboard_KPIDTO) {
-            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
+            let _fyGoalSymbol = (Dashboard_KPIDTO.KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID != UnitOfMeasure_Enum.Times ? Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation : "";
             let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
                 ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
             _TQCFormatHTML +=
@@ -421,8 +420,7 @@ function BuildTQCFormat2(Dashboard_KPIList) {
                 if (_dasboardLineDTO.length > 0 && _dasboardLineDTO[0].Validated) {
                     _bgColor = _dasboardLineDTO[0].MonthValue.KPIBackgroundColor;
                     _fontColor = "000";
-                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
-                        ConvertToMoney(_dasboardLineDTO[0].Value) : _dasboardLineDTO[0].Value;
+                    _value = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ? ConvertToMoney(_dasboardLineDTO[0].Value) : Dashboard_KPIDTO.KPIDTO.ValueTypeID != ValueType_Enum.Absolute ? parseFloat(_dasboardLineDTO[0].Value).toFixed(2) : _dasboardLineDTO[0].Value;
 
                     _valueTypeIcon = (_fyGoalSymbol == "$") ? "" : _fyGoalSymbol;
                 } else {
@@ -505,7 +503,7 @@ function ClearMonthValueModal() {
 }
 function SetSubtitles(KPIDTO) {
     console.log(KPIDTO)
-    let _fyGoalSymbol = (KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : KPIDTO.Abbreviation;
+    let _fyGoalSymbol = (KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation;
     let _fyGoalFormat = KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
         ConvertToMoney(KPIDTO.Goal) : KPIDTO.Goal;
 

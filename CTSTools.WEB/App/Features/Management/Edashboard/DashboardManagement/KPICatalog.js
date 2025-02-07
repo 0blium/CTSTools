@@ -100,7 +100,7 @@ async function InitializeKPICatalogControls() {
     //});
     $("#dxKPIIsActiveCheckBox").dxCheckBox({
         value: true,
-        visible: false
+        visible: true
     });
     $("#dxKPIFileUploader").dxFileUploader({
         accept: ".xlsx",
@@ -130,7 +130,7 @@ async function InitializeKPICatalogControls() {
         }
     });
     $("#dxKPIGrid").dxDataGrid({
-        dataSource: await GetDXKPIDataSource({ IsActive: true }),
+        dataSource: await GetDXKPIDataSource({ }),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -219,6 +219,7 @@ async function InitializeKPICatalogControls() {
                     }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
+                { caption: "Is Active", dataField: "IsActive" },
                 { caption: "Name", dataField: "Name" },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Unit Of Measure", dataField: "UnitOfMeasureName" },
@@ -239,7 +240,7 @@ async function InitializeKPICatalogControls() {
                 { caption: "Added By Name", dataField: "AddedByName" },
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By Name", dataField: "LastUpdateByName" },
-                { caption: "Is Active", dataField: "IsActive" },
+                
             ],
     });
     document.getElementById("btnCloseKPICategoryModal").addEventListener("click", ClearKPIFields);
