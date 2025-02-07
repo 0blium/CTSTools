@@ -166,6 +166,67 @@ public class Class_Service
         return _validationResultDTO;
     }
 
+    public static ValidationResultDTO CreateMassiveList_Global(List<ClassDTO> ClassDTOList)
+    {
+        var _classValueList = new List<ValueDTO>();
+        var _valueLinkList = new List<ValueLinkDTO>();
+        //Step 1. Validate fields
+        var _validationResultDTO = Class_Validator.CreateMultiple_Validation(ClassDTOList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Extraemos los ClassValueDTO de ClassDTOList y los agregamos a newClassValues
+        foreach (var ClassDTO in ClassDTOList)
+        {
+            _classValueList.Add(ClassDTO.ClassValueDTO);  // Aquí estamos extrayendo el ClassValueDTO de cada ClassDTO
+        }
+        //Step 2. Create the Class value
+        _validationResultDTO = Value_Service.CreateMultiple_Global(_classValueList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        // Asignar los Oid a las propiedades correspondientes de ClassDTOList
+        for (int i = 0; i < ClassDTOList.Count; i++)
+        {
+            // Asignamos el Oid del ValueDTO correspondiente a las propiedades
+            ClassDTOList[i].ChildValueID = _validationResultDTO.Data[i].Oid;  // Asignar Oid a ChildValueID
+            ClassDTOList[i].ClassValueDTO.ID = _validationResultDTO.Data[i].Oid;  // Asignar Oid a ClassValueDTO.ID
+            _classValueList[i].ID = _validationResultDTO.Data[i].Oid;
+        }
+
+        //Step 3. Validate Value Link
+        _valueLinkList.AddRange(ClassDTOList);
+        _validationResultDTO = ValueLink_Validator.CreateMultipleValueLink_Validation(_valueLinkList);
+        if (!_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_classValueList);
+            return _validationResultDTO;
+        }
+        ////Step 4. Create Value Link 
+        _validationResultDTO = ValueLink_Service.CreateMultiple_Global(_valueLinkList);
+        for (int i = 0; i < ClassDTOList.Count; i++)
+        {
+            ClassDTOList[i].ID = _validationResultDTO.Data[i].Oid;
+            ClassDTOList[i].ClassValueDTO.ID = ClassDTOList[i].ChildValueID;
+        }
+        //ClassDTO.ID = _validationResultDTO.Data;
+        if (!_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_classValueList);
+            return _validationResultDTO;
+        }
+        ////Step 5. Create Class ID Value
+        //ClassDTO.ClassValueDTO.ID = ClassDTO.ChildValueID;
+        //_validationResultDTO = Class_Sequence_Service.CreateClass_Sequence_Global(ClassDTO);
+        //if (!_validationResultDTO.Result)
+        //{
+        //    _validationResultDTO = Value_Service.DeleteValue_Global(ClassDTO.ClassValueDTO);
+        //    _validationResultDTO = ValueLink_Service.DeleteValueLink_Global(ClassDTO);
+        //    return _validationResultDTO;
+        //}
+
+
+        return _validationResultDTO;
+    }
     #region Business Logic
 
     #region Upload Excel functions
@@ -201,7 +262,7 @@ public class Class_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create Class
-            //_validationResultDTO = Class_Repository.CreateMultipleClass(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = CreateMassiveList_Global(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }
@@ -266,6 +327,7 @@ public class Class_Service
                     _classDTO.ClassValueDTO.Code = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CODE"]].ToString());
                     _classDTO.PartTypeDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["PARTTYPE"]].ToString());
                     _classDTO.ComponentTypeDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["COMPONENTTYPE"]].ToString());
+                    _classDTO.AddedByID = FileDTO.ID;
                     _classDTO.ClassValueDTO.AddedByID = FileDTO.ID;
 
                     // We validate the DTO to verify that our properties are not null

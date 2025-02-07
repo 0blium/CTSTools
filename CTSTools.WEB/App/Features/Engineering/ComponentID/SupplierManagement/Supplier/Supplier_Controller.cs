@@ -59,7 +59,7 @@ public class Supplier_Controller : ApiController
     [Route("api/Supplier/CreateMassive")]
     public IHttpActionResult CreateMassiveSupplier([FromBody] FileDTO FileDTO)
     {
-        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Supplier), (int)Action_Enum.Create);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Supplier), (int)Action_Enum.Import);
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();

@@ -159,6 +159,30 @@ public class Value_Repository
             var _xPOList = ValueMap.DTOListToXPOList(ValueDTOList, _unit);
             _unit.Save(_xPOList);
             _unit.CommitChanges();
+            _validationResultDTO.Data = _xPOList;
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO DeleteMultiple(List<ValueDTO> ValueDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = ValueMap.DTOListToXPOList(ValueDTOList, _unit);
+            _unit.Delete(_xPOList);
+            _unit.CommitChanges();
+            _unit.PurgeDeletedObjects();
         }
         catch (Exception ex)
         {

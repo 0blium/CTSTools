@@ -294,6 +294,40 @@ public class Class_Validator
         }
         return _validation_ResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Validation(List<ClassDTO> ClassList)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+            // Field Validation
+            foreach (var ClassDTO in ClassList) 
+            {
+                _validation_ResultDTO = CreateClassFields_Validation(ClassDTO);
+                if(!_validation_ResultDTO.Result)
+                    _validation_ResultList.Add(_validation_ResultDTO);
+            }
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
 
     #region Excel Class Validation
     public static ValidationResultDTO ExcelClassRows_Validation(ClassDTO ClassDTO)
@@ -318,6 +352,9 @@ public class Class_Validator
             _classDTO.ClassValueDTO.Description = ClassDTO.ClassValueDTO.Description;
             _classDTO.PartTypeDTO.Name = ClassDTO.PartTypeDTO.Name;
             _classDTO.ComponentTypeDTO.Name = ClassDTO.ComponentTypeDTO.Name;
+            _classDTO.AddedByID = ClassDTO.AddedByID;
+            _classDTO.AddedDate = DateTime.Now;
+            _classDTO.ClassValueDTO.AddedByID = ClassDTO.AddedByID;
             _classDTO.ClassValueDTO.AddedDate = DateTime.Now;
             _classDTO.ClassValueDTO.IsActive = true;
             _classDTO.IsActive = true;
@@ -378,6 +415,7 @@ public class Class_Validator
             GoodRowLinesList = new List<ClassDTO>(),
             BadRowLinesList = new List<ClassDTO>()
         };
+        //var _classDTOList = new List<ClassDTO>();
         var _validationResultDTO = new ValidationResultDTO
         {
             Description = "The file has the correct format."
@@ -387,18 +425,18 @@ public class Class_Validator
         {
             // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
             // This list contains the Class that passed the first validation
-            var _classDTOList = (List<ClassDTO>)ExcelRowDTO.GoodRowLinesList;
+            var _classDTOGoodLinesList = (List<ClassDTO>)ExcelRowDTO.GoodRowLinesList;
             // We add the previous Class that did not pass the first validation
             _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
             // If it does not contain data, return _validationResultDTO with _excelRowDTO
-            if (_classDTOList.Count <= 0)
+            if (_classDTOGoodLinesList.Count <= 0)
             {
                 _validationResultDTO.Data = _excelRowDTO;
                 return _validationResultDTO;
             }
 
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
-            var _componentTypeDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.ComponentType, ValueNameArray = _classDTOList.Select(ClassDTO => ClassDTO.ComponentTypeDTO.Name.ToLower()).Distinct().ToArray() };
+            var _componentTypeDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.ComponentType, ValueNameArray = _classDTOGoodLinesList.Select(ClassDTO => ClassDTO.ComponentTypeDTO.Name.ToLower()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _componentTypeList = Value_Service.GetValueList_Global(_componentTypeDTO);
@@ -406,7 +444,7 @@ public class Class_Validator
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _componentTypeDict = _componentTypeList.ToDictionary(ClassDTO => ClassDTO.Name.ToLower(), ClassDTO => (int?)ClassDTO.ID);
 
-            foreach (var ClassDTO in _classDTOList)
+            foreach (var ClassDTO in _classDTOGoodLinesList)
             {
                 bool isSuccess = true;
 
@@ -424,13 +462,52 @@ public class Class_Validator
                     else { ClassDTO.ComponentTypeDTO.Name = "Error: The Component Type does not exist"; isSuccess = false; }
                 }
 
-                if (isSuccess)
+                if (isSuccess) 
                 {
                     ClassDTO.ID = null;
                     _excelRowDTO.GoodRowLinesList.Add(ClassDTO);
                 }
-                else _excelRowDTO.BadRowLinesList.Add(ClassDTO);
+                else 
+                    _excelRowDTO.BadRowLinesList.Add(ClassDTO);
             }
+            //foreach (var ClassDTO in _classDTOList)
+            //{
+            //    bool isSuccess = true;
+            //    var _valueLinkDTO = new ValueLinkDTO
+            //    {
+            //        ParentValueID = (int)ClassDTO.ParentValueID,
+            //        ChildAttributeID = ClassDTO.ClassValueDTO.AttributeID,
+            //        GetChildValueDTO = true,
+            //    };
+            //    var _valueLinkList = ValueLink_Service.GetValueLinkList_Global(_valueLinkDTO);
+            //    var _sameCodeList = _valueLinkList.Count() > 0 ? _valueLinkList.Where(w => w.ChildValueDTO.Code.ToUpper().Trim().Replace(" ", "") == ClassDTO.ClassValueDTO.Code.ToUpper().Trim().Replace(" ", "") && w.ParentValueID == ClassDTO.ParentValueID).ToList() : null;
+            //    if (_sameCodeList != null)
+            //    {
+            //        if (_sameCodeList.Count() > 0)
+            //        {
+            //            var _classValueName = ClassDTO.ClassValueDTO.Code;
+            //            ClassDTO.ClassValueDTO.Code = $"Code: {_classValueName} is already on the database.";
+            //            isSuccess = false;
+            //        }
+            //    }
+            //    var _sameNameList = _valueLinkList.Count() > 0 ? _valueLinkList.Where(w => w.ChildValueDTO.Name.ToUpper().Trim().Replace(" ", "") == ClassDTO.ClassValueDTO.Name.ToUpper().Trim().Replace(" ", "") && w.ParentValueID == ClassDTO.ParentValueID).ToList() : null;
+            //    if (_sameNameList != null)
+            //    {
+            //        if (_sameNameList.Count() > 0)
+            //        {
+            //            var _classValueName = ClassDTO.ClassValueDTO.Name;
+            //            ClassDTO.ClassValueDTO.Name = $"Name: {_classValueName} is already on the database.";
+            //            isSuccess = false;
+            //        }
+            //    }
+            //    if (isSuccess)
+            //    {
+            //        ClassDTO.ID = null;
+            //        _excelRowDTO.GoodRowLinesList.Add(ClassDTO);
+            //    }
+            //    else
+            //        _excelRowDTO.BadRowLinesList.Add(ClassDTO);
+            //}
         }
         catch (Exception ex)
         {

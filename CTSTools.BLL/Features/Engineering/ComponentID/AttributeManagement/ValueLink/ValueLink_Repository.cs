@@ -176,6 +176,7 @@ public class ValueLink_Repository
             var _xPOList = ValueLinkMap.DTOListToXPOList(ValueLinkDTOList, _unit);
             _unit.Save(_xPOList);
             _unit.CommitChanges();
+            _validationResultDTO.Data = _xPOList;
         }
         catch (Exception ex)
         {

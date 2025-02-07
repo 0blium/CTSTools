@@ -41,6 +41,15 @@ public class ValueLink_Service
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Global(List<ValueLinkDTO> ValueLinkList)
+    {
+        var _validationResultDTO = ValueLink_Validator.CreateMultipleValueLink_Validation(ValueLinkList);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = ValueLink_Repository.CreateMultiple(ValueLinkList);
+        }
+        return _validationResultDTO;
+    }
     public static List<ValueLinkDTO> GetValueLinkList_Global(ValueLinkDTO ValueLinkDTO, PagedResultDTO<ValueLinkDTO> PagedResultDTO = null)
     {
         var _valuelinkGlobalList = new List<ValueLinkDTO>();

@@ -57,7 +57,7 @@ public class KPIController : ApiController
     [Route("api/KPI/CreateMassive")]
     public IHttpActionResult CreateMassiveKPI([FromBody] FileDTO FileDTO)
     {
-        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Create);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(KPI), (int)Action_Enum.Import);
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();

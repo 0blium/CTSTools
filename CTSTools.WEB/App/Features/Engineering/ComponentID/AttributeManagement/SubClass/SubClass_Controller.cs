@@ -46,11 +46,11 @@ public class SubClass_Controller : ApiController
     [Route("api/SubClass/CreateMassive")]
     public IHttpActionResult CreateMassiveSubClass([FromBody] FileDTO FileDTO)
     {
-        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(SubClass), (int)Action_Enum.Create);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(SubClass), (int)Action_Enum.Import);
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = SubClass_Service.GenerateSubClassFromExcel(FileDTO);
+            //_validationResultDTO = SubClass_Service.GenerateSubClassFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

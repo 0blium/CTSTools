@@ -58,7 +58,7 @@ public class Attribute_Controller : ApiController
     [Route("api/Attribute/CreateMassive")]
     public IHttpActionResult CreateMassiveAttribute([FromBody] FileDTO FileDTO)
     {
-        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Attribute), (int)Action_Enum.Create);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Attribute), (int)Action_Enum.Import);
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();

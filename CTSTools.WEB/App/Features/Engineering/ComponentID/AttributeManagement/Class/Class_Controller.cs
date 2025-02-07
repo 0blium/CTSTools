@@ -45,11 +45,11 @@ public class Class_Controller : ApiController
     [Route("api/Class/CreateMassive")]
     public IHttpActionResult CreateMassiveClass([FromBody] FileDTO FileDTO)
     {
-        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Class), (int)Action_Enum.Create);
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Class), (int)Action_Enum.Import);
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Class_Service.GenerateClassFromExcel(FileDTO);
+            //_validationResultDTO = Class_Service.GenerateClassFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

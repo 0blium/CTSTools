@@ -47,6 +47,28 @@ public class Value_Service
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Global(List<ValueDTO> ValueList)
+    {
+        // Step 1. 
+        var _validationResultDTO = Value_Validator.CreateMultiple_Validation(ValueList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 2.
+        _validationResultDTO = Value_Repository.CreateMultiple(ValueList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO DeleteMultiple_Global(List<ValueDTO> ValueList)
+    {
+        var _validationResultDTO = Value_Validator.DeleteMultiple_Validation(ValueList);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Repository.DeleteMultiple(ValueList);
+        }
+        return _validationResultDTO;
+    }
     public static List<ValueDTO> GetValueList_Global(ValueDTO ValueDTO, PagedResultDTO<ValueDTO> PagedResultDTO = null)
     {
         var _valueglobalList = new List<ValueDTO>();
