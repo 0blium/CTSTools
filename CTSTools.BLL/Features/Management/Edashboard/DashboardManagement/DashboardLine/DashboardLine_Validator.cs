@@ -176,6 +176,7 @@ public class DashboardLine_Validator
             {
                 ID = DashboardLineDTO.DashboardID
             };
+            _dashboardDTO = Dashboard_Service.GetDashboardList_Global(_dashboardDTO).FirstOrDefault();
 
             var _newValueBackgroundColor = Dashboard_KPI_Service.SetKPIColumnBackground((int)_kpiDTO.EquivalenceID, DashboardLineDTO.Value.ToString(), Convert.ToDecimal(_kpiDTO.Goal), Convert.ToDecimal(_dashboardDTO.GoalRangeValue));
 
