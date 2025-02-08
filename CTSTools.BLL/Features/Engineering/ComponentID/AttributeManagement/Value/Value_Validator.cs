@@ -194,7 +194,9 @@ public class Value_Validator
             {
                 // Field Validation
                 ValueDTO.AddedDate = DateTime.Now;
-                _validation_ResultList.Add(CreateValue_Validation(ValueDTO));
+                _validation_ResultDTO = CreateValue_Validation(ValueDTO);
+                if (!_validation_ResultDTO.Result)
+                    _validation_ResultList.Add(_validation_ResultDTO);
             }
 
             // if list contains a error, update main validation result
@@ -229,7 +231,10 @@ public class Value_Validator
             foreach (var ValueDTO in ValueList) 
             {
                 // Field Validation
-                _validation_ResultList.Add(DeleteValue_Validation(ValueDTO));
+                _validation_ResultDTO = DeleteValue_Validation(ValueDTO);
+                if (!_validation_ResultDTO.Result)
+                    _validation_ResultList.Add(_validation_ResultDTO);
+
             }
 
             // if list contains a error, update main validation result

@@ -378,6 +378,11 @@ public class Class_Validator
                     {
                         _classDTO.ComponentTypeDTO.Name = "Error, The Component Type is null or empty";
                     }
+                    else 
+                    {
+                        _classDTO.ParentAttributeID = (int)Attribute_Enum.ComponentType;
+                        _classDTO.ChildAttributeID = (int)Attribute_Enum.Class;
+                    }
                 }
                 else
                 {
@@ -441,8 +446,23 @@ public class Class_Validator
             // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _componentTypeList = Value_Service.GetValueList_Global(_componentTypeDTO);
 
+            // We save an list of the ParentValueID to eliminate ParentValueID that are repeated with Distinct and Where filters the list elements so that it takes those that are not null
+            var _parentValueIDList = _classDTOGoodLinesList.Where(ClassDTO => ClassDTO.ParentValueID != null).Select(ClassDTO => ClassDTO.ParentValueID).Distinct().ToList();
+            _parentValueIDList.AddRange(_componentTypeList.Select(ComponentTypeDTO => ComponentTypeDTO.ID).Distinct());
+
+            var _valueLinkDTO = new ValueLinkDTO
+            {
+                ParentValueIDArray = _parentValueIDList.ToArray(),
+                ChildAttributeIDArray = _classDTOGoodLinesList.Select(ClassDTO => ClassDTO.ClassValueDTO.AttributeID).Distinct().ToArray(),
+                GetChildValueDTO = true,
+            };
+
+            var _valueLinkList = ValueLink_Service.GetValueLinkList_Global(_valueLinkDTO);
+
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _componentTypeDict = _componentTypeList.ToDictionary(ClassDTO => ClassDTO.Name.ToLower(), ClassDTO => (int?)ClassDTO.ID);
+            var _valueLinkCodeDict = _valueLinkList.ToDictionary(ClassDTO => ClassDTO.ChildValueDTO.Code.ToLower().Trim().Replace(" ", ""), ClassDTO => (int?)ClassDTO.ParentValueID);
+            var _valueLinkNameDict = _valueLinkList.ToDictionary(ClassDTO => ClassDTO.ChildValueDTO.Name.ToLower().Trim().Replace(" ", ""), ClassDTO => (int?)ClassDTO.ParentValueID);
 
             foreach (var ClassDTO in _classDTOGoodLinesList)
             {
@@ -455,59 +475,32 @@ public class Class_Validator
                 {
                     if (_componentTypeDict.TryGetValue(ClassDTO.ComponentTypeDTO.Name.ToLower(), out int? ComponentTypeID))
                     {
-                        ClassDTO.ParentAttributeID = (int)Attribute_Enum.ComponentType;
                         ClassDTO.ParentValueID = ComponentTypeID;
-                        ClassDTO.ChildAttributeID = (int)Attribute_Enum.Class;
                     }
                     else { ClassDTO.ComponentTypeDTO.Name = "Error: The Component Type does not exist"; isSuccess = false; }
                 }
+                // The 'out' keyword indicates that ParentValueCodeID is an output parameter; if the name is found, check the dictionary ID with that of the ParentValueID of ClassDTO
+                if (_valueLinkCodeDict.TryGetValue(ClassDTO.ClassValueDTO.Code.ToLower().Trim().Replace(" ", ""), out int? ParentValueCodeID) && ParentValueCodeID == ClassDTO.ParentValueID) 
+                {
+                    var _classValueName = ClassDTO.ClassValueDTO.Code;
+                    ClassDTO.ClassValueDTO.Code = $"Code: {_classValueName} is already on the database.";
+                    isSuccess = false;
+                }
+                if (_valueLinkNameDict.TryGetValue(ClassDTO.ClassValueDTO.Name.ToLower().Trim().Replace(" ", ""), out int? ParentValueNameID) && ParentValueNameID == ClassDTO.ParentValueID)
+                {
+                    var _classValueName = ClassDTO.ClassValueDTO.Name;
+                    ClassDTO.ClassValueDTO.Name = $"Name: {_classValueName} is already on the database.";
+                    isSuccess = false;
+                }
 
-                if (isSuccess) 
+                if (isSuccess)
                 {
                     ClassDTO.ID = null;
                     _excelRowDTO.GoodRowLinesList.Add(ClassDTO);
                 }
-                else 
-                    _excelRowDTO.BadRowLinesList.Add(ClassDTO);
+                else
+                        _excelRowDTO.BadRowLinesList.Add(ClassDTO);
             }
-            //foreach (var ClassDTO in _classDTOList)
-            //{
-            //    bool isSuccess = true;
-            //    var _valueLinkDTO = new ValueLinkDTO
-            //    {
-            //        ParentValueID = (int)ClassDTO.ParentValueID,
-            //        ChildAttributeID = ClassDTO.ClassValueDTO.AttributeID,
-            //        GetChildValueDTO = true,
-            //    };
-            //    var _valueLinkList = ValueLink_Service.GetValueLinkList_Global(_valueLinkDTO);
-            //    var _sameCodeList = _valueLinkList.Count() > 0 ? _valueLinkList.Where(w => w.ChildValueDTO.Code.ToUpper().Trim().Replace(" ", "") == ClassDTO.ClassValueDTO.Code.ToUpper().Trim().Replace(" ", "") && w.ParentValueID == ClassDTO.ParentValueID).ToList() : null;
-            //    if (_sameCodeList != null)
-            //    {
-            //        if (_sameCodeList.Count() > 0)
-            //        {
-            //            var _classValueName = ClassDTO.ClassValueDTO.Code;
-            //            ClassDTO.ClassValueDTO.Code = $"Code: {_classValueName} is already on the database.";
-            //            isSuccess = false;
-            //        }
-            //    }
-            //    var _sameNameList = _valueLinkList.Count() > 0 ? _valueLinkList.Where(w => w.ChildValueDTO.Name.ToUpper().Trim().Replace(" ", "") == ClassDTO.ClassValueDTO.Name.ToUpper().Trim().Replace(" ", "") && w.ParentValueID == ClassDTO.ParentValueID).ToList() : null;
-            //    if (_sameNameList != null)
-            //    {
-            //        if (_sameNameList.Count() > 0)
-            //        {
-            //            var _classValueName = ClassDTO.ClassValueDTO.Name;
-            //            ClassDTO.ClassValueDTO.Name = $"Name: {_classValueName} is already on the database.";
-            //            isSuccess = false;
-            //        }
-            //    }
-            //    if (isSuccess)
-            //    {
-            //        ClassDTO.ID = null;
-            //        _excelRowDTO.GoodRowLinesList.Add(ClassDTO);
-            //    }
-            //    else
-            //        _excelRowDTO.BadRowLinesList.Add(ClassDTO);
-            //}
         }
         catch (Exception ex)
         {

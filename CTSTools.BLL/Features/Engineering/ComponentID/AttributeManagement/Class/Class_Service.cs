@@ -168,29 +168,25 @@ public class Class_Service
 
     public static ValidationResultDTO CreateMassiveList_Global(List<ClassDTO> ClassDTOList)
     {
-        var _classValueList = new List<ValueDTO>();
+        var _valueList = new List<ValueDTO>();
         var _valueLinkList = new List<ValueLinkDTO>();
-        //Step 1. Validate fields
-        var _validationResultDTO = Class_Validator.CreateMultiple_Validation(ClassDTOList);
-        if (!_validationResultDTO.Result)
-            return _validationResultDTO;
-        // Extraemos los ClassValueDTO de ClassDTOList y los agregamos a newClassValues
+        // We extract the ClassValueDTO from ClassDTOList and add them to _valueList
         foreach (var ClassDTO in ClassDTOList)
         {
-            _classValueList.Add(ClassDTO.ClassValueDTO);  // Aquí estamos extrayendo el ClassValueDTO de cada ClassDTO
+            _valueList.Add(ClassDTO.ClassValueDTO);
         }
-        //Step 2. Create the Class value
-        _validationResultDTO = Value_Service.CreateMultiple_Global(_classValueList);
+        //Step 1. Create the Class value
+        var _validationResultDTO = Value_Service.CreateMultiple_Global(_valueList);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
 
-        // Asignar los Oid a las propiedades correspondientes de ClassDTOList
+        // Assign the Oids to the corresponding ClassDTOList properties
         for (int i = 0; i < ClassDTOList.Count; i++)
         {
-            // Asignamos el Oid del ValueDTO correspondiente a las propiedades
-            ClassDTOList[i].ChildValueID = _validationResultDTO.Data[i].Oid;  // Asignar Oid a ChildValueID
-            ClassDTOList[i].ClassValueDTO.ID = _validationResultDTO.Data[i].Oid;  // Asignar Oid a ClassValueDTO.ID
-            _classValueList[i].ID = _validationResultDTO.Data[i].Oid;
+            // We assign the Oid of the ValueDTO within the _validationResultDTO corresponding to the properties
+            ClassDTOList[i].ChildValueID = _validationResultDTO.Data[i].Oid;
+            ClassDTOList[i].ClassValueDTO.ID = _validationResultDTO.Data[i].Oid;
+            _valueList[i].ID = _validationResultDTO.Data[i].Oid;
         }
 
         //Step 3. Validate Value Link
@@ -198,32 +194,30 @@ public class Class_Service
         _validationResultDTO = ValueLink_Validator.CreateMultipleValueLink_Validation(_valueLinkList);
         if (!_validationResultDTO.Result)
         {
-            _validationResultDTO = Value_Service.DeleteMultiple_Global(_classValueList);
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
             return _validationResultDTO;
         }
         ////Step 4. Create Value Link 
         _validationResultDTO = ValueLink_Service.CreateMultiple_Global(_valueLinkList);
+        if (!_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
+            return _validationResultDTO;
+        }
         for (int i = 0; i < ClassDTOList.Count; i++)
         {
             ClassDTOList[i].ID = _validationResultDTO.Data[i].Oid;
             ClassDTOList[i].ClassValueDTO.ID = ClassDTOList[i].ChildValueID;
+            _valueLinkList[i].ID = _validationResultDTO.Data[i].Oid;
         }
-        //ClassDTO.ID = _validationResultDTO.Data;
+        //Step 5. Create Class ID Value
+        _validationResultDTO = Class_Sequence_Service.CreateMultiple_Sequence_Global(ClassDTOList);
         if (!_validationResultDTO.Result)
         {
-            _validationResultDTO = Value_Service.DeleteMultiple_Global(_classValueList);
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
+            _validationResultDTO = ValueLink_Service.DeleteMultiple_Global(_valueLinkList);
             return _validationResultDTO;
         }
-        ////Step 5. Create Class ID Value
-        //ClassDTO.ClassValueDTO.ID = ClassDTO.ChildValueID;
-        //_validationResultDTO = Class_Sequence_Service.CreateClass_Sequence_Global(ClassDTO);
-        //if (!_validationResultDTO.Result)
-        //{
-        //    _validationResultDTO = Value_Service.DeleteValue_Global(ClassDTO.ClassValueDTO);
-        //    _validationResultDTO = ValueLink_Service.DeleteValueLink_Global(ClassDTO);
-        //    return _validationResultDTO;
-        //}
-
 
         return _validationResultDTO;
     }

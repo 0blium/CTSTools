@@ -5,6 +5,7 @@ using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class_Sequence;
 
@@ -50,6 +51,15 @@ public class Class_Sequence_Service
             IsActive = true
         };
         _validationResultDTO = ValueLink_Service.CreateValueLink_Global(_classIDValueLinkDTO);
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO CreateMultiple_Sequence_Global(List<ClassDTO> ClassList)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        foreach (var ClassDTO in ClassList) 
+        {
+            _validationResultDTO = CreateClass_Sequence_Global(ClassDTO);
+        }
         return _validationResultDTO;
     }
     public static ValidationResultDTO GetClass_Sequence_Global(string ClassName)

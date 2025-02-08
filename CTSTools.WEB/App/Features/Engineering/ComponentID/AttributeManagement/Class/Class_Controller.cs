@@ -49,7 +49,7 @@ public class Class_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            //_validationResultDTO = Class_Service.GenerateClassFromExcel(FileDTO);
+            _validationResultDTO = Class_Service.GenerateClassFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

@@ -50,6 +50,15 @@ public class ValueLink_Service
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO DeleteMultiple_Global(List<ValueLinkDTO> ValueLinkList)
+    {
+        var _validationResultDTO = ValueLink_Validator.DeleteMultipleValueLink_Validation(ValueLinkList);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = ValueLink_Repository.DeleteMultiple(ValueLinkList);
+        }
+        return _validationResultDTO;
+    }
     public static List<ValueLinkDTO> GetValueLinkList_Global(ValueLinkDTO ValueLinkDTO, PagedResultDTO<ValueLinkDTO> PagedResultDTO = null)
     {
         var _valuelinkGlobalList = new List<ValueLinkDTO>();
