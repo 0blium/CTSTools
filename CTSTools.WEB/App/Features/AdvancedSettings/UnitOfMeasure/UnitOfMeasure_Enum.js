@@ -1,10 +1,12 @@
 ﻿export const UnitOfMeasure_Enum = {
     USD: 1,
     KG: 2,
-    Numeric: 3,
-    KWHRHR: 4,
+    Times: 3,
+    Percent: 4,   
     Hour: 5,
     Minutes: 6,
     Days: 7,
-    Times: 8
+    KWHRHR: 8,
+    Numeric: 9
 }
+

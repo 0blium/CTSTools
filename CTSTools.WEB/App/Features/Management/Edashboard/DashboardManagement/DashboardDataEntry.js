@@ -78,7 +78,7 @@ async function InitializeDashboardDataEntryControls() {
     $("#dxKPITendenceChart").dxChart({
         dataSource: "",
         title: {
-            text: "KPI Tendence",
+            text: "Tendence",
         },
         legend: {
             visible: false

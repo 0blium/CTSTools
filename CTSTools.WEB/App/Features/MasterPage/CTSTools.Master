@@ -162,7 +162,7 @@
                                     </div>
                                     <div id="KPIListEDashboard" class="menu-item module-nav" data-tech="DashboardList DashboardDataEntry KPICatalog DashboardCatalog" hidden>
                                         <a href="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.aspx" class="menu-link">
-                                            <div class="menu-text">KPI List</div>
+                                            <div class="menu-text">KPIs</div>
                                         </a>
                                     </div>
                                     <div id="KPISettingsEDashboard" class="menu-item module-nav" data-tech="KPISettings CalculationType Equivalence GoalRange Level UnitOfMeasure ValueType" hidden>
