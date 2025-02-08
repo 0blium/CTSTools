@@ -62,63 +62,7 @@ public class DashboardLine_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            //if (DashboardLineDTO.IsTemporalValue == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "IsTemporalValue Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
-            //if (string.IsNullOrEmpty(DashboardLineDTO.Comment))
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Comment Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.Comment)}",
-            //    });
-            //}
-            //if (DashboardLineDTO.IgnoreKPI == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "IgnoreKPI Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
-            //if (DashboardLineDTO.Validated == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Validated Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
-            //if (DashboardLineDTO.ValidatedByDTO.ID == null || DashboardLineDTO.ValidatedByDTO.ID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "ValidatedBy Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.ValidatedByDTO)}",
-            //    });
-            //}
-
-            //if (DashboardLineDTO.AddedByID == null || DashboardLineDTO.AddedByID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "AddedByID Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
+            
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)
             {
@@ -161,7 +105,7 @@ public class DashboardLine_Validator
             else
             {
                 //Validate Month 
-                if (ValidateMonth(DashboardLineDTO).Result)
+                if (ValidateMonth(DashboardLineDTO).Result == false)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -178,7 +122,6 @@ public class DashboardLine_Validator
                     Result = false,
                     Message = "DashboardKPI Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardKPIDTO)}",
                 });
             }
             if (DashboardLineDTO.KPIID == null || DashboardLineDTO.KPIID == 0)
@@ -188,7 +131,6 @@ public class DashboardLine_Validator
                     Result = false,
                     Message = "KPI Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.KPIDTO)}",
                 });
             }
             if (DashboardLineDTO.DashboardCategoryID == null || DashboardLineDTO.DashboardCategoryID == 0)
@@ -198,7 +140,6 @@ public class DashboardLine_Validator
                     Result = false,
                     Message = "DashboardCategory Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardCategoryDTO)}",
                 });
             }
             if (DashboardLineDTO.DashboardID == null || DashboardLineDTO.DashboardID == 0)
@@ -208,7 +149,6 @@ public class DashboardLine_Validator
                     Result = false,
                     Message = "Dashboard Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(DashboardLine)}{nameof(DashboardLineDTO.DashboardDTO)}",
                 });
             }
 
@@ -441,7 +381,7 @@ public class DashboardLine_Validator
 
             var _month = _dashboardlineDTO.Month;
             //evaluate if month is in January to March  beacuase fiscal year is April Year To March from next year
-            var _year = (_month >= 1 && _month <= 3) ? (_dashboardlineDTO.Year + 1) : _dashboardlineDTO.Year;
+            var _year = (_month >= 1 && _month <= 3) ? (_dashboardlineDTO.FiscalYear + 1) : _dashboardlineDTO.FiscalYear;
 
             int _lastDay = DateTime.DaysInMonth(_year, _month);
 
