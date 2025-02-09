@@ -96,9 +96,48 @@
                     <h4 class="modal-title">KPI Information</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
-                <div class="modal-body px-5">
-                    <div class="row">
-                        <table class="table table-bordered">
+                <div class="modal-body ">
+                    <div class="">
+                        <div class="row mb-5px">
+                            <label class="form-label col-form-label col-md-3">KPI:</label>
+                            <div class="col-md-9">
+                                <label class="form-label col-form-label" id="KPIColumn"></label>
+                            </div>
+                        </div>
+                        <div class="row mb-5px">
+                            <label class="form-label col-form-label col-md-3">Description:</label>
+                            <div class="col-md-9">
+                                <label class="form-label col-form-label" id="KPIDescriptionColumn"></label>
+                            </div>
+                        </div>
+                        <div class="row mb-5px">
+                            <label class="form-label col-form-label col-md-3">Goal:</label>
+                            <div class="col-md-9">
+                                <label class="form-label col-form-label" id="GoalColumn"></label>
+                            </div>
+                        </div>
+                        <div class="row mb-5px">
+                            <label class="form-label col-form-label col-md-3">Month:</label>
+                            <div class="col-md-9">
+                                <label class="form-label col-form-label" id="KPIValueMonth"></label>
+                            </div>
+                        </div>
+                        <div class="row mb-5px">
+                            <label class="form-label col-form-label col-md-3">Value (<span class="text-danger">*</span>)</label>
+                            <div class="col-md-9">
+                                <input class="form-control" id="DashboardDataEntryValue" />
+                            </div>
+                        </div>
+                        <div id="MessageAlert" class="alert alert-primary alert-dismissible fade show h-100 mb-1 p-2">
+                            If the entered value does not meet the KPI goal, a comment is required
+                        </div>
+                        <div class="row mb-5px">
+                            <label class="form-label col-form-label col-md-3">Comment</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="DashboardDataEntryComments" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <%--<table class="">
                             <tbody>
                                 <tr>
                                     <th scope="row">KPI</th>
@@ -122,12 +161,12 @@
                                         <input class="form-control" id="DashboardDataEntryValue" /></td>
                                 </tr>
                                 <tr>
-                                    <th>Comment <%--(<span class="text-danger">*</span>)--%></th>
+                                    <th>Comment </th>
                                     <td>
                                         <textarea class="form-control" id="DashboardDataEntryComments" rows="3"></textarea></td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table>--%>
                     </div>
                     <%--<div class="row">
 
