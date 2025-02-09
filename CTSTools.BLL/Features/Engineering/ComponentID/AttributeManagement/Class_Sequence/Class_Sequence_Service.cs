@@ -56,10 +56,55 @@ public class Class_Sequence_Service
     public static ValidationResultDTO CreateMultiple_Sequence_Global(List<ClassDTO> ClassList)
     {
         var _validationResultDTO = new ValidationResultDTO();
+        var _valueList = new List<ValueDTO>();
+        var _valueLinkList = new List<ValueLinkDTO>();
+        // We extract the ClassDTO from ClassDTOList and add them to _valueList
         foreach (var ClassDTO in ClassList) 
         {
-            _validationResultDTO = CreateClass_Sequence_Global(ClassDTO);
+            //Step 1. Create Class ID Value
+            string _classIDSequence = Class_Sequence_SQL.CreateClass_Sequence(ClassDTO.ClassValueDTO.Name);
+            if (_classIDSequence == "0")
+            {
+                _validationResultDTO = new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Class ID Error",
+                    Description = ""
+                };
+            }
+            //Step 2. Create Class ID Value
+            var _classIDValueDTO = new ValueDTO
+            {
+                Name = _classIDSequence,
+                AttributeID = (int)Attribute_Enum.Class_Sequence,
+                IsCounter = true,
+                AddedByID = ClassDTO.ClassValueDTO.AddedByID,
+                AddedDate = DateTime.Now,
+                IsActive = true
+            };
+            _valueList.Add(_classIDValueDTO);
         }
+        // Save records
+        _validationResultDTO = Value_Service.CreateMultiple_Global(_valueList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        for (int i = 0; i < ClassList.Count; i++)
+        {
+            //Step 3. Create Class ID Sequence
+            var _classIDValueLinkDTO = new ValueLinkDTO
+            {
+                ChildAttributeID = (int)Attribute_Enum.Class_Sequence,
+                ChildValueID = _validationResultDTO.Data[i].Oid,
+                ParentValueID = ClassList[i].ChildValueID,
+                ParentAttributeID = (int)Attribute_Enum.Class,
+                AddedDate = DateTime.Now,
+                AddedByID = ClassList[i].AddedByID,
+                IsActive = true
+            };
+            _valueLinkList.Add(_classIDValueLinkDTO);
+        }
+        _validationResultDTO = ValueLink_Service.CreateMultiple_Global(_valueLinkList);
         return _validationResultDTO;
     }
     public static ValidationResultDTO GetClass_Sequence_Global(string ClassName)

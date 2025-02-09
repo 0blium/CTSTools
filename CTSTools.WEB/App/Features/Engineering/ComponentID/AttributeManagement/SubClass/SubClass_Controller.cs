@@ -50,7 +50,7 @@ public class SubClass_Controller : ApiController
         if (_validationResultDTO.Result)
         {
             FileDTO.ID = Auth_Helper.GetLoggedUserOid();
-            //_validationResultDTO = SubClass_Service.GenerateSubClassFromExcel(FileDTO);
+            _validationResultDTO = SubClass_Service.GenerateSubClassFromExcel(FileDTO);
         }
         return Json(_validationResultDTO);
     }

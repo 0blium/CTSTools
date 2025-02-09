@@ -1,6 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
@@ -305,6 +306,9 @@ public class SubClass_Validator
             _subClassDTO.SubClassValueDTO.AttributeID = (int)Attribute_Enum.SubClass;
             _subClassDTO.ParentValueName = !string.IsNullOrEmpty(SubClassDTO.ParentValueName) ? SubClassDTO.ParentValueName : "Error, The class is null or empty";
             _subClassDTO.SubClassValueDTO.AddedDate = DateTime.Now;
+            _subClassDTO.SubClassValueDTO.AddedByID = SubClassDTO.SubClassValueDTO.AddedByID;
+            _subClassDTO.AddedDate = DateTime.Now;
+            _subClassDTO.AddedByID = SubClassDTO.SubClassValueDTO.AddedByID;
             _subClassDTO.SubClassValueDTO.IsActive = true;
             _subClassDTO.IsActive = true;
 
@@ -357,13 +361,29 @@ public class SubClass_Validator
             }
 
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
-            var _classDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.Class, ValueNameArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.ParentValueName.ToLower()).Distinct().ToArray() };
+            var _subClassDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.Class, ValueNameArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.ParentValueName.ToLower()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
-            var _classList = Value_Service.GetValueList_Global(_classDTO);
+            var _subClassList = Value_Service.GetValueList_Global(_subClassDTO);
+
+            // We save an list of the ParentValueID to eliminate ParentValueID that are repeated with Distinct and Where filters the list elements so that it takes those that are not null
+            var _parentValueIDList = _subClassDTOList.Where(SubClassDTO => SubClassDTO.ParentValueID != null).Select(SubClassDTO => SubClassDTO.ParentValueID).Distinct().ToList();
+            _parentValueIDList.AddRange(_subClassList.Select(SubClassDTO => SubClassDTO.ID).Distinct());
+
+            var _valueLinkDTO = new ValueLinkDTO
+            {
+                ParentAttributeID = (int)Attribute_Enum.Class,
+                ParentValueIDArray = _parentValueIDList.ToArray(),
+                ChildAttributeIDArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.SubClassValueDTO.AttributeID).Distinct().ToArray(),
+                GetChildValueDTO = true,
+            };
+
+            var _valueLinkList = ValueLink_Service.GetValueLinkList_Global(_valueLinkDTO);
 
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
-            var _classDict = _classList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => (int?)SubClassDTO.ID);
+            var _classDict = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => (int?)SubClassDTO.ID);
+            var _valueLinkCodeDict = _valueLinkList.ToDictionary(SubClassDTO => SubClassDTO.ChildValueDTO.Code.ToLower().Trim().Replace(" ", ""), SubClassDTO => (int?)SubClassDTO.ParentValueID);
+            var _valueLinkNameDict = _valueLinkList.ToDictionary(SubClassDTO => SubClassDTO.ChildValueDTO.Name.ToLower().Trim().Replace(" ", ""), SubClassDTO => (int?)SubClassDTO.ParentValueID);
 
             foreach (var SubClassDTO in _subClassDTOList)
             {
@@ -379,6 +399,19 @@ public class SubClass_Validator
                     SubClassDTO.ChildAttributeID = (int)Attribute_Enum.SubClass;
                 }
                 else { SubClassDTO.ParentValueName = "Error: The class does not exist"; isSuccess = false; }
+                // The 'out' keyword indicates that ParentValueCodeID is an output parameter; if the name is found, check the dictionary ID with that of the ParentValueID of ClassDTO
+                if (_valueLinkCodeDict.TryGetValue(SubClassDTO.SubClassValueDTO.Code.ToLower().Trim().Replace(" ", ""), out int? ParentValueCodeID) && ParentValueCodeID == SubClassDTO.ParentValueID)
+                {
+                    var _subClassValueName = SubClassDTO.SubClassValueDTO.Code;
+                    SubClassDTO.SubClassValueDTO.Code = $"{_subClassValueName} is already on the database.";
+                    isSuccess = false;
+                }
+                if (_valueLinkNameDict.TryGetValue(SubClassDTO.SubClassValueDTO.Name.ToLower().Trim().Replace(" ", ""), out int? ParentValueNameID) && ParentValueNameID == SubClassDTO.ParentValueID)
+                {
+                    var _subClassValueName = SubClassDTO.SubClassValueDTO.Name;
+                    SubClassDTO.SubClassValueDTO.Name = $"{_subClassValueName} is already on the database.";
+                    isSuccess = false;
+                }
 
                 if (isSuccess)
                 {

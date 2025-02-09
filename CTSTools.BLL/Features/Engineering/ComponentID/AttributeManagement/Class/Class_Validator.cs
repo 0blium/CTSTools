@@ -483,13 +483,13 @@ public class Class_Validator
                 if (_valueLinkCodeDict.TryGetValue(ClassDTO.ClassValueDTO.Code.ToLower().Trim().Replace(" ", ""), out int? ParentValueCodeID) && ParentValueCodeID == ClassDTO.ParentValueID) 
                 {
                     var _classValueName = ClassDTO.ClassValueDTO.Code;
-                    ClassDTO.ClassValueDTO.Code = $"Code: {_classValueName} is already on the database.";
+                    ClassDTO.ClassValueDTO.Code = $"{_classValueName} is already on the database.";
                     isSuccess = false;
                 }
                 if (_valueLinkNameDict.TryGetValue(ClassDTO.ClassValueDTO.Name.ToLower().Trim().Replace(" ", ""), out int? ParentValueNameID) && ParentValueNameID == ClassDTO.ParentValueID)
                 {
                     var _classValueName = ClassDTO.ClassValueDTO.Name;
-                    ClassDTO.ClassValueDTO.Name = $"Name: {_classValueName} is already on the database.";
+                    ClassDTO.ClassValueDTO.Name = $"{_classValueName} is already on the database.";
                     isSuccess = false;
                 }
 

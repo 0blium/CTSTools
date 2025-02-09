@@ -1,6 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
@@ -148,6 +149,49 @@ public class SubClass_Service
         return _validationResultDTO;
     }
 
+    public static ValidationResultDTO CreateMassiveList_Global(List<SubClassDTO> SubClassList)
+    {
+        var _valueList = new List<ValueDTO>();
+        var _valueLinkList = new List<ValueLinkDTO>();
+        // We extract the ClassValueDTO from ClassDTOList and add them to _valueList
+        foreach (var SubClassDTO in SubClassList)
+        {
+            _valueList.Add(SubClassDTO.SubClassValueDTO);
+        }
+        //Step 1. Create the attribute value
+        var _validationResultDTO = Value_Service.CreateMultiple_Global(_valueList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        //Step 2. Validate Value Link
+        // Assign the Oids to the corresponding SubClassDTOList properties
+        for (int i = 0; i < SubClassList.Count; i++)
+        {
+            // We assign the Oid of the ValueDTO within the _validationResultDTO corresponding to the properties
+            SubClassList[i].ChildValueID = _validationResultDTO.Data[i].Oid;
+            _valueList[i].ID = _validationResultDTO.Data[i].Oid;
+        }
+        _valueLinkList.AddRange(SubClassList);
+        _validationResultDTO = ValueLink_Validator.CreateMultipleValueLink_Validation(_valueLinkList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        //Step 3. Create Value Link 
+        _validationResultDTO = ValueLink_Service.CreateMultiple_Global(_valueLinkList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Add id to each subclass in the list
+        //for (int i = 0; i < SubClassList.Count; i++)
+        //{
+        //    // We assign the Oid of the ValueLinkDTO within the _validationResultDTO corresponding to the properties
+        //    SubClassList[i].ID = _validationResultDTO.Data[i].Oid;
+        //}
+        ////Step 4.Create Decoder
+        //_validationResultDTO = CreateMultipleDecoderFromSubClass(SubClassList);
+        //if (!_validationResultDTO.Result)
+        //    return _validationResultDTO;
+
+        return _validationResultDTO;
+    }
+
     #region Business Logic
 
     public static ValidationResultDTO CreateDecoderFromSubClass(SubClassDTO SubClassDTO)
@@ -170,6 +214,40 @@ public class SubClass_Service
                 };
                 _validationResultDTO = Decoder_Service.CreateDecoder_Global(_decorderDTO);
             }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO CreateMultipleDecoderFromSubClass(List<SubClassDTO> SubClassList)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        try
+        {
+            var _decoderList = new List<DecoderDTO>();
+            var _subClassList = GetSubClassList_Global(new SubClassDTO());
+            var _subClassDic = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.ID, SubClassDTO => SubClassDTO);
+            foreach (var _subClassDTO in SubClassList) 
+            {
+                if (_subClassDic.TryGetValue(_subClassDTO.ID, out SubClassDTO SubClassDTO))
+                {
+                    var _decorderDTO = new DecoderDTO
+                    {
+                        StatusID = (int?)Status_Enum.Part_Number_Configurator.Draft,
+                        SubClassID = _subClassDTO.ChildValueID,
+                        ClassID = _subClassDTO.ParentValueID,
+                        PartTypeID = SubClassDTO.PartTypeDTO.ID,
+                        ComponentTypeID = SubClassDTO.ComponentTypeDTO != null ? SubClassDTO.ComponentTypeDTO.ID : null,
+                        AddedByID = _subClassDTO.AddedByID,
+                        AddedDate = DateTime.Now,
+                        IsActive = true,
+                    };
+                    _decoderList.Add(_decorderDTO);
+                }
+            }
+            _validationResultDTO = Decoder_Service.CreateMultiple_Global(_decoderList);
         }
         catch (Exception ex)
         {
@@ -211,7 +289,7 @@ public class SubClass_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create SubClass
-            //_validationResultDTO = SubClass_Repository.CreateMultipleSubClass(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO = CreateMassiveList_Global(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }

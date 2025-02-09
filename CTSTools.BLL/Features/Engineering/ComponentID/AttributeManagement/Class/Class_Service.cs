@@ -204,6 +204,7 @@ public class Class_Service
             _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
             return _validationResultDTO;
         }
+        // Assign the Oids to the corresponding ClassDTOList properties
         for (int i = 0; i < ClassDTOList.Count; i++)
         {
             ClassDTOList[i].ID = _validationResultDTO.Data[i].Oid;
