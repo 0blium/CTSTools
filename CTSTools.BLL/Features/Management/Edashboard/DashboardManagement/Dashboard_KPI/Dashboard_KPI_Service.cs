@@ -699,7 +699,7 @@ public class Dashboard_KPI_Service
                     }
                     else
                     {
-                        if ((Convert.ToDecimal(MonthlyValue) <= (MetricGoal + _goalRangeValue)) || (Convert.ToDecimal(MonthlyValue) >= (MetricGoal + _goalRangeValue)))
+                        if ((Convert.ToDecimal(MonthlyValue) <= (MetricGoal + _goalRangeValue)) && (Convert.ToDecimal(MonthlyValue) >= (MetricGoal - _goalRangeValue)))
                         {
                             _metricBackgroundColorHex = "FFFF00";
                         }

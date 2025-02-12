@@ -4,5 +4,5 @@
     Delivery: 3,
     Safety: 4,
     Moral: 5,
-    Improvement: 6
+    Environmental: 6
 }

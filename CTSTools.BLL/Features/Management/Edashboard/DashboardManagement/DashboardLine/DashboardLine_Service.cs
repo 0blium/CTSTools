@@ -174,8 +174,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
         public static ValidationResultDTO ValidateDashboardLineRecord(DashboardLineDTO DashboardLineDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO { Description = "Dashboard Template saved" };
-            //int PreviousMonth = DateTime.Now.AddMonths(-1).Month;
-            //int FiscalYear = CalculateFiscalYear();
+            
             int FiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardID }).FirstOrDefault().Year;
             try
             {
@@ -189,12 +188,9 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
 
                     };
                     var _dashboardMetriTemplateList = Dashboard_KPI_Service.GetDashboard_KPIList_Global(_dashboardKPIEntity);
-                    // hace falta crear el IsActive
-
-                    //validar que esten todas las lineas creades de los meses anteriores al mes actual por cada KPIa
+                   
                     foreach (var _dashboardKPI in _dashboardMetriTemplateList)
                     {
-                        //var _previousMonthList = GetPreviousMonthForDashboardYear(FiscalYear);
                         var _previousMonthList = GetAllMonthForDashboardYear(FiscalYear);
                         foreach (var _previousMonth in _previousMonthList)
                         {
@@ -264,23 +260,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             }
         }
 
-        //public static List<int> GetPreviousMonthForCurrentYear()
-        //{
-        //    DateTime _currentDate = DateTime.Now;
-        //    DateTime _fiscalYearStartDate = new DateTime(_currentDate.Year, 1, 1, 0, 0, 0);
-        //    List<int> _previousMonthList = new List<int>();
-
-
-        //    // Iteramos por cada mes anterior al mes actual
-        //    for (int i = _fiscalYearStartDate.Month; i < _currentDate.Month; i++)
-        //    {
-        //        DateTime fechaMesAnterior = _currentDate.AddMonths(-i);
-        //        int previousMonth = fechaMesAnterior.Month; // Obtenemos el mes como un valor entero
-        //        _previousMonthList.Add(previousMonth);
-        //    }
-
-        //    return _previousMonthList;
-        //}
+        
 
         public static List<int> GetAllMonthForDashboardYear(int DashboardYear)
         {
@@ -288,24 +268,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             int currentYear = _currentDate.Year; // Año actual
             int currentMonth = _currentDate.Month; // Mes actual
 
-            List<int> _previousMonthList = new List<int>();
-
-            //if (DashboardYear < currentYear)
-            //{
-            //    // Si el año ingresado es menor al actual, devolver todos los meses (1 a 12)
-            //    _previousMonthList.AddRange(Enumerable.Range(1, 12)); // De enero a diciembre
-            //}
-            //else if (DashboardYear == currentYear)
-            //{
-            //    // Si el año ingresado es igual al actual, devolver de enero hasta el mes anterior
-            //    _previousMonthList.AddRange(Enumerable.Range(1, currentMonth - 1)); // De enero al mes actual - 1
-            //}
-            //else
-            //{
-            //    // Si el año ingresado es mayor al actual, no devolver nada
-            //    // _previousMonthList ya está vacío por defecto
-            //}
-
+            List<int> _previousMonthList = new List<int>();          
             _previousMonthList.AddRange(Enumerable.Range(1, 12)); // De enero a diciembre
             return _previousMonthList;
         }
@@ -315,11 +278,7 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             var _validation_ResultDTO = new ValidationResultDTO { Description = "DashboardLine saved" };
             try
             {
-                //Validation (Access)
-
-
-                //Calculate fiscal year
-                //int _fiscalYear = CalculateFiscalYear();
+                
                 int _fiscalYear = Dashboard_Service.GetDashboardList_Global(new DashboardDTO { ID = DashboardLineDTO.DashboardID }).FirstOrDefault().Year;
 
                 if (_fiscalYear > 0 && _fiscalYear != null)
@@ -365,14 +324,12 @@ namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashbo
             try
             {
                 DateTimeFormatInfo _monthInfo = new DateTimeFormatInfo();
-                //int _fiscalYear = CalculateFiscalYear();
 
                 var _dashboardDTO = new DashboardDTO
                 {
                     ID = DashboardLineDTO.DashboardDTO.ID
                 };
                 int _fiscalYear = Dashboard_Service.GetDashboardList_Global(_dashboardDTO).FirstOrDefault().Year;
-                //    string _month = _monthInfo.GetMonthName(_previousMonth);
                 if (_fiscalYear == 0 && _fiscalYear == null)
                     return _tendenceList.OrderBy(_order => _order.Order).ToList();
 
