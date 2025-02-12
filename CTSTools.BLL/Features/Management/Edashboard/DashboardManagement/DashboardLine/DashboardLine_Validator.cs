@@ -2,8 +2,6 @@
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
-using CTSTools.BLL.Features.Management.Edashboard.Settings;
-using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using System;
 using System.Collections.Generic;
@@ -379,27 +377,14 @@ public class DashboardLine_Validator
         {
 
             var _dashboardlineDTO = DashboardLine_Service.GetDashboardLineList_Global(new DashboardLineDTO { ID = DashboardLineDTO.ID }).FirstOrDefault();
-
             var _month = _dashboardlineDTO.Month;
             //evaluate if month is in January to March  beacuase fiscal year is April Year To March from next year
             var _year = (_month >= 1 && _month <= 3) ? (_dashboardlineDTO.FiscalYear + 1) : _dashboardlineDTO.FiscalYear;
 
             int _lastDay = DateTime.DaysInMonth(_year, _month);
-
             DateTime _datetoEvaluate = new DateTime(_year, _month, _lastDay, 23, 59, 59);
-
             DateTime _currentDate = DateTime.Now;
-
-            if (_currentDate > _datetoEvaluate)
-            {
-                _validation_ResultDTO.Result = true;
-            }
-            else
-            {
-                _validation_ResultDTO.Result = false;
-            }
-
-
+            _validation_ResultDTO.Result = _currentDate > _datetoEvaluate ? true : false;
         }
         catch (Exception ex)
         {

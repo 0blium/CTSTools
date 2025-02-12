@@ -23,49 +23,14 @@
         <!-- BEGIN Status Catalog -->
         <div class="row">
             <div class="col-12">
-                <ul class="nav nav-pills mb-2" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a href="#FacilityTab" data-bs-toggle="tab" class="nav-link active" aria-selected="true" role="tab">
-                            <span class="d-sm-none">Facility</span>
-                            <span class="d-sm-block d-none">Facility</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a href="#DepartmentTab" data-bs-toggle="tab" class="nav-link" aria-selected="false" tabindex="-1" role="tab">
-                            <span class="d-sm-none">Department</span>
-                            <span class="d-sm-block d-none">Department</span>
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content rounded-0 m-0">
-                    <%-- Facility --%>
-                    <div class="tab-pane fade active show" id="FacilityTab" role="tabpanel">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-inverse">
-                                    <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#FacilityModal"><i class="fa-solid fa-circle-plus"></i>Facility</a>
-                                        <div id="dxFacilityGrid"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <%-- Department --%>
-                    <div class="tab-pane fade" id="DepartmentTab" role="tabpanel">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-inverse">
-                                    <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#DepartmentModal"><i class="fa-solid fa-circle-plus"></i>Department</a>
-                                        <div id="dxDepartmentGrid"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
+                <div class="panel panel-inverse">
+                    <div class="panel-body">
+                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#DepartmentModal"><i class="fa-solid fa-circle-plus"></i>Department</a>
+                        <div id="dxDepartmentGrid"></div>
+                    </div>
                 </div>
+
             </div>
 
         </div>
