@@ -192,6 +192,7 @@ function BuildTQCFormat(Dashboard_KPIList) {
                         let _bgColor = _dasboardLineDTO?.Validated ? _dasboardLineDTO.MonthValue.KPIBackgroundColor : "FFF";
                         let _fontColor = "000";
                         let _value = "";
+                        let _valueTypeIcon = "";
                         console.log(_dasboardLineDTO)
                         if (_dasboardLineDTO?.Validated == true) {
                             if (Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID === UnitOfMeasure_Enum.USD) {
@@ -201,9 +202,10 @@ function BuildTQCFormat(Dashboard_KPIList) {
                             } else {
                                 _value = _dasboardLineDTO.Value;
                             }
+                            _valueTypeIcon = _fyGoalSymbol === "$" ? "" : _fyGoalSymbol;
                         }
 
-                        let _valueTypeIcon = _fyGoalSymbol === "$" ? "" : _fyGoalSymbol;
+                         
 
                         _TQCFormatHTML += `
                             <td class="btn-modal-KPI"
