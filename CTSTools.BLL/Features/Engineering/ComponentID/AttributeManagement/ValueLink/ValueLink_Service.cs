@@ -1,5 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using Elmah;
@@ -127,7 +128,7 @@ public class ValueLink_Service
                         .ToArray();
 
                 _childValueDict = Value_Service.GetValueList_Global(ValueLinkDTO.ChildValueDTO)
-                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
+                    .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
 
             foreach (var _valueLinkDTO in ValueLinkList)
@@ -188,6 +189,37 @@ public class ValueLink_Service
                     _validationResultGlobalDTO.Result = false;
                     _validationResultGlobalDTO.ValidationResultList.AddRange(_validationResultDTO.ValidationResultList);
                 }
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultGlobalDTO.Result = false;
+            _validationResultGlobalDTO.Message = "Error";
+            _validationResultGlobalDTO.Description = string.Format("There was an error trying to save the fields of Department_responsibles. {0}", ex.Message);
+        }
+
+        return _validationResultGlobalDTO;
+    }
+    public static ValidationResultDTO CreateMultiple(List<ValueLinkDTO> ValueLinkList)
+    {
+        var _validationResultGlobalDTO = new ValidationResultDTO();
+        var _valueLinkList = new List<ValueLinkDTO>();
+        try
+        {
+            foreach (var ValueLinkDTO in ValueLinkList)
+            {
+                for (int i = 0; i < ValueLinkDTO.ChildValueIDArray.Length; i++)
+                {
+                    ValueLinkDTO.ChildValueID = ValueLinkDTO.ChildValueIDArray[i];
+                    _valueLinkList.Add(ValueLinkDTO);
+                }
+            }
+            var _validationResultDTO = CreateMultiple_Global(ValueLinkList);
+            if (_validationResultDTO.Result == false)
+            {
+                _validationResultGlobalDTO.Result = false;
+                _validationResultGlobalDTO.ValidationResultList.AddRange(_validationResultDTO.ValidationResultList);
             }
         }
         catch (Exception ex)
@@ -329,6 +361,106 @@ public class ValueLink_Service
             };
             _validationResultDTO = CreateValueLink_Global(_customerConsigmentDTO);
 
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO LinkBaseMultipleValuesToSubClass(List<DecoderDTO> DecoderList)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        var _valueLinkList = new List<ValueLinkDTO>();
+        try
+        {
+            foreach (var DecoderDTO in DecoderList)
+            {
+                //Step 1. Link Class to Sub Class
+                var _classDTO = new ValueLinkDTO
+                {
+                    ParentAttributeID = (int?)Attribute_Enum.SubClass,
+                    ParentValueID = DecoderDTO.SubClassID,
+                    ChildAttributeID = (int?)Attribute_Enum.Class,
+                    ChildValueID = DecoderDTO.ClassID,
+                    IsActive = DecoderDTO.IsActive,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate
+                };
+                _valueLinkList.Add(_classDTO);
+
+                //Step 2. Link Sub Class to Sub Class
+                var _subClassDTO = new ValueLinkDTO
+                {
+                    ParentAttributeID = (int?)Attribute_Enum.SubClass,
+                    ParentValueID = DecoderDTO.SubClassID,
+                    ChildAttributeID = (int?)Attribute_Enum.SubClass,
+                    ChildValueID = DecoderDTO.SubClassID,
+                    IsActive = DecoderDTO.IsActive,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate
+                };
+                _valueLinkList.Add(_subClassDTO);
+
+                //Step 3. Link Component to Sub Class
+                if (DecoderDTO.PartTypeID == (int?)Value_Enum.PartTypeValue_Enum.Manufactured)
+                {
+                    var _componentTypeDTO = new ValueLinkDTO
+                    {
+                        ParentAttributeID = (int?)Attribute_Enum.SubClass,
+                        ParentValueID = DecoderDTO.SubClassID,
+                        ChildAttributeID = (int?)Attribute_Enum.ComponentType,
+                        ChildValueID = DecoderDTO.ComponentTypeID,
+                        IsActive = DecoderDTO.IsActive,
+                        AddedByID = DecoderDTO.AddedByID,
+                        AddedDate = DecoderDTO.AddedDate
+                    };
+                    _valueLinkList.Add(_componentTypeDTO);
+                }
+                else
+                {
+                    //Step 4. Link Class Sequence to Sub Class
+                    var _value_LinkDTO = new ValueLinkDTO
+                    {
+                        ParentAttributeID = (int)Attribute_Enum.Class,
+                        ParentValueID = DecoderDTO.ClassID,
+                        ChildAttributeID = (int)Attribute_Enum.Class_Sequence
+                    };
+                    var _classID = GetValueLinkList_Global(_value_LinkDTO).FirstOrDefault();
+                    if (_classID != null)
+                    {
+                        var _classIDDTO = new ValueLinkDTO
+                        {
+                            ParentAttributeID = (int?)Attribute_Enum.SubClass,
+                            ParentValueID = DecoderDTO.SubClassID,
+                            ChildAttributeID = (int?)Attribute_Enum.Class_Sequence,
+                            ChildValueID = _classID.ChildValueID,
+                            IsActive = DecoderDTO.IsActive,
+                            AddedByID = DecoderDTO.AddedByID,
+                            AddedDate = DecoderDTO.AddedDate
+                        };
+                        _valueLinkList.Add(_classIDDTO);
+                    }
+
+                    //Step 5. Link Symbol (-) to Sub Class
+                    var _customerConsigmentDTO = new ValueLinkDTO
+                    {
+                        ParentAttributeID = (int?)Attribute_Enum.SubClass,
+                        ParentValueID = DecoderDTO.SubClassID,
+                        ChildAttributeID = (int?)Attribute_Enum.Costumer_Consigment,
+                        ChildValueID = (int)Value_Enum.Customer_Consigment.Empty,
+                        IsActive = DecoderDTO.IsActive,
+                        AddedByID = DecoderDTO.AddedByID,
+                        AddedDate = DecoderDTO.AddedDate
+                    };
+                    _valueLinkList.Add(_customerConsigmentDTO);
+                }
+            }
+
+            // Create multiple Value Link
+            _validationResultDTO = CreateMultiple_Global(_valueLinkList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
         }
         catch (Exception ex)
         {

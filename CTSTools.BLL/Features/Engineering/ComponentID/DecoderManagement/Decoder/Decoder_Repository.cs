@@ -169,6 +169,7 @@ public class Decoder_Repository
             var _xPOList = DecoderMap.DTOListToXPOList(DecoderDTOList, _unit);
             _unit.Save(_xPOList);
             _unit.CommitChanges();
+            _validationResultDTO.Data = _xPOList;
         }
         catch (Exception ex)
         {

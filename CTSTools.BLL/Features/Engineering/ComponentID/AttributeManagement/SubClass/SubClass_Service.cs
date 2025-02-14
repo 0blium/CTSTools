@@ -179,15 +179,15 @@ public class SubClass_Service
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
         // Add id to each subclass in the list
-        //for (int i = 0; i < SubClassList.Count; i++)
-        //{
-        //    // We assign the Oid of the ValueLinkDTO within the _validationResultDTO corresponding to the properties
-        //    SubClassList[i].ID = _validationResultDTO.Data[i].Oid;
-        //}
-        ////Step 4.Create Decoder
-        //_validationResultDTO = CreateMultipleDecoderFromSubClass(SubClassList);
-        //if (!_validationResultDTO.Result)
-        //    return _validationResultDTO;
+        for (int i = 0; i < SubClassList.Count; i++)
+        {
+            // We assign the Oid of the ValueLinkDTO within the _validationResultDTO corresponding to the properties
+            SubClassList[i].ID = _validationResultDTO.Data[i].Oid;
+        }
+        //Step 4.Create Decoder
+        _validationResultDTO = CreateMultipleDecoderFromSubClass(SubClassList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
 
         return _validationResultDTO;
     }

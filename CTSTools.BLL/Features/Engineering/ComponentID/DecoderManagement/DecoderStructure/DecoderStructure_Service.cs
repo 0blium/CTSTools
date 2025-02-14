@@ -98,6 +98,50 @@ public class DecoderStructure_Service
 
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Global(List<DecoderStructureDTO> DecoderStructureList)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        var _valueLinkList = new List<ValueLinkDTO>();
+
+        foreach (var DecoderStructureDTO in DecoderStructureList) 
+        {
+            if ((bool)DecoderStructureDTO.NumberBody && DecoderStructureDTO.NumberOrder == 0)
+                DecoderStructureDTO.NumberOrder = SetNewNumberOrder(DecoderStructureDTO);
+            if ((bool)DecoderStructureDTO.DescriptionBody && DecoderStructureDTO.DescriptionOrder == 0)
+                DecoderStructureDTO.DescriptionOrder = SetNewDescriptionOrder(DecoderStructureDTO);
+            _validationResultDTO = DecoderStructure_Validator.CreateDecoderStructure_Validation(DecoderStructureDTO);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+        }
+
+        _validationResultDTO = DecoderStructure_Repository.CreateMultiple(DecoderStructureList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        foreach (var DecoderStructureDTO in DecoderStructureList) 
+        {
+            var _attributeDTO = Attribute_Repository.GetAttributeByID((int)DecoderStructureDTO.AttributeID);
+            if (DecoderStructureDTO.ValueIDArray.Length > 0 && (bool)_attributeDTO.HasMultipleOptions)
+            {
+                var _valueLinkDTO = new ValueLinkDTO
+                {
+                    ParentAttributeID = (int)Attribute_Enum.SubClass,
+                    ParentValueID = DecoderStructureDTO.SubClassID,
+                    ChildAttributeID = DecoderStructureDTO.AttributeID,
+                    ChildValueIDArray = DecoderStructureDTO.ValueIDArray,
+                    AddedByID = DecoderStructureDTO.AddedByID,
+                    AddedDate = DateTime.Now,
+                    IsActive = true
+                };
+                _valueLinkList.Add(_valueLinkDTO);
+            }
+        }
+        if (_valueLinkList.Count < 0) 
+        {
+            _validationResultDTO = ValueLink_Service.CreateMultiple(_valueLinkList);
+        }
+        return _validationResultDTO;
+    }
     public static List<DecoderStructureDTO> GetDecoderStructureList_Global(DecoderStructureDTO DecoderStructureDTO, PagedResultDTO<DecoderStructureDTO> PagedResultDTO = null)
     {
         var _decoderstructureglobalList = new List<DecoderStructureDTO>();
@@ -175,7 +219,7 @@ public class DecoderStructure_Service
                                           .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.ToList());
             }
 
-   
+
 
             foreach (var _decoderstructureDTO in DecoderStructureList)
             {
@@ -194,7 +238,7 @@ public class DecoderStructure_Service
                 if (DecoderStructureDTO.GetAttributeValueLinkList && _attributeValueLinkDict.ContainsKey(_decoderstructureDTO.AttributeID))
                 {
                     var _attributeValueLinkList = _attributeValueLinkDict[_decoderstructureDTO.AttributeID];
-                    _decoderstructureDTO.ValueList = _attributeValueLinkList.Select( s => s.ChildValueDTO).ToList();
+                    _decoderstructureDTO.ValueList = _attributeValueLinkList.Select(s => s.ChildValueDTO).ToList();
                     _decoderstructureDTO.ValueIDArray = _attributeValueLinkList.Select(s => s.ChildValueID).ToArray();
                     _decoderstructureDTO.ValueName = string.Join(",", _attributeValueLinkList.Select(s => s.ChildValueDTO.Name).ToArray());
                 }
@@ -394,6 +438,151 @@ public class DecoderStructure_Service
                 AddedDate = DecoderDTO.AddedDate,
             };
             _validationResultDTO = CreateDecoderStructure_Global(_customerConsigment);
+            if (_validationResultDTO.Result == false) return _validationResultDTO;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO LinkBaseMultipleAttributes(List<DecoderDTO> DecoderList)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        var _decoderStructureList = new List<DecoderStructureDTO>();
+        try
+        {
+            foreach (var DecoderDTO in DecoderList) 
+            {
+                //Step 1. Get 
+                var _valueLinkDTO = new ValueLinkDTO
+                {
+                    ParentAttributeID = (int)Attribute_Enum.Class,
+                    ParentValueID = DecoderDTO.ClassID,
+                    ChildAttributeID = (int)Attribute_Enum.Class_Sequence
+                };
+                var _classIDDTO = ValueLink_Service.GetValueLinkList_Global(_valueLinkDTO).FirstOrDefault();
+                //Step 1. Add Class Attribute 
+                var _classDTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Class,
+                    NumberBody = true,
+                    NumberOrder = 1,
+                    DescriptionBody = true,
+                    DescriptionOrder = 1,
+                    ValueID = DecoderDTO.ClassID,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                // add each DecoderStructure to the following list
+                _decoderStructureList.Add(_classDTO);
+
+                //Step 2. Add Sub Class Attribute 
+                var _subClassDTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.SubClass,
+                    NumberBody = true,
+                    NumberOrder = 2,
+                    DescriptionBody = true,
+                    DescriptionOrder = 2,
+                    ValueID = DecoderDTO.SubClassID,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_subClassDTO);
+
+                //Step 3. Add Symbol Attribute 
+                var _symbol1DTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Symbol,
+                    NumberBody = true,
+                    NumberOrder = 3,
+                    DescriptionBody = false,
+                    DescriptionOrder = 0,
+                    ValueID = (int)Value_Enum.Symbol_Enum.Dash,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_symbol1DTO);
+
+                // Step 4. Add Class Sequence Attribute
+                var _classidDTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Class_Sequence,
+                    NumberBody = true,
+                    NumberOrder = 4,
+                    ValueID = _classIDDTO.ChildValueID,
+                    DescriptionBody = false,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_classidDTO);
+
+                //Step 5. Add Symbol Attribute 
+                var _symbol2DTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Symbol,
+                    NumberBody = true,
+                    NumberOrder = 5,
+                    DescriptionBody = false,
+                    DescriptionOrder = 0,
+                    ValueID = (int)Value_Enum.Symbol_Enum.Dash,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_symbol2DTO);
+
+                //Step 6. Add Variant Attribute 
+                var _variantDTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Variant,
+                    NumberBody = true,
+                    NumberOrder = 6,
+                    DescriptionBody = false,
+                    DescriptionOrder = 0,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_variantDTO);
+
+                //Step 7. Add Symbol Attribute 
+                var _symbol3DTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Symbol,
+                    NumberBody = true,
+                    NumberOrder = 7,
+                    DescriptionBody = false,
+                    DescriptionOrder = 0,
+                    ValueID = (int)Value_Enum.Symbol_Enum.Dash,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_symbol3DTO);
+
+                //Step 8. Add Symbol Attribute 
+                var _customerConsigment = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = (int?)Attribute_Enum.Costumer_Consigment,
+                    NumberBody = true,
+                    NumberOrder = 8,
+                    DescriptionBody = false,
+                    DescriptionOrder = 0,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate,
+                };
+                _decoderStructureList.Add(_customerConsigment);
+            }
+
+            // Create multiple Decoder Structure
+            _validationResultDTO = CreateMultiple_Global(_decoderStructureList);
             if (_validationResultDTO.Result == false) return _validationResultDTO;
         }
         catch (Exception ex)

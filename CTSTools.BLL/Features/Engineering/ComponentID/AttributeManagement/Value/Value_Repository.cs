@@ -28,21 +28,46 @@ public class Value_Repository
 
             if (PagedResultDTO?.dxFilters != null)     
                 //DevExtreme Filter
-                _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO));            
-            using var _session = XPO_Helper.GetNewSession();
-            var _valueCollection = new XPCollection<ValueXPO>(_session, _groupOperator, _sortProperty)
+                _groupOperator.Operands.Add(DXFilters_Helper.GetDevExtremeFilters(PagedResultDTO));
+            if (ValueDTO.ValueIDArray.Count() > 2000 && PagedResultDTO?.dxFilters == null)
             {
-                TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
-                SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
-                Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(_sortProperty) : new SortingCollection(new SortProperty(nameof(ValueXPO.Oid), SortingDirection.Ascending))
-            };
-            if (_valueCollection.AsQueryable().Count() > 0)
-                _valueList = _valueCollection.Select(ValueXPO => ValueMap.XPOToDTO(ValueXPO)).ToList();
-
+                var _groupOperatorList = DXFilters_Helper.SplitIDArrayToGroupOperator(ValueDTO.ValueIDArray);
+                foreach (var _subGroupOperator in _groupOperatorList)
+                    _valueList.AddRange(GetXPOCollection(_subGroupOperator, _sortProperty, PagedResultDTO));
+            }
+            else
+                _valueList = GetXPOCollection(_groupOperator, _sortProperty, PagedResultDTO);
         }
         catch (Exception ex)
         {
             ErrorSignal.FromCurrentContext().Raise(ex);
+        }
+        return _valueList;
+    }
+    public static List<ValueDTO> GetXPOCollection(GroupOperator GroupOperator, SortProperty SortProperty, PagedResultDTO<ValueDTO> PagedResultDTO = null)
+    {
+
+        var _valueList = new List<ValueDTO>();
+        try
+        {
+            using (var _session = XPO_Helper.GetNewSession())
+            {
+                var _valueCollection = new XPCollection<ValueXPO>(_session, GroupOperator, SortProperty)
+                {
+                    TopReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Take,
+                    SkipReturnedObjects = PagedResultDTO == null ? 0 : PagedResultDTO.Skip,
+                    Sorting = (PagedResultDTO?.SortPropertyName != null) ? new SortingCollection(SortProperty) : new SortingCollection(new SortProperty(nameof(ValueXPO.Oid), SortingDirection.Ascending))
+                };
+
+                if (_valueCollection.AsQueryable().Count() > 0)
+                {
+                    _valueList = _valueCollection.Select(ValueXPO => ValueMap.XPOToDTO(ValueXPO)).ToList();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
         }
         return _valueList;
     }

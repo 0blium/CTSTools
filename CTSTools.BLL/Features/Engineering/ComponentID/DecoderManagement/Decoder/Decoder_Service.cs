@@ -71,23 +71,27 @@ public class Decoder_Service
     }
     public static ValidationResultDTO CreateMultiple_Global(List<DecoderDTO> DecoderList)
     {
-        //Step 2. Validate fields
+        //Step 1. Validate fields
         var _validationResultDTO = Decoder_Validator.CreateMultiple_Validation(DecoderList);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
-        //Step 3. Create the decoder
+        //Step 2. Create the decoder
         _validationResultDTO = Decoder_Repository.CreateMultiple(DecoderList);
-        //if (!_validationResultDTO.Result)
-        //    return _validationResultDTO;
-        //DecoderList.ID = _validationResultDTO.Data;
-        ////Step 4. Add Decoder Structure Attributes
-        //_validationResultDTO = DecoderStructure_Service.LinkBaseAttributes(DecoderList);
-        //if (!_validationResultDTO.Result)
-        //    return _validationResultDTO;
-        ////Step 5. Link Values to the Sub Class
-        //_validationResultDTO = ValueLink_Service.LinkBaseValuesToSubClass(DecoderList);
-        //if (!_validationResultDTO.Result)
-        //    return _validationResultDTO;
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        for (int i = 0; i < DecoderList.Count; i++)
+        {
+            // We assign the Oid of the DecoredDTO within the _validationResultDTO corresponding to the properties
+            DecoderList[i].ID = _validationResultDTO.Data[i].Oid;
+        }
+        //Step 3. Add Decoder Structure Attributes
+        _validationResultDTO = DecoderStructure_Service.LinkBaseMultipleAttributes(DecoderList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        //Step 4. Link Values to the Sub Class
+        _validationResultDTO = ValueLink_Service.LinkBaseMultipleValuesToSubClass(DecoderList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
         //_validationResultDTO.Data = DecoderList.ID;
         return _validationResultDTO;
     }
