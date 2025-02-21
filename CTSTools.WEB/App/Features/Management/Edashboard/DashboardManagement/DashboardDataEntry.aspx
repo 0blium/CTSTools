@@ -191,9 +191,10 @@
     </div>
     <!--KPI Tendency Modal-->
     <div class="modal fade" id="Dashboard_KPITendencyModal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title fs-5">Tendency</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
                 <div class="modal-body">

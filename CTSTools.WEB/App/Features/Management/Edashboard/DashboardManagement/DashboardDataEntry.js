@@ -78,7 +78,8 @@ async function InitializeDashboardDataEntryControls() {
     $("#dxKPITendenceChart").dxChart({
         dataSource: "",
         title: {
-            text: "Tendence",
+            text: " ",
+            horizontalAlignment: "center"
         },
         legend: {
             visible: false
@@ -94,9 +95,29 @@ async function InitializeDashboardDataEntryControls() {
                 weight: 700
             },
         },
+        valueAxis: {
+            constantLines: [{
+                label: {
+                    text: 'Low Average',
+                },
+                width: 2,
+                value: 80,
+                color: '#8c8cff',
+                dashStyle: 'dash',
+            }, {
+                label: {
+                    text: 'High Average',
+                },
+                width: 2,
+                value: 70,
+                color: '#ff7c7c',
+                dashStyle: 'dash',
+            }],
+        },
         series: [{
             argumentField: "Month",
             valueField: "Tendence",
+            
 
             label: {
                 visible: true,
@@ -104,11 +125,16 @@ async function InitializeDashboardDataEntryControls() {
                     visible: true,
                     width: 0.5
                 },
-                customizeText: function (e) {
-                    return e.value;
-                }
+                format: {
+                    type: "fixedPoint",
+                    precision: 2
+                },  
+                //customizeText: function (e) {
+                //    return e.value;
+                //}
             },
-        }],
+        }]
+
     });
 }
 //#region TQC Format
@@ -144,7 +170,7 @@ function BuildTQCFormat(Dashboard_KPIList) {
             { id: Dashboard_Category_Enum.Cost, symbol: "C", name: "Cost" },
             { id: Dashboard_Category_Enum.Moral, symbol: "M", name: "Moral" },
             { id: Dashboard_Category_Enum.Environmental, symbol: "E", name: "Environmental" },
-            
+
         ];
 
         categories.forEach(category => {
@@ -291,25 +317,24 @@ function ClearMonthValueModal() {
     document.getElementById('DashboardDataEntryComments').value = ""
 }
 function SetSubtitles(KPIDTO) {
-    console.log(KPIDTO)
     let _fyGoalSymbol = (KPIDTO.ValueTypeID == ValueType_Enum.Percent) ? "%" : KPIDTO.Abbreviation;
     let _fyGoalFormat = KPIDTO.UnitOfMeasureID == UnitOfMeasure_Enum.USD ?
         ConvertToMoney(KPIDTO.Goal) : KPIDTO.Goal;
 
     let _subtitle;
-    _subtitle = '<form class="form-inline">' +
+    _subtitle =
         '<div class="form-group">' +
-        '<label ><strong>KPI : </strong></label>' +
-        '<label >' + KPIDTO.Name + '</label>' +
-        '<label ><strong> - Goal : </strong></label>' +
-        '<label >' + KPIDTO.EquivalenceIcon + _fyGoalFormat + " " + _fyGoalSymbol + '</label>' +
-        '</div>' +
-        '</form>';
+        '<label>' + KPIDTO.EquivalenceIcon + _fyGoalFormat + " " + _fyGoalSymbol + '</label>' +
+        '</div>';
+
+
     $("#dxKPITendenceChart").dxChart("instance").option("title", {
-        subtitle: {
-            text: _subtitle
-        }
+        text: KPIDTO.Name,
+        subtitle: 'Goal: ' + KPIDTO.EquivalenceIcon + " " + _fyGoalFormat ,
     });
+
+    //$("#dxKPITendenceChart").dxChart("instance").option("title", KPIDTO.Name);
+    //$("#dxKPITendenceChart").dxChart("instance").option("subtitle", _subtitle);
 }
 
 function ConvertToMoney(Goal) {
