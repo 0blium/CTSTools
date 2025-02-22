@@ -1,10 +1,11 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
-using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
+using CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part;
+using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -305,6 +306,12 @@ public class SubClass_Validator
             _subClassDTO.SubClassValueDTO.Description = SubClassDTO.SubClassValueDTO.Description;
             _subClassDTO.SubClassValueDTO.AttributeID = (int)Attribute_Enum.SubClass;
             _subClassDTO.ParentValueName = !string.IsNullOrEmpty(SubClassDTO.ParentValueName) ? SubClassDTO.ParentValueName : "Error, The class is null or empty";
+
+            _subClassDTO.ChildValueName = !string.IsNullOrEmpty(SubClassDTO.ChildValueName) ? SubClassDTO.ChildValueName : "Error, The Values is null or empty";
+            _subClassDTO.ChildAttributeName = !string.IsNullOrEmpty(SubClassDTO.ChildAttributeName) ? SubClassDTO.ChildAttributeName : "Error, The Manufacturers is null or empty";
+            _subClassDTO.LastUpdateByName = !string.IsNullOrEmpty(SubClassDTO.LastUpdateByName) ? SubClassDTO.LastUpdateByName : "Error, The identification number is null or empty";
+            _subClassDTO.Description = SubClassDTO.Description;
+
             _subClassDTO.SubClassValueDTO.AddedDate = DateTime.Now;
             _subClassDTO.SubClassValueDTO.AddedByID = SubClassDTO.SubClassValueDTO.AddedByID;
             _subClassDTO.AddedDate = DateTime.Now;
@@ -314,7 +321,10 @@ public class SubClass_Validator
 
             // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
             if (_subClassDTO.SubClassValueDTO.Name.StartsWith("Error") ||
-                _subClassDTO.ParentValueName.StartsWith("Error"))
+                _subClassDTO.ParentValueName.StartsWith("Error") ||
+                _subClassDTO.LastUpdateByName.StartsWith("Error") ||
+                _subClassDTO.ChildValueName.StartsWith("Error") ||
+                _subClassDTO.ChildAttributeName.StartsWith("Error"))
                 isSucces = false;
 
             // If it meets all the validations, it saves it in GoodRowLinesList else
@@ -362,9 +372,15 @@ public class SubClass_Validator
 
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
             var _subClassDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.Class, ValueNameArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.ParentValueName.ToLower()).Distinct().ToArray() };
+            var _valueNameDTO = new ValueDTO { ValueNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildValueName.Trim().Split(',')).Select(ChildValueName => ChildValueName.Trim()).Distinct().ToArray() };
+            var _supplierNameDTO = new SupplierDTO { SupplierNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildAttributeName.Trim().Split(',')).Select(ChildAttributeName => ChildAttributeName.Trim()).Distinct().ToArray() };
+            var _partDTO = new PartDTO { MfgPartNumberArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.LastUpdateByName.ToLower()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _subClassList = Value_Service.GetValueList_Global(_subClassDTO);
+            var _valueList = Value_Service.GetValueList_Global(_valueNameDTO);
+            var _supplierList = Supplier_Service.GetSupplierList_Global(_supplierNameDTO);
+            var _partList = Part_Service.GetPartList_Global(_partDTO);
 
             // We save an list of the ParentValueID to eliminate ParentValueID that are repeated with Distinct and Where filters the list elements so that it takes those that are not null
             var _parentValueIDList = _subClassDTOList.Where(SubClassDTO => SubClassDTO.ParentValueID != null).Select(SubClassDTO => SubClassDTO.ParentValueID).Distinct().ToList();
@@ -382,12 +398,17 @@ public class SubClass_Validator
 
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _classDict = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => (int?)SubClassDTO.ID);
+            var _valueDict = _valueList.ToDictionary(ValueDTO => ValueDTO.Name.ToLower(), ValueDTO => ValueDTO.ID);
+            var _supplierDict = _supplierList.ToDictionary(SupplierDTO => SupplierDTO.Name.ToLower(), SupplierDTO => (int?)SupplierDTO.ID);
+            var _partDict = _partList.ToDictionary(PartDTO => PartDTO.MfgPartNumber.ToLower());
             var _valueLinkCodeDict = _valueLinkList.ToDictionary(SubClassDTO => SubClassDTO.ChildValueDTO.Code.ToLower().Trim().Replace(" ", ""), SubClassDTO => (int?)SubClassDTO.ParentValueID);
             var _valueLinkNameDict = _valueLinkList.ToDictionary(SubClassDTO => SubClassDTO.ChildValueDTO.Name.ToLower().Trim().Replace(" ", ""), SubClassDTO => (int?)SubClassDTO.ParentValueID);
 
             foreach (var SubClassDTO in _subClassDTOList)
             {
                 bool isSuccess = true;
+                var _valueNameList = SubClassDTO.ChildValueName.Trim().Split(',').Select(ChildValueName => ChildValueName.Trim()).ToList();
+                var _supplierNameList = SubClassDTO.ChildAttributeName.Trim().Split(',').Select(ChildAttributeName => ChildAttributeName.Trim()).ToList();
 
                 // we use TryGetValue to try to get the value associated with the key from the dictionary,
                 // If the value of ParentValueName is found, it is assigned with the corresponding value (ID) from the dictionary.
@@ -398,7 +419,9 @@ public class SubClass_Validator
                     SubClassDTO.ParentValueID = ClassID;
                     SubClassDTO.ChildAttributeID = (int)Attribute_Enum.SubClass;
                 }
-                else { SubClassDTO.ParentValueName = "Error: The class does not exist"; isSuccess = false; }
+                else 
+                    { SubClassDTO.ParentValueName = "Error: The class does not exist"; isSuccess = false; }
+
                 // The 'out' keyword indicates that ParentValueCodeID is an output parameter; if the name is found, check the dictionary ID with that of the ParentValueID of ClassDTO
                 if (_valueLinkCodeDict.TryGetValue(SubClassDTO.SubClassValueDTO.Code.ToLower().Trim().Replace(" ", ""), out int? ParentValueCodeID) && ParentValueCodeID == SubClassDTO.ParentValueID)
                 {
@@ -412,6 +435,37 @@ public class SubClass_Validator
                     SubClassDTO.SubClassValueDTO.Name = $"{_subClassValueName} is already on the database.";
                     isSuccess = false;
                 }
+                if (_partDict.ContainsKey(SubClassDTO.LastUpdateByName)) 
+                {
+                    var _mfgPartNumber = SubClassDTO.LastUpdateByName;
+                    SubClassDTO.LastUpdateByName = $"Error: The {_mfgPartNumber} are already in the database";
+                }
+
+                var _valueIDList = new List<int?>();
+                for (int i = 0; _valueNameList.Count > i; i++)
+                {
+                    if (_valueDict.TryGetValue(_valueNameList[i].ToLower(), out int? ValueID))
+                    {
+                        _valueIDList.Add(ValueID);
+                    }
+                    else
+                    { SubClassDTO.ChildValueName += $"Error: The {_valueNameList[i].ToLower()} does not exist "; isSuccess = false; }
+                }
+                if(_valueIDList.Count > 0)
+                    SubClassDTO.SubClassValueDTO.ValueIDArray = _valueIDList.ToArray();
+
+                var _supplierIDList = new List<int?>();
+                for (int i = 0; _supplierNameList.Count > i; i++)
+                {
+                    if (_supplierDict.TryGetValue(_supplierNameList[i].ToLower(), out int? SupplierID))
+                    {
+                        _supplierIDList.Add(SupplierID);
+                    }
+                    else
+                    { SubClassDTO.ChildAttributeName += $"Error: The {_supplierNameList[i].ToLower()} does not exist"; isSuccess = false; }
+                }
+                if (_valueIDList.Count > 0)
+                    SubClassDTO.ValueLinkIDArray = _supplierIDList.ToArray();
 
                 if (isSuccess)
                 {

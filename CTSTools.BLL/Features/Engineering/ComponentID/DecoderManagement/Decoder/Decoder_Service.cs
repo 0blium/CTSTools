@@ -2,8 +2,11 @@ using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Atrribute;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.SubClass_Supplier;
+using CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -71,6 +74,8 @@ public class Decoder_Service
     }
     public static ValidationResultDTO CreateMultiple_Global(List<DecoderDTO> DecoderList)
     {
+        var _subClass_SupplierList = new List<SubClass_SupplierDTO>();
+
         //Step 1. Validate fields
         var _validationResultDTO = Decoder_Validator.CreateMultiple_Validation(DecoderList);
         if (!_validationResultDTO.Result)
@@ -92,7 +97,43 @@ public class Decoder_Service
         _validationResultDTO = ValueLink_Service.LinkBaseMultipleValuesToSubClass(DecoderList);
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
-        //_validationResultDTO.Data = DecoderList.ID;
+        //Step 5. Create Attributes in DecoderStructure
+        _validationResultDTO = CreateDecoderStructureList(DecoderList);
+        var _decoderStructureList = _validationResultDTO.Data;
+        _validationResultDTO = DecoderStructure_Service.CreateMultiple_Global(_decoderStructureList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        //Step 6. Create Manufacturer in DecoderStructure
+        // Create SubClass_Supplier list
+        foreach (var DecoderDTO in DecoderList) 
+        {
+            if (DecoderDTO.ComponentTypeIDArray.Length > 0) 
+            {
+                for (int i = 0; i < DecoderDTO.ComponentTypeIDArray.Length; i++) 
+                {
+                    var _subClass_SupplierDTO = new SubClass_SupplierDTO
+                    {
+                        SubClassID = (int)DecoderDTO.SubClassID,
+                        SupplierID = (int)DecoderDTO.ComponentTypeIDArray[i],
+                        AddedByID = DecoderDTO.AddedByID,
+                        IsActive = true,
+                    };
+                    _subClass_SupplierList.Add(_subClass_SupplierDTO);
+                }
+            }
+        }
+        _validationResultDTO = SubClass_Supplier_Service.CreateMultiple_Global(_subClass_SupplierList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 7. Update decoders status = Released
+        _validationResultDTO = SubmitMultiple_Global(DecoderList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 8. Create part
+        _validationResultDTO = Part_Service.CreateMultipleFromDecoder(DecoderList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
         return _validationResultDTO;
     }
     public static List<DecoderDTO> GetDecoderList_Global(DecoderDTO DecoderDTO, PagedResultDTO<DecoderDTO> PagedResultDTO = null)
@@ -276,6 +317,79 @@ public class Decoder_Service
         DecoderDTO.StatusID = (int)Status_Enum.Part_Number_Configurator.Edit;
         DecoderDTO.LastUpdate = DateTime.Now;
         var _validationResultDTO = UpdateDecoder_Global(DecoderDTO);
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO CreateDecoderStructureList(List<DecoderDTO> DecoderList) 
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        var _decoderStructureList = new List<DecoderStructureDTO>();
+        var _valueIDArray = new ValueDTO { ValueIDArray = DecoderList.SelectMany(DecoderDTO => DecoderDTO.PartTypeIDArray).ToArray() };
+        var _valueList = Value_Service.GetValueList_Global(_valueIDArray);
+        var _valueDict = _valueList.ToDictionary(ValueDTO => ValueDTO.ID, ValueDTO => ValueDTO.AttributeID);
+
+        foreach (var DecoderDTO in DecoderList)
+        {
+            // We create a dictionary to group the ValueIDs by AttributeID
+            var attributeGroups = new Dictionary<int, List<int?>>();
+
+            // Loop through each ValueIDArray of the DecoderDTO and group them by their AttributeID
+            foreach (int valueID in DecoderDTO.PartTypeIDArray)
+            {
+                // Check if the ValueID exists in the dictionary _valueDict
+                if (_valueDict.ContainsKey(valueID))
+                {
+                    int attributeID = (int)_valueDict[valueID];
+
+                    // If the AttributeID already exists in the dictionary, we add the ValueID to its list
+                    if (!attributeGroups.ContainsKey(attributeID))
+                    {
+                        attributeGroups[attributeID] = new List<int?>();
+                    }
+                    attributeGroups[attributeID].Add(valueID);
+                }
+            }
+
+            int _descriptionOrder = 0;
+            // Now, for each group of AttributeID, we create a DecoderStructureDTO
+            foreach (var attributeGroup in attributeGroups)
+            {
+                var _decoderStructureDTO = new DecoderStructureDTO
+                {
+                    DecoderID = DecoderDTO.ID,
+                    AttributeID = attributeGroup.Key, // The AttributeID is the group key
+                    NumberBody = false,
+                    NumberOrder = 0,
+                    DescriptionBody = true,
+                    DescriptionOrder = 3 + _descriptionOrder,
+                    SubClassID = DecoderDTO.SubClassID,
+                    ValueIDArray = attributeGroup.Value.ToArray(), // The ValueIDs that correspond to this AttributeID
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DateTime.Now,
+                };
+
+                // Add the new object to the list
+                _decoderStructureList.Add(_decoderStructureDTO);
+                _descriptionOrder++;
+            }
+        }
+        _validationResultDTO.Data = _decoderStructureList;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO SubmitMultiple_Global(List<DecoderDTO> DecoderList)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        foreach (var DecoderDTO in DecoderList)
+        {
+            _validationResultDTO = Decoder_Validator.SubmitDecoder_Validation(DecoderDTO);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+
+            var _decoderDTO = Decoder_Repository.GetDecoderByID((int)DecoderDTO.ID);
+            _decoderDTO.StatusID = (int)Status_Enum.Part_Number_Configurator.Released;
+            _decoderDTO.LastUpdateByID = DecoderDTO.AddedByID;
+            _decoderDTO.LastUpdate = DateTime.Now;
+            _validationResultDTO = UpdateDecoder_Global(_decoderDTO);
+        }
         return _validationResultDTO;
     }
 

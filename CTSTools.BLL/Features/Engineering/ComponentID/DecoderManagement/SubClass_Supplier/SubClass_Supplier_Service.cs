@@ -38,6 +38,16 @@ public class SubClass_Supplier_Service
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Global(List<SubClass_SupplierDTO> SubClass_SupplierList)
+    {
+
+        var _validationResultDTO = SubClass_Supplier_Validator.CreateMultiple_Validation(SubClass_SupplierList);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = SubClass_Supplier_Repository.CreateMultiple(SubClass_SupplierList);
+        }
+        return _validationResultDTO;
+    }
     public static List<SubClass_SupplierDTO> GetSubClass_SupplierList_Global(SubClass_SupplierDTO SubClass_SupplierDTO, PagedResultDTO<SubClass_SupplierDTO> PagedSubClass_SupplierDTO = null)
     {
         var _subClass_SupplierGlobalList = new List<SubClass_SupplierDTO>();

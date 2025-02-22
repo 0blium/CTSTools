@@ -13,6 +13,7 @@ public class Value_Enum
     }
     public enum Customer_Consigment
     {
+        CustomerConsigment = 120,
         Empty = 121
     }
 }

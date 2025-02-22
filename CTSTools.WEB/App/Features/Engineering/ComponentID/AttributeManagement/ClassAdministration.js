@@ -782,7 +782,7 @@ function ShowSubClassValidationResults(_validationResultDTO) {
             // If there are bad lines, add each one in the message
             errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
             _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
-                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.SubClassValueDTO.Name}, Code: ${badLine.SubClassValueDTO.Code}, Description = ${badLine.SubClassValueDTO.Description}, Class = ${badLine.ParentValueName}.</li>`;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Name: ${badLine.SubClassValueDTO.Name}, Code: ${badLine.SubClassValueDTO.Code}, Description = ${badLine.SubClassValueDTO.Description}, Class = ${badLine.ParentValueName}, Values = ${badLine.ChildValueName}, Manufacturers = ${badLine.ChildAttributeName}, Identification Number = ${badLine.LastUpdateByName}.</li>`;
             });
             errorMessages += '</ul>';
             ShowSubClassErrorMessages(errorMessages);
@@ -808,6 +808,11 @@ function SubClassPropertyNameArray() {
     // this so that it matches the names of the excel column
     _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive")
         .map(PropertyName => PropertyName.includes("AttributeID") ? "Class" : PropertyName);
+    // In this case we add the missing columns
+    _propertyNameArray.push("Values");
+    _propertyNameArray.push("Manufacturers");
+    _propertyNameArray.push("IdentificationNumber");
+    _propertyNameArray.push("Comments");
     return _propertyNameArray;
 }
 //#endregion

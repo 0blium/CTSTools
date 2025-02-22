@@ -154,7 +154,7 @@ public class SubClass_Service
         var _valueList = new List<ValueDTO>();
         var _valueLinkList = new List<ValueLinkDTO>();
         // We extract the ClassValueDTO from ClassDTOList and add them to _valueList
-        foreach (var SubClassDTO in SubClassList)
+        foreach (var SubClassDTO in SubClassList) 
         {
             _valueList.Add(SubClassDTO.SubClassValueDTO);
         }
@@ -235,6 +235,8 @@ public class SubClass_Service
                 {
                     var _decorderDTO = new DecoderDTO
                     {
+                        PartTypeIDArray = _subClassDTO.SubClassValueDTO.ValueIDArray,
+                        ComponentTypeIDArray = _subClassDTO.ValueLinkIDArray,
                         StatusID = (int?)Status_Enum.Part_Number_Configurator.Draft,
                         SubClassID = _subClassDTO.ChildValueID,
                         ClassID = _subClassDTO.ParentValueID,
@@ -242,6 +244,8 @@ public class SubClass_Service
                         ComponentTypeID = SubClassDTO.ComponentTypeDTO != null ? SubClassDTO.ComponentTypeDTO.ID : null,
                         AddedByID = _subClassDTO.AddedByID,
                         AddedDate = DateTime.Now,
+                        LastUpdateByName = _subClassDTO.LastUpdateByName,
+                        SubClassName = _subClassDTO.Description,
                         IsActive = true,
                     };
                     _decoderList.Add(_decorderDTO);
@@ -353,6 +357,12 @@ public class SubClass_Service
                     _subClassDTO.SubClassValueDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]].ToString());
                     _subClassDTO.SubClassValueDTO.Code = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CODE"]].ToString());
                     _subClassDTO.ParentValueName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CLASS"]].ToString());
+                    // Add propeties to create Decoders and Part Number
+                    _subClassDTO.ChildValueName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["VALUES"]].ToString());
+                    _subClassDTO.ChildAttributeName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["MANUFACTURERS"]].ToString());
+                    _subClassDTO.LastUpdateByName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["IDENTIFICATIONNUMBER"]].ToString());
+                    _subClassDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["COMMENTS"]].ToString());
+
                     _subClassDTO.SubClassValueDTO.AddedByID = FileDTO.ID;
 
                     // We validate the DTO to verify that our properties are not null

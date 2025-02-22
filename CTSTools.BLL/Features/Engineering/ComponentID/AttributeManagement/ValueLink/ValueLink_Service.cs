@@ -1,6 +1,5 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
-using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using Elmah;
@@ -441,20 +440,19 @@ public class ValueLink_Service
                         };
                         _valueLinkList.Add(_classIDDTO);
                     }
-
-                    //Step 5. Link Symbol (-) to Sub Class
-                    var _customerConsigmentDTO = new ValueLinkDTO
-                    {
-                        ParentAttributeID = (int?)Attribute_Enum.SubClass,
-                        ParentValueID = DecoderDTO.SubClassID,
-                        ChildAttributeID = (int?)Attribute_Enum.Costumer_Consigment,
-                        ChildValueID = (int)Value_Enum.Customer_Consigment.Empty,
-                        IsActive = DecoderDTO.IsActive,
-                        AddedByID = DecoderDTO.AddedByID,
-                        AddedDate = DecoderDTO.AddedDate
-                    };
-                    _valueLinkList.Add(_customerConsigmentDTO);
                 }
+                //Step 5. Link Symbol (-) to Sub Class
+                var _customerConsigmentDTO = new ValueLinkDTO
+                {
+                    ParentAttributeID = (int?)Attribute_Enum.SubClass,
+                    ParentValueID = DecoderDTO.SubClassID,
+                    ChildAttributeID = (int?)Attribute_Enum.Costumer_Consigment,
+                    ChildValueID = (int)Value_Enum.Customer_Consigment.Empty,
+                    IsActive = DecoderDTO.IsActive,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DecoderDTO.AddedDate
+                };
+                _valueLinkList.Add(_customerConsigmentDTO);
             }
 
             // Create multiple Value Link

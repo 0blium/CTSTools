@@ -1,6 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Class_Sequence;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 using CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part_Attribute;
@@ -172,10 +173,40 @@ public class Part_Service
         _validationReusultDTO.Data = PartDTO;
         return _validationReusultDTO;
     }
-
-
-
-    // Aqui va la logica 
+    public static ValidationResultDTO CreateMultipleFromDecoder(List<DecoderDTO> DecoderList) 
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        try 
+        {
+            var _partList = new List<PartDTO>();
+            foreach (var DecoderDTO in DecoderList) 
+            {
+                var _valueIDList = DecoderDTO.PartTypeIDArray.ToList();
+                _valueIDList.Add((int)Value_Enum.Customer_Consigment.Empty);
+                var _valueDTO = new ValueDTO { ValueIDArray = _valueIDList.ToArray() };
+                var _valueList = Value_Service.GetValueList_Global(_valueDTO);
+                var _newValueList = _valueList.GroupBy(ValueDTO => ValueDTO.AttributeID).Select(groupAttributeID => groupAttributeID.First()).ToList();
+                var _partDTO = new PartDTO 
+                {
+                    DecoderID = DecoderDTO.ID,
+                    MfgPartNumber = DecoderDTO.LastUpdateByName,
+                    SupplierID = DecoderDTO.ComponentTypeIDArray.FirstOrDefault(),
+                    Comment = DecoderDTO.SubClassName,
+                    ValueList = _newValueList,
+                    AddedByID = DecoderDTO.AddedByID,
+                    AddedDate = DateTime.Now,
+                    IsActive = true,
+                };
+                //_partList.Add(_partDTO);
+                _validationResultDTO = CreatePart_Global(_partDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _validationResultDTO;
+    }
 
     #endregion
 }

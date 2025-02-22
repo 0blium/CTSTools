@@ -101,7 +101,6 @@ public class DecoderStructure_Service
     public static ValidationResultDTO CreateMultiple_Global(List<DecoderStructureDTO> DecoderStructureList)
     {
         var _validationResultDTO = new ValidationResultDTO();
-        var _valueLinkList = new List<ValueLinkDTO>();
 
         foreach (var DecoderStructureDTO in DecoderStructureList) 
         {
@@ -133,12 +132,8 @@ public class DecoderStructure_Service
                     AddedDate = DateTime.Now,
                     IsActive = true
                 };
-                _valueLinkList.Add(_valueLinkDTO);
+                _validationResultDTO = ValueLink_Service.CreateMultipleValueLink(_valueLinkDTO);
             }
-        }
-        if (_valueLinkList.Count < 0) 
-        {
-            _validationResultDTO = ValueLink_Service.CreateMultiple(_valueLinkList);
         }
         return _validationResultDTO;
     }
@@ -546,6 +541,7 @@ public class DecoderStructure_Service
                     NumberOrder = 6,
                     DescriptionBody = false,
                     DescriptionOrder = 0,
+                    ValueID = (int)Value_Enum.Customer_Consigment.CustomerConsigment,
                     AddedByID = DecoderDTO.AddedByID,
                     AddedDate = DecoderDTO.AddedDate,
                 };
@@ -575,6 +571,7 @@ public class DecoderStructure_Service
                     NumberOrder = 8,
                     DescriptionBody = false,
                     DescriptionOrder = 0,
+                    ValueID = (int)Value_Enum.Customer_Consigment.Empty,
                     AddedByID = DecoderDTO.AddedByID,
                     AddedDate = DecoderDTO.AddedDate,
                 };
