@@ -178,7 +178,6 @@ public class Part_Service
         var _validationResultDTO = new ValidationResultDTO();
         try 
         {
-            var _partList = new List<PartDTO>();
             foreach (var DecoderDTO in DecoderList) 
             {
                 var _valueIDList = DecoderDTO.PartTypeIDArray.ToList();
@@ -197,7 +196,6 @@ public class Part_Service
                     AddedDate = DateTime.Now,
                     IsActive = true,
                 };
-                //_partList.Add(_partDTO);
                 _validationResultDTO = CreatePart_Global(_partDTO);
             }
         }
