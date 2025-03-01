@@ -1,7 +1,10 @@
-﻿using CTSTools.BLL.Common;
+﻿using AMS.BLL.Features.SupportGroups.SupportGroupMember;
+using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Security.Permissions.Permission;
+using CTSTools.BLL.Features.Ticket.Item.Item_Line;
+using CTSTools.BLL.Features.Ticket.Item.SupportGroup;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -52,6 +55,44 @@ namespace CTSTools.WEB.App_Start
             ///Validate if user can view the page
             var _validation_Result = Permission_Service.ValidatePermission(_userDTO);
             if (!_validation_Result.Result) { Page.Response.Redirect("~/App/Features/Error/ErrorPage.aspx?Error=NA_@403"); }
+        }
+
+
+        //Imported from AMS Ticket
+        public static ValidationResultDTO ValidateSupportGroupMemberPermissions_Global(SupportGroupDTO SupportGroupDTO, string ModuleName, int Action)
+        {
+            var _validationResultDTO = ValidatePermission_Global(ModuleName, Action);
+            if (_validationResultDTO.Result)
+            {
+                var _userDTO = new UserDTO { ID = GetLoggedUserOid() };
+                _userDTO.PermissionDTO = Permission_Service.GetPermissionList_Global(new PermissionDTO { ModuleName = ModuleName, ActionDTO = new ActionDTO { ID = Action } }).FirstOrDefault();
+                var _supportGroupMemberDTO = new SupportGroupMemberDTO
+                {
+                    SupportGroupDTO = SupportGroupDTO,
+                    UserDTO = _userDTO
+                };
+                _validationResultDTO = SupportGroupMember_Service.ValidateSupportGroupMemberPermissions(_supportGroupMemberDTO);
+            }
+            return _validationResultDTO;
+
+        }
+
+        public static ValidationResultDTO SpecialUpdateItemLineValidation(Item_LineDTO Item_LineDTO, string ModuleName, int Action)
+        {
+            var _validationResultDTO = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID != null ?
+               ValidateSupportGroupMemberPermissions_Global(Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO, ModuleName, Action)
+               : ValidatePermission_Global(ModuleName, Action);
+            //Last validation, validate if owner of item 
+            if (_validationResultDTO.Result == false)
+            {
+                _validationResultDTO = Item_Line_Validator.Item_lineOwnerValidation(
+                    new Item_LineDTO
+                    {
+                        ID = Item_LineDTO.ID,
+                        OwnerDTO = new UserDTO { ID = GetLoggedUserOid() }
+                    });
+            }
+            return _validationResultDTO;
         }
     }
 }

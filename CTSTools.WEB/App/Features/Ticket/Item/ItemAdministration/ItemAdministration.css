@@ -1,0 +1,28 @@
+﻿/*.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: #E9E9E9 !important;
+    color: #265755;
+}
+
+.item-default {
+    background-color: #E9E9E9
+}*/
+
+.inlineTabs li.nav-item a.active {
+    border-bottom: 2px solid #265755 !important;
+    /*background-color: white !important;*/
+    /*color: #265755;*/
+}
+
+.nav.nav-tabs .nav-item .nav-link.active {
+    background-color: white !important;
+    margin-bottom: -1px;
+    /*border-bottom: 1px solid white !important;*/
+}
+
+.tab-border {
+    --bs-nav-tabs-border-width: 0;
+}
+
+.workflow-wizard li a {
+    pointer-events: none;
+}

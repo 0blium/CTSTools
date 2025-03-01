@@ -523,6 +523,7 @@ async function DeleteDepartment_Global() {
 
 //#endregion
 
+//#endregion
 
 //Reload select box for related fields
 async function ReloadLocationsSelectBox() {

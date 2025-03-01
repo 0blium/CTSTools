@@ -60,7 +60,6 @@ namespace CTSTools.BLL.Features.XPO
             return _sortProperty;
         }
 
-
         public static GroupOperator GetDevExtremeFilters<T>(PagedResultDTO<T> PagedDataDTO)
         {
             var _groupOperator = new GroupOperator();

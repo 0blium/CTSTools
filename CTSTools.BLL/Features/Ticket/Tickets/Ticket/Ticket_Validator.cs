@@ -1,0 +1,442 @@
+﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
+using CTSTools.BLL.Features.Ticket.SparePart.SparePartUsage;
+using Elmah;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status.Status_Enum;
+
+namespace CTSTools.BLL.Features.Ticket.Tickets.Ticket;
+
+public class Ticket_Validator
+{
+    public static ValidationResultDTO CreateTicket_Validation(TicketDTO TicketDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (string.IsNullOrEmpty(TicketDTO.Title))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Title Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.Title)}",
+                });
+            }
+            //if (string.IsNullOrEmpty(TicketDTO.Solution))
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Solution Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Solution)}",
+            //    });
+            //}
+            //if (string.IsNullOrEmpty(TicketDTO.Resolution))
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Resolution Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Resolution)}",
+            //    });
+            //}
+            if (TicketDTO.CreatedByDTO.ID == null || TicketDTO.CreatedByDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "CreatedBy Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+            if (TicketDTO.FacilityDTO.ID == null || TicketDTO.FacilityDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Facility Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityDTO)}",
+                });
+            }
+            if (TicketDTO.DepartmentDTO.ID == null || TicketDTO.DepartmentDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Department Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentDTO)}",
+                });
+            }
+
+            //if (TicketDTO.AssignedToDTO.ID == null || TicketDTO.AssignedToDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "AssignedTo Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.AssignedToDTO)}",
+            //    });
+            //}
+            if (string.IsNullOrEmpty(TicketDTO.Description))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Description Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.Description)}",
+                });
+            }
+            //if (TicketDTO.Item_LineDTO.ID == null || TicketDTO.Item_LineDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Item_Line Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Item_LineDTO)}",
+            //    });
+            //}
+            if (TicketDTO.StatusDTO.ID == null || TicketDTO.StatusDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusDTO)}",
+                });
+            }
+            if (TicketDTO.PriorityDTO.ID == null || TicketDTO.PriorityDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Priority Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityDTO)}",
+                });
+            }
+            if (TicketDTO.CategoryDTO.ID == null || TicketDTO.CategoryDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Category Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryDTO)}",
+                });
+            }
+            if (TicketDTO.SupportGroupDTO.ID == null || TicketDTO.SupportGroupDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "SupportGroup Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupDTO)}",
+                });
+            }
+            
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+    public static ValidationResultDTO UpdateTicket_Validation(TicketDTO TicketDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (TicketDTO.ID == null || TicketDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "ID Field Empty",
+                    Description = "Please, complete the missing information ",
+                });
+            }
+            if (string.IsNullOrEmpty(TicketDTO.Title))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Title Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.Title)}",
+                });
+            }
+            //if (TicketDTO.CreatedByDTO.ID == null || TicketDTO.CreatedByDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "CreatedBy Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.CreatedByDTO)}",
+            //    });
+            //}
+            if (TicketDTO.FacilityDTO.ID == null || TicketDTO.FacilityDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Facility Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityDTO)}",
+                });
+            }
+            if (TicketDTO.DepartmentDTO.ID == null || TicketDTO.DepartmentDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Department Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentDTO)}",
+                });
+            }
+            if (TicketDTO.AssignedToDTO.ID == null || TicketDTO.AssignedToDTO.ID == 0)
+            {
+
+            }
+            //if (TicketDTO.Item_LineDTO.ID == null || TicketDTO.Item_LineDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Item_Line Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Item_LineDTO)}",
+            //    });
+            //}
+            if (TicketDTO.StatusDTO.ID == null || TicketDTO.StatusDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusDTO)}",
+                });
+            }
+            if (TicketDTO.PriorityDTO.ID == null || TicketDTO.PriorityDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Priority Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityDTO)}",
+                });
+            }
+            if (TicketDTO.CategoryDTO.ID == null || TicketDTO.CategoryDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Category Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryDTO)}",
+                });
+            }
+            if (TicketDTO.SupportGroupDTO.ID == null || TicketDTO.SupportGroupDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "SupportGroup Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupDTO)}",
+                });
+            }
+            //if (TicketDTO.ClosedByDTO.ID == null || TicketDTO.ClosedByDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "ClosedBy Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.ClosedByDTO)}",
+            //    });
+            //}
+
+            if (TicketDTO.LastUpdateByID == null || TicketDTO.LastUpdateByID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "LastUpdateByID Field Empty",
+                    Description = "Please, complete the missing information ",
+                });
+            }
+
+            //Aditional Validations 
+
+            //Validate if ticket not as closed
+            var _previousTicket = Ticket_Service.GetTicketList_Global(new TicketDTO { ID = TicketDTO.ID }).FirstOrDefault();
+            if (_previousTicket.StatusDTO.ID == (int)Statuses_Enum.Closed)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "The ticket has already been closed",
+                    Description = "It is not possible to modify the closed ticket ",
+                });
+
+            }
+
+            //Validate if solution & resolution fields are empty when ticket change to closed
+            if (string.IsNullOrEmpty(TicketDTO.Solution) && TicketDTO.StatusDTO?.ID == (int)Statuses_Enum.Closed)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Solution Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.Solution)}",
+                });
+            }
+            if (string.IsNullOrEmpty(TicketDTO.Resolution) && TicketDTO.StatusDTO?.ID == (int)Statuses_Enum.Closed)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Resolution Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.Resolution)}",
+                });
+            }
+            //Validate if assignedTo is empty when ticket status change to closed
+            if (TicketDTO.StatusDTO?.ID == (int)Statuses_Enum.Closed && (TicketDTO.AssignedToDTO?.ID == null || TicketDTO.AssignedToDTO.ID == 0))
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "AssignedTo Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.AssignedToDTO)}",
+                });
+            }
+            // Validate if request quantity of SparePart is greater than available quantity of SparePartSupportGroup
+            // Instance TicketSparePartDTO
+            var SparePartUsageDTO = new SparePartUsageDTO { TicketDTO = TicketDTO };
+            SparePartUsageDTO.GetSparePartInventoryDTO = true;
+            //Get SparePartUsage lines of ticket
+            var _sparePartUsageList = SparePartUsage_Service.GetSparePartUsageList_Global(SparePartUsageDTO);
+            if (_sparePartUsageList.Count() > 0)
+            {
+                foreach (var _sparePartUsageDTO in _sparePartUsageList)
+                {
+                    //Validate if spare part usage qty is greater than spare part inventory available quantity
+                    if (_sparePartUsageDTO.Quantity > _sparePartUsageDTO.SparePartInventoryDTO.AvailableQty)
+                    {
+                        _validation_ResultList.Add(new ValidationResultDTO
+                        {
+                            Result = false,
+                            Message = "Error",
+                            Description = "Spare parts with quantities greater than the inventory cannot be processed."
+                        });
+                    }
+                }
+            }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+    public static ValidationResultDTO DeleteTicket_Validation(TicketDTO TicketDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (TicketDTO.ID == null || TicketDTO.ID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "ID Field Empty",
+                    Description = " Please, complete the missing information ",
+                });
+            }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+}

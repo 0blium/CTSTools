@@ -79,6 +79,8 @@
     <Compile Include="Features\AdvancedSettings\UserManagement\UserXPO.cs" />
     <Compile Include="Features\AdvancedSettings\UserManagement\User_PermissionXPO.cs" />
     <Compile Include="Features\AdvancedSettings\UserManagement\User_RoleXPO.cs" />
+    <Compile Include="Features\ChangeLog\ChangeLogXPO.cs" />
+    <Compile Include="Features\Currency\CurrencyXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\AttributeXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class_Sequence_SQL.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLinkXPO.cs" />
@@ -105,6 +107,28 @@
     <Compile Include="Features\Quality\QMS\DocumentTypeXPO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentXPO.cs" />
     <Compile Include="Features\Quality\QMS\ProductXPO.cs" />
+    <Compile Include="Features\Ticket\Item\DataTypeXPO.cs" />
+    <Compile Include="Features\Ticket\Item\ItemClassificationXPO.cs" />
+    <Compile Include="Features\Ticket\Item\Item_HeaderXPO.cs" />
+    <Compile Include="Features\Ticket\Item\Item_LineXPO.cs" />
+    <Compile Include="Features\Ticket\Item\Item_SupportGroupXPO.cs" />
+    <Compile Include="Features\Ticket\Item\SupplyTypeXPO.cs" />
+    <Compile Include="Features\Ticket\Item\TransactionOriginXPO.cs" />
+    <Compile Include="Features\Ticket\Item\UserDefinedTemplateXPO.cs" />
+    <Compile Include="Features\Ticket\Item\UserDefinedValueXPO.cs" />
+    <Compile Include="Features\Ticket\Item\UserDefinedXPO.cs" />
+    <Compile Include="Features\Ticket\Provider\ProviderXPO.cs" />
+    <Compile Include="Features\Ticket\SparePart\SparePartInventoryXPO.cs" />
+    <Compile Include="Features\Ticket\SparePart\SparePartUsageXPO.cs" />
+    <Compile Include="Features\Ticket\SparePart\SparePartXPO.cs" />
+    <Compile Include="Features\Ticket\SparePart\SparePart_LotXPO.cs" />
+    <Compile Include="Features\Ticket\Station\StationTypeXPO.cs" />
+    <Compile Include="Features\Ticket\Station\StationXPO.cs" />
+    <Compile Include="Features\Ticket\SupportGroup\SupportGroupMemberXPO.cs" />
+    <Compile Include="Features\Ticket\SupportGroup\SupportGroupXPO.cs" />
+    <Compile Include="Features\Ticket\Ticket\CategoryXPO.cs" />
+    <Compile Include="Features\Ticket\Ticket\PriorityXPO.cs" />
+    <Compile Include="Features\Ticket\Ticket\TicketXPO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -38,36 +38,40 @@
                     </li>
                 </ul>
                 <div class="tab-content rounded-0 m-0">
+                    <%-- Facility --%>
                     <div class="tab-pane fade active show" id="FacilityTab" role="tabpanel">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#FacilityModal"><i class="fa-solid fa-circle-plus"></i>  Facility</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#FacilityModal"><i class="fa-solid fa-circle-plus"></i>Facility</a>
                                         <div id="dxFacilityGrid"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <%-- Department --%>
                     <div class="tab-pane fade" id="DepartmentTab" role="tabpanel">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#DepartmentModal"><i class="fa-solid fa-circle-plus"></i>  Department</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#DepartmentModal"><i class="fa-solid fa-circle-plus"></i>Department</a>
                                         <div id="dxDepartmentGrid"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
         </div>
         <!-- END Status Catalog -->
     </div>
+    <%-- Facility Modal --%>
     <div class="modal fade" id="FacilityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -104,6 +108,8 @@
             </div>
         </div>
     </div>
+
+    <%-- Deparment Modal --%>
     <div class="modal fade" id="DepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -155,6 +161,7 @@
             </div>
         </div>
     </div>
+
     <input type="hidden" id="hiddenFacilityID" hidden />
     <input type="hidden" id="hiddenDepartmentID" hidden />
     <script type="module" src="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.js"></script>

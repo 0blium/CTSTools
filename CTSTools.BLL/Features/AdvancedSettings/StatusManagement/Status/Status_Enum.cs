@@ -17,5 +17,14 @@ public class Status_Enum
         New = 7
     }
 
+    //Importado para tickets
+    public enum Statuses_Enum : int
+    {
+        Inactive = 17,
+        New = 18,
+        Closed = 19,
+        Active = 20,
+        Scrap = 21
+    }
 }
 

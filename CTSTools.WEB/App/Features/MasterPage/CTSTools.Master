@@ -172,113 +172,255 @@
                                     </div>
 
                                 </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="Quality" class="menu-item has-sub menu-nav" data-tech="Quality QMS" hidden>
-                    <a href="javascript:;" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fa-solid fa-medal"></i>
-
-                        </div>
-                        <div class="menu-text">Quality</div>
-                        <div class="menu-caret"></div>
-                    </a>
-                    <div class="menu-submenu">
-                        <div id="QMS" class="menu-item has-sub submenu-nav" data-tech="QMS" hidden>
-                            <a href="javascript:;" class="menu-link">
-                                <div class="menu-text">QMS</div>
-                                <div class="menu-caret"></div>
-                            </a>
-                            <div class="menu-submenu">
-                                <div id="DocumentQMS" class="menu-item module-nav" data-tech="Document DocumentRevision" hidden>
-                                    <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
-                                        <div class="menu-text">Documents</div>
-                                    </a>
-                                </div>
-                                <div id="DocumentTypeQMS" class="menu-item module-nav" data-tech="DocumentType" hidden>
-                                    <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
-                                        <div class="menu-text">Types</div>
-                                    </a>
-                                </div>
-
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings" hidden>
-                    <a href="javascript:;" class="menu-link">
-                        <div class="menu-icon">
-                            <i class="fas fa-sliders"></i>
-                        </div>
-                        <div class="menu-text">Settings</div>
-                        <div class="menu-caret"></div>
-                    </a>
-                    <div class="menu-submenu ">
-                        <div id="UserCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UserCatalog User_Permission User_Role" hidden>
-                            <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Users </div>
-                            </a>
-                        </div>
-                        <div id="LocationsCatalogAdvancedSettings" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog Facility Department" hidden>
-                            <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Locations </div>
-                            </a>
-                        </div>
-                        <div id="MailGroupCatalogAdvancedSettings" class="menu-item module-nav" data-tech="MailGroupCatalog MailGroupMember" hidden>
-                            <a href="/App/Features/AdvancedSettings/MailGroupManagement/MailGroupCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Mail Groups </div>
-                            </a>
-                        </div>
 
-                        <div id="PermissionCatalogAdvancedSettings" class="menu-item module-nav" data-tech="PermissionCatalog Permission" hidden>
-                            <a href="/App/Features/AdvancedSettings/SecurityManagement/PermissionCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Permissions</div>
-                            </a>
-                        </div>
-                        <div id="ModuleCatalogAdvancedSettings" class="menu-item module-nav" data-tech="ModuleCatalog Module" hidden>
-                            <a href="/App/Features/AdvancedSettings/SecurityManagement/ModuleCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Modules</div>
-                            </a>
-                        </div>
-                        <div id="StatusAdministrationAdvancedSettings" class="menu-item module-nav" data-tech="StatusAdministration StatusType Status_StatusType" hidden>
-                            <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
-                                <div class="menu-text">Status</div>
-                            </a>
-                        </div>
-                        <div id="DashboardCategoryCatalogAdvancedSettings" class="menu-item  module-nav" data-tech="DashboardCategoryCatalog" hidden>
-                            <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Categories</div>
-                            </a>
-                        </div>
-                        <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog UnitOfMeasure" hidden>
-                            <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Unit Of Measures</div>
-                            </a>
-                        </div>
-                        <div id="CustomerAdvancedSettings" class="menu-item module-nav" data-tech="Customer" hidden>
-                            <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Customers</div>
-                            </a>
-                        </div>
-                        <div id="ProductAdvancedSettings" class="menu-item module-nav" data-tech="Product" hidden>
-                            <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Products</div>
-                            </a>
-                        </div>
-                        <div id="SupplierCatalogAdvancedSettings" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
-                            <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
-                                <div class="menu-text">Suppliers</div>
-                            </a>
-                        </div>
+                    <div id="Quality" class="menu-item has-sub menu-nav" data-tech="Quality QMS" hidden>
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fa-solid fa-medal"></i>
 
+                            </div>
+                            <div class="menu-text">Quality</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div id="QMS" class="menu-item has-sub submenu-nav" data-tech="QMS" hidden>
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">QMS</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="DocumentQMS" class="menu-item module-nav" data-tech="Document DocumentRevision" hidden>
+                                        <a href="/App/Features/Quality/QMS/DocumentCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Documents</div>
+                                        </a>
+                                    </div>
+                                    <div id="DocumentTypeQMS" class="menu-item module-nav" data-tech="DocumentType" hidden>
+                                        <a href="/App/Features/Quality/QMS/DocumentTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Types</div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings" hidden>
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fas fa-sliders"></i>
+                            </div>
+                            <div class="menu-text">Settings</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu ">
+                            <div id="UserCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UserCatalog User_Permission User_Role" hidden>
+                                <a href="/App/Features/AdvancedSettings/UserManagement/UserCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Users </div>
+                                </a>
+                            </div>
+                            <div id="LocationsCatalogAdvancedSettings" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog Facility Department" hidden>
+                                <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Locations </div>
+                                </a>
+                            </div>
+                            <div id="MailGroupCatalogAdvancedSettings" class="menu-item module-nav" data-tech="MailGroupCatalog MailGroupMember" hidden>
+                                <a href="/App/Features/AdvancedSettings/MailGroupManagement/MailGroupCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Mail Groups </div>
+                                </a>
+                            </div>
 
+                            <div id="PermissionCatalogAdvancedSettings" class="menu-item module-nav" data-tech="PermissionCatalog Permission" hidden>
+                                <a href="/App/Features/AdvancedSettings/SecurityManagement/PermissionCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Permissions</div>
+                                </a>
+                            </div>
+                            <div id="ModuleCatalogAdvancedSettings" class="menu-item module-nav" data-tech="ModuleCatalog Module" hidden>
+                                <a href="/App/Features/AdvancedSettings/SecurityManagement/ModuleCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Modules</div>
+                                </a>
+                            </div>
+                            <div id="StatusAdministrationAdvancedSettings" class="menu-item module-nav" data-tech="StatusAdministration StatusType Status_StatusType" hidden>
+                                <a href="/App/Features/AdvancedSettings/StatusManagement/StatusAdministration.aspx" class="menu-link">
+                                    <div class="menu-text">Status</div>
+                                </a>
+                            </div>
+                            <div id="DashboardCategoryCatalogAdvancedSettings" class="menu-item  module-nav" data-tech="DashboardCategoryCatalog" hidden>
+                                <a href="/App/Features/Management/Edashboard/Settings/DashboardCategory/DashboardCategoryCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Categories</div>
+                                </a>
+                            </div>
+                            <div id="UnitOfMeasureCatalogAdvancedSettings" class="menu-item module-nav" data-tech="UnitOfMeasureCatalog UnitOfMeasure" hidden>
+                                <a href="/App/Features/AdvancedSettings/UnitOfMeasure/UnitOfMeasureCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Unit Of Measures</div>
+                                </a>
+                            </div>
+                            <div id="CustomerAdvancedSettings" class="menu-item module-nav" data-tech="Customer" hidden>
+                                <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Customers</div>
+                                </a>
+                            </div>
+                            <div id="ProductAdvancedSettings" class="menu-item module-nav" data-tech="Product" hidden>
+                                <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Products</div>
+                                </a>
+                            </div>
+                            <div id="SupplierCatalogAdvancedSettings" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
+                                <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Suppliers</div>
+                                </a>
+                            </div>
 
+                        </div>
+                    </div>
 
-                <%--       <div class="menu-item has-sub">
+                    <%-- Ticket Modules --%>
+                    <div id="TicketModules" class="menu-item has-sub menu-nav" data-tech="TicketModules StationManagement">
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fa-solid fa-medal"></i>
+
+                            </div>
+                            <div class="menu-text">Ticket Modules</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div id="Tickets" class="menu-item has-sub submenu-nav" data-tech="Tickets">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Tickets</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="PriorityTickets" class="menu-item " data-tech="Priority">
+                                        <a href="/App/Features/Ticket/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Priority </div>
+                                        </a>
+                                    </div>
+                                    <div id="CategoryTickets" class="menu-item " data-tech="Category">
+                                        <a href="/App/Features/Ticket/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Category </div>
+                                        </a>
+                                    </div>
+                                    <div id="CreateTicketTickets" class="menu-item " data-tech="CreateTicket">
+                                        <a href="/App/Features/Ticket/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
+                                            <div class="menu-text">Create Ticket </div>
+                                        </a>
+                                    </div>
+                                    <div id="ConsultTickets" class="menu-item " data-tech="Consult">
+                                        <a href="/App/Features/Ticket/Tickets/Consult/TicketConsult.aspx" class="menu-link">
+                                            <div class="menu-text">Consult </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="SupportGroupManagement" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Support Group Management</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="SupportGroupSupportGroupManagement" class="menu-item " data-tech="SupportGroup">
+                                        <a href="/App/Features/Ticket/SupportGroup/SupportGroupCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Support Group </div>
+                                        </a>
+                                    </div>
+                                    <div id="SupportGroupMemberSupportGroupManagement" class="menu-item " data-tech="SupportGroupMember">
+                                        <a href="/App/Features/Ticket/SupportGroupMember/SupportGroupMemberCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Support Group Member</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="StationManagement" class="menu-item has-sub submenu-nav" data-tech="StationManagement">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">StationManagement</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="StationTypeStationManagement" class="menu-item " data-tech="StationType">
+                                        <a href="/App/Features/Ticket/Station/StationType/StationTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Station Type</div>
+                                        </a>
+                                    </div>
+                                    <div id="StationStationManagement" class="menu-item " data-tech="Station">
+                                        <a href="/App/Features/Ticket/Station/StationsManagement/StationsManagement.aspx" class="menu-link">
+                                            <div class="menu-text">Station</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="SpareParts" class="menu-item has-sub submenu-nav" data-tech="SpareParts">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">SpareParts</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="SparePartSpareParts" class="menu-item " data-tech="SparePart">
+                                        <a href="/App/Features/Ticket/SpareParts/SparePart/SparePartCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Spare Parts</div>
+                                        </a>
+                                    </div>
+                                    <div id="SparePartInventorySpareParts" class="menu-item " data-tech="SparePartInventory">
+                                        <a href="/App/Features/Ticket/SpareParts/SparePartInventory/SparePartInventory.aspx" class="menu-link">
+                                            <div class="menu-text">Spare Part Inventory</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ItemModule" class="menu-item has-sub submenu-nav" data-tech="ItemModule">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Item Module</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="ItemAdministrationItemModule" class="menu-item " data-tech="ItemAdministration">
+                                        <a href="/App/Features/Ticket/Item/ItemAdministration/ItemAdministration.aspx" class="menu-link">
+                                            <div class="menu-text">Item Administration</div>
+                                        </a>
+                                    </div>
+                                    <div id="ItemRegistrationItemModule" class="menu-item " data-tech="ItemRegistration">
+                                        <a href="/App/Features/Ticket/Item/ItemRegistration/ItemRegistration.aspx" class="menu-link">
+                                            <div class="menu-text">Item Registration</div>
+                                        </a>
+                                    </div>
+                                    <div id="SupplyTypeItemModule" class="menu-item " data-tech="SupplyType">
+                                        <a href="/App/Features/Ticket/Item/SupplyType/SupplyTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Supply Type</div>
+                                        </a>
+                                    </div>
+                                    <div id="ItemClassificationItemModule" class="menu-item " data-tech="ItemClassification">
+                                        <a href="/App/Features/Ticket/Item/ItemClassification/ItemClassificationCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Item Classification</div>
+                                        </a>
+                                    </div>
+                                    <div id="DataTypeItemModule" class="menu-item " data-tech="DataType">
+                                        <a href="/App/Features/Ticket/Item/DataType/DataTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">DataType</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ProviderTicketModules" class="menu-item " data-tech="Provider">
+                                <a href="/App/Features/Ticket/Provider/ProviderCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Provider </div>
+                                </a>
+                            </div>
+                            <div id="CurrencyTicketModules" class="menu-item " data-tech="Currency">
+                                <a href="/App/Features/AdvancedSettings/Currency/CurrencyCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Currency </div>
+                                </a>
+                            </div>
+                            <div id="ChangeLogTicketModules" class="menu-item " data-tech="ChangeLog">
+                                <a href="/App/Features/AdvancedSettings/ChangeLog/ChangeLogCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">ChangeLog </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--       <div class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fas fa-circle-question"></i>
@@ -286,8 +428,8 @@
                             <div class="menu-text">Help</div>
                             <div class="menu-caret"></div>
                         </a>--%>
-                <%--                        <div class="menu-submenu">--%>
-                <%--<div class="menu-item">
+                    <%--                        <div class="menu-submenu">--%>
+                    <%--<div class="menu-item">
                                 <a href="http://avmx-s05:8071/Documents/Manualdeusuario/Esp/AMS%20-%20Guia%20usuario.pdf" class="menu-link">
                                     <div class="menu-text">Guia de usuario</div>
                                 </a>
@@ -297,8 +439,8 @@
                                     <div class="menu-text">Guia de grupo de soporte</div>
                                 </a>
                             </div>--%>
-                <%--                        </div>--%>
-                <%--<div class="menu-item has-sub">
+                    <%--                        </div>--%>
+                    <%--<div class="menu-item has-sub">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Spanish</div>
                                     <div class="menu-caret"></div>
@@ -336,23 +478,23 @@
                                 </div>
                             </div>
                         </div>--%>
-                <%--                    </div>--%>
+                    <%--                    </div>--%>
+                </div>
+                <!-- END menu -->
             </div>
-            <!-- END menu -->
+            <!-- END scrollbar -->
         </div>
-        <!-- END scrollbar -->
-    </div>
-    <div class="app-sidebar-bg"></div>
-    <div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
-    <!-- END #sidebar -->
-    <div id="content" class="app-content">
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-        </asp:ContentPlaceHolder>
-    </div>
-    <!-- BEGIN scroll to top btn -->
-    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
-    <!-- END scroll to top btn -->
-    <input hidden id="hiddenUserID" type="hidden" value="<%= Session["_userID"].ToString() %>" />
+        <div class="app-sidebar-bg"></div>
+        <div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
+        <!-- END #sidebar -->
+        <div id="content" class="app-content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <!-- BEGIN scroll to top btn -->
+        <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
+        <!-- END scroll to top btn -->
+        <input hidden id="hiddenUserID" type="hidden" value="<%= Session["_userID"].ToString() %>" />
     </div>
 
     <!-- END #app -->
