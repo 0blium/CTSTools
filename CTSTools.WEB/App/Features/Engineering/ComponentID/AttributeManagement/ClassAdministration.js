@@ -809,6 +809,7 @@ function SubClassPropertyNameArray() {
     _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive")
         .map(PropertyName => PropertyName.includes("AttributeID") ? "Class" : PropertyName);
     // In this case we add the missing columns
+    _propertyNameArray.push("Attributes");
     _propertyNameArray.push("Values");
     _propertyNameArray.push("Manufacturers");
     _propertyNameArray.push("IdentificationNumber");

@@ -307,6 +307,7 @@ public class SubClass_Validator
             _subClassDTO.SubClassValueDTO.AttributeID = (int)Attribute_Enum.SubClass;
             _subClassDTO.ParentValueName = !string.IsNullOrEmpty(SubClassDTO.ParentValueName) ? SubClassDTO.ParentValueName : "Error, The class is null or empty";
 
+            _subClassDTO.ParentAttributeName = !string.IsNullOrEmpty(SubClassDTO.ParentAttributeName) ? SubClassDTO.ParentAttributeName : "Error, The Attributes is null or empty";
             _subClassDTO.ChildValueName = !string.IsNullOrEmpty(SubClassDTO.ChildValueName) ? SubClassDTO.ChildValueName : "Error, The Values is null or empty";
             _subClassDTO.ChildAttributeName = !string.IsNullOrEmpty(SubClassDTO.ChildAttributeName) ? SubClassDTO.ChildAttributeName : "Error, The Manufacturers is null or empty";
             _subClassDTO.LastUpdateByName = !string.IsNullOrEmpty(SubClassDTO.LastUpdateByName) ? SubClassDTO.LastUpdateByName : "Error, The identification number is null or empty";
@@ -323,6 +324,7 @@ public class SubClass_Validator
             if (_subClassDTO.SubClassValueDTO.Name.StartsWith("Error") ||
                 _subClassDTO.ParentValueName.StartsWith("Error") ||
                 _subClassDTO.LastUpdateByName.StartsWith("Error") ||
+                _subClassDTO.ParentAttributeName.StartsWith("Error") ||
                 _subClassDTO.ChildValueName.StartsWith("Error") ||
                 _subClassDTO.ChildAttributeName.StartsWith("Error"))
                 isSucces = false;
@@ -372,12 +374,14 @@ public class SubClass_Validator
 
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
             var _subClassDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.Class, ValueNameArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.ParentValueName.ToLower()).Distinct().ToArray() };
+            var _attributeNameDTO = new AttributeDTO { AttributeNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ParentAttributeName.Trim().Split(',')).Select(ParentAttributeName => ParentAttributeName.Trim()).Distinct().ToArray() };
             var _valueNameDTO = new ValueDTO { ValueNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildValueName.Trim().Split(',')).Select(ChildValueName => ChildValueName.Trim()).Distinct().ToArray() };
             var _supplierNameDTO = new SupplierDTO { SupplierNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildAttributeName.Trim().Split(',')).Select(ChildAttributeName => ChildAttributeName.Trim()).Distinct().ToArray() };
             var _partDTO = new PartDTO { MfgPartNumberArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.LastUpdateByName.ToLower()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _subClassList = Value_Service.GetValueList_Global(_subClassDTO);
+            var _attributeList = Attribute_Service.GetAttributeList_Global(_attributeNameDTO);
             var _valueList = Value_Service.GetValueList_Global(_valueNameDTO);
             var _supplierList = Supplier_Service.GetSupplierList_Global(_supplierNameDTO);
             var _partList = Part_Service.GetPartList_Global(_partDTO);
@@ -398,6 +402,13 @@ public class SubClass_Validator
 
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _classDict = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => (int?)SubClassDTO.ID);
+            var _attributeDict = _attributeList.ToDictionary(AttributeDTO => AttributeDTO.Name.ToLower(), ValueDTO => ValueDTO.ID);
+            //var _valueDictNew = _valueList.ToDictionary(ValueDTO => ValueDTO, ValueDTO => ValueDTO.AttributeID);
+
+            var grouped = _valueList
+            .GroupBy(item => item.AttributeName) // Agrupamos por AttributeID
+            .ToDictionary(group => group.Key, group => group.Select(item => item.Name).ToList());
+
             var _valueDict = _valueList.ToDictionary(ValueDTO => ValueDTO.Name.ToLower(), ValueDTO => ValueDTO.ID);
             var _supplierDict = _supplierList.ToDictionary(SupplierDTO => SupplierDTO.Name.ToLower(), SupplierDTO => (int?)SupplierDTO.ID);
             var _partDict = _partList.ToDictionary(PartDTO => PartDTO.MfgPartNumber.ToLower());
@@ -447,6 +458,8 @@ public class SubClass_Validator
                     if (_valueDict.TryGetValue(_valueNameList[i].ToLower(), out int? ValueID))
                     {
                         _valueIDList.Add(ValueID);
+                        //grouped.Values(_valueNameList[i].ToLower(), out List<string> NameList);
+                        //var h = NameList;
                     }
                     else
                     { SubClassDTO.ChildValueName += $"Error: The {_valueNameList[i].ToLower()} does not exist "; isSuccess = false; }

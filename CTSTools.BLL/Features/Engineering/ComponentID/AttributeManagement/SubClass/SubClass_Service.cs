@@ -293,7 +293,7 @@ public class SubClass_Service
             if (_excelRowDTO.GoodRowLinesList.Count <= 0)
                 return _validationResultDTO;
             // step 5. Create SubClass
-            _validationResultDTO = CreateMassiveList_Global(_excelRowDTO.GoodRowLinesList);
+            //_validationResultDTO = CreateMassiveList_Global(_excelRowDTO.GoodRowLinesList);
             _validationResultDTO.Data = _excelRowDTO;
 
         }
@@ -358,6 +358,7 @@ public class SubClass_Service
                     _subClassDTO.SubClassValueDTO.Code = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CODE"]].ToString());
                     _subClassDTO.ParentValueName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CLASS"]].ToString());
                     // Add propeties to create Decoders and Part Number
+                    _subClassDTO.ParentAttributeName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["ATTRIBUTES"]].ToString());
                     _subClassDTO.ChildValueName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["VALUES"]].ToString());
                     _subClassDTO.ChildAttributeName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["MANUFACTURERS"]].ToString());
                     _subClassDTO.LastUpdateByName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["IDENTIFICATIONNUMBER"]].ToString());
