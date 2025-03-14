@@ -29,6 +29,7 @@ public class ValueDTO
     public string AttributeName { get; set; }
     public bool GetAttributeDTO { get; set; }
     public int?[] AttributeIDArray { get; set; }
+    public string[] AttributeNameArray { get; set; }
 
     #endregion
     #region Constructor
@@ -37,6 +38,7 @@ public class ValueDTO
         ValueIDArray = new int?[] { };
         ValueNameArray = new string[] { };        
         AttributeIDArray = new int?[] { };
+        AttributeNameArray = new string[] { };
     }
     #endregion
 }

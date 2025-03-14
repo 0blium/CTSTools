@@ -374,14 +374,12 @@ public class SubClass_Validator
 
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
             var _subClassDTO = new ValueDTO { AttributeID = (int)Attribute_Enum.Class, ValueNameArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.ParentValueName.ToLower()).Distinct().ToArray() };
-            var _attributeNameDTO = new AttributeDTO { AttributeNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ParentAttributeName.Trim().Split(',')).Select(ParentAttributeName => ParentAttributeName.Trim()).Distinct().ToArray() };
-            var _valueNameDTO = new ValueDTO { ValueNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildValueName.Trim().Split(',')).Select(ChildValueName => ChildValueName.Trim()).Distinct().ToArray() };
+            var _valueNameDTO = new ValueDTO { ValueNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildValueName.Trim().Split(',')).Select(ChildValueName => ChildValueName.Trim()).Distinct().ToArray(), AttributeNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ParentAttributeName.Trim().Split(',')).Select(ParentAttributeName => ParentAttributeName.Trim()).Distinct().ToArray() };
             var _supplierNameDTO = new SupplierDTO { SupplierNameArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.ChildAttributeName.Trim().Split(',')).Select(ChildAttributeName => ChildAttributeName.Trim()).Distinct().ToArray() };
-            var _partDTO = new PartDTO { MfgPartNumberArray = _subClassDTOList.Select(SubClassDTO => SubClassDTO.LastUpdateByName.ToLower()).Distinct().ToArray() };
+            var _partDTO = new PartDTO { MfgPartNumberArray = _subClassDTOList.SelectMany(SubClassDTO => SubClassDTO.LastUpdateByName.Trim().Split(',')).Select(PartNumber => PartNumber.Trim()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
             var _subClassList = Value_Service.GetValueList_Global(_subClassDTO);
-            var _attributeList = Attribute_Service.GetAttributeList_Global(_attributeNameDTO);
             var _valueList = Value_Service.GetValueList_Global(_valueNameDTO);
             var _supplierList = Supplier_Service.GetSupplierList_Global(_supplierNameDTO);
             var _partList = Part_Service.GetPartList_Global(_partDTO);
@@ -402,10 +400,8 @@ public class SubClass_Validator
 
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _classDict = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => (int?)SubClassDTO.ID);
-            var _attributeDict = _attributeList.ToDictionary(AttributeDTO => AttributeDTO.Name.ToLower(), ValueDTO => ValueDTO.ID);
-            //var _valueDictNew = _valueList.ToDictionary(ValueDTO => ValueDTO, ValueDTO => ValueDTO.AttributeID);
 
-            var grouped = _valueList
+            var _attributeGrouped = _valueList
             .GroupBy(item => item.AttributeName) // Agrupamos por AttributeID
             .ToDictionary(group => group.Key, group => group.Select(item => item.Name).ToList());
 
@@ -420,6 +416,7 @@ public class SubClass_Validator
                 bool isSuccess = true;
                 var _valueNameList = SubClassDTO.ChildValueName.Trim().Split(',').Select(ChildValueName => ChildValueName.Trim()).ToList();
                 var _supplierNameList = SubClassDTO.ChildAttributeName.Trim().Split(',').Select(ChildAttributeName => ChildAttributeName.Trim()).ToList();
+                var _partNumberList = SubClassDTO.LastUpdateByName.Trim().Split(',').Select(PartNumber => PartNumber.Trim()).ToList();
 
                 // we use TryGetValue to try to get the value associated with the key from the dictionary,
                 // If the value of ParentValueName is found, it is assigned with the corresponding value (ID) from the dictionary.
@@ -437,13 +434,13 @@ public class SubClass_Validator
                 if (_valueLinkCodeDict.TryGetValue(SubClassDTO.SubClassValueDTO.Code.ToLower().Trim().Replace(" ", ""), out int? ParentValueCodeID) && ParentValueCodeID == SubClassDTO.ParentValueID)
                 {
                     var _subClassValueName = SubClassDTO.SubClassValueDTO.Code;
-                    SubClassDTO.SubClassValueDTO.Code = $"{_subClassValueName} is already on the database.";
+                    SubClassDTO.SubClassValueDTO.Code = $"{_subClassValueName} is already on the database";
                     isSuccess = false;
                 }
                 if (_valueLinkNameDict.TryGetValue(SubClassDTO.SubClassValueDTO.Name.ToLower().Trim().Replace(" ", ""), out int? ParentValueNameID) && ParentValueNameID == SubClassDTO.ParentValueID)
                 {
                     var _subClassValueName = SubClassDTO.SubClassValueDTO.Name;
-                    SubClassDTO.SubClassValueDTO.Name = $"{_subClassValueName} is already on the database.";
+                    SubClassDTO.SubClassValueDTO.Name = $"{_subClassValueName} is already on the database";
                     isSuccess = false;
                 }
                 if (_partDict.ContainsKey(SubClassDTO.LastUpdateByName)) 
@@ -458,11 +455,13 @@ public class SubClass_Validator
                     if (_valueDict.TryGetValue(_valueNameList[i].ToLower(), out int? ValueID))
                     {
                         _valueIDList.Add(ValueID);
-                        //grouped.Values(_valueNameList[i].ToLower(), out List<string> NameList);
-                        //var h = NameList;
                     }
                     else
-                    { SubClassDTO.ChildValueName += $"Error: The {_valueNameList[i].ToLower()} does not exist "; isSuccess = false; }
+                    {
+                        SubClassDTO.ChildValueName = "";
+                        SubClassDTO.ChildValueName += $"Error: The {_valueNameList[i].ToLower()} does not exist ";
+                        isSuccess = false; 
+                    }
                 }
                 if(_valueIDList.Count > 0)
                     SubClassDTO.SubClassValueDTO.ValueIDArray = _valueIDList.ToArray();
@@ -475,10 +474,25 @@ public class SubClass_Validator
                         _supplierIDList.Add(SupplierID);
                     }
                     else
-                    { SubClassDTO.ChildAttributeName += $"Error: The {_supplierNameList[i].ToLower()} does not exist"; isSuccess = false; }
+                    {
+                        SubClassDTO.ChildAttributeName = "";
+                        SubClassDTO.ChildAttributeName += $"Error: The {_supplierNameList[i].ToLower()} does not exist"; 
+                        isSuccess = false;
+                    }
                 }
                 if (_valueIDList.Count > 0)
                     SubClassDTO.ValueLinkIDArray = _supplierIDList.ToArray();
+
+                int _combinations = _attributeGrouped.Values
+                .Select(group => group.Count(_valueNameList.Contains))
+                .Where(count => count > 0) // Ignoramos los grupos vacíos
+                .Aggregate(1, (a, b) => a * b);
+
+                if (_partNumberList.Count < _combinations) 
+                {
+                    SubClassDTO.LastUpdateByName = $"Error: The part numbers are less than combinations of values";
+                    isSuccess = false;
+                }
 
                 if (isSuccess)
                 {
