@@ -7,10 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement
+namespace CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.SupplyType
 {
-
-
     public partial class SupplyTypeCatalog
     {
     }

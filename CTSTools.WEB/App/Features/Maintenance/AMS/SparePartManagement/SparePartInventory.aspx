@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="SparePartInventory.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.SpareParts.SparePartInventory" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="SparePartInventory.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement.SparePartInventory.SparePartInventory" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link href="SparePartInventory.css" rel="stylesheet" />
 <div>
@@ -305,5 +305,5 @@
 <input type="hidden" id="hiddenSparePartID" />
 <input type="hidden" id="hiddenSupportGroupID" />
 <input type="hidden" id="hiddenSparePartModalID" />
-<script type="module" src="/App/Features/Ticket/SpareParts/SparePartInventory/SparePartInventory.js?v=1"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/SparePartManagement/SparePartInventory.js?v=1"></script>
 </asp:Content>

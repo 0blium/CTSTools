@@ -1,8 +1,8 @@
-﻿import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
-import { GetDXSupportGroupDataSource, CreateSupportGroup, UpdateSupportGroup, DeleteSupportGroup } from './SupportGroup_Service.js'
-import { GetDXFacilityDataSource } from '../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
-import { GetDXStationDataSource } from '../Station/StationsManagement/Station/Station_Service.js'
+﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+import { GetDXSupportGroupDataSource, CreateSupportGroup, UpdateSupportGroup, DeleteSupportGroup } from './SupportGroup/SupportGroup_Service.js'
+import { GetDXFacilityDataSource } from '../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
+import { GetDXStationDataSource } from '../StationManagement/Station/Station_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeSupportGroupCatalogControls();

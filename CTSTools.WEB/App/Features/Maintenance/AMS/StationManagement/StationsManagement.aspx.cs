@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.Station.StationsManagement.StationsManagement
+namespace CTSTools.WEB.App.Features.Maintenance.AMS.StationManagement
 {
     public partial class StationsManagement : System.Web.UI.Page
     {

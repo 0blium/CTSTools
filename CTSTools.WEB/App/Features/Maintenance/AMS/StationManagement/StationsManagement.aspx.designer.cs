@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.Station.StationsManagement.StationsManagement
+namespace CTSTools.WEB.App.Features.Maintenance.AMS.StationManagement
 {
 
 

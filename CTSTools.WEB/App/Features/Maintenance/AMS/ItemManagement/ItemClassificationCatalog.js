@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXItemClassificationDataSource, CreateItemClassification, UpdateItemClassification, DeleteItemClassification } from './ItemClassification_Service.js'
+import { GetDXItemClassificationDataSource, CreateItemClassification, UpdateItemClassification, DeleteItemClassification } from './ItemClassification/ItemClassification_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeItemClassificationCatalogControls();

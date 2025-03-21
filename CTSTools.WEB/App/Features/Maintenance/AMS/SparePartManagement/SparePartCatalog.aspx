@@ -80,5 +80,5 @@
     </div>
 </div>
 <input type="hidden" id="hiddenSparePartID" hidden />
-<script type="module" src="/App/Features/Ticket/SpareParts/SparePart/SparePartCatalog.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/SparePartManagement/SparePartCatalog.js"></script>
 </asp:Content>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="StationTypeCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.Station.StationsManagement.StationTypeCatalog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="StationTypeCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.StationManagement.StationTypeCatalog" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
     <div class="container-fluid">
@@ -68,5 +68,5 @@
     </div>
 </div>
 <input type="hidden" id="hiddenStationTypeID" hidden />
-<script type="module" src="/App/Features/Ticket/Station/StationType/StationTypeCatalog.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/StationManagement/StationTypeCatalog.js"></script>
 </asp:Content>

@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXSparePartDataSource, CreateSparePart, UpdateSparePart, DeleteSparePart } from './SparePart_Service.js'
+import { GetDXSparePartDataSource, CreateSparePart, UpdateSparePart, DeleteSparePart } from './SparePart/SparePart_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeSparePartCatalogControls();

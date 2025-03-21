@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="ProviderCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement.ProviderCatalog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="ProviderCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement.ProviderCatalog.ProviderCatalog" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid">
     <div class="row">
@@ -66,5 +66,5 @@
     </div>
 </div>
 <input type="hidden" id="hiddenProviderID" hidden />
-<script type="module" src="/App/Features/Ticket/Provider/ProviderCatalog.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/SparePartManagement/ProviderCatalog.js"></script>
 </asp:Content>

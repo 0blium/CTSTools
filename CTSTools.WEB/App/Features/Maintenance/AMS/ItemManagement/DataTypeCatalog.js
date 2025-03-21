@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { CreateDataType, UpdateDataType, DeleteDataType, GetDXDataTypeDataSource } from './DataType_Service.js'
+import { CreateDataType, UpdateDataType, DeleteDataType, GetDXDataTypeDataSource } from '../ItemManagement/DataType/DataType_Service.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDataTypeCatalogControls();

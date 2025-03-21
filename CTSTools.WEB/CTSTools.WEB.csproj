@@ -320,6 +320,7 @@
     <Content Include="App\Features\Error\Error.css" />
     <Content Include="App\Features\Error\Error.js" />
     <Content Include="App\Features\Error\ErrorPage.aspx" />
+    <Content Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardDataEntry.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardDataEntry.js" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardLine\DashboardLine_Service.js" />
@@ -388,7 +389,6 @@
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\ProviderCatalog.aspx" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\ProviderCatalog.js" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\Provider\Provider_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.css" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.js" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory\SparePartInventory_Service.js" />
@@ -726,6 +726,13 @@
     <Compile Include="App\Features\Error\ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx.cs">
+      <DependentUpon>SparePartInventory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx.designer.cs">
+      <DependentUpon>SparePartInventory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\DashboardDataEntry.aspx.cs">
       <DependentUpon>DashboardDataEntry.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -884,13 +891,6 @@
       <DependentUpon>ProviderCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\Provider\ProviderController.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx.cs">
-      <DependentUpon>SparePartInventory.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx.designer.cs">
-      <DependentUpon>SparePartInventory.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory\SparePartInventoryController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartUsage\SparePartUsageController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePart_Lot\SparePart_LotController.cs" />

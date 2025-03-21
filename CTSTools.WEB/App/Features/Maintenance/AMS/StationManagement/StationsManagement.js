@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXStationTypeDataSource } from '../StationType/StationType_Service.js'
+import { GetDXStationTypeDataSource } from './StationType/StationType_Service.js'
 import { GetDXFacilityDataSource } from '../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
 import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'
 import { GetDXStationDataSource, CreateStation, UpdateStation, DeleteStation } from './Station/Station_Service.js'
@@ -281,7 +281,7 @@ async function PopulateStationFields(data) {
     $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
 
     await $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
-    await $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
+    await $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
 }
 function GetStationDTO() {
     let _stationDTO = {

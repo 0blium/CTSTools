@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXStationTypeDataSource, CreateStationType, UpdateStationType, DeleteStationType } from './StationType_Service.js'
+import { GetDXStationTypeDataSource, CreateStationType, UpdateStationType, DeleteStationType } from './StationType/StationType_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeStationTypeCatalogControls();

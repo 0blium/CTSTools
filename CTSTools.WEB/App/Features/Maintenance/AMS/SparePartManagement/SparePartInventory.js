@@ -1,14 +1,14 @@
 ﻿
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
-import { GetDXSparePartDataSource } from '../SparePart/SparePart_Service.js'
+import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
+import { GetDXSparePartDataSource } from './SparePart/SparePart_Service.js'
 import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
-import { GetDXSparePartInventoryDataSource, CreateSparePartInventory, UpdateSparePartInventory, DeleteSparePartInventory } from './SparePartInventory_Service.js'
+import { GetDXSparePartInventoryDataSource, CreateSparePartInventory, UpdateSparePartInventory, DeleteSparePartInventory } from './SparePartInventory/SparePartInventory_Service.js'
 import { GetDXSparePart_LotDataSource, CreateSparePart_Lot, UpdateSparePart_Lot, DeleteSparePart_Lot } from './SparePart_Lot/SparePart_Lot_Service.js'
-import { GetDXTransactionOriginDataSource } from '../../TransactionOrigin/TransactionOrigin_Service.js'
-import { GetDXProviderDataSource } from '../../Provider/Provider_Service.js'
+import { GetDXTransactionOriginDataSource } from '../ItemManagement/TransactionOrigin/TransactionOrigin_Service.js'
+import { GetDXProviderDataSource } from './Provider/Provider_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await InitializeSparePartControls();

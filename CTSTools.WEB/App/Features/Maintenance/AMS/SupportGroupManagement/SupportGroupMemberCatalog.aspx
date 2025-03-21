@@ -76,5 +76,5 @@
     </div>
 </div>
 <input type="hidden" id="hiddenSupportGroupMemberID" hidden />
-<script type="module" src="/App/Features/Ticket/SupportGroupMember/SupportGroupMemberCatalog.js?v=1"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupMemberCatalog.js?v=1"></script>
 </asp:Content>

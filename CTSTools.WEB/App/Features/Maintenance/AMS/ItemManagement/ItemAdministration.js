@@ -4,25 +4,25 @@ import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile } from './Item_Header/Item_Header_Service.js'
 import { GetDXItem_SupportGroupDataSource, CreateItem_SupportGroup, UpdateItem_SupportGroup, DeleteItem_SupportGroup, GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js' 
-import { GetDXItemClassificationDataSource } from '../ItemClassification/ItemClassification_Service.js' 
+import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js' 
+import { GetDXItemClassificationDataSource } from '../ItemManagement/ItemClassification/ItemClassification_Service.js' 
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js' 
 import { CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetDXItem_LineDataSource, GetItem_LineMasterDetailInformation, GetItem_LineFilesInformation, DeleteItem_LineFile, GetItem_LineFilesTreeView, ReassignSupportGroup } from './Item_Line/Item_Line_Service.js'
 import { CreateUserDefined, UpdateUserDefined, DeleteUserDefined, GetDXUserDefinedDataSource } from './UserDefined/UserDefined_Service.js'
-import { GetDXDataTypeDataSource } from '../DataType/DataType_Service.js'
+import { GetDXDataTypeDataSource } from '../ItemManagement/DataType/DataType_Service.js'
 import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 import { UpdateUserDefinedTemplate, GetUserDefinedTemplateInformation } from './UserDefinedTemplate/UserDefinedTemplate_Service.js'
-import { GetDXStationDataSource } from '../../Station/StationsManagement/Station/Station_Service.js'
+import { GetDXStationDataSource } from '../StationManagement/Station/Station_Service.js'
 import { GetCurrencyInformation } from '../../../AdvancedSettings/Currency/Currency_Service.js'
-import { GetDXSupplyTypeDataSource } from '../SupplyType/SupplyType_Service.js'
+import { GetDXSupplyTypeDataSource } from '../ItemManagement/SupplyType/SupplyType_Service.js'
 
 
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
 import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
-import { DataType_Enum } from '../DataType/DataType_Enum.js'
+import { DataType_Enum } from '../ItemManagement/DataType/DataType_Enum.js'
 import { Currency_Enum } from '../../../AdvancedSettings/Currency/Currency_Enum.js'//
-import { SupplyType_Enum } from '../SupplyType/SupplyType_Enum.js'
+import { SupplyType_Enum } from '../ItemManagement/SupplyType/SupplyType_Enum.js'
 //#endregion
 
 let _fileDTOList = [];

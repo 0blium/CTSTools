@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXSupplyTypeDataSource, CreateSupplyType, UpdateSupplyType, DeleteSupplyType } from './SupplyType_Service.js'
+import { GetDXSupplyTypeDataSource, CreateSupplyType, UpdateSupplyType, DeleteSupplyType } from './SupplyType/SupplyType_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeSupplyTypeCatalogControls();

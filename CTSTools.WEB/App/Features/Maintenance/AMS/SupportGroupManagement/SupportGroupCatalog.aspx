@@ -89,5 +89,5 @@
     </div>
 </div>
 <input type="hidden" id="hiddenSupportGroupID" hidden />
-<script type="module" src="/App/Features/Ticket/SupportGroup/SupportGroupCatalog.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupCatalog.js"></script>
 </asp:Content>

@@ -1,6 +1,6 @@
-﻿import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
-import { GetDXProviderDataSource, CreateProvider, UpdateProvider, DeleteProvider } from './Provider_Service.js'
+﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+import { GetDXProviderDataSource, CreateProvider, UpdateProvider, DeleteProvider } from './Provider/Provider_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeProviderCatalogControls();

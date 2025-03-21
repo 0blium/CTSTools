@@ -7,10 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement.SparePartCatalog;
-
-
-
-public partial class SparePartCatalog
+namespace CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement
 {
+
+
+    public partial class SparePartCatalog
+    {
+    }
 }

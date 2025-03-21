@@ -1,6 +1,6 @@
-﻿import { APIURL } from '../../../../Common/Utils/Environment.js'
-import { ValidationResultDTO } from '../../../../Common/Utils/ValidationResultDTO.js'
-import APIRequest from '../../../../Common/Utils/APIRequest.js'
+﻿import { APIURL } from '../../../../../Common/Utils/Environment.js'
+import { ValidationResultDTO } from '../../../../../Common/Utils/ValidationResultDTO.js'
+import APIRequest from '../../../../../Common/Utils/APIRequest.js'
 
 export async function CreateSupplyType(SupplyTypeDTO) {
     let _validationResultDTO = ValidationResultDTO;

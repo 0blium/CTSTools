@@ -225,27 +225,27 @@
                                 </a>
                                 <div class="menu-submenu">
                                     <div id="ItemAdministrationItemModule" class="menu-item " data-tech="ItemAdministration">
-                                        <a href="/App/Features/Ticket/Item/ItemAdministration/ItemAdministration.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemAdministration.aspx" class="menu-link">
                                             <div class="menu-text">Administration</div>
                                         </a>
                                     </div>
                                     <div id="ItemRegistrationItemModule" class="menu-item " data-tech="ItemRegistration">
-                                        <a href="/App/Features/Ticket/Item/ItemRegistration/ItemRegistration.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemRegistration.aspx" class="menu-link">
                                             <div class="menu-text">Registration</div>
                                         </a>
                                     </div>
                                     <div id="SupplyTypeItemModule" class="menu-item " data-tech="SupplyType">
-                                        <a href="/App/Features/Ticket/Item/SupplyType/SupplyTypeCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/ItemManagement/SupplyTypeCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Supply Type</div>
                                         </a>
                                     </div>
                                     <div id="ItemClassificationItemModule" class="menu-item " data-tech="ItemClassification">
-                                        <a href="/App/Features/Ticket/Item/ItemClassification/ItemClassificationCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemClassificationCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Classification</div>
                                         </a>
                                     </div>
                                     <div id="DataTypeItemModule" class="menu-item " data-tech="DataType">
-                                        <a href="/App/Features/Ticket/Item/DataType/DataTypeCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/ItemManagement/DataTypeCatalog.aspx" class="menu-link">
                                             <div class="menu-text">DataType</div>
                                         </a>
                                     </div>
@@ -258,12 +258,12 @@
                                 </a>
                                 <div class="menu-submenu">
                                     <div id="SupportGroupSupportGroupManagement" class="menu-item " data-tech="SupportGroup">
-                                        <a href="/App/Features/Ticket/SupportGroup/SupportGroupCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Support Group </div>
                                         </a>
                                     </div>
                                     <div id="SupportGroupMemberSupportGroupManagement" class="menu-item " data-tech="SupportGroupMember">
-                                        <a href="/App/Features/Ticket/SupportGroupMember/SupportGroupMemberCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupMemberCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Members</div>
                                         </a>
                                     </div>
@@ -276,12 +276,12 @@
                                 </a>
                                 <div class="menu-submenu">
                                     <div id="StationTypeStationManagement" class="menu-item " data-tech="StationType">
-                                        <a href="/App/Features/Ticket/Station/StationType/StationTypeCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/StationManagement/StationTypeCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Types</div>
                                         </a>
                                     </div>
                                     <div id="StationStationManagement" class="menu-item " data-tech="Station">
-                                        <a href="/App/Features/Ticket/Station/StationsManagement/StationsManagement.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/StationManagement/StationsManagement.aspx" class="menu-link">
                                             <div class="menu-text">Stations</div>
                                         </a>
                                     </div>
@@ -294,12 +294,12 @@
                                 </a>
                                 <div class="menu-submenu">
                                     <div id="SparePartSpareParts" class="menu-item " data-tech="SparePart">
-                                        <a href="/App/Features/Ticket/SpareParts/SparePart/SparePartCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/SparePartManagement/SparePartCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Spare Parts</div>
                                         </a>
                                     </div>
                                     <div id="SparePartInventorySpareParts" class="menu-item " data-tech="SparePartInventory">
-                                        <a href="/App/Features/Ticket/SpareParts/SparePartInventory/SparePartInventory.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/AMS/SparePartManagement/SparePartInventory.aspx" class="menu-link">
                                             <div class="menu-text">Spare Part Inventory</div>
                                         </a>
                                     </div>
@@ -336,7 +336,7 @@
                             </div>
 
                             <div id="ProviderTicketModules" class="menu-item " data-tech="Provider">
-                                <a href="/App/Features/Ticket/Provider/ProviderCatalog.aspx" class="menu-link">
+                                <a href="/App/Features/Maintenance/AMS/SparePartManagement/ProviderCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Provider </div>
                                 </a>
                             </div>

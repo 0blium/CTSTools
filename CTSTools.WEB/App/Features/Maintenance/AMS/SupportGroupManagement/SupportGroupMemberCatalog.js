@@ -1,13 +1,13 @@
-﻿import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
-import { CreateSupportGroupMember, UpdateSupportGroupMember, DeleteSupportGroupMember, GetDXSupportGroupMemberDataSource } from '../SupportGroupMember/SupportGroupMember_Service.js'
-import { GetDXUserDataSource, GetUserInformation } from '../../AdvancedSettings/UserManagement/User/User_Service.js'
-//import { GetDXRoleRelationDataSource } from '../../AdvancedSettings/Security/Roles/RoleRelation/RoleRelation_Service.js'
-import { GetDXUser_RoleDataSource } from "../../AdvancedSettings/UserManagement/User_Role/User_Role_Service.js"
-import { GetDXSupportGroupDataSource } from '../SupportGroup/SupportGroup_Service.js'
+﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+import { CreateSupportGroupMember, UpdateSupportGroupMember, DeleteSupportGroupMember, GetDXSupportGroupMemberDataSource } from './SupportGroupMember/SupportGroupMember_Service.js'
+import { GetDXUserDataSource, GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
+//import { GetDXRoleRelationDataSource } from '../../../AdvancedSettings/Security/Roles/RoleRelation/RoleRelation_Service.js'
+import { GetDXUser_RoleDataSource } from "../../../AdvancedSettings/UserManagement/User_Role/User_Role_Service.js"
+import { GetDXSupportGroupDataSource } from './SupportGroup/SupportGroup_Service.js'
 
-import { RoleType_Enum } from '../../AdvancedSettings/SecurityManagement/RoleType/RoleType_Enum.js'
-import { Role_Enum } from '../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
+import { RoleType_Enum } from '../../../AdvancedSettings/SecurityManagement/RoleType/RoleType_Enum.js'
+import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeSupportGroupMemberCatalogControls();

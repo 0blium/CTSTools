@@ -7,11 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement
+namespace CTSTools.WEB.App.Features.Maintenance.AMS.SparePartManagement.ProviderCatalog
 {
-
-
-    public partial class ProviderCatalog
-    {
-    }
+public partial class ProviderCatalog
+{
+}
 }

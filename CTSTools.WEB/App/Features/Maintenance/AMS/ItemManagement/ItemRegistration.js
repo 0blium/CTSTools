@@ -1,22 +1,22 @@
 ﻿//#region Imports
-import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile } from '../ItemAdministration/Item_Header/Item_Header_Service.js'
-import { CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetItem_LineFilesTreeView, GetDXItem_LineDataSource, GetItem_LineInformation, ItemDelivery, GetItem_LineFilesInformation, DeleteItem_LineFile } from '../ItemAdministration/Item_Line/Item_Line_Service.js'
+import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile } from '../ItemManagement/Item_Header/Item_Header_Service.js'
+import { CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetItem_LineFilesTreeView, GetDXItem_LineDataSource, GetItem_LineInformation, ItemDelivery, GetItem_LineFilesInformation, DeleteItem_LineFile } from '../ItemManagement/Item_Line/Item_Line_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
-import { GetDXStationDataSource } from '../../Station/StationsManagement/Station/Station_Service.js'
-import { GetDXSupplyTypeDataSource } from '../SupplyType/SupplyType_Service.js'
+import { GetDXStationDataSource } from '../StationManagement/Station/Station_Service.js'
+import { GetDXSupplyTypeDataSource } from '../ItemManagement/SupplyType/SupplyType_Service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { GetCurrencyInformation } from '../../../AdvancedSettings/Currency/Currency_Service.js'
-import { GetDXItemClassificationDataSource } from '../ItemClassification/ItemClassification_Service.js'
+import { GetDXItemClassificationDataSource } from '../ItemManagement/ItemClassification/ItemClassification_Service.js'
 //import { GetDXEmployeeTressDataSource } from '../../AdvancedSettings/Users/EmployeeTress/EmployeeTress_Service.js'
-import { GetDXTransactionOriginDataSource } from '../../TransactionOrigin/TransactionOrigin_Service.js'
+import { GetDXTransactionOriginDataSource } from '../ItemManagement/TransactionOrigin/TransactionOrigin_Service.js'
 
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
 import { Currency_Enum } from '../../../AdvancedSettings/Currency/Currency_Enum.js'
-import { SupplyType_Enum } from '../SupplyType/SupplyType_Enum.js'
+import { SupplyType_Enum } from '../ItemManagement/SupplyType/SupplyType_Enum.js'
 
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
+import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
 //#endregion
 
 document.addEventListener("DOMContentLoaded", async () => {

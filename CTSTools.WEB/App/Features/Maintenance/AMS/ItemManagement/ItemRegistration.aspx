@@ -518,5 +518,5 @@
 </div>
 <input type="hidden" id="hiddenItem_HeaderID" />
 <input type="hidden" id="hiddenItem_LineID" />
-<script type="module" src="/App/Features/Maintenance/AMS/ItemManagement//ItemRegistration.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/ItemManagement/ItemRegistration.js"></script>
 </asp:Content>
