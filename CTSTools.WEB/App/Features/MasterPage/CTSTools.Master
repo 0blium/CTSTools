@@ -207,6 +207,151 @@
                             </div>
                         </div>
                     </div>
+                    <%-- Ticket Modules --%>
+                    <div id="TicketModules" class="menu-item has-sub menu-nav" data-tech="TicketModules StationManagement">
+                        <a href="javascript:;" class="menu-link">
+                            <div class="menu-icon">
+                                <i class="fa-solid fa-medal"></i>
+
+                            </div>
+                            <div class="menu-text">AMS</div>
+                            <div class="menu-caret"></div>
+                        </a>
+                        <div class="menu-submenu">
+                            <div id="ItemModule" class="menu-item has-sub submenu-nav" data-tech="ItemModule">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Items</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="ItemAdministrationItemModule" class="menu-item " data-tech="ItemAdministration">
+                                        <a href="/App/Features/Ticket/Item/ItemAdministration/ItemAdministration.aspx" class="menu-link">
+                                            <div class="menu-text">Administration</div>
+                                        </a>
+                                    </div>
+                                    <div id="ItemRegistrationItemModule" class="menu-item " data-tech="ItemRegistration">
+                                        <a href="/App/Features/Ticket/Item/ItemRegistration/ItemRegistration.aspx" class="menu-link">
+                                            <div class="menu-text">Registration</div>
+                                        </a>
+                                    </div>
+                                    <div id="SupplyTypeItemModule" class="menu-item " data-tech="SupplyType">
+                                        <a href="/App/Features/Ticket/Item/SupplyType/SupplyTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Supply Type</div>
+                                        </a>
+                                    </div>
+                                    <div id="ItemClassificationItemModule" class="menu-item " data-tech="ItemClassification">
+                                        <a href="/App/Features/Ticket/Item/ItemClassification/ItemClassificationCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Classification</div>
+                                        </a>
+                                    </div>
+                                    <div id="DataTypeItemModule" class="menu-item " data-tech="DataType">
+                                        <a href="/App/Features/Ticket/Item/DataType/DataTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">DataType</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="SupportGroupManagement" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Support Groups</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="SupportGroupSupportGroupManagement" class="menu-item " data-tech="SupportGroup">
+                                        <a href="/App/Features/Ticket/SupportGroup/SupportGroupCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Support Group </div>
+                                        </a>
+                                    </div>
+                                    <div id="SupportGroupMemberSupportGroupManagement" class="menu-item " data-tech="SupportGroupMember">
+                                        <a href="/App/Features/Ticket/SupportGroupMember/SupportGroupMemberCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Members</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="StationManagement" class="menu-item has-sub submenu-nav" data-tech="StationManagement">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Stations</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="StationTypeStationManagement" class="menu-item " data-tech="StationType">
+                                        <a href="/App/Features/Ticket/Station/StationType/StationTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Types</div>
+                                        </a>
+                                    </div>
+                                    <div id="StationStationManagement" class="menu-item " data-tech="Station">
+                                        <a href="/App/Features/Ticket/Station/StationsManagement/StationsManagement.aspx" class="menu-link">
+                                            <div class="menu-text">Stations</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="SpareParts" class="menu-item has-sub submenu-nav" data-tech="SpareParts">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Spare Parts</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="SparePartSpareParts" class="menu-item " data-tech="SparePart">
+                                        <a href="/App/Features/Ticket/SpareParts/SparePart/SparePartCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Spare Parts</div>
+                                        </a>
+                                    </div>
+                                    <div id="SparePartInventorySpareParts" class="menu-item " data-tech="SparePartInventory">
+                                        <a href="/App/Features/Ticket/SpareParts/SparePartInventory/SparePartInventory.aspx" class="menu-link">
+                                            <div class="menu-text">Spare Part Inventory</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="Tickets" class="menu-item has-sub submenu-nav" data-tech="Tickets">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Tickets</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="PriorityTickets" class="menu-item " data-tech="Priority">
+                                        <a href="/App/Features/Ticket/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Priority </div>
+                                        </a>
+                                    </div>
+                                    <div id="CategoryTickets" class="menu-item " data-tech="Category">
+                                        <a href="/App/Features/Ticket/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Category </div>
+                                        </a>
+                                    </div>
+                                    <div id="CreateTicketTickets" class="menu-item " data-tech="CreateTicket">
+                                        <a href="/App/Features/Ticket/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
+                                            <div class="menu-text">Create Ticket </div>
+                                        </a>
+                                    </div>
+                                    <div id="ConsultTickets" class="menu-item " data-tech="Consult">
+                                        <a href="/App/Features/Ticket/Tickets/Consult/TicketConsult.aspx" class="menu-link">
+                                            <div class="menu-text">Consult </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="ProviderTicketModules" class="menu-item " data-tech="Provider">
+                                <a href="/App/Features/Ticket/Provider/ProviderCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Provider </div>
+                                </a>
+                            </div>
+                            <div id="CurrencyTicketModules" class="menu-item " data-tech="Currency">
+                                <a href="/App/Features/AdvancedSettings/Currency/CurrencyCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Currency </div>
+                                </a>
+                            </div>
+                            <div id="ChangeLogTicketModules" class="menu-item " data-tech="ChangeLog">
+                                <a href="/App/Features/AdvancedSettings/ChangeLog/ChangeLogCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">ChangeLog </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -276,149 +421,7 @@
                         </div>
                     </div>
 
-                    <%-- Ticket Modules --%>
-                    <div id="TicketModules" class="menu-item has-sub menu-nav" data-tech="TicketModules StationManagement">
-                        <a href="javascript:;" class="menu-link">
-                            <div class="menu-icon">
-                                <i class="fa-solid fa-medal"></i>
 
-                            </div>
-                            <div class="menu-text">Ticket Modules</div>
-                            <div class="menu-caret"></div>
-                        </a>
-                        <div class="menu-submenu">
-                            <div id="Tickets" class="menu-item has-sub submenu-nav" data-tech="Tickets">
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">Tickets</div>
-                                    <div class="menu-caret"></div>
-                                </a>
-                                <div class="menu-submenu">
-                                    <div id="PriorityTickets" class="menu-item " data-tech="Priority">
-                                        <a href="/App/Features/Ticket/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Priority </div>
-                                        </a>
-                                    </div>
-                                    <div id="CategoryTickets" class="menu-item " data-tech="Category">
-                                        <a href="/App/Features/Ticket/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Category </div>
-                                        </a>
-                                    </div>
-                                    <div id="CreateTicketTickets" class="menu-item " data-tech="CreateTicket">
-                                        <a href="/App/Features/Ticket/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
-                                            <div class="menu-text">Create Ticket </div>
-                                        </a>
-                                    </div>
-                                    <div id="ConsultTickets" class="menu-item " data-tech="Consult">
-                                        <a href="/App/Features/Ticket/Tickets/Consult/TicketConsult.aspx" class="menu-link">
-                                            <div class="menu-text">Consult </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="SupportGroupManagement" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement">
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">Support Group Management</div>
-                                    <div class="menu-caret"></div>
-                                </a>
-                                <div class="menu-submenu">
-                                    <div id="SupportGroupSupportGroupManagement" class="menu-item " data-tech="SupportGroup">
-                                        <a href="/App/Features/Ticket/SupportGroup/SupportGroupCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Support Group </div>
-                                        </a>
-                                    </div>
-                                    <div id="SupportGroupMemberSupportGroupManagement" class="menu-item " data-tech="SupportGroupMember">
-                                        <a href="/App/Features/Ticket/SupportGroupMember/SupportGroupMemberCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Support Group Member</div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="StationManagement" class="menu-item has-sub submenu-nav" data-tech="StationManagement">
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">StationManagement</div>
-                                    <div class="menu-caret"></div>
-                                </a>
-                                <div class="menu-submenu">
-                                    <div id="StationTypeStationManagement" class="menu-item " data-tech="StationType">
-                                        <a href="/App/Features/Ticket/Station/StationType/StationTypeCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Station Type</div>
-                                        </a>
-                                    </div>
-                                    <div id="StationStationManagement" class="menu-item " data-tech="Station">
-                                        <a href="/App/Features/Ticket/Station/StationsManagement/StationsManagement.aspx" class="menu-link">
-                                            <div class="menu-text">Station</div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="SpareParts" class="menu-item has-sub submenu-nav" data-tech="SpareParts">
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">SpareParts</div>
-                                    <div class="menu-caret"></div>
-                                </a>
-                                <div class="menu-submenu">
-                                    <div id="SparePartSpareParts" class="menu-item " data-tech="SparePart">
-                                        <a href="/App/Features/Ticket/SpareParts/SparePart/SparePartCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Spare Parts</div>
-                                        </a>
-                                    </div>
-                                    <div id="SparePartInventorySpareParts" class="menu-item " data-tech="SparePartInventory">
-                                        <a href="/App/Features/Ticket/SpareParts/SparePartInventory/SparePartInventory.aspx" class="menu-link">
-                                            <div class="menu-text">Spare Part Inventory</div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="ItemModule" class="menu-item has-sub submenu-nav" data-tech="ItemModule">
-                                <a href="javascript:;" class="menu-link">
-                                    <div class="menu-text">Item Module</div>
-                                    <div class="menu-caret"></div>
-                                </a>
-                                <div class="menu-submenu">
-                                    <div id="ItemAdministrationItemModule" class="menu-item " data-tech="ItemAdministration">
-                                        <a href="/App/Features/Ticket/Item/ItemAdministration/ItemAdministration.aspx" class="menu-link">
-                                            <div class="menu-text">Item Administration</div>
-                                        </a>
-                                    </div>
-                                    <div id="ItemRegistrationItemModule" class="menu-item " data-tech="ItemRegistration">
-                                        <a href="/App/Features/Ticket/Item/ItemRegistration/ItemRegistration.aspx" class="menu-link">
-                                            <div class="menu-text">Item Registration</div>
-                                        </a>
-                                    </div>
-                                    <div id="SupplyTypeItemModule" class="menu-item " data-tech="SupplyType">
-                                        <a href="/App/Features/Ticket/Item/SupplyType/SupplyTypeCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Supply Type</div>
-                                        </a>
-                                    </div>
-                                    <div id="ItemClassificationItemModule" class="menu-item " data-tech="ItemClassification">
-                                        <a href="/App/Features/Ticket/Item/ItemClassification/ItemClassificationCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Item Classification</div>
-                                        </a>
-                                    </div>
-                                    <div id="DataTypeItemModule" class="menu-item " data-tech="DataType">
-                                        <a href="/App/Features/Ticket/Item/DataType/DataTypeCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">DataType</div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="ProviderTicketModules" class="menu-item " data-tech="Provider">
-                                <a href="/App/Features/Ticket/Provider/ProviderCatalog.aspx" class="menu-link">
-                                    <div class="menu-text">Provider </div>
-                                </a>
-                            </div>
-                            <div id="CurrencyTicketModules" class="menu-item " data-tech="Currency">
-                                <a href="/App/Features/AdvancedSettings/Currency/CurrencyCatalog.aspx" class="menu-link">
-                                    <div class="menu-text">Currency </div>
-                                </a>
-                            </div>
-                            <div id="ChangeLogTicketModules" class="menu-item " data-tech="ChangeLog">
-                                <a href="/App/Features/AdvancedSettings/ChangeLog/ChangeLogCatalog.aspx" class="menu-link">
-                                    <div class="menu-text">ChangeLog </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
 
                     <%--       <div class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">
