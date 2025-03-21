@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="SupportGroupCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Ticket.SupportGroup.SupportGroupCatalog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="SupportGroupCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupCatalog" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <div>
     <div class="container-fluid">

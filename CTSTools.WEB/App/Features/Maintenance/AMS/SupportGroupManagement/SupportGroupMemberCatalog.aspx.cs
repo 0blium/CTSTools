@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
-namespace CTSTools.WEB.App.Features.Ticket.SupportGroupMember
+namespace CTSTools.WEB.App.Features.Maintenance.AMS.SupportGroupManagement
 {
     public partial class SupportGroupMemberCatalog : System.Web.UI.Page
     {
