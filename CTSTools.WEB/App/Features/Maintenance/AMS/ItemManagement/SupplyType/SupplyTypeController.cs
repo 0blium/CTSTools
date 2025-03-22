@@ -1,6 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
-using CTSTools.BLL.Features.Ticket.Item.SupplyType;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.SupplyType;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;

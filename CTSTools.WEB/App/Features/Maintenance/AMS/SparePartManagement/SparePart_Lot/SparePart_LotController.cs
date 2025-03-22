@@ -1,6 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
-using CTSTools.BLL.Features.Ticket.SparePart.SparePart_Lot;
+using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePart_Lot;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;

@@ -1,6 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
-using CTSTools.BLL.Features.Ticket.Station.StationType;
+using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.StationType;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;

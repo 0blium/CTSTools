@@ -1,13 +1,9 @@
-﻿using AMS.BLL.Features.SupportGroups.SupportGroupMember;
+﻿using AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMember;
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 
 namespace AMS.WEB.App.Features.SupportGroups.SupportGroupMember
