@@ -1,10 +1,10 @@
-﻿using AMS.BLL.Features.SupportGroups.SupportGroupMember;
+﻿using AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMember;
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Security.Permissions.Permission;
-using CTSTools.BLL.Features.Ticket.Item.Item_Line;
-using CTSTools.BLL.Features.Ticket.Item.SupportGroup;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Line;
+using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
