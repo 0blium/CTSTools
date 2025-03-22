@@ -1,15 +1,17 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
+using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Station;
 
-[Persistent(@"DataType")]
-public class DataTypeXPO : XPObject
+[Persistent(@"StationType")]
+public class StationTypeXPO : XPObject
 {
-    public DataTypeXPO(Session session) : base(session)
+    public StationTypeXPO(Session session) : base(session)
     {
     }
+
     // XPObject relationships
 
 
@@ -20,11 +22,20 @@ public class DataTypeXPO : XPObject
         get { return fName; }
         set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
+
     string fDescription;
+    [Size(500)]
     public string Description
     {
         get { return fDescription; }
         set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
+    }
+
+    FacilityXPO fFacility;
+    public FacilityXPO Facility
+    {
+        get { return fFacility; }
+        set { SetPropertyValue<FacilityXPO>(nameof(Facility), ref fFacility, value); }
     }
     DateTime? fAddedDate;
     public DateTime? AddedDate

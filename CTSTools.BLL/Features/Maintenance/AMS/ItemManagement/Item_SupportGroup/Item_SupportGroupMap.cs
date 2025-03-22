@@ -1,6 +1,6 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.Item;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.Item;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 

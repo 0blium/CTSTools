@@ -2,7 +2,7 @@
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
 [Persistent(@"Item_Header")]
 public class Item_HeaderXPO : XPObject

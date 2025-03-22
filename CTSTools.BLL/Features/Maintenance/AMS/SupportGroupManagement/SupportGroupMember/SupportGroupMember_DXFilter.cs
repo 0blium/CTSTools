@@ -1,4 +1,4 @@
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;

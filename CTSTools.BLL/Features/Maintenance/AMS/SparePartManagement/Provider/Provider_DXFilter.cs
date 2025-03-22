@@ -1,4 +1,4 @@
-﻿using CTSTools.DAL.Features.Ticket.Provider;
+﻿using CTSTools.DAL.Features.Maintenance.AMS.SparePart.Provider;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;

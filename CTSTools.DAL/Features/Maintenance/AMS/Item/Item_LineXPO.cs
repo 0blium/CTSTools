@@ -1,10 +1,10 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.Station;
+using CTSTools.DAL.Features.Maintenance.AMS.Station;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
 [Persistent(@"Item_Line")]
 public class Item_LineXPO : XPObject

@@ -2,26 +2,31 @@
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Provider;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"Provider")]
-public class ProviderXPO : XPObject
+[Persistent(@"ItemClassification")]
+public class ItemClassificationXPO : XPObject
 {
-    public ProviderXPO(Session session) : base(session)
+    public ItemClassificationXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fName;
-    public string Name
+    string fEnglishName;
+    public string EnglishName
     {
-        get { return fName; }
-        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
+        get { return fEnglishName; }
+        set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
+    }
+    string fSpanishName;
+    public string SpanishName
+    {
+        get { return fSpanishName; }
+        set { SetPropertyValue<string>(nameof(SpanishName), ref fSpanishName, value); }
     }
     string fDescription;
-    [Size(SizeAttribute.Unlimited)]
     public string Description
     {
         get { return fDescription; }

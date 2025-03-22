@@ -1,37 +1,32 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.SparePart;
+namespace CTSTools.DAL.Features.Maintenance.Ticket;
 
-[Persistent(@"SparePartInventory")]
-public class SparePartInventoryXPO : XPObject
+[Persistent(@"Priority")]
+public class PriorityXPO : XPObject
 {
-    public SparePartInventoryXPO(Session session) : base(session)
+    public PriorityXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    int fMaxQty;
-    public int MaxQty
+    string fName;
+    public string Name
     {
-        get { return fMaxQty; }
-        set { SetPropertyValue<int>(nameof(MaxQty), ref fMaxQty, value); }
+        get { return fName; }
+        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
-    int fMinQty;
-    public int MinQty
+    string fDescription;
+    [Size(300)]
+    public string Description
     {
-        get { return fMinQty; }
-        set { SetPropertyValue<int>(nameof(MinQty), ref fMinQty, value); }
-    }
-    SparePartXPO fSparePart;
-    public SparePartXPO SparePart
-    {
-        get { return fSparePart; }
-        set { SetPropertyValue<SparePartXPO>(nameof(SparePart), ref fSparePart, value); }
+        get { return fDescription; }
+        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
     }
     SupportGroupXPO fSupportGroup;
     public SupportGroupXPO SupportGroup
@@ -39,13 +34,6 @@ public class SparePartInventoryXPO : XPObject
         get { return fSupportGroup; }
         set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
-    int fAvailableQty;
-    public int AvailableQty
-    {
-        get { return fAvailableQty; }
-        set { SetPropertyValue<int>(nameof(AvailableQty), ref fAvailableQty, value); }
-    }
-
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

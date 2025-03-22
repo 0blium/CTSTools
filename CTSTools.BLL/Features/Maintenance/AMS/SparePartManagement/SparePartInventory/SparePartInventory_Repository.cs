@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
-using CTSTools.DAL.Features.Ticket.SparePart;
+using CTSTools.DAL.Features.Maintenance.AMS.SparePart;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;

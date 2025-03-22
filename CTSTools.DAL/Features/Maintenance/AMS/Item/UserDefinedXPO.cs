@@ -1,14 +1,14 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
-using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Station;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"Station")]
-public class StationXPO : XPObject
+[Persistent(@"UserDefined")]
+public class UserDefinedXPO : XPObject
 {
-    public StationXPO(Session session) : base(session)
+    public UserDefinedXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
@@ -21,35 +21,25 @@ public class StationXPO : XPObject
         get { return fName; }
         set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
-    string fDescription;
-    public string Description
+    SupportGroupXPO fSupportGroup;
+    public SupportGroupXPO SupportGroup
     {
-        get { return fDescription; }
-        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
+        get { return fSupportGroup; }
+        set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
-    string fSerial;
-    public string Serial
+
+    bool fIsMandatory;
+    public bool IsMandatory
     {
-        get { return fSerial; }
-        set { SetPropertyValue<string>(nameof(Serial), ref fSerial, value); }
+        get { return fIsMandatory; }
+        set { SetPropertyValue<bool>(nameof(IsMandatory), ref fIsMandatory, value); }
     }
-    FacilityXPO fFacility;
-    public FacilityXPO Facility
+
+    DataTypeXPO fDataType;
+    public DataTypeXPO DataType
     {
-        get { return fFacility; }
-        set { SetPropertyValue<FacilityXPO>(nameof(Facility), ref fFacility, value); }
-    }
-    DepartmentXPO fDepartment;
-    public DepartmentXPO Department
-    {
-        get { return fDepartment; }
-        set { SetPropertyValue<DepartmentXPO>(nameof(Department), ref fDepartment, value); }
-    }
-    StationTypeXPO fStationType;
-    public StationTypeXPO StationType
-    {
-        get { return fStationType; }
-        set { SetPropertyValue<StationTypeXPO>(nameof(StationType), ref fStationType, value); }
+        get { return fDataType; }
+        set { SetPropertyValue<DataTypeXPO>(nameof(DataType), ref fDataType, value); }
     }
     DateTime? fAddedDate;
     public DateTime? AddedDate

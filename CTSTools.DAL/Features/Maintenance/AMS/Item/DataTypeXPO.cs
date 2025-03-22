@@ -1,32 +1,24 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
-using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.Station;
+﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.SupportGroup;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"SupportGroup")]
-public class SupportGroupXPO : XPObject
+[Persistent(@"DataType")]
+public class DataTypeXPO : XPObject
 {
-    public SupportGroupXPO(Session session) : base(session)
+    public DataTypeXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fEnglishName;
-    public string EnglishName
+    string fName;
+    public string Name
     {
-        get { return fEnglishName; }
-        set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
-    }
-    string fSpanishName;
-    public string SpanishName
-    {
-        get { return fSpanishName; }
-        set { SetPropertyValue<string>(nameof(SpanishName), ref fSpanishName, value); }
+        get { return fName; }
+        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
     string fDescription;
     public string Description
@@ -39,12 +31,6 @@ public class SupportGroupXPO : XPObject
     {
         get { return fAddedDate; }
         set { SetPropertyValue<DateTime?>(nameof(AddedDate), ref fAddedDate, value); }
-    }
-    FacilityXPO fFacility;
-    public FacilityXPO Facility
-    {
-        get { return fFacility; }
-        set { SetPropertyValue<FacilityXPO>(nameof(Facility), ref fFacility, value); }
     }
     UserXPO fAddedBy;
     public UserXPO AddedBy
@@ -69,11 +55,5 @@ public class SupportGroupXPO : XPObject
     {
         get { return fIsActive; }
         set { SetPropertyValue<bool>(nameof(IsActive), ref fIsActive, value); }
-    }
-    StationXPO fStation;
-    public StationXPO Station
-    {
-        get { return fStation; }
-        set { SetPropertyValue<StationXPO>(nameof(Station), ref fStation, value); }
     }
 }

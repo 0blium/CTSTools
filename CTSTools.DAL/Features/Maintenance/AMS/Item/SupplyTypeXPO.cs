@@ -2,31 +2,30 @@
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"UserDefinedTemplate")]
-public class UserDefinedTemplateXPO : XPObject
+[Persistent(@"SupplyType")]
+public class SupplyTypeXPO : XPObject
 {
-    public UserDefinedTemplateXPO(Session session) : base(session)
+    public SupplyTypeXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    Item_SupportGroupXPO fItem_SupportGroup;
-    public Item_SupportGroupXPO Item_SupportGroup
+    string fName;
+    public string Name
     {
-        get { return fItem_SupportGroup; }
-        set { SetPropertyValue<Item_SupportGroupXPO>(nameof(Item_SupportGroup), ref fItem_SupportGroup, value); }
+        get { return fName; }
+        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
-    UserDefinedXPO fUserDefined;
-    public UserDefinedXPO UserDefined
+    string fDescription;
+    public string Description
     {
-        get { return fUserDefined; }
-        set { SetPropertyValue<UserDefinedXPO>(nameof(UserDefined), ref fUserDefined, value); }
+        get { return fDescription; }
+        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
     }
-
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

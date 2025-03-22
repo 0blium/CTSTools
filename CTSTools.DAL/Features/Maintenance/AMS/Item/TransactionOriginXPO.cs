@@ -1,45 +1,31 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"UserDefinedValue")]
-public class UserDefinedValueXPO : XPObject
+[Persistent(@"TransactionOrigin")]
+public class TransactionOriginXPO : XPObject
 {
-    public UserDefinedValueXPO(Session session) : base(session)
+    public TransactionOriginXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fValue;
-    public string Value
+    string fName;
+    public string Name
     {
-        get { return fValue; }
-        set { SetPropertyValue<string>(nameof(Value), ref fValue, value); }
+        get { return fName; }
+        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
-    Item_LineXPO fItem_Line;
-    public Item_LineXPO Item_Line
+    string fDescription;
+    public string Description
     {
-        get { return fItem_Line; }
-        set { SetPropertyValue<Item_LineXPO>(nameof(Item_Line), ref fItem_Line, value); }
+        get { return fDescription; }
+        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
     }
-    SupportGroupXPO fSupportGroup;
-    public SupportGroupXPO SupportGroup
-    {
-        get { return fSupportGroup; }
-        set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
-    }
-    UserDefinedXPO fUserDefined;
-    public UserDefinedXPO UserDefined
-    {
-        get { return fUserDefined; }
-        set { SetPropertyValue<UserDefinedXPO>(nameof(UserDefined), ref fUserDefined, value); }
-    }
-
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

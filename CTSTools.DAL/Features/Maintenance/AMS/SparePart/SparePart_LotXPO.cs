@@ -1,11 +1,11 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.Item;
-using CTSTools.DAL.Features.Ticket.Provider;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.Item;
+using CTSTools.DAL.Features.Maintenance.AMS.SparePart.Provider;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.SparePart;
+namespace CTSTools.DAL.Features.Maintenance.AMS.SparePart;
 
 [Persistent(@"SparePart_Lot")]
 public class SparePart_LotXPO : XPObject

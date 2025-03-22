@@ -1,5 +1,5 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.Provider;
+using CTSTools.DAL.Features.Maintenance.AMS.SparePart.Provider;
 using DevExpress.Xpo;
 using System;
 

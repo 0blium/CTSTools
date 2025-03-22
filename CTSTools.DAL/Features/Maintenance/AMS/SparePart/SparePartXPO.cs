@@ -2,7 +2,7 @@
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.SparePart;
+namespace CTSTools.DAL.Features.Maintenance.AMS.SparePart;
 
 [Persistent(@"SparePart")]
 public class SparePartXPO : XPObject

@@ -1,47 +1,50 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Maintenance.AMS.Station;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Station;
+namespace CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 
-[Persistent(@"StationType")]
-public class StationTypeXPO : XPObject
+[Persistent(@"SupportGroup")]
+public class SupportGroupXPO : XPObject
 {
-    public StationTypeXPO(Session session) : base(session)
+    public SupportGroupXPO(Session session) : base(session)
     {
     }
-
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fName;
-    public string Name
+    string fEnglishName;
+    public string EnglishName
     {
-        get { return fName; }
-        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
+        get { return fEnglishName; }
+        set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
     }
-
+    string fSpanishName;
+    public string SpanishName
+    {
+        get { return fSpanishName; }
+        set { SetPropertyValue<string>(nameof(SpanishName), ref fSpanishName, value); }
+    }
     string fDescription;
-    [Size(500)]
     public string Description
     {
         get { return fDescription; }
         set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
-    }
-
-    FacilityXPO fFacility;
-    public FacilityXPO Facility
-    {
-        get { return fFacility; }
-        set { SetPropertyValue<FacilityXPO>(nameof(Facility), ref fFacility, value); }
     }
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {
         get { return fAddedDate; }
         set { SetPropertyValue<DateTime?>(nameof(AddedDate), ref fAddedDate, value); }
+    }
+    FacilityXPO fFacility;
+    public FacilityXPO Facility
+    {
+        get { return fFacility; }
+        set { SetPropertyValue<FacilityXPO>(nameof(Facility), ref fFacility, value); }
     }
     UserXPO fAddedBy;
     public UserXPO AddedBy
@@ -66,5 +69,11 @@ public class StationTypeXPO : XPObject
     {
         get { return fIsActive; }
         set { SetPropertyValue<bool>(nameof(IsActive), ref fIsActive, value); }
+    }
+    StationXPO fStation;
+    public StationXPO Station
+    {
+        get { return fStation; }
+        set { SetPropertyValue<StationXPO>(nameof(Station), ref fStation, value); }
     }
 }

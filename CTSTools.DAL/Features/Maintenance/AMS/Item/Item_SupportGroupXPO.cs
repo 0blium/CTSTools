@@ -1,32 +1,21 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Ticket;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"Priority")]
-public class PriorityXPO : XPObject
+[Persistent(@"Item_SupportGroup")]
+public class Item_SupportGroupXPO : XPObject
 {
-    public PriorityXPO(Session session) : base(session)
+    public Item_SupportGroupXPO(Session session) : base(session)
     {
     }
-    // XPObject relationships
-
-
-    // Default XPObject (VC)
-    string fName;
-    public string Name
+    Item_HeaderXPO fItem_Header;
+    public Item_HeaderXPO Item_Header
     {
-        get { return fName; }
-        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
-    }
-    string fDescription;
-    [Size(300)]
-    public string Description
-    {
-        get { return fDescription; }
-        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
+        get { return fItem_Header; }
+        set { SetPropertyValue<Item_HeaderXPO>(nameof(Item_Header), ref fItem_Header, value); }
     }
     SupportGroupXPO fSupportGroup;
     public SupportGroupXPO SupportGroup
@@ -34,6 +23,7 @@ public class PriorityXPO : XPObject
         get { return fSupportGroup; }
         set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
+
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

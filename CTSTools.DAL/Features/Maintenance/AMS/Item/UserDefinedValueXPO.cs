@@ -1,44 +1,31 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Ticket;
+namespace CTSTools.DAL.Features.Maintenance.AMS.Item;
 
-[Persistent(@"Category")]
-public class CategoryXPO : XPObject
+[Persistent(@"UserDefinedValue")]
+public class UserDefinedValueXPO : XPObject
 {
-    public CategoryXPO(Session session) : base(session)
+    public UserDefinedValueXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fName;
-    public string Name
+    string fValue;
+    public string Value
     {
-        get { return fName; }
-        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
+        get { return fValue; }
+        set { SetPropertyValue<string>(nameof(Value), ref fValue, value); }
     }
-    string fDescription;
-    [Size(SizeAttribute.Unlimited)]
-    public string Description
+    Item_LineXPO fItem_Line;
+    public Item_LineXPO Item_Line
     {
-        get { return fDescription; }
-        set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
-    }
-    bool fHasParent;
-    public bool HasParent
-    {
-        get { return fHasParent; }
-        set { SetPropertyValue<bool>(nameof(HasParent), ref fHasParent, value); }
-    }
-    CategoryXPO fParent;
-    public CategoryXPO Parent
-    {
-        get { return fParent; }
-        set { SetPropertyValue<CategoryXPO>(nameof(Parent), ref fParent, value); }
+        get { return fItem_Line; }
+        set { SetPropertyValue<Item_LineXPO>(nameof(Item_Line), ref fItem_Line, value); }
     }
     SupportGroupXPO fSupportGroup;
     public SupportGroupXPO SupportGroup
@@ -46,6 +33,13 @@ public class CategoryXPO : XPObject
         get { return fSupportGroup; }
         set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
+    UserDefinedXPO fUserDefined;
+    public UserDefinedXPO UserDefined
+    {
+        get { return fUserDefined; }
+        set { SetPropertyValue<UserDefinedXPO>(nameof(UserDefined), ref fUserDefined, value); }
+    }
+
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

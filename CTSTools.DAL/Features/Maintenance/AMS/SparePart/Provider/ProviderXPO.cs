@@ -2,12 +2,12 @@
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.SparePart.Provider;
 
-[Persistent(@"SupplyType")]
-public class SupplyTypeXPO : XPObject
+[Persistent(@"Provider")]
+public class ProviderXPO : XPObject
 {
-    public SupplyTypeXPO(Session session) : base(session)
+    public ProviderXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
@@ -21,6 +21,7 @@ public class SupplyTypeXPO : XPObject
         set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
     string fDescription;
+    [Size(SizeAttribute.Unlimited)]
     public string Description
     {
         get { return fDescription; }

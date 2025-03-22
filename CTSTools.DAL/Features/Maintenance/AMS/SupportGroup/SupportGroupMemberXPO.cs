@@ -1,29 +1,38 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+﻿using CTSTools.DAL.Features.AdvancedSettings.SecurityManagement;
+using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 
-[Persistent(@"Item_SupportGroup")]
-public class Item_SupportGroupXPO : XPObject
+[Persistent(@"SupportGroupMember")]
+public class SupportGroupMemberXPO : XPObject
 {
-    public Item_SupportGroupXPO(Session session) : base(session)
+    public SupportGroupMemberXPO(Session session) : base(session)
     {
     }
-    Item_HeaderXPO fItem_Header;
-    public Item_HeaderXPO Item_Header
-    {
-        get { return fItem_Header; }
-        set { SetPropertyValue<Item_HeaderXPO>(nameof(Item_Header), ref fItem_Header, value); }
-    }
+    // XPObject relationships
+
+
+    // Default XPObject (VC)
     SupportGroupXPO fSupportGroup;
     public SupportGroupXPO SupportGroup
     {
         get { return fSupportGroup; }
         set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
-
+    UserXPO fUser;
+    public UserXPO User
+    {
+        get { return fUser; }
+        set { SetPropertyValue<UserXPO>(nameof(User), ref fUser, value); }
+    }
+    RoleXPO fRole;
+    public RoleXPO Role
+    {
+        get { return fRole; }
+        set { SetPropertyValue<RoleXPO>(nameof(Role), ref fRole, value); }
+    }
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

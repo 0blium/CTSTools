@@ -1,25 +1,37 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Ticket.SupportGroup;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.AMS.SparePart;
 
-[Persistent(@"UserDefined")]
-public class UserDefinedXPO : XPObject
+[Persistent(@"SparePartInventory")]
+public class SparePartInventoryXPO : XPObject
 {
-    public UserDefinedXPO(Session session) : base(session)
+    public SparePartInventoryXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fName;
-    public string Name
+    int fMaxQty;
+    public int MaxQty
     {
-        get { return fName; }
-        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
+        get { return fMaxQty; }
+        set { SetPropertyValue<int>(nameof(MaxQty), ref fMaxQty, value); }
+    }
+    int fMinQty;
+    public int MinQty
+    {
+        get { return fMinQty; }
+        set { SetPropertyValue<int>(nameof(MinQty), ref fMinQty, value); }
+    }
+    SparePartXPO fSparePart;
+    public SparePartXPO SparePart
+    {
+        get { return fSparePart; }
+        set { SetPropertyValue<SparePartXPO>(nameof(SparePart), ref fSparePart, value); }
     }
     SupportGroupXPO fSupportGroup;
     public SupportGroupXPO SupportGroup
@@ -27,20 +39,13 @@ public class UserDefinedXPO : XPObject
         get { return fSupportGroup; }
         set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
-
-    bool fIsMandatory;
-    public bool IsMandatory
+    int fAvailableQty;
+    public int AvailableQty
     {
-        get { return fIsMandatory; }
-        set { SetPropertyValue<bool>(nameof(IsMandatory), ref fIsMandatory, value); }
+        get { return fAvailableQty; }
+        set { SetPropertyValue<int>(nameof(AvailableQty), ref fAvailableQty, value); }
     }
 
-    DataTypeXPO fDataType;
-    public DataTypeXPO DataType
-    {
-        get { return fDataType; }
-        set { SetPropertyValue<DataTypeXPO>(nameof(DataType), ref fDataType, value); }
-    }
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

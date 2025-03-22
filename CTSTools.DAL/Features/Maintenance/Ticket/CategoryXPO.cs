@@ -1,36 +1,50 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.DAL.Features.Ticket.Item;
+namespace CTSTools.DAL.Features.Maintenance.Ticket;
 
-[Persistent(@"ItemClassification")]
-public class ItemClassificationXPO : XPObject
+[Persistent(@"Category")]
+public class CategoryXPO : XPObject
 {
-    public ItemClassificationXPO(Session session) : base(session)
+    public CategoryXPO(Session session) : base(session)
     {
     }
     // XPObject relationships
 
 
     // Default XPObject (VC)
-    string fEnglishName;
-    public string EnglishName
+    string fName;
+    public string Name
     {
-        get { return fEnglishName; }
-        set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
-    }
-    string fSpanishName;
-    public string SpanishName
-    {
-        get { return fSpanishName; }
-        set { SetPropertyValue<string>(nameof(SpanishName), ref fSpanishName, value); }
+        get { return fName; }
+        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
     string fDescription;
+    [Size(SizeAttribute.Unlimited)]
     public string Description
     {
         get { return fDescription; }
         set { SetPropertyValue<string>(nameof(Description), ref fDescription, value); }
+    }
+    bool fHasParent;
+    public bool HasParent
+    {
+        get { return fHasParent; }
+        set { SetPropertyValue<bool>(nameof(HasParent), ref fHasParent, value); }
+    }
+    CategoryXPO fParent;
+    public CategoryXPO Parent
+    {
+        get { return fParent; }
+        set { SetPropertyValue<CategoryXPO>(nameof(Parent), ref fParent, value); }
+    }
+    SupportGroupXPO fSupportGroup;
+    public SupportGroupXPO SupportGroup
+    {
+        get { return fSupportGroup; }
+        set { SetPropertyValue<SupportGroupXPO>(nameof(SupportGroup), ref fSupportGroup, value); }
     }
     DateTime? fAddedDate;
     public DateTime? AddedDate
