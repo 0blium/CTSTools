@@ -78,22 +78,32 @@ async function InitializeProviderCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenProviderID").val(options.data.ID);
-                                ShowProviderDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#SaveProviderRecordModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    document.getElementById('hiddenProviderID').value = options.data.ID;
+                                    ShowDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -144,29 +154,37 @@ async function InitializeProviderCatalogControls() {
 
             ],
     });
+    document.getElementById("btnCloseProviderModal").addEventListener("click", ClearProviderFields);
     ProviderActionButtons("Save");
 }
 function ProviderActionButtons(Action) {
     $("#ProviderActionButtons").empty();
+    document.getElementById('ProviderModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("NewProviderBtn").addEventListener("click", ClearProviderFields);
+        document.getElementById('ProviderModalTitle').innerText = 'Add Provider';
         document.getElementById("ProviderActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateProviderButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateProviderButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearProviderButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearProviderButton").addEventListener("click", ClearProviderFields);
         document.getElementById("CreateProviderButton").addEventListener("click", CreateProvider_Global);
     }
     else {
         // Update
+        document.getElementById('ProviderModalTitle').innerText = 'Update Provider';
         document.getElementById("ProviderActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearProviderButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateProviderButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdateProviderButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearProviderButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearProviderButton").addEventListener("click", ClearProviderFields);
         document.getElementById("UpdateProviderButton").addEventListener("click", UpdateProvider_Global);
     }
 }
 function ClearProviderFields() {
+    $('#SaveProviderRecordModal').modal('hide');
     ProviderActionButtons("Save");
     $('#hiddenProviderID').val("");
     $("#dxProviderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
@@ -195,7 +213,7 @@ function GetProviderDTO() {
     }
     return _ProviderDTO;
 }
-async function ShowProviderDeleteQuestion() {
+async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',

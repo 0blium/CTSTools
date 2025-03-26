@@ -73,7 +73,7 @@ async function InitializeStationCatalogControls() {
         placeholder: "Select a Department...",
     });
 
-    $("#dxStationDatGrid").dxDataGrid({
+    $("#dxStationGrid").dxDataGrid({
         dataSource: await GetDXStationDataSource({ IsActive: true, GetFacilityDTO: true, GetDepartmentDTO: true }),
         keyExpr: "ID",
         remoteOperations: true,
@@ -127,42 +127,79 @@ async function InitializeStationCatalogControls() {
         },
         columns:
             [
+                //{
+                //    caption: "Actions",
+                //    alignment: "center",
+                //    allowFiltering: false,
+                //    allowSorting: false,
+                //    width: 'auto',
+                //    cellTemplate: function (container, options) {
+                //        container.height(30);
+                //        $('<button type="button" class="btn btn-danger me-1" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenStationID").val(options.data.ID);
+                //                ShowStationDeleteQuestion();
+                //            }).appendTo(container);
+                //        $('<button type="button" class="btn btn-info me-1" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fas fa-print"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                var _data = options.data;
+                //                // Open Label
+                //                window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2173-00-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
+                //            }).appendTo(container);
+                //        $('<button type="button" class="btn btn-success" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenStationID").val(options.data.ID);
+                //                StationActionButtons("Update");
+                //                $("#AddNewStationModal").modal("show");
+                //                PopulateStationFields(options.data);
+                //            }).appendTo(container);
+                //    },
+                //},
                 {
-                    caption: "Actions",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger me-1" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStationID").val(options.data.ID);
-                                ShowStationDeleteQuestion();
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-info me-1" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fas fa-print"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                var _data = options.data;
-                                // Open Label
-                                window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2173-00-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStationID").val(options.data.ID);
-                                StationActionButtons("Update");
-                                $("#AddNewStationModal").modal("show");
-                                PopulateStationFields(options.data);
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Print item", icon: "fa fa-print text-info", value: 2 },
+                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 3 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenStationID").val(options.data.ID);
+                                    StationActionButtons("Update");
+                                    $('#AddNewStationModal').modal('show');
+                                    PopulateStationFields(options.data);
+                                }
+                                else if (e.itemData.value == 2) {
+                                    var _data = options.data;
+                                    // Open Label
+                                    window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2173-00-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
+                                }
+                                else if (e.itemData.value == 3) {
+                                    document.getElementById('hiddenStationID').value = options.data.ID;
+                                    ShowStationDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -229,7 +266,7 @@ async function InitializeStationCatalogControls() {
 
             ],
     });
-    //document.getElementById("btnCloseStationModal").addEventListener("click", ClearStationFields);
+    document.getElementById("btnCloseStationModal").addEventListener("click", ClearStationFields);
     StationActionButtons("Save");
 }
 function StationActionButtons(Action) {
@@ -237,16 +274,18 @@ function StationActionButtons(Action) {
     if (Action == "Save") {
         document.getElementById("StationActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateStationButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateStationButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearStationButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearStationButton").addEventListener("click", ClearStationFields);
         document.getElementById("CreateStationButton").addEventListener("click", CreateStation_Global);
     }
     else {
         // Update
         document.getElementById("StationActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearStationButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateStationButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdateStationButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearStationButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearStationButton").addEventListener("click", ClearStationFields);
         document.getElementById("UpdateStationButton").addEventListener("click", UpdateStation_Global);
@@ -262,11 +301,10 @@ function ClearStationFields() {
     $("#dxStationStationTypeSelectBox").dxSelectBox("instance").reset();
     $("#dxStationFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxStationDepartmentSelectBox").dxSelectBox("instance").reset();
-
-    let keys = $("#dxStationDatGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxStationDatGrid").dxDataGrid("instance").deselectRows(keys);
-    $("#dxStationDatGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxStationDatGrid").dxDataGrid("instance").refresh();
+    let keys = $("#dxStationGrid").dxDataGrid("instance").getSelectedRowKeys();
+    $("#dxStationGrid").dxDataGrid("instance").deselectRows(keys);
+    $("#dxStationGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
+    $("#dxStationGrid").dxDataGrid("instance").refresh();
     ClearErrorFeedback();
     $("#AddNewStationModal").modal("hide");
 }
@@ -279,7 +317,6 @@ async function PopulateStationFields(data) {
     $("#dxStationStationTypeSelectBox").dxSelectBox("instance").option("value", data.StationTypeDTO.ID);
     $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
     $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
-
     await $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
 }

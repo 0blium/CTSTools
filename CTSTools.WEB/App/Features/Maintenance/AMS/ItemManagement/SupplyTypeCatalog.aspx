@@ -1,12 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="SupplyTypeCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.SupplyType.SupplyTypeCatalog" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Settings</a></li>
-                    <li class="breadcrumb-item active">Supply Type Catalog</li>
+                    <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
+                    <li class="breadcrumb-item active">Supply Type</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
@@ -17,53 +18,52 @@
         </div>
         <!-- END page-header -->
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="panel panel-inverse">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Supply Type Form</h4>
-                        <div class="panel-heading-btn">
-                        </div>
-                    </div>
                     <div class="panel-body">
-                        <div class="row mb-15px">
-                            <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
-                            <div class="col-xl-9 col-md-12">
-                                <div id="dxSupplyTypeNameTextBox"></div>
-                                <div class="invalid-feedback" id="SupplyTypeNameValidation"></div>
-                            </div>
+                        <div class="col-md-12 ">
+                            <a id="NewSupplyTypeBtn" href="#SaveSupplyTypeRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Supply Type</a>
                         </div>
-                        <div class="row mb-15px">
-                            <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
-                            <div class="col-xl-9 col-md-12">
-                                <div id="dxSupplyTypeDescriptionTextArea"></div>
-                            </div>
-                        </div>
-                        <div class="row mb-15px">
-                            <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
-                            <div class="col-xl-9 col-md-auto">
-                                <div class="mt-2 mb-2">
-                                    <div type="text" id="dxSupplyTypeIsActiveCheckBox"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="SupplyTypeActionButtons"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="panel panel-inverse">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Supply Type Information</h4>
-                        <div class="panel-heading-btn">
-                            <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
-
-                        </div>
-                    </div>
-                    <div class="panel-body">
                         <div id="dxSupplyTypeGrid"></div>
                     </div>
                 </div>
-
+            </div>
+        </div>
+    </div>
+    <!-- Modal save record -->
+    <div class="modal fade" id="SaveSupplyTypeRecordModal" tabindex="-1" data-bs-backdrop="static" aria-modal="true" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="SupplyTypeModalTitle" class="modal-title fs-5"></h4>
+                    <button type="button" id="btnCloseSupplyTypeModal" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-15px">
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
+                        <div class="col-xl-9 col-md-12">
+                            <div id="dxSupplyTypeNameTextBox"></div>
+                            <div class="invalid-feedback" id="SupplyTypeNameValidation"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-15px">
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
+                        <div class="col-xl-9 col-md-12">
+                            <div id="dxSupplyTypeDescriptionTextArea"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-15px">
+                        <label class="form-label col-form-label col-xl-3 col-md-auto">Is Active?</label>
+                        <div class="col-xl-9 col-md-auto">
+                            <div class="mt-2 mb-2">
+                                <div type="text" id="dxSupplyTypeIsActiveCheckBox"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row" id="SupplyTypeActionButtons"></div>
+                </div>
             </div>
         </div>
     </div>

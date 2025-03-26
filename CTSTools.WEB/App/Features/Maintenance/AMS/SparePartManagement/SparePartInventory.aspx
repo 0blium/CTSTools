@@ -5,8 +5,8 @@
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-start">
-                <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Support Groups</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">Spare Parts</a></li>
                 <li class="breadcrumb-item active">Spare Part Inventory</li>
             </ol>
         </div>
@@ -249,13 +249,12 @@
     <!-- New SparePart inventory -->
     <div class="modal fade" id="SparePartInventoryModal" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 65%;">
-            <div class="modal-content" style="background-color: #DEE2E6;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Create new inventory</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="CloseModalXButton" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="panel panel-inverse">
                         <div class="panel-body">
                             <div class="row ">
                                 <div class="col-md-12">
@@ -290,12 +289,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
-                <div class="modal-footer">
-                    
-                    <%--<button type="button" id="CloseModalButton" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>--%>
-                </div>
+                <%--<div class="modal-footer">
+                    <button type="button" id="CloseModalButton" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>--%>
             </div>
         </div>
     </div>

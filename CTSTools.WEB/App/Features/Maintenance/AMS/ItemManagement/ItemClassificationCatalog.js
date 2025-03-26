@@ -84,22 +84,32 @@ async function InitializeItemClassificationCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItemClassificationID").val(options.data.ID);
-                                ShowItemClassificationDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#SaveItemClassificationRecordModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    document.getElementById('hiddenItemClassificationID').value = options.data.ID;
+                                    ShowDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -150,30 +160,38 @@ async function InitializeItemClassificationCatalogControls() {
 
             ],
     });
+    document.getElementById("btnCloseItemClassificationModal").addEventListener("click", ClearItemClassificationFields);
     ItemClassificationActionButtons("Save");
 }
 
 function ItemClassificationActionButtons(Action) {
     $("#ItemClassificationActionButtons").empty();
+    document.getElementById('ItemClassificationModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("NewItemClassificationBtn").addEventListener("click", ClearItemClassificationFields);
+        document.getElementById('ItemClassificationModalTitle').innerText = 'Add Item Classification';
         document.getElementById("ItemClassificationActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateItemClassificationButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateItemClassificationButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearItemClassificationButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearItemClassificationButton").addEventListener("click", ClearItemClassificationFields);
         document.getElementById("CreateItemClassificationButton").addEventListener("click", CreateItemClassification_Global);
     }
     else {
         // Update
+        document.getElementById('ItemClassificationModalTitle').innerText = 'Update Item Classification';
         document.getElementById("ItemClassificationActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearItemClassificationButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateItemClassificationButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdateItemClassificationButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearItemClassificationButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearItemClassificationButton").addEventListener("click", ClearItemClassificationFields);
         document.getElementById("UpdateItemClassificationButton").addEventListener("click", UpdateItemClassification_Global);
     }
 }
 function ClearItemClassificationFields() {
+    $('#SaveItemClassificationRecordModal').modal('hide');
     ItemClassificationActionButtons("Save");
     $('#hiddenItemClassificationID').val("");
     $("#dxItemClassificationIsActiveCheckBox").dxCheckBox("instance").option("value", true);
@@ -181,7 +199,6 @@ function ClearItemClassificationFields() {
     $("#dxItemClassificationSpanishNameTextBox").dxTextBox("instance").option("value", '');
     //$("#dxItemClassificationExchangeRateTextBox").dxTextBox("instance").option("value", "");
     $("#dxItemClassificationDescriptionTextArea").dxTextArea("instance").option("value", '');
-
     let keys = $("#dxItemClassificationGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxItemClassificationGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxItemClassificationGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
@@ -208,7 +225,7 @@ function GetItemClassificationDTO() {
     }
     return _itemClassificationDTO;
 }
-async function ShowItemClassificationDeleteQuestion() {
+async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',

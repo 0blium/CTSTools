@@ -81,6 +81,34 @@ async function InitializeCurrencyCatalogControls() {
         columns:
             [
                 {
+                    caption: "Options",
+                    alignment: "center",
+                    allowFiltering: false,
+                    allowSorting: false,
+                    cellTemplate: function (container, options) {
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    //{ text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#SaveCurrencyRecordModal').modal('show');
+                                }
+                                //else if (e.itemData.value == 2) {
+                                //    document.getElementById('hiddenCurrencyID').value = options.data.ID;
+                                //    ShowDeleteQuestion();
+                                //}
+                            },
+                        });
+                    }
+                },
+                {
                     caption: "Is Active",
                     dataField: "IsActive"
                 },
@@ -133,30 +161,38 @@ async function InitializeCurrencyCatalogControls() {
 
             ],
     });
+    document.getElementById("btnCloseCurrencyModal").addEventListener("click", ClearCurrencyFields);
     CurrencyActionButtons("Save");
 }
 
 function CurrencyActionButtons(Action) {
     $("#CurrencyActionButtons").empty();
+    document.getElementById('CurrencyModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("NewCurrencyBtn").addEventListener("click", ClearCurrencyFields);
+        document.getElementById('CurrencyModalTitle').innerText = 'Add Currency';
         document.getElementById("CurrencyActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateCurrencyButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateCurrencyButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearCurrencyButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearCurrencyButton").addEventListener("click", ClearCurrencyFields);
         document.getElementById("CreateCurrencyButton").addEventListener("click", CreateCurrency_Global);
     }
     else {
         // Update
+        document.getElementById('CurrencyModalTitle').innerText = 'Update Currency';
         document.getElementById("CurrencyActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearCurrencyButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateCurrencyButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdateCurrencyButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearCurrencyButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearCurrencyButton").addEventListener("click", ClearCurrencyFields);
         document.getElementById("UpdateCurrencyButton").addEventListener("click", UpdateCurrency_Global);
     }
 }
 function ClearCurrencyFields() {
+    $('#SaveCurrencyRecordModal').modal('hide');
     CurrencyActionButtons("Save");
     $('#hiddenCurrencyID').val("");
     $("#dxCurrencyIsActiveCheckBox").dxCheckBox("instance").option("value", true);

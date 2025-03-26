@@ -137,22 +137,32 @@ async function InitializeSupportGroupMemberCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenSupportGroupMemberID").val(options.data.ID);
-                                ShowSupportGroupMemberDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#SaveSupportGroupMemberRecordModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    document.getElementById('hiddenSupportGroupMemberID').value = options.data.ID;
+                                    ShowDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -208,31 +218,39 @@ async function InitializeSupportGroupMemberCatalogControls() {
 
             ],
     });
+    document.getElementById("btnCloseSupportGroupMemberModal").addEventListener("click", ClearSupportGroupMemberFields);
     SupportGroupMemberActionButtons("Save");
 }
 
 function SupportGroupMemberActionButtons(Action) {
     $("#SupportGroupMemberActionButtons").empty();
+    document.getElementById('SupportGroupMemberModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("NewSupportGroupMemberBtn").addEventListener("click", ClearSupportGroupMemberFields);
+        document.getElementById('SupportGroupMemberModalTitle').innerText = 'Add Support Group Member';
         document.getElementById("SupportGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateSupportGroupMemberButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateSupportGroupMemberButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearSupportGroupMemberButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearSupportGroupMemberButton").addEventListener("click", ClearSupportGroupMemberFields);
         document.getElementById("CreateSupportGroupMemberButton").addEventListener("click", CreateSupportGroupMember_Global);
     }
     else {
         // Update
+        document.getElementById('SupportGroupMemberModalTitle').innerText = 'Update Support Group Member';
         document.getElementById("SupportGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearSupportGroupMemberButton" type="button">Cancel</button>' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateSupportGroupMemberButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary float-end" id="ClearSupportGroupMemberButton" type="button">Cancel</button>' +
             '</div>';
-        document.getElementById("ClearSupportGroupMemberButton").addEventListener("click", ClearSupportGroupMemberFields);
+        ocument.getElementById("ClearSupportGroupMemberButton").addEventListener("click", ClearSupportGroupMemberFields);
         document.getElementById("UpdateSupportGroupMemberButton").addEventListener("click", UpdateSupportGroupMember_Global);
     }
 }
 
 function ClearSupportGroupMemberFields() {
+    $('#SaveSupportGroupMemberRecordModal').modal('hide');
     SupportGroupMemberActionButtons("Save");
     $('#hiddenSupportGroupMemberID').val("");
     $("#dxSupportGroupMemberIsActiveCheckBox").dxCheckBox("instance").option("value", true);

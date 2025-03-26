@@ -4,13 +4,13 @@
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-start">
-                <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Receiving</a></li>
-                <li class="breadcrumb-item active">Item Registration</li>
+                <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
+                <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
+                <li class="breadcrumb-item active">Registration</li>
             </ol>
         </div>
         <div class="row">
-            <h1 class="page-header">Item Registration</h1>
+            <h1 class="page-header">Registration</h1>
         </div>
     </div>
     <%--tab section--%>
@@ -35,7 +35,7 @@
                 <div class="col-md-12">
                     <div class="d-flex">
                         <a id="AddNewItemLineBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal">Register Item</a>
-                        <a id="AddNewItemHeaderBtn" class="btn btn-secondary mb-1 ms-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal">Add Item Type</a>
+                        <a id="AddNewItemHeaderBtn" class="btn btn-secondary mb-1 ms-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item Type</a>
                         <a class="btn btn-link text-info d-flex align-items-center text-decoration-none" data-bs-toggle="modal" data-bs-target="#AssetCriteriaModal">
                             <i class="fas fa-circle-question fs-20px text-info me-1"></i>¿Que&#769; activos registrar? 
                         </a>
@@ -111,7 +111,7 @@
     <!-- Add new item type modal -->
     <div class="modal fade" id="AddNewItemHeaderModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #DEE2E6;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add new item</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="HeaderModalCloseButton" aria-label="Close"></button>
@@ -216,18 +216,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end">
-                        <div id="Item_HeaderActionButtons"></div>
-                    </div>
                 </div>
-
+                <div class="modal-footer">
+                    <div id="Item_HeaderActionButtons"></div>
+                </div>
             </div>
         </div>
     </div>
     <%--Item Line Modal--%>
     <div class="modal fade" id="AddNewItemLineModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #DEE2E6;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Add new item</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="LineModalCloseButton" aria-label="Close"></button>
@@ -431,18 +430,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end">
-                        <div id="Item_LineActionButtons"></div>
-                    </div>
                 </div>
-
+                <div class="modal-footer">
+                    <div id="Item_LineActionButtons"></div>
+                </div>
             </div>
         </div>
     </div>
     <%--Deliver item to Modal--%>
     <div class="modal fade" id="ItemDeliverToModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #DEE2E6;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Deliver Item To</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -466,20 +464,16 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="d-flex justify-content-end">
-                        <div>
-                            <a class="btn btn-success" id="SaveDeliverToInfo">Save</a>
-                        </div>
-                    </div>
                 </div>
-
+                <div class="modal-footer">
+                    <a class="btn btn-success" id="SaveDeliverToInfo">Save</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="modal fade" id="AssetCriteriaModal">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="background-color: #DEE2E6;">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Criterios para registro de un nuevo activo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -78,22 +78,32 @@ async function InitializeStationTypeCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStationTypeID").val(options.data.ID);
-                                ShowStationTypeDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#SaveStationTypeRecordModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    document.getElementById('hiddenStationTypeID').value = options.data.ID;
+                                    ShowDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -144,35 +154,42 @@ async function InitializeStationTypeCatalogControls() {
 
             ],
     });
+    document.getElementById("btnCloseStationTypeModal").addEventListener("click", ClearStationTypeFields);
     StationTypeActionButtons("Save");
 }
 function StationTypeActionButtons(Action) {
     $("#StationTypeActionButtons").empty();
+    document.getElementById('StationTypeModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("NewStationTypeBtn").addEventListener("click", ClearStationTypeFields);
+        document.getElementById('StationTypeModalTitle').innerText = 'Add Station Type';
         document.getElementById("StationTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateStationTypeButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateStationTypeButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearStationTypeButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearStationTypeButton").addEventListener("click", ClearStationTypeFields);
         document.getElementById("CreateStationTypeButton").addEventListener("click", CreateStationType_Global);
     }
     else {
         // Update
+        document.getElementById('StationTypeModalTitle').innerText = 'Update Station Type';
         document.getElementById("StationTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearStationTypeButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateStationTypeButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdateStationTypeButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearStationTypeButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearStationTypeButton").addEventListener("click", ClearStationTypeFields);
         document.getElementById("UpdateStationTypeButton").addEventListener("click", UpdateStationType_Global);
     }
 }
 function ClearStationTypeFields() {
+    $('#SaveStationTypeRecordModal').modal('hide');
     StationTypeActionButtons("Save");
     $('#hiddenStationTypeID').val("");
     $("#dxStationTypeIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxStationTypeNameTextBox").dxTextBox("instance").option("value", '');
     $("#dxStationTypeDescriptionTextArea").dxTextArea("instance").option("value", '');
-
     let keys = $("#dxStationTypeGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxStationTypeGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxStationTypeGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
@@ -195,7 +212,7 @@ function GetStationTypeDTO() {
     }
     return _stationTypeDTO;
 }
-async function ShowStationTypeDeleteQuestion() {
+async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
