@@ -9,7 +9,6 @@ public class Item_HeaderDTO
     #region Base Properties
     public int? ID { get; set; }
     public string EnglishName { get; set; }
-    public string SpanishName { get; set; }
     public string Model { get; set; }
     public string Brand { get; set; }
     public bool? IsESD { get; set; }

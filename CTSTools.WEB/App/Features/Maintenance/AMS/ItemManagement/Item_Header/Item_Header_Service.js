@@ -107,7 +107,19 @@ export async function GetItem_HeaderFilesInformation(item_HeaderDTO) {
     }
     return _validation_resultDTO;
 }
-
+export async function SaveItem_HeaderMultipleFile(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Item_Header/SaveMultipleFile`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function DeleteItem_HeaderFile(FileDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Item_Header/FileDelete`;

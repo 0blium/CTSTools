@@ -494,7 +494,7 @@ async function InitializeSparePartIventoryModalControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
     $("#dxSparePartInventoryModalGrid").dxDataGrid({

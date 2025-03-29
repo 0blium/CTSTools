@@ -2,7 +2,7 @@
 //#region Import service and resources
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile } from './Item_Header/Item_Header_Service.js'
+import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile, SaveItem_HeaderMultipleFile } from './Item_Header/Item_Header_Service.js'
 import { GetDXItem_SupportGroupDataSource, CreateItem_SupportGroup, UpdateItem_SupportGroup, DeleteItem_SupportGroup, GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
 import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js' 
 import { GetDXItemClassificationDataSource } from '../ItemManagement/ItemClassification/ItemClassification_Service.js' 
@@ -129,28 +129,28 @@ async function InitializeItemAdministrationCatalogControls() {
         parentIdExpr: 'ParentID',
         expandAllEnabled: true,
     });
-    $("#dxFileOptionsSelectBox").dxSelectBox({
-        dataSource: [
-            "Item",
-            "Lines"
-        ],
-        onSelectionChanged: function (e) {
-            if ($("#dxFileOptionsSelectBox").dxSelectBox("instance").option("value") != 0 &&
-                $("#dxFileOptionsSelectBox").dxSelectBox("instance").option("value") != null
-            ) {
-                if (e.selectedItem == "Item") {
-                    $("#Item_HeaderAttachment").removeAttr("hidden");
-                    $("#TreeView").attr("hidden", true);
-                }
-                else {
-                    $("#Item_HeaderAttachment").attr("hidden", true);
-                    $("#TreeView").removeAttr("hidden");
-                }
-            }
-        },
-        searchEnabled: false,
-        popupWidth: 400,
-    });
+    //$("#dxFileOptionsSelectBox").dxSelectBox({
+    //    dataSource: [
+    //        "Item",
+    //        "Lines"
+    //    ],
+    //    onSelectionChanged: function (e) {
+    //        if ($("#dxFileOptionsSelectBox").dxSelectBox("instance").option("value") != 0 &&
+    //            $("#dxFileOptionsSelectBox").dxSelectBox("instance").option("value") != null
+    //        ) {
+    //            if (e.selectedItem == "Item") {
+    //                $("#Item_HeaderAttachment").removeAttr("hidden");
+    //                $("#TreeView").attr("hidden", true);
+    //            }
+    //            else {
+    //                $("#Item_HeaderAttachment").attr("hidden", true);
+    //                $("#TreeView").removeAttr("hidden");
+    //            }
+    //        }
+    //    },
+    //    searchEnabled: false,
+    //    popupWidth: 400,
+    //});
     $("#dxItemAdministrationDatGrid").dxDataGrid({
         dataSource: [],
         remoteOperations: true,
@@ -207,7 +207,7 @@ async function InitializeItemAdministrationCatalogControls() {
             // Assuming you have access to the rowKey
             var rowKey = e.key;
             // Pass the event to the function
-            toggleMasterRow(rowKey, e.event);
+            //toggleMasterRow(rowKey, e.event);
             event.preventDefault()
             if (e.row != null) {
                 $("#hiddenItem_HeaderID").val(e.row.data.Item_HeaderDTO.ID);
@@ -216,7 +216,6 @@ async function InitializeItemAdministrationCatalogControls() {
                 document.getElementById("AssignUserDefinedBtn").classList.remove("d-none");
                 await GetUserDefinedTemplateList();
             }
-
         },
         onRowClick: function (e) {
             var rowKey = e.key;
@@ -228,37 +227,77 @@ async function InitializeItemAdministrationCatalogControls() {
             if (_itemAdministrationData != null) {
                 PopulateItem_HeaderFields(_itemAdministrationData);
                 GetItem_HeaderFileList();
-                GetItem_LineTreeViewList();
+                //GetItem_LineTreeViewList();
             }
         },
         columns:
             [
+                //{
+                //    caption: "Actions",
+                //    alignment: "center",
+                //    allowFiltering: false,
+                //    allowSorting: false,
+                //    width: 'auto',
+                //    cellTemplate: function (container, options) {
+                //        container.height(30);
+                //        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal" class="btn btn-success" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenItem_HeaderID").val(options.data.ID);
+                //                SetWizardStyle("edit");
+                //            }).appendTo(container);
+                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenItem_HeaderID").val(options.data.ID);
+                //                $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                //                ShowItem_SupportGroupDeleteQuestion();
+                //            }).appendTo(container);
+                //    },
+                //},
                 {
-                    caption: "Actions",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItem_HeaderID").val(options.data.ID);
-                                SetWizardStyle("edit");
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItem_HeaderID").val(options.data.ID);
-                                $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                ShowItem_SupportGroupDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Attachments", icon: "fa fa-paperclip text-info", value: 2 },
+                                    { text: "View line", icon: "fas fa-eye text-primary", value: 3 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenItem_HeaderID").val(options.data.ID);
+                                    $('#AddNewItemHeaderModal').modal('show');
+                                    SetWizardStyle("edit");
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $('#AttachmentsModal').modal('show');
+                                    document.getElementById("AttachmentsModalSaveBtn").addEventListener("click", SaveAttachmentsItem_Header);
+                                }
+                                else if (e.itemData.value == 3) {
+                                    window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID, "_blank");
+                                }
+                                else if (e.itemData.value == 4) {
+                                    $("#hiddenItem_HeaderID").val(options.data.ID);
+                                    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    ShowItem_SupportGroupDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "ID",
@@ -271,7 +310,7 @@ async function InitializeItemAdministrationCatalogControls() {
                     alignment: "center",
                 },
                 {
-                    caption: 'Item image',
+                    caption: 'Image',
                     width: 200,
                     allowFiltering: false,
                     allowSorting: false,
@@ -288,12 +327,8 @@ async function InitializeItemAdministrationCatalogControls() {
                     },
                 },
                 {
-                    caption: "English Name",
+                    caption: "Name",
                     dataField: "Item_HeaderDTO.EnglishName"
-                },
-                {
-                    caption: "Spanish Name",
-                    dataField: "Item_HeaderDTO.SpanishName",
                 },
                 {
                     caption: "Model",
@@ -304,12 +339,7 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataField: "Item_HeaderDTO.Brand"
                 },
                 {
-                    caption: "Item Classification Spanish",
-                    dataField: "Item_HeaderDTO.ItemClassificationDTO.SpanishName",
-
-                },
-                {
-                    caption: "Item Classification English",
+                    caption: "Item Classification Name",
                     dataField: "Item_HeaderDTO.ItemClassificationDTO.EnglishName",
                 },
                 {
@@ -321,7 +351,7 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataField: "Item_HeaderDTO.IsESD"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "Item_HeaderDTO.AddedByID",
                     visible: false
                 },
@@ -335,7 +365,7 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "Item_HeaderDTO.LastUpdateByID",
                     visible: false
                 },
@@ -351,15 +381,12 @@ async function InitializeItemAdministrationCatalogControls() {
 
 
             ],
-        masterDetail: {
-            enabled: true,
-            template: MasterDetailItem_Line
-        }
+        //masterDetail: {
+        //    enabled: true,
+        //    template: MasterDetailItem_Line
+        //}
     });
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox({
-        placeholder: "Type name.."
-    });
-    $("#dxItem_HeaderSpanishNameTextBox").dxTextBox({
         placeholder: "Type name.."
     });
     $("#dxItem_HeaderModelTextBox").dxTextBox({
@@ -379,7 +406,7 @@ async function InitializeItemAdministrationCatalogControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox({
@@ -407,6 +434,7 @@ async function InitializeItemAdministrationCatalogControls() {
                 reader.readAsDataURL(file);
                 reader.onload = function (e) {
                     var _fileDTO = {
+                        ID: $("#hiddenItem_HeaderID").val(),
                         Name: $("#dxItem_HeaderAttachmentFileUploader").dxFileUploader("instance").option("value")[i].name,
                         Size: $("#dxItem_HeaderAttachmentFileUploader").dxFileUploader("instance").option("value")[i].size,
                         Data: e.target.result,
@@ -449,22 +477,36 @@ async function InitializeItemAdministrationCatalogControls() {
     });
 
 }
-async function MasterDetailItem_Line(container, masterDetailOptions) {
-    await dxLoadPanel.show()
-    const _item_LineDTO = { Item_SupportGroupDTO: { ID: masterDetailOptions.data.ID }, IsActive: true };
-    const _item_LineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
-    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", masterDetailOptions.data.Item_HeaderDTO.ID);
-    $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", masterDetailOptions.data.SupportGroupDTO.ID)
-    $("#hiddenItem_HeaderID").val(masterDetailOptions.data.Item_HeaderDTO.ID);
-    $("#hiddenItem_SupportGroupID").val(masterDetailOptions.data.ID);
-    await BuildItem_LineGrid(container, _item_LineList, masterDetailOptions);
+//async function MasterDetailItem_Line(container, masterDetailOptions) {
+//    await dxLoadPanel.show()
+//    const _item_LineDTO = { Item_SupportGroupDTO: { ID: masterDetailOptions.data.ID }, IsActive: true };
+//    const _item_LineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
+//    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", masterDetailOptions.data.Item_HeaderDTO.ID);
+//    $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", masterDetailOptions.data.SupportGroupDTO.ID)
+//    $("#hiddenItem_HeaderID").val(masterDetailOptions.data.Item_HeaderDTO.ID);
+//    $("#hiddenItem_SupportGroupID").val(masterDetailOptions.data.ID);
+//    await BuildItem_LineGrid(container, _item_LineList, masterDetailOptions);
+//    dxLoadPanel.hide();
+//}
+async function SaveAttachmentsItem_Header()
+{
+    debugger;
+    await dxLoadPanel.show();
+    const _fileList = GetFileDTO();
+    if (!_fileList.FileList || _fileList.FileList.length === 0) {
+        toastr["error"]("The list of files to upload is empty.", "Attachment error")
+    }
+    else
+    {
+        const _validation_ResultDTO = await SaveItem_HeaderMultipleFile(_fileList);
+        HostResponse(_validation_ResultDTO);
+    }
     dxLoadPanel.hide();
 }
 function ClearItem_HeaderFields(CleanGrid) {
     $("#hiddenItem_HeaderID").val("0");
     $("#hiddenItem_SupportGroupID").val("0");
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", "");
-    $("#dxItem_HeaderSpanishNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
@@ -492,7 +534,6 @@ async function PopulateItem_HeaderFields(data) {
     $("#hiddenItem_HeaderID").val(data.Item_HeaderDTO.ID);//new
     document.getElementById("hiddenUserSupportGroupID").value = data.SupportGroupDTO.ID
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
-    $("#dxItem_HeaderSpanishNameTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.SpanishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Model);
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Brand);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsActive);
@@ -509,7 +550,6 @@ function GetItem_HeaderDTO() {
     let _item_HeaderDTO = {
         ID: $("#hiddenItem_HeaderID").val(),
         EnglishName: $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value"),
-        SpanishName: $("#dxItem_HeaderSpanishNameTextBox").dxTextBox("instance").option("value"),
         Model: $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value"),
         Brand: $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value"),
         IsActive: $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value"),
@@ -568,206 +608,206 @@ async function UpdateItem_Header_Global() {
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-async function BuildItem_LineGrid(container, ItemLineList, masterDetailOptions) {
-    $(`<div id="dxItem_HeaderLineList${masterDetailOptions.data.ID}">`).dxDataGrid({
-        dataSource: ItemLineList,
-        remoteOperations: true,
-        paging: {
-            pageSize: 5,
-        },
-        pager: {
-            showPageSizeSelector: true,
-            allowedPageSizes: [10, 50, 100],
-            showInfo: true
-        },
-        allowColumnReordering: true,
-        showRowLines: true,
-        showColumnLines: false,
-        showBorders: true,
-        focusedRowEnabled: false,
-        hoverStateEnabled: true,
-        rowAlternationEnabled: false,
-        columnAutoWidth: true,
-        allowColumnResizing: true,
-        columnResizingMode: 'widget',
-        columnMinWidth: 50,
-        groupPanel: {
-            visible: false
-        },
-        columnChooser: {
-            enabled: true
-        },
-        columnFixing: {
-            enabled: true
-        },
-        "export": {
-            enabled: true,
-            fileName: "ItemAdministration",
-            allowExportSelectedData: true
-        },
-        filterRow: {
-            visible: true,
-            applyFilter: "auto"
-        },
-        searchPanel: {
-            visible: false,
-            placeholder: "Search...",
-            width: 300
-        },
-        onSelectionChanged: async function (data) {
-            let _item_LineData = data.selectedRowsData[0];
-            if (_item_LineData != null) {
-                Item_LineActionButtons("Update");
-                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-                PopulateItem_LineFields(_item_LineData, _userDefinedTemplateList);
-                GetItem_LineFileList();
-            }
-        },
-        sorting: {
-            mode: "multiple"
-        },
-        selection: {
-            mode: 'single'
-        },
-        headerFilter: {
-            visible: true
-        },
-        columns:
-            [
-                {
-                    caption: "ID",
-                    dataField: "ID",
-                    width: 'auto',
-                    visible: false
-                },
-                {
-                    caption: "Actions",
-                    visibleIndex: 1,
-                    alignment: "center",
-                    allowFiltering: false,
-                    allowSorting: false,
-                    width: 'auto',
-                    cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', async function () {
-                                $("#hiddenItem_LineID").val(options.data.ID);
-                                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: options.data.Item_SupportGroupDTOID }, IsActive: true, GetUserDefinedDTO: true };
-                                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-                                await PopulateItem_LineFields(options.data, _userDefinedTemplateList);
-                            }).appendTo(container);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#ReassingSupportGroupModal" class="btn btn-primary ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-right-left"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                PopulateReassignSupportGroupModalFields(options.data);
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItem_LineID").val(options.data.ID);
-                                ShowItem_LineDeleteQuestion();
-                            }).appendTo(container);
+//async function BuildItem_LineGrid(container, ItemLineList, masterDetailOptions) {
+//    $(`<div id="dxItem_HeaderLineList${masterDetailOptions.data.ID}">`).dxDataGrid({
+//        dataSource: ItemLineList,
+//        remoteOperations: true,
+//        paging: {
+//            pageSize: 5,
+//        },
+//        pager: {
+//            showPageSizeSelector: true,
+//            allowedPageSizes: [10, 50, 100],
+//            showInfo: true
+//        },
+//        allowColumnReordering: true,
+//        showRowLines: true,
+//        showColumnLines: false,
+//        showBorders: true,
+//        focusedRowEnabled: false,
+//        hoverStateEnabled: true,
+//        rowAlternationEnabled: false,
+//        columnAutoWidth: true,
+//        allowColumnResizing: true,
+//        columnResizingMode: 'widget',
+//        columnMinWidth: 50,
+//        groupPanel: {
+//            visible: false
+//        },
+//        columnChooser: {
+//            enabled: true
+//        },
+//        columnFixing: {
+//            enabled: true
+//        },
+//        "export": {
+//            enabled: true,
+//            fileName: "ItemAdministration",
+//            allowExportSelectedData: true
+//        },
+//        filterRow: {
+//            visible: true,
+//            applyFilter: "auto"
+//        },
+//        searchPanel: {
+//            visible: false,
+//            placeholder: "Search...",
+//            width: 300
+//        },
+//        onSelectionChanged: async function (data) {
+//            let _item_LineData = data.selectedRowsData[0];
+//            if (_item_LineData != null) {
+//                Item_LineActionButtons("Update");
+//                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+//                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
+//                PopulateItem_LineFields(_item_LineData, _userDefinedTemplateList);
+//                GetItem_LineFileList();
+//            }
+//        },
+//        sorting: {
+//            mode: "multiple"
+//        },
+//        selection: {
+//            mode: 'single'
+//        },
+//        headerFilter: {
+//            visible: true
+//        },
+//        columns:
+//            [
+//                {
+//                    caption: "ID",
+//                    dataField: "ID",
+//                    width: 'auto',
+//                    visible: false
+//                },
+//                {
+//                    caption: "Actions",
+//                    visibleIndex: 1,
+//                    alignment: "center",
+//                    allowFiltering: false,
+//                    allowSorting: false,
+//                    width: 'auto',
+//                    cellTemplate: function (container, options) {
+//                        container.height(30);
+//                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal" class="btn btn-success" style="padding-top: 2px; ' +
+//                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
+//                            + '</span></button>')
+//                            .height(30)
+//                            .on('dxclick', async function () {
+//                                $("#hiddenItem_LineID").val(options.data.ID);
+//                                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: options.data.Item_SupportGroupDTOID }, IsActive: true, GetUserDefinedDTO: true };
+//                                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
+//                                await PopulateItem_LineFields(options.data, _userDefinedTemplateList);
+//                            }).appendTo(container);
+//                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#ReassingSupportGroupModal" class="btn btn-primary ms-2" style="padding-top: 2px; ' +
+//                            'padding-bottom:5px"><i class="fa fa-right-left"></i><span>' +
+//                            + '</span></button>')
+//                            .height(30)
+//                            .on('dxclick', function () {
+//                                PopulateReassignSupportGroupModalFields(options.data);
+//                            }).appendTo(container);
+//                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
+//                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+//                            + '</span></button>')
+//                            .height(30)
+//                            .on('dxclick', function () {
+//                                $("#hiddenItem_LineID").val(options.data.ID);
+//                                ShowItem_LineDeleteQuestion();
+//                            }).appendTo(container);
 
-                    },
-                },
-                {
-                    // Dropdown
-                    caption: "Labels",
-                    width: 110,
-                    visibleIndex: 0,
-                    alignment: "center",
-                    editCellTemplate: function (cellElement, cellInfo) {
-                        let wrapper = $('<div class="d-flex justify-content-center align-items-center">').appendTo(cellElement);
-                        $('<div class="d-flex justify-content-center">').appendTo(wrapper).dxMenu({
-                            items: [{
-                                // Dropdown tittle
-                                text: 'Print',
-                                icon: 'print',
-                                // Declaration of the list of options for the dropdown
-                                items: [{
-                                    text: 'S',
-                                    LabelFile: 'LF-0001-15-A'
-                                }, {
-                                    text: 'M',
-                                    LabelFile: 'LF-2173-03-A'
-                                }, {
-                                    text: 'L',
-                                    LabelFile: 'LF-2173-02-A'
-                                }, {
-                                    text: 'S ESD',
-                                    LabelFile: 'LF-0001-13-A'
-                                }, {
-                                    text: 'M ESD',
-                                    LabelFile: 'LF-2173-01-A'
-                                }, {
-                                    text: 'L ESD',
-                                    LabelFile: 'LF-2173-00-A'
-                                }]
-                            }],
-                            showFirstSubmenuMode: 'onHover',
-                            hideSubmenuOnMouseLeave: true,
-                            onItemClick: function (e) {
-                                var _data = cellInfo.data;
-                                // Validates if the LabelFile property exists in the selected option
-                                if (e.itemData.LabelFile != null) {
-                                    // Open the label
-                                    window.open('http://avmx-s05:8044//LabelPrint.aspx?LabelFile=' + e.itemData.LabelFile + "&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
-                                }
-                            },
-                            onItemRendered: function (e) {
-                                let menuItemText = e.itemElement.find('.dx-menu-item-text');
-                                if (menuItemText.text().trim() === 'Print') {
-                                    menuItemText.append('<i class="ms-1 fa fa-angle-down"></i>');
-                                }
-                            }
-                        });
-                    },
-                    showEditorAlways: true,
-                    allowEditing: false
-                },
-            ],
-    }).appendTo(container);
-    let _itemLineMasterDetailsGrid = $(`#dxItem_HeaderLineList${masterDetailOptions.data.ID}`).dxDataGrid("instance");
-    if (_itemLineMasterDetailsGrid != null) {
-        var _state = _itemLineMasterDetailsGrid.state();
-        var _columns = _itemLineMasterDetailsGrid.option("columns");
-        if (ItemLineList.length > 0) {
-            Object.keys(ItemLineList[0]).forEach(key => {
-                let column = { dataField: key }
-                if (key.includes("Date")) {
-                    column.dataType = 'date';
-                }
-                if (key.includes("DTO")) {
-                    column.visible = false;
-                }
-                _columns.push(column);
+//                    },
+//                },
+//                {
+//                    // Dropdown
+//                    caption: "Labels",
+//                    width: 110,
+//                    visibleIndex: 0,
+//                    alignment: "center",
+//                    editCellTemplate: function (cellElement, cellInfo) {
+//                        let wrapper = $('<div class="d-flex justify-content-center align-items-center">').appendTo(cellElement);
+//                        $('<div class="d-flex justify-content-center">').appendTo(wrapper).dxMenu({
+//                            items: [{
+//                                // Dropdown tittle
+//                                text: 'Print',
+//                                icon: 'print',
+//                                // Declaration of the list of options for the dropdown
+//                                items: [{
+//                                    text: 'S',
+//                                    LabelFile: 'LF-0001-15-A'
+//                                }, {
+//                                    text: 'M',
+//                                    LabelFile: 'LF-2173-03-A'
+//                                }, {
+//                                    text: 'L',
+//                                    LabelFile: 'LF-2173-02-A'
+//                                }, {
+//                                    text: 'S ESD',
+//                                    LabelFile: 'LF-0001-13-A'
+//                                }, {
+//                                    text: 'M ESD',
+//                                    LabelFile: 'LF-2173-01-A'
+//                                }, {
+//                                    text: 'L ESD',
+//                                    LabelFile: 'LF-2173-00-A'
+//                                }]
+//                            }],
+//                            showFirstSubmenuMode: 'onHover',
+//                            hideSubmenuOnMouseLeave: true,
+//                            onItemClick: function (e) {
+//                                var _data = cellInfo.data;
+//                                // Validates if the LabelFile property exists in the selected option
+//                                if (e.itemData.LabelFile != null) {
+//                                    // Open the label
+//                                    window.open('http://avmx-s05:8044//LabelPrint.aspx?LabelFile=' + e.itemData.LabelFile + "&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
+//                                }
+//                            },
+//                            onItemRendered: function (e) {
+//                                let menuItemText = e.itemElement.find('.dx-menu-item-text');
+//                                if (menuItemText.text().trim() === 'Print') {
+//                                    menuItemText.append('<i class="ms-1 fa fa-angle-down"></i>');
+//                                }
+//                            }
+//                        });
+//                    },
+//                    showEditorAlways: true,
+//                    allowEditing: false
+//                },
+//            ],
+//    }).appendTo(container);
+//    let _itemLineMasterDetailsGrid = $(`#dxItem_HeaderLineList${masterDetailOptions.data.ID}`).dxDataGrid("instance");
+//    if (_itemLineMasterDetailsGrid != null) {
+//        var _state = _itemLineMasterDetailsGrid.state();
+//        var _columns = _itemLineMasterDetailsGrid.option("columns");
+//        if (ItemLineList.length > 0) {
+//            Object.keys(ItemLineList[0]).forEach(key => {
+//                let column = { dataField: key }
+//                if (key.includes("Date")) {
+//                    column.dataType = 'date';
+//                }
+//                if (key.includes("DTO")) {
+//                    column.visible = false;
+//                }
+//                _columns.push(column);
 
-            });
-        }
-        _itemLineMasterDetailsGrid.option("columns", _columns);
-        _itemLineMasterDetailsGrid.state(_state)
-    }
+//            });
+//        }
+//        _itemLineMasterDetailsGrid.option("columns", _columns);
+//        _itemLineMasterDetailsGrid.state(_state)
+//    }
 
-    $('<a id="AddNewItemBtn" class="btn btn-success mb-2" data-bs-target="#AddNewItemLineModal" data-bs-toggle="modal">Add new Item</a>').prependTo(container);
-    let _addNewItemBtn = document.getElementById("AddNewItemBtn");
-    if (_addNewItemBtn != null) {
-        _addNewItemBtn.addEventListener("click", async function () {
-            const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };//new
-            const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-            ClearItem_LineFields(_userDefinedTemplateList);
-            await PopulateNewItemLineField(masterDetailOptions.data);
-        });
-    }
-    ReassignSupportGroupModalActionButtons("Update");
-}
+//    $('<a id="AddNewItemBtn" class="btn btn-success mb-2" data-bs-target="#AddNewItemLineModal" data-bs-toggle="modal">Add new Item</a>').prependTo(container);
+//    let _addNewItemBtn = document.getElementById("AddNewItemBtn");
+//    if (_addNewItemBtn != null) {
+//        _addNewItemBtn.addEventListener("click", async function () {
+//            const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };//new
+//            const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
+//            ClearItem_LineFields(_userDefinedTemplateList);
+//            await PopulateNewItemLineField(masterDetailOptions.data);
+//        });
+//    }
+//    ReassignSupportGroupModalActionButtons("Update");
+//}
 //#endregion
 //#region CRUD Item Line
 async function InitializeItem_LineModalControls() {
@@ -1587,30 +1627,30 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
 }
 //#endregion
 
-let currentlyOpenRowKey = null;
-function toggleMasterRow(rowKey, event) {
-    var dataGrid = $("#dxItemAdministrationDatGrid").dxDataGrid("instance");
+//let currentlyOpenRowKey = null;
+//function toggleMasterRow(rowKey, event) {
+//    var dataGrid = $("#dxItemAdministrationDatGrid").dxDataGrid("instance");
 
-    // Check if the click is on the expand/collapse button
-    var isClickOnExpandCollapseButton = $(event.target).closest(".dx-datagrid-expand").length > 0;
+//    // Check if the click is on the expand/collapse button
+//    var isClickOnExpandCollapseButton = $(event.target).closest(".dx-datagrid-expand").length > 0;
 
-    // If the click is on the expand/collapse button, proceed with expanding/collapsing
-    if (isClickOnExpandCollapseButton) {
-        // Collapse the currently open row if there is one
-        if (currentlyOpenRowKey !== null && currentlyOpenRowKey !== rowKey) {
-            dataGrid.collapseRow(currentlyOpenRowKey);
-        }
+//    // If the click is on the expand/collapse button, proceed with expanding/collapsing
+//    if (isClickOnExpandCollapseButton) {
+//        // Collapse the currently open row if there is one
+//        if (currentlyOpenRowKey !== null && currentlyOpenRowKey !== rowKey) {
+//            dataGrid.collapseRow(currentlyOpenRowKey);
+//        }
 
-        // Toggle the clicked row
-        if (dataGrid.isRowExpanded(rowKey)) {
-            dataGrid.collapseRow(rowKey);
-            currentlyOpenRowKey = null; // No row is open
-        } else {
-            dataGrid.expandRow(rowKey);
-            currentlyOpenRowKey = rowKey; // Update the currently open row
-        }
-    }
-}
+//        // Toggle the clicked row
+//        if (dataGrid.isRowExpanded(rowKey)) {
+//            dataGrid.collapseRow(rowKey);
+//            currentlyOpenRowKey = null; // No row is open
+//        } else {
+//            dataGrid.expandRow(rowKey);
+//            currentlyOpenRowKey = rowKey; // Update the currently open row
+//        }
+//    }
+//}
 //#region Files region
 
 //#region Header Files 
@@ -1804,7 +1844,7 @@ async function InitializeReassignSupportGroupModalControls() {
         deferRendering: false,
         readOnly: true,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
 }
@@ -1866,7 +1906,7 @@ async function InitializeItem_SupportGroupControls() {
         displayExpr: "NamesWithModel",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["Model", "EnglishName", "SpanishName"],
+        searchExpr: ["Model", "EnglishName"],
         searchMode: 'contains'
     });
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox({
@@ -1876,7 +1916,7 @@ async function InitializeItem_SupportGroupControls() {
         readOnly: false,
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
 }
@@ -2006,7 +2046,7 @@ function TriggerWizardFunctionByState() {
 
 function SetWizardStyle(isEditMode) {
     // Update modal title based on the mode
-    document.getElementById("exampleModalLabel").innerText = isEditMode === "edit" ? "Edit Item Details" : "Add New Item";
+    document.getElementById("exampleModalLabel").innerText = isEditMode === "edit" ? "Edit Asset Details" : "Add Asset";
 
     // Toggle 'd-none' class for wizard-card
     document.getElementById("wizard-card").classList.toggle("d-none", isEditMode === "edit");

@@ -202,12 +202,8 @@ async function InitializeItemTypeControls() {
                     },
                 },
                 {
-                    caption: "English Name",
+                    caption: "Name",
                     dataField: "EnglishName"
-                },
-                {
-                    caption: "Spanish Name",
-                    dataField: "SpanishName",
                 },
                 {
                     caption: "Model",
@@ -218,12 +214,7 @@ async function InitializeItemTypeControls() {
                     dataField: "Brand"
                 },
                 {
-                    caption: "Item Classification Spanish",
-                    dataField: "ItemClassificationDTO.SpanishName",
-
-                },
-                {
-                    caption: "Item Classification English",
+                    caption: "Item Classification",
                     dataField: "ItemClassificationDTO.EnglishName",
                 },
                 {
@@ -273,9 +264,6 @@ async function InitializeItemTypeControls() {
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox({
         placeholder: "Type name.."
     });
-    $("#dxItem_HeaderSpanishNameTextBox").dxTextBox({
-        placeholder: "Type name.."
-    });
     $("#dxItem_HeaderModelTextBox").dxTextBox({
         placeholder: "Type model.."
     });
@@ -292,7 +280,7 @@ async function InitializeItemTypeControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox({
@@ -643,7 +631,6 @@ async function MasterDetailTemplate(container, masterDetailOptions) {
 async function PopulateItem_HeaderFields(data) {
     $("#hiddenItem_HeaderID").val(data.ID);//new
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", data.EnglishName);
-    $("#dxItem_HeaderSpanishNameTextBox").dxTextBox("instance").option("value", data.SpanishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Model);
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", data.Brand);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
@@ -702,7 +689,6 @@ function ClearItem_HeaderFields() {
     Item_HeaderActionButtons("Save");
     $("#hiddenItem_HeaderID").val("0");
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", "");
-    $("#dxItem_HeaderSpanishNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
@@ -726,7 +712,6 @@ function GetItem_HeaderDTO() {
     let _item_HeaderDTO = {
         ID: $("#hiddenItem_HeaderID").val(),
         EnglishName: $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value"),
-        SpanishName: $("#dxItem_HeaderSpanishNameTextBox").dxTextBox("instance").option("value"),
         Model: $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value"),
         Brand: $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value"),
         IsActive: $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value"),
@@ -799,7 +784,7 @@ async function InitializeItemRegistrationControls() {
         displayExpr: "NamesWithModel",
         readOnly: false,
         deferRendering: false,
-        searchExpr: ["Model", "EnglishName", "SpanishName"],
+        searchExpr: ["Model", "EnglishName"],
         searchMode: 'contains',
         searchEnabled: true
     });
@@ -1334,7 +1319,7 @@ async function handleUSDInput(BasePrice) {
 //        displayExpr: "Names",
 //        readOnly: false,
 //        deferRendering: false,
-//        searchExpr: ["EnglishName", "SpanishName"],
+//        searchExpr: ["EnglishName"],
 //        searchMode: 'contains',
 //        searchEnabled: true
 //    });
@@ -1575,12 +1560,8 @@ async function InitializeDepartureLogControls() {
                     dataField: "LegacyID"
                 },
                 {
-                    caption: "English Name",
+                    caption: "Name",
                     dataField: "Item_HeaderDTO.EnglishName"
-                },
-                {
-                    caption: "Spanish Name",
-                    dataField: "Item_HeaderDTO.SpanishName"
                 },
                 {
                     caption: "Owner",

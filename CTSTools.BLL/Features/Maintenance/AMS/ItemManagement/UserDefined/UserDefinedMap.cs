@@ -16,7 +16,6 @@ public class UserDefinedMap
             _userdefinedDTO.ID = UserDefinedXPO.Oid;
             _userdefinedDTO.Name = UserDefinedXPO.Name;
             _userdefinedDTO.SupportGroupDTO.ID = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.Oid : 0;
-            _userdefinedDTO.SupportGroupDTO.SpanishName = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.SpanishName : "Unnassigned";
             _userdefinedDTO.SupportGroupDTO.EnglishName = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.EnglishName : "Unnassigned";
             _userdefinedDTO.IsMandatory = UserDefinedXPO.IsMandatory;
             _userdefinedDTO.DataTypeDTO.ID = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Oid : 0;

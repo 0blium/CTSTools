@@ -6,6 +6,7 @@ using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
+using System.Linq;
 
 namespace CTSTools.WEB.App.Features.AMS.ItemManagement.Item_Header;
 public class Item_HeaderController : ApiController
@@ -98,6 +99,20 @@ public class Item_HeaderController : ApiController
         var _validationResultDTO = new ValidationResultDTO();
         _validationResultDTO.Data = Item_Header_Service.GetItem_HeaderFileList(Item_HeaderDTO);
 
+        return Json(_validationResultDTO);
+    }
+
+    [HttpPost]
+    [Route("api/Item_Header/SaveMultipleFile")]
+    public IHttpActionResult SaveItem_HeaderMultipleFile([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(BLL.Common.Files), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = FileDTO.FileList.FirstOrDefault().ID;
+            FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderAttachmentsDirectory;
+            _validationResultDTO = File_Service.SaveMultipleFiles_Global(FileDTO);
+        }
         return Json(_validationResultDTO);
     }
 

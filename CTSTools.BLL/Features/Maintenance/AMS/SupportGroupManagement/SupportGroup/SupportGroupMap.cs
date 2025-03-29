@@ -16,8 +16,7 @@ public class SupportGroupMap
         {
             _supportgroupDTO.ID = SupportGroupXPO.Oid;
             _supportgroupDTO.EnglishName = SupportGroupXPO.EnglishName;
-            _supportgroupDTO.SpanishName = SupportGroupXPO.SpanishName;
-            _supportgroupDTO.Names = $"{SupportGroupXPO.EnglishName} - {SupportGroupXPO.SpanishName}";
+            _supportgroupDTO.Names = $"{SupportGroupXPO.EnglishName}";
             _supportgroupDTO.Description = SupportGroupXPO.Description;
             _supportgroupDTO.AddedDate = (SupportGroupXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? SupportGroupXPO.AddedDate : (DateTime?)null;
             _supportgroupDTO.FacilityDTO.ID = (SupportGroupXPO.Facility != null) ? SupportGroupXPO.Facility.Oid : 0;
@@ -45,7 +44,6 @@ public class SupportGroupMap
         {
             _supportgroupXPO = SupportGroupDTO.ID == null || SupportGroupDTO.ID == 0 ? new SupportGroupXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<SupportGroupXPO>(SupportGroupDTO.ID);
             _supportgroupXPO.EnglishName = _supportgroupXPO.EnglishName == SupportGroupDTO.EnglishName ? _supportgroupXPO.EnglishName : SupportGroupDTO.EnglishName;
-            _supportgroupXPO.SpanishName = _supportgroupXPO.SpanishName == SupportGroupDTO.SpanishName ? _supportgroupXPO.SpanishName : SupportGroupDTO.SpanishName;
             _supportgroupXPO.Description = _supportgroupXPO.Description == SupportGroupDTO.Description ? _supportgroupXPO.Description : SupportGroupDTO.Description;
             _supportgroupXPO.AddedDate = _supportgroupXPO.AddedDate != null ? _supportgroupXPO.AddedDate : SupportGroupDTO.AddedDate;
             _supportgroupXPO.Facility = (_supportgroupXPO.Facility != null && _supportgroupXPO.Facility.Oid == SupportGroupDTO.FacilityDTO.ID) ? _supportgroupXPO.Facility : UnitOfWork.GetObjectByKey<FacilityXPO>(SupportGroupDTO.FacilityDTO.ID);

@@ -320,6 +320,8 @@
     <Content Include="App\Features\Error\Error.css" />
     <Content Include="App\Features\Error\Error.js" />
     <Content Include="App\Features\Error\ErrorPage.aspx" />
+    <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemLineCatalog.aspx" />
+    <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemLineCatalog.js" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardDataEntry.aspx" />
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\DashboardDataEntry.js" />
@@ -725,6 +727,13 @@
     </Compile>
     <Compile Include="App\Features\Error\ErrorPage.aspx.designer.cs">
       <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemLineCatalog.aspx.cs">
+      <DependentUpon>ItemLineCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemLineCatalog.aspx.designer.cs">
+      <DependentUpon>ItemLineCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\SparePartInventory.aspx.cs">
       <DependentUpon>SparePartInventory.aspx</DependentUpon>

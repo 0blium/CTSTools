@@ -16,7 +16,6 @@ public class Item_LineMap
         {
             _item_lineDTO.ID = Item_LineXPO.Oid;
             _item_lineDTO.Item_HeaderDTO.ID = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Oid : 0;
-            _item_lineDTO.Item_HeaderDTO.SpanishName = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.SpanishName : "Unnassigned";
             _item_lineDTO.Item_HeaderDTO.EnglishName = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.EnglishName : "Unnassigned";
             _item_lineDTO.ItemHeaderNameWithPartNumberSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Serial} - {Item_LineXPO.Item_Header.EnglishName} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
             _item_lineDTO.ItemNameWithManufactureSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Item_Header.EnglishName} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
@@ -31,13 +30,10 @@ public class Item_LineMap
             _item_lineDTO.ManufactureSerialID = Item_LineXPO.ManufactureSerialID;
             _item_lineDTO.LegacyID = Item_LineXPO.LegacyID;
             _item_lineDTO.ShipmentReceiptID = Item_LineXPO.ShipmentReceiptID;
-            _item_lineDTO.BasePriceMXN = Item_LineXPO.BasePriceMXN;
             _item_lineDTO.BasePriceUSD = Item_LineXPO.BasePriceUSD;
-            _item_lineDTO.COO = Item_LineXPO.COO;
             _item_lineDTO.TransactionNumber = Item_LineXPO.TransactionNumber;
             _item_lineDTO.TransactionLine = Item_LineXPO.TransactionLine;
             _item_lineDTO.Comments = Item_LineXPO.Comments;
-            _item_lineDTO.IntroductionDate = (Item_LineXPO.IntroductionDate.ToString() != DateTime.MinValue.ToString()) ? Item_LineXPO.IntroductionDate : (DateTime?)null;
             _item_lineDTO.AddedDate = (Item_LineXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? Item_LineXPO.AddedDate : (DateTime?)null;
             _item_lineDTO.AddedByID = (Item_LineXPO.AddedBy != null) ? Item_LineXPO.AddedBy.Oid : 0;
             _item_lineDTO.AddedByName = (Item_LineXPO.AddedBy != null) ? Item_LineXPO.AddedBy.Name : "Unnassigned";
@@ -78,10 +74,7 @@ public class Item_LineMap
             _item_lineXPO.ManufactureSerialID = _item_lineXPO.ManufactureSerialID == Item_LineDTO.ManufactureSerialID ? _item_lineXPO.ManufactureSerialID : Item_LineDTO.ManufactureSerialID;
             _item_lineXPO.LegacyID = _item_lineXPO.LegacyID == Item_LineDTO.LegacyID ? _item_lineXPO.LegacyID : Item_LineDTO.LegacyID;
             _item_lineXPO.ShipmentReceiptID = _item_lineXPO.ShipmentReceiptID == Item_LineDTO.ShipmentReceiptID ? _item_lineXPO.ShipmentReceiptID : Item_LineDTO.ShipmentReceiptID;
-            _item_lineXPO.IntroductionDate = _item_lineXPO.IntroductionDate != null ? _item_lineXPO.IntroductionDate : Item_LineDTO.IntroductionDate?.ToLocalTime();
-            _item_lineXPO.BasePriceMXN = _item_lineXPO.BasePriceMXN == Item_LineDTO.BasePriceMXN ? _item_lineXPO.BasePriceMXN : Item_LineDTO.BasePriceMXN;
             _item_lineXPO.BasePriceUSD = _item_lineXPO.BasePriceUSD == Item_LineDTO.BasePriceUSD ? _item_lineXPO.BasePriceUSD : Item_LineDTO.BasePriceUSD;
-            _item_lineXPO.COO = _item_lineXPO.COO == Item_LineDTO.COO ? _item_lineXPO.COO : Item_LineDTO.COO;
             _item_lineXPO.TransactionNumber = _item_lineXPO.TransactionNumber == Item_LineDTO.TransactionNumber ? _item_lineXPO.TransactionNumber : Item_LineDTO.TransactionNumber;
             _item_lineXPO.TransactionLine = _item_lineXPO.TransactionLine == Item_LineDTO.TransactionLine ? _item_lineXPO.TransactionLine : Item_LineDTO.TransactionLine;
             _item_lineXPO.Comments = _item_lineXPO.Comments == Item_LineDTO.Comments ? _item_lineXPO.Comments : Item_LineDTO.Comments;

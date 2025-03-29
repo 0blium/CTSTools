@@ -31,16 +31,6 @@ public class Item_Header_Validator
                     Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.EnglishName)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_HeaderDTO.SpanishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "SpanishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.SpanishName)}",
-                });
-            }
             if (string.IsNullOrEmpty(Item_HeaderDTO.Model))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -142,16 +132,6 @@ public class Item_Header_Validator
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.EnglishName)}",
-                });
-            }
-            if (string.IsNullOrEmpty(Item_HeaderDTO.SpanishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "SpanishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.SpanishName)}",
                 });
             }
             if (string.IsNullOrEmpty(Item_HeaderDTO.Model))

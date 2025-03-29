@@ -28,16 +28,6 @@ public class SupportGroup_Validator
                     Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.EnglishName)}",
                 });
             }
-            if (string.IsNullOrEmpty(SupportGroupDTO.SpanishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "SpanishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.SpanishName)}",
-                });
-            }
             if (SupportGroupDTO.FacilityDTO.ID == null || SupportGroupDTO.FacilityDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -114,16 +104,6 @@ public class SupportGroup_Validator
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.EnglishName)}",
-                });
-            }
-            if (string.IsNullOrEmpty(SupportGroupDTO.SpanishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "SpanishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.SpanishName)}",
                 });
             }
             if (SupportGroupDTO.FacilityDTO.ID == null || SupportGroupDTO.FacilityDTO.ID == 0)

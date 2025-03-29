@@ -47,13 +47,6 @@
                         </div>
                     </div>
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-4 col-md-12">Spanish Name(<span class="text-danger">*</span>)</label>
-                        <div class="col-xl-8 col-md-12">
-                            <div id="dxSupportGroupSpanishNameTextBox"></div>
-                            <div class="invalid-feedback" id="SupportGroupSpanishNameValidation"></div>
-                        </div>
-                    </div>
-                    <div class="row mb-15px">
                         <label class="form-label col-form-label col-xl-4 col-md-12">Facility (<span class="text-danger">*</span>)</label>
                         <div class="col-xl-8 col-md-12">
                             <div id="dxSupportGroupFacilitySelectBox"></div>

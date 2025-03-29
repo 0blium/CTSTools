@@ -24,7 +24,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 ">
-                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item</a>
+                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i>Asset</a>
                                 <a id="AssignUserDefinedBtn" class="btn btn-success d-none mb-2 ms-1 float-end" data-bs-target="#AssignUserDefinedFieldsModal" data-bs-toggle="modal">Assign Fields</a>
                                 <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
                             </div>
@@ -43,7 +43,7 @@
 
     <!-- Modal -->
     <div class="modal fade wizard" id="AddNewItemHeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Item</h1>
@@ -56,7 +56,7 @@
                                 <li class="nav-item item">
                                     <a href="#Item_SupportGroupStep1" data-bs-toggle="tab" class="active">
                                         <div class="nav-no">1</div>
-                                        <div class="nav-text">Select Item</div>
+                                        <div class="nav-text">Select Asset</div>
                                     </a>
                                 </li>
                                 <li class="nav-item item">
@@ -76,13 +76,13 @@
                                 <li class="nav-item">
                                     <a id="select-item-tab" href="#select-item-content" data-bs-toggle="tab" class="nav-link active">
                                         <span class="d-sm-none">Tab 1</span>
-                                        <span class="d-sm-block d-none">Select Item</span>
+                                        <span class="d-sm-block d-none">Select Asset</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a id="new-item-tab" href="#new-item-content" data-bs-toggle="tab" class="nav-link">
                                         <span class="d-sm-none">Tab 2</span>
-                                        <span class="d-sm-block d-none">New Item</span>
+                                        <span class="d-sm-block d-none">New Asset</span>
                                     </a>
                                 </li>
                             </ul>
@@ -92,7 +92,7 @@
 
                                 <!-- BEGIN tab-pane for Existing Item Selectbox -->
                                 <div class="tab-pane fade active show" id="select-item-content">
-                                    <label class="form-label col-form-label col-md-12">Item</label>
+                                    <label class="form-label col-form-label col-md-12">Asset</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_SupportGroupItem_HeaderIDSelectBox"></div>
                                         <div class="invalid-feedback" id="Item_SupportGroupItem_HeaderValidation">
@@ -104,7 +104,7 @@
                                 <!-- BEGIN tab-pane for New Item -->
                                 <div class="tab-pane fade" id="new-item-content">
                                     <!-- BEGIN nav-tabs -->
-                                    <div class="mb-2">
+                                    <%--<div class="mb-2">
                                         <ul class="nav inlineTabs tab-border nav-tabs">
                                             <li class="nav-item">
                                                 <a href="#equipment-tab" data-bs-toggle="tab" class="nav-link active">
@@ -120,12 +120,11 @@
                                             </li>
                                         </ul>
                                         <hr class="m-0" />
-                                    </div>
+                                    </div>--%>
                                     <!-- END nav-tabs -->
-                                    <!-- BEGIN tab-content -->
-                                    <div class="tab-content rounded-0 m-0">
-                                        <!-- BEGIN tab-pane -->
-                                        <div class="tab-pane fade active show" id="equipment-tab">
+                                    <!-- BEGIN tab-pane -->
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <div class="form-group row">
                                                 <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
                                                 <div id="dxItem_HeaderThumbnailFileUploader"></div>
@@ -135,23 +134,15 @@
                                                         class="img-fluid" style="height: 200px;" />
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="mb-15px">
                                                 <label class="form-label col-form-label col-md-12">
-                                                    English Name (<span
+                                                    Name (<span
                                                         class="text-danger">*</span>)</label>
                                                 <div class="col-md-12">
                                                     <div id="dxItem_HeaderEnglishNameTextBox"></div>
                                                     <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-15px">
-                                                <label class="form-label col-form-label col-md-12">
-                                                    Spanish Name (<span
-                                                        class="text-danger">*</span>)</label>
-                                                <div class="col-md-12">
-                                                    <div id="dxItem_HeaderSpanishNameTextBox"></div>
-                                                    <div class="invalid-feedback" id="Item_HeaderSpanishNameValidation">
                                                     </div>
                                                 </div>
                                             </div>
@@ -175,8 +166,7 @@
                                             </div>
                                             <div class="mb-15px">
                                                 <label class="form-label col-form-label col-md-12">
-                                                    Item
-                                                Classification</label>
+                                                    Item Classification</label>
                                                 <div class="col-md-12">
                                                     <div id="dxItem_HeaderItemClassificationSelectBox"></div>
                                                     <div class="invalid-feedback"
@@ -193,9 +183,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- END tab-pane -->
-                                        <!-- BEGIN tab-pane -->
-                                        <div class="tab-pane fade" id="attachments-tab">
+                                    </div>
+
+
+                                    <!-- END tab-pane -->
+                                    <!-- BEGIN tab-pane -->
+                                    <%--<div class="tab-pane fade" id="attachments-tab">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label class="col-form-label col-md-4">Files:</label>
@@ -219,9 +212,7 @@
                                                     <div id="Item_HeaderFilelistSection" class="row"></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- END tab-pane -->
-                                    </div>
+                                        </div>--%>
                                     <!-- END tab-content -->
                                 </div>
                                 <!-- END tab-pane -->
@@ -256,9 +247,6 @@
     </div>
 
     <%-- END Wizard Modal --%>
-
-
-
     <div class="modal fade" id="AddUserDefinedFieldsModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-xl" style="width: 1180px;">
             <div class="modal-content">
@@ -553,6 +541,27 @@
                 </div>
                 <div class="modal-footer">
                     <div class="row" id="ReassignSupportGroupModalActionButtons"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- Attachments to Item header Modal --%>
+    <div class="modal fade" id="AttachmentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="AttachmentsModalTitle">Attachments</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-15px">
+                        <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                        <div id="dxItem_HeaderAttachmentFileUploader"></div>
+                        <div id="Item_HeaderFilelistSection" class="row"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success me-1 m-b-15 float-end" id="AttachmentsModalSaveBtn" type="button">Save</button>
                 </div>
             </div>
         </div>

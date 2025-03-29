@@ -23,10 +23,7 @@ public class Item_LineDTO
     public string ManufactureSerialID { get; set; }
     public int ShipmentReceiptID { get; set; }
     public string LegacyID { get; set; }
-    public DateTime? IntroductionDate { get; set; }
-    public double BasePriceMXN { get; set; }
     public double BasePriceUSD { get; set; }
-    public string COO { get; set; }
     //public string PONumber { get; set; }
     //public int POLine { get; set; }
     public string Comments { get; set; }

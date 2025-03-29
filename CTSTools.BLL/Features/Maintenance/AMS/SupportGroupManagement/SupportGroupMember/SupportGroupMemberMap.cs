@@ -16,7 +16,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 _supportgroupmemberDTO.ID = SupportGroupMemberXPO.Oid;
                _supportgroupmemberDTO.SupportGroupDTO.ID = (SupportGroupMemberXPO.SupportGroup != null) ? SupportGroupMemberXPO.SupportGroup.Oid : 0;
                _supportgroupmemberDTO.SupportGroupDTO.EnglishName = (SupportGroupMemberXPO.SupportGroup != null) ? SupportGroupMemberXPO.SupportGroup.EnglishName : "Unnassigned";
-               _supportgroupmemberDTO.SupportGroupDTO.SpanishName = (SupportGroupMemberXPO.SupportGroup != null) ? SupportGroupMemberXPO.SupportGroup.SpanishName : "Unnassigned";
                _supportgroupmemberDTO.UserDTO.ID = (SupportGroupMemberXPO.User != null) ? SupportGroupMemberXPO.User.Oid : 0;
                _supportgroupmemberDTO.UserDTO.Name = (SupportGroupMemberXPO.User != null) ? SupportGroupMemberXPO.User.Name : "Unnassigned";
                _supportgroupmemberDTO.RoleDTO.ID = (SupportGroupMemberXPO.Role != null) ? SupportGroupMemberXPO.Role.Oid : 0;

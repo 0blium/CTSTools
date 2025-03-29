@@ -89,7 +89,7 @@ async function InitializeTicketConsultControls() {
         valueExpr: "ID",
         showSelectionControls: true,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: "contains",
         popupWidth: 450,
         deferRendering: false,

@@ -58,7 +58,7 @@ async function InitializePriorityCatalogControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
     $("#dxPriorityGrid").dxDataGrid({

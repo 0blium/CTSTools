@@ -10,9 +10,6 @@ async function InitializeItemClassificationCatalogControls() {
     $("#dxItemClassificationEnglishNameTextBox").dxTextBox({
         placeholder: 'Type name..'
     });
-    $("#dxItemClassificationSpanishNameTextBox").dxTextBox({
-        placeholder: 'Type name..'
-    });
     //$("#dxItemClassificationExchangeRateTextBox").dxTextBox({
     //    placeholder: 'Type exchange rate..',
     //});
@@ -121,12 +118,8 @@ async function InitializeItemClassificationCatalogControls() {
                     visible: false
                 },
                 {
-                    caption: "English Name",
+                    caption: "Name",
                     dataField: "EnglishName"
-                },
-                {
-                    caption: "Spanish Name",
-                    dataField: "SpanishName"
                 },
                 {
                     caption: "Added By I D",
@@ -196,7 +189,6 @@ function ClearItemClassificationFields() {
     $('#hiddenItemClassificationID').val("");
     $("#dxItemClassificationIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxItemClassificationEnglishNameTextBox").dxTextBox("instance").option("value", '');
-    $("#dxItemClassificationSpanishNameTextBox").dxTextBox("instance").option("value", '');
     //$("#dxItemClassificationExchangeRateTextBox").dxTextBox("instance").option("value", "");
     $("#dxItemClassificationDescriptionTextArea").dxTextArea("instance").option("value", '');
     let keys = $("#dxItemClassificationGrid").dxDataGrid("instance").getSelectedRowKeys();
@@ -210,7 +202,6 @@ function PopulateItemClassificationFields(data) {
     $('#hiddenItemClassificationID').val(data.ID);
     $("#dxItemClassificationIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
     $("#dxItemClassificationEnglishNameTextBox").dxTextBox("instance").option("value", data.EnglishName);
-    $("#dxItemClassificationSpanishNameTextBox").dxTextBox("instance").option("value", data.SpanishName);
     //$("#dxItemClassificationExchangeRateTextBox").dxTextBox("instance").option("value", data.ExchangeRate);
     $("#dxItemClassificationDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
 }
@@ -218,7 +209,6 @@ function GetItemClassificationDTO() {
     let _itemClassificationDTO = {
         ID: $('#hiddenItemClassificationID').val(),
         EnglishName: $("#dxItemClassificationEnglishNameTextBox").dxTextBox("instance").option("value"),
-        SpanishName: $("#dxItemClassificationSpanishNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxItemClassificationDescriptionTextArea").dxTextArea("instance").option("value"),
         IsActive: $("#dxItemClassificationIsActiveCheckBox").dxCheckBox("instance").option("value"),
         //ExchangeRate: $("#dxItemClassificationExchangeRateTextBox").dxTextBox("instance").option("value")

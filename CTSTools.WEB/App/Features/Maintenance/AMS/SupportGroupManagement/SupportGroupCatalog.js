@@ -10,10 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function InitializeSupportGroupCatalogControls() {
     $("#dxSupportGroupEnglishNameTextBox").dxTextBox({
-        placeholder: 'Type english name..'
-    });
-    $("#dxSupportGroupSpanishNameTextBox").dxTextBox({
-        placeholder: 'Type spanish name..'
+        placeholder: 'Type name..'
     });
     $("#dxSupportGroupFacilitySelectBox").dxSelectBox({
         dataSource: await GetDXFacilityDataSource(),
@@ -134,12 +131,8 @@ async function InitializeSupportGroupCatalogControls() {
                     visible: false
                 },
                 {
-                    caption: "English Name",
+                    caption: "Name",
                     dataField: "EnglishName"
-                },
-                {
-                    caption: "Spanish Name",
-                    dataField: "SpanishName"
                 },
                 {
                     caption: "Description",
@@ -221,7 +214,6 @@ function ClearSupportGroupFields() {
     $('#hiddenSupportGroupID').val("");
     $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", '');
-    $("#dxSupportGroupSpanishNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", '');
     $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").reset();
     $("#dxSupportGroupStationSelectBox").dxSelectBox("instance").reset();
@@ -236,7 +228,6 @@ async function PopulateSupportGroupFields(data) {
     $('#hiddenSupportGroupID').val(data.ID);
     $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
     $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", data.EnglishName);
-    $("#dxSupportGroupSpanishNameTextBox").dxTextBox("instance").option("value", data.SpanishName);
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     await $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
     await $("#dxSupportGroupStationSelectBox").dxSelectBox("instance").option("value", data.StationDTO.ID);
@@ -245,7 +236,6 @@ function GetSupportGroupDTO() {
     let _supportGroupDTO = {
         ID: $('#hiddenSupportGroupID').val(),
         EnglishName: $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value"),
-        SpanishName: $("#dxSupportGroupSpanishNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value"),
         IsActive: $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value"),
         FacilityDTO: {

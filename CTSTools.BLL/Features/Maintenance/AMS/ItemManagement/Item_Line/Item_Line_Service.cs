@@ -44,13 +44,6 @@ public class Item_Line_Service
                 }
             }
         }
-        //Save Attachments
-        if (_ValidationResultDTO.Result && Item_LineDTO.FileDTO?.FileList != null)
-        {
-            Item_LineDTO.FileDTO.ID = (int)Item_LineDTO.ID;
-            Item_LineDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemLineAttachmentsDirectory;
-            _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_LineDTO.FileDTO);
-        }
         if (_ValidationResultDTO.Result)
         {
             ChangeLog.ChangeLog_Service.BuildChangeLogActionCreate<Item_LineDTO>(Item_LineDTO, (int)Item_LineDTO.AddedByID, (int)Item_LineDTO.ID);
@@ -98,13 +91,6 @@ public class Item_Line_Service
                 }
             }
 
-        }
-        //Save Attachments
-        if (_ValidationResultDTO.Result && Item_LineDTO.FileDTO != null && Item_LineDTO.FileDTO.FileList != null)
-        {
-            Item_LineDTO.FileDTO.ID = (int)Item_LineDTO.ID;
-            Item_LineDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemLineAttachmentsDirectory;
-            _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_LineDTO.FileDTO);
         }
         if (_ValidationResultDTO.Result)
         {
@@ -356,10 +342,7 @@ public class Item_Line_Service
                     properties.Add(nameof(Item_LineXPO.Owner), _item_lineDTO.OwnerDTO.Name);
                     properties.Add(nameof(Item_LineXPO.SupplyType), _item_lineDTO.SupplyTypeDTO.Name);
                     properties.Add($"{nameof(_item_lineDTO.SupplyTypeDTO)}{nameof(_item_lineDTO.SupplyTypeDTO.ID)}", _item_lineDTO.SupplyTypeDTO.ID);
-                    properties.Add(nameof(_item_lineDTO.IntroductionDate), _item_lineDTO.IntroductionDate);
-                    properties.Add(nameof(_item_lineDTO.BasePriceMXN), _item_lineDTO.BasePriceMXN);
                     properties.Add(nameof(_item_lineDTO.BasePriceUSD), _item_lineDTO.BasePriceUSD);
-                    properties.Add(nameof(_item_lineDTO.COO), _item_lineDTO.COO);
                     properties.Add(nameof(Item_LineXPO.Station), _item_lineDTO.StationDTO.Name);
                     properties.Add($"{nameof(_item_lineDTO.StationDTO)}{nameof(_item_lineDTO.StationDTO.ID)}", _item_lineDTO.StationDTO.ID);
                     properties.Add(nameof(_item_lineDTO.Comments), _item_lineDTO.Comments);
@@ -427,15 +410,11 @@ public class Item_Line_Service
                 {
                     var properties = new ExpandoObject() as IDictionary<string, Object>;
                     properties.Add(nameof(_item_lineDTO.ID), _item_lineDTO.ID);
-                    properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.SpanishName)}", _item_lineDTO.Item_HeaderDTO.SpanishName);
                     properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.EnglishName)}", _item_lineDTO.Item_HeaderDTO.EnglishName);
                     properties.Add(nameof(_item_lineDTO.ManufactureSerialID), _item_lineDTO.ManufactureSerialID);
                     properties.Add(nameof(_item_lineDTO.LegacyID), _item_lineDTO.LegacyID);
                     properties.Add(nameof(_item_lineDTO.Serial), _item_lineDTO.Serial);
-                    properties.Add(nameof(_item_lineDTO.IntroductionDate), _item_lineDTO.IntroductionDate);
-                    properties.Add(nameof(_item_lineDTO.BasePriceMXN), _item_lineDTO.BasePriceMXN);
                     properties.Add(nameof(_item_lineDTO.BasePriceUSD), _item_lineDTO.BasePriceUSD);
-                    properties.Add(nameof(_item_lineDTO.COO), _item_lineDTO.COO);
                     properties.Add(nameof(Item_LineXPO.TransactionOrigin), _item_lineDTO.TransactionOriginDTO.Name);
                     properties.Add(nameof(_item_lineDTO.TransactionNumber), _item_lineDTO.TransactionNumber);
                     properties.Add(nameof(_item_lineDTO.TransactionLine), _item_lineDTO.TransactionLine);

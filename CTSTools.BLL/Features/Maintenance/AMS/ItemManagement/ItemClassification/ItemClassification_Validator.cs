@@ -28,16 +28,6 @@ public class ItemClassification_Validator
                     Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.EnglishName)}",
                 });
             }
-            if (string.IsNullOrEmpty(ItemClassificationDTO.SpanishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "SpanishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.SpanishName)}",
-                });
-            }
 
             if (ItemClassificationDTO.AddedByID == null || ItemClassificationDTO.AddedByID == 0)
             {
@@ -95,16 +85,6 @@ public class ItemClassification_Validator
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.EnglishName)}",
-                });
-            }
-            if (string.IsNullOrEmpty(ItemClassificationDTO.SpanishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "SpanishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.SpanishName)}",
                 });
             }
 

@@ -51,7 +51,7 @@ async function InitializeSupportGroupMemberCatalogControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName", "SpanishName"],
+        searchExpr: ["EnglishName"],
         searchMode: 'contains'
     });
     $("#dxSupportGroupMemberUserSelectBox").dxSelectBox({

@@ -47,13 +47,6 @@
                         </div>
                     </div>
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">Spanish Name (<span class="text-danger">*</span>)</label>
-                        <div class="col-xl-9 col-md-12">
-                            <div id="dxItemClassificationSpanishNameTextBox"></div>
-                            <div class="invalid-feedback" id="ItemClassificationSpanishNameValidation"></div>
-                        </div>
-                    </div>
-                    <div class="row mb-15px">
                         <label class="form-label col-form-label col-xl-3 col-md-12">Description</label>
                         <div class="col-xl-9 col-md-12">
                             <div id="dxItemClassificationDescriptionTextArea"></div>

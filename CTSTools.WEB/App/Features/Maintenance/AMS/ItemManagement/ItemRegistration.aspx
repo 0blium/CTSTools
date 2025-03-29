@@ -150,13 +150,6 @@
                                         </div>
                                     </div>
                                     <div class="mb-10px">
-                                        <label class="form-label col-form-label col-md-12">Spanish Name (<span class="text-danger">*</span>)</label>
-                                        <div class="col-md-12">
-                                            <div id="dxItem_HeaderSpanishNameTextBox"></div>
-                                            <div class="invalid-feedback" id="Item_HeaderSpanishNameValidation"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-10px">
                                         <label class="form-label col-form-label col-md-12">Model (<span class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
                                             <div id="dxItem_HeaderModelTextBox"></div>

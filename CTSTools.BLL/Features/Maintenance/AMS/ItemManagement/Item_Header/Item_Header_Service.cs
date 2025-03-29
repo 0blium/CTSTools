@@ -28,12 +28,12 @@ public class Item_Header_Service
             _ValidationResultDTO = File_Service.SaveFile_Global(Item_HeaderDTO.FileDTO);
         }
         //Save Attachments
-        if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.FileList != null)
-        {
-            Item_HeaderDTO.FileDTO.ID = (int)Item_HeaderDTO.ID;
-            Item_HeaderDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderAttachmentsDirectory;
-            _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_HeaderDTO.FileDTO);
-        }
+        //if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.FileList != null)
+        //{
+        //    Item_HeaderDTO.FileDTO.ID = (int)Item_HeaderDTO.ID;
+        //    Item_HeaderDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderAttachmentsDirectory;
+        //    _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_HeaderDTO.FileDTO);
+        //}
         if (_ValidationResultDTO.Result)
         {
             ChangeLog.ChangeLog_Service.BuildChangeLogActionCreate<Item_HeaderDTO>(Item_HeaderDTO, (int)Item_HeaderDTO.AddedByID, (int)Item_HeaderDTO.ID);

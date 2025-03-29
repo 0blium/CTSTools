@@ -20,12 +20,6 @@ public class Item_HeaderXPO : XPObject
         get { return fEnglishName; }
         set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
     }
-    string fSpanishName;
-    public string SpanishName
-    {
-        get { return fSpanishName; }
-        set { SetPropertyValue<string>(nameof(SpanishName), ref fSpanishName, value); }
-    }
     string fModel;
     public string Model
     {

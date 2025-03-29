@@ -122,16 +122,6 @@ public class Item_Line_Validator
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.ManufactureSerialID)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_LineDTO.COO))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "COO Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.COO)}",
-                });
-            }
             if (string.IsNullOrEmpty(Item_LineDTO.Serial))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -169,16 +159,6 @@ public class Item_Line_Validator
             //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.PONumber)}",
             //    });
             //}
-            if (Item_LineDTO.BasePriceMXN == null || Item_LineDTO.BasePriceMXN == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Base Price MXN Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.BasePriceMXN)}",
-                });
-            }
             if (Item_LineDTO.BasePriceUSD == null || Item_LineDTO.BasePriceUSD == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -281,16 +261,16 @@ public class Item_Line_Validator
             //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationDTO)}",
             //    });
             //}
-            if (Item_LineDTO.StatusDTO.ID == null || Item_LineDTO.StatusDTO.ID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Status Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StatusDTO)}",
-                });
-            }
+            //if (Item_LineDTO.StatusDTO.ID == null || Item_LineDTO.StatusDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Status Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StatusDTO)}",
+            //    });
+            //}
             if (Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -321,26 +301,26 @@ public class Item_Line_Validator
             //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionOriginDTO)}",
             //    });
             //}
-            if (string.IsNullOrEmpty(Item_LineDTO.TransactionNumber))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Transaction Number Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionNumber)}",
-                });
-            }
-            if (Item_LineDTO.TransactionLine == 0 || Item_LineDTO.TransactionLine == null)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Transaction Line Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionLine)}",
-                });
-            }
+            //if (string.IsNullOrEmpty(Item_LineDTO.TransactionNumber))
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Transaction Number Field Empty",
+            //        Description = "Please, complete the missing information",
+            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionNumber)}",
+            //    });
+            //}
+            //if (Item_LineDTO.TransactionLine == 0 || Item_LineDTO.TransactionLine == null)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Transaction Line Field Empty",
+            //        Description = "Please, complete the missing information",
+            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionLine)}",
+            //    });
+            //}
             if (string.IsNullOrEmpty(Item_LineDTO.ManufactureSerialID))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -351,16 +331,6 @@ public class Item_Line_Validator
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.ManufactureSerialID)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_LineDTO.COO))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "COO Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.COO)}",
-                });
-            }
             if (Item_LineDTO.SupplyTypeDTO.ID != null && Item_LineDTO.SupplyTypeDTO.ID != 0)
             {
                 var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
@@ -368,16 +338,6 @@ public class Item_Line_Validator
                 {
                     _validation_ResultList.Add(_validationResultDTO);
                 }
-            }
-            if (Item_LineDTO.BasePriceMXN == null || Item_LineDTO.BasePriceMXN == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Base Price MXN Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.BasePriceMXN)}",
-                });
             }
             if (Item_LineDTO.BasePriceUSD == null || Item_LineDTO.BasePriceUSD == 0)
             {

@@ -18,7 +18,6 @@ public class UserDefinedValueMap
             _userdefinedvalueDTO.Value = UserDefinedValueXPO.Value;
             _userdefinedvalueDTO.Item_LineDTO.ID = (UserDefinedValueXPO.Item_Line != null) ? UserDefinedValueXPO.Item_Line.Oid : 0;
             _userdefinedvalueDTO.SupportGroupDTO.ID = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.Oid : 0;
-            _userdefinedvalueDTO.SupportGroupDTO.SpanishName = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.SpanishName : "Unnassigned";
             _userdefinedvalueDTO.SupportGroupDTO.EnglishName = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.EnglishName : "Unnassigned";
             _userdefinedvalueDTO.UserDefinedDTO.ID = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Oid : 0;
             _userdefinedvalueDTO.UserDefinedDTO.Name = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Name : "Unnassigned";
