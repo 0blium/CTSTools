@@ -906,7 +906,7 @@ async function InitializeItem_LineModalControls() {
         placeholder: "Type import invoice .."
     })
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
-        placeholder: "Type Base Price USD ..",
+        placeholder: "Type Base Price ..",
         onValueChanged: function (e) {
             if (e.event != undefined) {
                 let _basePrice = {

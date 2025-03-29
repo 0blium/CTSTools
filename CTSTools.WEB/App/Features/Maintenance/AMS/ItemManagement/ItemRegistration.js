@@ -211,7 +211,7 @@ async function InitializeItemTypeControls() {
                     dataField: "Brand"
                 },
                 {
-                    caption: "Item Classification",
+                    caption: "Classification Name",
                     dataField: "ItemClassificationDTO.EnglishName",
                 },
                 {
@@ -860,7 +860,7 @@ async function InitializeItemRegistrationControls() {
     })
 
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
-        placeholder: "Type Base Price USD ..",
+        placeholder: "Type Base Price ..",
         onValueChanged: function (e) {
             if (e.event != undefined) {
                 let _basePrice = {

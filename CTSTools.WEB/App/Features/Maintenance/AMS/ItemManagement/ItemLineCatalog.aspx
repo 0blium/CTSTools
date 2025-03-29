@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="row mb-15px">
-                                <label class="form-label col-form-label col-md-12">Base Price (USD) (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Base Price (<span class="text-danger">*</span>)</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineBasePriceUSDTextBox"></div>
                                     <div class="invalid-feedback" id="Item_LineBasePriceUSDValidation"></div>

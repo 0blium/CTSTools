@@ -164,7 +164,7 @@ public class Item_Line_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Base Price USD Field Empty",
+                    Message = "Base Price Field Empty",
                     Description = "Please, complete the missing information",
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.BasePriceUSD)}",
                 });
@@ -344,7 +344,7 @@ public class Item_Line_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Base Price USD Field Empty",
+                    Message = "Base Price Field Empty",
                     Description = "Please, complete the missing information",
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.BasePriceUSD)}",
                 });

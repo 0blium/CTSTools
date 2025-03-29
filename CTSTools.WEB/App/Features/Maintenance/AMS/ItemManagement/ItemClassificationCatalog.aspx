@@ -40,7 +40,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">English Name (<span class="text-danger">*</span>)</label>
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Name (<span class="text-danger">*</span>)</label>
                         <div class="col-xl-9 col-md-12">
                             <div id="dxItemClassificationEnglishNameTextBox"></div>
                             <div class="invalid-feedback" id="ItemClassificationEnglishNameValidation"></div>

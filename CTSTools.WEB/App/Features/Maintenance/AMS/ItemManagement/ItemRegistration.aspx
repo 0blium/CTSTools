@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-10px">
-                                        <label class="form-label col-form-label col-md-12">English Name (<span class="text-danger">*</span>)</label>
+                                        <label class="form-label col-form-label col-md-12">Name (<span class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
                                             <div id="dxItem_HeaderEnglishNameTextBox"></div>
                                             <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation"></div>
@@ -164,7 +164,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-10px">
-                                        <label class="form-label col-form-label col-md-12">Item Classification</label>
+                                        <label class="form-label col-form-label col-md-12">Classification</label>
                                         <div class="col-md-12">
                                             <div id="dxItem_HeaderItemClassificationSelectBox"></div>
                                             <div class="invalid-feedback" id="Item_HeaderItemClassificationValidation"></div>
