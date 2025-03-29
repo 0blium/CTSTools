@@ -14,14 +14,12 @@ import { GetDXDataTypeDataSource } from '../ItemManagement/DataType/DataType_Ser
 import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 import { UpdateUserDefinedTemplate, GetUserDefinedTemplateInformation } from './UserDefinedTemplate/UserDefinedTemplate_Service.js'
 import { GetDXStationDataSource } from '../StationManagement/Station/Station_Service.js'
-import { GetCurrencyInformation } from '../../../AdvancedSettings/Currency/Currency_Service.js'
 import { GetDXSupplyTypeDataSource } from '../ItemManagement/SupplyType/SupplyType_Service.js'
 
 
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
 import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 import { DataType_Enum } from '../ItemManagement/DataType/DataType_Enum.js'
-import { Currency_Enum } from '../../../AdvancedSettings/Currency/Currency_Enum.js'//
 import { SupplyType_Enum } from '../ItemManagement/SupplyType/SupplyType_Enum.js'
 //#endregion
 
@@ -339,7 +337,7 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataField: "Item_HeaderDTO.Brand"
                 },
                 {
-                    caption: "Item Classification Name",
+                    caption: "Classification Name",
                     dataField: "Item_HeaderDTO.ItemClassificationDTO.EnglishName",
                 },
                 {
@@ -904,43 +902,18 @@ async function InitializeItem_LineModalControls() {
         visible: false,
         text: "Generate Serial?",
     });
-    $("#dxItem_LineIntroductionDateDateBox").dxDateBox({
-        type: "datetime",
-        value: now,
-        max: now,
-        label: "Date and time",
-        labelMode: "floating",
-    });
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox({
         placeholder: "Type import invoice .."
     })
-    $("#dxItem_LineBasePriceMXNTextBox").dxTextBox({
-        placeholder: "Type Base Price MXN ..",
-        onValueChanged: function (e) {
-            if (e.event != undefined) {
-                let _basePrice = {
-                    Price: e.value,
-                    Currency: Currency_Enum.MXN
-                }
-                handleMXNInput(_basePrice)
-            }
-
-        }
-    });
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
         placeholder: "Type Base Price USD ..",
         onValueChanged: function (e) {
             if (e.event != undefined) {
                 let _basePrice = {
                     Price: e.value,
-                    Currency: Currency_Enum.USD
                 }
-                handleUSDInput(_basePrice)
             }
         }
-    });
-    $("#dxItem_LineCOOTextBox").dxTextBox({
-        placeholder: "Type COO .."
     });
     $("#dxItem_LineCommentsTextArea").dxTextArea({
         placeholder: "Type comments..."
@@ -1007,11 +980,8 @@ async function PopulateItem_LineFields(Data, UserDefinedList) {
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", Data.ManufactureSerialID);
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", Data.ShipmentReceiptNumber);
     $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value", Data.StatusDTOID);
-    $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value", Data.IntroductionDate);
-    $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", Data.BasePriceMXN);
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value", Data.ImportInvoice);
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", Data.BasePriceUSD);
-    $("#dxItem_LineCOOTextBox").dxTextBox("instance").option("value", Data.COO);
     $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value", Data.Comments);
     $("#dxItem_LinePONumberTextBox").dxTextBox("instance").option("value", Data.PONumber);
     $("#dxItem_LinePOLineTextBox").dxTextBox("instance").option("value", Data.POLine);
@@ -1051,11 +1021,8 @@ function ClearItem_LineFields(UserDefinedTemplateList) {
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").reset();
-    $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value");
-    $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", "");
-    $("#dxItem_LineCOOTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value", "");
     $("#dxItem_LinePONumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LinePOLineTextBox").dxTextBox("instance").option("value", "");
@@ -1112,11 +1079,8 @@ function GetItem_LineDTO(UserDefinedTemplateList) {
         StationDTO: {
             ID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value")
         },
-        IntroductionDate: $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value"),
-        BasePriceMXN: $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value"),
         ImportInvoice: $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value"),
         BasePriceUSD: $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value"),
-        COO: $("#dxItem_LineCOOTextBox").dxTextBox("instance").option("value"),
         Comments: $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value"),
         PONumber: $("#dxItem_LinePONumberTextBox").dxTextBox("instance").option("value"),
         POLine: $("#dxItem_LinePOLineTextBox").dxTextBox("instance").option("value"),
@@ -1804,32 +1768,6 @@ function TreeViewCollapse() {
     $("#dxTreeViewList").dxTreeView("collapseAll");
 }
 
-//#endregion
-//#region Currency functions
-async function handleMXNInput(BasePrice) {
-    let _currencyList = await GetCurrencyInformation({ IsActive: true });
-
-    if (!isNaN(BasePrice.Price)) {
-        let _exchangeRateMXN = _currencyList.filter(currencyType => currencyType.Name === Currency_Enum.MXN)
-        let _usdEquivalent = BasePrice.Price * _exchangeRateMXN[0].ExchangeRate;
-        $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", _usdEquivalent.toFixed(2));
-    } else {
-        $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", "0");
-    }
-
-}
-async function handleUSDInput(BasePrice) {
-    let _currencyList = await GetCurrencyInformation({ IsActive: true });
-
-    if (!isNaN(BasePrice.Price)) {
-        let _exchangeRateUSD = _currencyList.filter(currencyType => currencyType.Name === Currency_Enum.USD)
-        let _mxnEquivalent = BasePrice.Price * _exchangeRateUSD[0].ExchangeRate
-        $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", _mxnEquivalent.toFixed(2));
-    } else {
-        $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", "0");
-    }
-
-}
 //#endregion
 
 //#endregion

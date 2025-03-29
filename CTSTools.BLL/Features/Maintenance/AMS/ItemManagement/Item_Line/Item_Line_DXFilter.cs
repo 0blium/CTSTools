@@ -112,14 +112,6 @@ public class Item_Line_DXFilter
             //{
             //    _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.DeliveredTo), Item_LineDTO.DeliveredToIDArray));
             //}
-            if (Item_LineDTO.StartIntroductionDate != new DateTime())
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.IntroductionDate), Item_LineDTO.StartIntroductionDate.ToLocalTime(), BinaryOperatorType.GreaterOrEqual));
-            }
-            if (Item_LineDTO.EndIntroductionDate != new DateTime())
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.IntroductionDate), Item_LineDTO.EndIntroductionDate.ToLocalTime(), BinaryOperatorType.LessOrEqual));
-            }
             if (Item_LineDTO.TransactionOriginDTO.ID != null || Item_LineDTO.TransactionOriginDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.TransactionOrigin), Item_LineDTO.TransactionOriginDTO.ID));

@@ -346,11 +346,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="CurrencyTicketModules" class="menu-item " data-tech="Currency">
-                                        <a href="/App/Features/AdvancedSettings/Currency/CurrencyCatalog.aspx" class="menu-link">
-                                            <div class="menu-text">Currency </div>
-                                        </a>
-                                    </div>
                                     <div id="ChangeLogTicketModules" class="menu-item " data-tech="ChangeLog">
                                         <a href="/App/Features/AdvancedSettings/ChangeLog/ChangeLogCatalog.aspx" class="menu-link">
                                             <div class="menu-text">ChangeLog </div>

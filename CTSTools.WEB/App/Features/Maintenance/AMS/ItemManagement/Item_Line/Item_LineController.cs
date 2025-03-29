@@ -147,44 +147,6 @@ public class Item_LineController : ApiController
     }
     #endregion
 
-    #region Files
-    [HttpGet]
-    [Route("api/Item_Line/GetFileList")]
-    public IHttpActionResult GetItem_LineFileList([FromUri] Item_LineDTO Item_LineDTO)
-    {
-
-        var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = Item_Line_Service.GetItem_LineFileList(Item_LineDTO);
-
-        return Json(_validationResultDTO);
-    }
-
-    [HttpGet]
-    [Route("api/Item_Line/GetFileTreeViewList")]
-    public IHttpActionResult GetItem_LineFileTreeViewList([FromUri] Item_LineDTO Item_LineDTO)
-    {
-
-        var _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Data = Item_Line_Service.GetItem_LineFileTreeView(Item_LineDTO);
-
-        return Json(_validationResultDTO);
-    }
-
-    [HttpPost]
-    [Route("api/Item_Line/FileDelete")]
-    public IHttpActionResult DeleteItem_LineFile([FromBody] FileDTO FileDTO)
-    {
-        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(BLL.Common.Files), (int)Action_Enum.Delete);
-        if (_validationResultDTO.Result)
-        {
-            _validationResultDTO = Item_Line_Service.DeleteItem_LineFile(FileDTO);
-        }
-        return Json(_validationResultDTO);
-    }
-    #endregion
-
-
-
     #region Reassign Support Group To Item
     [HttpPost]
     [Route("api/Item_Line/ReassignSupportGroup")]

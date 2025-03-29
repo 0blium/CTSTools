@@ -80,7 +80,6 @@
     <Compile Include="Features\AdvancedSettings\UserManagement\User_PermissionXPO.cs" />
     <Compile Include="Features\AdvancedSettings\UserManagement\User_RoleXPO.cs" />
     <Compile Include="Features\ChangeLog\ChangeLogXPO.cs" />
-    <Compile Include="Features\Currency\CurrencyXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\AttributeXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class_Sequence_SQL.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLinkXPO.cs" />

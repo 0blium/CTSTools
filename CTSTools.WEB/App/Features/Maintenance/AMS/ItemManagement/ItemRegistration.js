@@ -5,15 +5,12 @@ import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/Us
 import { GetDXStationDataSource } from '../StationManagement/Station/Station_Service.js'
 import { GetDXSupplyTypeDataSource } from '../ItemManagement/SupplyType/SupplyType_Service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
-import { GetCurrencyInformation } from '../../../AdvancedSettings/Currency/Currency_Service.js'
 import { GetDXItemClassificationDataSource } from '../ItemManagement/ItemClassification/ItemClassification_Service.js'
 //import { GetDXEmployeeTressDataSource } from '../../AdvancedSettings/Users/EmployeeTress/EmployeeTress_Service.js'
 import { GetDXTransactionOriginDataSource } from '../ItemManagement/TransactionOrigin/TransactionOrigin_Service.js'
 
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
-import { Currency_Enum } from '../../../AdvancedSettings/Currency/Currency_Enum.js'
 import { SupplyType_Enum } from '../ItemManagement/SupplyType/SupplyType_Enum.js'
-
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
@@ -522,11 +519,6 @@ async function MasterDetailTemplate(container, masterDetailOptions) {
                     dataField: "StationDTO.Name"
                 },
                 {
-                    caption: "Introduction Date",
-                    dataField: "IntroductionDate",
-                    dataType: 'datetime'
-                },
-                {
                     caption: "Status",
                     dataField: "StatusDTO.Name"
                 },
@@ -563,20 +555,7 @@ async function MasterDetailTemplate(container, masterDetailOptions) {
                     dataField: "TransactionLine"
                 },
                 {
-                    caption: "COO",
-                    dataField: "COO"
-                },
-
-                {
-                    caption: "Base Price MXN",
-                    dataField: "BasePriceMXN",
-                    format: {
-                        type: 'currency',
-                        precision: 2
-                    }
-                },
-                {
-                    caption: "Base Price USD",
+                    caption: "Base Price",
                     dataField: "BasePriceUSD",
                     format: {
                         type: 'currency',
@@ -870,13 +849,6 @@ async function InitializeItemRegistrationControls() {
         deferRendering: false,
         searchEnabled: true
     })
-    $("#dxItem_LineIntroductionDateDateBox").dxDateBox({
-        type: "datetime",
-        value: now,
-        max: now,
-        label: "Date and time",
-        labelMode: "floating",
-    });
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox({
         placeholder: "Type import invoice .."
     })
@@ -886,21 +858,6 @@ async function InitializeItemRegistrationControls() {
     $("#dxItem_LineDeclarationNumberTextBox").dxTextBox({
         placeholder: "Type declaration number .."
     })
-    $("#dxItem_LineBasePriceMXNTextBox").dxTextBox({
-        placeholder: "Type Base Price MXN ..",
-        onValueChanged: function (e) {
-            if (e.event != undefined) {
-                let _basePrice = {
-                    Price: e.value,
-                    Currency: Currency_Enum.MXN
-                }
-                if (e.value != 0 && $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value") == '') {
-                    handleMXNInput(_basePrice)
-                }
-            }
-
-        }
-    });
 
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
         placeholder: "Type Base Price USD ..",
@@ -908,17 +865,10 @@ async function InitializeItemRegistrationControls() {
             if (e.event != undefined) {
                 let _basePrice = {
                     Price: e.value,
-                    Currency: Currency_Enum.USD
-                }
-                if (e.value != 0 && $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value") == '') {
-                    handleUSDInput(_basePrice)
                 }
             }
 
         }
-    });
-    $("#dxItem_LineCOOTextBox").dxTextBox({
-        placeholder: "Type COO .."
     });
     $("#dxItem_LineCommentsTextArea").dxTextArea({
         placeholder: "Type comments..."
@@ -993,13 +943,10 @@ function GetItem_LineDTO() {
         StationDTO: {
             ID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value")
         },
-        IntroductionDate: $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value"),
-        BasePriceMXN: $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value"),
         ImportInvoice: $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value"),
         ImportInvoiceLine: $("#dxItem_LineImportInvoiceLineTextBox").dxTextBox("instance").option("value"),
         DeclarationNumber: $("#dxItem_LineDeclarationNumberTextBox").dxTextBox("instance").option("value"),
         BasePriceUSD: $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value"),
-        COO: $("#dxItem_LineCOOTextBox").dxTextBox("instance").option("value"),
         Comments: $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value"),
         TransactionOriginDTO: {
             ID: $("#dxItem_LineTransactionOriginSelectBox").dxSelectBox("instance").option("value")
@@ -1027,13 +974,10 @@ async function PopulateItem_LineFields(Data) {
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", Data.ShipmentReceiptNumber);
     $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value", Data.StatusDTO.ID);
     $("#dxItem_LineTransactionOriginSelectBox").dxSelectBox("instance").option("value", Data.TransactionOriginDTO.ID);
-    $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value", Data.IntroductionDate);
-    $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", Data.BasePriceMXN);
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value", Data.ImportInvoice);
     $("#dxItem_LineImportInvoiceLineTextBox").dxTextBox("instance").option("value", Data.ImportInvoiceLine);
     $("#dxItem_LineDeclarationNumberTextBox").dxTextBox("instance").option("value", Data.DeclarationNumber);
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", Data.BasePriceUSD);
-    $("#dxItem_LineCOOTextBox").dxTextBox("instance").option("value", Data.COO);
     $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value", Data.Comments);
     $("#dxItem_LineTransactionNumberTextBox").dxTextBox("instance").option("value", Data.TransactionNumber);
     $("#dxItem_LineTransactionLineTextBox").dxTextBox("instance").option("value", Data.TransactionLine);
@@ -1051,13 +995,10 @@ function ClearItem_LineFields() {
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").reset();
-    $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value", new Date());
-    $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineImportInvoiceLineTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineDeclarationNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", "");
-    $("#dxItem_LineCOOTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value", "");
     $("#dxItem_LineTransactionNumberTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineTransactionLineTextBox").dxTextBox("instance").option("value", "");
@@ -1274,32 +1215,6 @@ async function DeleteAttachmentLine(FileDTO) {
     dxLoadPanel.hide()
 }
 //#endregion
-//#endregion
-//#region Currency functions
-async function handleMXNInput(BasePrice) {
-    let _currencyList = await GetCurrencyInformation({ IsActive: true });
-
-    if (!isNaN(BasePrice.Price)) {
-        let _exchangeRateMXN = _currencyList.filter(currencyType => currencyType.Name === Currency_Enum.MXN)
-        let _usdEquivalent = BasePrice.Price * _exchangeRateMXN[0].ExchangeRate;
-        $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", _usdEquivalent.toFixed(2));
-    } else {
-        $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", "0");
-    }
-
-}
-async function handleUSDInput(BasePrice) {
-    let _currencyList = await GetCurrencyInformation({ IsActive: true });
-
-    if (!isNaN(BasePrice.Price)) {
-        let _exchangeRateUSD = _currencyList.filter(currencyType => currencyType.Name === Currency_Enum.USD)
-        let _mxnEquivalent = BasePrice.Price * _exchangeRateUSD[0].ExchangeRate
-        $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", _mxnEquivalent.toFixed(2));
-    } else {
-        $("#dxItem_LineBasePriceMXNTextBox").dxTextBox("instance").option("value", "0");
-    }
-
-}
 //#endregion
 //#region Deliver to functionality
 //async function InitializeDeliverToControls() {
@@ -1539,11 +1454,6 @@ async function InitializeDepartureLogControls() {
                     sortIndex: 0, sortOrder: "desc"
                 },
                 {
-                    caption: "Introduction Date",
-                    dataField: "IntroductionDate",
-                    dataType: 'datetime',
-                },
-                {
                     caption: "Facility",
                     dataField: "StationDTO.FacilityDTO.Name"
                 },
@@ -1582,10 +1492,6 @@ async function InitializeDepartureLogControls() {
                     dataField: "SupplyTypeDTO.Name"
                 },
                 {
-                    caption: "COO",
-                    dataField: "COO"
-                },
-                {
                     caption: "Import Invoice",
                     dataField: "ImportInvoice"
                 },
@@ -1606,15 +1512,7 @@ async function InitializeDepartureLogControls() {
                     dataField: "TransactionLine"
                 },
                 {
-                    caption: "Base Price MXN",
-                    dataField: "BasePriceMXN",
-                    format: {
-                        type: 'currency',
-                        precision: 2
-                    }
-                },
-                {
-                    caption: "Base Price USD",
+                    caption: "Base Price",
                     dataField: "BasePriceUSD",
                     format: {
                         type: 'currency',
@@ -1665,8 +1563,6 @@ function GetDepartureLogItem_LineDTO() {
         SupplyTypeIDArray: $("#dxItem_LineSupplyTypeTagBox").dxTagBox("instance").option("value"),
         StationIDArray: $("#dxItem_LineStationTagBox").dxTagBox("instance").option("value"),
         //DeliveredToIDArray: $("#dxItem_LineDeliveredToTagBox").dxTagBox("instance").option("value"),
-        StartIntroductionDate: $("#dxItem_LineStartDateDateBox").dxDateBox("instance").option("value").toJSON(),
-        EndIntroductionDate: $("#dxItem_LineEndDateDateBox").dxDateBox("instance").option("value").toJSON(),
         GetStationDTO: true,
         GetItem_SupportGroupDTO: true,
     }

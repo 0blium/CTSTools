@@ -74,8 +74,6 @@ public class Item_LineDTO
     public int?[] OwnerIDArray { get; set; }
     public int?[] SupplyTypeIDArray { get; set; }
     public int?[] DeliveredToIDArray { get; set; }
-    public DateTime StartIntroductionDate { get; set; }
-    public DateTime EndIntroductionDate { get; set; }
     #endregion
     #endregion
     #region Constructor

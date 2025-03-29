@@ -244,10 +244,6 @@
     <Content Include="App\Features\AdvancedSettings\ChangeLog\ChangeLog.js" />
     <Content Include="App\Features\AdvancedSettings\ChangeLog\ChangeLogCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\ChangeLog\ChangeLog_Service.js" />
-    <Content Include="App\Features\AdvancedSettings\Currency\CurrencyCatalog.aspx" />
-    <Content Include="App\Features\AdvancedSettings\Currency\CurrencyCatalog.js" />
-    <Content Include="App\Features\AdvancedSettings\Currency\Currency_Enum.js" />
-    <Content Include="App\Features\AdvancedSettings\Currency\Currency_Service.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Department\Department_Service.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Enum.js" />
     <Content Include="App\Features\AdvancedSettings\LocationManagement\Facility\Facility_Service.js" />
@@ -559,14 +555,6 @@
       <DependentUpon>ChangeLogCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\AdvancedSettings\ChangeLog\ChangeLogController.cs" />
-    <Compile Include="App\Features\AdvancedSettings\Currency\CurrencyCatalog.aspx.cs">
-      <DependentUpon>CurrencyCatalog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="App\Features\AdvancedSettings\Currency\CurrencyCatalog.aspx.designer.cs">
-      <DependentUpon>CurrencyCatalog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="App\Features\AdvancedSettings\Currency\CurrencyController.cs" />
     <Compile Include="App\Features\AdvancedSettings\LocationManagement\Department\DepartmentController.cs" />
     <Compile Include="App\Features\AdvancedSettings\LocationManagement\Facility\FacilityController.cs" />
     <Compile Include="App\Features\AdvancedSettings\LocationManagement\LocationsCatalog.aspx.cs">

@@ -240,12 +240,6 @@
     <Compile Include="Features\ChangeLog\ChangeLog_Repository.cs" />
     <Compile Include="Features\ChangeLog\ChangeLog_Service.cs" />
     <Compile Include="Features\ChangeLog\ChangeLog_Validator.cs" />
-    <Compile Include="Features\Currency\CurrencyDTO.cs" />
-    <Compile Include="Features\Currency\CurrencyMap.cs" />
-    <Compile Include="Features\Currency\Currency_DXFilter.cs" />
-    <Compile Include="Features\Currency\Currency_Repository.cs" />
-    <Compile Include="Features\Currency\Currency_Service.cs" />
-    <Compile Include="Features\Currency\Currency_Validator.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\AttributeDTO.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\AttributeMap.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Atrribute\Attribute_DXFilter.cs" />

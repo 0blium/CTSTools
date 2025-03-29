@@ -435,7 +435,6 @@ function GetItem_LineDTO(UserDefinedTemplateList) {
         StationDTO: {
             ID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value")
         },
-        //IntroductionDate: $("#dxItem_LineIntroductionDateDateBox").dxDateBox("instance").option("value"),
         ImportInvoice: $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value"),
         BasePriceUSD: $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value"),
         Comments: $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value"),

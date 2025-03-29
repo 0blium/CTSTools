@@ -412,34 +412,10 @@
                                                 <div class="invalid-feedback" id="Item_LineShipmentReceiptNumberValidation"></div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class=" row mb-15px">
-                                        <div class="col-md-6">
-                                            <label class="form-label col-form-label col-md-12">Admission Date (<span class="text-danger">*</span>)</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_LineIntroductionDateDateBox"></div>
-                                                <div class="invalid-feedback" id="Item_LineIntroductionDateValidation"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label col-form-label col-md-12">Country of Origin (COO) (<span class="text-danger">*</span>)</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_LineCOOTextBox"></div>
-                                                <div class="invalid-feedback" id="Item_LineCOOValidation"></div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="row mb-15px">
-                                        <div class="col-md-6">
-                                            <label class="form-label col-form-label col-md-12">Base Price (MXN) (<span class="text-danger">*</span>)</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_LineBasePriceMXNTextBox"></div>
-                                                <div class="invalid-feedback" id="Item_LineBasePriceMXNValidation"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label col-form-label col-md-12">Base Price (USD) (<span class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <label class="form-label col-form-label col-md-12">Base Price (<span class="text-danger">*</span>)</label>
                                             <div class="col-md-12">
                                                 <div id="dxItem_LineBasePriceUSDTextBox"></div>
                                                 <div class="invalid-feedback" id="Item_LineBasePriceUSDValidation"></div>

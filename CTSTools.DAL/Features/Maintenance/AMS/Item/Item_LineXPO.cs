@@ -74,19 +74,7 @@ public class Item_LineXPO : XPObject
         get { return fLegacyID; }
         set { SetPropertyValue<string>(nameof(LegacyID), ref fLegacyID, value); }
     }
-    DateTime? fIntroductionDate;
-    public DateTime? IntroductionDate
-    {
-        get { return fIntroductionDate; }
-        set { SetPropertyValue<DateTime?>(nameof(IntroductionDate), ref fIntroductionDate, value); }
-    }
 
-    double fBasePriceMXN;
-    public double BasePriceMXN
-    {
-        get { return fBasePriceMXN; }
-        set { SetPropertyValue<double>(nameof(BasePriceMXN), ref fBasePriceMXN, value); }
-    }
     double fBasePriceUSD;
     public double BasePriceUSD
     {
@@ -94,12 +82,6 @@ public class Item_LineXPO : XPObject
         set { SetPropertyValue<double>(nameof(BasePriceUSD), ref fBasePriceUSD, value); }
     }
 
-    string fCOO;
-    public string COO
-    {
-        get { return fCOO; }
-        set { SetPropertyValue<string>(nameof(COO), ref fCOO, value); }
-    }
     string fComments;
     public string Comments
     {
