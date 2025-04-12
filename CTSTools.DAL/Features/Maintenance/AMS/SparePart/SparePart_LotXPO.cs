@@ -1,4 +1,5 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+﻿using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
+using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Maintenance.AMS.Item;
 using CTSTools.DAL.Features.Maintenance.AMS.SparePart.Provider;
 using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;

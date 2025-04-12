@@ -1,6 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.ChangeLog;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+using CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.Provider;
 using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePart;
 using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;

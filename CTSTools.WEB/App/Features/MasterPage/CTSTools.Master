@@ -427,7 +427,11 @@
                                     <div class="menu-text">Suppliers</div>
                                 </a>
                             </div>
-
+                            <div id="TransactionOriginCatalogAdvancedSettings" class="menu-item module-nav" data-tech="TransactionOriginCatalog" hidden>
+                                <a href="/App/Features/AdvancedSettings/TransactionOrigin/TransactionOriginCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Transaction Origin</div>
+                                </a>
+                            </div>
                         </div>
                     </div>
 

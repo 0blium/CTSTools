@@ -1,9 +1,9 @@
-﻿using CTSTools.DAL.Features.Maintenance.AMS.Item;
+﻿using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+namespace CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 
 public class TransactionOrigin_DXFilter
 {

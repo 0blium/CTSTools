@@ -274,6 +274,8 @@
     <Content Include="App\Features\AdvancedSettings\StatusManagement\Status\Status_Enum.js" />
     <Content Include="App\Features\AdvancedSettings\StatusManagement\Status\Status_Service.js" />
     <Content Include="App\Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusType_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOriginCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOriginCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasureCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasureCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasure_Enum.js" />
@@ -423,7 +425,7 @@
     <Content Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.aspx" />
     <Content Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.css" />
     <Content Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\TransactionOrigin\TransactionOrigin_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOrigin_Service.js" />
     <Content Include="Content\dx-diagram.css" />
     <Content Include="Content\dx-diagram.min.css" />
     <Content Include="Content\dx-gantt.css" />
@@ -610,6 +612,13 @@
     <Compile Include="App\Features\AdvancedSettings\StatusManagement\StatusType\StatusTypeController.cs" />
     <Compile Include="App\Features\AdvancedSettings\StatusManagement\Status\StatusController.cs" />
     <Compile Include="App\Features\AdvancedSettings\StatusManagement\Status_StatusType\Status_StatusTypeController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOriginCatalog.aspx.cs">
+      <DependentUpon>TransactionOriginCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOriginCatalog.aspx.designer.cs">
+      <DependentUpon>TransactionOriginCatalog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App\Features\AdvancedSettings\UnitOfMeasure\UnitOfMeasureCatalog.aspx.cs">
       <DependentUpon>UnitOfMeasureCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -969,7 +978,7 @@
     <Compile Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.aspx.designer.cs">
       <DependentUpon>ViewTicket.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\TransactionOrigin\TransactionOriginController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOriginController.cs" />
     <Compile Include="App_Start\Auth_Helper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

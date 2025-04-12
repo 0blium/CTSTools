@@ -7,7 +7,7 @@ import { GetDXSupplyTypeDataSource } from '../ItemManagement/SupplyType/SupplyTy
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { GetDXItemClassificationDataSource } from '../ItemManagement/ItemClassification/ItemClassification_Service.js'
 //import { GetDXEmployeeTressDataSource } from '../../AdvancedSettings/Users/EmployeeTress/EmployeeTress_Service.js'
-import { GetDXTransactionOriginDataSource } from '../ItemManagement/TransactionOrigin/TransactionOrigin_Service.js'
+import { GetDXTransactionOriginDataSource } from '../../../AdvancedSettings/TransactionOrigin/TransactionOrigin_Service.js'
 
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
 import { SupplyType_Enum } from '../ItemManagement/SupplyType/SupplyType_Enum.js'
@@ -151,30 +151,59 @@ async function InitializeItemTypeControls() {
         },
         columns:
             [
+                //{
+                //    caption: "Actions",
+                //    alignment: "center",
+                //    allowFiltering: false,
+                //    allowSorting: false,
+                //    width: 'auto',
+                //    cellTemplate: function (container, options) {
+                //        container.height(30);
+                //        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal" class="btn btn-success" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenItem_HeaderID").val(options.data.ID);
+                //            }).appendTo(container);
+                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenItem_HeaderID").val(options.data.ID);
+                //                ShowItem_HeaderDeleteQuestion();
+                //            }).appendTo(container);
+                //    },
+                //},
                 {
-                    caption: "Actions",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItem_HeaderID").val(options.data.ID);
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItem_HeaderID").val(options.data.ID);
-                                ShowItem_HeaderDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenItem_HeaderID").val(options.data.ID);
+                                    $('#AddNewItemHeaderModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenItem_HeaderID").val(options.data.ID);
+                                    ShowItem_HeaderDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "ID",
@@ -400,91 +429,138 @@ async function MasterDetailTemplate(container, masterDetailOptions) {
         },
         columns:
             [
+                //{
+                //    caption: "Actions",
+                //    visibleIndex: 1,
+                //    alignment: "center",
+                //    allowFiltering: false,
+                //    allowSorting: false,
+                //    width: 'auto',
+                //    cellTemplate: function (container, options) {
+                //        container.height(30);
+                //        //ShowDeliverToButton(container, options);
+                //        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal" class="btn btn-success" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', async function () {
+                //                $("#hiddenItem_LineID").val(options.data.ID);
+                //                await PopulateItem_LineFields(options.data);
+                //                GetItem_LineFileList();
+                //            }).appendTo(container);
+
+                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenItem_LineID").val(options.data.ID);
+                //                ShowItem_LineDeleteQuestion();
+                //            }).appendTo(container);
+
+                //    },
+                //},
+                //{
+                //    // Dropdown
+                //    caption: "Labels",
+                //    width: 110,
+                //    visibleIndex: 0,
+                //    alignment: "center",
+                //    editCellTemplate: function (cellElement, cellInfo) {
+                //        let wrapper = $('<div class="d-flex justify-content-center align-items-center">').appendTo(cellElement);
+                //        $('<div class="d-flex justify-content-center">').appendTo(wrapper).dxMenu({
+                //            items: [{
+                //                // Dropdown tittle
+                //                text: 'Print',
+                //                icon: 'print',
+                //                // Declaration of the list of options for the dropdown
+                //                items: [{
+                //                    text: 'S',
+                //                    LabelFile: 'LF-0001-15-A'
+                //                }, {
+                //                    text: 'M',
+                //                    LabelFile: 'LF-2173-03-A'
+                //                }, {
+                //                    text: 'L',
+                //                    LabelFile: 'LF-2173-02-A'
+                //                }, {
+                //                    text: 'S ESD',
+                //                    LabelFile: 'LF-0001-13-A'
+                //                }, {
+                //                    text: 'M ESD',
+                //                    LabelFile: 'LF-2173-01-A'
+                //                }, {
+                //                    text: 'L ESD',
+                //                    LabelFile: 'LF-2173-00-A'
+                //                }]
+                //            }],
+                //            showFirstSubmenuMode: 'onHover',
+                //            hideSubmenuOnMouseLeave: true,
+                //            onItemClick: function (e) {
+                //                var _data = cellInfo.data;
+                //                // Validates if the LabelFile property exists in the selected option
+                //                if (e.itemData.LabelFile != null) {
+                //                    // Open the label
+                //                    window.open('http://avmx-s05:8044//LabelPrint.aspx?LabelFile=' + e.itemData.LabelFile + "&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
+                //                }
+                //            },
+                //            onItemRendered: function (e) {
+                //                let menuItemText = e.itemElement.find('.dx-menu-item-text');
+                //                if (menuItemText.text().trim() === 'Print') {
+                //                    menuItemText.append('<i class="ms-1 fa fa-angle-down"></i>');
+                //                }
+                //            }
+                //        });
+                //    },
+                //    showEditorAlways: true,
+                //    allowEditing: false
+                //},
                 {
-                    caption: "Actions",
-                    visibleIndex: 1,
+                    caption: "Options",
                     alignment: "center",
+                    width: 80,
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        //ShowDeliverToButton(container, options);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', async function () {
-                                $("#hiddenItem_LineID").val(options.data.ID);
-                                await PopulateItem_LineFields(options.data);
-                                GetItem_LineFileList();
-                            }).appendTo(container);
-
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenItem_LineID").val(options.data.ID);
-                                ShowItem_LineDeleteQuestion();
-                            }).appendTo(container);
-
-                    },
-                },
-                {
-                    // Dropdown
-                    caption: "Labels",
-                    width: 110,
-                    visibleIndex: 0,
-                    alignment: "center",
-                    editCellTemplate: function (cellElement, cellInfo) {
-                        let wrapper = $('<div class="d-flex justify-content-center align-items-center">').appendTo(cellElement);
-                        $('<div class="d-flex justify-content-center">').appendTo(wrapper).dxMenu({
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
                             items: [{
-                                // Dropdown tittle
-                                text: 'Print',
-                                icon: 'print',
-                                // Declaration of the list of options for the dropdown
-                                items: [{
-                                    text: 'S',
-                                    LabelFile: 'LF-0001-15-A'
-                                }, {
-                                    text: 'M',
-                                    LabelFile: 'LF-2173-03-A'
-                                }, {
-                                    text: 'L',
-                                    LabelFile: 'LF-2173-02-A'
-                                }, {
-                                    text: 'S ESD',
-                                    LabelFile: 'LF-0001-13-A'
-                                }, {
-                                    text: 'M ESD',
-                                    LabelFile: 'LF-2173-01-A'
-                                }, {
-                                    text: 'L ESD',
-                                    LabelFile: 'LF-2173-00-A'
-                                }]
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    {
+                                        text: "Print",
+                                        icon: "fa fa-print text-secondary",
+                                        items: [  // Aquí añades el submenú de opciones de impresión
+                                            { text: 'S', LabelFile: 'LF-0001-15-A' },
+                                            { text: 'M', LabelFile: 'LF-2173-03-A' },
+                                            { text: 'L', LabelFile: 'LF-2173-02-A' }
+                                        ]
+                                    },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
                             }],
-                            showFirstSubmenuMode: 'onHover',
+                            showFirstSubmenuMode: 'onClick',
                             hideSubmenuOnMouseLeave: true,
-                            onItemClick: function (e) {
-                                var _data = cellInfo.data;
-                                // Validates if the LabelFile property exists in the selected option
+                            onItemClick: async function (e) {
+                                let _data = options.data;  // Datos de la fila seleccionada
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenItem_LineID").val(options.data.ID);
+                                    await PopulateItem_LineFields(options.data);
+                                    GetItem_LineFileList();
+                                    $('#AddNewItemLineModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenItem_LineID").val(options.data.ID);
+                                    ShowItem_LineDeleteQuestion();
+                                }
+                                // Si se hace clic en una de las opciones del submenú de impresión
                                 if (e.itemData.LabelFile != null) {
-                                    // Open the label
+                                    // Aquí se ejecuta la impresión, usando la URL
                                     window.open('http://avmx-s05:8044//LabelPrint.aspx?LabelFile=' + e.itemData.LabelFile + "&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
                                 }
                             },
-                            onItemRendered: function (e) {
-                                let menuItemText = e.itemElement.find('.dx-menu-item-text');
-                                if (menuItemText.text().trim() === 'Print') {
-                                    menuItemText.append('<i class="ms-1 fa fa-angle-down"></i>');
-                                }
-                            }
                         });
-                    },
-                    showEditorAlways: true,
-                    allowEditing: false
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -555,7 +631,7 @@ async function MasterDetailTemplate(container, masterDetailOptions) {
                     dataField: "TransactionLine"
                 },
                 {
-                    caption: "Base Price",
+                    caption: "Price",
                     dataField: "BasePriceUSD",
                     format: {
                         type: 'currency',
@@ -860,7 +936,7 @@ async function InitializeItemRegistrationControls() {
     })
 
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
-        placeholder: "Type Base Price ..",
+        placeholder: "Type Price ..",
         onValueChanged: function (e) {
             if (e.event != undefined) {
                 let _basePrice = {
@@ -1512,7 +1588,7 @@ async function InitializeDepartureLogControls() {
                     dataField: "TransactionLine"
                 },
                 {
-                    caption: "Base Price",
+                    caption: "Price",
                     dataField: "BasePriceUSD",
                     format: {
                         type: 'currency',

@@ -1,6 +1,8 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.ItemClassification;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefinedTemplate;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,16 @@ public class Item_Header_Service
             Item_HeaderDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderPictureDirectory;
             _ValidationResultDTO = File_Service.SaveFile_Global(Item_HeaderDTO.FileDTO);
         }
+        //Save Item_SupportGroup
+        if (_ValidationResultDTO.Result && Item_HeaderDTO.UserDefinedIDArray.Length > 0) 
+        {
+            var _item_SupportGroupDTO = new Item_SupportGroupDTO();
+            _item_SupportGroupDTO.Item_HeaderDTO.ID = Item_HeaderDTO.ID;
+            _item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
+            _item_SupportGroupDTO.AddedByID = Item_HeaderDTO.AddedByID;
+            _item_SupportGroupDTO.IsActive = Item_HeaderDTO.IsActive;
+            _ValidationResultDTO = Item_SupportGroup_Service.CreateItem_SupportGroup_Global(_item_SupportGroupDTO);
+        }
         //Save Attachments
         //if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.FileList != null)
         //{
@@ -34,6 +46,17 @@ public class Item_Header_Service
         //    Item_HeaderDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderAttachmentsDirectory;
         //    _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_HeaderDTO.FileDTO);
         //}
+        //Save UserDefined
+        if (_ValidationResultDTO.Result && Item_HeaderDTO.UserDefinedIDArray.Length > 0)
+        {
+            var _userDefinedTemplateDTO = new UserDefinedTemplateDTO();
+            _userDefinedTemplateDTO.UserDefinedIDArray = Item_HeaderDTO.UserDefinedIDArray;
+            _userDefinedTemplateDTO.Item_SupportGroupDTO.ID = _ValidationResultDTO.Data;
+            _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
+            _userDefinedTemplateDTO.LastUpdateByID = Item_HeaderDTO.AddedByID;
+            _userDefinedTemplateDTO.IsActive = Item_HeaderDTO.IsActive;
+            _ValidationResultDTO = UserDefinedTemplate_Service.UpdateUserDefinedTemplate_Global(_userDefinedTemplateDTO);
+        }
         if (_ValidationResultDTO.Result)
         {
             ChangeLog.ChangeLog_Service.BuildChangeLogActionCreate<Item_HeaderDTO>(Item_HeaderDTO, (int)Item_HeaderDTO.AddedByID, (int)Item_HeaderDTO.ID);
@@ -58,11 +81,22 @@ public class Item_Header_Service
             _ValidationResultDTO = File_Service.UpdateFile_Global(Item_HeaderDTO.FileDTO);
         }
         //Save Attachments
-        if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.FileList != null)
+        //if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.FileList != null)
+        //{
+        //    Item_HeaderDTO.FileDTO.ID = (int)Item_HeaderDTO.ID;
+        //    Item_HeaderDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderAttachmentsDirectory;
+        //    _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_HeaderDTO.FileDTO);
+        //}
+        //Save UserDefined
+        if (_ValidationResultDTO.Result && Item_HeaderDTO.UserDefinedIDArray.Length >= 0)
         {
-            Item_HeaderDTO.FileDTO.ID = (int)Item_HeaderDTO.ID;
-            Item_HeaderDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.ItemHeaderAttachmentsDirectory;
-            _ValidationResultDTO = File_Service.SaveMultipleFiles_Global(Item_HeaderDTO.FileDTO);
+            var _userDefinedTemplateDTO = new UserDefinedTemplateDTO();
+            _userDefinedTemplateDTO.UserDefinedIDArray = Item_HeaderDTO.UserDefinedIDArray;
+            _userDefinedTemplateDTO.Item_SupportGroupDTO.ID = Item_HeaderDTO.Item_SupportGroupID;
+            _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
+            _userDefinedTemplateDTO.LastUpdateByID = Item_HeaderDTO.LastUpdateByID;
+            _userDefinedTemplateDTO.IsActive = Item_HeaderDTO.IsActive;
+            _ValidationResultDTO = UserDefinedTemplate_Service.UpdateUserDefinedTemplate_Global(_userDefinedTemplateDTO);
         }
         //Save Change log
         if (_ValidationResultDTO.Result)

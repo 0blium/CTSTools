@@ -4,7 +4,7 @@ using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.SupplyType;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+using CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefinedValue;
 using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.Station;
 using System;

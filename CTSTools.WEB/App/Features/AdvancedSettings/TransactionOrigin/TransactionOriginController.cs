@@ -1,12 +1,12 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+using CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+namespace CTSTools.WEB.App.Features.AdvancedSettings.TransactionOrigin;
 
 public class TransactionOriginController : ApiController
 {

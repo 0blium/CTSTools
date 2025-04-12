@@ -13,7 +13,7 @@
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Item line Catalog</h1>
+                <h1 class="page-header">Asset Catalog</h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -22,7 +22,7 @@
                 <div class="panel panel-inverse">
                     <div class="panel-body">
                         <div class="col-md-12 ">
-                            <a id="NewItemLineBtn" href="#SaveItemLineRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal" hidden><i class="fa-solid fa-circle-plus"></i>Line</a>
+                            <a id="NewItemLineBtn" href="#SaveItemLineRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal" hidden><i class="fa-solid fa-circle-plus"></i> Asset</a>
                         </div>
                         <div id="dxItemLineGrid"></div>
                     </div>
@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Item Type (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Item (<span class="text-danger">*</span>)</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineItem_HeaderSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineItem_HeaderValidation"></div>
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="row mb-15px">
-                                <label class="form-label col-form-label col-md-12">Base Price (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Price (<span class="text-danger">*</span>)</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineBasePriceUSDTextBox"></div>
                                     <div class="invalid-feedback" id="Item_LineBasePriceUSDValidation"></div>

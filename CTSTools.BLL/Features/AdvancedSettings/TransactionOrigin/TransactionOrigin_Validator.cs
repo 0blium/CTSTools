@@ -3,7 +3,7 @@ using Elmah;
 using System;
 using System.Collections.Generic;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+namespace CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 
 public class TransactionOrigin_Validator
 {

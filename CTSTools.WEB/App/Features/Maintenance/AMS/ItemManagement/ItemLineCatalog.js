@@ -118,7 +118,7 @@ async function InitializeItemLineCatalogControls() {
         placeholder: "Type import invoice .."
     })
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
-        placeholder: "Type Base Price ..",
+        placeholder: "Type Price ..",
         onValueChanged: function (e) {
             if (e.event != undefined) {
                 let _basePrice = {
@@ -213,10 +213,7 @@ async function InitializeItemLineCatalogControls() {
                                         items: [  // Aquí añades el submenú de opciones de impresión
                                             { text: 'S', LabelFile: 'LF-0001-15-A' },
                                             { text: 'M', LabelFile: 'LF-2173-03-A' },
-                                            { text: 'L', LabelFile: 'LF-2173-02-A' },
-                                            { text: 'S ESD', LabelFile: 'LF-0001-13-A' },
-                                            { text: 'M ESD', LabelFile: 'LF-2173-01-A' },
-                                            { text: 'L ESD', LabelFile: 'LF-2173-00-A' }
+                                            { text: 'L', LabelFile: 'LF-2173-02-A' }
                                         ]
                                     },
                                     { text: "Reassign Support Group", icon: "fa fa-right-left text-info", value: 2 },
@@ -304,7 +301,7 @@ function ItemLineActionButtons(Action) {
     document.getElementById('ItemLineModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewItemLineBtn").addEventListener("click", ClearItemLineFields);
-        document.getElementById('ItemLineModalTitle').innerText = 'Add Line';
+        document.getElementById('ItemLineModalTitle').innerText = 'Add Asset';
         document.getElementById("ItemLineActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateItemLineButton" type="button">Save</button>' +
@@ -315,7 +312,7 @@ function ItemLineActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('ItemLineModalTitle').innerText = 'Update Line';
+        document.getElementById('ItemLineModalTitle').innerText = 'Update Asset';
         document.getElementById("ItemLineActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateItemLineButton" type="button">Update</button>' +

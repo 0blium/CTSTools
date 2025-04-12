@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+namespace CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 
 public class TransactionOriginDTO
 {

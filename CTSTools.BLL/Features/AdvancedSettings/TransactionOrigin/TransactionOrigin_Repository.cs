@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
-using CTSTools.DAL.Features.Maintenance.AMS.Item;
+using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+namespace CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 
 public class TransactionOrigin_Repository
 {

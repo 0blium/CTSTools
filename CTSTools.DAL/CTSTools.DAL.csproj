@@ -74,6 +74,7 @@
     <Compile Include="Features\AdvancedSettings\StatusManagement\StatusTypeXPO.cs" />
     <Compile Include="Features\AdvancedSettings\StatusManagement\StatusXPO.cs" />
     <Compile Include="Features\AdvancedSettings\StatusManagement\Status_StatusTypeXPO.cs" />
+    <Compile Include="Features\AdvancedSettings\TransactionOrigin\TransactionOriginXPO.cs" />
     <Compile Include="Features\AdvancedSettings\UserManagement\DomainXPO.cs" />
     <Compile Include="Features\AdvancedSettings\UserManagement\TressSQL.cs" />
     <Compile Include="Features\AdvancedSettings\UserManagement\UserXPO.cs" />
@@ -112,7 +113,6 @@
     <Compile Include="Features\Maintenance\AMS\Item\Item_LineXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\Item_SupportGroupXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\SupplyTypeXPO.cs" />
-    <Compile Include="Features\Maintenance\AMS\Item\TransactionOriginXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\UserDefinedTemplateXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\UserDefinedValueXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\UserDefinedXPO.cs" />

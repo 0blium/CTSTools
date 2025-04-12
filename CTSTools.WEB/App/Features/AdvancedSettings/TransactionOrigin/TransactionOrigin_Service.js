@@ -1,7 +1,7 @@
-﻿import { APIURL } from '../../../../../Common/Utils/Environment.js'
-import { ValidationResultDTO } from '../../../../../Common/Utils/ValidationResultDTO.js'
-import APIRequest from '../../../../../Common/Utils/APIRequest.js'
-import BuildSearchParams from '../../../../../Common/Utils/SearchParamsService.js'
+﻿import { APIURL } from '../../../Common/Utils/Environment.js'
+import { ValidationResultDTO } from '../../../Common/Utils/ValidationResultDTO.js'
+import APIRequest from '../../../Common/Utils/APIRequest.js'
+import BuildSearchParams from '../../../Common/Utils/SearchParamsService.js'
 
 export async function CreateTransactionOrigin(TransactionOriginDTO) {
     let _validationResultDTO = ValidationResultDTO;

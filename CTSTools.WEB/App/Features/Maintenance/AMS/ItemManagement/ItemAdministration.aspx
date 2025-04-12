@@ -24,8 +24,8 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 ">
-                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i>Asset</a>
-                                <a id="AssignUserDefinedBtn" class="btn btn-success d-none mb-2 ms-1 float-end" data-bs-target="#AssignUserDefinedFieldsModal" data-bs-toggle="modal">Assign Fields</a>
+                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item</a>
+                                <%--<a id="AssignUserDefinedBtn" class="btn btn-success d-none mb-2 ms-1 float-end" data-bs-target="#AssignUserDefinedFieldsModal" data-bs-toggle="modal">Assign Fields</a>--%>
                                 <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
                             </div>
                             <div class="col-12">
@@ -42,21 +42,22 @@
     <%-- Wizard Modal --%>
 
     <!-- Modal -->
-    <div class="modal fade wizard" id="AddNewItemHeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal fade" id="AddNewItemHeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Item</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="WizardCloseButton"></button>
+                    <h4 id="Item_HeaderModalTitle" class="modal-title fs-5"></h4>
+                    <button type="button" id="btnCloseItem_HeaderModal" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    <%--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="WizardCloseButton"></button>--%>
                 </div>
                 <div class="modal-body">
-                    <div class="card" id="wizard-card">
+                    <%--<div class="card" id="wizard-card">
                         <div class="card-body bg-light">
                             <ul class="nav nav-tabs workflow-wizard justify-content-center" id="LetterType">
                                 <li class="nav-item item">
                                     <a href="#Item_SupportGroupStep1" data-bs-toggle="tab" class="active">
                                         <div class="nav-no">1</div>
-                                        <div class="nav-text">Select Asset</div>
+                                        <div class="nav-text">Select Item</div>
                                     </a>
                                 </li>
                                 <li class="nav-item item">
@@ -67,44 +68,42 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div>--%>
+                    <%--<div class="wizard-step tab-pane fade active show" id="Item_SupportGroupStep1">--%>
+                    <!-- BEGIN nav-tabs -->
+                    <%--<ul class="nav nav-tabs" id="modal-nav-tabs">
+                            <li class="nav-item">
+                                <a id="select-item-tab" href="#select-item-content" data-bs-toggle="tab" class="nav-link active">
+                                    <span class="d-sm-none">Tab 1</span>
+                                    <span class="d-sm-block d-none">Select Item</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="new-item-tab" href="#new-item-content" data-bs-toggle="tab" class="nav-link">
+                                    <span class="d-sm-none">Tab 2</span>
+                                    <span class="d-sm-block d-none">New Item</span>
+                                </a>
+                            </li>
+                        </ul>--%>
+                    <!-- END nav-tabs -->
+                    <!-- BEGIN tab-content -->
+                    <%--<div class="tab-content panel rounded-0 p-3 m-0">--%>
 
-                    <div class="wizard tab-content panel p-3 rounded-0 rounded-bottom mb-0" id="wizard-panel">
-                        <div class="wizard-step tab-pane fade active show" id="Item_SupportGroupStep1">
-                            <!-- BEGIN nav-tabs -->
-                            <ul class="nav nav-tabs" id="modal-nav-tabs">
-                                <li class="nav-item">
-                                    <a id="select-item-tab" href="#select-item-content" data-bs-toggle="tab" class="nav-link active">
-                                        <span class="d-sm-none">Tab 1</span>
-                                        <span class="d-sm-block d-none">Select Asset</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a id="new-item-tab" href="#new-item-content" data-bs-toggle="tab" class="nav-link">
-                                        <span class="d-sm-none">Tab 2</span>
-                                        <span class="d-sm-block d-none">New Asset</span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <!-- END nav-tabs -->
-                            <!-- BEGIN tab-content -->
-                            <div class="tab-content panel rounded-0 p-3 m-0">
-
-                                <!-- BEGIN tab-pane for Existing Item Selectbox -->
-                                <div class="tab-pane fade active show" id="select-item-content">
-                                    <label class="form-label col-form-label col-md-12">Asset</label>
-                                    <div class="col-md-12">
-                                        <div id="dxItem_SupportGroupItem_HeaderIDSelectBox"></div>
-                                        <div class="invalid-feedback" id="Item_SupportGroupItem_HeaderValidation">
-                                        </div>
-                                    </div>
+                    <!-- BEGIN tab-pane for Existing Item Selectbox -->
+                    <%--<div class="tab-pane fade active show" id="select-item-content">
+                            <label class="form-label col-form-label col-md-12">Item</label>
+                            <div class="col-md-12">
+                                <div id="dxItem_SupportGroupItem_HeaderIDSelectBox"></div>
+                                <div class="invalid-feedback" id="Item_SupportGroupItem_HeaderValidation">
                                 </div>
-                                <!-- END tab-pane -->
+                            </div>
+                        </div>--%>
+                    <!-- END tab-pane -->
 
-                                <!-- BEGIN tab-pane for New Item -->
-                                <div class="tab-pane fade" id="new-item-content">
-                                    <!-- BEGIN nav-tabs -->
-                                    <%--<div class="mb-2">
+                    <!-- BEGIN tab-pane for New Item -->
+                    <%--<div class="tab-pane fade" id="new-item-content">--%>
+                    <!-- BEGIN nav-tabs -->
+                    <%--<div class="mb-2">
                                         <ul class="nav inlineTabs tab-border nav-tabs">
                                             <li class="nav-item">
                                                 <a href="#equipment-tab" data-bs-toggle="tab" class="nav-link active">
@@ -121,106 +120,68 @@
                                         </ul>
                                         <hr class="m-0" />
                                     </div>--%>
-                                    <!-- END nav-tabs -->
-                                    <!-- BEGIN tab-pane -->
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
-                                                <div id="dxItem_HeaderThumbnailFileUploader"></div>
-                                                <div class="col-md-12 text-center">
-                                                    <img id="ItemThumbnail"
-                                                        src="/App/Common/Assets/img/no-product-image.png"
-                                                        class="img-fluid" style="height: 200px;" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-15px">
-                                                <label class="form-label col-form-label col-md-12">
-                                                    Name (<span
-                                                        class="text-danger">*</span>)</label>
-                                                <div class="col-md-12">
-                                                    <div id="dxItem_HeaderEnglishNameTextBox"></div>
-                                                    <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-15px">
-                                                <label class="form-label col-form-label col-md-12">
-                                                    Model (<span
-                                                        class="text-danger">*</span>)</label>
-                                                <div class="col-md-12">
-                                                    <div id="dxItem_HeaderModelTextBox"></div>
-                                                    <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-15px">
-                                                <label class="form-label col-form-label col-md-12">
-                                                    Brand (<span
-                                                        class="text-danger">*</span>)</label>
-                                                <div class="col-md-12">
-                                                    <div id="dxItem_HeaderBrandTextBox"></div>
-                                                    <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-15px">
-                                                <label class="form-label col-form-label col-md-12">Classification</label>
-                                                <div class="col-md-12">
-                                                    <div id="dxItem_HeaderItemClassificationSelectBox"></div>
-                                                    <div class="invalid-feedback"
-                                                        id="Item_HeaderItemClassificationValidation">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-15px">
-                                                <div class="col-md-4">
-                                                    <div id="dxItem_HeaderIsActiveCheckBox"></div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div id="dxItem_HeaderIsESDCheckBox"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <!-- END tab-pane -->
-                                    <!-- BEGIN tab-pane -->
-                                    <%--<div class="tab-pane fade" id="attachments-tab">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="col-form-label col-md-4">Files:</label>
-                                                    <div class="col-md-12">
-                                                        <div id="dxFileOptionsSelectBox"></div>
-                                                    </div>
-                                                    <br />
-                                                </div>
-                                                <div id="TreeView" class="col-md-12" hidden>
-                                                    <div style="text-align: right;">
-                                                        <a href="#" id="TreeViewExpandBtn"
-                                                            class="btn btn-default">Expand all</a>
-                                                        <a href="#" id="TreeViewCollapseBtn"
-                                                            class="btn btn-default">Collapse all</a>
-                                                    </div>
-                                                    <div id="dxTreeViewList"></div>
-                                                </div>
-                                                <div id="Item_HeaderAttachment" class="col-md-12" hidden>
-                                                    <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
-                                                    <div id="dxItem_HeaderAttachmentFileUploader"></div>
-                                                    <div id="Item_HeaderFilelistSection" class="row"></div>
-                                                </div>
-                                            </div>
-                                        </div>--%>
-                                    <!-- END tab-content -->
+                    <!-- END nav-tabs -->
+                    <!-- BEGIN tab-pane -->
+                    <div class="row mx-auto">
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                                <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                                <div id="dxItem_HeaderThumbnailFileUploader"></div>
+                                <div class="col-md-12 text-center">
+                                    <img id="ItemThumbnail"
+                                        src="/App/Common/Assets/img/no-product-image.png"
+                                        class="img-fluid" style="height: 200px;" />
                                 </div>
-                                <!-- END tab-pane -->
-
                             </div>
-                            <!-- END tab-content -->
                         </div>
-                        <!-- BEGIN tab-pane for Step 2 -->
-                        <div class="wizard-step tab-pane fade " id="Item_SupportGroupStep2">
+                        <div class="col-md-4">
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">
+                                    Name (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderEnglishNameTextBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">
+                                    Model (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderModelTextBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
+                                </div>
+                            </div>
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">
+                                    Brand (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderBrandTextBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
+                                </div>
+                            </div>
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">Classification</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderItemClassificationSelectBox"></div>
+                                    <div class="invalid-feedback"
+                                        id="Item_HeaderItemClassificationValidation">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-15px">
+                                <div class="col-md-6">
+                                    <div id="dxItem_HeaderIsActiveCheckBox"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="dxItem_HeaderIsESDCheckBox"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="mb-15px">
                                 <label class="form-label col-form-label col-md-12">
                                     Support Group (<span
@@ -231,15 +192,40 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">Custom fields List </label>
+                                <div class="col-md-12">
+                                    <div class="panel-body">
+                                        <div class="panel panel-inverse">
+                                            <div class="col-md-12">
+                                                <div id="dxUserDefinedList"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- END tab-pane for Step 2 -->
-                        <!-- BEGIN tab-content -->
                     </div>
 
+
+                    <!-- END tab-pane -->
+                    <%--</div>--%>
+                    <!-- END tab-pane -->
+
+                    <%--</div>--%>
+                    <!-- END tab-content -->
+                    <%--</div>--%>
+                    <!-- BEGIN tab-pane for Step 2 -->
+                    <%--<div class="wizard-step tab-pane fade " id="Item_SupportGroupStep2">--%>
+
+                    <%--</div>--%>
+                    <!-- END tab-pane for Step 2 -->
+
                 </div>
-                <div class="modal-footer d-flex justify-content-between" id="modalFooter">
-                    <a class="btn btn-secondary" id="btnAddNewItemBack">Back</a>
-                    <a class="btn btn-success" id="btnAddNewItemNext">Next</a>
+                <div class="modal-footer" id="modalFooter">
+                    <%--<a class="btn btn-secondary" id="btnAddNewItemBack">Back</a>--%>
+                    <%--<a class="btn btn-success" id="btnAddNewItemNext">Save</a>--%>
+                    <div class="row" id="Item_HeaderActionButtons"></div>
                 </div>
             </div>
         </div>
@@ -302,7 +288,7 @@
         </div>
     </div>
     <!-- Add new item Modal -->
-    <div class="modal fade" id="AddNewItemLineModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <%--<div class="modal fade" id="AddNewItemLineModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -414,7 +400,7 @@
                                     </div>
                                     <div class="row mb-15px">
                                         <div class="col-md-12">
-                                            <label class="form-label col-form-label col-md-12">Base Price (<span class="text-danger">*</span>)</label>
+                                            <label class="form-label col-form-label col-md-12">Price (<span class="text-danger">*</span>)</label>
                                             <div class="col-md-12">
                                                 <div id="dxItem_LineBasePriceUSDTextBox"></div>
                                                 <div class="invalid-feedback" id="Item_LineBasePriceUSDValidation"></div>
@@ -429,7 +415,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-15px">
-                                        <label class="form-label col-form-label col-md-12">Status <%--(<span class="text-danger">*</span>)--%></label>
+                                        <label class="form-label col-form-label col-md-12">Status (<span class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
                                             <div id="dxItem_LineStatusSelectBox"></div>
                                             <div class="invalid-feedback" id="Item_LineStatusValidation"></div>
@@ -442,10 +428,10 @@
                                         </div>
                                     </div>
                                     <div id="UserDefinedTemplateSection" class="mb-15px">
-                                        <%--<label class="form-label col-form-label col-md-12">Comments </label>
+                                        <label class="form-label col-form-label col-md-12">Comments </label>
                                     <div class="col-md-12">
                                         <input class="form-control" />
-                                    </div>--%>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -473,9 +459,9 @@
 
             </div>
         </div>
-    </div>
+    </div>--%>
     <%-- Assign user defined to view--%>
-    <div class="modal fade" id="AssignUserDefinedFieldsModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <%--<div class="modal fade" id="AssignUserDefinedFieldsModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog" style="width: 1180px;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -484,9 +470,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="panel-body">
-                        <div class="row justify-content-between">
-                            <div class="col-md-12">
-                                <div id="dxUserDefinedList"></div>
+                        <div class="panel panel-inverse">
+                            <div class="row justify-content-between">
+                                <div class="col-md-12">
+                                    <div id="dxUserDefinedList"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -497,9 +485,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
     <%-- Update Support Group to Item  line Modal --%>
-    <div class="modal fade" id="ReassingSupportGroupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <%--<div class="modal fade" id="ReassingSupportGroupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -507,10 +495,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">Support Group (<span class="text-danger">*</span>)</label>
-                        <div class="col-xl-9 col-md-12">
-                            <div id="dxReassignSupportGroupModalSelectBox"></div>
+                    <div class="panel-body">
+                        <div class="row mb-15px">
+                            <label class="form-label col-form-label col-xl-3 col-md-12">Support Group (<span class="text-danger">*</span>)</label>
+                            <div class="col-xl-9 col-md-12">
+                                <div id="dxReassignSupportGroupModalSelectBox"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -519,7 +509,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
     <%-- Attachments to Item header Modal --%>
     <div class="modal fade" id="AttachmentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -529,10 +519,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-15px">
-                        <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
-                        <div id="dxItem_HeaderAttachmentFileUploader"></div>
-                        <div id="Item_HeaderFilelistSection" class="row"></div>
+                    <div class="panel-body">
+                        <div class="row mx-auto">
+                            <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                            <div id="dxItem_HeaderAttachmentFileUploader"></div>
+                            <div id="Item_HeaderFilelistSection" class="row"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

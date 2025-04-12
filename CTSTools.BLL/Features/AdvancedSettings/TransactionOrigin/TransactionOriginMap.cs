@@ -1,9 +1,9 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Maintenance.AMS.Item;
+using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.TransactionOrigin;
+namespace CTSTools.BLL.Features.AdvancedSettings.TransactionOrigin;
 
 public class TransactionOriginMap
 {

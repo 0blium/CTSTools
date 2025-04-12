@@ -28,28 +28,28 @@ let _fileDTO = {};
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeItemAdministrationCatalogControls();
     InitializeUserDefinedControls();
-    InitializeItem_LineModalControls();
+    //InitializeItem_LineModalControls();
     InitializeItem_SupportGroupControls();
-    InitializeReassignSupportGroupModalControls();
+    //InitializeReassignSupportGroupModalControls();
     await GetUserInformationbyID();
     EventHandler();
 });
 async function EventHandler() {
-    document.getElementById('AssignUserDefinedBtn').addEventListener("click", GetUserDefinedList);
-    document.getElementById("UpdateUserDefinedTemplateButton").addEventListener("click", UpdateUserDefinedTemplate_Global);
-    document.getElementById("WizardCloseButton").addEventListener("click", CloseWizard);
-    document.getElementById('AddNewItemLineModal').addEventListener('hidden.bs.modal', async function (event) {
-        const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };//new
-        const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-        ClearItem_LineFields(_userDefinedTemplateList);
-    });
+    //document.getElementById('AssignUserDefinedBtn').addEventListener("click", GetUserDefinedList);
+    //document.getElementById("UpdateUserDefinedTemplateButton").addEventListener("click", UpdateUserDefinedTemplate_Global);
+    //document.getElementById("WizardCloseButton").addEventListener("click", CloseWizard);
+    //document.getElementById('AddNewItemLineModal').addEventListener('hidden.bs.modal', async function (event) {
+    //    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };//new
+    //    const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
+    //    ClearItem_LineFields(_userDefinedTemplateList);
+    //});
     document.getElementById('AddNewItemHeaderModal').addEventListener('hidden.bs.modal', async function (event) {
         ClearItem_HeaderFields(true);
     });
     document.getElementById("AddNewItemHeaderBtn").addEventListener("click", function () {
         ClearItem_HeaderFields();
-        SetWizardStyle("add");
-        GetCurrentStep();
+        //SetWizardStyle("add");
+        //GetCurrentStep();
     }); // Clears all fields before opening the New Item modal in case ID isn't cleared
 
 
@@ -64,26 +64,26 @@ async function EventHandler() {
         currentButton.classList.add("btn", "btn-default");
     });
 
-    document.getElementById('btnAddNewItemBack').addEventListener("click", function () {
-        ShowPreviousStep()
-        GetCurrentStep();
-    });
-    document.getElementById('btnAddNewItemNext').addEventListener("click", function (e) {
-        e.preventDefault()
-        if (event.target.innerText == 'Next' || event.target.innerText == 'Save') {
-            let _wizard = document.querySelector('#AddNewItemHeaderModal');
-            let activeTab = _wizard.querySelector('.workflow-wizard li a.active').parentNode;
-            let nextTab = activeTab.nextElementSibling;
-            ShowNextStep();
-            GetCurrentStep();
-        }
-        if (event.target.innerText == "Update") {
-            UpdateItem_Header_Global();
-            $("#AddNewItemHeaderModal").modal("hide");
-        }
+    //document.getElementById('btnAddNewItemBack').addEventListener("click", function () {
+    //    ShowPreviousStep()
+    //    GetCurrentStep();
+    //});
+    //document.getElementById('btnAddNewItemNext').addEventListener("click", function (e) {
+    //    //e.preventDefault()
+    //    //if (event.target.innerText == 'Next' || event.target.innerText == 'Save') {
+    //    //    let _wizard = document.querySelector('#AddNewItemHeaderModal');
+    //    //    let activeTab = _wizard.querySelector('.workflow-wizard li a.active').parentNode;
+    //    //    let nextTab = activeTab.nextElementSibling;
+    //    //    ShowNextStep();
+    //    //    GetCurrentStep();
+    //    //}
+    //    //if (event.target.innerText == "Update") {
+    //    //    UpdateItem_Header_Global();
+    //    //    $("#AddNewItemHeaderModal").modal("hide");
+    //    //}
 
 
-    });
+    //});
 
 }
 //#region User
@@ -201,30 +201,36 @@ async function InitializeItemAdministrationCatalogControls() {
         headerFilter: {
             visible: true
         },
-        onCellClick: async function (e) {
-            // Assuming you have access to the rowKey
-            var rowKey = e.key;
-            // Pass the event to the function
-            //toggleMasterRow(rowKey, e.event);
-            event.preventDefault()
-            if (e.row != null) {
-                $("#hiddenItem_HeaderID").val(e.row.data.Item_HeaderDTO.ID);
-                $("#hiddenItem_SupportGroupID").val(e.row.data.ID);
-                $("#hiddenUserSupportGroupID").val(e.row.data.SupportGroupDTO.ID)
-                document.getElementById("AssignUserDefinedBtn").classList.remove("d-none");
-                await GetUserDefinedTemplateList();
-            }
-        },
+        //onCellClick: async function (e) {
+        //    // Assuming you have access to the rowKey
+        //    var rowKey = e.key;
+        //    // Pass the event to the function
+        //    //toggleMasterRow(rowKey, e.event);
+        //    event.preventDefault()
+        //    if (e.row != null) {
+        //        $("#hiddenItem_HeaderID").val(e.row.data.Item_HeaderDTO.ID);
+        //        $("#hiddenItem_SupportGroupID").val(e.row.data.ID);
+        //        $("#hiddenUserSupportGroupID").val(e.row.data.SupportGroupDTO.ID)
+        //        //document.getElementById("AssignUserDefinedBtn").classList.remove("d-none");
+        //        console.log(e.row.data);
+        //        //await GetUserDefinedTemplateList();
+        //    }
+        //},
         onRowClick: function (e) {
             var rowKey = e.key;
             // Pass the event to the function
             //toggleMasterRow(rowKey, e.event);
         },
-        onSelectionChanged: function (data) {
+        onSelectionChanged: async function (data) {
             let _itemAdministrationData = data.selectedRowsData[0];
             if (_itemAdministrationData != null) {
-                PopulateItem_HeaderFields(_itemAdministrationData);
+                $("#hiddenItem_HeaderID").val(_itemAdministrationData.Item_HeaderDTO.ID);
+                $("#hiddenItem_SupportGroupID").val(_itemAdministrationData.ID);
+                $("#hiddenUserSupportGroupID").val(_itemAdministrationData.SupportGroupDTO.ID)
+                Item_HeaderActionButtons("Update");
+                await PopulateItem_HeaderFields(_itemAdministrationData);
                 GetItem_HeaderFileList();
+                await GetUserDefinedTemplateList();
                 //GetItem_LineTreeViewList();
             }
         },
@@ -269,7 +275,7 @@ async function InitializeItemAdministrationCatalogControls() {
                                 items: [
                                     { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
                                     { text: "Attachments", icon: "fa fa-paperclip text-info", value: 2 },
-                                    { text: "View line", icon: "fas fa-eye text-primary", value: 3 },
+                                    { text: "Assets", icon: "fas fa-th-list text-primary", value: 3 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
                                 ]
                             }],
@@ -277,9 +283,10 @@ async function InitializeItemAdministrationCatalogControls() {
                             hideSubmenuOnMouseLeave: true,
                             onItemClick: function (e) {
                                 if (e.itemData.value == 1) {
-                                    $("#hiddenItem_HeaderID").val(options.data.ID);
+                                    $("#hiddenItem_HeaderID").val(options.data.Item_HeaderDTO.ID);
+                                    $("#hiddenItem_SupportGroupID").val(options.data.ID);
                                     $('#AddNewItemHeaderModal').modal('show');
-                                    SetWizardStyle("edit");
+                                    //SetWizardStyle("edit");
                                 }
                                 else if (e.itemData.value == 2) {
                                     $('#AttachmentsModal').modal('show');
@@ -289,7 +296,7 @@ async function InitializeItemAdministrationCatalogControls() {
                                     window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID, "_blank");
                                 }
                                 else if (e.itemData.value == 4) {
-                                    $("#hiddenItem_HeaderID").val(options.data.ID);
+                                    $("#hiddenItem_SupportGroupID").val(options.data.ID);
                                     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
                                     ShowItem_SupportGroupDeleteQuestion();
                                 }
@@ -473,7 +480,8 @@ async function InitializeItemAdministrationCatalogControls() {
 
         },
     });
-
+    document.getElementById("btnCloseItem_HeaderModal").addEventListener("click", ClearItem_HeaderFields);
+    Item_HeaderActionButtons("Save");
 }
 //async function MasterDetailItem_Line(container, masterDetailOptions) {
 //    await dxLoadPanel.show()
@@ -488,7 +496,6 @@ async function InitializeItemAdministrationCatalogControls() {
 //}
 async function SaveAttachmentsItem_Header()
 {
-    debugger;
     await dxLoadPanel.show();
     const _fileList = GetFileDTO();
     if (!_fileList.FileList || _fileList.FileList.length === 0) {
@@ -502,6 +509,8 @@ async function SaveAttachmentsItem_Header()
     dxLoadPanel.hide();
 }
 function ClearItem_HeaderFields(CleanGrid) {
+    $('#AddNewItemHeaderModal').modal('hide');
+    Item_HeaderActionButtons("Save");
     $("#hiddenItem_HeaderID").val("0");
     $("#hiddenItem_SupportGroupID").val("0");
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", "");
@@ -510,9 +519,10 @@ function ClearItem_HeaderFields(CleanGrid) {
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", false);
     $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").reset();
-    $("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").reset();
+    //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").reset();
-
+    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("disabled", false);
+    $("#dxUserDefinedList").dxList("option", "dataSource", []);
     if (CleanGrid) {
         let keys = $("#dxItemAdministrationDatGrid").dxDataGrid("instance").getSelectedRowKeys();
         $("#dxItemAdministrationDatGrid").dxDataGrid("instance").deselectRows(keys);
@@ -529,13 +539,16 @@ function ClearItem_HeaderFields(CleanGrid) {
     ClearErrorFeedback();
 }
 async function PopulateItem_HeaderFields(data) {
-    $("#hiddenItem_HeaderID").val(data.Item_HeaderDTO.ID);//new
+    document.getElementById("hiddenItem_HeaderID").value = data.Item_HeaderDTO.ID;//new
+    document.getElementById("hiddenItem_SupportGroupID").value = data.ID;
     document.getElementById("hiddenUserSupportGroupID").value = data.SupportGroupDTO.ID
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Model);
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Brand);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsActive);
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsESD)
+    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
+    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("disabled", true);
     await $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.ItemClassificationDTO.ID);
     if (data.Item_HeaderDTO.ItemImg != null) {
         $("#ItemThumbnail").attr('src', data.Item_HeaderDTO.ItemImg);
@@ -552,6 +565,9 @@ function GetItem_HeaderDTO() {
         Brand: $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value"),
         IsActive: $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value"),
         IsESD: $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value"),
+        SupportGroupID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
+        Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(),
+        UserDefinedIDArray: $("#dxUserDefinedList").dxList("instance").option("selectedItemKeys"),
         ItemClassificationDTO: {
             ID: $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("value"),
         },
@@ -559,7 +575,32 @@ function GetItem_HeaderDTO() {
     }
     return _item_HeaderDTO;
 }
-
+function Item_HeaderActionButtons(Action) {
+    $("#Item_HeaderActionButtons").empty();
+    document.getElementById('Item_HeaderModalTitle').innerText = '';
+    if (Action == "Save") {
+        document.getElementById("AddNewItemHeaderBtn").addEventListener("click", ClearItem_HeaderFields);
+        document.getElementById('Item_HeaderModalTitle').innerText = 'Add Item Form';
+        document.getElementById("Item_HeaderActionButtons").innerHTML =
+            '<div class="col-md-12">' +
+            '<button class="btn btn-success float-end" id="CreateItem_HeaderButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearItem_HeaderButton" type="button">Cancel</button>' +
+            '</div>';
+        document.getElementById("ClearItem_HeaderButton").addEventListener("click", ClearItem_HeaderFields);
+        document.getElementById("CreateItem_HeaderButton").addEventListener("click", CreateItem_Header_Global);
+    }
+    else {
+        // Update
+        document.getElementById('Item_HeaderModalTitle').innerText = 'Update Item Form';
+        document.getElementById("Item_HeaderActionButtons").innerHTML =
+            '<div class="col-md-12">' +
+            '<button class="btn btn-success float-end" id="UpdateItem_HeaderButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearItem_HeaderButton" type="button">Cancel</button>' +
+            '</div>';
+        document.getElementById("ClearItem_HeaderButton").addEventListener("click", ClearItem_HeaderFields);
+        document.getElementById("UpdateItem_HeaderButton").addEventListener("click", UpdateItem_Header_Global);
+    }
+}
 function GetFileDTO() {
     if ((_fileDTO != null || _fileDTO != undefined) && (_fileDTOList != null || _fileDTOList != undefined)) {
         _fileDTO.FileList = _fileDTOList;
@@ -587,12 +628,10 @@ async function CreateItem_Header_Global() {
     const _validation_ResultDTO = await CreateItem_Header(_item_HeaderDTO);
     if (_validation_ResultDTO.Result) {
         ClearItem_HeaderFields(true);
-        GetUserInformationbyID();
         $("#hiddenItem_HeaderID").val(_validation_ResultDTO.Data);
+        GetUserInformationbyID();
     }
-    if (_validation_ResultDTO.Result == false) {
-        HostResponse(_validation_ResultDTO);
-    }
+    HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
 async function UpdateItem_Header_Global() {
@@ -906,7 +945,7 @@ async function InitializeItem_LineModalControls() {
         placeholder: "Type import invoice .."
     })
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox({
-        placeholder: "Type Base Price ..",
+        placeholder: "Type Price ..",
         onValueChanged: function (e) {
             if (e.event != undefined) {
                 let _basePrice = {
@@ -1351,8 +1390,9 @@ async function InitializeUserDefinedControls() {
         displayExpr: "NameWithDataType",
         valueExpr: "ID",
         popupWidth: 400,
+        height: 185,
         showSelectionControls: true,
-        selectionMode: "multiple",
+        selectionMode: "all",
     });
     UserDefinedActionButtons("Save");
 
@@ -1462,11 +1502,11 @@ async function DeleteUserDefined_Global() {
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-async function GetUserDefinedList() {
+async function GetUserDefinedList(SupportGroupID) {
     //await dxLoadPanel.show();
     const _userDefinedDTO = {
         SupportGroupDTO: {
-            ID: document.getElementById("hiddenUserSupportGroupID").value, IsActive: true
+            ID: SupportGroupID, IsActive: true
         }
     };
     const _userDefinedList = await GetDXUserDefinedDataSource(_userDefinedDTO);
@@ -1482,7 +1522,7 @@ function GetUserDefinedTemplateDTO() {
         Item_SupportGroupDTO: {
             ID: $("#hiddenItem_SupportGroupID").val(),
             SupportGroupDTO: {
-                ID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value"),
+                ID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
             },
         },
         IsActive: true
@@ -1494,7 +1534,7 @@ async function UpdateUserDefinedTemplate_Global() {
     let _userDefinedTemplateDTO = GetUserDefinedTemplateDTO();
     const _validation_ResultDTO = await UpdateUserDefinedTemplate(_userDefinedTemplateDTO);
     if (_validation_ResultDTO.Result) {
-        $("#AssignUserDefinedFieldsModal").modal("hide");
+        //$("#AssignUserDefinedFieldsModal").modal("hide");
         GetUserDefinedTemplateList();
     }
     HostResponse(_validation_ResultDTO);
@@ -1505,7 +1545,7 @@ async function GetUserDefinedTemplateList() {
     const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
     const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
     await SelectUserDefinedFieldsFromTemplate(_userDefinedTemplateList);
-    await BuildUserDefinedOnItem_LineModal(_userDefinedTemplateList);
+    //await BuildUserDefinedOnItem_LineModal(_userDefinedTemplateList);
 
     //dxLoadPanel.hide();
 }
@@ -1556,8 +1596,8 @@ function DisabledAdministrationFields(UserDTO) {
         if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin) || UserDTO.RoleIDArray.includes(Role_Enum.Administrator) || UserDTO.RoleIDArray.includes(Role_Enum.Warehouse_Receiver)) {
             $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("readOnly", false);
             $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("readOnly", false);
-            $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("readOnly", false);
-            $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("readOnly", false);
+            //$("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("readOnly", false);
+            //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("readOnly", false);
         }
     }
 }
@@ -1566,18 +1606,18 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
         if (UserDTO.SupportGroupIDArray != null && !UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             if (UserDTO.SupportGroupIDArray.length == 1) {
                 document.getElementById("hiddenUserSupportGroupID").value = UserDTO.SupportGroupIDArray[0]
-                $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
+                //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
 
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
                 $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true }));
             } else {
-                $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
+                //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
 
             }
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
 
-            $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
+            //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             $("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
 
@@ -1620,7 +1660,6 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
 //#region Header Files 
 async function GetItem_HeaderFileList() {
     $("#Item_HeaderFilelistSection").empty();
-
     let _item_HeaderFileDTO = { ID: $("#hiddenItem_HeaderID").val() }
     let _item_HeaderFileList = await GetItem_HeaderFilesInformation(_item_HeaderFileDTO);
     if ($(_item_HeaderFileList).length > 0) {
@@ -1838,15 +1877,15 @@ async function ReassignSupportGroupGlobal() {
     dxLoadPanel.hide();
 }
 async function InitializeItem_SupportGroupControls() {
-    $("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox({
-        dataSource: await GetDXItem_HeaderDataSource(),
-        valueExpr: "ID",
-        displayExpr: "NamesWithModel",
-        deferRendering: false,
-        searchEnabled: true,
-        searchExpr: ["Model", "EnglishName"],
-        searchMode: 'contains'
-    });
+    //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox({
+    //    dataSource: await GetDXItem_HeaderDataSource(),
+    //    valueExpr: "ID",
+    //    displayExpr: "NamesWithModel",
+    //    deferRendering: false,
+    //    searchEnabled: true,
+    //    searchExpr: ["Model", "EnglishName"],
+    //    searchMode: 'contains'
+    //});
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox({
         dataSource: [], //await GetDXSupportGroupDataSource(),
         valueExpr: "ID",
@@ -1855,14 +1894,25 @@ async function InitializeItem_SupportGroupControls() {
         deferRendering: false,
         searchEnabled: true,
         searchExpr: ["EnglishName"],
-        searchMode: 'contains'
+        searchMode: 'contains',
+        onSelectionChanged: async function (data) {
+            if (data.selectedItem != null)
+            {
+                let _itemSupportGroupID = data.selectedItem.ID;
+                if (_itemSupportGroupID != null) {
+                    $("#hiddenUserSupportGroupID").val(_itemSupportGroupID);
+                    GetUserDefinedList(_itemSupportGroupID);
+                }
+            }
+        },
     });
 }
 function GetItem_SupportGroupDTO() {
     let _item_SupportGroupDTO = {
         ID: $("#hiddenItem_SupportGroupID").val(),
         Item_HeaderDTO: {
-            ID: $("#hiddenItem_HeaderID").val() == 0 ? $("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").option("value") : $("#hiddenItem_HeaderID").val(),
+            //ID: $("#hiddenItem_HeaderID").val() == 0 ? $("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").option("value") : $("#hiddenItem_HeaderID").val(),
+            ID: $("#hiddenItem_HeaderID").val(),
         },
         SupportGroupDTO: {
             ID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
@@ -1879,7 +1929,7 @@ async function CreateItem_SupportGroup_Global() {
     if (_validation_ResultDTO.Result) {
         ClearItem_HeaderFields(true);
         GetUserInformationbyID();
-        CloseWizard();
+        //CloseWizard();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -1984,7 +2034,7 @@ function TriggerWizardFunctionByState() {
 
 function SetWizardStyle(isEditMode) {
     // Update modal title based on the mode
-    document.getElementById("exampleModalLabel").innerText = isEditMode === "edit" ? "Edit Asset Details" : "Add Asset";
+    document.getElementById("exampleModalLabel").innerText = isEditMode === "edit" ? "Edit Item" : "Add Item";
 
     // Toggle 'd-none' class for wizard-card
     document.getElementById("wizard-card").classList.toggle("d-none", isEditMode === "edit");

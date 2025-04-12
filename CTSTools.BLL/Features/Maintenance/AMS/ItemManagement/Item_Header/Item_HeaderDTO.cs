@@ -13,6 +13,8 @@ public class Item_HeaderDTO
     public string Brand { get; set; }
     public bool? IsESD { get; set; }
     public DateTime? AddedDate { get; set; }
+    public int? SupportGroupID { get; set; }
+    public int? Item_SupportGroupID { get; set; }
     public int? AddedByID { get; set; }
     public string AddedByName { get; set; }
     public DateTime? LastUpdate { get; set; }
@@ -36,6 +38,7 @@ public class Item_HeaderDTO
     public string ItemImg { get; set; }
     public string Names { get; set; }
     public string NamesWithModel { get; set; }
+    public int?[] UserDefinedIDArray { get; set; }
 
     #endregion
     #region Constructor
@@ -45,6 +48,7 @@ public class Item_HeaderDTO
         ItemClassificationDTO = new ItemClassificationDTO();
         ItemClassificationIDArray = new int?[] { };
         SupportGroupIDArray = new int?[] { };
+        UserDefinedIDArray = new int?[] { };
 
     }
     #endregion
