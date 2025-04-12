@@ -362,8 +362,9 @@ public class Item_Line_Service
                     properties.Add(nameof(Item_LineXPO.AddedBy), _item_lineDTO.AddedByName);
                     properties.Add(nameof(_item_lineDTO.AddedDate), _item_lineDTO.AddedDate);
                     properties.Add(nameof(Item_LineXPO.LastUpdateBy), _item_lineDTO.LastUpdateByName);
+                    properties.Add("DeliveredToDTOID", _item_lineDTO.DeliveredToID);
+                    properties.Add(nameof(Item_LineXPO.DeliveredTo), _item_lineDTO.DeliveredToName);
                     properties.Add(nameof(_item_lineDTO.DeliveredDate), _item_lineDTO.DeliveredDate);
-                    //properties.Add(nameof(Item_LineXPO.DeliveredTo), _item_lineDTO.DeliveredToDTO.Name);
 
                     foreach (var _userdefinedDTO in _userDefinedList)
                     {
@@ -433,8 +434,9 @@ public class Item_Line_Service
                     properties.Add(nameof(Item_LineXPO.AddedBy), _item_lineDTO.AddedByName);
                     properties.Add(nameof(Item_LineXPO.AddedDate), _item_lineDTO.AddedDate);
                     properties.Add(nameof(Item_LineXPO.LastUpdateBy), _item_lineDTO.LastUpdateByName);
+                    properties.Add("DeliveredToDTOID", _item_lineDTO.DeliveredToID);
+                    properties.Add(nameof(Item_LineXPO.DeliveredTo), _item_lineDTO.DeliveredToName);
                     properties.Add(nameof(Item_LineXPO.DeliveredDate), _item_lineDTO.DeliveredDate);
-                    //properties.Add(nameof(Item_LineXPO.DeliveredTo), _item_lineDTO.DeliveredToDTO.Name);
 
                     foreach (var _userdefinedDTO in _userDefinedList)
                     {

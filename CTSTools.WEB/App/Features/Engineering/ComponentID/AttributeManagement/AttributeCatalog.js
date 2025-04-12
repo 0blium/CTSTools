@@ -125,30 +125,34 @@ async function InitializeValueCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#ValueModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenValueID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenValueID").val(options.data.ID);
-                                ShowDeleteValueQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenValueID").val(options.data.ID);
+                                    $('#ValueModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenValueID").val(options.data.ID);
+                                    ShowDeleteValueQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Name", dataField: "Name" },
@@ -243,6 +247,7 @@ function ValueActionButtons(Action) {
 }
 function ClearValueFields() {
     ValueActionButtons("Save");
+    $('#ValueModal').modal('hide');
     $("#hiddenValueID").val("");
     $("#dxValueNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxCodeTextBox").dxTextBox("instance").option("value", "");

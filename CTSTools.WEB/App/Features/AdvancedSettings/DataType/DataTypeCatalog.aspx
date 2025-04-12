@@ -1,12 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="DataTypeCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.DataType.DataTypeCatalog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/App/Features/MasterPage/CTSTools.Master" AutoEventWireup="true" CodeBehind="DataTypeCatalog.aspx.cs" Inherits="CTSTools.WEB.App.Features.AdvancedSettings.DataType.DataTypeCatalog" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:;">Advanced Settings</a></li>
                     <li class="breadcrumb-item active">Data Type</li>
                 </ol>
             </div>
@@ -101,5 +100,5 @@
         </div>
     </div>
     <input type="hidden" id="hiddenDataTypeID" hidden />
-    <script type="module" src="/App/Features/Maintenance/AMS/ItemManagement/DataTypeCatalog.js"></script>
+    <script type="module" src="/App/Features/AdvancedSettings/DataType/DataTypeCatalog.js"></script>
 </asp:Content>

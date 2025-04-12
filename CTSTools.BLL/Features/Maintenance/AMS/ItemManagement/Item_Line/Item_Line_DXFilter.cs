@@ -92,10 +92,10 @@ public class Item_Line_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.ShipmentReceiptNumber), Item_LineDTO.ShipmentReceiptNumber));
             }
-            //if (Item_LineDTO.DeliveredToDTO.ID != null && Item_LineDTO.DeliveredToDTO.ID > 0)
-            //{
-            //    _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.DeliveredTo), Item_LineDTO.DeliveredToDTO.ID));
-            //}
+            if (Item_LineDTO.DeliveredToID != null && Item_LineDTO.DeliveredToID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.DeliveredTo), Item_LineDTO.DeliveredToID));
+            }
             if (Item_LineDTO.OwnerIDArray != null && Item_LineDTO.OwnerIDArray.Count() > 0 && Item_LineDTO.OwnerIDArray[0] != null)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.Owner), Item_LineDTO.OwnerIDArray));

@@ -1,12 +1,12 @@
-﻿import { APIURL } from '../../../../../Common/Utils/Environment.js'
-import { ValidationResultDTO } from '../../../../../Common/Utils/ValidationResultDTO.js'
-import APIRequest from '../../../../../Common/Utils/APIRequest.js'
+﻿import { APIURL } from '../../../Common/Utils/Environment.js'
+import { ValidationResultDTO } from '../../../Common/Utils/ValidationResultDTO.js'
+import APIRequest from '../../../Common/Utils/APIRequest.js'
 
-export async function CreateDataType(DataTypeDTO) {
+export async function CreateSupplyType(SupplyTypeDTO) {
     let _validationResultDTO = ValidationResultDTO;
-    const _url = `${APIURL}/DataType/Create`;
+    const _url = `${APIURL}/SupplyType/Create`;
     try {
-        _validationResultDTO = await APIRequest(_url, 'POST', DataTypeDTO);
+        _validationResultDTO = await APIRequest(_url, 'POST', SupplyTypeDTO);
     }
     catch (error) {
         _validationResultDTO.Result = false;
@@ -16,11 +16,11 @@ export async function CreateDataType(DataTypeDTO) {
     return _validationResultDTO;
 }
 
-export async function UpdateDataType(DataTypeDTO) {
+export async function UpdateSupplyType(SupplyTypeDTO) {
     let _validationResultDTO = ValidationResultDTO;
-    const _url = `${APIURL}/DataType/Update`;
+    const _url = `${APIURL}/SupplyType/Update`;
     try {
-        _validationResultDTO = await APIRequest(_url, 'POST', DataTypeDTO);
+        _validationResultDTO = await APIRequest(_url, 'POST', SupplyTypeDTO);
     }
     catch (error) {
         _validationResultDTO.Result = false;
@@ -30,11 +30,11 @@ export async function UpdateDataType(DataTypeDTO) {
     return _validationResultDTO;
 }
 
-export async function DeleteDataType(DataTypeDTO) {
+export async function DeleteSupplyType(SupplyTypeDTO) {
     let _validationResultDTO = ValidationResultDTO;
-    const _url = `${APIURL}/DataType/Delete`;
+    const _url = `${APIURL}/SupplyType/Delete`;
     try {
-        _validationResultDTO = await APIRequest(_url, 'POST', DataTypeDTO);
+        _validationResultDTO = await APIRequest(_url, 'POST', SupplyTypeDTO);
     }
     catch (error) {
         _validationResultDTO.Result = false;
@@ -44,10 +44,10 @@ export async function DeleteDataType(DataTypeDTO) {
     return _validationResultDTO;
 }
 
-export async function GetDataTypeInformation(dataTypeDTO) {
+export async function GetSupplyTypeInformation(supplyTypeDTO) {
     let _validation_resultDTO = new Object();
     try {
-        const _response = await fetch(`${APIURL}/DataType/GetDataTypeList?` + new URLSearchParams(dataTypeDTO), {
+        const _response = await fetch(`${APIURL}/SupplyType/GetSupplyTypeList?` + new URLSearchParams(supplyTypeDTO), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset= UTF-8' }
         });
@@ -64,18 +64,18 @@ export async function GetDataTypeInformation(dataTypeDTO) {
 }
 
 //DX DataSource
-export async function GetDXDataTypeDataSource(DataTypeDTO) {
+export async function GetDXSupplyTypeDataSource(SupplyTypeDTO) {
     let _store = new DevExpress.data.AspNet.createStore({
-        loadUrl: `${APIURL}/DataType/GetPagedList?` + new URLSearchParams(DataTypeDTO),
+        loadUrl: `${APIURL}/SupplyType/GetPagedList?` + new URLSearchParams(SupplyTypeDTO),
         key: "ID",
         beforeSend: (sender, ajaxSettings) => {
         },
     });
-    let _dataTypeDataSource = new DevExpress.data.DataSource({
+    let _supplyTypeDataSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,
         pageSize: 15,
         remoteOperations: true,
     });
-    return _dataTypeDataSource;
+    return _supplyTypeDataSource;
 }

@@ -7,7 +7,7 @@ import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/Use
 import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 import { GetDXSparePartInventoryDataSource, CreateSparePartInventory, UpdateSparePartInventory, DeleteSparePartInventory } from './SparePartInventory/SparePartInventory_Service.js'
 import { GetDXSparePart_LotDataSource, CreateSparePart_Lot, UpdateSparePart_Lot, DeleteSparePart_Lot } from './SparePart_Lot/SparePart_Lot_Service.js'
-import { GetDXTransactionOriginDataSource } from '../ItemManagement/TransactionOrigin/TransactionOrigin_Service.js'
+import { GetDXTransactionOriginDataSource } from '../../../AdvancedSettings/TransactionOrigin/TransactionOrigin_Service.js'
 import { GetDXProviderDataSource } from './Provider/Provider_Service.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -882,32 +882,62 @@ async function InitializeSparePartLotControls() {
         },
         columns:
             [
+                //{
+                //    caption: "Options",
+                //    alignment: "center",
+                //    allowFiltering: false,
+                //    allowSorting: false,
+                //    width: 'auto',
+                //    cellTemplate: function (container, options) {
+                //        container.height(30);
+                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                $("#hiddenSparePartLotID").val(options.data.ID);
+                //                ShowSparePartLotDeleteQuestion();
+                //            }).appendTo(container);
+                //        $('<button type="button" class="btn btn-info ms-2 " style="padding-top: 2px; ' +
+                //            'padding-bottom:5px"><i class="fas fa-print"></i><span>' +
+                //            + '</span></button>')
+                //            .height(30)
+                //            .on('dxclick', function () {
+                //                var _data = options.data;
+                //                // Open Label
+                //                window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2083-02-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
+                //            }).appendTo(container);
+                //    },
+                //},
                 {
                     caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenSparePartLotID").val(options.data.ID);
-                                ShowSparePartLotDeleteQuestion();
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-info ms-2 " style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fas fa-print"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                var _data = options.data;
-                                // Open Label
-                                window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2083-02-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Print", icon: "fa fa-print text-secondary", value: 1},
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                let _data = options.data;
+                                if (e.itemData.value == 1) {
+                                    // Open Label
+                                    window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2083-02-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenSparePartLotID").val(options.data.ID);
+                                    ShowSparePartLotDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",

@@ -85,30 +85,34 @@ async function InitializeStatusCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#StatusModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStatusID").val(options.data.ID);
-                               
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStatusID").val(options.data.ID);
-                                ShowStatusDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenStatusID").val(options.data.ID);
+                                    $('#StatusModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenStatusID").val(options.data.ID);
+                                    ShowStatusDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
@@ -303,30 +307,34 @@ async function InitializeStatusTypeCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#StatusTypeModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStatusTypeID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStatusTypeID").val(options.data.ID);
-                                ShowStatusTypeDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenStatusTypeID").val(options.data.ID);
+                                    $('#StatusTypeModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenStatusTypeID").val(options.data.ID);
+                                    ShowStatusTypeDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
@@ -530,25 +538,30 @@ async function InitializeStatus_StatusTypeCatalogControls() {
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#StatusRelationModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStatus_StatusTypeID").val(options.data.ID);
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenStatus_StatusTypeID").val(options.data.ID);
-                                ShowStatus_StatusTypeDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenStatus_StatusTypeID").val(options.data.ID);
+                                    $('#StatusRelationModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenStatus_StatusTypeID").val(options.data.ID);
+                                    ShowStatus_StatusTypeDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },

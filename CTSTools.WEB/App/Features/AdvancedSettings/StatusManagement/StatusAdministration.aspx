@@ -47,10 +47,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
-
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusModal" id="SupplyTypeButton">Add New</a>
-
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusModal" id="SupplyTypeButton"><i class="fa-solid fa-circle-plus"></i> Status</a>
                                         <div id="dxStatusGrid"></div>
                                     </div>
                                 </div>
@@ -60,13 +58,10 @@
                     </div>
                     <div class="tab-pane fade" id="StatusTypeTab" role="tabpanel">
                         <div class="row">
-
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusTypeModal" id="SupplyTypeButton">Add New</a>
-
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusTypeModal" id="SupplyTypeButton"><i class="fa-solid fa-circle-plus"></i> Status Type</a>
                                         <div id="dxStatusTypeGrid"></div>
                                     </div>
                                 </div>
@@ -77,10 +72,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
-
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusRelationModal" id="StatusRelationButton">Add New</a>
-
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusRelationModal" id="StatusRelationButton"><i class="fa-solid fa-circle-plus"></i> Status Relation</a>
                                         <div id="dxStatus_StatusTypeGrid"></div>
                                     </div>
                                 </div>

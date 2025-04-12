@@ -138,6 +138,12 @@ public class Item_LineXPO : XPObject
         get { return fSupplyType; }
         set { SetPropertyValue<SupplyTypeXPO>(nameof(SupplyType), ref fSupplyType, value); }
     }
+    UserXPO fDeliveredTo;
+    public UserXPO DeliveredTo
+    {
+        get { return fDeliveredTo; }
+        set { SetPropertyValue<UserXPO?>(nameof(DeliveredTo), ref fDeliveredTo, value); }
+    }
     DateTime? fDeliveredDate;
     public DateTime? DeliveredDate
     {

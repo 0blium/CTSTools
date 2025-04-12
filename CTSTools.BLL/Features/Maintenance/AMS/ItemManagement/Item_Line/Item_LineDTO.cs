@@ -38,6 +38,8 @@ public class Item_LineDTO
     public string ItemNameWithManufactureSerial { get; set; }
     public string ImportInvoice { get; set; }
     public string ShipmentReceiptNumber { get; set; }
+    public int? DeliveredToID { get; set; }
+    public string DeliveredToName { get; set; }
     public DateTime? DeliveredDate { get; set; }
     public int ImportInvoiceLine { get; set; }
     public string DeclarationNumber { get; set; }

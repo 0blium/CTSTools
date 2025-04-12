@@ -84,30 +84,34 @@ async function InitializeMailGroupCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#MailGroupModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenMailGroupID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenMailGroupID").val(options.data.ID);
-                                ShowMailGroupDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenMailGroupID").val(options.data.ID);
+                                    $('#MailGroupModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenMailGroupID").val(options.data.ID);
+                                    ShowMailGroupDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
@@ -308,27 +312,31 @@ async function InitializeMailGroupMemberCatalogControls() {
                     caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
-                    allowSorting: false,                 
-                    width: "auto",
+                    allowSorting: false,
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#MailGroupMemberModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenMailGroupMemberID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenMailGroupMemberID").val(options.data.ID);
-                                ShowMailGroupMemberDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenMailGroupMemberID").val(options.data.ID);
+                                    $('#MailGroupMemberModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenMailGroupMemberID").val(options.data.ID);
+                                    ShowMailGroupMemberDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },

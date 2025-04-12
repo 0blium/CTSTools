@@ -71,9 +71,10 @@
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Comments </label>
+                                <label class="form-label col-form-label col-md-12">Delivered To (<span class="text-danger">*</span>)</label>
                                 <div class="col-md-12">
-                                    <div id="dxItem_LineCommentsTextArea"></div>
+                                    <div id="dxItem_LineDeliveredToSelectBox"></div>
+                                    <div class="invalid-feedback" id="Item_LineDeliveredToValidation"></div>
                                 </div>
                             </div>
                         </div>
@@ -104,6 +105,12 @@
                                 <div class="col-md-12">
                                     <div id="dxItem_LineStationSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineStationValidation"></div>
+                                </div>
+                            </div>
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">Comments </label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_LineCommentsTextArea"></div>
                                 </div>
                             </div>
                         </div>
@@ -159,11 +166,11 @@
                     <div id="UserDefinedTemplateSection">
                     </div>
                 </div>
-            <div class="modal-footer">
-                <div class="row" id="ItemLineActionButtons"></div>
+                <div class="modal-footer">
+                    <div class="row" id="ItemLineActionButtons"></div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
     <%-- Update Support Group to Item  line Modal --%>
     <div class="modal fade" id="ReassingSupportGroupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

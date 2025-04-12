@@ -1,6 +1,6 @@
-﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { CreateDataType, UpdateDataType, DeleteDataType, GetDXDataTypeDataSource } from '../ItemManagement/DataType/DataType_Service.js'
+﻿import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
+import { CreateDataType, UpdateDataType, DeleteDataType, GetDXDataTypeDataSource } from '../DataType/DataType_Service.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDataTypeCatalogControls();
@@ -87,8 +87,8 @@ async function InitializeDataTypeCatalogControls() {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
-                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
                                 ]
                             }],
                             showFirstSubmenuMode: 'onClick',

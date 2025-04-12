@@ -1,6 +1,7 @@
 ﻿import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
 import { CreateRole, UpdateRole, DeleteRole, GetDXRoleDataSource } from './Role/Role_Service.js'
+import { GetDXPermissionDataSource } from './Permission/Permission_Service.js'
 import { CreateRoleType, UpdateRoleType, DeleteRoleType, GetDXRoleTypeDataSource } from './RoleType/RoleType_Service.js'
 import { CreateRole_Permission, UpdateRole_Permission, DeleteRole_Permission, GetDXRole_PermissionDataSource } from './Role_Permission/Role_Permission_Service.js'
 
@@ -89,30 +90,34 @@ async function InitializeRoleCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#RoleModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenRoleID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenRoleID").val(options.data.ID);
-                                ShowRoleDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenRoleID").val(options.data.ID);
+                                    $('#RoleModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenRoleID").val(options.data.ID);
+                                    ShowRoleDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
@@ -305,30 +310,34 @@ async function InitializeRoleTypeCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#RoleTypeModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenRoleTypeID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenRoleTypeID").val(options.data.ID);
-                                ShowRoleTypeDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenRoleTypeID").val(options.data.ID);
+                                    $('#RoleTypeModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenRoleTypeID").val(options.data.ID);
+                                    ShowRoleTypeDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },

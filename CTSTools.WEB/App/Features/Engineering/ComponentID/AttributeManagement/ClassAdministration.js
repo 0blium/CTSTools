@@ -152,32 +152,36 @@ async function InitializeClassCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#ClassModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenClassID").val(options.data.ClassValueDTO.ID);
-                                $("#hiddenClassValueLinkID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenClassValueLinkID").val(options.data.ID);
-                                $("#hiddenClassID").val(options.data.ClassValueDTO.ID);
-                                ShowDeleteClassQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenClassID").val(options.data.ClassValueDTO.ID);
+                                    $("#hiddenClassValueLinkID").val(options.data.ID);
+                                    $('#ClassModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenClassValueLinkID").val(options.data.ID);
+                                    $("#hiddenClassID").val(options.data.ClassValueDTO.ID);
+                                    ShowDeleteClassQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Name", dataField: "ClassValueDTO.Name" },
@@ -223,6 +227,7 @@ function ClassActionButtons(Action) {
 }
 function ClearClassFields() {
     ClassActionButtons("Save");
+    $('#ClassModal').modal('hide');
     $("#hiddenClassID").val("");
     $("#dxClassCodeTextBox").dxTextBox("instance").option("value", "");
     $("#dxClassNameTextBox").dxTextBox("instance").option("value", "");
@@ -576,33 +581,36 @@ async function InitializeSubClassCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#SubClassModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenSubClassValueLinkID").val(options.data.ID);
-                                $("#hiddenSubClassID").val(options.data.SubClassValueDTO.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-
-                                $("#hiddenSubClassValueLinkID").val(options.data.ID);
-                                $("#hiddenSubClassID").val(options.data.SubClassValueDTO.ID);
-                                ShowDeleteSubClassQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenSubClassValueLinkID").val(options.data.ID);
+                                    $("#hiddenSubClassID").val(options.data.SubClassValueDTO.ID);
+                                    $('#SubClassModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenSubClassValueLinkID").val(options.data.ID);
+                                    $("#hiddenSubClassID").val(options.data.SubClassValueDTO.ID);
+                                    ShowDeleteSubClassQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Name", dataField: "SubClassValueDTO.Name" },
@@ -683,6 +691,7 @@ async function ShowDeleteSubClassQuestion() {
 }
 function ClearSubClassFields() {
     SubClassActionButtons("Save");
+    $('#SubClassModal').modal('hide');
     $("#hiddenSubClassID").val("");
     $("#dxSubClassCodeTextBox").dxTextBox("instance").option("value", "");
     $("#dxSubClassNameTextBox").dxTextBox("instance").option("value", "");

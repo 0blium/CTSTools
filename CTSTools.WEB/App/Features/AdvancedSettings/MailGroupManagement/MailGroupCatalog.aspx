@@ -42,7 +42,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#MailGroupModal" id="MailGroupButton">Add New</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#MailGroupModal" id="MailGroupButton"><i class="fa-solid fa-circle-plus"></i> Mail Group</a>
                                         <div id="dxMailGroupGrid"></div>
                                     </div>
                                 </div>
@@ -55,8 +55,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#MailGroupMemberModal" id="MailGroupMemberButton">Add New</a>
-
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#MailGroupMemberModal" id="MailGroupMemberButton"><i class="fa-solid fa-circle-plus"></i> Mail Group Member</a>
                                         <div id="dxMailGroupMemberGrid"></div>
                                     </div>
                                 </div>

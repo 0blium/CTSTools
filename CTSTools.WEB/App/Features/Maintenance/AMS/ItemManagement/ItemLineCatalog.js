@@ -6,14 +6,14 @@ import { GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_Suppor
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
 import { GetDXStationDataSource } from '../StationManagement/Station/Station_Service.js'
-import { GetDXSupplyTypeDataSource } from '../ItemManagement/SupplyType/SupplyType_Service.js'
+import { GetDXSupplyTypeDataSource } from '../../../AdvancedSettings/SupplyType/SupplyType_Service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { UpdateUserDefinedTemplate, GetUserDefinedTemplateInformation } from './UserDefinedTemplate/UserDefinedTemplate_Service.js'
 import { GetURLParameter } from '../../../../Common/Utils/GetURLParameter.js'
 
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
-import { SupplyType_Enum } from '../ItemManagement/SupplyType/SupplyType_Enum.js'
-import { DataType_Enum } from '../ItemManagement/DataType/DataType_Enum.js'
+import { SupplyType_Enum } from '../../../AdvancedSettings/SupplyType/SupplyType_Enum.js'
+import { DataType_Enum } from '../../../AdvancedSettings/DataType/DataType_Enum.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await dxLoadPanel.show();
@@ -32,6 +32,15 @@ async function InitializeItemLineCatalogControls() {
         searchEnabled: true
     });
     $("#dxItem_LineOwnerSelectBox").dxSelectBox({
+        dataSource: await GetDXUserDataSource(),
+        valueExpr: "ID",
+        displayExpr: "Name",
+        deferRendering: false,
+        searchEnabled: true,
+        searchExpr: ["Name"],
+        searchMode: 'contains'
+    })
+    $("#dxItem_LineDeliveredToSelectBox").dxSelectBox({
         dataSource: await GetDXUserDataSource(),
         valueExpr: "ID",
         displayExpr: "Name",
@@ -331,6 +340,7 @@ async function ClearItemLineFields(UserDefinedTemplateList) {
     $("#hiddenStationID").val("");
     //$("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").reset();
+    $("#dxItem_LineDeliveredToSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", "");
@@ -371,11 +381,13 @@ async function ClearItemLineFields(UserDefinedTemplateList) {
     //ClearErrorFeedback();
 }
 function PopulateItemLineFields(Data, UserDefinedList) {
+    debugger;
     ItemLineActionButtons("Update");
     $("#hiddenItemLineID").val(Data.ID);
     $("#hiddenStationID").val(Data.StationDTOID);
     $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value", Data.StationDTOID)
     $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value", Data.OwnerDTOID);
+    $("#dxItem_LineDeliveredToSelectBox").dxSelectBox("instance").option("value", Data.DeliveredToDTOID);
     $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value", Data.SupplyTypeDTOID);
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", Data.ManufactureSerialID);
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", Data.ShipmentReceiptNumber);
@@ -432,6 +444,7 @@ function GetItem_LineDTO(UserDefinedTemplateList) {
         StationDTO: {
             ID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value")
         },
+        DeliveredToID: $("#dxItem_LineDeliveredToSelectBox").dxSelectBox("instance").option("value"),
         ImportInvoice: $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value"),
         BasePriceUSD: $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value"),
         Comments: $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value"),

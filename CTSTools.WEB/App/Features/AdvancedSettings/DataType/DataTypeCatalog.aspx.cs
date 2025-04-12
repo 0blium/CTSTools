@@ -1,5 +1,5 @@
 ﻿using System;
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.DataType;
+namespace CTSTools.WEB.App.Features.AdvancedSettings.DataType;
 
 public partial class DataTypeCatalog : System.Web.UI.Page
 {

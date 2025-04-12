@@ -38,8 +38,8 @@ let _DatagridConfiguration = {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
-                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
                                 ]
                             }],
                             showFirstSubmenuMode: 'onClick',
@@ -86,8 +86,8 @@ let _DatagridConfiguration = {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Edit item", icon: "fa fa-pen-to-square text-info", value: 1 },
-                                    { text: "Delete item", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
                                 ]
                             }],
                             showFirstSubmenuMode: 'onClick',

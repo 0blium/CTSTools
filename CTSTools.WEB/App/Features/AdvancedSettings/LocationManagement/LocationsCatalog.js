@@ -86,30 +86,34 @@ async function InitializeFacilityCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#FacilityModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenFacilityID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenFacilityID").val(options.data.ID);
-                                ShowFacilityDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenFacilityID").val(options.data.ID);
+                                    $('#FacilityModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenFacilityID").val(options.data.ID);
+                                    ShowFacilityDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -363,30 +367,34 @@ async function InitializeDepartmentCatalogControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#DepartmentModal" class="btn btn-success" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenDepartmentID").val(options.data.ID);
-
-                            }).appendTo(container);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenDepartmentID").val(options.data.ID);
-                                ShowDepartmentDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenDepartmentID").val(options.data.ID);
+                                    $('#DepartmentModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenDepartmentID").val(options.data.ID);
+                                    ShowDepartmentDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },

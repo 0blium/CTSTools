@@ -365,10 +365,10 @@
     <Content Include="App\Features\Quality\QMS\ProductCatalog.aspx" />
     <Content Include="App\Features\Quality\QMS\ProductCatalog.js" />
     <Content Include="App\Features\Quality\QMS\Product\Product_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\DataTypeCatalog.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\DataTypeCatalog.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\DataType\DataType_Enum.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\DataType\DataType_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\DataType\DataType_Enum.js" />
+    <Content Include="App\Features\AdvancedSettings\DataType\DataType_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemAdministration.aspx" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemAdministration.css" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemAdministration.js" />
@@ -377,15 +377,15 @@
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\Item_SupportGroup\Item_SupportGroup_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\UserDefinedTemplate\UserDefinedTemplate_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\UserDefined\UserDefined_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemClassificationCatalog.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemClassificationCatalog.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassification_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\ItemClassification\ItemClassification_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.aspx" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\SupplyTypeCatalog.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\SupplyTypeCatalog.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\SupplyType\SupplyType_Enum.js" />
-    <Content Include="App\Features\Maintenance\AMS\ItemManagement\SupplyType\SupplyType_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\SupplyType\SupplyTypeCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\SupplyType\SupplyTypeCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\SupplyType\SupplyType_Enum.js" />
+    <Content Include="App\Features\AdvancedSettings\SupplyType\SupplyType_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\ProviderCatalog.aspx" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\ProviderCatalog.js" />
     <Content Include="App\Features\Maintenance\AMS\SparePartManagement\Provider\Provider_Service.js" />
@@ -846,14 +846,14 @@
       <DependentUpon>ProductCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Quality\QMS\Product\Product_Controller.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\DataTypeCatalog.aspx.cs">
+    <Compile Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.aspx.cs">
       <DependentUpon>DataTypeCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\DataTypeCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.aspx.designer.cs">
       <DependentUpon>DataTypeCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\DataType\DataTypeController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\DataType\DataTypeController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemAdministration.aspx.cs">
       <DependentUpon>ItemAdministration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -866,14 +866,14 @@
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\Item_SupportGroup\Item_SupportGroupController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\UserDefinedTemplate\UserDefinedTemplateController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\UserDefined\UserDefinedController.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemClassificationCatalog.aspx.cs">
+    <Compile Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.aspx.cs">
       <DependentUpon>ItemClassificationCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemClassificationCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.aspx.designer.cs">
       <DependentUpon>ItemClassificationCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassificationController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.aspx.cs">
       <DependentUpon>ItemRegistration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -881,14 +881,14 @@
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.aspx.designer.cs">
       <DependentUpon>ItemRegistration.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\SupplyTypeCatalog.aspx.cs">
+    <Compile Include="App\Features\AdvancedSettings\SupplyType\SupplyTypeCatalog.aspx.cs">
       <DependentUpon>SupplyTypeCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\SupplyTypeCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\AdvancedSettings\SupplyType\SupplyTypeCatalog.aspx.designer.cs">
       <DependentUpon>SupplyTypeCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\ItemManagement\SupplyType\SupplyTypeController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\SupplyType\SupplyTypeController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\SparePartManagement\ProviderCatalog.aspx.cs">
       <DependentUpon>ProviderCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

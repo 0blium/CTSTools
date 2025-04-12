@@ -47,8 +47,8 @@ public class Item_LineMap
             _item_lineDTO.SupplyTypeDTO.ID = (Item_LineXPO.SupplyType != null) ? Item_LineXPO.SupplyType.Oid : 0;
             _item_lineDTO.SupplyTypeDTO.Name = (Item_LineXPO.SupplyType != null) ? Item_LineXPO.SupplyType.Name : "Unnassigned";
             _item_lineDTO.DeliveredDate = (Item_LineXPO.DeliveredDate.ToString() != DateTime.MinValue.ToString()) ? Item_LineXPO.DeliveredDate : (DateTime?)null;
-            //_item_lineDTO.DeliveredToDTO.ID = (Item_LineXPO.DeliveredTo != null) ? Item_LineXPO.DeliveredTo.Oid : 0;
-            //_item_lineDTO.DeliveredToDTO.Name = (Item_LineXPO.DeliveredTo != null) ? Item_LineXPO.DeliveredTo.Name : "Unassigned";
+            _item_lineDTO.DeliveredToID = (Item_LineXPO.DeliveredTo != null) ? Item_LineXPO.DeliveredTo.Oid : 0;
+            _item_lineDTO.DeliveredToName = (Item_LineXPO.DeliveredTo != null) ? Item_LineXPO.DeliveredTo.Name : "Unassigned";
             _item_lineDTO.ImportInvoiceLine = Item_LineXPO.ImportInvoiceLine;
             _item_lineDTO.DeclarationNumber = Item_LineXPO.DeclarationNumber;
             _item_lineDTO.TransactionOriginDTO.ID = (Item_LineXPO.TransactionOrigin != null) ? Item_LineXPO.TransactionOrigin.Oid : 0;
@@ -88,6 +88,7 @@ public class Item_LineMap
             _item_lineXPO.ShipmentReceiptNumber = Item_LineDTO.ShipmentReceiptNumber;
             _item_lineXPO.Item_SupportGroup = (_item_lineXPO.Item_SupportGroup != null && _item_lineXPO.Item_SupportGroup.Oid == Item_LineDTO.Item_SupportGroupDTO.ID) ? _item_lineXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(Item_LineDTO.Item_SupportGroupDTO.ID);
             _item_lineXPO.SupplyType = (_item_lineXPO.SupplyType != null && _item_lineXPO.SupplyType.Oid == Item_LineDTO.SupplyTypeDTO.ID) ? _item_lineXPO.SupplyType : UnitOfWork.GetObjectByKey<SupplyTypeXPO>(Item_LineDTO.SupplyTypeDTO.ID);
+            _item_lineXPO.DeliveredTo = (_item_lineXPO.DeliveredTo != null && _item_lineXPO.DeliveredTo.Oid == Item_LineDTO.DeliveredToID) ? _item_lineXPO.DeliveredTo : UnitOfWork.GetObjectByKey<UserXPO>(Item_LineDTO.DeliveredToID);
             _item_lineXPO.DeliveredDate = _item_lineXPO.DeliveredDate != null ? _item_lineXPO.DeliveredDate : Item_LineDTO.DeliveredDate;
             _item_lineXPO.ImportInvoiceLine = _item_lineXPO.ImportInvoiceLine == Item_LineDTO.ImportInvoiceLine ? _item_lineXPO.ImportInvoiceLine : Item_LineDTO.ImportInvoiceLine;
             _item_lineXPO.DeclarationNumber = _item_lineXPO.DeclarationNumber == Item_LineDTO.DeclarationNumber ? _item_lineXPO.DeclarationNumber : Item_LineDTO.DeclarationNumber;

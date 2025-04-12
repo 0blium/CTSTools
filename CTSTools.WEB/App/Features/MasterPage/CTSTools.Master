@@ -242,21 +242,6 @@
                                                     <div class="menu-text">Registration</div>
                                                 </a>
                                             </div>
-                                            <div id="SupplyTypeItemModule" class="menu-item " data-tech="SupplyType">
-                                                <a href="/App/Features/Maintenance/AMS/ItemManagement/SupplyTypeCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Supply Type</div>
-                                                </a>
-                                            </div>
-                                            <div id="ItemClassificationItemModule" class="menu-item " data-tech="ItemClassification">
-                                                <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemClassificationCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Classification</div>
-                                                </a>
-                                            </div>
-                                            <div id="DataTypeItemModule" class="menu-item " data-tech="DataType">
-                                                <a href="/App/Features/Maintenance/AMS/ItemManagement/DataTypeCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">DataType</div>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                     <div id="SupportGroupManagement" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement">
@@ -386,7 +371,16 @@
                                     <div class="menu-text">Mail Groups </div>
                                 </a>
                             </div>
-
+                            <div id="DataTypeAdvancedSettings" class="menu-item " data-tech="DataType">
+                                <a href="/App/Features/AdvancedSettings/DataType/DataTypeCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Data Type</div>
+                                </a>
+                            </div>
+                            <div id="ItemClassificationAdvancedSettings" class="menu-item " data-tech="ItemClassification">
+                                <a href="/App/Features/AdvancedSettings/ItemClassification/ItemClassificationCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Classification</div>
+                                </a>
+                            </div>
                             <div id="PermissionCatalogAdvancedSettings" class="menu-item module-nav" data-tech="PermissionCatalog Permission" hidden>
                                 <a href="/App/Features/AdvancedSettings/SecurityManagement/PermissionCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Permissions</div>
@@ -425,6 +419,11 @@
                             <div id="SupplierCatalogAdvancedSettings" class="menu-item module-nav" data-tech="SupplierCatalog" hidden>
                                 <a href="/App/Features/Engineering/ComponentID/SupplierManagement/SupplierCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Suppliers</div>
+                                </a>
+                            </div>
+                            <div id="SupplyTypeAdvancedSettings" class="menu-item " data-tech="SupplyType">
+                                <a href="/App/Features/AdvancedSettings/SupplyType/SupplyTypeCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Supply Type</div>
                                 </a>
                             </div>
                             <div id="TransactionOriginCatalogAdvancedSettings" class="menu-item module-nav" data-tech="TransactionOriginCatalog" hidden>

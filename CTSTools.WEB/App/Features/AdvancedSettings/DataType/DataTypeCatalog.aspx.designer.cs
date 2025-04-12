@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.DataType
+namespace CTSTools.WEB.App.Features.AdvancedSettings.DataType
 {
 
 

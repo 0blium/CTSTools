@@ -26,7 +26,7 @@
 
                 <div class="panel panel-inverse">
                     <div class="panel-body">
-                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#DepartmentModal"><i class="fa-solid fa-circle-plus"></i>Department</a>
+                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#DepartmentModal"><i class="fa-solid fa-circle-plus"></i> Department</a>
                         <div id="dxDepartmentGrid"></div>
                     </div>
                 </div>
