@@ -103,20 +103,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Directories\Directory_Service.cs" />
+    <Compile Include="Common\Excel\ExcelImport_Service.cs" />
+    <Compile Include="Common\Excel\ExcelImport_Validator.cs" />
+    <Compile Include="Common\Excel\ExcelRowDTO.cs" />
     <Compile Include="Common\Exception_Service.cs" />
     <Compile Include="Common\Directories\DirectoryDTO.cs" />
-    <Compile Include="Common\Excel\ExcelAttributeDTO.cs" />
-    <Compile Include="Common\Excel\ExcelClassDTO.cs" />
-    <Compile Include="Common\Excel\ExcelDataImport_Service.cs" />
-    <Compile Include="Common\Excel\ExcelFileDTO.cs" />
-    <Compile Include="Common\Excel\ExcelKPIDTO.cs" />
-    <Compile Include="Common\Excel\ExcelSubClassDTO.cs" />
-    <Compile Include="Common\Excel\ExcelValueDTO.cs" />
     <Compile Include="Common\Files\FileDirectory_Enum.cs" />
     <Compile Include="Common\Files\FileDTO.cs" />
     <Compile Include="Common\Files\File_Enum.cs" />
     <Compile Include="Common\Files\File_Service.cs" />
-    <Compile Include="Common\Excel\ExcelSupplierDTO.cs" />
     <Compile Include="Common\PagedResultDTO.cs" />
     <Compile Include="Common\ValidationResultDTO.cs" />
     <Compile Include="Features\AdvancedSettings\LocationManagement\DepartmentResponsible\DepartmentResponsibleDTO.cs" />

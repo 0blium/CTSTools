@@ -319,8 +319,6 @@ C:\CTSTFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.52B27051.Up2Date
 C:\CTSTFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.dll
 C:\CTSTFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.pdb
 C:\CTSTFS\CTSTools\CTSTools.WEB\bin\CTSTools.BLL.dll.config
-C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.csproj.AssemblyReference.cache
-C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.csproj.CoreCompileInputs.cache
 C:\TFS\CTSTools\CTSTools.WEB\bin\CTSTools.WEB.dll.config
 C:\TFS\CTSTools\CTSTools.WEB\bin\CTSTools.WEB.dll
 C:\TFS\CTSTools\CTSTools.WEB\bin\CTSTools.WEB.pdb
@@ -477,6 +475,8 @@ C:\TFS\CTSTools\CTSTools.WEB\bin\DevExpress.Sparkline.v23.2.Core.xml
 C:\TFS\CTSTools\CTSTools.WEB\bin\DevExpress.XtraGauges.v23.2.Core.xml
 C:\TFS\CTSTools\CTSTools.WEB\bin\DevExpress.PivotGrid.v23.2.Core.xml
 C:\TFS\CTSTools\CTSTools.WEB\bin\DevExpress.Pdf.v23.2.Drawing.xml
+C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.csproj.AssemblyReference.cache
+C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.csproj.CoreCompileInputs.cache
 C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.52B27051.Up2Date
 C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.dll
 C:\TFS\CTSTools\CTSTools.WEB\obj\Debug\CTSTools.WEB.pdb
