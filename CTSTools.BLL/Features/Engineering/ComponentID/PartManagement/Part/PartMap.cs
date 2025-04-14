@@ -4,6 +4,7 @@ using CTSTools.DAL.Features.Engineering.ComponentID.PartManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.SupplierManagement;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part;
 
@@ -61,5 +62,37 @@ public  class PartMap
             throw ex;
         }
         return _partXPO;
+    }
+    public static List<PartXPO> DTOListToXPOList(List<PartDTO> PartDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<PartXPO>();
+        try
+        {
+            foreach (var _partDTO in PartDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_partDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<PartDTO> XPCollectionToList(XPCollection<PartXPO> PartXPCollection)
+    {
+        var _dTOList = new List<PartDTO>();
+        try
+        {
+            foreach (var _partXPO in PartXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_partXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
     }
 }

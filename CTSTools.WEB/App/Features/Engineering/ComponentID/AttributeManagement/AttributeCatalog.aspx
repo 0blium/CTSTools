@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <a class="btn btn-success mb-2 float-end" id="UploadExcelValueModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelValueModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                    <a class="btn btn-success mb-2 float-end" id="UploadMassiveValueModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelValueModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
                 </div>
             </div>
             <div class="row">
@@ -125,7 +125,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="AttributeActionButtons"></div>
+                            <div class="row mb-15px">
+                                <div class="col-md-4">
+                                    <a class="btn btn-success mb-2" id="UploadMassiveAttributeModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelAttributeModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
+                                </div>
+                                <div class="col-md-8" id="AttributeActionButtons"></div>
+                            </div>
                         </div>
                         <div class="col-md-12 col-lg-8">
                             <div class="panel-body row">

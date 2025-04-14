@@ -258,7 +258,26 @@ namespace CTSTools.BLL.Features.XPO
             return _filterArray.Select(s => s.Trim()).ToArray();
         }
 
-
+        public static List<GroupOperator> SplitIDArrayToGroupOperator(int?[] IDArray)
+        {
+            var _groupOperatorList = new List<GroupOperator>();
+            try
+            {
+                int paramsSize = 2000;
+                for (int i = 0; i < IDArray.Length; i += paramsSize)
+                {
+                    int?[] _idParams = IDArray.Skip(i).Take(paramsSize).ToArray();
+                    GroupOperator _groupOperator = new GroupOperator();
+                    _groupOperator.Operands.Add(new InOperator("Oid", _idParams));
+                    _groupOperatorList.Add(_groupOperator);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _groupOperatorList;
+        }
 
         private static GroupOperator GetSerializeDXFilters_List(IList DXFilterList)
         {

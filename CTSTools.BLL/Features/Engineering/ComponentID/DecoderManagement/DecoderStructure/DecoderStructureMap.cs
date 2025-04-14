@@ -67,35 +67,35 @@ public class DecoderStructureMap
     }
     public static List<DecoderStructureDTO> XPCollectionToList(XPCollection<DecoderStructureXPO> DecoderStructureXPCollection)
     {
-        var _decoderStructureList = new List<DecoderStructureDTO>();
+        var _dTOList = new List<DecoderStructureDTO>();
         try
         {
             foreach (var _decoderStructureXPO in DecoderStructureXPCollection)
             {
-                _decoderStructureList.Add(XPOToDTO(_decoderStructureXPO));
+                _dTOList.Add(XPOToDTO(_decoderStructureXPO));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _decoderStructureList;
+        return _dTOList;
     }
     public static List<DecoderStructureXPO> DTOListToXPOList(List<DecoderStructureDTO> DecoderStructureList, UnitOfWork UnitOfWork)
     {
-        var _decoderStructureXPOList = new List<DecoderStructureXPO>();
+        var _xPOList = new List<DecoderStructureXPO>();
         try
         {
             foreach (var _decoderStructureDTO in DecoderStructureList)
             {
-                _decoderStructureXPOList.Add(DTOtoXPO(_decoderStructureDTO, UnitOfWork));
+                _xPOList.Add(DTOtoXPO(_decoderStructureDTO, UnitOfWork));
             }
         }
         catch (Exception ex)
         {
             throw ex;
         }
-        return _decoderStructureXPOList;
+        return _xPOList;
     }
 }
 

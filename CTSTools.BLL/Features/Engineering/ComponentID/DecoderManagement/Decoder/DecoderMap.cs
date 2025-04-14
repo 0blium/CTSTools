@@ -4,6 +4,7 @@ using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.Decoder;
 
@@ -67,5 +68,36 @@ public class DecoderMap
         }
         return _decoderXPO;
     }
-
+    public static List<DecoderXPO> DTOListToXPOList(List<DecoderDTO> DecoderDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<DecoderXPO>();
+        try
+        {
+            foreach (var _decoderDTO in DecoderDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_decoderDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<DecoderDTO> XPCollectionToList(XPCollection<DecoderXPO> DecoderXPCollection)
+    {
+        var _dTOList = new List<DecoderDTO>();
+        try
+        {
+            foreach (var _decoderXPO in DecoderXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_decoderXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
+    }
 }

@@ -10,6 +10,7 @@ using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 namespace CTSTools.BLL.Features.Engineering.ComponentID.PartManagement.Part;
 
 public class Part_Repository
@@ -157,6 +158,28 @@ public class Part_Repository
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple(List<PartDTO> PartDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = PartMap.DTOListToXPOList(PartDTOList, _unit);
+            _unit.Save(_xPOList);
+            _unit.CommitChanges();
 
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
 
 }

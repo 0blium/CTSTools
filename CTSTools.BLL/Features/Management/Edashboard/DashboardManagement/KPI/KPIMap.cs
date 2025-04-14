@@ -1,12 +1,15 @@
 ﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
+using CTSTools.BLL.Features.Quality.QMS.DocumentRevision;
 using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.StatusManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using CTSTools.DAL.Features.Management.Edashboard.Settings;
+using CTSTools.DAL.Features.Quality.QMS;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -111,6 +114,39 @@ public class KPIMap
             throw ex;
         }
         return _KPIXPO;
+    }
+
+    public static List<KPIXPO> DTOListToXPOList(List<KPIDTO> KPIList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<KPIXPO>();
+        try
+        {
+            foreach (var _kPIDTO in KPIList)
+            {
+                _xPOList.Add(DTOtoXPO(_kPIDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<KPIDTO> XPCollectionToList(XPCollection<KPIXPO> KPIXPCollection)
+    {
+        var _dTOList = new List<KPIDTO>();
+        try
+        {
+            foreach (var _kPIXPO in KPIXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_kPIXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
     }
 
 }

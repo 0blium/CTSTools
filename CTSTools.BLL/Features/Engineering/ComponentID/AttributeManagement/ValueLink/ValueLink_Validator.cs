@@ -222,7 +222,7 @@ public class ValueLink_Validator
         return _validation_ResultDTO;
     }
 
-    public static ValidationResultDTO CreateMultipleValueLink_Validation(ValueLinkDTO ValueLinkDTO)
+    public static ValidationResultDTO CreateMultipleValueLink_Validation(List<ValueLinkDTO> ValueLinkList)
     {
         var _validation_ResultDTO = new ValidationResultDTO
         {
@@ -233,52 +233,54 @@ public class ValueLink_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
+            foreach (var ValueLinkDTO in ValueLinkList) 
+            {
+                ValueLinkDTO.AddedDate = DateTime.Now;
+                _validation_ResultDTO = CreateValueLink_Validation(ValueLinkDTO);
+                if (!_validation_ResultDTO.Result)
+                    _validation_ResultList.Add(_validation_ResultDTO);
+            }
 
-            if (ValueLinkDTO.ChildValueIDArray == null || ValueLinkDTO.ChildValueIDArray.Length == 0)
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
             {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Child Value Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
             }
-            if (ValueLinkDTO.ChildAttributeID == null || ValueLinkDTO.ChildAttributeID == 0)
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+    public static ValidationResultDTO DeleteMultipleValueLink_Validation(List<ValueLinkDTO> ValueLinkList)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            foreach (var ValueLinkDTO in ValueLinkList)
             {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Child Attribute Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
+                ValueLinkDTO.AddedDate = DateTime.Now;
+                _validation_ResultDTO = DeleteValueLink_Validation(ValueLinkDTO);
+                if (!_validation_ResultDTO.Result)
+                    _validation_ResultList.Add(_validation_ResultDTO);
             }
-            if (ValueLinkDTO.ParentValueID == null || ValueLinkDTO.ParentValueID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Parent Value Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            if (ValueLinkDTO.ParentAttributeID == null || ValueLinkDTO.ParentAttributeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Parent Attribute Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
-            //if (ValueLinkDTO.AddedByID == null || ValueLinkDTO.AddedByID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "AddedByID Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
+
+
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)
             {

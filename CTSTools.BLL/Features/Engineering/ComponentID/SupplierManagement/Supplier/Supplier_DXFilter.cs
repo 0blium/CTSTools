@@ -19,6 +19,8 @@ internal class Supplier_DXFilter
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupplierXPO.Name), SupplierDTO.Name));
             if (SupplierDTO.SupplierIDArray != null && SupplierDTO.SupplierIDArray.Count() > 0)
                 _groupOperator.Operands.Add(new InOperator(nameof(SupplierXPO.Oid), SupplierDTO.SupplierIDArray));
+            if (SupplierDTO.SupplierNameArray != null && SupplierDTO.SupplierNameArray.Count() > 0)
+                _groupOperator.Operands.Add(new InOperator(nameof(SupplierXPO.Name), SupplierDTO.SupplierNameArray));
             if (SupplierDTO.AddedByID != null && SupplierDTO.AddedByID > 0)
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupplierXPO.AddedBy), SupplierDTO.AddedByID));
             if (SupplierDTO.LastUpdateByID != null && SupplierDTO.LastUpdateByID > 0)

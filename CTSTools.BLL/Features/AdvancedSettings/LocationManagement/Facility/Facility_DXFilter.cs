@@ -26,6 +26,10 @@ class Facility_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(FacilityXPO.Oid), FacilityDTO.FacilityIDArray));
             }
+            if (FacilityDTO.FacilityNameArray != null && FacilityDTO.FacilityNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(FacilityXPO.Name), FacilityDTO.FacilityNameArray));
+            }
             if (FacilityDTO.AddedByID != null || FacilityDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(FacilityXPO.AddedBy), FacilityDTO.AddedByID));

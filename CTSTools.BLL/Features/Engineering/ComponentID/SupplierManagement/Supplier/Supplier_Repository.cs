@@ -3,8 +3,8 @@ using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
 using CTSTools.DAL.Features.Engineering.ComponentID.SupplierManagement;
 using DevExpress.Data.Filtering;
-using DevExpress.Xpo.DB;
 using DevExpress.Xpo;
+using DevExpress.Xpo.DB;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -149,6 +149,29 @@ internal class Supplier_Repository
                 _unit.CommitChanges();
                 _unit.PurgeDeletedObjects();
             }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO CreateMultiple(List<SupplierDTO> SupplierDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = SupplierMap.DTOListToXPOList(SupplierDTOList, _unit);
+            _unit.Save(_xPOList);
+            _unit.CommitChanges();
+
         }
         catch (Exception ex)
         {

@@ -1,4 +1,6 @@
-﻿using CTSTools.DAL.Features.Engineering.ComponentID.PartManagement;
+﻿using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
+using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
+using CTSTools.DAL.Features.Engineering.ComponentID.PartManagement;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
@@ -24,6 +26,8 @@ public class Part_DXFilter
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(PartXPO.Decoder), PartDTO.DecoderID));
             if (!string.IsNullOrEmpty(PartDTO.MfgPartNumber))
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(PartXPO.MfgPartNumber), PartDTO.MfgPartNumber));
+            if (PartDTO.MfgPartNumberArray != null && PartDTO.MfgPartNumberArray.Count() > 0)
+                _groupOperator.Operands.Add(new InOperator(nameof(PartXPO.MfgPartNumber), PartDTO.MfgPartNumberArray));
             if (PartDTO.PartIDArray != null && PartDTO.PartIDArray.Count() > 0)
                 _groupOperator.Operands.Add(new InOperator(nameof(PartXPO.Oid), PartDTO.PartIDArray));
             if (PartDTO.SupplierIDArray != null && PartDTO.SupplierIDArray.Count() > 0)

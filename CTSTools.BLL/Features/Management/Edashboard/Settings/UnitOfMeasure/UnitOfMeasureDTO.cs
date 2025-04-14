@@ -22,13 +22,14 @@ public class UnitOfMeasureDTO
     #region Extended Properties
 
     public int?[] UnitOfMeasureIDArray { get; set; }
+    public string[] UnitOfMeasureNameArray { get; set; }
 
     #endregion
     #region Constructor
     public UnitOfMeasureDTO()
     {
         UnitOfMeasureIDArray = new int?[] { };
-
+        UnitOfMeasureNameArray = new string[] { };
     }
     #endregion
 }

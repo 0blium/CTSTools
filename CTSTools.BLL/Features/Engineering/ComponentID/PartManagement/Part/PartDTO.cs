@@ -36,6 +36,7 @@ public class PartDTO
     public bool GetSupplierDTO { get; set; }
     public List<ValueDTO> ValueList { get; set; }
     public int?[] PartIDArray { get; set; }
+    public string[] MfgPartNumberArray { get; set; }
     #endregion
 
     #region Constructor
@@ -44,6 +45,7 @@ public class PartDTO
         DecoderIDArray = [];
         SupplierIDArray = [];
         PartIDArray = [];
+        MfgPartNumberArray = [];
         DecoderDTO = new DecoderDTO();
         SupplierDTO = new SupplierDTO();
         ValueList = new List<ValueDTO>();

@@ -1,14 +1,14 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
+using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using DevExpress.Data.Filtering;
-using DevExpress.Xpo.DB;
 using DevExpress.Xpo;
+using DevExpress.Xpo.DB;
 using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 public class ValueLink_Repository
@@ -149,7 +149,7 @@ public class ValueLink_Repository
         {
             using var _unit = XPO_Helper.GetNewUnitOfWork();
 
-            var _valueLinkXPCollection = ValueLinkMap.ListToXPCollection(ValueLinkList, _unit);
+            var _valueLinkXPCollection = ValueLinkMap.DTOListToXPOList(ValueLinkList, _unit);
             _unit.Delete(_valueLinkXPCollection);
             _unit.CommitChanges();
             _unit.PurgeDeletedObjects();
@@ -164,6 +164,51 @@ public class ValueLink_Repository
         }
         return _validationResultDTO;
     }
-
+    public static ValidationResultDTO CreateMultiple(List<ValueLinkDTO> ValueLinkDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = ValueLinkMap.DTOListToXPOList(ValueLinkDTOList, _unit);
+            _unit.Save(_xPOList);
+            _unit.CommitChanges();
+            _validationResultDTO.Data = _xPOList;
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO DeleteMultiple(List<ValueLinkDTO> ValueLinkDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = ValueLinkMap.DTOListToXPOList(ValueLinkDTOList, _unit);
+            _unit.Delete(_xPOList);
+            _unit.CommitChanges();
+            _unit.PurgeDeletedObjects();
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
 }
 

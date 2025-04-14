@@ -19,6 +19,7 @@ public class FacilityDTO
 
     #region Extended Properties
     public int?[] FacilityIDArray { get; set; }
+    public string[] FacilityNameArray { get; set; }
     public bool GetAddedBy { get; set; }
     public bool GetLastUpdateBy { get; set; }
     #endregion
@@ -27,6 +28,7 @@ public class FacilityDTO
     public FacilityDTO()
     {
         FacilityIDArray = new int?[] { };
+        FacilityNameArray = new string[] { };
     }
     #endregion
 }

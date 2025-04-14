@@ -1,5 +1,4 @@
-﻿using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
-using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.PartManagement;

@@ -29,7 +29,11 @@ public class User_DXFilter
             if (UserDTO.UserIDArray != null && UserDTO.UserIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserXPO.Oid), UserDTO.UserIDArray));
-            }                
+            }
+            if (UserDTO.UserNameArray != null && UserDTO.UserNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(UserXPO.Name), UserDTO.UserNameArray));
+            }
             if (UserDTO.AddedByID != null && UserDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(UserXPO.AddedBy), UserDTO.AddedByID));

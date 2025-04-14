@@ -2,6 +2,7 @@
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 
@@ -54,5 +55,36 @@ public class DashboardCategoryMap
         }
         return _dashboardcategoryXPO;
     }
-
+    public static List<DashboardCategoryXPO> DTOListToXPOList(List<DashboardCategoryDTO> DashboardCategoryDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<DashboardCategoryXPO>();
+        try
+        {
+            foreach (var _dashboardCategoryDTO in DashboardCategoryDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_dashboardCategoryDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<DashboardCategoryDTO> XPCollectionToList(XPCollection<DashboardCategoryXPO> DashboardCategoryXPCollection)
+    {
+        var _dTOList = new List<DashboardCategoryDTO>();
+        try
+        {
+            foreach (var _dashboardCategoryXPO in DashboardCategoryXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_dashboardCategoryXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
+    }
 }

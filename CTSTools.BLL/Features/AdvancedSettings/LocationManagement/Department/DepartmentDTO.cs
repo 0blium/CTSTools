@@ -26,6 +26,7 @@ public class DepartmentDTO
     #region Extended Properties
     public int?[] FacilityIDArray { get; set; }
     public int?[] DepartmentIDArray { get; set; }
+    public string[] DepartmentNameArray { get; set; }
     public int?[] ResponsiblesIDArray { get; set; }
     public FacilityDTO FacilityDTO { get; set; }
     public bool GetDepartmentDTO { get; set; }
@@ -41,6 +42,7 @@ public class DepartmentDTO
     {
         FacilityIDArray = [];
         DepartmentIDArray = [];
+        DepartmentNameArray = [];
         FacilityDTO = new FacilityDTO();
     }
     #endregion

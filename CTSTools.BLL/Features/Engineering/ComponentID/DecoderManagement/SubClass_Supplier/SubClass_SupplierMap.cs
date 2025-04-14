@@ -1,10 +1,12 @@
-﻿using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
+﻿using CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
+using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using CTSTools.DAL.Features.Engineering.ComponentID.SupplierManagement;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.SubClass_Supplier;
 
@@ -57,5 +59,37 @@ internal class SubClass_SupplierMap
             throw ex;
         }
         return _subClass_SupplierXPO;
+    }
+    public static List<SubClass_SupplierDTO> XPCollectionToList(XPCollection<SubClass_SupplierXPO> SubClass_SupplierXPCollection)
+    {
+        var _dTOList = new List<SubClass_SupplierDTO>();
+        try
+        {
+            foreach (var _subClass_SupplierXPO in SubClass_SupplierXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_subClass_SupplierXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
+    }
+    public static List<SubClass_SupplierXPO> DTOListToXPOList(List<SubClass_SupplierDTO> SubClass_SupplierList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<SubClass_SupplierXPO>();
+        try
+        {
+            foreach (var _subClass_SupplierDTO in SubClass_SupplierList)
+            {
+                _xPOList.Add(DTOtoXPO(_subClass_SupplierDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
     }
 }

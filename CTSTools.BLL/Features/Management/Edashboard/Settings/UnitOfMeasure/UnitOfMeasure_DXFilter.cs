@@ -26,6 +26,10 @@ public class UnitOfMeasure_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UnitOfMeasureXPO.Oid), UnitOfMeasureDTO.UnitOfMeasureIDArray));
             }
+            if (UnitOfMeasureDTO.UnitOfMeasureNameArray != null && UnitOfMeasureDTO.UnitOfMeasureNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(UnitOfMeasureXPO.Name), UnitOfMeasureDTO.UnitOfMeasureNameArray));
+            }
             if (UnitOfMeasureDTO.AddedByID != null && UnitOfMeasureDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(UnitOfMeasureXPO.AddedBy), UnitOfMeasureDTO.AddedByID));

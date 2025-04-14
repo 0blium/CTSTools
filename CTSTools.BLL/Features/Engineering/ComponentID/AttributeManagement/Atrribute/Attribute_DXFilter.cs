@@ -17,6 +17,8 @@ public class Attribute_DXFilter
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(AttributeXPO.Name), AttributeDTO.Name));
             if (AttributeDTO.AttributeIDArray != null && AttributeDTO.AttributeIDArray.Count() > 0)
                 _groupOperator.Operands.Add(new InOperator(nameof(AttributeXPO.Oid), AttributeDTO.AttributeIDArray));
+            if (AttributeDTO.AttributeNameArray != null && AttributeDTO.AttributeNameArray.Count() > 0)
+                _groupOperator.Operands.Add(new InOperator(nameof(AttributeXPO.Name), AttributeDTO.AttributeNameArray));
             if (AttributeDTO.AddedByID != null && AttributeDTO.AddedByID > 0)
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(AttributeXPO.AddedBy), AttributeDTO.AddedByID));
             if (AttributeDTO.LastUpdateByID != null && AttributeDTO.LastUpdateByID > 0)

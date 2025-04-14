@@ -47,7 +47,7 @@
                                     <div class="panel-body">
                                         <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#SubClassModal" id="SubClassButton"><i class="fa-solid fa-circle-plus"></i>
                                             Sub Class</a>
-                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelSubClassModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSubClassModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                                        <a class="btn btn-success mb-2 float-end" id="UploadMassiveSubClassModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelSubClassModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
                                         <div id="dxSubClassGrid"></div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
                                         <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#ClassModal" id="ClassButton"><i class="fa-solid fa-circle-plus"></i>Class</a>
-                                        <a class="btn btn-success mb-2 float-end" id="UploadExcelModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelClassModal"><i class="fa-solid fa-file-import"></i> Excel</a>
+                                        <a class="btn btn-success mb-2 float-end" id="UploadMassiveClassModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelClassModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
                                         <div id="dxClassGrid"></div>
                                     </div>
                                 </div>

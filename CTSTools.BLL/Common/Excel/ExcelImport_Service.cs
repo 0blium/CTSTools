@@ -1,28 +1,21 @@
-﻿using CTSTools.BLL.Features.Engineering.ComponentID.SupplierManagement.Supplier;
-using DevExpress.Xpo;
-using Elmah;
+﻿using Elmah;
 using ExcelDataReader;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Common.Excel
 {
-    public class ExcelDataImport_Service
+    public class ExcelImport_Service
     {
-        #region CRUD
-
-        #endregion
-
-        #region Business Logic
-
         public static string[] GetHeadersFromExcel(byte[] FileBytes)
         {
             try
             {
-                string[] _fileheaders = new string[0]; // Valor predeterminado para el caso vacío
+                string[] _fileheaders = new string[0];
                 Stream _fileStream = new MemoryStream(FileBytes);
                 using (IExcelDataReader _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
                 {
@@ -44,11 +37,10 @@ namespace CTSTools.BLL.Common.Excel
                                 break;
                             }
                         }
-                        // Access headers if they exist
+                        // Access headers if they exist and we remove all the spaces from the text (e.g. " Unit Of  Measure" -> "UnitOfMeasure")
                         _fileheaders = _excelDataSet.Tables[0].Rows[_headerRow].ItemArray
-                                .Select(f => f.ToString().ToLower())
-                                .Select(header => header.Trim())
-                                .Select(header => System.Text.RegularExpressions.Regex.Replace(header, @"\s+", " "))
+                                .Select(f => f.ToString().ToLower().Trim())
+                                .Select(header => System.Text.RegularExpressions.Regex.Replace(header, @"\s+", ""))
                                 .ToArray();
                     }
                 }
@@ -60,7 +52,13 @@ namespace CTSTools.BLL.Common.Excel
                 throw ex;
             }
         }
-
-        #endregion
+        public static string CleanRowString(string RowContent)
+        {
+            // Verific if RowContent is null, empty, or contains only whitespace.
+            if (string.IsNullOrWhiteSpace(RowContent))
+                return string.Empty;
+            // Remove all the spaces on the sides and internal in each word (e.g. " Unit  Of Measure " -> "Unit Of Measure")
+            return System.Text.RegularExpressions.Regex.Replace(RowContent.Trim(), @"\s+", " ");
+        }
     }
 }

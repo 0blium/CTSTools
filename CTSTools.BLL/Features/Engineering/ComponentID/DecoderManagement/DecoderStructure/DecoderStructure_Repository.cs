@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
@@ -8,8 +5,10 @@ using CTSTools.DAL.Features.Engineering.ComponentID.DecoderManagement;
 using DevExpress.Data.Filtering;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
-using DevExpress.XtraPrinting;
 using Elmah;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CTSTools.BLL.Features.Engineering.ComponentID.DecoderManagement.DecoderStructure;
 public class DecoderStructure_Repository
@@ -179,7 +178,28 @@ public class DecoderStructure_Repository
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple(List<DecoderStructureDTO> DecoderStructureDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = DecoderStructureMap.DTOListToXPOList(DecoderStructureDTOList, _unit);
+            _unit.Save(_xPOList);
+            _unit.CommitChanges();
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
 
-    
 }
 

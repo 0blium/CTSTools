@@ -1,5 +1,5 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Common.Excel;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -191,4 +191,130 @@ public class Supplier_Validator
         }
         return _validation_ResultDTO;
     }
+    #region Excel Supplier Validation
+    public static ValidationResultDTO ExcelSupplierRows_Validation(SupplierDTO SupplierDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO 
+        {
+            GoodRowLinesList = new List<SupplierDTO>(),
+            BadRowLinesList = new List<SupplierDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+        try
+        {
+            bool isSucces = true;
+            var _supplierDTO = new SupplierDTO
+            {
+                ID = SupplierDTO.ID,
+                Name = !string.IsNullOrEmpty(SupplierDTO.Name) ? SupplierDTO.Name : "Error, The name is null or empty",
+                IsManufacturer = SupplierDTO.IsManufacturer,
+                IsVendor = SupplierDTO.IsVendor,
+                AddedByID = SupplierDTO.AddedByID,
+                AddedDate = DateTime.Now,
+                IsActive = true
+            };
+
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
+            if (_supplierDTO.Name.StartsWith("Error"))
+                isSucces = false;
+            // or if both properties are false it returns an error message
+            if (_supplierDTO.IsManufacturer == false && _supplierDTO.IsVendor == false) 
+            {
+                _supplierDTO.Description = "Error, Supplier must be vendor or manufacturer";
+                isSucces = false;
+            }
+
+            // If it meets all the validations, it saves it in GoodRowLinesList else
+            if (isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_supplierDTO);
+            else // If not save it BadRowLinesList
+                _excelRowDTO.BadRowLinesList.Add(_supplierDTO);
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw ex;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelSupplierInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<SupplierDTO>(),
+            BadRowLinesList = new List<SupplierDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the Suppliers that passed the first validation
+            var _supplierDTOList = (List<SupplierDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous Suppliers that did not pass the first validation
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
+            if (_supplierDTOList.Count <= 0)
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
+
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            var _supplierDTO = new SupplierDTO { SupplierNameArray = _supplierDTOList.Select(SupplierDTO => SupplierDTO.Name?.ToLower()).Distinct().ToArray() };
+
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
+            var _supplierList = Supplier_Service.GetSupplierList_Global(_supplierDTO);
+
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
+            var _supplierDict = _supplierList.ToDictionary(SupplierDTO => SupplierDTO.Name.ToLower(), SupplierDTO => (int?)SupplierDTO.ID);
+
+            // Before sending the list, we will remove the names that are repeated, this is in case they do not exist in the db, so as not to duplicate them
+            _supplierDTOList = _supplierDTOList.GroupBy(SupplierDTO => SupplierDTO.Name.ToLower()).Select(group => group.First()).ToList();
+
+            foreach (var SupplierDTO in _supplierDTOList)
+            {
+                bool isSuccess = true;
+
+                if (_supplierDict.ContainsKey(SupplierDTO.Name.ToLower()))
+                {
+                    var _name = SupplierDTO.Name;
+                    SupplierDTO.Name = $"Error: The Name: {_name}, already exists";
+                    isSuccess = false; 
+                }
+
+                if (isSuccess)
+                {
+                    SupplierDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(SupplierDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(SupplierDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<SupplierDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(SupplierDTO => SupplierDTO.ID).ToList();
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    #endregion
 }

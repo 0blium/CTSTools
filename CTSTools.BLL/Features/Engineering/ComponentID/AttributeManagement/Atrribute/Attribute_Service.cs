@@ -1,14 +1,14 @@
-﻿using Elmah;
+﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Excel;
+using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
+using Elmah;
+using ExcelDataReader;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
-using CTSTools.BLL.Common.Files;
 using System.Data;
 using System.IO;
-using ExcelDataReader;
-using CTSTools.BLL.Common.Excel;
+using System.Linq;
 namespace CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
 
 public class Attribute_Service
@@ -127,70 +127,42 @@ public class Attribute_Service
 
     #region Business Logic
 
-    #region Update Excel functions
-    public static ValidationResultDTO AttributeFileValidation_Global(FileDTO FileDTO)
+    #region Upload Excel functions
+
+    public static ValidationResultDTO GenerateAttributeFromExcel(FileDTO FileDTO)
     {
-        ExcelAttributeDTO _excelAttributeDTO = new ExcelAttributeDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
+        var _excelRowDTO = new ExcelRowDTO();
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been create successfully.."
+        };
         try
         {
-            byte[] _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "Comparission was made successfully";
+            // step 1. Validate that it is an excel file
+            _validationResultDTO = ExcelImport_Validator.ExcelFile_Validation(FileDTO);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // step 2. Bring the information from excel
+            _validationResultDTO = ExcelImport_Validator.ExcelHeaderColumns_Validation(FileDTO);
 
-            var _excelAttributeRowsValidation = new ExcelAttributeDTO();
-            string _extension = "";
-            if (FileDTO.FileName.Contains(".xlsx"))
-            {
-                _extension = ".xlsx";
-            }
-            else if (FileDTO.FileName.Contains(".xls"))
-            {
-                _extension = ".xls";
-            }
-            else
-            {
-                _validationResultDTO.Result = false;
-                _validationResultDTO.Description = "Input only excel files.";
-                _validationResultDTO.Message = "Invalid file";
-            }
-            //Step 1. Validate if the files contains following headers: Number, Name, Address, City, State, Country, Postal Code.
-            // WARNING: The validations allows to contain empty rows above the column headers. If something are above of coliumns, the validation
-            // will take it as an error.
-            _excelAttributeDTO = ValidateAttributeFileColumns(_fileBytes, FileDTO.FileName, _extension);
-            _validationResultDTO = _excelAttributeDTO.ValidationResultDTO;
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // step 3. Validate that the list of data comes
+            FileDTO.DirectoryArray = _validationResultDTO.Data;
+            _validationResultDTO = GetAttributeListFromExcel(FileDTO);
 
-            if (_validationResultDTO.Result == true)
-            {
-                //Step 2. Read the file and get the rows in vendordto format
-                if (_extension == ".xls" || _extension == ".xlsx")
-                {
-                    _validationResultDTO = GetAttributeInfoListFromExcelFile(_fileBytes);
-                }
-                if (_validationResultDTO.Data != null)
-                {
-                    _excelAttributeRowsValidation = AttributeFileRowsValidation(_validationResultDTO.Data);
+            if (_validationResultDTO.Data == null)
+                return _validationResultDTO;
+            // step 4. Validate that the column information exists in the db
+            _validationResultDTO = Attribute_Validator.ExcelAttributeInformation_Validation(_validationResultDTO.Data);
+            _excelRowDTO = _validationResultDTO.Data;
 
-                    if (_excelAttributeRowsValidation.AttributeGoodLinesList.Count > 0)
-                    {
-                        foreach (var _attributeDTO in _excelAttributeRowsValidation.AttributeGoodLinesList)
-                        {
-                            _attributeDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateAttribute_Global(_attributeDTO);
-                        }
-                    }
-                }
-                else
-                {
-                    return _validationResultDTO;
-                }
+            if (_excelRowDTO.GoodRowLinesList.Count <= 0)
+                return _validationResultDTO;
+            // step 5. Create Attribute
+            _validationResultDTO = Attribute_Repository.CreateMultipleAttribute(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO.Data = _excelRowDTO;
 
-                _validationResultDTO.Result = _excelAttributeRowsValidation.ValidationResultDTO.Result;
-                _validationResultDTO.Message = _excelAttributeRowsValidation.ValidationResultDTO.Message;
-                _validationResultDTO.Description = _excelAttributeRowsValidation.ValidationResultDTO.Description;
-            }
-            _validationResultDTO.Data = _excelAttributeRowsValidation;
         }
         catch (Exception ex)
         {
@@ -199,118 +171,85 @@ public class Attribute_Service
         }
         return _validationResultDTO;
     }
-
-    private static ExcelAttributeDTO ValidateAttributeFileColumns(byte[] _fileBytes, string Filename, string Extension)
-    {
-        string[] _fileheaders = new string[0];
-        ExcelAttributeDTO _excelAttributeFileValidationDTO = new ExcelAttributeDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-
-        if (Extension == ".xlsx" || Extension == ".xls")
-        {
-            _fileheaders = ExcelDataImport_Service.GetHeadersFromExcel(_fileBytes);
-        }
-        else
-        {
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = "Input only excel files.";
-            _validationResultDTO.Message = "Invalid file";
-        }
-        string _missingHeader = string.Empty;
-        _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,<br>";
-        _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,<br>";
-        _missingHeader += (_fileheaders.Contains("has multiple options") == true || _fileheaders.Contains("hasmultipleoptions") == true) ? string.Empty : "has multiple options,<br>";
-
-        if (_missingHeader != string.Empty)
-        {
-            var lastComma = _missingHeader.LastIndexOf(',');
-            _missingHeader = _missingHeader.Remove(lastComma, 1).Insert(lastComma, ".");
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = string.Format("The following columns are missing:<br> {0}", _missingHeader);
-            _validationResultDTO.Message = "Error";
-        }
-        else
-        {
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Description = "The file have the correct format ";
-            _validationResultDTO.Message = "Success";
-        }
-        _excelAttributeFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-
-        return _excelAttributeFileValidationDTO;
-    }
-
-    private static ValidationResultDTO GetAttributeInfoListFromExcelFile(byte[] FileBytes)
+    private static ValidationResultDTO GetAttributeListFromExcel(FileDTO FileDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            List<ExcelAttributeDTO> _excelAttributeDTOList = new List<ExcelAttributeDTO>();
-            using (var _fileStream = new MemoryStream(FileBytes))
+            var _excelRowDTO = new ExcelRowDTO
+            {
+                GoodRowLinesList = new List<AttributeDTO>(),
+                BadRowLinesList = new List<AttributeDTO>()
+            };
+            // Converts the Base64 string contained in FileDTO.Data to a byte array,
+            // To later process it and read the content of the Excel file.
+            var _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
+            using (var _fileStream = new MemoryStream(_fileBytes))
             using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
                 DataTable _firstTable = _excelDataSet.Tables[0];
-                // Create a dictionary to store column indexes
+                // Create a dictionary to store the excel column indexes
                 var _columnHeaderMap = new Dictionary<string, int>();
-                // Fill the dictionary with headings
+                // Create the list with the name of the columns that were previously validated
+                var _columnHeaderNameList = FileDTO.DirectoryArray.Select(ColumnName => ColumnName.ToUpper()).ToList();
+                // This is to identify the columns within the Excel, to later bring the information contained in the row
                 for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
-                    string headerName = _firstTable.Rows[0][colIndex].ToString().Trim();
-                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
-                    if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("HASMULTIPLEOPTIONS", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("HAS MULTIPLE OPTIONS", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase))
+                    // We take the column name, put it in capital letters to compare it with our list (_columnHeaderNameList) 
+                    // and we remove all the spaces from the name before comparing it with the list. (e.g. " Unit  Of Measure " -> "UnitOfMeasure")
+                    string headerName = _firstTable.Rows[0][colIndex].ToString().ToUpper();
+                    // The regular expression @"\s+", Removes all whitespace from the column name
+                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", "");
+                    if (_columnHeaderNameList.Contains(headerName))
                     {
-                        _columnHeaderMap[headerName.ToUpper()] = colIndex;
+                        // If the column name exists, it stores it in the dirctory (_columnHeaderMap) and assigns its identifier
+                        _columnHeaderMap[headerName] = colIndex;
                     }
                 }
-                // Process rows starting from the second row (index 1)
+
+                // Process rows starting from the second row (index 1), to take the information to store in each iteration
                 for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
                     DataRow row = _firstTable.Rows[rowIndex];
-                    var _excelAttributeDTO = new ExcelAttributeDTO();
-                    bool _haveInfo = false;
-                    // Assign values ​​directly using the dictionary
-                    if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
-                    {
-                        string _nameValue = row[NameIndex].ToString().Trim();
-                        _nameValue = System.Text.RegularExpressions.Regex.Replace(_nameValue, @"\s+", " ");
-                        _excelAttributeDTO.AttributeDTO.Name = _nameValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("DESCRIPTION", out int DescriptionIndex))
-                    {
-                        string _descriptionValue = row[DescriptionIndex].ToString().Trim();
-                        _descriptionValue = System.Text.RegularExpressions.Regex.Replace(_descriptionValue, @"\s+", " ");
-                        _excelAttributeDTO.AttributeDTO.Description = _descriptionValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("HAS MULTIPLE OPTIONS", out int HasMultipleOptionsIndex) || 
-                        _columnHeaderMap.TryGetValue("HASMULTIPLEOPTIONS", out HasMultipleOptionsIndex))
-                    {
-                        string _hasMultipleOptionsValue = row[HasMultipleOptionsIndex].ToString().Trim();
-                        _hasMultipleOptionsValue = System.Text.RegularExpressions.Regex.Replace(_hasMultipleOptionsValue, @"\s+", " ");
-                        if (bool.TryParse(_hasMultipleOptionsValue, out bool HasMultipleOptions))
-                        {
-                            _excelAttributeDTO.AttributeDTO.HasMultipleOptions = HasMultipleOptions;
-                            _haveInfo = true;
-                        }
-                        else
-                        {
-                            throw new InvalidCastException($"The value to Has Multiple Options: '{_hasMultipleOptionsValue}', is not a valid boolean.");
-                        }
-                    }
-                    if (_haveInfo)
-                    {
-                        _excelAttributeDTOList.Add(_excelAttributeDTO);
-                    }
+                    // We create a DTO where we will store the content of the excel to later validate it
+                    var _AttributeDTO = new AttributeDTO();
+                    // The assigned ID is to have the Excel row identified in case it does not pass the validations.
+                    _AttributeDTO.ID = rowIndex + 1;
+                    // The row[_columnHeaderMap["NAME"]] returns the index of that directory name (e.g row[0] -> TestName) and turns it into string
+                    // What the CleanRowString function does is remove all the spaces on the sides and internal in each word,
+                    // Leaving only one space between the words (e.g. " Unit  Of Measure " -> "Unit Of Measure")
+                    _AttributeDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["NAME"]].ToString());
+                    _AttributeDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]].ToString());
+                    _AttributeDTO.AddedByID = FileDTO.ID;
+
+                    // Gets the value of the "HASMULTIPLEOPTIONS" column from the Excel file and cleans it of unwanted characters.
+                    string _rowHasMultipleOptionsValue = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["HASMULTIPLEOPTIONS"]]?.ToString());
+                    // bool.TryParse try to convert the value (_rowHasMultipleOptionsValue) to a text of type boolean
+                    // Note: TryParse will not throw an exception if the conversion fails.
+                    // The 'out' keyword indicates that HasMultipleOptions is an output parameter.
+                    if (bool.TryParse(_rowHasMultipleOptionsValue, out bool HasMultipleOptions))
+                        // If the conversion is successful, the converted value will be assigned to the Goal variable.
+                        _AttributeDTO.HasMultipleOptions = HasMultipleOptions;
+                    else
+                        _AttributeDTO.HasMultipleOptions = false;
+
+                    // We validate the DTO to verify that our properties are not null
+                    _validationResultDTO = Attribute_Validator.ExcelAttributeRows_Validation(_AttributeDTO);
+
+                    // We verify if our DTO complied with the validations
+                    if (_validationResultDTO.Data.GoodRowLinesList.Count > 0)
+                        // If the DTO does not have null properties, it is stored in the GoodRowLines.
+                        _excelRowDTO.GoodRowLinesList.AddRange(_validationResultDTO.Data.GoodRowLinesList);
+                    else
+                        // If any of the DTO properties is null, it is stored on a BadRowLines.
+                        _excelRowDTO.BadRowLinesList.AddRange(_validationResultDTO.Data.BadRowLinesList);
                 }
             }
-            if (_excelAttributeDTOList.Count > 0)
+            // Verify if there were good or bad lines to return _excelRowDTO
+            if (_excelRowDTO.GoodRowLinesList.Count > 0 || _excelRowDTO.BadRowLinesList.Count > 0)
             {
-                _validationResultDTO.Data = _excelAttributeDTOList;
+                _validationResultDTO.Data = _excelRowDTO;
                 return _validationResultDTO;
             }
             else
@@ -330,58 +269,7 @@ public class Attribute_Service
             return _validationResultDTO;
         }
     }
-    private static ExcelAttributeDTO AttributeFileRowsValidation(List<ExcelAttributeDTO> ExcelAttributeFileDataList)
-    {
-        ExcelAttributeDTO _excelAttributeFileValidationDTO = new ExcelAttributeDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Result = true;
-        _validationResultDTO.Message = "Success";
-        _validationResultDTO.Description = "";
-        try
-        {
 
-            foreach (var _excelAttributeFileData in ExcelAttributeFileDataList)
-            {
-                AttributeDTO _attributeDTO = new AttributeDTO();
-                bool isSucces = true;
-                if (_excelAttributeFileData.AttributeDTO.Name == string.Empty || _excelAttributeFileData.AttributeDTO.Name == null)
-                {
-                    _excelAttributeFileData.AttributeDTO.Name = "Error, The name is null or empty";
-                    isSucces = false;
-                }
-                if (_excelAttributeFileData.AttributeDTO.HasMultipleOptions == null)
-                {
-                    _excelAttributeFileData.AttributeDTO.HasMultipleOptions = true;
-                }
-
-                _attributeDTO.Name = _excelAttributeFileData.AttributeDTO.Name;
-                _attributeDTO.Description = _excelAttributeFileData.AttributeDTO.Description;
-                _attributeDTO.HasMultipleOptions = _excelAttributeFileData.AttributeDTO.HasMultipleOptions;
-                _attributeDTO.IsActive = true;
-
-                if (isSucces == true)
-                {
-                    _excelAttributeFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelAttributeFileValidationDTO.AttributeGoodLinesList.Add(_attributeDTO);
-                }
-                else
-                {
-                    _excelAttributeFileValidationDTO.ValidationResultDTO.Message = _excelAttributeFileValidationDTO.ValidationResultDTO.Message;
-                    _excelAttributeFileValidationDTO.AttributeBadLinesList.Add(_attributeDTO);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorSignal.FromCurrentContext().Raise(ex);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "The file was read successfully";
-            throw ex;
-        }
-        _excelAttributeFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-        return _excelAttributeFileValidationDTO;
-    }
     #endregion 
 
     #endregion

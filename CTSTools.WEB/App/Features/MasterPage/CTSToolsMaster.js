@@ -1,12 +1,14 @@
 ﻿//const { dxLoadPanel } = import("../../Common/Components/dxLoadPanel");
 import { dxLoadPanel } from "../../Common/Components/dxLoadPanel.js"
 import { ShowSidebarMenu } from '../../Common/Utils/SidebarNavigationShowItems.js'
+import { ShowUploadMassiveButton } from "../../Common/Utils/ShowUploadExcelButton.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     InitializeDevExtremeStyle();
     CollapseSidebar();
     await ActiveMenuOption();
     await ShowSidebarMenu($("#hiddenUserID").val());
+    await ShowUploadMassiveButton($("#hiddenUserID").val());
 });
 
 window.addEventListener("resize", () => {

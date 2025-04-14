@@ -1,6 +1,16 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Excel;
+using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
+using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
+using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.UnitOfMeasure;
+using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
+using Elmah;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
 
@@ -65,7 +75,7 @@ public class KPI_Validator
                 });
             }
 
-            
+
             if (KPIDTO.FacilityID == null || KPIDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -204,7 +214,7 @@ public class KPI_Validator
                 });
             }
 
-           
+
             if (KPIDTO.FacilityID == null || KPIDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -307,4 +317,185 @@ public class KPI_Validator
         return _validation_ResultDTO;
     }
 
+    #region Excel KPI Validation
+    public static ValidationResultDTO ExcelKPIRows_Validation(KPIDTO KPIDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<KPIDTO>(),
+            BadRowLinesList = new List<KPIDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+        try
+        {
+            bool _isSucces = true;
+            KPIDTO _kPIDTO = new KPIDTO
+            {
+                ID = KPIDTO.ID,
+                Name = !string.IsNullOrEmpty(KPIDTO.Name) ? KPIDTO.Name : "Error, The name is null or empty",
+                UnitOfMeasureName = !string.IsNullOrEmpty(KPIDTO.UnitOfMeasureName) ? KPIDTO.UnitOfMeasureName : "Error, The Unit Of Measure is null or empty",
+                ValueTypeName = !string.IsNullOrEmpty(KPIDTO.ValueTypeName) ? KPIDTO.ValueTypeName : "Error, The Value Type is null or empty",
+                Goal = KPIDTO.Goal,
+                OwnerName = !string.IsNullOrEmpty(KPIDTO.OwnerName) ? KPIDTO.OwnerName : "Error, The Owner is null or empty",
+                ResponsibleName = !string.IsNullOrEmpty(KPIDTO.ResponsibleName) ? KPIDTO.ResponsibleName : "Error, The Responsible is null or empty",
+                FacilityName = !string.IsNullOrEmpty(KPIDTO.FacilityName) ? KPIDTO.FacilityName : "Error, The Facility is null or empty",
+                EquivalenceName = !string.IsNullOrEmpty(KPIDTO.EquivalenceName) ? KPIDTO.EquivalenceName : "Error, The Equivalence is null or empty",
+                DashboardCategoryName = !string.IsNullOrEmpty(KPIDTO.DashboardCategoryName) ? KPIDTO.DashboardCategoryName : "Error, The Category is null or empty",
+                OwnerDepartmentName = !string.IsNullOrEmpty(KPIDTO.OwnerDepartmentName) ? KPIDTO.OwnerDepartmentName : "Error, The Owner Department is null or empty",
+                ResponsibleDepartmentName = !string.IsNullOrEmpty(KPIDTO.ResponsibleDepartmentName) ? KPIDTO.ResponsibleDepartmentName : "Error, The Responsible Department is null or empty",
+                AddedByID = KPIDTO.AddedByID,
+                AddedDate = DateTime.Now,
+                IsActive = true
+            };
+
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
+            if (_kPIDTO.Name.StartsWith("Error") ||
+                _kPIDTO.UnitOfMeasureName.StartsWith("Error") ||
+                _kPIDTO.ValueTypeName.StartsWith("Error") ||
+                _kPIDTO.OwnerName.StartsWith("Error") ||
+                _kPIDTO.ResponsibleName.StartsWith("Error") ||
+                _kPIDTO.FacilityName.StartsWith("Error") ||
+                _kPIDTO.EquivalenceName.StartsWith("Error") ||
+                _kPIDTO.DashboardCategoryName.StartsWith("Error") ||
+                _kPIDTO.OwnerDepartmentName.StartsWith("Error") ||
+                _kPIDTO.ResponsibleDepartmentName.StartsWith("Error") ||
+                _kPIDTO.Goal < 0.0f)
+            {
+                _isSucces = false;
+            }
+
+            // If it meets all the validations, it saves it in GoodRowLinesList else
+            if (_isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_kPIDTO);
+            else // If not save it BadRowLinesList
+                _excelRowDTO.BadRowLinesList.Add(_kPIDTO);
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw ex;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelKPIInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<KPIDTO>(),
+            BadRowLinesList = new List<KPIDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the kpis that passed the first validation
+            var _kPIDTOList = (List<KPIDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous kpis that did not pass the first validation
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
+            if (_kPIDTOList.Count <= 0) 
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
+
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            // This is for each of the catalogs that are related to our DTO
+            var _unitOfMeasureDTO = new UnitOfMeasureDTO { UnitOfMeasureNameArray = _kPIDTOList.Select(k => k.UnitOfMeasureName?.ToLower()).Distinct().ToArray() };
+            var _valueTypeDTO = new ValueTypeDTO { ValueTypeNameArray = _kPIDTOList.Select(k => k.ValueTypeName?.ToLower()).Distinct().ToArray() };
+            // In this case, we have two properties that are related to user (OwnerName y ResponsibleName),
+            // for this we use SelectMany this allows us to work with both sets of names at the same time and to eliminate names that are repeated with Distinct
+            var _userDTO = new UserDTO { UserNameArray = _kPIDTOList.SelectMany(k => new[] { k.OwnerName?.ToLower(), k.ResponsibleName?.ToLower() }).Distinct().ToArray() };
+            var _facilityDTO = new FacilityDTO { FacilityNameArray = _kPIDTOList.Select(k => k.FacilityName?.ToLower()).Distinct().ToArray() };
+            var _equivalenceDTO = new EquivalenceDTO { EquivalenceNameArray = _kPIDTOList.Select(k => k.EquivalenceName?.ToLower()).Distinct().ToArray() };
+            var _categoryDTO = new DashboardCategoryDTO { DashboardCategoryNameArray = _kPIDTOList.Select(k => k.DashboardCategoryName?.ToLower()).Distinct().ToArray() };
+            var _departmentDTO = new DepartmentDTO { DepartmentNameArray = _kPIDTOList.SelectMany(k => new[] { k.OwnerDepartmentName?.ToLower(), k.ResponsibleDepartmentName?.ToLower() }).Distinct().ToArray() };
+
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
+            var _unitOfMeasureList = UnitOfMeasure_Service.GetUnitOfMeasureList_Global(_unitOfMeasureDTO);
+            var _valueTypeList = ValueType_Service.GetValueTypeList_Global(_valueTypeDTO);
+            var _userList = User_Service.GetUserList_Global(_userDTO);
+            var _facilityList = Facility_Service.GetFacilityList_Global(_facilityDTO);
+            var _equivalenceList = Equivalence_Service.GetEquivalenceList_Global(_equivalenceDTO);
+            var _categoryList = DashboardCategory_Service.GetDashboardCategoryList_Global(_categoryDTO);
+            var _departmentList = Department_Service.GetDepartmentList_Global(_departmentDTO);
+
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
+            var _unitOfMeasureDict = _unitOfMeasureList.ToDictionary(UnitOfMeasureDTO => UnitOfMeasureDTO.Name.ToLower(), UnitOfMeasureDTO => (int?)UnitOfMeasureDTO.ID);
+            var _valueTypeDict = _valueTypeList.ToDictionary(ValueTypeDTO => ValueTypeDTO.Name.ToLower(), ValueTypeDTO => (int?)ValueTypeDTO.ID);
+            var _userDict = _userList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
+            var _facilityDict = _facilityList.ToDictionary(FacilityDTO => FacilityDTO.Name.ToLower(), FacilityDTO => (int?)FacilityDTO.ID);
+            var _equivalenceDict = _equivalenceList.ToDictionary(EquivalenceDTO => EquivalenceDTO.Name.ToLower(), EquivalenceDTO => (int?)EquivalenceDTO.ID);
+            var _categoryDict = _categoryList.ToDictionary(CategoryDTO => CategoryDTO.Name.ToLower(), CategoryDTO => (int?)CategoryDTO.ID);
+            var _departmentDict = _departmentList.ToDictionary(DepartmentDTO => DepartmentDTO.Name.ToLower(), DepartmentDTO => (int?)DepartmentDTO.ID);
+
+            foreach (var _kPIDTO in _kPIDTOList)
+            {
+                bool isSuccess = true;
+
+                // we use TryGetValue to try to get the value associated with the key from the dictionary,
+                // If the value of UnitOfMeasureName is found, it is assigned with the corresponding value (ID) from the dictionary.
+                // 'out' keyword indicates that UnitOfMeasureID is an output parameter, if the name is not found, save the error message.
+                if (_unitOfMeasureDict.TryGetValue(_kPIDTO.UnitOfMeasureName.ToLower(), out int? UnitOfMeasureID)) _kPIDTO.UnitOfMeasureID = UnitOfMeasureID;
+                else { _kPIDTO.UnitOfMeasureName = "Error: The Unit Of Measure does not exist"; isSuccess = false; }
+
+                if (_valueTypeDict.TryGetValue(_kPIDTO.ValueTypeName.ToLower(), out int? ValueTypeID)) _kPIDTO.ValueTypeID = ValueTypeID;
+                else { _kPIDTO.ValueTypeName = "Error: The Value Type does not exist"; isSuccess = false; }
+
+                if (_userDict.TryGetValue(_kPIDTO.OwnerName.ToLower(), out int? OwnerID)) _kPIDTO.OwnerID = OwnerID;
+                else { _kPIDTO.OwnerName = "Error: The Owner does not exist"; isSuccess = false; }
+
+                if (_userDict.TryGetValue(_kPIDTO.ResponsibleName.ToLower(), out int? ResponsibleID)) _kPIDTO.ResponsibleID = ResponsibleID;
+                else { _kPIDTO.ResponsibleName = "Error: The Responsible does not exist"; isSuccess = false; }
+
+                if (_facilityDict.TryGetValue(_kPIDTO.FacilityName.ToLower(), out int? FacilityID)) _kPIDTO.FacilityID = FacilityID;
+                else { _kPIDTO.FacilityName = "Error: The Facility does not exist"; isSuccess = false; }
+
+                if (_equivalenceDict.TryGetValue(_kPIDTO.EquivalenceName.ToLower(), out int? EquivalenceID)) _kPIDTO.EquivalenceID = EquivalenceID;
+                else { _kPIDTO.EquivalenceName = "Error: The Equivalence does not exist"; isSuccess = false; }
+
+                if (_categoryDict.TryGetValue(_kPIDTO.DashboardCategoryName.ToLower(), out int? DashboardCategoryID)) _kPIDTO.DashboardCategoryID = DashboardCategoryID;
+                else { _kPIDTO.DashboardCategoryName = "Error: The Category does not exist"; isSuccess = false; }
+
+                if (_departmentDict.TryGetValue(_kPIDTO.OwnerDepartmentName.ToLower(), out int? OwnerDepartmentID)) _kPIDTO.OwnerDepartmentID = OwnerDepartmentID;
+                else { _kPIDTO.OwnerDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
+
+                if (_departmentDict.TryGetValue(_kPIDTO.ResponsibleDepartmentName.ToLower(), out int? ResponsibleDepartmentID)) _kPIDTO.ResponsibleDepartmentID = ResponsibleDepartmentID;
+                else { _kPIDTO.ResponsibleDepartmentName = "Error: The Owner Department does not exist"; isSuccess = false; }
+
+                if (isSuccess)
+                { // If it meets the validations, it deletes the ID that contained the value of the row row and saves it in the list
+                    _kPIDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(_kPIDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(_kPIDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<KPIDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(KPIDTO => KPIDTO.ID).ToList();
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    #endregion
 }

@@ -1,7 +1,9 @@
-﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
+using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
 
@@ -84,5 +86,36 @@ public class DashboardLineMap
         }
         return _dashboardlineXPO;
     }
-
+    public static List<DashboardLineXPO> DTOListToXPOList(List<DashboardLineDTO> DashboardLineDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<DashboardLineXPO>();
+        try
+        {
+            foreach (var _dashboardLineDTO in DashboardLineDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_dashboardLineDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<DashboardLineDTO> XPCollectionToList(XPCollection<DashboardLineXPO> DashboardLineXPCollection)
+    {
+        var _dTOList = new List<DashboardLineDTO>();
+        try
+        {
+            foreach (var _dashboardLineXPO in DashboardLineXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_dashboardLineXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
+    }
 }

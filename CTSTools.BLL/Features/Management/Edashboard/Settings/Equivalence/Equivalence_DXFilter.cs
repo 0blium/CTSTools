@@ -25,6 +25,10 @@ public class Equivalence_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(EquivalenceXPO.Oid), EquivalenceDTO.EquivalenceIDArray));
             }
+            if (EquivalenceDTO.EquivalenceNameArray != null && EquivalenceDTO.EquivalenceNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(EquivalenceXPO.Name), EquivalenceDTO.EquivalenceNameArray));
+            }
             if (EquivalenceDTO.AddedByID != null && EquivalenceDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(EquivalenceXPO.AddedBy), EquivalenceDTO.AddedByID));

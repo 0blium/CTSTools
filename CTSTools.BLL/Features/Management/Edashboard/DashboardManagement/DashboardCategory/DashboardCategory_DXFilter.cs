@@ -26,6 +26,10 @@ public class DashboardCategory_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(DashboardCategoryXPO.Oid), DashboardCategoryDTO.DashboardCategoryIDArray));
             }
+            if (DashboardCategoryDTO.DashboardCategoryNameArray != null && DashboardCategoryDTO.DashboardCategoryNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(DashboardCategoryXPO.Name), DashboardCategoryDTO.DashboardCategoryNameArray));
+            }
             if (DashboardCategoryDTO.AddedByID != null && DashboardCategoryDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(DashboardCategoryXPO.AddedBy), DashboardCategoryDTO.AddedByID));

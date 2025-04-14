@@ -166,72 +166,100 @@ public class Class_Service
         return _validationResultDTO;
     }
 
+    public static ValidationResultDTO CreateMassiveList_Global(List<ClassDTO> ClassDTOList)
+    {
+        var _valueList = new List<ValueDTO>();
+        var _valueLinkList = new List<ValueLinkDTO>();
+        // We extract the ClassValueDTO from ClassDTOList and add them to _valueList
+        foreach (var ClassDTO in ClassDTOList)
+        {
+            _valueList.Add(ClassDTO.ClassValueDTO);
+        }
+        //Step 1. Create the Class value
+        var _validationResultDTO = Value_Service.CreateMultiple_Global(_valueList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        // Assign the Oids to the corresponding ClassDTOList properties
+        for (int i = 0; i < ClassDTOList.Count; i++)
+        {
+            // We assign the Oid of the ValueDTO within the _validationResultDTO corresponding to the properties
+            ClassDTOList[i].ChildValueID = _validationResultDTO.Data[i].Oid;
+            ClassDTOList[i].ClassValueDTO.ID = _validationResultDTO.Data[i].Oid;
+            _valueList[i].ID = _validationResultDTO.Data[i].Oid;
+        }
+
+        //Step 3. Validate Value Link
+        _valueLinkList.AddRange(ClassDTOList);
+        _validationResultDTO = ValueLink_Validator.CreateMultipleValueLink_Validation(_valueLinkList);
+        if (!_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
+            return _validationResultDTO;
+        }
+        ////Step 4. Create Value Link 
+        _validationResultDTO = ValueLink_Service.CreateMultiple_Global(_valueLinkList);
+        if (!_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
+            return _validationResultDTO;
+        }
+        // Assign the Oids to the corresponding ClassDTOList properties
+        for (int i = 0; i < ClassDTOList.Count; i++)
+        {
+            ClassDTOList[i].ID = _validationResultDTO.Data[i].Oid;
+            ClassDTOList[i].ClassValueDTO.ID = ClassDTOList[i].ChildValueID;
+            _valueLinkList[i].ID = _validationResultDTO.Data[i].Oid;
+        }
+        //Step 5. Create Class ID Value
+        _validationResultDTO = Class_Sequence_Service.CreateMultiple_Sequence_Global(ClassDTOList);
+        if (!_validationResultDTO.Result)
+        {
+            _validationResultDTO = Value_Service.DeleteMultiple_Global(_valueList);
+            _validationResultDTO = ValueLink_Service.DeleteMultiple_Global(_valueLinkList);
+            return _validationResultDTO;
+        }
+
+        return _validationResultDTO;
+    }
     #region Business Logic
 
-    #region Update Excel functions
-    public static ValidationResultDTO ClassFileValidation_Global(FileDTO FileDTO)
+    #region Upload Excel functions
+
+    public static ValidationResultDTO GenerateClassFromExcel(FileDTO FileDTO)
     {
-        ExcelClassDTO _excelClassDTO = new ExcelClassDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
+        var _excelRowDTO = new ExcelRowDTO();
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been create successfully.."
+        };
         try
         {
-            byte[] _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "Comparission was made successfully";
+            // step 1. Validate that it is an excel file
+            _validationResultDTO = ExcelImport_Validator.ExcelFile_Validation(FileDTO);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // step 2. Bring the information from excel
+            _validationResultDTO = ExcelImport_Validator.ExcelHeaderColumns_Validation(FileDTO);
 
-            var _excelClassRowsValidation = new ExcelClassDTO();
-            string _extension = "";
-            if (FileDTO.FileName.Contains(".xlsx"))
-            {
-                _extension = ".xlsx";
-            }
-            else if (FileDTO.FileName.Contains(".xls"))
-            {
-                _extension = ".xls";
-            }
-            else
-            {
-                _validationResultDTO.Result = false;
-                _validationResultDTO.Description = "Input only excel files.";
-                _validationResultDTO.Message = "Invalid file";
-            }
-            //Step 1. Validate if the files contains following headers: Number, Name, Address, City, State, Country, Postal Code.
-            // WARNING: The validations allows to contain empty rows above the column headers. If something are above of coliumns, the validation
-            // will take it as an error.
-            _excelClassDTO = ValidateClassFileColumns(_fileBytes, FileDTO.FileName, _extension);
-            _validationResultDTO = _excelClassDTO.ValidationResultDTO;
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // step 3. Validate that the list of data comes
+            FileDTO.DirectoryArray = _validationResultDTO.Data;
+            _validationResultDTO = GetClassListFromExcel(FileDTO);
 
-            if (_validationResultDTO.Result == true)
-            {
-                //Step 2. Read the file and get the rows in vendordto format
-                if (_extension == ".xls" || _extension == ".xlsx")
-                {
-                    _validationResultDTO = GetClassInfoListFromExcelFile(_fileBytes);
-                }
-                if (_validationResultDTO.Data != null)
-                {
-                    _excelClassRowsValidation = ClassFileRowsValidation(_validationResultDTO.Data);
+            if (_validationResultDTO.Data == null)
+                return _validationResultDTO;
+            // step 4. Validate that the column information exists in the db
+            _validationResultDTO = Class_Validator.ExcelClassInformation_Validation(_validationResultDTO.Data);
+            _excelRowDTO = _validationResultDTO.Data;
 
-                    if (_excelClassRowsValidation.ClassGoodLinesList.Count > 0)
-                    {
-                        foreach (var _classDTO in _excelClassRowsValidation.ClassGoodLinesList)
-                        {
-                            _classDTO.AddedByID = FileDTO.ID;
-                            var _validationResulDTO = CreateClass_Global(_classDTO);
-                        }
-                    }
-                }
-                else
-                {
-                    return _validationResultDTO;
-                }
+            if (_excelRowDTO.GoodRowLinesList.Count <= 0)
+                return _validationResultDTO;
+            // step 5. Create Class
+            _validationResultDTO = CreateMassiveList_Global(_excelRowDTO.GoodRowLinesList);
+            _validationResultDTO.Data = _excelRowDTO;
 
-                _validationResultDTO.Result = _excelClassRowsValidation.ValidationResultDTO.Result;
-                _validationResultDTO.Message = _excelClassRowsValidation.ValidationResultDTO.Message;
-                _validationResultDTO.Description = _excelClassRowsValidation.ValidationResultDTO.Description;
-            }
-            _validationResultDTO.Data = _excelClassRowsValidation;
         }
         catch (Exception ex)
         {
@@ -240,133 +268,79 @@ public class Class_Service
         }
         return _validationResultDTO;
     }
-
-    private static ExcelClassDTO ValidateClassFileColumns(byte[] _fileBytes, string Filename, string Extension)
-    {
-        string[] _fileheaders = new string[0];
-        ExcelClassDTO _excelClassFileValidationDTO = new ExcelClassDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-
-        if (Extension == ".xlsx" || Extension == ".xls")
-        {
-            _fileheaders = ExcelDataImport_Service.GetHeadersFromExcel(_fileBytes);
-        }
-        else
-        {
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = "Input only excel files.";
-            _validationResultDTO.Message = "Invalid file";
-        }
-        string _missingHeader = string.Empty;
-        _missingHeader += (_fileheaders.Contains("name") == true) ? string.Empty : "name,<br>";
-        _missingHeader += (_fileheaders.Contains("code") == true) ? string.Empty : "code,<br>";
-        _missingHeader += (_fileheaders.Contains("description") == true) ? string.Empty : "description,<br>";
-        _missingHeader += (_fileheaders.Contains("part type") == true || _fileheaders.Contains("parttype")) ? string.Empty : "part type,<br>";
-        _missingHeader += (_fileheaders.Contains("component type") == true || _fileheaders.Contains("componenttype")) ? string.Empty : "component type,<br>";
-
-        if (_missingHeader != string.Empty)
-        {
-            var lastComma = _missingHeader.LastIndexOf(',');
-            _missingHeader = _missingHeader.Remove(lastComma, 1).Insert(lastComma, ".");
-            _validationResultDTO.Result = false;
-            _validationResultDTO.Description = string.Format("The following columns are missing:<br> {0}", _missingHeader);
-            _validationResultDTO.Message = "Error";
-        }
-        else
-        {
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Description = "The file have the correct format ";
-            _validationResultDTO.Message = "Success";
-        }
-        _excelClassFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-
-        return _excelClassFileValidationDTO;
-    }
-    private static ValidationResultDTO GetClassInfoListFromExcelFile(byte[] FileBytes)
+    private static ValidationResultDTO GetClassListFromExcel(FileDTO FileDTO)
     {
         var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            List<ExcelClassDTO> _excelClassDTOList = new List<ExcelClassDTO>();
-            using (var _fileStream = new MemoryStream(FileBytes))
+            var _excelRowDTO = new ExcelRowDTO
+            {
+                GoodRowLinesList = new List<ClassDTO>(),
+                BadRowLinesList = new List<ClassDTO>()
+            };
+
+            // Converts the Base64 string contained in FileDTO.Data to a byte array,
+            // To later process it and read the content of the Excel file.
+            var _fileBytes = Convert.FromBase64String(FileDTO.Data.Split(',')[1]);
+            using (var _fileStream = new MemoryStream(_fileBytes))
             using (var _excelReader = ExcelReaderFactory.CreateReader(_fileStream))
             {
                 var _excelDataSet = _excelReader.AsDataSet();
                 DataTable _firstTable = _excelDataSet.Tables[0];
-                // Create a dictionary to store column indexes
+                // Create a dictionary to store the excel column indexes
                 var _columnHeaderMap = new Dictionary<string, int>();
-                // Fill the dictionary with headings
+                // Create the list with the name of the columns that were previously validated
+                var _columnHeaderNameList = FileDTO.DirectoryArray.Select(ColumnName => ColumnName.ToUpper()).ToList();
+                // This is to identify the columns within the Excel, to later bring the information contained in the row
                 for (int colIndex = 0; colIndex < _firstTable.Columns.Count; colIndex++)
                 {
-                    string headerName = _firstTable.Rows[0][colIndex].ToString().Trim();
-                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", " ");
-                    if (headerName.Equals("NAME", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("CODE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("PART TYPE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("PARTTYPE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("COMPONENT TYPE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("COMPONENTTYPE", StringComparison.OrdinalIgnoreCase) ||
-                        headerName.Equals("DESCRIPTION", StringComparison.OrdinalIgnoreCase))
+                    // We take the column name, put it in capital letters to compare it with our list (_columnHeaderNameList) 
+                    // and we remove all the spaces from the name before comparing it with the list. (e.g. " Unit  Of Measure " -> "UnitOfMeasure")
+                    string headerName = _firstTable.Rows[0][colIndex].ToString().ToUpper();
+                    // The regular expression @"\s+", Removes all whitespace from the column name
+                    headerName = System.Text.RegularExpressions.Regex.Replace(headerName, @"\s+", "");
+                    if (_columnHeaderNameList.Contains(headerName))
                     {
-                        _columnHeaderMap[headerName.ToUpper()] = colIndex;
+                        // If the column name exists, it stores it in the dirctory (_columnHeaderMap) and assigns its identifier
+                        _columnHeaderMap[headerName] = colIndex;
                     }
                 }
-                // Process rows starting from the second row (index 1)
+
+                // Process rows starting from the second row (index 1), to take the information to store in each iteration
                 for (int rowIndex = 1; rowIndex < _firstTable.Rows.Count; rowIndex++)
                 {
                     DataRow row = _firstTable.Rows[rowIndex];
-                    var _excelClassDTO = new ExcelClassDTO();
-                    _excelClassDTO.ClassDTO.ClassValueDTO = new ValueDTO();
-                    _excelClassDTO.ClassDTO.PartTypeDTO = new ValueDTO();
-                    _excelClassDTO.ClassDTO.ComponentTypeDTO = new ValueDTO();
-                    bool _haveInfo = false;
-                    // Assign values ​​directly using the dictionary
-                    if (_columnHeaderMap.TryGetValue("NAME", out int NameIndex))
-                    {
-                        string _nameValue = row[NameIndex].ToString().Trim();
-                        _nameValue = System.Text.RegularExpressions.Regex.Replace(_nameValue, @"\s+", " ");
-                        _excelClassDTO.ClassDTO.ClassValueDTO.Name = _nameValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("CODE", out int CodeIndex))
-                    {
-                        string _codeValue = row[CodeIndex].ToString().Trim();
-                        _codeValue = System.Text.RegularExpressions.Regex.Replace(_codeValue, @"\s+", " ");
-                        _excelClassDTO.ClassDTO.ClassValueDTO.Code = _codeValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("DESCRIPTION", out int DescriptionIndex))
-                    {
-                        string _descriptionValue = row[DescriptionIndex].ToString().Trim();
-                        _descriptionValue = System.Text.RegularExpressions.Regex.Replace(_descriptionValue, @"\s+", " ");
-                        _excelClassDTO.ClassDTO.ClassValueDTO.Description = _descriptionValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("PART TYPE", out int PartTypeIndex) ||
-                        _columnHeaderMap.TryGetValue("PARTTYPE", out PartTypeIndex))
-                    {
-                        string _partTypeValue = row[PartTypeIndex].ToString().Trim();
-                        _partTypeValue = System.Text.RegularExpressions.Regex.Replace(_partTypeValue, @"\s+", " ");
-                        _excelClassDTO.ClassDTO.PartTypeDTO.Name = _partTypeValue;
-                        _haveInfo = true;
-                    }
-                    if (_columnHeaderMap.TryGetValue("COMPONENT TYPE", out int ComponentTypeIndex) ||
-                        _columnHeaderMap.TryGetValue("COMPONENTTYPE", out ComponentTypeIndex))
-                    {
-                        string _componentTypeValue = row[ComponentTypeIndex].ToString().Trim();
-                        _componentTypeValue = System.Text.RegularExpressions.Regex.Replace(_componentTypeValue, @"\s+", " ");
-                        _excelClassDTO.ClassDTO.ComponentTypeDTO.Name = _componentTypeValue;
-                        _haveInfo = true;
-                    }
-                    if (_haveInfo)
-                    {
-                        _excelClassDTOList.Add(_excelClassDTO);
-                    }
+                    // We create a DTO where we will store the content of the excel to later validate it
+                    var _classDTO = new ClassDTO { ClassValueDTO = new ValueDTO() };
+                    // The assigned ID is to have the Excel row identified in case it does not pass the validations.
+                    _classDTO.ID = rowIndex + 1;
+                    // The row[_columnHeaderMap["NAME"]] returns the index of that directory name (e.g row[0] -> TestName) and turns it into string
+                    // What the CleanRowString function does is remove all the spaces on the sides and internal in each word,
+                    // Leaving only one space between the words (e.g. " Unit  Of Measure " -> "Unit Of Measure")
+                    _classDTO.ClassValueDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["NAME"]].ToString());
+                    _classDTO.ClassValueDTO.Description = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DESCRIPTION"]].ToString());
+                    _classDTO.ClassValueDTO.Code = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["CODE"]].ToString());
+                    _classDTO.PartTypeDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["PARTTYPE"]].ToString());
+                    _classDTO.ComponentTypeDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["COMPONENTTYPE"]].ToString());
+                    _classDTO.AddedByID = FileDTO.ID;
+                    _classDTO.ClassValueDTO.AddedByID = FileDTO.ID;
+
+                    // We validate the DTO to verify that our properties are not null
+                    _validationResultDTO = Class_Validator.ExcelClassRows_Validation(_classDTO);
+
+                    // We verify if our DTO complied with the validations
+                    if (_validationResultDTO.Data.GoodRowLinesList.Count > 0)
+                        // If the DTO does not have null properties, it is stored in the GoodRowLines.
+                        _excelRowDTO.GoodRowLinesList.AddRange(_validationResultDTO.Data.GoodRowLinesList);
+                    else
+                        // If any of the DTO properties is null, it is stored on a BadRowLines.
+                        _excelRowDTO.BadRowLinesList.AddRange(_validationResultDTO.Data.BadRowLinesList);
                 }
             }
-            if (_excelClassDTOList.Count > 0)
+            // Verify if there were good or bad lines to return _excelRowDTO
+            if (_excelRowDTO.GoodRowLinesList.Count > 0 || _excelRowDTO.BadRowLinesList.Count > 0)
             {
-                _validationResultDTO.Data = _excelClassDTOList;
+                _validationResultDTO.Data = _excelRowDTO;
                 return _validationResultDTO;
             }
             else
@@ -385,108 +359,6 @@ public class Class_Service
             _validationResultDTO.Description = ex.Message;
             return _validationResultDTO;
         }
-    }
-    private static ExcelClassDTO ClassFileRowsValidation(List<ExcelClassDTO> ExcelClassFileDataList)
-    {
-        ExcelClassDTO _excelClassFileValidationDTO = new ExcelClassDTO();
-        ValidationResultDTO _validationResultDTO = new ValidationResultDTO();
-        _validationResultDTO.Result = true;
-        _validationResultDTO.Message = "Success";
-        _validationResultDTO.Description = "";
-        try
-        {
-
-            foreach (var _excelClassFileData in ExcelClassFileDataList)
-            {
-                ClassDTO _classDTO = new ClassDTO();
-                _classDTO.ClassValueDTO = new ValueDTO();
-                _classDTO.PartTypeDTO = new ValueDTO();
-                _classDTO.ComponentTypeDTO = new ValueDTO();
-                bool isSucces = true;
-                if (string.IsNullOrEmpty(_excelClassFileData.ClassDTO.ClassValueDTO.Name))
-                {
-                    _excelClassFileData.ClassDTO.ClassValueDTO.Name = "Error, The Name is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelClassFileData.ClassDTO.ClassValueDTO.Code))
-                {
-                    _excelClassFileData.ClassDTO.ClassValueDTO.Code = "Error, The Code is null or empty";
-                    isSucces = false;
-                }
-                if (string.IsNullOrEmpty(_excelClassFileData.ClassDTO.PartTypeDTO.Name))
-                {
-                    _excelClassFileData.ClassDTO.PartTypeDTO.Name = "Error, The Part Type is null or empty";
-                    isSucces = false;
-                }
-                else
-                {
-                    _classDTO.ClassValueDTO.AttributeID = (int)Attribute_Enum.Class;
-                    if (_excelClassFileData.ClassDTO.PartTypeDTO.Name == nameof(Value_Enum.PartTypeValue_Enum.Purchased))
-                    {
-                        _classDTO.ParentAttributeID = (int)Attribute_Enum.PartType;
-                        _classDTO.ParentValueID = (int)Value_Enum.PartTypeValue_Enum.Purchased;
-                        _classDTO.ChildAttributeID = (int)Attribute_Enum.Class;
-                    }
-                    else if (_excelClassFileData.ClassDTO.PartTypeDTO.Name == nameof(Value_Enum.PartTypeValue_Enum.Manufactured))
-                    {
-                        if (string.IsNullOrEmpty(_excelClassFileData.ClassDTO.ComponentTypeDTO.Name))
-                        {
-                            _excelClassFileData.ClassDTO.ComponentTypeDTO.Name = "Error, The Component Type is null or empty";
-                            isSucces = false;
-                        }
-                        else
-                        {
-                            var _existComponentTypeDTO = Value_Service.GetValueList_Global(new ValueDTO { AttributeID = (int)Attribute_Enum.ComponentType, Name = _excelClassFileData.ClassDTO.ComponentTypeDTO.Name }).FirstOrDefault();
-                            if (_existComponentTypeDTO != null)
-                            {
-                                _classDTO.ParentAttributeID = (int)Attribute_Enum.ComponentType;
-                                _classDTO.ParentValueID = _existComponentTypeDTO.ID;
-                                _classDTO.ChildAttributeID = (int)Attribute_Enum.Class;
-                            }
-                            else
-                            {
-                                _excelClassFileData.ClassDTO.ComponentTypeDTO.Name = "Error, The Component Type not exist";
-                                isSucces = false;
-                            }
-                        }
-                    }
-                    else 
-                    {
-                        _excelClassFileData.ClassDTO.PartTypeDTO.Name = "Error, The Part Type is not exist";
-                        isSucces = false;
-                    }
-                }
-
-                _classDTO.ClassValueDTO.Name = _excelClassFileData.ClassDTO.ClassValueDTO.Name;
-                _classDTO.ClassValueDTO.Code = _excelClassFileData.ClassDTO.ClassValueDTO.Code;
-                _classDTO.ClassValueDTO.Description = _excelClassFileData.ClassDTO.ClassValueDTO.Description;
-                _classDTO.PartTypeDTO.Name = _excelClassFileData.ClassDTO.PartTypeDTO.Name;
-                _classDTO.ComponentTypeDTO.Name = _excelClassFileData.ClassDTO.ComponentTypeDTO.Name;
-                _classDTO.ClassValueDTO.IsActive = true;
-                _classDTO.IsActive = true;
-
-                if (isSucces == true)
-                {
-                    _excelClassFileValidationDTO.ValidationResultDTO.Message = "Success";
-                    _excelClassFileValidationDTO.ClassGoodLinesList.Add(_classDTO);
-                }
-                else
-                {
-                    _excelClassFileValidationDTO.ValidationResultDTO.Message = _excelClassFileValidationDTO.ValidationResultDTO.Message;
-                    _excelClassFileValidationDTO.ClassBadLinesList.Add(_classDTO);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ErrorSignal.FromCurrentContext().Raise(ex);
-            _validationResultDTO.Result = true;
-            _validationResultDTO.Message = "Success";
-            _validationResultDTO.Description = "The file was read successfully";
-            throw ex;
-        }
-        _excelClassFileValidationDTO.ValidationResultDTO = _validationResultDTO;
-        return _excelClassFileValidationDTO;
     }
     #endregion
 
