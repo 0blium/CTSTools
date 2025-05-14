@@ -75,15 +75,15 @@ public class Item_Header_Validator
                     });
                 }
             }
-            if (Item_HeaderDTO.SupportGroupID == null || Item_HeaderDTO.SupportGroupID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Support Group Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
+            //if (Item_HeaderDTO.SupportGroupID == null || Item_HeaderDTO.SupportGroupID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Support Group Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //    });
+            //}
 
             if (Item_HeaderDTO.AddedByID == null || Item_HeaderDTO.AddedByID == 0)
             {

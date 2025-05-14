@@ -187,7 +187,9 @@ async function InitializeItemTypeControls() {
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
                                     { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
-                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                    { text: "Attachments", icon: "fa fa-paperclip text-info", value: 2 },
+                                    { text: "Assets", icon: "fas fa-th-list text-primary", value: 3 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
                                 ]
                             }],
                             showFirstSubmenuMode: 'onClick',
@@ -198,6 +200,13 @@ async function InitializeItemTypeControls() {
                                     $('#AddNewItemHeaderModal').modal('show');
                                 }
                                 else if (e.itemData.value == 2) {
+                                    $('#AttachmentsModal').modal('show');
+                                    document.getElementById("AttachmentsModalSaveBtn").addEventListener("click", SaveAttachmentsItem_Header);
+                                }
+                                else if (e.itemData.value == 3) {
+                                    window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID, "_blank");
+                                }
+                                else if (e.itemData.value == 4) {
                                     $("#hiddenItem_HeaderID").val(options.data.ID);
                                     ShowItem_HeaderDeleteQuestion();
                                 }

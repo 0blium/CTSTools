@@ -16,6 +16,7 @@ public class Item_Header_Service
     public static ValidationResultDTO CreateItem_Header_Global(Item_HeaderDTO Item_HeaderDTO)
     {
         var _ValidationResultDTO = Item_Header_Validator.CreateItem_Header_Validation(Item_HeaderDTO);
+        //if (_ValidationResultDTO.Result && !(bool)Item_HeaderDTO.IsItemCreated)
         if (_ValidationResultDTO.Result)
         {
             Item_HeaderDTO.AddedDate = DateTime.Now;
@@ -23,6 +24,7 @@ public class Item_Header_Service
             Item_HeaderDTO.ID = _ValidationResultDTO.Data;
         }
         //Save Item Picture
+        //if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.Data != null && !(bool)Item_HeaderDTO.IsItemCreated)
         if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.Data != null)
         {
             Item_HeaderDTO.FileDTO.ID = (int)Item_HeaderDTO.ID;

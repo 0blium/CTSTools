@@ -21,6 +21,7 @@ public class Item_HeaderDTO
     public int? LastUpdateByID { get; set; }
     public string LastUpdateByName { get; set; }
     public bool? IsActive { get; set; }
+    public bool? IsItemCreated { get; set; }
 
 
     #endregion

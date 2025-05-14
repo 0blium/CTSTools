@@ -7,6 +7,7 @@ export async function ShowSidebarMenu(UserID) {
     }
     let _validationResultDTO = await GetUser_PermissionInformation(_user_PermissionDTO);
     if (_validationResultDTO != null) {
+        debugger;
         let _moduleList = _validationResultDTO.map(up => up.PermissionDTO.ModuleName);
         const _moduleNav = document.querySelectorAll('.module-nav');
         const _subMenuNav = document.querySelectorAll('.submenu-nav');
@@ -14,6 +15,7 @@ export async function ShowSidebarMenu(UserID) {
         let _moduleNavList = [];
         let _subMenuList = [];
         _moduleNav.forEach(item => {
+            debugger;
             // Getting value from data-tech
             const _moduleMenuList = item.getAttribute('data-tech').split(' ');
             // Check if any of the modules in "data-tech" are in the user's permissions
@@ -27,7 +29,7 @@ export async function ShowSidebarMenu(UserID) {
             }
         });
         _subMenuNav.forEach(MenuName => {
-
+            debugger;
             const _exist = _moduleNavList.some(id => id.endsWith(MenuName.id));
             if (_exist && !_subMenuList.includes(MenuName.id)) {
                 console.log(MenuName.id);
@@ -35,10 +37,11 @@ export async function ShowSidebarMenu(UserID) {
             }
         });
         _subMenuList.forEach(MenuName => {
+            debugger;
             document.getElementById(MenuName).removeAttribute('hidden');
         });
         _menuNav.forEach(MenuName => {
-
+            debugger;
             const _menuNavList = MenuName.getAttribute('data-tech').split(' ');
             let _exist = _menuNavList.some(Menu => _subMenuList.includes(Menu));
             if (_exist) {

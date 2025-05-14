@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 let ItemLineList = [];
+let UserDefinedTemplateList = [];
 async function InitializeItemLineCatalogControls() {
     $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox({
         dataSource: await GetDXItem_HeaderDataSource(),
@@ -196,11 +197,9 @@ async function InitializeItemLineCatalogControls() {
         onSelectionChanged: async function (data) {
             let _ItemLineData = data.selectedRowsData[0];
             if (_ItemLineData != null) {
-                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
                 ItemLineActionButtons("Update");
-                await BuildUserDefinedOnItem_LineModal(_userDefinedTemplateList);
-                PopulateItemLineFields(_ItemLineData, _userDefinedTemplateList);
+                await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
+                PopulateItemLineFields(_ItemLineData, UserDefinedTemplateList);
             }
         },
         columns:
@@ -274,8 +273,8 @@ async function GetItem_SupportGroupIDByURL() {
         InitializeItemLineCatalogControls();
         InitializeReassignSupportGroupModalControls();
         const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-        const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-        await BuildUserDefinedOnItem_LineModal(_userDefinedTemplateList);
+        UserDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
+        await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
         $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemHeaderID").val()));
         $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemSupportGroupID").val()));
     } else {
@@ -331,7 +330,7 @@ function ItemLineActionButtons(Action) {
         document.getElementById("UpdateItemLineButton").addEventListener("click", UpdateItem_Line_Global);
     }
 }
-async function ClearItemLineFields(UserDefinedTemplateList) {
+async function ClearItemLineFields() {
     const _item_LineDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true };
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     $('#SaveItemLineRecordModal').modal('hide');
@@ -355,7 +354,7 @@ async function ClearItemLineFields(UserDefinedTemplateList) {
     $("#dxItem_LineStationSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_LineGenerateSerialCheckBox").dxCheckBox("instance").option("value", false);
     for (var _userDefined in UserDefinedTemplateList) {
-        if (_userDefined != null && _userDefined != 0 && _userDefined != 'isTrusted') {
+        if (_userDefined != null && _userDefined >= 0) {
             switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
                 case DataType_Enum.Text:
                     $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", "");
@@ -381,7 +380,6 @@ async function ClearItemLineFields(UserDefinedTemplateList) {
     //ClearErrorFeedback();
 }
 function PopulateItemLineFields(Data, UserDefinedList) {
-    debugger;
     ItemLineActionButtons("Update");
     $("#hiddenItemLineID").val(Data.ID);
     $("#hiddenStationID").val(Data.StationDTOID);
@@ -497,19 +495,15 @@ async function ShowItem_LineDeleteQuestion() {
     if (_alert.isConfirmed) {
         DeleteItem_Line_Global();
     } else {
-        const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-        const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-        ClearItemLineFields(_userDefinedTemplateList);
+        ClearItemLineFields();
     }
 }
 async function CreateItem_Line_Global() {
     await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-    const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-    const _item_LineDTO = GetItem_LineDTO(_userDefinedTemplateList);
+    const _item_LineDTO = GetItem_LineDTO(UserDefinedTemplateList);
     const _validation_ResultDTO = await CreateItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
-        await ClearItemLineFields(_userDefinedTemplateList);
+        await ClearItemLineFields();
         $("#AddNewItemLineModal").modal("hide");
         RefreshGrid();
     }
@@ -518,12 +512,10 @@ async function CreateItem_Line_Global() {
 }
 async function UpdateItem_Line_Global() {
     await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-    const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-    const _item_LineDTO = GetItem_LineDTO(_userDefinedTemplateList);
+    const _item_LineDTO = GetItem_LineDTO(UserDefinedTemplateList);
     const _validation_ResultDTO = await UpdateItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
-        ClearItemLineFields(_userDefinedTemplateList);
+        ClearItemLineFields();
         $("#AddNewItemLineModal").modal("hide");
     }
     HostResponse(_validation_ResultDTO);
@@ -531,12 +523,10 @@ async function UpdateItem_Line_Global() {
 }
 async function DeleteItem_Line_Global() {
     await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-    const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-    const _item_LineDTO = GetItem_LineDTO();
+    const _item_LineDTO = GetItem_LineDTO(UserDefinedTemplateList);
     const _validation_ResultDTO = await DeleteItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
-        ClearItemLineFields(_userDefinedTemplateList);
+        ClearItemLineFields();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();

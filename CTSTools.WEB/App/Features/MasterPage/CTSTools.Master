@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <%-- Maintenance Modules --%>
-                    <div id="MaintenanceModules" class="menu-item has-sub menu-nav" data-tech="MaintenanceModules StationManagement">
+                    <div id="MaintenanceModules" class="menu-item has-sub menu-nav" data-tech="AMSModule">
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
                                 <i class="fa-solid fa-tools"></i>
@@ -217,7 +217,7 @@
                             <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu">
-                            <div id="AMSModule" class="menu-item has-sub submenu-nav" data-tech="AMSModule">
+                            <div id="AMSModule" class="menu-item has-sub submenu-nav" data-tech="ItemModule SupportGroupManagement StationManagement SpareParts Tickets">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-icon">
                                         <i class="fa-solid fa-medal"></i>
@@ -226,18 +226,18 @@
                                     <div class="menu-caret"></div>
                                 </a>
                                 <div class="menu-submenu">
-                                    <div id="ItemModule" class="menu-item has-sub submenu-nav" data-tech="ItemModule">
+                                    <div id="ItemModule" class="menu-item has-sub submenu-nav" hidden>
                                         <a href="javascript:;" class="menu-link">
                                             <div class="menu-text">Items</div>
                                             <div class="menu-caret"></div>
                                         </a>
                                         <div class="menu-submenu">
-                                            <div id="ItemAdministrationItemModule" class="menu-item " data-tech="ItemAdministration">
+                                            <div id="ItemAdministrationItemModule" class="menu-item module-nav" data-tech="ItemAdministration">
                                                 <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemAdministration.aspx" class="menu-link">
                                                     <div class="menu-text">Administration</div>
                                                 </a>
                                             </div>
-                                            <div id="ItemRegistrationItemModule" class="menu-item " data-tech="ItemRegistration">
+                                            <div id="ItemRegistrationItemModule" class="menu-item module-nav" data-tech="ItemRegistration">
                                                 <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemRegistration.aspx" class="menu-link">
                                                     <div class="menu-text">Registration</div>
                                                 </a>
@@ -296,7 +296,7 @@
                                                     <div class="menu-text">Spare Part Inventory</div>
                                                 </a>
                                             </div>
-                                            <div id="ProviderTicketModules" class="menu-item " data-tech="Provider">
+                                            <div id="ProviderSpareParts" class="menu-item " data-tech="Provider">
                                                 <a href="/App/Features/Maintenance/AMS/SparePartManagement/ProviderCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Provider </div>
                                                 </a>

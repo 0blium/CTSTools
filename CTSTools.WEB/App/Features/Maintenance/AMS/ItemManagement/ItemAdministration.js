@@ -571,6 +571,7 @@ function GetItem_HeaderDTO() {
         ItemClassificationDTO: {
             ID: $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("value"),
         },
+        //IsItemCreated: $("#dxItem_HeaderIsItemCreatedCheckBox").dxCheckBox("instance").option("value"),
         FileDTO: GetFileDTO()
     }
     return _item_HeaderDTO;

@@ -35,10 +35,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex">
-                            <a id="AddNewItemLineBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal">Register Item</a>
-                            <a id="AddNewItemHeaderBtn" class="btn btn-secondary mb-1 ms-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i>Item Type</a>
+                            <%--<a id="AddNewItemLineBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal">Register Asset</a>--%>
+                            <a id="AddNewItemHeaderBtn" class="btn btn-secondary mb-1 ms-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i>Item</a>
                             <a class="btn btn-link text-info d-flex align-items-center text-decoration-none" data-bs-toggle="modal" data-bs-target="#AssetCriteriaModal">
-                                <i class="fas fa-circle-question fs-20px text-info me-1"></i>Which assets to register?
+                                <i class="fas fa-circle-question fs-20px text-info me-1"></i>Which item to register?
                             </a>
                         </div>
 
@@ -111,14 +111,14 @@
 
         <!-- Add new item type modal -->
         <div class="modal fade" id="AddNewItemHeaderModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Add new item</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" id="HeaderModalCloseButton" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <ul class="nav nav-pills mb-2" role="tablist">
+                        <%--<ul class="nav nav-pills mb-2" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a href="#ItemHeaderTab" data-bs-toggle="tab" class="nav-link active" aria-selected="true" role="tab">
                                     <span class="d-sm-none">Item</span>
@@ -131,58 +131,119 @@
                                     <span class="d-sm-block d-none">Attachments</span>
                                 </a>
                             </li>
-                        </ul>
-                        <div class="tab-content rounded-0 m-0">
-                            <div class="tab-pane fade active show" id="ItemHeaderTab" role="tabpanel">
-                                <div class="panel panel-inverse">
-                                    <div class="panel-body">
-                                        <div class="form-group row">
-                                            <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
-                                            <div id="dxItem_HeaderThumbnailFileUploader"></div>
-                                            <div class="col-md-12 text-center">
-                                                <img id="ItemThumbnail" src="/App/Common/Assets/img/no-product-image.png" class="img-fluid" style="height: 200px;" />
-                                            </div>
-                                        </div>
-                                        <div class="mb-10px">
-                                            <label class="form-label col-form-label col-md-12">Name (<span class="text-danger">*</span>)</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_HeaderEnglishNameTextBox"></div>
-                                                <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation"></div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-10px">
-                                            <label class="form-label col-form-label col-md-12">Model (<span class="text-danger">*</span>)</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_HeaderModelTextBox"></div>
-                                                <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-10px">
-                                            <label class="form-label col-form-label col-md-12">Brand (<span class="text-danger">*</span>)</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_HeaderBrandTextBox"></div>
-                                                <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-10px">
-                                            <label class="form-label col-form-label col-md-12">Classification</label>
-                                            <div class="col-md-12">
-                                                <div id="dxItem_HeaderItemClassificationSelectBox"></div>
-                                                <div class="invalid-feedback" id="Item_HeaderItemClassificationValidation"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-10px">
-                                            <div class="col-md-4">
-                                                <div id="dxItem_HeaderIsActiveCheckBox"></div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div id="dxItem_HeaderIsESDCheckBox"></div>
-                                            </div>
-                                        </div>
+                        </ul>--%>
+                        <%--<div class="tab-content rounded-0 m-0">--%>
+                        <%--<div class="tab-pane fade active show" id="ItemHeaderTab" role="tabpanel">--%>
+                        <%--<div class="panel panel-inverse">--%>
+                        <div class="row mx-auto">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                                    <div id="dxItem_HeaderThumbnailFileUploader"></div>
+                                    <div class="col-md-12 text-center">
+                                        <img id="ItemThumbnail"
+                                            src="/App/Common/Assets/img/no-product-image.png"
+                                            class="img-fluid" style="height: 200px;" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="AttachmentsTab" role="tabpanel">
+                            <div class="col-md-6">
+                                <div class="mb-15px">
+                                    <label class="form-label col-form-label col-md-12">
+                                        Name (<span
+                                            class="text-danger">*</span>)</label>
+                                    <div class="col-md-12">
+                                        <div id="dxItem_HeaderEnglishNameTextBox"></div>
+                                        <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-15px">
+                                    <label class="form-label col-form-label col-md-12">
+                                        Model (<span
+                                            class="text-danger">*</span>)</label>
+                                    <div class="col-md-12">
+                                        <div id="dxItem_HeaderModelTextBox"></div>
+                                        <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-15px">
+                                    <label class="form-label col-form-label col-md-12">
+                                        Brand (<span
+                                            class="text-danger">*</span>)</label>
+                                    <div class="col-md-12">
+                                        <div id="dxItem_HeaderBrandTextBox"></div>
+                                        <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-15px">
+                                    <label class="form-label col-form-label col-md-12">Classification</label>
+                                    <div class="col-md-12">
+                                        <div id="dxItem_HeaderItemClassificationSelectBox"></div>
+                                        <div class="invalid-feedback"
+                                            id="Item_HeaderItemClassificationValidation">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-15px">
+                                    <div class="col-md-6">
+                                        <div id="dxItem_HeaderIsActiveCheckBox"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div id="dxItem_HeaderIsESDCheckBox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <%--<div class="panel-body">
+                            <div class="form-group row">
+                                <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                                <div id="dxItem_HeaderThumbnailFileUploader"></div>
+                                <div class="col-md-12 text-center">
+                                    <img id="ItemThumbnail" src="/App/Common/Assets/img/no-product-image.png" class="img-fluid" style="height: 200px;" />
+                                </div>
+                            </div>
+                            <div class="mb-10px">
+                                <label class="form-label col-form-label col-md-12">Name (<span class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderEnglishNameTextBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation"></div>
+                                </div>
+                            </div>
+                            <div class="mb-10px">
+                                <label class="form-label col-form-label col-md-12">Model (<span class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderModelTextBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
+                                </div>
+                            </div>
+                            <div class="mb-10px">
+                                <label class="form-label col-form-label col-md-12">Brand (<span class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderBrandTextBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
+                                </div>
+                            </div>
+                            <div class="mb-10px">
+                                <label class="form-label col-form-label col-md-12">Classification</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_HeaderItemClassificationSelectBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderItemClassificationValidation"></div>
+                                </div>
+                            </div>
+                            <div class="row mb-10px">
+                                <div class="col-md-4">
+                                    <div id="dxItem_HeaderIsActiveCheckBox"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div id="dxItem_HeaderIsESDCheckBox"></div>
+                                </div>
+                            </div>
+                        </div>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="tab-pane fade" id="AttachmentsTab" role="tabpanel">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
                                         <div class="row">
@@ -208,8 +269,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>--%>
+                        <%--</div>--%>
                     </div>
                     <div class="modal-footer">
                         <div id="Item_HeaderActionButtons"></div>
@@ -218,7 +279,7 @@
             </div>
         </div>
         <%--Item Line Modal--%>
-        <div class="modal fade" id="AddNewItemLineModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
+        <%--<div class="modal fade" id="AddNewItemLineModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -362,7 +423,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <label class="form-label col-form-label col-md-12">Status <%--(<span class="text-danger">*</span>)--%></label>
+                                                <label class="form-label col-form-label col-md-12">Status</label>
                                                 <div class="col-md-12">
                                                     <div id="dxItem_LineStatusSelectBox"></div>
                                                     <div class="invalid-feedback" id="Item_LineStatusValidation"></div>
@@ -377,10 +438,6 @@
                                             </div>
                                         </div>
                                         <div id="UserDefinedTemplateSection" class="mb-15px">
-                                            <%--<label class="form-label col-form-label col-md-12">Comments </label>
-                                    <div class="col-md-12">
-                                        <input class="form-control" />
-                                    </div>--%>
                                         </div>
                                     </div>
                                 </div>
@@ -407,7 +464,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--%>
         <%--Deliver item to Modal--%>
         <div class="modal fade" id="ItemDeliverToModal" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
             <div class="modal-dialog">
@@ -446,13 +503,13 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Criteria for registering a new asset</h5>
+                        <h5 class="modal-title">Criteria for registering a new item</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="panel-body">
                             <p>
-                                Any asset that is <span class="text-decoration-underline fw-600">owned by the company</span>, 
+                                Any item that is <span class="text-decoration-underline fw-600">owned by the company</span>, 
         can be <span class="text-decoration-underline fw-600">managed</span> or receive <span class="text-decoration-underline fw-600">maintenance</span> by a group of people will be registered, such as:
                             </p>
                             <ul>
