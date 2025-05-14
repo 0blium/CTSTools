@@ -26,9 +26,6 @@ public class SupportGroupDTO
     public FacilityDTO FacilityDTO { get; set; }
     public bool GetFacilityDTO { get; set; }
     public int?[] FacilityIDArray { get; set; }
-    public StationDTO StationDTO { get; set; }
-    public bool GetStationDTO { get; set; }
-    public bool GetSupportGroupWithStation { get; set; }
     #endregion
     #region Constructor
     public SupportGroupDTO()
@@ -36,7 +33,6 @@ public class SupportGroupDTO
         SupportGroupIDArray = new int?[] { };
         FacilityDTO = new FacilityDTO();
         FacilityIDArray = new int?[] { };
-        StationDTO = new StationDTO();
 
     }
     #endregion

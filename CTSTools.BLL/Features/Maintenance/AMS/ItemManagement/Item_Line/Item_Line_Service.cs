@@ -568,7 +568,6 @@ public class Item_Line_Service
                 //_currentItem_lineDTO.DeliveredToDTO = Item_LineDTO.DeliveredToDTO;
                 _currentItem_lineDTO.DeliveredDate = DateTime.Now;
                 _currentItem_lineDTO.Item_SupportGroupDTO = _item_supportGroupDTO;
-                _currentItem_lineDTO.StationDTO = _item_supportGroupDTO.SupportGroupDTO.StationDTO;
                 _currentItem_lineDTO.LastUpdateByID = Item_LineDTO.LastUpdateByID;
                 _validationResultDTO = UpdateItem_Line_Global(_currentItem_lineDTO);
             }

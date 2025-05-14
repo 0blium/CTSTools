@@ -24,10 +24,6 @@ public class SupportGroup_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.Facility), SupportGroupDTO.FacilityDTO.ID));
             }
-            if (SupportGroupDTO.StationDTO.ID != null || SupportGroupDTO.FacilityDTO.ID > 0)
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.Facility), SupportGroupDTO.FacilityDTO.ID));
-            }
             if (SupportGroupDTO.FacilityIDArray != null && SupportGroupDTO.FacilityIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.Facility), SupportGroupDTO.FacilityIDArray));
@@ -44,12 +40,6 @@ public class SupportGroup_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.IsActive), SupportGroupDTO.IsActive));
             }
-            if (SupportGroupDTO.GetSupportGroupWithStation)
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.Station), '0', BinaryOperatorType.NotEqual));
-            }
-
-
         }
         catch (Exception ex)
         {

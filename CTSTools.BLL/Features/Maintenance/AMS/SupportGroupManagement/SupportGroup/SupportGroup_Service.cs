@@ -2,7 +2,6 @@
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.RoleManagement.Role;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
-using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.Station;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -68,7 +67,7 @@ public class SupportGroup_Service
                 _supportgroupglobalList = _supportgroupList;
                 return _supportgroupglobalList;
             }
-            if (!SupportGroupDTO.GetFacilityDTO & !SupportGroupDTO.GetStationDTO)
+            if (!SupportGroupDTO.GetFacilityDTO)
             {
                 _supportgroupglobalList = _supportgroupList;
                 return _supportgroupglobalList;
@@ -86,7 +85,6 @@ public class SupportGroup_Service
     {
         var _supportgroupglobalList = new List<SupportGroupDTO>();
         var _facilityDict = new Dictionary<int?, FacilityDTO>();
-        var _stationDict = new Dictionary<int?, StationDTO>();
         try
         {
             if (SupportGroupDTO.GetFacilityDTO)
@@ -98,24 +96,11 @@ public class SupportGroup_Service
                 _facilityDict = Facility_Service.GetFacilityList_Global(SupportGroupDTO.FacilityDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
-            if (SupportGroupDTO.GetStationDTO)
-            {
-                SupportGroupDTO.StationDTO.StationIDArray = SupportGroupList.GroupBy(g => g.StationDTO.ID)
-                            .Select(s => s.Key)
-                            .ToArray();
-
-                _stationDict = Station_Service.GetStationList_Global(SupportGroupDTO.StationDTO)
-                        .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
-            }
             foreach (var _supportgroupDTO in SupportGroupList)
             {
                 if (SupportGroupDTO.GetFacilityDTO && _facilityDict.ContainsKey(_supportgroupDTO.FacilityDTO.ID))
                 {
                     _supportgroupDTO.FacilityDTO = _facilityDict[_supportgroupDTO.FacilityDTO.ID];
-                }
-                if (SupportGroupDTO.GetStationDTO && _stationDict.ContainsKey(_supportgroupDTO.StationDTO.ID))
-                {
-                    _supportgroupDTO.StationDTO = _stationDict[_supportgroupDTO.StationDTO.ID];
                 }
                 _supportgroupglobalList.Add(_supportgroupDTO);
             }

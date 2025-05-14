@@ -266,7 +266,6 @@ async function InitializeStationCatalogControls() {
 
             ],
     });
-    document.getElementById("btnCloseStationModal").addEventListener("click", ClearStationFields);
     StationActionButtons("Save");
 }
 function StationActionButtons(Action) {

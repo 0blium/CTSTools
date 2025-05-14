@@ -43,7 +43,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="AddNewItemHeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 id="Item_HeaderModalTitle" class="modal-title fs-5"></h4>

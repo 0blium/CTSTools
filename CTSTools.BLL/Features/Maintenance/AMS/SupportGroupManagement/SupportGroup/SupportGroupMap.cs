@@ -27,8 +27,6 @@ public class SupportGroupMap
             _supportgroupDTO.LastUpdateByID = (SupportGroupXPO.LastUpdateBy != null) ? SupportGroupXPO.LastUpdateBy.Oid : 0;
             _supportgroupDTO.LastUpdateByName = (SupportGroupXPO.LastUpdateBy != null) ? SupportGroupXPO.LastUpdateBy.Name : "Unnassigned";
             _supportgroupDTO.IsActive = SupportGroupXPO.IsActive;
-            _supportgroupDTO.StationDTO.ID = (SupportGroupXPO.Station != null) ? SupportGroupXPO.Station.Oid : 0;
-            _supportgroupDTO.StationDTO.Name = (SupportGroupXPO.Station != null) ? SupportGroupXPO.Station.Name : "Unnassigned";
         }
         catch (Exception ex)
         {
@@ -51,8 +49,6 @@ public class SupportGroupMap
             _supportgroupXPO.LastUpdate = _supportgroupXPO.LastUpdate == SupportGroupDTO.LastUpdate ? _supportgroupXPO.LastUpdate : SupportGroupDTO.LastUpdate;
             _supportgroupXPO.LastUpdateBy = (_supportgroupXPO.LastUpdateBy != null && _supportgroupXPO.LastUpdateBy.Oid == SupportGroupDTO.LastUpdateByID) ? _supportgroupXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(SupportGroupDTO.LastUpdateByID);
             _supportgroupXPO.IsActive = (bool)(_supportgroupXPO.IsActive == SupportGroupDTO.IsActive ? _supportgroupXPO.IsActive : SupportGroupDTO.IsActive);
-            _supportgroupXPO.Station = (_supportgroupXPO.Station != null && _supportgroupXPO.Station.Oid == SupportGroupDTO.StationDTO.ID) ? _supportgroupXPO.Station : UnitOfWork.GetObjectByKey<StationXPO>(SupportGroupDTO.StationDTO.ID);
-
         }
         catch (Exception ex)
         {

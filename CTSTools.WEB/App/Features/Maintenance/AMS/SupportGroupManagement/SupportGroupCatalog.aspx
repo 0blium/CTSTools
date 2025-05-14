@@ -54,13 +54,6 @@
                         </div>
                     </div>
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-4 col-md-12">Default Station (<span class="text-danger">*</span>)</label>
-                        <div class="col-xl-8 col-md-12">
-                            <div id="dxSupportGroupStationSelectBox"></div>
-                            <div class="invalid-feedback" id="SupportGroupStationValidation"></div>
-                        </div>
-                    </div>
-                    <div class="row mb-15px">
                         <label class="form-label col-form-label col-xl-4 col-md-12">Description</label>
                         <div class="col-xl-8 col-md-12">
                             <div id="dxSupportGroupDescriptionTextArea"></div>

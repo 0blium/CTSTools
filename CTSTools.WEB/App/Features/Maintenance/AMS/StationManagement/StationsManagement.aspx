@@ -6,14 +6,13 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Stations</a></li>
-                    <li class="breadcrumb-item active">Stations Management</li>
+                    <li class="breadcrumb-item active">Stations</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Stations Management</h1>
+                <h1 class="page-header">Stations</h1>
             </div>
         </div>
         <!-- END page-header -->

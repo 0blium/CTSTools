@@ -32,7 +32,7 @@ public class Item_Header_Service
             _ValidationResultDTO = File_Service.SaveFile_Global(Item_HeaderDTO.FileDTO);
         }
         //Save Item_SupportGroup
-        if (_ValidationResultDTO.Result && Item_HeaderDTO.UserDefinedIDArray.Length > 0) 
+        if (_ValidationResultDTO.Result && Item_HeaderDTO.SupportGroupID != 0 && Item_HeaderDTO.SupportGroupID != null) 
         {
             var _item_SupportGroupDTO = new Item_SupportGroupDTO();
             _item_SupportGroupDTO.Item_HeaderDTO.ID = Item_HeaderDTO.ID;

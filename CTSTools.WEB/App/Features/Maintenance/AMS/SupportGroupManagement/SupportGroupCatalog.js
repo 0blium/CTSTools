@@ -19,13 +19,6 @@ async function InitializeSupportGroupCatalogControls() {
         deferRendering: false,
         searchEnabled: true
     });
-    $("#dxSupportGroupStationSelectBox").dxSelectBox({
-        dataSource: await GetDXStationDataSource(),
-        valueExpr: "ID",
-        displayExpr: "Name",
-        deferRendering: false,
-        searchEnabled: true
-    });
     $("#dxSupportGroupDescriptionTextArea").dxTextArea({
         placeholder: 'Type description..'
     });
@@ -143,10 +136,6 @@ async function InitializeSupportGroupCatalogControls() {
                     dataField: "FacilityDTO.Name"
                 },
                 {
-                    caption: "Default Station",
-                    dataField: "StationDTO.Name"
-                },
-                {
                     caption: "Added By I D",
                     dataField: "AddedByID",
                     visible: false
@@ -216,7 +205,6 @@ function ClearSupportGroupFields() {
     $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", '');
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", '');
     $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").reset();
-    $("#dxSupportGroupStationSelectBox").dxSelectBox("instance").reset();
     let keys = $("#dxSupportGroupGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxSupportGroupGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxSupportGroupGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
@@ -230,7 +218,6 @@ async function PopulateSupportGroupFields(data) {
     $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", data.EnglishName);
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     await $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
-    await $("#dxSupportGroupStationSelectBox").dxSelectBox("instance").option("value", data.StationDTO.ID);
 }
 function GetSupportGroupDTO() {
     let _supportGroupDTO = {
@@ -241,9 +228,6 @@ function GetSupportGroupDTO() {
         FacilityDTO: {
             ID: $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value")
         },
-        StationDTO: {
-            ID: $("#dxSupportGroupStationSelectBox").dxSelectBox("instance").option("value")
-        }
     }
     return _supportGroupDTO;
 }

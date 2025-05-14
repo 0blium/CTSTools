@@ -64,10 +64,4 @@ public class SupportGroupXPO : XPObject
         get { return fIsActive; }
         set { SetPropertyValue<bool>(nameof(IsActive), ref fIsActive, value); }
     }
-    StationXPO fStation;
-    public StationXPO Station
-    {
-        get { return fStation; }
-        set { SetPropertyValue<StationXPO>(nameof(Station), ref fStation, value); }
-    }
 }
