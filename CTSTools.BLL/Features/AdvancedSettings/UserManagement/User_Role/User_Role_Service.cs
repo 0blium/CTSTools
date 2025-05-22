@@ -279,7 +279,7 @@ public class User_Role_Service
             };
             var _role_PermissionInformation = Role_Permission_Service.GetRole_PermissionList_Global(_role_permissionDTO);
 
-            if (_role_PermissionInformation.Count() > 0)
+            if (_role_PermissionInformation.Count() == 0)
                 return _validation_ResultDTO;
 
             foreach (var role_permissionDTO in _role_PermissionInformation)

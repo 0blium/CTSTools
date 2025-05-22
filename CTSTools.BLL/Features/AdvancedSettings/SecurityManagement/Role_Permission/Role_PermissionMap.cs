@@ -38,7 +38,7 @@ public class Role_PermissionMap
         try
         {
             _role_permissionXPO = Role_PermissionDTO.ID == null || Role_PermissionDTO.ID == 0 ? new Role_PermissionXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<Role_PermissionXPO>(Role_PermissionDTO.ID);
-            _role_permissionXPO.Permission = (_role_permissionXPO.Permission != null && _role_permissionXPO.Permission.Oid == Role_PermissionDTO.PermissionDTO.ID) ? _role_permissionXPO.Permission : UnitOfWork.GetObjectByKey<PermissionXPO>(Role_PermissionDTO.PermissionDTO.ID);
+            _role_permissionXPO.Permission = (_role_permissionXPO.Permission != null && _role_permissionXPO.Permission.Oid == Role_PermissionDTO.PermissionID) ? _role_permissionXPO.Permission : UnitOfWork.GetObjectByKey<PermissionXPO>(Role_PermissionDTO.PermissionID);
             _role_permissionXPO.Role = (_role_permissionXPO.Role != null && _role_permissionXPO.Role.Oid == Role_PermissionDTO.RoleID) ? _role_permissionXPO.Role : UnitOfWork.GetObjectByKey<RoleXPO>(Role_PermissionDTO.RoleID);
             _role_permissionXPO.AddedDate = _role_permissionXPO.AddedDate != null ? _role_permissionXPO.AddedDate : Role_PermissionDTO.AddedDate;
             _role_permissionXPO.AddedBy = (_role_permissionXPO.AddedBy != null) ? _role_permissionXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(Role_PermissionDTO.AddedByID);

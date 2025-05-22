@@ -43,7 +43,7 @@ public class RoleMap
             _roleXPO.Name = _roleXPO.Name == RoleDTO.Name ? _roleXPO.Name : RoleDTO.Name;
             _roleXPO.Description = _roleXPO.Description == RoleDTO.Description ? _roleXPO.Description : RoleDTO.Description;
             _roleXPO.AddedDate = _roleXPO.AddedDate != null ? _roleXPO.AddedDate : RoleDTO.AddedDate;
-            _roleXPO.RoleType = (_roleXPO.RoleType != null) ? _roleXPO.RoleType : UnitOfWork.GetObjectByKey<RoleTypeXPO>(RoleDTO.RoleTypeID);
+            _roleXPO.RoleType = (_roleXPO.RoleType != null && _roleXPO.RoleType.Oid == RoleDTO.RoleTypeID) ? _roleXPO.RoleType : UnitOfWork.GetObjectByKey<RoleTypeXPO>(RoleDTO.RoleTypeID);
             _roleXPO.AddedBy = (_roleXPO.AddedBy != null) ? _roleXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(RoleDTO.AddedByID);
             _roleXPO.LastUpdate = _roleXPO.LastUpdate == RoleDTO.LastUpdate ? _roleXPO.LastUpdate : RoleDTO.LastUpdate;
             _roleXPO.LastUpdateBy = (_roleXPO.LastUpdateBy != null && _roleXPO.LastUpdateBy.Oid == RoleDTO.LastUpdateByID) ? _roleXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(RoleDTO.LastUpdateByID);

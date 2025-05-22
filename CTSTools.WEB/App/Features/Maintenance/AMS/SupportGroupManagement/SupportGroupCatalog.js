@@ -176,7 +176,7 @@ function SupportGroupActionButtons(Action) {
     document.getElementById('SupportGroupModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewSupportGroupBtn").addEventListener("click", ClearSupportGroupFields);
-        document.getElementById('SupportGroupModalTitle').innerText = 'Add Support Group';
+        document.getElementById('SupportGroupModalTitle').innerText = 'Add Group';
         document.getElementById("SupportGroupActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateSupportGroupButton" type="button">Save</button>' +
@@ -187,7 +187,7 @@ function SupportGroupActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('SupportGroupModalTitle').innerText = 'Update Support Group';
+        document.getElementById('SupportGroupModalTitle').innerText = 'Update Group';
         document.getElementById("SupportGroupActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateSupportGroupButton" type="button">Update</button>' +

@@ -54,7 +54,7 @@ public class Role_Permission_Validator
 
             //validate permission role relation already exist
 
-            var _role_permissionDTO = Role_Permission_Service.GetRole_PermissionList_Global(new Role_PermissionDTO { RoleDTO = Role_PermissionDTO.RoleDTO, PermissionDTO = Role_PermissionDTO.PermissionDTO }).FirstOrDefault();
+            var _role_permissionDTO = Role_Permission_Service.GetRole_PermissionList_Global(new Role_PermissionDTO { RoleID = Role_PermissionDTO.RoleID, PermissionID = Role_PermissionDTO.PermissionID }).FirstOrDefault();
 
             if (_role_permissionDTO != null)
             {

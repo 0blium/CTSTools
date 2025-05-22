@@ -3,7 +3,8 @@ import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Respo
 import { CreateSupportGroupMember, UpdateSupportGroupMember, DeleteSupportGroupMember, GetDXSupportGroupMemberDataSource } from './SupportGroupMember/SupportGroupMember_Service.js'
 import { GetDXUserDataSource, GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 //import { GetDXRoleRelationDataSource } from '../../../AdvancedSettings/Security/Roles/RoleRelation/RoleRelation_Service.js'
-import { GetDXUser_RoleDataSource } from "../../../AdvancedSettings/UserManagement/User_Role/User_Role_Service.js"
+//import { GetDXUser_RoleDataSource } from "../../../AdvancedSettings/UserManagement/User_Role/User_Role_Service.js"
+import { GetDXRoleDataSource } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Service.js'
 import { GetDXSupportGroupDataSource } from './SupportGroup/SupportGroup_Service.js'
 
 import { RoleType_Enum } from '../../../AdvancedSettings/SecurityManagement/RoleType/RoleType_Enum.js'
@@ -29,6 +30,7 @@ function GetUserDTO() {
     return _userDTO;
 }
 async function FilterDataSourceBySupportGroups(UserDTO) {
+    debugger;
     if (UserDTO.RoleIDArray != null) {
         if (UserDTO.SupportGroupIDArray != null && !UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             if (UserDTO.SupportGroupIDArray.length > 0) {
@@ -38,7 +40,7 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             }
 
         }
-        if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
+        if (UserDTO.RoleIDArray.includes(Role_Enum.Administrator)) {
             $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
             $("#dxSupportGroupMemberGrid").dxDataGrid("instance").option("dataSource", await GetDXSupportGroupMemberDataSource());
         }
@@ -62,14 +64,13 @@ async function InitializeSupportGroupMemberCatalogControls() {
         searchEnabled: true
     });
     $("#dxSupportGroupMemberRoleSelectBox").dxSelectBox({
-        dataSource: await GetDXUser_RoleDataSource({
-            RoleTypeDTO: {
-                ID: RoleType_Enum.SupportGroup
-            },
-            /*...{ 'RoleTypeDTO.ID': RoleType_Enum.SupportGroup }*/
-        }),
-        valueExpr: "RoleDTO.ID",
-        displayExpr: "RoleDTO.Name",
+        //dataSource: await GetDXUser_RoleDataSource({
+        //    RoleTypeID: 1,
+        //    /*...{ 'RoleTypeDTO.ID': RoleType_Enum.SupportGroup }*/
+        //})
+        dataSource: await GetDXRoleDataSource({ RoleTypeID: RoleType_Enum.SupportGroup }),
+        valueExpr: "ID",
+        displayExpr: "Name",
         deferRendering: false,
         searchEnabled: true
     });
@@ -227,7 +228,7 @@ function SupportGroupMemberActionButtons(Action) {
     document.getElementById('SupportGroupMemberModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewSupportGroupMemberBtn").addEventListener("click", ClearSupportGroupMemberFields);
-        document.getElementById('SupportGroupMemberModalTitle').innerText = 'Add Support Group Member';
+        document.getElementById('SupportGroupMemberModalTitle').innerText = 'Add Member';
         document.getElementById("SupportGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateSupportGroupMemberButton" type="button">Save</button>' +
@@ -238,13 +239,13 @@ function SupportGroupMemberActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('SupportGroupMemberModalTitle').innerText = 'Update Support Group Member';
+        document.getElementById('SupportGroupMemberModalTitle').innerText = 'Update Member';
         document.getElementById("SupportGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateSupportGroupMemberButton" type="button">Update</button>' +
             '<button class="btn btn-secondary float-end" id="ClearSupportGroupMemberButton" type="button">Cancel</button>' +
             '</div>';
-        ocument.getElementById("ClearSupportGroupMemberButton").addEventListener("click", ClearSupportGroupMemberFields);
+        document.getElementById("ClearSupportGroupMemberButton").addEventListener("click", ClearSupportGroupMemberFields);
         document.getElementById("UpdateSupportGroupMemberButton").addEventListener("click", UpdateSupportGroupMember_Global);
     }
 }
@@ -274,6 +275,7 @@ function PopulateSupportGroupMemberFields(data) {
 }
 
 function GetSupportGroupMemberDTO() {
+    debugger;
     let _supportGroupMemberDTO = {
         ID: $('#hiddenSupportGroupMemberID').val(),
         SupportGroupDTO: {
@@ -324,7 +326,7 @@ async function DeleteSupportGroupMember_Global() {
     dxLoadPanel.hide();
 }
 
-async function ShowSupportGroupMemberDeleteQuestion() {
+async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',

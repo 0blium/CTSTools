@@ -6,14 +6,13 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
                     <li class="breadcrumb-item active">Support Group</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Support Group Catalog</h1>
+                <h1 class="page-header">Groups</h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -22,7 +21,7 @@
                 <div class="panel panel-inverse">
                     <div class="panel-body">
                         <div class="col-md-12 ">
-                            <a id="NewSupportGroupBtn" href="#SaveSupportGroupRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Support Group</a>
+                            <a id="NewSupportGroupBtn" href="#SaveSupportGroupRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Group</a>
                         </div>
                         <div id="dxSupportGroupGrid"></div>
                     </div>

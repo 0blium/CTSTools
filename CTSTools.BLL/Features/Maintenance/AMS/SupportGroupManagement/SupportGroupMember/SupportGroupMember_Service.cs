@@ -202,8 +202,8 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             {
                 var _user_RoleDTO = new User_RoleDTO
                 {
-                    UserDTO = SupportGroupMemberDTO.UserDTO,
-                    RoleDTO = SupportGroupMemberDTO.RoleDTO,
+                    UserID = SupportGroupMemberDTO.UserDTO.ID,
+                    RoleID = SupportGroupMemberDTO.RoleDTO.ID,
                     AddedByID = SupportGroupMemberDTO.AddedByID,
                     IsActive = SupportGroupMemberDTO.IsActive
                 };

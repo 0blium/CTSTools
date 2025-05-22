@@ -6,14 +6,13 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
                     <li class="breadcrumb-item active">Support Group Member</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Support Group Member Catalog</h1>
+                <h1 class="page-header">Members</h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -22,7 +21,7 @@
                 <div class="panel panel-inverse">
                     <div class="panel-body">
                         <div class="col-md-12 ">
-                            <a id="NewSupportGroupMemberBtn" href="#SaveSupportGroupMemberRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Support Group Member</a>
+                            <a id="NewSupportGroupMemberBtn" href="#SaveSupportGroupMemberRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Member</a>
                         </div>
                         <div id="dxSupportGroupMemberGrid"></div>
                     </div>
@@ -40,7 +39,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">Support Group (<span class="text-danger">*</span>)</label>
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Group (<span class="text-danger">*</span>)</label>
                         <div class="col-xl-9 col-md-12">
                             <div id="dxSupportGroupMemberSupportGroupSelectBox"></div>
                             <div class="invalid-feedback" id="SupportGroupMemberSupportGroupValidation"></div>

@@ -1,4 +1,5 @@
-﻿using CTSTools.BLL.Common;
+﻿using AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMember;
+using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.RoleManagement.Role;
@@ -147,7 +148,14 @@ public class User_Service
                 _roleArrayDict = User_Role_Service.GetUser_RoleList_Global(_role_userDTO).GroupBy(g => g.UserID)
                                                                                          .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.Select(s => s.RoleID)
                                                                                          .ToArray());
-            }               
+            }
+            if (UserDTO.GetSupportGroupArray)
+            {
+                var _supportGroupMemberDTO = new SupportGroupMemberDTO { UserDTO = { ID = UserDTO.ID } };
+                _supportGroupArrayDict = SupportGroupMember_Service.GetSupportGroupMemberList_Global(_supportGroupMemberDTO).GroupBy(g => g.UserDTO.ID)
+                                                                                         .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.Select(s => s.UserDTO.ID)
+                                                                                         .ToArray());
+            }
 
 
             foreach (var _userDTO in UserList)

@@ -252,7 +252,7 @@
                                         <div class="menu-submenu">
                                             <div id="SupportGroupSupportGroupManagement" class="menu-item " data-tech="SupportGroup">
                                                 <a href="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Support Group </div>
+                                                    <div class="menu-text">Groups</div>
                                                 </a>
                                             </div>
                                             <div id="SupportGroupMemberSupportGroupManagement" class="menu-item " data-tech="SupportGroupMember">

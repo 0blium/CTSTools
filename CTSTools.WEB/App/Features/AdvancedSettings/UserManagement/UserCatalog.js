@@ -10,6 +10,7 @@ import { GetDXMailGroupDataSource } from '../MailGroupManagement/MailGroup/MailG
 import { GetDXMailGroupMemberDataSource, GetMailGroupMemberInformation } from '../MailGroupManagement/MailGroupMember/MailGroupMember_Service.js'
 
 import { GetDXUser_RoleDataSource, GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
+import { RoleType_Enum } from '../../AdvancedSettings/SecurityManagement/RoleType/RoleType_Enum.js'
 
 
 
@@ -189,6 +190,7 @@ async function InitializeUserCatalogControls() {
     });
 }
 function masterDetailTemplate(_, masterDetailOptions) {
+    debugger;
     return $('<div>').dxTabPanel({
         items: [{
             title: 'Permissions',
@@ -564,7 +566,7 @@ async function ShowUser_PermissionDeleteQuestion() {
 //#region User Roles
 async function InitializeUser_RoleControls() {
     $("#dxUser_RoleRoleSelectBox").dxSelectBox({
-        dataSource: await GetDXRoleDataSource(),
+        dataSource: await GetDXRoleDataSource({ RoleTypeID: RoleType_Enum.System }),
         valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,
@@ -573,11 +575,13 @@ async function InitializeUser_RoleControls() {
     User_RoleActionButtons("Save");
 }
 function RoleTabTemplate(masterDetailData) {
-
+    debugger;
     return function () {
         //document.getElementById("User_RoleButton").addEventListener("click", ClearUser_RoleFields);
+        debugger;
         let _user_roleDataGrid;
         async function onDataGridInitialized(e) {
+            debugger;
             _user_roleDataGrid = e.component;
             let _user_roleDTO = await GetDXUser_RoleDataSource({ UserID: masterDetailData.ID })
             console.log(_user_roleDTO)
@@ -585,6 +589,7 @@ function RoleTabTemplate(masterDetailData) {
             _user_roleDataGrid.option('dataSource', _user_roleDTO);
 
         }
+        debugger;
         return $('<div>').addClass('form-container').dxForm({
             labelLocation: 'top',
             items: [
@@ -592,16 +597,19 @@ function RoleTabTemplate(masterDetailData) {
                     template: RoleButton(),
                 }
                 , {
-                    template: RoleGridTemplate(onDataGridInitialized),
+                    template: RoleGridTemplate(onDataGridInitialized, masterDetailData.ID),
                 }],
         });
     };
 }
-function RoleGridTemplate(onDataGridInitialized) {
-
-     return async function () {
-        return $('<div>').dxDataGrid({
+function RoleGridTemplate(onDataGridInitialized, UserID) {
+    debugger;
+    return async function () {
+        debugger;
+        //return $('<div>').dxDataGrid({
+        return $(`<div id="dxUser_RoleGrid${UserID}">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
+            keyExpr: "ID",
             paging: {
                 pageSize: 10,
             },
@@ -674,8 +682,10 @@ async function PopulateUser_RoleFields(data) {
 function GetUser_RoleDTO() {
     let _user_RoleDTO = {
         ID: $("#hiddenUser_RoleID").val(),
-        UserID: $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").option("value"),
+        //UserID: $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").option("value"),
+        UserID: $("#hiddenUserID").val(),
         RoleID: $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").option("value"),
+        IsActive: true
     }
     return _user_RoleDTO;
 }
