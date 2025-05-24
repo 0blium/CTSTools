@@ -38,8 +38,8 @@ public class UserDefinedTemplateMap
         try
         {
             _userdefinedtemplateXPO = UserDefinedTemplateDTO.ID == null || UserDefinedTemplateDTO.ID == 0 ? new UserDefinedTemplateXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<UserDefinedTemplateXPO>(UserDefinedTemplateDTO.ID);
-            _userdefinedtemplateXPO.Item_SupportGroup = (_userdefinedtemplateXPO.Item_SupportGroup?.Oid == UserDefinedTemplateDTO.Item_SupportGroupDTO.ID) ? _userdefinedtemplateXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(UserDefinedTemplateDTO.Item_SupportGroupDTO.ID);
-            _userdefinedtemplateXPO.UserDefined = (_userdefinedtemplateXPO.UserDefined != null && _userdefinedtemplateXPO.UserDefined.Oid == UserDefinedTemplateDTO.UserDefinedDTO.ID) ? _userdefinedtemplateXPO.UserDefined : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedTemplateDTO.UserDefinedDTO.ID);
+            _userdefinedtemplateXPO.Item_SupportGroup = (_userdefinedtemplateXPO.Item_SupportGroup?.Oid == UserDefinedTemplateDTO.Item_SupportGroupID) ? _userdefinedtemplateXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(UserDefinedTemplateDTO.Item_SupportGroupID);
+            _userdefinedtemplateXPO.UserDefined = (_userdefinedtemplateXPO.UserDefined != null && _userdefinedtemplateXPO.UserDefined.Oid == UserDefinedTemplateDTO.UserDefinedID) ? _userdefinedtemplateXPO.UserDefined : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedTemplateDTO.UserDefinedID);
             _userdefinedtemplateXPO.AddedDate = _userdefinedtemplateXPO.AddedDate != null ? _userdefinedtemplateXPO.AddedDate : UserDefinedTemplateDTO.AddedDate;
             _userdefinedtemplateXPO.AddedBy = (_userdefinedtemplateXPO.AddedBy != null) ? _userdefinedtemplateXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(UserDefinedTemplateDTO.AddedByID);
             _userdefinedtemplateXPO.LastUpdate = _userdefinedtemplateXPO.LastUpdate == UserDefinedTemplateDTO.LastUpdate ? _userdefinedtemplateXPO.LastUpdate : UserDefinedTemplateDTO.LastUpdate;

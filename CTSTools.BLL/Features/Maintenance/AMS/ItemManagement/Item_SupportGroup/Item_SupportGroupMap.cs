@@ -15,7 +15,7 @@ public class Item_SupportGroupMap
         {
             _item_supportgroupDTO.ID = Item_SupportGroupXPO.Oid;
             _item_supportgroupDTO.Item_HeaderID = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.Oid : 0;
-            _item_supportgroupDTO.Item_HeaderName = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.EnglishName : "Unnassigned";
+            _item_supportgroupDTO.Item_HeaderName = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.Name : "Unnassigned";
             _item_supportgroupDTO.SupportGroupID = (Item_SupportGroupXPO.SupportGroup != null) ? Item_SupportGroupXPO.SupportGroup.Oid : 0;
             _item_supportgroupDTO.SupportGroupName = (Item_SupportGroupXPO.SupportGroup != null) ? Item_SupportGroupXPO.SupportGroup.EnglishName : "Unnassigned";
             _item_supportgroupDTO.AddedDate = (Item_SupportGroupXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? Item_SupportGroupXPO.AddedDate : (DateTime?)null;
@@ -40,8 +40,8 @@ public class Item_SupportGroupMap
         try
         {
             _item_supportgroupXPO = Item_SupportGroupDTO.ID == null || Item_SupportGroupDTO.ID == 0 ? new Item_SupportGroupXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(Item_SupportGroupDTO.ID);
-            _item_supportgroupXPO.Item_Header = (_item_supportgroupXPO.Item_Header != null && _item_supportgroupXPO.Item_Header.Oid == Item_SupportGroupDTO.Item_HeaderDTO.ID) ? _item_supportgroupXPO.Item_Header : UnitOfWork.GetObjectByKey<Item_HeaderXPO>(Item_SupportGroupDTO.Item_HeaderDTO.ID);
-            _item_supportgroupXPO.SupportGroup = (_item_supportgroupXPO.SupportGroup != null && _item_supportgroupXPO.SupportGroup.Oid == Item_SupportGroupDTO.SupportGroupDTO.ID) ? _item_supportgroupXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(Item_SupportGroupDTO.SupportGroupDTO.ID);
+            _item_supportgroupXPO.Item_Header = (_item_supportgroupXPO.Item_Header != null && _item_supportgroupXPO.Item_Header.Oid == Item_SupportGroupDTO.Item_HeaderID) ? _item_supportgroupXPO.Item_Header : UnitOfWork.GetObjectByKey<Item_HeaderXPO>(Item_SupportGroupDTO.Item_HeaderID);
+            _item_supportgroupXPO.SupportGroup = (_item_supportgroupXPO.SupportGroup != null && _item_supportgroupXPO.SupportGroup.Oid == Item_SupportGroupDTO.SupportGroupID) ? _item_supportgroupXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(Item_SupportGroupDTO.SupportGroupID);
             _item_supportgroupXPO.AddedDate = _item_supportgroupXPO.AddedDate != null ? _item_supportgroupXPO.AddedDate : Item_SupportGroupDTO.AddedDate;
             _item_supportgroupXPO.AddedBy = (_item_supportgroupXPO.AddedBy != null) ? _item_supportgroupXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(Item_SupportGroupDTO.AddedByID);
             _item_supportgroupXPO.LastUpdate = _item_supportgroupXPO.LastUpdate == Item_SupportGroupDTO.LastUpdate ? _item_supportgroupXPO.LastUpdate : Item_SupportGroupDTO.LastUpdate;

@@ -16,7 +16,7 @@ public class UserDefinedMap
             _userdefinedDTO.ID = UserDefinedXPO.Oid;
             _userdefinedDTO.Name = UserDefinedXPO.Name;
             _userdefinedDTO.SupportGroupID = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.Oid : 0;
-            _userdefinedDTO.SupportGroupName = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.EnglishName : "Unnassigned";
+            _userdefinedDTO.SupportGroupName = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.Name : "Unnassigned";
             _userdefinedDTO.IsMandatory = UserDefinedXPO.IsMandatory;
             _userdefinedDTO.DataTypeID = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Oid : 0;
             _userdefinedDTO.DataTypeName = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Name : "Unnassigned";
@@ -44,9 +44,9 @@ public class UserDefinedMap
         {
             _userdefinedXPO = UserDefinedDTO.ID == null || UserDefinedDTO.ID == 0 ? new UserDefinedXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedDTO.ID);
             _userdefinedXPO.Name = _userdefinedXPO.Name == UserDefinedDTO.Name ? _userdefinedXPO.Name : UserDefinedDTO.Name;
-            _userdefinedXPO.SupportGroup = (_userdefinedXPO.SupportGroup != null && _userdefinedXPO.SupportGroup.Oid == UserDefinedDTO.SupportGroupDTO.ID) ? _userdefinedXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(UserDefinedDTO.SupportGroupDTO.ID);
+            _userdefinedXPO.SupportGroup = (_userdefinedXPO.SupportGroup != null && _userdefinedXPO.SupportGroup.Oid == UserDefinedDTO.SupportGroupID) ? _userdefinedXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(UserDefinedDTO.SupportGroupID);
             _userdefinedXPO.IsMandatory = _userdefinedXPO.IsMandatory == UserDefinedDTO.IsMandatory ? (bool)_userdefinedXPO.IsMandatory : (bool)UserDefinedDTO.IsMandatory;
-            _userdefinedXPO.DataType = (_userdefinedXPO.DataType != null && _userdefinedXPO.DataType.Oid == UserDefinedDTO.DataTypeDTO.ID) ? _userdefinedXPO.DataType : UnitOfWork.GetObjectByKey<DataTypeXPO>(UserDefinedDTO.DataTypeDTO.ID);
+            _userdefinedXPO.DataType = (_userdefinedXPO.DataType != null && _userdefinedXPO.DataType.Oid == UserDefinedDTO.DataTypeID) ? _userdefinedXPO.DataType : UnitOfWork.GetObjectByKey<DataTypeXPO>(UserDefinedDTO.DataTypeID);
             _userdefinedXPO.AddedDate = _userdefinedXPO.AddedDate != null ? _userdefinedXPO.AddedDate : UserDefinedDTO.AddedDate;
             _userdefinedXPO.AddedBy = (_userdefinedXPO.AddedBy != null) ? _userdefinedXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(UserDefinedDTO.AddedByID);
             _userdefinedXPO.LastUpdate = _userdefinedXPO.LastUpdate == UserDefinedDTO.LastUpdate ? _userdefinedXPO.LastUpdate : UserDefinedDTO.LastUpdate;

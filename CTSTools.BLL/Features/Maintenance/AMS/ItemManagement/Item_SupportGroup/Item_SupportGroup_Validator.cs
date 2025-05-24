@@ -58,8 +58,8 @@ public class Item_SupportGroup_Validator
                 var _item_supportGroupDTO = Item_SupportGroup_Service.GetItem_SupportGroupList_Global(
                     new Item_SupportGroupDTO
                     {
-                        Item_HeaderDTO = Item_SupportGroupDTO.Item_HeaderDTO,
-                        SupportGroupDTO = Item_SupportGroupDTO.SupportGroupDTO
+                        Item_HeaderID = Item_SupportGroupDTO.Item_HeaderID,
+                        SupportGroupID = Item_SupportGroupDTO.SupportGroupID
                     }).FirstOrDefault();
                 if (_item_supportGroupDTO != null)
                 {

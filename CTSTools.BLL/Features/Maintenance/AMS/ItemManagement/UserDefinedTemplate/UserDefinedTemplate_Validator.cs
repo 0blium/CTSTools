@@ -20,7 +20,7 @@ public class UserDefinedTemplate_Validator
 
             // Field Validation
 
-            if (UserDefinedTemplateDTO.Item_SupportGroupDTO.ID == null || UserDefinedTemplateDTO.Item_SupportGroupDTO.ID == 0)
+            if (UserDefinedTemplateDTO.Item_SupportGroupID == null || UserDefinedTemplateDTO.Item_SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -30,7 +30,7 @@ public class UserDefinedTemplate_Validator
                     //Data = $"{nameof(UserDefinedTemplate)}{nameof(UserDefinedTemplateDTO.Item_HeaderDTO)}", 
                 });
             }
-            if (UserDefinedTemplateDTO.UserDefinedDTO.ID == null || UserDefinedTemplateDTO.UserDefinedDTO.ID == 0)
+            if (UserDefinedTemplateDTO.UserDefinedID == null || UserDefinedTemplateDTO.UserDefinedID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -44,8 +44,8 @@ public class UserDefinedTemplate_Validator
             var _userDefinedTemplateDTO = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO
             {
 
-                UserDefinedDTO = UserDefinedTemplateDTO.UserDefinedDTO,
-                Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO,
+                UserDefinedID = UserDefinedTemplateDTO.UserDefinedID,
+                Item_SupportGroupID = UserDefinedTemplateDTO.Item_SupportGroupID,
                 IsActive = UserDefinedTemplateDTO.IsActive
             }).FirstOrDefault();
             // Validate if user defined template exist and at least one User defined Check
@@ -99,7 +99,7 @@ public class UserDefinedTemplate_Validator
 
             // Field Validation
 
-            if (UserDefinedTemplateDTO.Item_SupportGroupDTO.ID == null || UserDefinedTemplateDTO.Item_SupportGroupDTO.ID == 0)
+            if (UserDefinedTemplateDTO.Item_SupportGroupID == null || UserDefinedTemplateDTO.Item_SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -216,7 +216,7 @@ public class UserDefinedTemplate_Validator
             }
 
 
-            if (UserDefinedTemplateDTO.Item_SupportGroupDTO.ID == null || UserDefinedTemplateDTO.Item_SupportGroupDTO.ID == 0)
+            if (UserDefinedTemplateDTO.Item_SupportGroupID == null || UserDefinedTemplateDTO.Item_SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

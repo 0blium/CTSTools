@@ -18,7 +18,7 @@ public class UserDefinedValueMap
             _userdefinedvalueDTO.Value = UserDefinedValueXPO.Value;
             _userdefinedvalueDTO.Item_LineID = (UserDefinedValueXPO.Item_Line != null) ? UserDefinedValueXPO.Item_Line.Oid : 0;
             _userdefinedvalueDTO.SupportGroupID = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.Oid : 0;
-            _userdefinedvalueDTO.SupportGroupName = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroupName : "Unnassigned";
+            _userdefinedvalueDTO.SupportGroupName = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.Name : "Unnassigned";
             _userdefinedvalueDTO.UserDefinedID = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Oid : 0;
             _userdefinedvalueDTO.UserDefinedName = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Name : "Unnassigned";
             _userdefinedvalueDTO.AddedDate = (UserDefinedValueXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? UserDefinedValueXPO.AddedDate : (DateTime?)null;
@@ -45,9 +45,9 @@ public class UserDefinedValueMap
         {
             _userdefinedvalueXPO = UserDefinedValueDTO.ID == null || UserDefinedValueDTO.ID == 0 ? new UserDefinedValueXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<UserDefinedValueXPO>(UserDefinedValueDTO.ID);
             _userdefinedvalueXPO.Value = _userdefinedvalueXPO.Value == UserDefinedValueDTO.Value ? _userdefinedvalueXPO.Value : UserDefinedValueDTO.Value;
-            _userdefinedvalueXPO.Item_Line = (_userdefinedvalueXPO.Item_Line != null && _userdefinedvalueXPO.Item_Line.Oid == UserDefinedValueDTO.Item_LineDTO.ID) ? _userdefinedvalueXPO.Item_Line : UnitOfWork.GetObjectByKey<Item_LineXPO>(UserDefinedValueDTO.Item_LineDTO.ID);
-            _userdefinedvalueXPO.SupportGroup = (_userdefinedvalueXPO.SupportGroup != null && _userdefinedvalueXPO.SupportGroup.Oid == UserDefinedValueDTO.SupportGroupDTO.ID) ? _userdefinedvalueXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(UserDefinedValueDTO.SupportGroupDTO.ID);
-            _userdefinedvalueXPO.UserDefined = (_userdefinedvalueXPO.UserDefined != null && _userdefinedvalueXPO.UserDefined.Oid == UserDefinedValueDTO.UserDefinedDTO.ID) ? _userdefinedvalueXPO.UserDefined : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedValueDTO.UserDefinedDTO.ID);
+            _userdefinedvalueXPO.Item_Line = (_userdefinedvalueXPO.Item_Line != null && _userdefinedvalueXPO.Item_Line.Oid == UserDefinedValueDTO.Item_LineID) ? _userdefinedvalueXPO.Item_Line : UnitOfWork.GetObjectByKey<Item_LineXPO>(UserDefinedValueDTO.Item_LineID);
+            _userdefinedvalueXPO.SupportGroup = (_userdefinedvalueXPO.SupportGroup != null && _userdefinedvalueXPO.SupportGroup.Oid == UserDefinedValueDTO.SupportGroupID) ? _userdefinedvalueXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(UserDefinedValueDTO.SupportGroupID);
+            _userdefinedvalueXPO.UserDefined = (_userdefinedvalueXPO.UserDefined != null && _userdefinedvalueXPO.UserDefined.Oid == UserDefinedValueDTO.UserDefinedID) ? _userdefinedvalueXPO.UserDefined : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedValueDTO.UserDefinedID);
             _userdefinedvalueXPO.AddedDate = _userdefinedvalueXPO.AddedDate != null ? _userdefinedvalueXPO.AddedDate : UserDefinedValueDTO.AddedDate;
             _userdefinedvalueXPO.AddedBy = (_userdefinedvalueXPO.AddedBy != null) ? _userdefinedvalueXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(UserDefinedValueDTO.AddedByID);
             _userdefinedvalueXPO.LastUpdate = _userdefinedvalueXPO.LastUpdate == UserDefinedValueDTO.LastUpdate ? _userdefinedvalueXPO.LastUpdate : UserDefinedValueDTO.LastUpdate;

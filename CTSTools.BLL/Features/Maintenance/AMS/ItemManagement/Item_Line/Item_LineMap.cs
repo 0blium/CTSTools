@@ -16,8 +16,8 @@ public class Item_LineMap
         try
         {
             _item_lineDTO.ID = Item_LineXPO.Oid;
-            _item_lineDTO.Item_HeaderDTO.ID = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Oid : 0;
-            _item_lineDTO.Item_HeaderDTO.Name = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Name : "Unnassigned";
+            _item_lineDTO.Item_HeaderID = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Oid : 0;
+            _item_lineDTO.Item_HeaderName = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Name : "Unnassigned";
             _item_lineDTO.ItemHeaderNameWithPartNumberSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Serial} - {Item_LineXPO.Item_Header.Name} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
             _item_lineDTO.ItemNameWithManufactureSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Item_Header.Name} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
             _item_lineDTO.StationID = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Oid : 0;
@@ -67,10 +67,10 @@ public class Item_LineMap
         try
         {
             _item_lineXPO = Item_LineDTO.ID == null || Item_LineDTO.ID == 0 ? new Item_LineXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<Item_LineXPO>(Item_LineDTO.ID);
-            _item_lineXPO.Item_Header = (_item_lineXPO.Item_Header != null && _item_lineXPO.Item_Header.Oid == Item_LineDTO.Item_HeaderDTO.ID) ? _item_lineXPO.Item_Header : UnitOfWork.GetObjectByKey<Item_HeaderXPO>(Item_LineDTO.Item_HeaderDTO.ID);
-            _item_lineXPO.Station = (_item_lineXPO.Station != null && _item_lineXPO.Station.Oid == Item_LineDTO.StationDTO.ID) ? _item_lineXPO.Station : UnitOfWork.GetObjectByKey<StationXPO>(Item_LineDTO.StationDTO.ID);
-            _item_lineXPO.Status = (_item_lineXPO.Status != null && _item_lineXPO.Status.Oid == Item_LineDTO.StatusDTO.ID) ? _item_lineXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(Item_LineDTO.StatusDTO.ID);
-            _item_lineXPO.Owner = (_item_lineXPO.Owner != null && _item_lineXPO.Owner.Oid == Item_LineDTO.OwnerDTO.ID) ? _item_lineXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(Item_LineDTO.OwnerDTO.ID);
+            _item_lineXPO.Item_Header = (_item_lineXPO.Item_Header != null && _item_lineXPO.Item_Header.Oid == Item_LineDTO.Item_HeaderID) ? _item_lineXPO.Item_Header : UnitOfWork.GetObjectByKey<Item_HeaderXPO>(Item_LineDTO.Item_HeaderID);
+            _item_lineXPO.Station = (_item_lineXPO.Station != null && _item_lineXPO.Station.Oid == Item_LineDTO.StationID) ? _item_lineXPO.Station : UnitOfWork.GetObjectByKey<StationXPO>(Item_LineDTO.StationID);
+            _item_lineXPO.Status = (_item_lineXPO.Status != null && _item_lineXPO.Status.Oid == Item_LineDTO.StatusID) ? _item_lineXPO.Status : UnitOfWork.GetObjectByKey<StatusXPO>(Item_LineDTO.StatusID);
+            _item_lineXPO.Owner = (_item_lineXPO.Owner != null && _item_lineXPO.Owner.Oid == Item_LineDTO.OwnerID) ? _item_lineXPO.Owner : UnitOfWork.GetObjectByKey<UserXPO>(Item_LineDTO.OwnerID);
             _item_lineXPO.Serial = _item_lineXPO.Serial == Item_LineDTO.Serial ? _item_lineXPO.Serial : Item_LineDTO.Serial;
             _item_lineXPO.ManufactureSerialID = _item_lineXPO.ManufactureSerialID == Item_LineDTO.ManufactureSerialID ? _item_lineXPO.ManufactureSerialID : Item_LineDTO.ManufactureSerialID;
             _item_lineXPO.LegacyID = _item_lineXPO.LegacyID == Item_LineDTO.LegacyID ? _item_lineXPO.LegacyID : Item_LineDTO.LegacyID;
@@ -86,13 +86,13 @@ public class Item_LineMap
             _item_lineXPO.IsActive = _item_lineXPO.IsActive == Item_LineDTO.IsActive ? (bool)_item_lineXPO.IsActive : (bool)Item_LineDTO.IsActive;
             _item_lineXPO.ImportInvoice = Item_LineDTO.ImportInvoice;
             _item_lineXPO.ShipmentReceiptNumber = Item_LineDTO.ShipmentReceiptNumber;
-            _item_lineXPO.Item_SupportGroup = (_item_lineXPO.Item_SupportGroup != null && _item_lineXPO.Item_SupportGroup.Oid == Item_LineDTO.Item_SupportGroupDTO.ID) ? _item_lineXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(Item_LineDTO.Item_SupportGroupDTO.ID);
-            _item_lineXPO.SupplyType = (_item_lineXPO.SupplyType != null && _item_lineXPO.SupplyType.Oid == Item_LineDTO.SupplyTypeDTO.ID) ? _item_lineXPO.SupplyType : UnitOfWork.GetObjectByKey<SupplyTypeXPO>(Item_LineDTO.SupplyTypeDTO.ID);
+            _item_lineXPO.Item_SupportGroup = (_item_lineXPO.Item_SupportGroup != null && _item_lineXPO.Item_SupportGroup.Oid == Item_LineDTO.Item_SupportGroupID) ? _item_lineXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(Item_LineDTO.Item_SupportGroupID);
+            _item_lineXPO.SupplyType = (_item_lineXPO.SupplyType != null && _item_lineXPO.SupplyType.Oid == Item_LineDTO.SupplyTypeID) ? _item_lineXPO.SupplyType : UnitOfWork.GetObjectByKey<SupplyTypeXPO>(Item_LineDTO.SupplyTypeID);
             _item_lineXPO.DeliveredTo = (_item_lineXPO.DeliveredTo != null && _item_lineXPO.DeliveredTo.Oid == Item_LineDTO.DeliveredToID) ? _item_lineXPO.DeliveredTo : UnitOfWork.GetObjectByKey<UserXPO>(Item_LineDTO.DeliveredToID);
             _item_lineXPO.DeliveredDate = _item_lineXPO.DeliveredDate != null ? _item_lineXPO.DeliveredDate : Item_LineDTO.DeliveredDate;
             _item_lineXPO.ImportInvoiceLine = _item_lineXPO.ImportInvoiceLine == Item_LineDTO.ImportInvoiceLine ? _item_lineXPO.ImportInvoiceLine : Item_LineDTO.ImportInvoiceLine;
             _item_lineXPO.DeclarationNumber = _item_lineXPO.DeclarationNumber == Item_LineDTO.DeclarationNumber ? _item_lineXPO.DeclarationNumber : Item_LineDTO.DeclarationNumber;
-            _item_lineXPO.TransactionOrigin = (_item_lineXPO.TransactionOrigin != null && _item_lineXPO.TransactionOrigin.Oid == Item_LineDTO.TransactionOriginDTO.ID) ? _item_lineXPO.TransactionOrigin : UnitOfWork.GetObjectByKey<TransactionOriginXPO>(Item_LineDTO.TransactionOriginDTO.ID);
+            _item_lineXPO.TransactionOrigin = (_item_lineXPO.TransactionOrigin != null && _item_lineXPO.TransactionOrigin.Oid == Item_LineDTO.TransactionOriginID) ? _item_lineXPO.TransactionOrigin : UnitOfWork.GetObjectByKey<TransactionOriginXPO>(Item_LineDTO.TransactionOriginID);
 
         }
         catch (Exception ex)

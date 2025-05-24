@@ -35,7 +35,7 @@ public class UserDefinedTemplate_Service
                     {
                         var _userdefinedTemplateDTO = new UserDefinedTemplateDTO();
                         _userdefinedTemplateDTO.UserDefinedID = _userdefinedIDObj;
-                        _userdefinedTemplateDTO.Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO;
+                        _userdefinedTemplateDTO.Item_SupportGroupID = UserDefinedTemplateDTO.Item_SupportGroupID;
                         _userdefinedTemplateDTO.AddedByID = UserDefinedTemplateDTO.LastUpdateByID;
                         _userdefinedTemplateDTO.IsActive = UserDefinedTemplateDTO.IsActive;
                         CreateUserDefinedTemplate_Global(_userdefinedTemplateDTO);
@@ -87,7 +87,7 @@ public class UserDefinedTemplate_Service
         try
         {
             //var _userDefinedTemplateList = GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_HeaderDTO = UserDefinedTemplateDTO.Item_HeaderDTO });
-            var _userDefinedTemplateList = GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO });
+            var _userDefinedTemplateList = GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_SupportGroupID = UserDefinedTemplateDTO.Item_SupportGroupID });
             var _unselectedUserDefinedList = (from _userDefinedTemplateDTO in _userDefinedTemplateList
                                               where UserDefinedTemplateDTO.UserDefinedIDArray.Contains(_userDefinedTemplateDTO.UserDefinedID) != true
                                               select _userDefinedTemplateDTO).ToList();
