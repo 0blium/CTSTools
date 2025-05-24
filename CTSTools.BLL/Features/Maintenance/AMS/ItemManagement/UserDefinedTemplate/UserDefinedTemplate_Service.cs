@@ -34,8 +34,7 @@ public class UserDefinedTemplate_Service
                     foreach (var _userdefinedIDObj in UserDefinedTemplateDTO.UserDefinedIDArray)
                     {
                         var _userdefinedTemplateDTO = new UserDefinedTemplateDTO();
-                        _userdefinedTemplateDTO.UserDefinedDTO.ID = _userdefinedIDObj;
-                        //_userdefinedTemplateDTO.Item_HeaderDTO = UserDefinedTemplateDTO.Item_HeaderDTO;
+                        _userdefinedTemplateDTO.UserDefinedID = _userdefinedIDObj;
                         _userdefinedTemplateDTO.Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO;
                         _userdefinedTemplateDTO.AddedByID = UserDefinedTemplateDTO.LastUpdateByID;
                         _userdefinedTemplateDTO.IsActive = UserDefinedTemplateDTO.IsActive;
@@ -90,7 +89,7 @@ public class UserDefinedTemplate_Service
             //var _userDefinedTemplateList = GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_HeaderDTO = UserDefinedTemplateDTO.Item_HeaderDTO });
             var _userDefinedTemplateList = GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO });
             var _unselectedUserDefinedList = (from _userDefinedTemplateDTO in _userDefinedTemplateList
-                                              where UserDefinedTemplateDTO.UserDefinedIDArray.Contains(_userDefinedTemplateDTO.UserDefinedDTO.ID) != true
+                                              where UserDefinedTemplateDTO.UserDefinedIDArray.Contains(_userDefinedTemplateDTO.UserDefinedID) != true
                                               select _userDefinedTemplateDTO).ToList();
 
             if (_unselectedUserDefinedList.AsQueryable().Count() > 0)
@@ -146,7 +145,7 @@ public class UserDefinedTemplate_Service
 
             if (UserDefinedTemplateDTO.GetItem_SupportGroupDTO)
             {
-                UserDefinedTemplateDTO.Item_SupportGroupDTO.Item_SupportGroupIDArray = UserDefinedTemplateList.GroupBy(g => g.Item_SupportGroupDTO.ID)
+                UserDefinedTemplateDTO.Item_SupportGroupDTO.Item_SupportGroupIDArray = UserDefinedTemplateList.GroupBy(g => g.Item_SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -155,7 +154,7 @@ public class UserDefinedTemplate_Service
             }
             if (UserDefinedTemplateDTO.GetUserDefinedDTO)
             {
-                UserDefinedTemplateDTO.UserDefinedDTO.UserDefinedIDArray = UserDefinedTemplateList.GroupBy(g => g.UserDefinedDTO.ID)
+                UserDefinedTemplateDTO.UserDefinedDTO.UserDefinedIDArray = UserDefinedTemplateList.GroupBy(g => g.UserDefinedID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -165,13 +164,13 @@ public class UserDefinedTemplate_Service
             foreach (var _userdefinedtemplateDTO in UserDefinedTemplateList)
             {
 
-                if (UserDefinedTemplateDTO.GetItem_SupportGroupDTO && _item_supportgroupDict.ContainsKey(_userdefinedtemplateDTO.Item_SupportGroupDTO.ID))
+                if (UserDefinedTemplateDTO.GetItem_SupportGroupDTO && _item_supportgroupDict.ContainsKey(_userdefinedtemplateDTO.Item_SupportGroupID))
                 {
-                    _userdefinedtemplateDTO.Item_SupportGroupDTO = _item_supportgroupDict[_userdefinedtemplateDTO.Item_SupportGroupDTO.ID];
+                    _userdefinedtemplateDTO.Item_SupportGroupDTO = _item_supportgroupDict[_userdefinedtemplateDTO.Item_SupportGroupID];
                 }
-                if (UserDefinedTemplateDTO.GetUserDefinedDTO && _userdefinedDict.ContainsKey(_userdefinedtemplateDTO.UserDefinedDTO.ID))
+                if (UserDefinedTemplateDTO.GetUserDefinedDTO && _userdefinedDict.ContainsKey(_userdefinedtemplateDTO.UserDefinedID))
                 {
-                    _userdefinedtemplateDTO.UserDefinedDTO = _userdefinedDict[_userdefinedtemplateDTO.UserDefinedDTO.ID];
+                    _userdefinedtemplateDTO.UserDefinedDTO = _userdefinedDict[_userdefinedtemplateDTO.UserDefinedID];
                 }
                 _userdefinedtemplateglobalList.Add(_userdefinedtemplateDTO);
             }

@@ -22,12 +22,18 @@ public class UserDefinedTemplateDTO
     #region Extended Properties
 
     public int?[] UserDefinedTemplateIDArray { get; set; }
+    public int? Item_HeaderID { get; set; }
+    public string Item_HeaderName { get; set; }
     public Item_HeaderDTO Item_HeaderDTO { get; set; }
     public bool GetItem_HeaderDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
+    public int? Item_SupportGroupID { get; set; }
+    public string Item_SupportGroupName { get; set; }
     public Item_SupportGroupDTO Item_SupportGroupDTO { get; set; }
     public bool GetItem_SupportGroupDTO { get; set; }
     public int?[] Item_SupportGroupIDArray { get; set; }
+    public int? UserDefinedID { get; set; }
+    public string UserDefinedName { get; set; }
     public UserDefinedDTO UserDefinedDTO { get; set; }
     public bool GetUserDefinedDTO { get; set; }
     public int?[] UserDefinedIDArray { get; set; }

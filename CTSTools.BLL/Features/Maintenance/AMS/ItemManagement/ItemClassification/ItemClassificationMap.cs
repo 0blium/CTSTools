@@ -13,8 +13,7 @@ public class ItemClassificationMap
         try
         {
             _itemclassificationDTO.ID = ItemClassificationXPO.Oid;
-            _itemclassificationDTO.EnglishName = ItemClassificationXPO.EnglishName;
-            _itemclassificationDTO.Names = $"{ItemClassificationXPO.EnglishName}";
+            _itemclassificationDTO.Name = ItemClassificationXPO.Name;
             _itemclassificationDTO.Description = ItemClassificationXPO.Description;
             _itemclassificationDTO.AddedDate = (ItemClassificationXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? ItemClassificationXPO.AddedDate : (DateTime?)null;
             _itemclassificationDTO.AddedByID = (ItemClassificationXPO.AddedBy != null) ? ItemClassificationXPO.AddedBy.Oid : 0;
@@ -38,7 +37,7 @@ public class ItemClassificationMap
         try
         {
             _itemclassificationXPO = ItemClassificationDTO.ID == null || ItemClassificationDTO.ID == 0 ? new ItemClassificationXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<ItemClassificationXPO>(ItemClassificationDTO.ID);
-            _itemclassificationXPO.EnglishName = _itemclassificationXPO.EnglishName == ItemClassificationDTO.EnglishName ? _itemclassificationXPO.EnglishName : ItemClassificationDTO.EnglishName;
+            _itemclassificationXPO.Name = _itemclassificationXPO.Name == ItemClassificationDTO.Name ? _itemclassificationXPO.Name : ItemClassificationDTO.Name;
             _itemclassificationXPO.Description = _itemclassificationXPO.Description == ItemClassificationDTO.Description ? _itemclassificationXPO.Description : ItemClassificationDTO.Description;
             _itemclassificationXPO.AddedDate = _itemclassificationXPO.AddedDate != null ? _itemclassificationXPO.AddedDate : ItemClassificationDTO.AddedDate;
             _itemclassificationXPO.AddedBy = _itemclassificationXPO.AddedBy != null ? _itemclassificationXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(ItemClassificationDTO.AddedByID);

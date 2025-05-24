@@ -29,14 +29,14 @@ public class UserDefined_Validator
                     Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.Name)}",
                 });
             }
-            if (UserDefinedDTO.SupportGroupDTO.ID == null || UserDefinedDTO.SupportGroupDTO.ID == 0)
+            if (UserDefinedDTO.SupportGroupID == null || UserDefinedDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.SupportGroupID)}",
                 });
             }
             if (UserDefinedDTO.IsMandatory == null)
@@ -48,14 +48,14 @@ public class UserDefined_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (UserDefinedDTO.DataTypeDTO.ID == null || UserDefinedDTO.DataTypeDTO.ID == 0)
+            if (UserDefinedDTO.DataTypeID == null || UserDefinedDTO.DataTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "DataType Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.DataTypeDTO)}",
+                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.DataTypeID)}",
                 });
             }
 
@@ -117,14 +117,14 @@ public class UserDefined_Validator
                     Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.Name)}",
                 });
             }
-            if (UserDefinedDTO.SupportGroupDTO.ID == null || UserDefinedDTO.SupportGroupDTO.ID == 0)
+            if (UserDefinedDTO.SupportGroupID == null || UserDefinedDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.SupportGroupID)}",
                 });
             }
             if (UserDefinedDTO.IsMandatory == null)
@@ -136,14 +136,14 @@ public class UserDefined_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (UserDefinedDTO.DataTypeDTO.ID == null || UserDefinedDTO.DataTypeDTO.ID == 0)
+            if (UserDefinedDTO.DataTypeID == null || UserDefinedDTO.DataTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "DataType Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.DataTypeDTO)}",
+                    Data = $"{nameof(UserDefined)}{nameof(UserDefinedDTO.DataTypeID)}",
                 });
             }
 

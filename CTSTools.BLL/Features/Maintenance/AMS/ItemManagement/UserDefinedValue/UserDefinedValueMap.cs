@@ -16,11 +16,11 @@ public class UserDefinedValueMap
         {
             _userdefinedvalueDTO.ID = UserDefinedValueXPO.Oid;
             _userdefinedvalueDTO.Value = UserDefinedValueXPO.Value;
-            _userdefinedvalueDTO.Item_LineDTO.ID = (UserDefinedValueXPO.Item_Line != null) ? UserDefinedValueXPO.Item_Line.Oid : 0;
-            _userdefinedvalueDTO.SupportGroupDTO.ID = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.Oid : 0;
-            _userdefinedvalueDTO.SupportGroupDTO.EnglishName = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.EnglishName : "Unnassigned";
-            _userdefinedvalueDTO.UserDefinedDTO.ID = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Oid : 0;
-            _userdefinedvalueDTO.UserDefinedDTO.Name = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Name : "Unnassigned";
+            _userdefinedvalueDTO.Item_LineID = (UserDefinedValueXPO.Item_Line != null) ? UserDefinedValueXPO.Item_Line.Oid : 0;
+            _userdefinedvalueDTO.SupportGroupID = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroup.Oid : 0;
+            _userdefinedvalueDTO.SupportGroupName = (UserDefinedValueXPO.SupportGroup != null) ? UserDefinedValueXPO.SupportGroupName : "Unnassigned";
+            _userdefinedvalueDTO.UserDefinedID = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Oid : 0;
+            _userdefinedvalueDTO.UserDefinedName = (UserDefinedValueXPO.UserDefined != null) ? UserDefinedValueXPO.UserDefined.Name : "Unnassigned";
             _userdefinedvalueDTO.AddedDate = (UserDefinedValueXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? UserDefinedValueXPO.AddedDate : (DateTime?)null;
             _userdefinedvalueDTO.AddedByID = (UserDefinedValueXPO.AddedBy != null) ? UserDefinedValueXPO.AddedBy.Oid : 0;
             _userdefinedvalueDTO.AddedByName = (UserDefinedValueXPO.AddedBy != null) ? UserDefinedValueXPO.AddedBy.Name : "Unnassigned";

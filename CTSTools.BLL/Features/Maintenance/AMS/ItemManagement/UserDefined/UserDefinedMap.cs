@@ -15,11 +15,11 @@ public class UserDefinedMap
         {
             _userdefinedDTO.ID = UserDefinedXPO.Oid;
             _userdefinedDTO.Name = UserDefinedXPO.Name;
-            _userdefinedDTO.SupportGroupDTO.ID = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.Oid : 0;
-            _userdefinedDTO.SupportGroupDTO.EnglishName = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.EnglishName : "Unnassigned";
+            _userdefinedDTO.SupportGroupID = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.Oid : 0;
+            _userdefinedDTO.SupportGroupName = (UserDefinedXPO.SupportGroup != null) ? UserDefinedXPO.SupportGroup.EnglishName : "Unnassigned";
             _userdefinedDTO.IsMandatory = UserDefinedXPO.IsMandatory;
-            _userdefinedDTO.DataTypeDTO.ID = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Oid : 0;
-            _userdefinedDTO.DataTypeDTO.Name = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Name : "Unnassigned";
+            _userdefinedDTO.DataTypeID = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Oid : 0;
+            _userdefinedDTO.DataTypeName = (UserDefinedXPO.DataType != null) ? UserDefinedXPO.DataType.Name : "Unnassigned";
             _userdefinedDTO.NameWithDataType = (UserDefinedXPO.DataType != null) ? $"{UserDefinedXPO.Name} - {UserDefinedXPO.DataType.Name}" : $"{UserDefinedXPO.Name}";
             _userdefinedDTO.AddedDate = (UserDefinedXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? UserDefinedXPO.AddedDate : (DateTime?)null;
             _userdefinedDTO.AddedByID = (UserDefinedXPO.AddedBy != null) ? UserDefinedXPO.AddedBy.Oid : 0;

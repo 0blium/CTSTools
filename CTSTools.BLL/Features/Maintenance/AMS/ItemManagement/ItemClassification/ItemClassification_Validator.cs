@@ -18,14 +18,14 @@ public class ItemClassification_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (string.IsNullOrEmpty(ItemClassificationDTO.EnglishName))
+            if (string.IsNullOrEmpty(ItemClassificationDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.EnglishName)}",
+                    Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.Name)}",
                 });
             }
 
@@ -77,14 +77,14 @@ public class ItemClassification_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (string.IsNullOrEmpty(ItemClassificationDTO.EnglishName))
+            if (string.IsNullOrEmpty(ItemClassificationDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.EnglishName)}",
+                    Data = $"{nameof(ItemClassification)}{nameof(ItemClassificationDTO.Name)}",
                 });
             }
 

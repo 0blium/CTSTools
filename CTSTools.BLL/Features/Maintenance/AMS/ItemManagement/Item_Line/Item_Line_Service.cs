@@ -287,7 +287,6 @@ public class Item_Line_Service
         return _item_lineglobalList;
     }
 
-
     public static ValidationResultDTO GetSerialSecuenceForItem(Item_LineDTO Item_LineDTO)
     {
         var _validationResultDTO = new ValidationResultDTO() { Result = false };
@@ -387,7 +386,6 @@ public class Item_Line_Service
         return _item_LineExpandoObjList;
     }
 
-
     public static List<IDictionary<string, Object>> GetItem_LineWithUserDefinedByStation(Item_LineDTO Item_LineDTO)
     {
         var _item_LineExpandoObjList = new List<IDictionary<string, Object>>();
@@ -411,7 +409,7 @@ public class Item_Line_Service
                 {
                     var properties = new ExpandoObject() as IDictionary<string, Object>;
                     properties.Add(nameof(_item_lineDTO.ID), _item_lineDTO.ID);
-                    properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.EnglishName)}", _item_lineDTO.Item_HeaderDTO.EnglishName);
+                    properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.Name)}", _item_lineDTO.Item_HeaderDTO.Name);
                     properties.Add(nameof(_item_lineDTO.ManufactureSerialID), _item_lineDTO.ManufactureSerialID);
                     properties.Add(nameof(_item_lineDTO.LegacyID), _item_lineDTO.LegacyID);
                     properties.Add(nameof(_item_lineDTO.Serial), _item_lineDTO.Serial);
@@ -480,7 +478,6 @@ public class Item_Line_Service
         return _validationResultDTO;
     }
 
-
     public static ValidationResultDTO UpdateItem_StationGlobal(Item_LineDTO Item_LineDTO)
     {
         var _validationResultDTO = Item_Line_Validator.UpdateItem_StationValidation(Item_LineDTO);
@@ -533,6 +530,7 @@ public class Item_Line_Service
         return _validationResultDTO;
     }
     #endregion
+
     #region Item Delivery
     public static ValidationResultDTO ItemDeliveryGlobal(Item_LineDTO Item_LineDTO)
     {
@@ -575,7 +573,6 @@ public class Item_Line_Service
         return _validationResultDTO;
     }
     #endregion
-
 
     #region Reassign Owner
     public static ValidationResultDTO ReassignOwnerToItemGlobal(Item_LineDTO Item_LineDTO)

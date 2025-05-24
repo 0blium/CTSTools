@@ -21,27 +21,17 @@ public class Item_Line_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (Item_LineDTO.Item_HeaderDTO.ID == null || Item_LineDTO.Item_HeaderDTO.ID == 0)
+            if (Item_LineDTO.Item_HeaderID == null || Item_LineDTO.Item_HeaderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderID)}",
                 });
             }
-            //if (Item_LineDTO.StatusDTO.ID == null || Item_LineDTO.StatusDTO.ID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Status Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StatusDTO)}",
-            //    });
-            //}
-            if (Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0)
+            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -51,17 +41,17 @@ public class Item_Line_Validator
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.OwnerDTO)}",
                 });
             }
-            if (Item_LineDTO.SupplyTypeDTO.ID == null || Item_LineDTO.SupplyTypeDTO.ID == 0)
+            if (Item_LineDTO.SupplyTypeID == null || Item_LineDTO.SupplyTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Supply Type Field Empty",
                     Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.SupplyTypeDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.SupplyTypeID)}",
                 });
             }
-            if (Item_LineDTO.SupplyTypeDTO.ID != null && Item_LineDTO.SupplyTypeDTO.ID != 0)
+            if (Item_LineDTO.SupplyTypeID != null && Item_LineDTO.SupplyTypeID != 0)
             {
                 var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
                 foreach (var _validationResultDTO in _supplyTypeValidation)
@@ -69,47 +59,14 @@ public class Item_Line_Validator
                     _validation_ResultList.Add(_validationResultDTO);
                 }
             }
-            //if (Item_LineDTO.TransactionOriginDTO.ID == 0 || Item_LineDTO.TransactionOriginDTO.ID == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Transaction Origin Field Empty",
-            //        Description = "Please, complete the missing information",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionOriginDTO)}",
-            //    });
-            //}
-            //if (Item_LineDTO.TransactionOriginDTO.ID != (int)TransactionOrigin.TransactionOrigin_Enum.NA)
-            //{
-            //    if (string.IsNullOrEmpty(Item_LineDTO.TransactionNumber))
-            //    {
-            //        _validation_ResultList.Add(new ValidationResultDTO
-            //        {
-            //            Result = false,
-            //            Message = "Transaction Number Field Empty",
-            //            Description = "Please, complete the missing information",
-            //            Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionNumber)}",
-            //        });
-            //    }
-            //    if (Item_LineDTO.TransactionLine == 0 || Item_LineDTO.TransactionLine == null)
-            //    {
-            //        _validation_ResultList.Add(new ValidationResultDTO
-            //        {
-            //            Result = false,
-            //            Message = "Transaction Line Field Empty",
-            //            Description = "Please, complete the missing information",
-            //            Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionLine)}",
-            //        });
-            //    }
-            //}
-            if (Item_LineDTO.StationDTO.ID == null || Item_LineDTO.StationDTO.ID == 0)
+            if (Item_LineDTO.StationID == null || Item_LineDTO.StationID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Station Field Empty",
                     Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationID)}",
                 });
             }
             if (string.IsNullOrEmpty(Item_LineDTO.ManufactureSerialID))
@@ -135,7 +92,6 @@ public class Item_Line_Validator
             }
             else
             {
-
                 //Validate if serial already exist in the database
                 var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Serial = Item_LineDTO.Serial }).FirstOrDefault();
                 if (_item_lineDTO != null && Item_LineDTO.ID != _item_lineDTO.ID)
@@ -149,16 +105,6 @@ public class Item_Line_Validator
                     });
                 }
             }
-            //if (string.IsNullOrEmpty(Item_LineDTO.PONumber))
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "PONumber Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.PONumber)}",
-            //    });
-            //}
             if (Item_LineDTO.BasePriceUSD == null || Item_LineDTO.BasePriceUSD == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -175,7 +121,7 @@ public class Item_Line_Validator
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     // Get User Defined information
-                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedDTO.ID }).FirstOrDefault();
+                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedID }).FirstOrDefault();
                     if ((bool)_userDefinedDTO.IsMandatory)
                     {
                         // If it is mandatory, check that it is not empty
@@ -191,7 +137,6 @@ public class Item_Line_Validator
                     }
                 }
             }
-
 
             if (Item_LineDTO.AddedByID == null || Item_LineDTO.AddedByID == 0)
             {
@@ -230,7 +175,6 @@ public class Item_Line_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             if (Item_LineDTO.ID == null || Item_LineDTO.ID == 0)
             {
@@ -241,86 +185,36 @@ public class Item_Line_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (Item_LineDTO.Item_HeaderDTO.ID == null || Item_LineDTO.Item_HeaderDTO.ID == 0)
+            if (Item_LineDTO.Item_HeaderID == null || Item_LineDTO.Item_HeaderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderID)}",
                 });
             }
-            //if (Item_LineDTO.StationDTO.ID == null || Item_LineDTO.StationDTO.ID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Station Field Empty",
-            //        Description = "Please, complete the missing information",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationDTO)}",
-            //    });
-            //}
-            //if (Item_LineDTO.StatusDTO.ID == null || Item_LineDTO.StatusDTO.ID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Status Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StatusDTO)}",
-            //    });
-            //}
-            if (Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0)
+            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Owner Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.OwnerDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.OwnerID)}",
                 });
             }
-            if (Item_LineDTO.SupplyTypeDTO.ID == null || Item_LineDTO.SupplyTypeDTO.ID == 0)
+            if (Item_LineDTO.SupplyTypeID == null || Item_LineDTO.SupplyTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Supply Type Field Empty",
                     Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.SupplyTypeDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.SupplyTypeID)}",
                 });
             }
-            //if (Item_LineDTO.TransactionOriginDTO.ID == 0 || Item_LineDTO.TransactionOriginDTO.ID == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Transaction Origin Field Empty",
-            //        Description = "Please, complete the missing information",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionOriginDTO)}",
-            //    });
-            //}
-            //if (string.IsNullOrEmpty(Item_LineDTO.TransactionNumber))
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Transaction Number Field Empty",
-            //        Description = "Please, complete the missing information",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionNumber)}",
-            //    });
-            //}
-            //if (Item_LineDTO.TransactionLine == 0 || Item_LineDTO.TransactionLine == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Transaction Line Field Empty",
-            //        Description = "Please, complete the missing information",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.TransactionLine)}",
-            //    });
-            //}
             if (string.IsNullOrEmpty(Item_LineDTO.ManufactureSerialID))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -331,7 +225,7 @@ public class Item_Line_Validator
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.ManufactureSerialID)}",
                 });
             }
-            if (Item_LineDTO.SupplyTypeDTO.ID != null && Item_LineDTO.SupplyTypeDTO.ID != 0)
+            if (Item_LineDTO.SupplyTypeID != null && Item_LineDTO.SupplyTypeID != 0)
             {
                 var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
                 foreach (var _validationResultDTO in _supplyTypeValidation)
@@ -390,7 +284,7 @@ public class Item_Line_Validator
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     // Get User Defined information
-                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedDTO.ID }).FirstOrDefault();
+                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedID }).FirstOrDefault();
                     if ((bool)_userDefinedDTO.IsMandatory)
                     {
                         // If it is mandatory, check that it is not empty
@@ -467,6 +361,7 @@ public class Item_Line_Validator
         return _validation_ResultDTO;
     }
     #endregion
+
     #region Station Line Validation
     public static ValidationResultDTO CreateItem_StationValidation(Item_LineDTO Item_LineDTO)
     {
@@ -486,13 +381,13 @@ public class Item_Line_Validator
                     var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = _item_LineID }).FirstOrDefault();
                     if (_item_lineDTO != null)
                     {
-                        if (_item_lineDTO.StationDTO.ID > 0)
+                        if (_item_lineDTO.StationID > 0)
                         {
                             _validation_ResultList.Add(new ValidationResultDTO
                             {
                                 Result = false,
                                 Message = "Item is already at the station ",
-                                Description = $"The item {_item_lineDTO.Item_HeaderDTO.EnglishName} is already at the station {_item_lineDTO.StationDTO.Name}"
+                                Description = $"The item {_item_lineDTO.Item_HeaderDTO.Name} is already at the station {_item_lineDTO.StationName}"
                             });
                         }
                     }
@@ -545,7 +440,7 @@ public class Item_Line_Validator
                 var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
                 if (Item_LineDTO != null)
                 {
-                    if (_item_lineDTO.StationDTO.ID == Item_LineDTO.StationDTO.ID)
+                    if (_item_lineDTO.StationID == Item_LineDTO.StationID)
                     {
                         _validation_ResultList.Add(new ValidationResultDTO
                         {
@@ -649,6 +544,7 @@ public class Item_Line_Validator
         return _validation_ResultList;
     }
     #endregion
+
     #region Delivery asset line Validation
     public static ValidationResultDTO ItemDeliveryValidation(Item_LineDTO Item_LineDTO)
     {
@@ -707,6 +603,7 @@ public class Item_Line_Validator
         return _validation_ResultDTO;
     }
     #endregion
+
     #region Reassign Owner 
     public static ValidationResultDTO ReassignOwnerToItemValidation(Item_LineDTO Item_LineDTO)
     {
@@ -728,7 +625,7 @@ public class Item_Line_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0)
+            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -741,7 +638,7 @@ public class Item_Line_Validator
             {
                 //validate if is the current owner
                 var _item_LineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
-                if (_item_LineDTO.OwnerDTO.ID == Item_LineDTO.OwnerDTO.ID)
+                if (_item_LineDTO.OwnerID == Item_LineDTO.OwnerID)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -783,14 +680,14 @@ public class Item_Line_Validator
         try
         {
             // Field Validation
-            if (!(Item_LineDTO.ID == null || Item_LineDTO.ID == 0) && !(Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0))
+            if (!(Item_LineDTO.ID == null || Item_LineDTO.ID == 0) && !(Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0))
             {
                 //validate if the item belongs to that owner
                 var _item_line = Item_Line_Service.GetItem_LineList_Global(
                     new Item_LineDTO
                     {
                         ID = Item_LineDTO.ID,
-                        OwnerDTO = Item_LineDTO.OwnerDTO
+                        OwnerID = Item_LineDTO.OwnerID
                     }).FirstOrDefault();
                 if (_item_line == null)
                 {

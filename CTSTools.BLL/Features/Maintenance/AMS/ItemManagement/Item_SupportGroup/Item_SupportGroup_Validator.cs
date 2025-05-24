@@ -20,17 +20,17 @@ public class Item_SupportGroup_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (Item_SupportGroupDTO.Item_HeaderDTO.ID == null || Item_SupportGroupDTO.Item_HeaderDTO.ID == 0)
+            if (Item_SupportGroupDTO.Item_HeaderID == null || Item_SupportGroupDTO.Item_HeaderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Selected Item Empty",
-                    Description = " Please, select an item in step 1 ",
+                    Description = " Please, complete the missing information ",
                     //Data = $"{nameof(Item_SupportGroup)}{nameof(Item_SupportGroupDTO.Item_HeaderDTO)}",
                 });
             }
-            if (Item_SupportGroupDTO.SupportGroupDTO.ID == null || Item_SupportGroupDTO.SupportGroupDTO.ID == 0)
+            if (Item_SupportGroupDTO.SupportGroupID == null || Item_SupportGroupDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -52,8 +52,8 @@ public class Item_SupportGroup_Validator
             }
 
             //validate if relation already exist
-            if (!(Item_SupportGroupDTO.Item_HeaderDTO.ID == null || Item_SupportGroupDTO.Item_HeaderDTO.ID == 0) &&
-                !(Item_SupportGroupDTO.SupportGroupDTO.ID == null || Item_SupportGroupDTO.SupportGroupDTO.ID == 0))
+            if (!(Item_SupportGroupDTO.Item_HeaderID == null || Item_SupportGroupDTO.Item_HeaderID == 0) &&
+                !(Item_SupportGroupDTO.SupportGroupID == null || Item_SupportGroupDTO.SupportGroupID == 0))
             {
                 var _item_supportGroupDTO = Item_SupportGroup_Service.GetItem_SupportGroupList_Global(
                     new Item_SupportGroupDTO
@@ -113,14 +113,14 @@ public class Item_SupportGroup_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (Item_SupportGroupDTO.Item_HeaderDTO.ID == null || Item_SupportGroupDTO.Item_HeaderDTO.ID == 0)
+            if (Item_SupportGroupDTO.Item_HeaderID == null || Item_SupportGroupDTO.Item_HeaderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_SupportGroup)}{nameof(Item_SupportGroupDTO.Item_HeaderDTO)}",
+                    Data = $"{nameof(Item_SupportGroup)}{nameof(Item_SupportGroupDTO.Item_HeaderID)}",
                 });
             }
 
@@ -206,6 +206,7 @@ public class Item_SupportGroup_Validator
         }
         return _validation_ResultDTO;
     }
+
     #region Reassing Support Group To Item
     public static ValidationResultDTO ReassignSupportGroupToItemValidation(Item_LineDTO Item_LineDTO)
     {
@@ -219,19 +220,19 @@ public class Item_SupportGroup_Validator
 
             // Field Validation
             //Validation Relation Item Header & SupportGroup exist 
-            if (Item_LineDTO.Item_HeaderDTO?.ID != null && Item_LineDTO.Item_SupportGroupDTO?.SupportGroupDTO?.ID != null)
+            if (Item_LineDTO.Item_HeaderID != null && Item_LineDTO.Item_SupportGroupDTO?.SupportGroupID != null)
             {
                 var _item_SupportGroupDTO = Item_SupportGroup_Service.GetItem_SupportGroupList_Global(
                 new Item_SupportGroupDTO
                 {
-                    Item_HeaderDTO = Item_LineDTO.Item_HeaderDTO,
-                    SupportGroupDTO = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO
+                    Item_HeaderID = Item_LineDTO.Item_HeaderID,
+                    SupportGroupID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupID
                 }).FirstOrDefault();
 
                 if (_item_SupportGroupDTO != null)
                 {
                     //confirm if this is the current relationship on the line
-                    if (_item_SupportGroupDTO.ID != Item_LineDTO.Item_SupportGroupDTO.ID)
+                    if (_item_SupportGroupDTO.ID != Item_LineDTO.Item_SupportGroupID)
                     {
                         //If a relationship between item and support group already exists
                         //and it is different from the current relationship in the line, return the new relationship ID.

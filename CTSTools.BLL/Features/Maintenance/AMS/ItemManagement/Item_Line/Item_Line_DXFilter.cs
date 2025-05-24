@@ -24,37 +24,37 @@ public class Item_Line_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.Oid), Item_LineDTO.Item_LineIDArray));
             }
-            if (Item_LineDTO.Item_HeaderDTO.ID != null || Item_LineDTO.Item_HeaderDTO.ID > 0)
+            if (Item_LineDTO.Item_HeaderID != null || Item_LineDTO.Item_HeaderID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Item_Header), Item_LineDTO.Item_HeaderDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Item_Header), Item_LineDTO.Item_HeaderID));
             }
-            if (Item_LineDTO.SupplyTypeDTO.ID != null || Item_LineDTO.SupplyTypeDTO.ID > 0)
+            if (Item_LineDTO.SupplyTypeID != null || Item_LineDTO.SupplyTypeID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.SupplyType), Item_LineDTO.SupplyTypeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.SupplyType), Item_LineDTO.SupplyTypeID));
             }
             if (Item_LineDTO.Item_HeaderIDArray != null && Item_LineDTO.Item_HeaderIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.Item_Header), Item_LineDTO.Item_HeaderIDArray));
             }
-            if (Item_LineDTO.Item_SupportGroupDTO.ID != null || Item_LineDTO.Item_SupportGroupDTO.ID > 0)
+            if (Item_LineDTO.Item_SupportGroupID != null || Item_LineDTO.Item_SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Item_SupportGroup), Item_LineDTO.Item_SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Item_SupportGroup), Item_LineDTO.Item_SupportGroupID));
             }
             if (Item_LineDTO.Item_SupportGroupIDArray != null && Item_LineDTO.Item_SupportGroupIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.Item_SupportGroup), Item_LineDTO.Item_SupportGroupIDArray));
             }
-            if (Item_LineDTO.StationDTO.ID != null || Item_LineDTO.StationDTO.ID > 0)
+            if (Item_LineDTO.StationID != null || Item_LineDTO.StationID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Station), Item_LineDTO.StationDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Station), Item_LineDTO.StationID));
             }
             if (Item_LineDTO.StationIDArray != null && Item_LineDTO.StationIDArray.Count() > 0 && Item_LineDTO.StationIDArray[0] != null)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.Station), Item_LineDTO.StationIDArray));
             }
-            if (Item_LineDTO.StatusDTO.ID != null || Item_LineDTO.StatusDTO.ID > 0)
+            if (Item_LineDTO.StatusID != null || Item_LineDTO.StatusID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Status), Item_LineDTO.StatusDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Status), Item_LineDTO.StatusID));
             }
             if (Item_LineDTO.StatusIDArray != null && Item_LineDTO.StatusIDArray.Count() > 0)
             {
@@ -100,21 +100,17 @@ public class Item_Line_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.Owner), Item_LineDTO.OwnerIDArray));
             }
-            if (Item_LineDTO.OwnerDTO.ID != null || Item_LineDTO.OwnerDTO.ID > 0)
+            if (Item_LineDTO.OwnerID != null || Item_LineDTO.OwnerID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Owner), Item_LineDTO.OwnerDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.Owner), Item_LineDTO.OwnerID));
             }
             if (Item_LineDTO.SupplyTypeIDArray != null && Item_LineDTO.SupplyTypeIDArray.Count() > 0 && Item_LineDTO.SupplyTypeIDArray[0] != null)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.SupplyType), Item_LineDTO.SupplyTypeIDArray));
             }
-            //if (Item_LineDTO.DeliveredToIDArray != null && Item_LineDTO.DeliveredToIDArray.Count() > 0 && Item_LineDTO.DeliveredToIDArray[0] != null)
-            //{
-            //    _groupOperator.Operands.Add(new InOperator(nameof(Item_LineXPO.DeliveredTo), Item_LineDTO.DeliveredToIDArray));
-            //}
-            if (Item_LineDTO.TransactionOriginDTO.ID != null || Item_LineDTO.TransactionOriginDTO.ID > 0)
+            if (Item_LineDTO.TransactionOriginID != null || Item_LineDTO.TransactionOriginID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.TransactionOrigin), Item_LineDTO.TransactionOriginDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_LineXPO.TransactionOrigin), Item_LineDTO.TransactionOriginID));
             }
             if (Item_LineDTO.TransactionNumberArray != null && Item_LineDTO.TransactionNumberArray.Count() > 0)
             {

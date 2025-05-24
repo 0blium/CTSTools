@@ -32,9 +32,9 @@ public class Item_Header_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Model), Item_HeaderDTO.Model));
             }
-            if (Item_HeaderDTO.ItemClassificationDTO.ID != null || Item_HeaderDTO.ItemClassificationDTO.ID > 0)
+            if (Item_HeaderDTO.ItemClassificationID != null || Item_HeaderDTO.ItemClassificationID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.ItemClassification), Item_HeaderDTO.ItemClassificationDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.ItemClassification), Item_HeaderDTO.ItemClassificationID));
             }
             if (Item_HeaderDTO.ItemClassificationIDArray != null && Item_HeaderDTO.ItemClassificationIDArray.Count() > 0)
             {

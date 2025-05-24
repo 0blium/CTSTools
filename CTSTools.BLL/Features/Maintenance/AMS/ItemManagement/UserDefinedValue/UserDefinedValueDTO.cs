@@ -23,12 +23,17 @@ public class UserDefinedValueDTO
     #region Extended Properties
 
     public int?[] UserDefinedValueIDArray { get; set; }
+    public int? Item_LineID { get; set; }
     public Item_LineDTO Item_LineDTO { get; set; }
     public bool GetItem_LineDTO { get; set; }
     public int?[] Item_LineIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
+    public int? UserDefinedID { get; set; }
+    public string UserDefinedName { get; set; }
     public UserDefinedDTO UserDefinedDTO { get; set; }
     public bool GetUserDefinedDTO { get; set; }
     public int?[] UserDefinedIDArray { get; set; }

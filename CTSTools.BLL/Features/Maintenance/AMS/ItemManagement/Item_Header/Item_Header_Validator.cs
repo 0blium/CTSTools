@@ -21,14 +21,14 @@ public class Item_Header_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (string.IsNullOrEmpty(Item_HeaderDTO.EnglishName))
+            if (string.IsNullOrEmpty(Item_HeaderDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.EnglishName)}",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.Name)}",
                 });
             }
             if (string.IsNullOrEmpty(Item_HeaderDTO.Model))
@@ -75,15 +75,6 @@ public class Item_Header_Validator
                     });
                 }
             }
-            //if (Item_HeaderDTO.SupportGroupID == null || Item_HeaderDTO.SupportGroupID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Support Group Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
 
             if (Item_HeaderDTO.AddedByID == null || Item_HeaderDTO.AddedByID == 0)
             {
@@ -133,14 +124,14 @@ public class Item_Header_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (string.IsNullOrEmpty(Item_HeaderDTO.EnglishName))
+            if (string.IsNullOrEmpty(Item_HeaderDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "EnglishName Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.EnglishName)}",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.Name)}",
                 });
             }
             if (string.IsNullOrEmpty(Item_HeaderDTO.Model))
@@ -172,14 +163,14 @@ public class Item_Header_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (Item_HeaderDTO.ItemClassificationDTO.ID == null || Item_HeaderDTO.ItemClassificationDTO.ID == 0)
+            if (Item_HeaderDTO.ItemClassificationID == null || Item_HeaderDTO.ItemClassificationID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "ItemClassification Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ItemClassificationDTO)}",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ItemClassificationID)}",
                 });
             }
 

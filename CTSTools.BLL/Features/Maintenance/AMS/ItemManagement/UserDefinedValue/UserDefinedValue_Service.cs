@@ -81,7 +81,7 @@ public class UserDefinedValue_Service
         {
             if (UserDefinedValueDTO.GetItem_LineDTO)
             {
-                UserDefinedValueDTO.Item_LineDTO.Item_LineIDArray = UserDefinedValueList.GroupBy(g => g.Item_LineDTO.ID)
+                UserDefinedValueDTO.Item_LineDTO.Item_LineIDArray = UserDefinedValueList.GroupBy(g => g.Item_LineID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -90,7 +90,7 @@ public class UserDefinedValue_Service
             }
             if (UserDefinedValueDTO.GetSupportGroupDTO)
             {
-                UserDefinedValueDTO.SupportGroupDTO.SupportGroupIDArray = UserDefinedValueList.GroupBy(g => g.SupportGroupDTO.ID)
+                UserDefinedValueDTO.SupportGroupDTO.SupportGroupIDArray = UserDefinedValueList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -99,7 +99,7 @@ public class UserDefinedValue_Service
             }
             if (UserDefinedValueDTO.GetUserDefinedDTO)
             {
-                UserDefinedValueDTO.UserDefinedDTO.UserDefinedIDArray = UserDefinedValueList.GroupBy(g => g.UserDefinedDTO.ID)
+                UserDefinedValueDTO.UserDefinedDTO.UserDefinedIDArray = UserDefinedValueList.GroupBy(g => g.UserDefinedID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -108,17 +108,17 @@ public class UserDefinedValue_Service
             }
             foreach (var _userdefinedvalueDTO in UserDefinedValueList)
             {
-                if (UserDefinedValueDTO.GetItem_LineDTO && _item_lineDict.ContainsKey(_userdefinedvalueDTO.Item_LineDTO.ID))
+                if (UserDefinedValueDTO.GetItem_LineDTO && _item_lineDict.ContainsKey(_userdefinedvalueDTO.Item_LineID))
                 {
-                    _userdefinedvalueDTO.Item_LineDTO = _item_lineDict[_userdefinedvalueDTO.Item_LineDTO.ID];
+                    _userdefinedvalueDTO.Item_LineDTO = _item_lineDict[_userdefinedvalueDTO.Item_LineID];
                 }
-                if (UserDefinedValueDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_userdefinedvalueDTO.SupportGroupDTO.ID))
+                if (UserDefinedValueDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_userdefinedvalueDTO.SupportGroupID))
                 {
-                    _userdefinedvalueDTO.SupportGroupDTO = _supportgroupDict[_userdefinedvalueDTO.SupportGroupDTO.ID];
+                    _userdefinedvalueDTO.SupportGroupDTO = _supportgroupDict[_userdefinedvalueDTO.SupportGroupID];
                 }
-                if (UserDefinedValueDTO.GetUserDefinedDTO && _userdefinedDict.ContainsKey(_userdefinedvalueDTO.UserDefinedDTO.ID))
+                if (UserDefinedValueDTO.GetUserDefinedDTO && _userdefinedDict.ContainsKey(_userdefinedvalueDTO.UserDefinedID))
                 {
-                    _userdefinedvalueDTO.UserDefinedDTO = _userdefinedDict[_userdefinedvalueDTO.UserDefinedDTO.ID];
+                    _userdefinedvalueDTO.UserDefinedDTO = _userdefinedDict[_userdefinedvalueDTO.UserDefinedID];
                 }
                 _userdefinedvalueglobalList.Add(_userdefinedvalueDTO);
             }

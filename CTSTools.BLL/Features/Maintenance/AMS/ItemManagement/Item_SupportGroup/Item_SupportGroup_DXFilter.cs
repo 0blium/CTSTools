@@ -20,17 +20,17 @@ public class Item_SupportGroup_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_SupportGroupXPO.Oid), Item_SupportGroupDTO.Item_SupportGroupIDArray));
             }
-            if (Item_SupportGroupDTO.Item_HeaderDTO.ID != null || Item_SupportGroupDTO.Item_HeaderDTO.ID > 0)
+            if (Item_SupportGroupDTO.Item_HeaderID != null || Item_SupportGroupDTO.Item_HeaderID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderID));
             }
             if (Item_SupportGroupDTO.Item_HeaderIDArray != null && Item_SupportGroupDTO.Item_HeaderIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderIDArray));
             }
-            if (Item_SupportGroupDTO.SupportGroupDTO.ID != null || Item_SupportGroupDTO.SupportGroupDTO.ID > 0)
+            if (Item_SupportGroupDTO.SupportGroupID != null || Item_SupportGroupDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.SupportGroup), Item_SupportGroupDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.SupportGroup), Item_SupportGroupDTO.SupportGroupID));
             }
             if (Item_SupportGroupDTO.SupportGroupIDArray != null && Item_SupportGroupDTO.SupportGroupIDArray.Count() > 0)
             {

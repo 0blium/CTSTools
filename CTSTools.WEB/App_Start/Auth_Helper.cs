@@ -79,7 +79,7 @@ namespace CTSTools.WEB.App_Start
 
         public static ValidationResultDTO SpecialUpdateItemLineValidation(Item_LineDTO Item_LineDTO, string ModuleName, int Action)
         {
-            var _validationResultDTO = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID != null ?
+            var _validationResultDTO = Item_LineDTO.Item_SupportGroupDTO.SupportGroupID != null ?
                ValidateSupportGroupMemberPermissions_Global(Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO, ModuleName, Action)
                : ValidatePermission_Global(ModuleName, Action);
             //Last validation, validate if owner of item 
@@ -89,7 +89,7 @@ namespace CTSTools.WEB.App_Start
                     new Item_LineDTO
                     {
                         ID = Item_LineDTO.ID,
-                        OwnerDTO = new UserDTO { ID = GetLoggedUserOid() }
+                        OwnerID = GetLoggedUserOid()
                     });
             }
             return _validationResultDTO;

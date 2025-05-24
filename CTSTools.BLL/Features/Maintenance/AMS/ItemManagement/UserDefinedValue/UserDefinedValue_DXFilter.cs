@@ -20,25 +20,25 @@ public class UserDefinedValue_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedValueXPO.Oid), UserDefinedValueDTO.UserDefinedValueIDArray));
             }
-            if (UserDefinedValueDTO.Item_LineDTO.ID != null || UserDefinedValueDTO.Item_LineDTO.ID > 0)
+            if (UserDefinedValueDTO.Item_LineID != null || UserDefinedValueDTO.Item_LineID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedValueXPO.Item_Line), UserDefinedValueDTO.Item_LineDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedValueXPO.Item_Line), UserDefinedValueDTO.Item_LineID));
             }
             if (UserDefinedValueDTO.Item_LineIDArray != null && UserDefinedValueDTO.Item_LineIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedValueXPO.Item_Line), UserDefinedValueDTO.Item_LineIDArray));
             }
-            if (UserDefinedValueDTO.SupportGroupDTO.ID != null || UserDefinedValueDTO.SupportGroupDTO.ID > 0)
+            if (UserDefinedValueDTO.SupportGroupID != null || UserDefinedValueDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedValueXPO.SupportGroup), UserDefinedValueDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedValueXPO.SupportGroup), UserDefinedValueDTO.SupportGroupID));
             }
             if (UserDefinedValueDTO.SupportGroupIDArray != null && UserDefinedValueDTO.SupportGroupIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedValueXPO.SupportGroup), UserDefinedValueDTO.SupportGroupIDArray));
             }
-            if (UserDefinedValueDTO.UserDefinedDTO.ID != null || UserDefinedValueDTO.UserDefinedDTO.ID > 0)
+            if (UserDefinedValueDTO.UserDefinedID != null || UserDefinedValueDTO.UserDefinedID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedValueXPO.UserDefined), UserDefinedValueDTO.UserDefinedDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedValueXPO.UserDefined), UserDefinedValueDTO.UserDefinedID));
             }
             if (UserDefinedValueDTO.UserDefinedIDArray != null && UserDefinedValueDTO.UserDefinedIDArray.Count() > 0)
             {

@@ -104,7 +104,7 @@ public class Item_SupportGroup_Service
         {
             if (Item_SupportGroupDTO.GetItem_HeaderDTO)
             {
-                Item_SupportGroupDTO.Item_HeaderDTO.Item_HeaderIDArray = Item_SupportGroupList.GroupBy(g => g.Item_HeaderDTO.ID)
+                Item_SupportGroupDTO.Item_HeaderDTO.Item_HeaderIDArray = Item_SupportGroupList.GroupBy(g => g.Item_HeaderID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -113,7 +113,7 @@ public class Item_SupportGroup_Service
             }
             if (Item_SupportGroupDTO.GetSupportGroupDTO)
             {
-                Item_SupportGroupDTO.SupportGroupDTO.SupportGroupIDArray = Item_SupportGroupList.GroupBy(g => g.SupportGroupDTO.ID)
+                Item_SupportGroupDTO.SupportGroupDTO.SupportGroupIDArray = Item_SupportGroupList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -122,13 +122,13 @@ public class Item_SupportGroup_Service
             }
             foreach (var _item_supportgroupDTO in Item_SupportGroupList)
             {
-                if (Item_SupportGroupDTO.GetItem_HeaderDTO && _item_headerDict.ContainsKey(_item_supportgroupDTO.Item_HeaderDTO.ID))
+                if (Item_SupportGroupDTO.GetItem_HeaderDTO && _item_headerDict.ContainsKey(_item_supportgroupDTO.Item_HeaderID))
                 {
-                    _item_supportgroupDTO.Item_HeaderDTO = _item_headerDict[_item_supportgroupDTO.Item_HeaderDTO.ID];
+                    _item_supportgroupDTO.Item_HeaderDTO = _item_headerDict[_item_supportgroupDTO.Item_HeaderID];
                 }
-                if (Item_SupportGroupDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_item_supportgroupDTO.SupportGroupDTO.ID))
+                if (Item_SupportGroupDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_item_supportgroupDTO.SupportGroupID))
                 {
-                    _item_supportgroupDTO.SupportGroupDTO = _supportgroupDict[_item_supportgroupDTO.SupportGroupDTO.ID];
+                    _item_supportgroupDTO.SupportGroupDTO = _supportgroupDict[_item_supportgroupDTO.SupportGroupID];
                 }
                 _item_supportgroupglobalList.Add(_item_supportgroupDTO);
             }

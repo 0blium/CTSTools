@@ -45,7 +45,6 @@ public class UserDefinedTemplate_Validator
             {
 
                 UserDefinedDTO = UserDefinedTemplateDTO.UserDefinedDTO,
-                //Item_HeaderDTO = UserDefinedTemplateDTO.Item_HeaderDTO,
                 Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO,
                 IsActive = UserDefinedTemplateDTO.IsActive
             }).FirstOrDefault();

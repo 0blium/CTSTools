@@ -25,9 +25,13 @@ public class UserDefinedDTO
     #region Extended Properties
 
     public int?[] UserDefinedIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
+    public int? DataTypeID { get; set; }
+    public string DataTypeName { get; set; }
     public DataTypeDTO DataTypeDTO { get; set; }
     public bool GetDataTypeDTO { get; set; }
     public int?[] DataTypeIDArray { get; set; }
@@ -41,7 +45,6 @@ public class UserDefinedDTO
         SupportGroupIDArray = new int?[] { };
         DataTypeDTO = new DataTypeDTO();
         DataTypeIDArray = new int?[] { };
-
     }
     #endregion
 }

@@ -28,7 +28,7 @@ public class UserDefinedValue_Validator
                     //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Value)}", 
                 });
             }
-            if (UserDefinedValueDTO.Item_LineDTO.ID == null || UserDefinedValueDTO.Item_LineDTO.ID == 0)
+            if (UserDefinedValueDTO.Item_LineID == null || UserDefinedValueDTO.Item_LineID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -38,7 +38,7 @@ public class UserDefinedValue_Validator
                     //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Item_LineDTO)}", 
                 });
             }
-            if (UserDefinedValueDTO.SupportGroupDTO.ID == null || UserDefinedValueDTO.SupportGroupDTO.ID == 0)
+            if (UserDefinedValueDTO.SupportGroupID == null || UserDefinedValueDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -48,7 +48,7 @@ public class UserDefinedValue_Validator
                     //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.SupportGroupDTO)}", 
                 });
             }
-            if (UserDefinedValueDTO.UserDefinedDTO.ID == null || UserDefinedValueDTO.UserDefinedDTO.ID == 0)
+            if (UserDefinedValueDTO.UserDefinedID == null || UserDefinedValueDTO.UserDefinedID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -117,7 +117,7 @@ public class UserDefinedValue_Validator
                     //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Value)}", 
                 });
             }
-            if (UserDefinedValueDTO.Item_LineDTO.ID == null || UserDefinedValueDTO.Item_LineDTO.ID == 0)
+            if (UserDefinedValueDTO.Item_LineID == null || UserDefinedValueDTO.Item_LineID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -127,7 +127,7 @@ public class UserDefinedValue_Validator
                     //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Item_LineDTO)}", 
                 });
             }
-            if (UserDefinedValueDTO.SupportGroupDTO.ID == null || UserDefinedValueDTO.SupportGroupDTO.ID == 0)
+            if (UserDefinedValueDTO.SupportGroupID == null || UserDefinedValueDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -137,7 +137,7 @@ public class UserDefinedValue_Validator
                     //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.SupportGroupDTO)}", 
                 });
             }
-            if (UserDefinedValueDTO.UserDefinedDTO.ID == null || UserDefinedValueDTO.UserDefinedDTO.ID == 0)
+            if (UserDefinedValueDTO.UserDefinedID == null || UserDefinedValueDTO.UserDefinedID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

@@ -79,7 +79,7 @@ public class UserDefined_Service
         {
             if (UserDefinedDTO.GetSupportGroupDTO)
             {
-                UserDefinedDTO.SupportGroupDTO.SupportGroupIDArray = UserDefinedList.GroupBy(g => g.SupportGroupDTO.ID)
+                UserDefinedDTO.SupportGroupDTO.SupportGroupIDArray = UserDefinedList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -88,7 +88,7 @@ public class UserDefined_Service
             }
             if (UserDefinedDTO.GetDataTypeDTO)
             {
-                UserDefinedDTO.DataTypeDTO.DataTypeIDArray = UserDefinedList.GroupBy(g => g.DataTypeDTO.ID)
+                UserDefinedDTO.DataTypeDTO.DataTypeIDArray = UserDefinedList.GroupBy(g => g.DataTypeID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -97,13 +97,13 @@ public class UserDefined_Service
             }
             foreach (var _userdefinedDTO in UserDefinedList)
             {
-                if (UserDefinedDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_userdefinedDTO.SupportGroupDTO.ID))
+                if (UserDefinedDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_userdefinedDTO.SupportGroupID))
                 {
-                    _userdefinedDTO.SupportGroupDTO = _supportgroupDict[_userdefinedDTO.SupportGroupDTO.ID];
+                    _userdefinedDTO.SupportGroupDTO = _supportgroupDict[_userdefinedDTO.SupportGroupID];
                 }
-                if (UserDefinedDTO.GetDataTypeDTO && _datatypeDict.ContainsKey(_userdefinedDTO.DataTypeDTO.ID))
+                if (UserDefinedDTO.GetDataTypeDTO && _datatypeDict.ContainsKey(_userdefinedDTO.DataTypeID))
                 {
-                    _userdefinedDTO.DataTypeDTO = _datatypeDict[_userdefinedDTO.DataTypeDTO.ID];
+                    _userdefinedDTO.DataTypeDTO = _datatypeDict[_userdefinedDTO.DataTypeID];
                 }
                 _userdefinedglobalList.Add(_userdefinedDTO);
             }

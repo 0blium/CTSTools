@@ -17,16 +17,16 @@ public class Item_LineMap
         {
             _item_lineDTO.ID = Item_LineXPO.Oid;
             _item_lineDTO.Item_HeaderDTO.ID = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Oid : 0;
-            _item_lineDTO.Item_HeaderDTO.EnglishName = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.EnglishName : "Unnassigned";
-            _item_lineDTO.ItemHeaderNameWithPartNumberSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Serial} - {Item_LineXPO.Item_Header.EnglishName} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
-            _item_lineDTO.ItemNameWithManufactureSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Item_Header.EnglishName} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
-            _item_lineDTO.StationDTO.ID = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Oid : 0;
-            _item_lineDTO.StationDTO.Name = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Name : "Unnassigned";
-            _item_lineDTO.StatusDTO.ID = (Item_LineXPO.Status != null) ? Item_LineXPO.Status.Oid : 0;
-            _item_lineDTO.StatusDTO.Name = (Item_LineXPO.Status != null) ? Item_LineXPO.Status.Name : "Unnassigned";
-            _item_lineDTO.OwnerDTO.ID = (Item_LineXPO.Owner != null) ? Item_LineXPO.Owner.Oid : 0;
-            _item_lineDTO.OwnerDTO.Name = (Item_LineXPO.Owner != null) ? Item_LineXPO.Owner.Name : "Unnassigned";
-            _item_lineDTO.Item_SupportGroupDTO.ID = (Item_LineXPO.Item_SupportGroup != null) ? Item_LineXPO.Item_SupportGroup.Oid : 0;
+            _item_lineDTO.Item_HeaderDTO.Name = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Name : "Unnassigned";
+            _item_lineDTO.ItemHeaderNameWithPartNumberSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Serial} - {Item_LineXPO.Item_Header.Name} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
+            _item_lineDTO.ItemNameWithManufactureSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Item_Header.Name} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
+            _item_lineDTO.StationID = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Oid : 0;
+            _item_lineDTO.StationName = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Name : "Unnassigned";
+            _item_lineDTO.StatusID = (Item_LineXPO.Status != null) ? Item_LineXPO.Status.Oid : 0;
+            _item_lineDTO.StatusName = (Item_LineXPO.Status != null) ? Item_LineXPO.Status.Name : "Unnassigned";
+            _item_lineDTO.OwnerID = (Item_LineXPO.Owner != null) ? Item_LineXPO.Owner.Oid : 0;
+            _item_lineDTO.OwnerName = (Item_LineXPO.Owner != null) ? Item_LineXPO.Owner.Name : "Unnassigned";
+            _item_lineDTO.Item_SupportGroupID = (Item_LineXPO.Item_SupportGroup != null) ? Item_LineXPO.Item_SupportGroup.Oid : 0;
             _item_lineDTO.Serial = Item_LineXPO.Serial;
             _item_lineDTO.ManufactureSerialID = Item_LineXPO.ManufactureSerialID;
             _item_lineDTO.LegacyID = Item_LineXPO.LegacyID;
@@ -44,15 +44,15 @@ public class Item_LineMap
             _item_lineDTO.IsActive = Item_LineXPO.IsActive;
             _item_lineDTO.ImportInvoice = Item_LineXPO.ImportInvoice;
             _item_lineDTO.ShipmentReceiptNumber = Item_LineXPO.ShipmentReceiptNumber;
-            _item_lineDTO.SupplyTypeDTO.ID = (Item_LineXPO.SupplyType != null) ? Item_LineXPO.SupplyType.Oid : 0;
-            _item_lineDTO.SupplyTypeDTO.Name = (Item_LineXPO.SupplyType != null) ? Item_LineXPO.SupplyType.Name : "Unnassigned";
+            _item_lineDTO.SupplyTypeID = (Item_LineXPO.SupplyType != null) ? Item_LineXPO.SupplyType.Oid : 0;
+            _item_lineDTO.SupplyTypeName = (Item_LineXPO.SupplyType != null) ? Item_LineXPO.SupplyType.Name : "Unnassigned";
             _item_lineDTO.DeliveredDate = (Item_LineXPO.DeliveredDate.ToString() != DateTime.MinValue.ToString()) ? Item_LineXPO.DeliveredDate : (DateTime?)null;
             _item_lineDTO.DeliveredToID = (Item_LineXPO.DeliveredTo != null) ? Item_LineXPO.DeliveredTo.Oid : 0;
             _item_lineDTO.DeliveredToName = (Item_LineXPO.DeliveredTo != null) ? Item_LineXPO.DeliveredTo.Name : "Unassigned";
             _item_lineDTO.ImportInvoiceLine = Item_LineXPO.ImportInvoiceLine;
             _item_lineDTO.DeclarationNumber = Item_LineXPO.DeclarationNumber;
-            _item_lineDTO.TransactionOriginDTO.ID = (Item_LineXPO.TransactionOrigin != null) ? Item_LineXPO.TransactionOrigin.Oid : 0;
-            _item_lineDTO.TransactionOriginDTO.Name = (Item_LineXPO.TransactionOrigin != null) ? Item_LineXPO.TransactionOrigin.Name : "Unassigned";
+            _item_lineDTO.TransactionOriginID = (Item_LineXPO.TransactionOrigin != null) ? Item_LineXPO.TransactionOrigin.Oid : 0;
+            _item_lineDTO.TransactionOriginName = (Item_LineXPO.TransactionOrigin != null) ? Item_LineXPO.TransactionOrigin.Name : "Unassigned";
         }
         catch (Exception ex)
         {

@@ -20,9 +20,9 @@ public class UserDefined_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedXPO.Oid), UserDefinedDTO.UserDefinedIDArray));
             }
-            if (UserDefinedDTO.SupportGroupDTO.ID != null || UserDefinedDTO.SupportGroupDTO.ID > 0)
+            if (UserDefinedDTO.SupportGroupID != null || UserDefinedDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedXPO.SupportGroup), UserDefinedDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedXPO.SupportGroup), UserDefinedDTO.SupportGroupID));
             }
             if (UserDefinedDTO.SupportGroupIDArray != null && UserDefinedDTO.SupportGroupIDArray.Count() > 0)
             {
@@ -32,9 +32,9 @@ public class UserDefined_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedXPO.IsMandatory), UserDefinedDTO.IsMandatory));
             }
-            if (UserDefinedDTO.DataTypeDTO.ID != null || UserDefinedDTO.DataTypeDTO.ID > 0)
+            if (UserDefinedDTO.DataTypeID != null || UserDefinedDTO.DataTypeID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedXPO.DataType), UserDefinedDTO.DataTypeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedXPO.DataType), UserDefinedDTO.DataTypeID));
             }
             if (UserDefinedDTO.DataTypeIDArray != null && UserDefinedDTO.DataTypeIDArray.Count() > 0)
             {

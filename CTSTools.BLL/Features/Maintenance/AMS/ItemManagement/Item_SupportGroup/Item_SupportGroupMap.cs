@@ -14,10 +14,10 @@ public class Item_SupportGroupMap
         try
         {
             _item_supportgroupDTO.ID = Item_SupportGroupXPO.Oid;
-            _item_supportgroupDTO.Item_HeaderDTO.ID = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.Oid : 0;
-            _item_supportgroupDTO.Item_HeaderDTO.EnglishName = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.EnglishName : "Unnassigned";
-            _item_supportgroupDTO.SupportGroupDTO.ID = (Item_SupportGroupXPO.SupportGroup != null) ? Item_SupportGroupXPO.SupportGroup.Oid : 0;
-            _item_supportgroupDTO.SupportGroupDTO.EnglishName = (Item_SupportGroupXPO.SupportGroup != null) ? Item_SupportGroupXPO.SupportGroup.EnglishName : "Unnassigned";
+            _item_supportgroupDTO.Item_HeaderID = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.Oid : 0;
+            _item_supportgroupDTO.Item_HeaderName = (Item_SupportGroupXPO.Item_Header != null) ? Item_SupportGroupXPO.Item_Header.EnglishName : "Unnassigned";
+            _item_supportgroupDTO.SupportGroupID = (Item_SupportGroupXPO.SupportGroup != null) ? Item_SupportGroupXPO.SupportGroup.Oid : 0;
+            _item_supportgroupDTO.SupportGroupName = (Item_SupportGroupXPO.SupportGroup != null) ? Item_SupportGroupXPO.SupportGroup.EnglishName : "Unnassigned";
             _item_supportgroupDTO.AddedDate = (Item_SupportGroupXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? Item_SupportGroupXPO.AddedDate : (DateTime?)null;
             _item_supportgroupDTO.AddedByID = (Item_SupportGroupXPO.AddedBy != null) ? Item_SupportGroupXPO.AddedBy.Oid : 0;
             _item_supportgroupDTO.AddedByName = (Item_SupportGroupXPO.AddedBy != null) ? Item_SupportGroupXPO.AddedBy.Name : "Unnassigned";

@@ -8,7 +8,7 @@ public class Item_HeaderDTO
 {
     #region Base Properties
     public int? ID { get; set; }
-    public string EnglishName { get; set; }
+    public string Name { get; set; }
     public string Model { get; set; }
     public string Brand { get; set; }
     public bool? IsESD { get; set; }
@@ -29,6 +29,8 @@ public class Item_HeaderDTO
     #region Extended Properties
 
     public int?[] Item_HeaderIDArray { get; set; }
+    public int? ItemClassificationID { get; set; }
+    public string ItemClassificationName { get; set; }
     public ItemClassificationDTO ItemClassificationDTO { get; set; }
     public bool GetItemClassificationDTO { get; set; }
     public int?[] ItemClassificationIDArray { get; set; }
@@ -37,7 +39,6 @@ public class Item_HeaderDTO
     public FileDTO FileDTO { get; set; }
     public bool GetItemHeaderPicture { get; set; }
     public string ItemImg { get; set; }
-    public string Names { get; set; }
     public string NamesWithModel { get; set; }
     public int?[] UserDefinedIDArray { get; set; }
 
