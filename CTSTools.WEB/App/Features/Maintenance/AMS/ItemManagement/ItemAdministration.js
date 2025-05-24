@@ -1608,16 +1608,13 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             if (UserDTO.SupportGroupIDArray.length == 1) {
                 document.getElementById("hiddenUserSupportGroupID").value = UserDTO.SupportGroupIDArray[0]
                 //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
-
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
                 $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true }));
             } else {
                 //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
-
             }
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
-
             //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             $("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));

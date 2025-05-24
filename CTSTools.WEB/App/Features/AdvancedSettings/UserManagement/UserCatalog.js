@@ -190,7 +190,6 @@ async function InitializeUserCatalogControls() {
     });
 }
 function masterDetailTemplate(_, masterDetailOptions) {
-    debugger;
     return $('<div>').dxTabPanel({
         items: [{
             title: 'Permissions',
@@ -575,21 +574,16 @@ async function InitializeUser_RoleControls() {
     User_RoleActionButtons("Save");
 }
 function RoleTabTemplate(masterDetailData) {
-    debugger;
     return function () {
         //document.getElementById("User_RoleButton").addEventListener("click", ClearUser_RoleFields);
-        debugger;
         let _user_roleDataGrid;
         async function onDataGridInitialized(e) {
-            debugger;
             _user_roleDataGrid = e.component;
             let _user_roleDTO = await GetDXUser_RoleDataSource({ UserID: masterDetailData.ID })
             console.log(_user_roleDTO)
             console.log(masterDetailData.ID)
             _user_roleDataGrid.option('dataSource', _user_roleDTO);
-
         }
-        debugger;
         return $('<div>').addClass('form-container').dxForm({
             labelLocation: 'top',
             items: [
@@ -597,17 +591,15 @@ function RoleTabTemplate(masterDetailData) {
                     template: RoleButton(),
                 }
                 , {
-                    template: RoleGridTemplate(onDataGridInitialized, masterDetailData.ID),
+                    template: RoleGridTemplate(onDataGridInitialized),
                 }],
         });
     };
 }
-function RoleGridTemplate(onDataGridInitialized, UserID) {
-    debugger;
+function RoleGridTemplate(onDataGridInitialized) {
     return async function () {
-        debugger;
         //return $('<div>').dxDataGrid({
-        return $(`<div id="dxUser_RoleGrid${UserID}">`).dxDataGrid({
+        return $(`<div id="dxUser_RoleGrid">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
             keyExpr: "ID",
             paging: {

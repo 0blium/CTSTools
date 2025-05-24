@@ -30,19 +30,16 @@ function GetUserDTO() {
     return _userDTO;
 }
 async function FilterDataSourceBySupportGroups(UserDTO) {
-    debugger;
     if (UserDTO.RoleIDArray != null) {
-        if (UserDTO.SupportGroupIDArray != null && !UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
+        if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
+            $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
+            $("#dxSupportGroupMemberGrid").dxDataGrid("instance").option("dataSource", await GetDXSupportGroupMemberDataSource());
+        }
+        if (UserDTO.SupportGroupIDArray != null && UserDTO.RoleIDArray.includes(Role_Enum.Administrator)) {
             if (UserDTO.SupportGroupIDArray.length > 0) {
                 $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxSupportGroupMemberGrid").dxDataGrid("instance").option("dataSource", await GetDXSupportGroupMemberDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetSupportGroupDTO: true }));
-
             }
-
-        }
-        if (UserDTO.RoleIDArray.includes(Role_Enum.Administrator)) {
-            $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
-            $("#dxSupportGroupMemberGrid").dxDataGrid("instance").option("dataSource", await GetDXSupportGroupMemberDataSource());
         }
     }
 }
@@ -275,7 +272,6 @@ function PopulateSupportGroupMemberFields(data) {
 }
 
 function GetSupportGroupMemberDTO() {
-    debugger;
     let _supportGroupMemberDTO = {
         ID: $('#hiddenSupportGroupMemberID').val(),
         SupportGroupDTO: {
