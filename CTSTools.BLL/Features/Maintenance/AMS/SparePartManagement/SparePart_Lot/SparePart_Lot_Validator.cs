@@ -28,54 +28,51 @@ public class SparePart_Lot_Validator
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.PartNumber)}",
                 });
             }
-            if (SparePart_LotDTO.ProviderDTO.ID == null || SparePart_LotDTO.ProviderDTO.ID == 0)
+            if (SparePart_LotDTO.ProviderID == null || SparePart_LotDTO.ProviderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Provider Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.ProviderDTO)}",
+                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.ProviderID)}",
                 });
             }
-            if (SparePart_LotDTO.SparePartDTO.ID == null || SparePart_LotDTO.SparePartDTO.ID == 0)
+            if (SparePart_LotDTO.SparePartID == null || SparePart_LotDTO.SparePartID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePart Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SparePartDTO)}", 
                 });
             }
-            if (SparePart_LotDTO.SparePartInventoryDTO.ID == null || SparePart_LotDTO.SparePartInventoryDTO.ID == 0)
+            if (SparePart_LotDTO.SparePartInventoryID == null || SparePart_LotDTO.SparePartInventoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePartInventory Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SparePartInventoryDTO)}", 
                 });
             }
-            if (SparePart_LotDTO.SupportGroupDTO.ID == null || SparePart_LotDTO.SupportGroupDTO.ID == 0)
+            if (SparePart_LotDTO.SupportGroupID == null || SparePart_LotDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
-                    Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SupportGroupDTO)}", 
+                    Description = " Please, complete the missing information ", 
                 });
             }
-            if (SparePart_LotDTO.TransactionOriginDTO.ID == null || SparePart_LotDTO.TransactionOriginDTO.ID == 0)
+            if (SparePart_LotDTO.TransactionOriginID == null || SparePart_LotDTO.TransactionOriginID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "TransactionOrigin Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionOriginDTO)}",
+                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionOriginID)}",
                 });
             }
             if (string.IsNullOrEmpty(SparePart_LotDTO.TransactionNumber))
@@ -88,16 +85,6 @@ public class SparePart_Lot_Validator
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionNumber)}",
                 });
             }
-            //if (string.IsNullOrEmpty(SparePart_LotDTO.Serial) )
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false, 
-            //        Message = "Serial Field Empty", 
-            //        Description = " Please, complete the missing information ", 
-            //        Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.Serial)}", 
-            //    });
-            //}
             if (SparePart_LotDTO.Cost == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -177,54 +164,52 @@ public class SparePart_Lot_Validator
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.PartNumber)}",
                 });
             }
-            if (SparePart_LotDTO.ProviderDTO.ID == null || SparePart_LotDTO.ProviderDTO.ID == 0)
+            if (SparePart_LotDTO.ProviderID == null || SparePart_LotDTO.ProviderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Provider Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.ProviderDTO)}",
+                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.ProviderID)}",
                 });
             }
-            if (SparePart_LotDTO.SparePartDTO.ID == null || SparePart_LotDTO.SparePartDTO.ID == 0)
+            if (SparePart_LotDTO.SparePartID == null || SparePart_LotDTO.SparePartID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePart Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SparePartDTO)}",
+                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SparePartID)}",
                 });
             }
-            if (SparePart_LotDTO.SparePartInventoryDTO.ID == null || SparePart_LotDTO.SparePartInventoryDTO.ID == 0)
+            if (SparePart_LotDTO.SparePartInventoryID == null || SparePart_LotDTO.SparePartInventoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePartInventory Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SparePartInventoryDTO)}", 
                 });
             }
-            if (SparePart_LotDTO.SupportGroupDTO.ID == null || SparePart_LotDTO.SupportGroupDTO.ID == 0)
+            if (SparePart_LotDTO.SupportGroupID == null || SparePart_LotDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SupportGroupDTO)}", 
                 });
             }
-            if (SparePart_LotDTO.TransactionOriginDTO.ID == null || SparePart_LotDTO.TransactionOriginDTO.ID == 0)
+            if (SparePart_LotDTO.TransactionOriginID == null || SparePart_LotDTO.TransactionOriginID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "TransactionOrigin Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionOriginDTO)}",
+                    Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionOriginID)}",
                 });
             }
             if (string.IsNullOrEmpty(SparePart_LotDTO.TransactionNumber))
@@ -244,7 +229,6 @@ public class SparePart_Lot_Validator
                     Result = false,
                     Message = "Serial Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.Serial)}", 
                 });
             }
 

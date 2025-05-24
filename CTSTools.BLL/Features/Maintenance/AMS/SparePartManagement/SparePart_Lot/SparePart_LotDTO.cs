@@ -32,18 +32,28 @@ public class SparePart_LotDTO
     #region Extended Properties
     public string LotSerialWithSparePartName { get; set; }
     public int?[] SparePart_LotIDArray { get; set; }
+    public int? ProviderID { get; set; }
+    public string ProviderName { get; set; }
     public ProviderDTO ProviderDTO { get; set; }
     public bool GetProviderDTO { get; set; }
     public int?[] ProviderIDArray { get; set; }
+    public int? SparePartID { get; set; }
+    public string SparePartName { get; set; }
     public SparePartDTO SparePartDTO { get; set; }
     public bool GetSparePartDTO { get; set; }
     public int?[] SparePartIDArray { get; set; }
+    public int? SparePartInventoryID { get; set; }
+    public string SparePartInventoryName { get; set; }
     public SparePartInventoryDTO SparePartInventoryDTO { get; set; }
     public bool GetSparePartInventoryDTO { get; set; }
     public int?[] SparePartInventoryIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
+    public int? TransactionOriginID { get; set; }
+    public string TransactionOriginName { get; set; }
     public TransactionOriginDTO TransactionOriginDTO { get; set; }
     public bool GetTransactionOriginDTO { get; set; }
     public int?[] TransactionOriginIDArray { get; set; }

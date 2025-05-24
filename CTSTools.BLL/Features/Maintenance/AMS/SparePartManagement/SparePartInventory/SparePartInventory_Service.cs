@@ -27,11 +27,6 @@ public class SparePartInventory_Service
             SparePartInventoryDTO.AddedDate = DateTime.Now;
             _ValidationResultDTO = SparePartInventory_Repository.CreateSparePartInventory(SparePartInventoryDTO);
         }
-        //save changeLog
-        if (_ValidationResultDTO.Result)
-        {
-            //ChangeLog_Service.BuildChangeLogActionCreate<SparePartInventoryDTO>(SparePartInventoryDTO, (int)SparePartInventoryDTO.AddedByID, (int)SparePartInventoryDTO.ID);
-        }
         return _ValidationResultDTO;
     }
     public static ValidationResultDTO UpdateSparePartInventory_Global(SparePartInventoryDTO SparePartInventoryDTO)
@@ -49,10 +44,6 @@ public class SparePartInventory_Service
             SparePartInventoryDTO.LastUpdate = DateTime.Now;
             _ValidationResultDTO = SparePartInventory_Repository.UpdateSparePartInventory(SparePartInventoryDTO);
         }
-        if (_ValidationResultDTO.Result)
-        {
-            //ChangeLog_Service.BuildChangeLogActionUpdate<SparePartInventoryDTO>(_previousSparePartInventoryDTO, SparePartInventoryDTO, (int)SparePartInventoryDTO.LastUpdateByID, (int)SparePartInventoryDTO.ID);
-        }
         return _ValidationResultDTO;
     }
     public static ValidationResultDTO DeleteSparePartInventory_Global(SparePartInventoryDTO SparePartInventoryDTO)
@@ -63,11 +54,6 @@ public class SparePartInventory_Service
         {
             _ValidationResultDTO = SparePartInventory_Repository.DeleteSparePartInventory(SparePartInventoryDTO);
         }
-        if (_ValidationResultDTO.Result)
-        {
-            //ChangeLog_Service.BuildChangeLogActionDelete<SparePartInventoryDTO>(_previousSparePartInventoryDTO, (int)SparePartInventoryDTO.LastUpdateByID, (int)SparePartInventoryDTO.ID);
-        }
-
         return _ValidationResultDTO;
     }
     public static List<SparePartInventoryDTO> GetSparePartInventoryList_Global(SparePartInventoryDTO SparePartInventoryDTO, PagedResultDTO<SparePartInventoryDTO> PagedResultDTO = null)
@@ -109,7 +95,7 @@ public class SparePartInventory_Service
         {
             if (SparePartInventoryDTO.GetSparePartDTO)
             {
-                SparePartInventoryDTO.SparePartDTO.SparePartIDArray = SparePartInventoryList.GroupBy(g => g.SparePartDTO.ID)
+                SparePartInventoryDTO.SparePartDTO.SparePartIDArray = SparePartInventoryList.GroupBy(g => g.SparePartID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -118,7 +104,7 @@ public class SparePartInventory_Service
             }
             if (SparePartInventoryDTO.GetSupportGroupDTO)
             {
-                SparePartInventoryDTO.SupportGroupDTO.SupportGroupIDArray = SparePartInventoryList.GroupBy(g => g.SupportGroupDTO.ID)
+                SparePartInventoryDTO.SupportGroupDTO.SupportGroupIDArray = SparePartInventoryList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -127,13 +113,13 @@ public class SparePartInventory_Service
             }
             foreach (var _sparepartinventoryDTO in SparePartInventoryList)
             {
-                if (SparePartInventoryDTO.GetSparePartDTO && _sparepartDict.ContainsKey(_sparepartinventoryDTO.SparePartDTO.ID))
+                if (SparePartInventoryDTO.GetSparePartDTO && _sparepartDict.ContainsKey(_sparepartinventoryDTO.SparePartID))
                 {
-                    _sparepartinventoryDTO.SparePartDTO = _sparepartDict[_sparepartinventoryDTO.SparePartDTO.ID];
+                    _sparepartinventoryDTO.SparePartDTO = _sparepartDict[_sparepartinventoryDTO.SparePartID];
                 }
-                if (SparePartInventoryDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_sparepartinventoryDTO.SupportGroupDTO.ID))
+                if (SparePartInventoryDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_sparepartinventoryDTO.SupportGroupID))
                 {
-                    _sparepartinventoryDTO.SupportGroupDTO = _supportgroupDict[_sparepartinventoryDTO.SupportGroupDTO.ID];
+                    _sparepartinventoryDTO.SupportGroupDTO = _supportgroupDict[_sparepartinventoryDTO.SupportGroupID];
                 }
                 _sparepartinventoryglobalList.Add(_sparepartinventoryDTO);
             }
@@ -189,7 +175,7 @@ public class SparePartInventory_Service
                         if (_validationResultDTO.Result)
                         {
                             //get sparepart Lot
-                            var _sparePart_LotDTO = new SparePart_LotDTO { ID = _sparepartUsageDTO.SparePart_LotDTO.ID, IsActive = true };
+                            var _sparePart_LotDTO = new SparePart_LotDTO { ID = _sparepartUsageDTO.SparePart_LotID, IsActive = true };
                             _sparePart_LotDTO = SparePart_Lot_Service.GetSparePart_LotList_Global(_sparePart_LotDTO).Where(w => w.AvailableQty > 0).FirstOrDefault();
 
                             //Validate if the available Qty  of lot is greater than Sparepart usage in ticket
@@ -226,7 +212,7 @@ public class SparePartInventory_Service
                         var _sparePartInventoryDTO = GetSparePartInventoryList_Global(
                             new SparePartInventoryDTO
                             {
-                                ID = _sparepartUsageDTO.SparePartInventoryDTO.ID
+                                ID = _sparepartUsageDTO.SparePartInventoryID
                             }).FirstOrDefault();
                         _sparePartInventoryDTO.AvailableQty -= _sparepartUsageDTO.Quantity;
                         _sparePartInventoryDTO.LastUpdateByID = SparePartUsageDTO.LastUpdateByID;

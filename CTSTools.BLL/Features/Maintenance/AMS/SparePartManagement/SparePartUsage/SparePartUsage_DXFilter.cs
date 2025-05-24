@@ -20,25 +20,25 @@ public class SparePartUsage_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePartUsageXPO.Oid), SparePartUsageDTO.SparePartUsageIDArray));
             }
-            if (SparePartUsageDTO.TicketDTO.ID != null || SparePartUsageDTO.TicketDTO.ID > 0)
+            if (SparePartUsageDTO.TicketID != null || SparePartUsageDTO.TicketID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.Ticket), SparePartUsageDTO.TicketDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.Ticket), SparePartUsageDTO.TicketID));
             }
             if (SparePartUsageDTO.TicketIDArray != null && SparePartUsageDTO.TicketIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePartUsageXPO.Ticket), SparePartUsageDTO.TicketIDArray));
             }
-            if (SparePartUsageDTO.SparePartInventoryDTO.ID != null || SparePartUsageDTO.SparePartInventoryDTO.ID > 0)
+            if (SparePartUsageDTO.SparePartInventoryID != null || SparePartUsageDTO.SparePartInventoryID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.SparePartInventory), SparePartUsageDTO.SparePartInventoryDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.SparePartInventory), SparePartUsageDTO.SparePartInventoryID));
             }
             if (SparePartUsageDTO.SparePartInventoryIDArray != null && SparePartUsageDTO.SparePartInventoryIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePartUsageXPO.SparePartInventory), SparePartUsageDTO.SparePartInventoryIDArray));
             }
-            if (SparePartUsageDTO.Item_LineDTO.ID != null || SparePartUsageDTO.Item_LineDTO.ID > 0)
+            if (SparePartUsageDTO.Item_LineID != null || SparePartUsageDTO.Item_LineID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.Item_Line), SparePartUsageDTO.Item_LineDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.Item_Line), SparePartUsageDTO.Item_LineID));
             }
             if (SparePartUsageDTO.Item_LineIDArray != null && SparePartUsageDTO.Item_LineIDArray.Count() > 0)
             {
@@ -48,9 +48,9 @@ public class SparePartUsage_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.Quantity), SparePartUsageDTO.Quantity));
             }
-            if (SparePartUsageDTO.SparePart_LotDTO.ID != null || SparePartUsageDTO.SparePart_LotDTO.ID > 0)
+            if (SparePartUsageDTO.SparePart_LotID != null || SparePartUsageDTO.SparePart_LotID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.SparePart_Lot), SparePartUsageDTO.SparePart_LotDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePartUsageXPO.SparePart_Lot), SparePartUsageDTO.SparePart_LotID));
             }
             if (SparePartUsageDTO.SparePart_LotIDArray != null && SparePartUsageDTO.SparePart_LotIDArray.Count() > 0)
             {

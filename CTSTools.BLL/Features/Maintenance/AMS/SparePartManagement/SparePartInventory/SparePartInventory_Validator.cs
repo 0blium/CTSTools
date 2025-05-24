@@ -19,34 +19,32 @@ public class SparePartInventory_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (SparePartInventoryDTO.SparePartDTO.ID == null || SparePartInventoryDTO.SparePartDTO.ID == 0)
+            if (SparePartInventoryDTO.SparePartID == null || SparePartInventoryDTO.SparePartID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePart Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartInventory)}{nameof(SparePartInventoryDTO.SparePartDTO)}", 
                 });
             }
-            if (SparePartInventoryDTO.SupportGroupDTO.ID == null || SparePartInventoryDTO.SupportGroupDTO.ID == 0)
+            if (SparePartInventoryDTO.SupportGroupID == null || SparePartInventoryDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartInventory)}{nameof(SparePartInventoryDTO.SupportGroupDTO)}", 
                 });
             }
 
-            if (!(SparePartInventoryDTO.SparePartDTO.ID == null || SparePartInventoryDTO.SparePartDTO.ID == 0) && !(SparePartInventoryDTO.SupportGroupDTO.ID == null || SparePartInventoryDTO.SupportGroupDTO.ID == 0))
+            if (!(SparePartInventoryDTO.SparePartID == null || SparePartInventoryDTO.SparePartID == 0) && !(SparePartInventoryDTO.SupportGroupID == null || SparePartInventoryDTO.SupportGroupID == 0))
             {
                 var _sparePartDTO = SparePartInventory_Service.GetSparePartInventoryList_Global(
                     new SparePartInventoryDTO
                     {
-                        SparePartDTO = SparePartInventoryDTO.SparePartDTO,
-                        SupportGroupDTO = SparePartInventoryDTO.SupportGroupDTO
+                        SparePartID = SparePartInventoryDTO.SparePartID,
+                        SupportGroupID = SparePartInventoryDTO.SupportGroupID
                     }).FirstOrDefault();
                 if (_sparePartDTO != null)
                 {
@@ -107,7 +105,7 @@ public class SparePartInventory_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (SparePartInventoryDTO.SparePartDTO.ID == null || SparePartInventoryDTO.SparePartDTO.ID == 0)
+            if (SparePartInventoryDTO.SparePartID == null || SparePartInventoryDTO.SparePartID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -117,7 +115,7 @@ public class SparePartInventory_Validator
                     Data = $"{nameof(SparePartInventory)}{nameof(SparePartInventoryDTO.SparePartDTO)}",
                 });
             }
-            if (SparePartInventoryDTO.SupportGroupDTO.ID == null || SparePartInventoryDTO.SupportGroupDTO.ID == 0)
+            if (SparePartInventoryDTO.SupportGroupID == null || SparePartInventoryDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

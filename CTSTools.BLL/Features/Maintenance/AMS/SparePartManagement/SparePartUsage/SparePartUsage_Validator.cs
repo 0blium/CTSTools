@@ -22,14 +22,13 @@ public class SparePartUsage_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (SparePartUsageDTO.TicketDTO.ID == null || SparePartUsageDTO.TicketDTO.ID == 0)
+            if (SparePartUsageDTO.TicketID == null || SparePartUsageDTO.TicketID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Ticket Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.TicketDTO)}", 
                 });
             }
             else
@@ -38,10 +37,10 @@ public class SparePartUsage_Validator
                 var _ticketDTO = Ticket_Service.GetTicketList_Global(
                     new TicketDTO
                     {
-                        ID = SparePartUsageDTO.TicketDTO.ID
+                        ID = SparePartUsageDTO.TicketID
                     }).FirstOrDefault();
 
-                if (_ticketDTO.StatusDTO.ID == (int)Statuses_Enum.Closed)
+                if (_ticketDTO.StatusID == (int)Statuses_Enum.Closed)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -52,35 +51,32 @@ public class SparePartUsage_Validator
                 }
             }
 
-            if (SparePartUsageDTO.SparePartInventoryDTO.ID == null || SparePartUsageDTO.SparePartInventoryDTO.ID == 0)
+            if (SparePartUsageDTO.SparePartInventoryID == null || SparePartUsageDTO.SparePartInventoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePartInventory Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.SparePartInventoryDTO)}", 
                 });
             }
-            if (SparePartUsageDTO.Item_LineDTO.ID == null || SparePartUsageDTO.Item_LineDTO.ID == 0)
+            if (SparePartUsageDTO.Item_LineID == null || SparePartUsageDTO.Item_LineID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.SparePartInventoryDTO)}", 
                 });
             }
 
-            if (SparePartUsageDTO.SparePart_LotDTO.ID == null || SparePartUsageDTO.SparePart_LotDTO.ID == 0)
+            if (SparePartUsageDTO.SparePart_LotID == null || SparePartUsageDTO.SparePart_LotID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SparePart_Lot Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.SparePart_LotDTO)}", 
                 });
             }
             else
@@ -89,7 +85,7 @@ public class SparePartUsage_Validator
                 var _sparePart_LotDTO = SparePart_Lot_Service.GetSparePart_LotList_Global(
                     new SparePart_LotDTO
                     {
-                        ID = SparePartUsageDTO.SparePart_LotDTO.ID
+                        ID = SparePartUsageDTO.SparePart_LotID
                     }).FirstOrDefault();
 
                 if (_sparePart_LotDTO?.AvailableQty < SparePartUsageDTO.Quantity)
@@ -102,14 +98,14 @@ public class SparePartUsage_Validator
                     });
                 }
             }
-            if (SparePartUsageDTO.SparePart_LotDTO?.ID != null && SparePartUsageDTO.SparePart_LotDTO?.ID != 0)
+            if (SparePartUsageDTO.SparePart_LotID != null && SparePartUsageDTO.SparePart_LotID != 0)
             {
                 // Validate if SparePart_Lot already exist on the ticket
                 var _sparePartUsageDTO = SparePartUsage_Service.GetSparePartUsageList_Global(
                     new SparePartUsageDTO
                     {
-                        SparePart_LotDTO = SparePartUsageDTO.SparePart_LotDTO,
-                        TicketDTO = SparePartUsageDTO.TicketDTO,
+                        SparePart_LotID = SparePartUsageDTO.SparePart_LotID,
+                        TicketID = SparePartUsageDTO.TicketID,
                     }).FirstOrDefault();
                 if (_sparePartUsageDTO != null)
                 {
@@ -180,7 +176,7 @@ public class SparePartUsage_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (SparePartUsageDTO.TicketDTO.ID == null || SparePartUsageDTO.TicketDTO.ID == 0)
+            if (SparePartUsageDTO.TicketID == null || SparePartUsageDTO.TicketID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -190,7 +186,7 @@ public class SparePartUsage_Validator
                     Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.TicketDTO)}",
                 });
             }
-            if (SparePartUsageDTO.SparePartInventoryDTO.ID == null || SparePartUsageDTO.SparePartInventoryDTO.ID == 0)
+            if (SparePartUsageDTO.SparePartInventoryID == null || SparePartUsageDTO.SparePartInventoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -200,7 +196,7 @@ public class SparePartUsage_Validator
                     Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.SparePartInventoryDTO)}",
                 });
             }
-            if (SparePartUsageDTO.Item_LineDTO.ID == null || SparePartUsageDTO.Item_LineDTO.ID == 0)
+            if (SparePartUsageDTO.Item_LineID == null || SparePartUsageDTO.Item_LineID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -210,7 +206,7 @@ public class SparePartUsage_Validator
                     Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.Item_LineDTO)}",
                 });
             }
-            if (SparePartUsageDTO.SparePart_LotDTO.ID == null || SparePartUsageDTO.SparePart_LotDTO.ID == 0)
+            if (SparePartUsageDTO.SparePart_LotID == null || SparePartUsageDTO.SparePart_LotID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -275,10 +271,10 @@ public class SparePartUsage_Validator
             var _ticketDTO = Ticket_Service.GetTicketList_Global(
                 new TicketDTO
                 {
-                    ID = SparePartUsageDTO.TicketDTO.ID
+                    ID = SparePartUsageDTO.TicketID
                 }).FirstOrDefault();
 
-            if (_ticketDTO.StatusDTO.ID == (int)Statuses_Enum.Closed)
+            if (_ticketDTO.StatusID == (int)Statuses_Enum.Closed)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

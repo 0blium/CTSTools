@@ -25,15 +25,22 @@ public class SparePartUsageDTO
     #region Extended Properties
 
     public int?[] SparePartUsageIDArray { get; set; }
+    public int? TicketID { get; set; }
+    public string TicketName { get; set; }
     public TicketDTO TicketDTO { get; set; }
     public bool GetTicketDTO { get; set; }
     public int?[] TicketIDArray { get; set; }
+    public int? SparePartInventoryID { get; set; }
+    public string SparePartInventoryName { get; set; }
     public SparePartInventoryDTO SparePartInventoryDTO { get; set; }
     public bool GetSparePartInventoryDTO { get; set; }
     public int?[] SparePartInventoryIDArray { get; set; }
+    public int? Item_LineID { get; set; }
     public Item_LineDTO Item_LineDTO { get; set; }
     public bool GetItem_LineDTO { get; set; }
     public int?[] Item_LineIDArray { get; set; }
+    public int? SparePart_LotID { get; set; }
+    public string SparePart_LotName { get; set; }
     public SparePart_LotDTO SparePart_LotDTO { get; set; }
     public bool GetSparePart_LotDTO { get; set; }
     public int?[] SparePart_LotIDArray { get; set; }
@@ -42,6 +49,8 @@ public class SparePartUsageDTO
     public DateTime EndAddedDate { get; set; }
     public int?[] SparePartIDArray { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     #endregion
     #endregion

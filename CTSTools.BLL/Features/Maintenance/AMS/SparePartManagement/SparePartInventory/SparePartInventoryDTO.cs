@@ -24,9 +24,13 @@ public class SparePartInventoryDTO
     #region Extended Properties
 
     public int?[] SparePartInventoryIDArray { get; set; }
+    public int? SparePartID { get; set; }
+    public string SparePartName { get; set; }
     public SparePartDTO SparePartDTO { get; set; }
     public bool GetSparePartDTO { get; set; }
     public int?[] SparePartIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }

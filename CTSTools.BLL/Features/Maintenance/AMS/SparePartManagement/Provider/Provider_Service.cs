@@ -61,7 +61,6 @@ public class Provider_Service
             // if Provider is empty, return list
             _providerglobalList = _providerList;
 
-
         }
         catch (Exception ex)
         {

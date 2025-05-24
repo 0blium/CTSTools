@@ -97,7 +97,7 @@ public class SparePartUsage_Service
         {
             if (SparePartUsageDTO.GetTicketDTO)
             {
-                SparePartUsageDTO.TicketDTO.TicketIDArray = SparePartUsageList.GroupBy(g => g.TicketDTO.ID)
+                SparePartUsageDTO.TicketDTO.TicketIDArray = SparePartUsageList.GroupBy(g => g.TicketID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -106,7 +106,7 @@ public class SparePartUsage_Service
             }
             if (SparePartUsageDTO.GetSparePartInventoryDTO)
             {
-                SparePartUsageDTO.SparePartInventoryDTO.SparePartInventoryIDArray = SparePartUsageList.GroupBy(g => g.SparePartInventoryDTO.ID)
+                SparePartUsageDTO.SparePartInventoryDTO.SparePartInventoryIDArray = SparePartUsageList.GroupBy(g => g.SparePartInventoryID)
                         .Select(s => s.Key)
                         .ToArray();
                 SparePartUsageDTO.SparePartInventoryDTO.SparePartDTO.GetImage = true;
@@ -115,7 +115,7 @@ public class SparePartUsage_Service
             }
             if (SparePartUsageDTO.GetItem_LineDTO)
             {
-                SparePartUsageDTO.Item_LineDTO.Item_LineIDArray = SparePartUsageList.GroupBy(g => g.Item_LineDTO.ID)
+                SparePartUsageDTO.Item_LineDTO.Item_LineIDArray = SparePartUsageList.GroupBy(g => g.Item_LineID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -124,7 +124,7 @@ public class SparePartUsage_Service
             }
             if (SparePartUsageDTO.GetSparePart_LotDTO)
             {
-                SparePartUsageDTO.SparePart_LotDTO.SparePart_LotIDArray = SparePartUsageList.GroupBy(g => g.SparePart_LotDTO.ID)
+                SparePartUsageDTO.SparePart_LotDTO.SparePart_LotIDArray = SparePartUsageList.GroupBy(g => g.SparePart_LotID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -133,21 +133,21 @@ public class SparePartUsage_Service
             }
             foreach (var _sparepartusageDTO in SparePartUsageList)
             {
-                if (SparePartUsageDTO.GetTicketDTO && _ticketDict.ContainsKey(_sparepartusageDTO.TicketDTO.ID))
+                if (SparePartUsageDTO.GetTicketDTO && _ticketDict.ContainsKey(_sparepartusageDTO.TicketID))
                 {
-                    _sparepartusageDTO.TicketDTO = _ticketDict[_sparepartusageDTO.TicketDTO.ID];
+                    _sparepartusageDTO.TicketDTO = _ticketDict[_sparepartusageDTO.TicketID];
                 }
-                if (SparePartUsageDTO.GetSparePartInventoryDTO && _sparepartinventoryDict.ContainsKey(_sparepartusageDTO.SparePartInventoryDTO.ID))
+                if (SparePartUsageDTO.GetSparePartInventoryDTO && _sparepartinventoryDict.ContainsKey(_sparepartusageDTO.SparePartInventoryID))
                 {
-                    _sparepartusageDTO.SparePartInventoryDTO = _sparepartinventoryDict[_sparepartusageDTO.SparePartInventoryDTO.ID];
+                    _sparepartusageDTO.SparePartInventoryDTO = _sparepartinventoryDict[_sparepartusageDTO.SparePartInventoryID];
                 }
-                if (SparePartUsageDTO.GetItem_LineDTO && _item_lineDict.ContainsKey(_sparepartusageDTO.Item_LineDTO.ID))
+                if (SparePartUsageDTO.GetItem_LineDTO && _item_lineDict.ContainsKey(_sparepartusageDTO.Item_LineID))
                 {
-                    _sparepartusageDTO.Item_LineDTO = _item_lineDict[_sparepartusageDTO.Item_LineDTO.ID];
+                    _sparepartusageDTO.Item_LineDTO = _item_lineDict[_sparepartusageDTO.Item_LineID];
                 }
-                if (SparePartUsageDTO.GetSparePart_LotDTO && _sparepart_lotDict.ContainsKey(_sparepartusageDTO.SparePart_LotDTO.ID))
+                if (SparePartUsageDTO.GetSparePart_LotDTO && _sparepart_lotDict.ContainsKey(_sparepartusageDTO.SparePart_LotID))
                 {
-                    _sparepartusageDTO.SparePart_LotDTO = _sparepart_lotDict[_sparepartusageDTO.SparePart_LotDTO.ID];
+                    _sparepartusageDTO.SparePart_LotDTO = _sparepart_lotDict[_sparepartusageDTO.SparePart_LotID];
                 }
                 _sparepartusageglobalList.Add(_sparepartusageDTO);
             }

@@ -16,10 +16,10 @@ public class SparePartInventoryMap
             _sparepartinventoryDTO.ID = SparePartInventoryXPO.Oid;
             _sparepartinventoryDTO.MaxQty = SparePartInventoryXPO.MaxQty;
             _sparepartinventoryDTO.MinQty = SparePartInventoryXPO.MinQty;
-            _sparepartinventoryDTO.SparePartDTO.ID = (SparePartInventoryXPO.SparePart != null) ? SparePartInventoryXPO.SparePart.Oid : 0;
-            _sparepartinventoryDTO.SparePartDTO.Name = (SparePartInventoryXPO.SparePart != null) ? SparePartInventoryXPO.SparePart.Name : "Unnassigned";
-            _sparepartinventoryDTO.SupportGroupDTO.ID = (SparePartInventoryXPO.SupportGroup != null) ? SparePartInventoryXPO.SupportGroup.Oid : 0;
-            _sparepartinventoryDTO.SupportGroupDTO.EnglishName = (SparePartInventoryXPO.SupportGroup != null) ? SparePartInventoryXPO.SupportGroup.EnglishName : "Unnassigned";
+            _sparepartinventoryDTO.SparePartID = (SparePartInventoryXPO.SparePart != null) ? SparePartInventoryXPO.SparePart.Oid : 0;
+            _sparepartinventoryDTO.SparePartName = (SparePartInventoryXPO.SparePart != null) ? SparePartInventoryXPO.SparePart.Name : "Unnassigned";
+            _sparepartinventoryDTO.SupportGroupID = (SparePartInventoryXPO.SupportGroup != null) ? SparePartInventoryXPO.SupportGroup.Oid : 0;
+            _sparepartinventoryDTO.SupportGroupName = (SparePartInventoryXPO.SupportGroup != null) ? SparePartInventoryXPO.SupportGroup.Name : "Unnassigned";
             _sparepartinventoryDTO.AvailableQty = SparePartInventoryXPO.AvailableQty;
             _sparepartinventoryDTO.AddedDate = (SparePartInventoryXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? SparePartInventoryXPO.AddedDate : (DateTime?)null;
             _sparepartinventoryDTO.AddedByID = (SparePartInventoryXPO.AddedBy != null) ? SparePartInventoryXPO.AddedBy.Oid : 0;
@@ -45,8 +45,8 @@ public class SparePartInventoryMap
             _sparepartinventoryXPO = SparePartInventoryDTO.ID == null || SparePartInventoryDTO.ID == 0 ? new SparePartInventoryXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<SparePartInventoryXPO>(SparePartInventoryDTO.ID);
             _sparepartinventoryXPO.MaxQty = _sparepartinventoryXPO.MaxQty == SparePartInventoryDTO.MaxQty ? _sparepartinventoryXPO.MaxQty : SparePartInventoryDTO.MaxQty;
             _sparepartinventoryXPO.MinQty = _sparepartinventoryXPO.MinQty == SparePartInventoryDTO.MinQty ? _sparepartinventoryXPO.MinQty : SparePartInventoryDTO.MinQty;
-            _sparepartinventoryXPO.SparePart = (_sparepartinventoryXPO.SparePart?.Oid == SparePartInventoryDTO.SparePartDTO.ID) ? _sparepartinventoryXPO.SparePart : UnitOfWork.GetObjectByKey<SparePartXPO>(SparePartInventoryDTO.SparePartDTO.ID);
-            _sparepartinventoryXPO.SupportGroup = (_sparepartinventoryXPO.SupportGroup?.Oid == SparePartInventoryDTO.SupportGroupDTO.ID) ? _sparepartinventoryXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(SparePartInventoryDTO.SupportGroupDTO.ID);
+            _sparepartinventoryXPO.SparePart = (_sparepartinventoryXPO.SparePart?.Oid == SparePartInventoryDTO.SparePartID) ? _sparepartinventoryXPO.SparePart : UnitOfWork.GetObjectByKey<SparePartXPO>(SparePartInventoryDTO.SparePartID);
+            _sparepartinventoryXPO.SupportGroup = (_sparepartinventoryXPO.SupportGroup?.Oid == SparePartInventoryDTO.SupportGroupID) ? _sparepartinventoryXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(SparePartInventoryDTO.SupportGroupID);
             _sparepartinventoryXPO.AvailableQty = _sparepartinventoryXPO.AvailableQty == SparePartInventoryDTO.AvailableQty ? _sparepartinventoryXPO.AvailableQty : SparePartInventoryDTO.AvailableQty;
             _sparepartinventoryXPO.AddedDate = _sparepartinventoryXPO.AddedDate ?? SparePartInventoryDTO.AddedDate;
             _sparepartinventoryXPO.AddedBy = _sparepartinventoryXPO.AddedBy ?? UnitOfWork.GetObjectByKey<UserXPO>(SparePartInventoryDTO.AddedByID);

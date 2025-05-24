@@ -58,16 +58,6 @@ public class SparePart_Validator
                 });
             }
 
-            //if (SparePartDTO.FileDTO?.Data == null)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Picture Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
-
             if (SparePartDTO.AddedByID == null || SparePartDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO

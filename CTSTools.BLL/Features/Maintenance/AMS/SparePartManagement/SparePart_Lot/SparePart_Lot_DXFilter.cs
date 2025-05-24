@@ -28,41 +28,41 @@ public class SparePart_Lot_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.AvailableQty), SparePart_LotDTO.AvailableQty));
             }
-            if (SparePart_LotDTO.ProviderDTO.ID != null || SparePart_LotDTO.ProviderDTO.ID > 0)
+            if (SparePart_LotDTO.ProviderID != null || SparePart_LotDTO.ProviderID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.Provider), SparePart_LotDTO.ProviderDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.Provider), SparePart_LotDTO.ProviderID));
             }
             if (SparePart_LotDTO.ProviderIDArray != null && SparePart_LotDTO.ProviderIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePart_LotXPO.Provider), SparePart_LotDTO.ProviderIDArray));
             }
-            if (SparePart_LotDTO.SparePartDTO.ID != null || SparePart_LotDTO.SparePartDTO.ID > 0)
+            if (SparePart_LotDTO.SparePartID != null || SparePart_LotDTO.SparePartID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.SparePart), SparePart_LotDTO.SparePartDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.SparePart), SparePart_LotDTO.SparePartID));
             }
             if (SparePart_LotDTO.SparePartIDArray != null && SparePart_LotDTO.SparePartIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePart_LotXPO.SparePart), SparePart_LotDTO.SparePartIDArray));
             }
-            if (SparePart_LotDTO.SparePartInventoryDTO.ID != null || SparePart_LotDTO.SparePartInventoryDTO.ID > 0)
+            if (SparePart_LotDTO.SparePartInventoryID != null || SparePart_LotDTO.SparePartInventoryID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.SparePartInventory), SparePart_LotDTO.SparePartInventoryDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.SparePartInventory), SparePart_LotDTO.SparePartInventoryID));
             }
             if (SparePart_LotDTO.SparePartInventoryIDArray != null && SparePart_LotDTO.SparePartInventoryIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePart_LotXPO.SparePartInventory), SparePart_LotDTO.SparePartInventoryIDArray));
             }
-            if (SparePart_LotDTO.SupportGroupDTO.ID != null || SparePart_LotDTO.SupportGroupDTO.ID > 0)
+            if (SparePart_LotDTO.SupportGroupID != null || SparePart_LotDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.SupportGroup), SparePart_LotDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.SupportGroup), SparePart_LotDTO.SupportGroupID));
             }
             if (SparePart_LotDTO.SupportGroupIDArray != null && SparePart_LotDTO.SupportGroupIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(SparePart_LotXPO.SupportGroup), SparePart_LotDTO.SupportGroupIDArray));
             }
-            if (SparePart_LotDTO.TransactionOriginDTO.ID != null || SparePart_LotDTO.TransactionOriginDTO.ID > 0)
+            if (SparePart_LotDTO.TransactionOriginID != null || SparePart_LotDTO.TransactionOriginID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.TransactionOrigin), SparePart_LotDTO.TransactionOriginDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(SparePart_LotXPO.TransactionOrigin), SparePart_LotDTO.TransactionOriginID));
             }
             if (SparePart_LotDTO.TransactionOriginIDArray != null && SparePart_LotDTO.TransactionOriginIDArray.Count() > 0)
             {
