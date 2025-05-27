@@ -16,15 +16,13 @@ public class Item_Header_Service
     public static ValidationResultDTO CreateItem_Header_Global(Item_HeaderDTO Item_HeaderDTO)
     {
         var _ValidationResultDTO = Item_Header_Validator.CreateItem_Header_Validation(Item_HeaderDTO);
-        //if (_ValidationResultDTO.Result && !(bool)Item_HeaderDTO.IsItemCreated)
-        if (_ValidationResultDTO.Result)
+        if (_ValidationResultDTO.Result && (Item_HeaderDTO.ID == null || Item_HeaderDTO.ID == 0))
         {
             Item_HeaderDTO.AddedDate = DateTime.Now;
             _ValidationResultDTO = Item_Header_Repository.CreateItem_Header(Item_HeaderDTO);
             Item_HeaderDTO.ID = _ValidationResultDTO.Data;
         }
         //Save Item Picture
-        //if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.Data != null && !(bool)Item_HeaderDTO.IsItemCreated)
         if (_ValidationResultDTO.Result && Item_HeaderDTO.FileDTO != null && Item_HeaderDTO.FileDTO.Data != null)
         {
             Item_HeaderDTO.FileDTO.ID = (int)Item_HeaderDTO.ID;

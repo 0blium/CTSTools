@@ -266,6 +266,8 @@ async function GetItem_SupportGroupIDByURL() {
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let _item_SupportGroupList = await GetItem_SupportGroupInformation(_item_SupportGroupDTO);
     if (_item_SupportGroupID != null && _item_SupportGroupID != undefined && _item_SupportGroupID != 0 && !Number.isNaN(_item_SupportGroupID) && (ItemLineList.length != 0 || _item_SupportGroupList.length != 0)) {
+        console.log(_item_SupportGroupList);
+        console.log(_item_SupportGroupList[0].Item_HeaderDTO.ID);
         document.getElementById('hiddenItemLineSupportGroupID').value = _item_SupportGroupID;
         document.getElementById('hiddenItemHeaderID').value = _item_SupportGroupList[0].Item_HeaderDTO.ID;
         document.getElementById('hiddenItemSupportGroupID').value = _item_SupportGroupList[0].SupportGroupDTO.ID;

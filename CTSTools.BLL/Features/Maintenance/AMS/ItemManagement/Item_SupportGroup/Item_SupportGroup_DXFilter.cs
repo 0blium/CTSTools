@@ -24,6 +24,10 @@ public class Item_SupportGroup_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderDTO.ID));
             }
+            if (Item_SupportGroupDTO.Item_HeaderID != null || Item_SupportGroupDTO.Item_HeaderID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderID));
+            }
             if (Item_SupportGroupDTO.Item_HeaderIDArray != null && Item_SupportGroupDTO.Item_HeaderIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderIDArray));
@@ -31,6 +35,10 @@ public class Item_SupportGroup_DXFilter
             if (Item_SupportGroupDTO.SupportGroupDTO.ID != null || Item_SupportGroupDTO.SupportGroupDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.SupportGroup), Item_SupportGroupDTO.SupportGroupDTO.ID));
+            }
+            if (Item_SupportGroupDTO.SupportGroupID != null || Item_SupportGroupDTO.SupportGroupID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.SupportGroup), Item_SupportGroupDTO.SupportGroupID));
             }
             if (Item_SupportGroupDTO.SupportGroupIDArray != null && Item_SupportGroupDTO.SupportGroupIDArray.Count() > 0)
             {

@@ -237,11 +237,11 @@
                                                     <div class="menu-text">Administration</div>
                                                 </a>
                                             </div>
-                                            <div id="ItemRegistrationItemModule" class="menu-item module-nav" data-tech="ItemRegistration">
+                                            <%--<div id="ItemRegistrationItemModule" class="menu-item module-nav" data-tech="ItemRegistration">
                                                 <a href="/App/Features/Maintenance/AMS/ItemManagement/ItemRegistration.aspx" class="menu-link">
                                                     <div class="menu-text">Registration</div>
                                                 </a>
-                                            </div>
+                                            </div>--%>
                                         </div>
                                     </div>
                                     <div id="SupportGroupManagement" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement">

@@ -2,6 +2,7 @@
 using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Maintenance.AMS.Station;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 
@@ -29,7 +30,6 @@ public class Item_LineXPO : XPObject
         get { return fItem_SupportGroup; }
         set { SetPropertyValue<Item_SupportGroupXPO>(nameof(Item_SupportGroup), ref fItem_SupportGroup, value); }
     }
-
     StationXPO fStation;
     public StationXPO Station
     {

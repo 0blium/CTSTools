@@ -153,7 +153,7 @@ public class User_Service
             {
                 var _supportGroupMemberDTO = new SupportGroupMemberDTO { UserDTO = { ID = UserDTO.ID } };
                 _supportGroupArrayDict = SupportGroupMember_Service.GetSupportGroupMemberList_Global(_supportGroupMemberDTO).GroupBy(g => g.UserDTO.ID)
-                                                                                         .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.Select(s => s.UserDTO.ID)
+                                                                                         .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.Select(s => s.SupportGroupDTO.ID)
                                                                                          .ToArray());
             }
 

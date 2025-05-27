@@ -4,10 +4,10 @@ import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile, SaveItem_HeaderMultipleFile } from './Item_Header/Item_Header_Service.js'
 import { GetDXItem_SupportGroupDataSource, CreateItem_SupportGroup, UpdateItem_SupportGroup, DeleteItem_SupportGroup, GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
-import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js' 
-import { GetDXItemClassificationDataSource } from '../../../AdvancedSettings/ItemClassification/ItemClassification_Service.js' 
+import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
+import { GetDXItemClassificationDataSource } from '../../../AdvancedSettings/ItemClassification/ItemClassification_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
-import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js' 
+import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetDXItem_LineDataSource, GetItem_LineMasterDetailInformation, GetItem_LineFilesInformation, DeleteItem_LineFile, GetItem_LineFilesTreeView, ReassignSupportGroup } from './Item_Line/Item_Line_Service.js'
 import { CreateUserDefined, UpdateUserDefined, DeleteUserDefined, GetDXUserDefinedDataSource } from './UserDefined/UserDefined_Service.js'
 import { GetDXDataTypeDataSource } from '../../../AdvancedSettings/DataType/DataType_Service.js'
@@ -391,6 +391,21 @@ async function InitializeItemAdministrationCatalogControls() {
         //    template: MasterDetailItem_Line
         //}
     });
+    $("#dxItem_HeaderSelectBox").dxSelectBox({
+        dataSource: await GetDXItem_HeaderDataSource(),
+        valueExpr: "ID",
+        displayExpr: "Names",
+        deferRendering: false,
+        searchEnabled: true,
+        onSelectionChanged: function (e) {
+            if ($("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value") != 0 &&
+                $("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value") != null
+            ) {
+                DisabledProperties(true);
+                $("#hiddenItem_HeaderID").val($("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value"));
+            }
+        },
+    });
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox({
         placeholder: "Type name.."
     });
@@ -494,15 +509,23 @@ async function InitializeItemAdministrationCatalogControls() {
 //    await BuildItem_LineGrid(container, _item_LineList, masterDetailOptions);
 //    dxLoadPanel.hide();
 //}
-async function SaveAttachmentsItem_Header()
+function DisabledProperties(Action)
 {
+    $("#dxItem_HeaderThumbnailFileUploader").dxFileUploader("instance").option("disabled", Action);
+    $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("disabled", Action);
+}
+async function SaveAttachmentsItem_Header() {
     await dxLoadPanel.show();
     const _fileList = GetFileDTO();
     if (!_fileList.FileList || _fileList.FileList.length === 0) {
         toastr["error"]("The list of files to upload is empty.", "Attachment error")
     }
-    else
-    {
+    else {
         const _validation_ResultDTO = await SaveItem_HeaderMultipleFile(_fileList);
         HostResponse(_validation_ResultDTO);
     }
@@ -520,9 +543,11 @@ function ClearItem_HeaderFields(CleanGrid) {
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", false);
     $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").reset();
     //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").reset();
+    $("#dxItem_HeaderSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("disabled", false);
     $("#dxUserDefinedList").dxList("option", "dataSource", []);
+    DisabledProperties(false);
     if (CleanGrid) {
         let keys = $("#dxItemAdministrationDatGrid").dxDataGrid("instance").getSelectedRowKeys();
         $("#dxItemAdministrationDatGrid").dxDataGrid("instance").deselectRows(keys);
@@ -543,6 +568,7 @@ async function PopulateItem_HeaderFields(data) {
     document.getElementById("hiddenItem_SupportGroupID").value = data.ID;
     document.getElementById("hiddenUserSupportGroupID").value = data.SupportGroupDTO.ID
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
+    //$("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Model);
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Brand);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsActive);
@@ -580,6 +606,8 @@ function Item_HeaderActionButtons(Action) {
     $("#Item_HeaderActionButtons").empty();
     document.getElementById('Item_HeaderModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("DivItem").hidden = false;
+        document.getElementById("DivSeparator").hidden = false;
         document.getElementById("AddNewItemHeaderBtn").addEventListener("click", ClearItem_HeaderFields);
         document.getElementById('Item_HeaderModalTitle').innerText = 'Add Item Form';
         document.getElementById("Item_HeaderActionButtons").innerHTML =
@@ -592,6 +620,8 @@ function Item_HeaderActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById("DivItem").hidden = true;
+        document.getElementById("DivSeparator").hidden = true;
         document.getElementById('Item_HeaderModalTitle').innerText = 'Update Item Form';
         document.getElementById("Item_HeaderActionButtons").innerHTML =
             '<div class="col-md-12">' +
@@ -1894,8 +1924,7 @@ async function InitializeItem_SupportGroupControls() {
         searchExpr: ["EnglishName"],
         searchMode: 'contains',
         onSelectionChanged: async function (data) {
-            if (data.selectedItem != null)
-            {
+            if (data.selectedItem != null) {
                 let _itemSupportGroupID = data.selectedItem.ID;
                 if (_itemSupportGroupID != null) {
                     $("#hiddenUserSupportGroupID").val(_itemSupportGroupID);

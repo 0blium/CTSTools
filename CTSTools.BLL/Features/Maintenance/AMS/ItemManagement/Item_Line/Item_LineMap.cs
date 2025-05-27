@@ -3,6 +3,7 @@ using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Maintenance.AMS.Item;
 using CTSTools.DAL.Features.Maintenance.AMS.Station;
+using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
 

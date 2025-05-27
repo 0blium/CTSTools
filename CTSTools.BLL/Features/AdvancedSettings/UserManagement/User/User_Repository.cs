@@ -39,7 +39,6 @@ public class User_Repository
 
             if (_userCollection.AsQueryable().Count() > 0)
                 _userList = _userCollection.Select(UserXPO => UserMap.XPOToDTO(UserXPO)).ToList();
-
         }
         catch (Exception ex)
         {

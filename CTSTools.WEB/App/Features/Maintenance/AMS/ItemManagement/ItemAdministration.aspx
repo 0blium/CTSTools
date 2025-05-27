@@ -24,9 +24,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 ">
-                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item</a>
+                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i>Item</a>
                                 <%--<a id="AssignUserDefinedBtn" class="btn btn-success d-none mb-2 ms-1 float-end" data-bs-target="#AssignUserDefinedFieldsModal" data-bs-toggle="modal">Assign Fields</a>--%>
-                                <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
+                                <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i>Fields</a>
                             </div>
                             <div class="col-12">
                                 <div id="dxItemAdministrationDatGrid"></div>
@@ -47,7 +47,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 id="Item_HeaderModalTitle" class="modal-title fs-5"></h4>
-                    <button type="button" id="btnCloseItem_HeaderModal" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    <button type="button" id="btnCloseItem_HeaderModal" class="btn-close" data-bs-dismiss="modal"></button>
                     <%--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="WizardCloseButton"></button>--%>
                 </div>
                 <div class="modal-body">
@@ -123,6 +123,21 @@
                     <!-- END nav-tabs -->
                     <!-- BEGIN tab-pane -->
                     <div class="row mx-auto">
+                        <div id="DivItem" class="col-md-12" hidden>
+                                <label class="form-label col-form-label col-md-12">
+                                    Select a item (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-3">
+                                    <div id="dxItem_HeaderSelectBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderValidation">
+                                    </div>
+                                </div>
+                        </div>
+                        <div id="DivSeparator" class="col-md-12" hidden>
+                            <div class="separator">
+                                <span>OR</span>
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group row">
                                 <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>

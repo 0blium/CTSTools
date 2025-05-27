@@ -60,6 +60,15 @@ public class Item_Header_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
+            if (Item_HeaderDTO.SupportGroupID == null || Item_HeaderDTO.SupportGroupID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Support Group is not selected",
+                    Description = " Please, complete the missing information ",
+                });
+            }
 
             //verify if asset type already exist in the system
             if (!string.IsNullOrEmpty(Item_HeaderDTO.Model) && !string.IsNullOrEmpty(Item_HeaderDTO.Brand))
@@ -75,15 +84,21 @@ public class Item_Header_Validator
                     });
                 }
             }
-            //if (Item_HeaderDTO.SupportGroupID == null || Item_HeaderDTO.SupportGroupID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Support Group Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //    });
-            //}
+            if (Item_HeaderDTO.ID != null || Item_HeaderDTO.ID != 0)
+            {
+                _validation_ResultList.Clear();
+                var _item_SupportGroupDTO = new Item_SupportGroupDTO { Item_HeaderID = Item_HeaderDTO.ID, SupportGroupID = Item_HeaderDTO.SupportGroupID };
+                var _itemSupportGroupDTO = Item_SupportGroup_Service.GetItem_SupportGroupList_Global(_item_SupportGroupDTO).FirstOrDefault();
+                if (_itemSupportGroupDTO != null)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Item is already related to the support group",
+                        Description = " Please, relate to a different support group",
+                    });
+                }
+            }
 
             if (Item_HeaderDTO.AddedByID == null || Item_HeaderDTO.AddedByID == 0)
             {

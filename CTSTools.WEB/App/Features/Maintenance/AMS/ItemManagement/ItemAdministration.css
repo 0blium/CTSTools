@@ -26,3 +26,25 @@
 .workflow-wizard li a {
     pointer-events: none;
 }
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+    .separator::before,
+    .separator::after {
+        content: ""; /* Crea contenido vacío (las líneas) */
+        flex: 1; /* Hace que las líneas se expandan y llenen el espacio a los lados */
+        border-bottom: 1px solid #ccc; /* Dibuja una línea horizontal gris claro */
+    }
+
+    .separator:not(:empty)::before {
+        margin-right: 10px; /* Espacio entre la línea izquierda y el texto */
+    }
+
+    .separator:not(:empty)::after {
+        margin-left: 10px; /* Espacio entre la línea derecha y el texto */
+    }
