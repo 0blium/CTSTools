@@ -20,6 +20,10 @@ public class UserDefinedTemplate_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedTemplateXPO.Oid), UserDefinedTemplateDTO.UserDefinedTemplateIDArray));
             }
+            if (UserDefinedTemplateDTO.Item_HeaderID != null || UserDefinedTemplateDTO.Item_HeaderID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.Item_Header), UserDefinedTemplateDTO.Item_HeaderID));
+            }
             if (UserDefinedTemplateDTO.Item_SupportGroupDTO.ID != null || UserDefinedTemplateDTO.Item_SupportGroupDTO.ID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.Item_SupportGroup), UserDefinedTemplateDTO.Item_SupportGroupDTO.ID));

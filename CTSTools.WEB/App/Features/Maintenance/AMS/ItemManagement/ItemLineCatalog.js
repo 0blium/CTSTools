@@ -194,14 +194,6 @@ async function InitializeItemLineCatalogControls() {
         headerFilter: {
             visible: true
         },
-        onSelectionChanged: async function (data) {
-            let _ItemLineData = data.selectedRowsData[0];
-            if (_ItemLineData != null) {
-                ItemLineActionButtons("Update");
-                await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
-                PopulateItemLineFields(_ItemLineData, UserDefinedTemplateList);
-            }
-        },
         columns:
             [
                 {
@@ -230,9 +222,15 @@ async function InitializeItemLineCatalogControls() {
                             }],
                             showFirstSubmenuMode: 'onClick',
                             hideSubmenuOnMouseLeave: true,
-                            onItemClick: function (e) {
+                            onItemClick: async function (e) {
                                 let _data = options.data;  // Datos de la fila seleccionada
                                 if (e.itemData.value == 1) {
+                                    let _ItemLineData = _data;
+                                    if (_ItemLineData != null) {
+                                        ItemLineActionButtons("Update");
+                                        await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
+                                        PopulateItemLineFields(_ItemLineData, UserDefinedTemplateList);
+                                    }
                                     $('#SaveItemLineRecordModal').modal('show');
                                 }
                                 else if (e.itemData.value == 2) {
@@ -261,20 +259,21 @@ async function InitializeItemLineCatalogControls() {
 }
 async function GetItem_SupportGroupIDByURL() {
     let _item_SupportGroupID = GetURLParameter("Item_SupportGroupID");
+    let _item_HeaderID = GetURLParameter("Item_HeaderID");
     let _item_SupportGroupDTO = { ID: _item_SupportGroupID };
-    const _item_LineDTO = { Item_SupportGroupDTO: { ID: _item_SupportGroupID }, IsActive: true };
+    const _item_LineDTO = { Item_SupportGroupDTO: { ID: _item_SupportGroupID }, Item_HeaderDTO: { ID: _item_HeaderID }, IsActive: true };
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let _item_SupportGroupList = await GetItem_SupportGroupInformation(_item_SupportGroupDTO);
     if (_item_SupportGroupID != null && _item_SupportGroupID != undefined && _item_SupportGroupID != 0 && !Number.isNaN(_item_SupportGroupID) && (ItemLineList.length != 0 || _item_SupportGroupList.length != 0)) {
         console.log(_item_SupportGroupList);
         console.log(_item_SupportGroupList[0].Item_HeaderDTO.ID);
         document.getElementById('hiddenItemLineSupportGroupID').value = _item_SupportGroupID;
-        document.getElementById('hiddenItemHeaderID').value = _item_SupportGroupList[0].Item_HeaderDTO.ID;
+        document.getElementById('hiddenItemHeaderID').value = _item_HeaderID;
         document.getElementById('hiddenItemSupportGroupID').value = _item_SupportGroupList[0].SupportGroupDTO.ID;
         document.getElementById('NewItemLineBtn').removeAttribute('hidden');
         InitializeItemLineCatalogControls();
         InitializeReassignSupportGroupModalControls();
-        const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+        const _userDefinedTemplateDTO = { Item_HeaderID: _item_HeaderID , IsActive: true, GetUserDefinedDTO: true };
         UserDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
         await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
         $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemHeaderID").val()));
@@ -333,8 +332,6 @@ function ItemLineActionButtons(Action) {
     }
 }
 async function ClearItemLineFields() {
-    const _item_LineDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, IsActive: true };
-    ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     $('#SaveItemLineRecordModal').modal('hide');
     ItemLineActionButtons("Save");
     $("#hiddenItemLineID").val("");
@@ -374,13 +371,17 @@ async function ClearItemLineFields() {
         }
         else break; 
     }
+}
+async function ClearItemLineGrid() {
+    const _item_LineDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, Item_HeaderDTO: { ID: $("#hiddenItemHeaderID").val() }, IsActive: true };
+    ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let keys = $("#dxItemLineGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxItemLineGrid").dxDataGrid("instance").deselectRows(keys);
     $("#dxItemLineGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
     $("#dxItemLineGrid").dxDataGrid("instance").option('dataSource', ItemLineList);
     $("#dxItemLineGrid").dxDataGrid("instance").refresh();
-    //ClearErrorFeedback();
 }
+
 function PopulateItemLineFields(Data, UserDefinedList) {
     ItemLineActionButtons("Update");
     $("#hiddenItemLineID").val(Data.ID);
@@ -506,6 +507,7 @@ async function CreateItem_Line_Global() {
     const _validation_ResultDTO = await CreateItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
         await ClearItemLineFields();
+        await ClearItemLineGrid();
         $("#AddNewItemLineModal").modal("hide");
         RefreshGrid();
     }
@@ -518,6 +520,7 @@ async function UpdateItem_Line_Global() {
     const _validation_ResultDTO = await UpdateItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
         ClearItemLineFields();
+        ClearItemLineGrid();
         $("#AddNewItemLineModal").modal("hide");
     }
     HostResponse(_validation_ResultDTO);
@@ -529,6 +532,7 @@ async function DeleteItem_Line_Global() {
     const _validation_ResultDTO = await DeleteItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
         ClearItemLineFields();
+        ClearItemLineGrid();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -626,6 +630,7 @@ async function ReassignSupportGroupGlobal() {
     const _item_LineDTO = GetItemLine_SupportGroupModalDTO();
     const _validation_ResultDTO = await ReassignSupportGroup(_item_LineDTO);
     ClearItemLineFields();
+    ClearItemLineGrid();
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }

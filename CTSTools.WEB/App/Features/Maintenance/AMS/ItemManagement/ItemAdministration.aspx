@@ -7,14 +7,13 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
-                    <li class="breadcrumb-item active">Administration</li>
+                    <li class="breadcrumb-item active">Inventory</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Administration</h1>
+                <h1 class="page-header">Inventory</h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -48,81 +47,131 @@
                 <div class="modal-header">
                     <h4 id="Item_HeaderModalTitle" class="modal-title fs-5"></h4>
                     <button type="button" id="btnCloseItem_HeaderModal" class="btn-close" data-bs-dismiss="modal"></button>
-                    <%--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="WizardCloseButton"></button>--%>
                 </div>
                 <div class="modal-body">
-                    <%--<div class="card" id="wizard-card">
-                        <div class="card-body bg-light">
-                            <ul class="nav nav-tabs workflow-wizard justify-content-center" id="LetterType">
-                                <li class="nav-item item">
-                                    <a href="#Item_SupportGroupStep1" data-bs-toggle="tab" class="active">
-                                        <div class="nav-no">1</div>
-                                        <div class="nav-text">Select Item</div>
-                                    </a>
-                                </li>
-                                <li class="nav-item item">
-                                    <a href="#Item_SupportGroupStep2" data-bs-toggle="tab" class="">
-                                        <div class="nav-no">2</div>
-                                        <div class="nav-text">Support Group</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>--%>
-                    <%--<div class="wizard-step tab-pane fade active show" id="Item_SupportGroupStep1">--%>
-                    <!-- BEGIN nav-tabs -->
-                    <%--<ul class="nav nav-tabs" id="modal-nav-tabs">
-                            <li class="nav-item">
-                                <a id="select-item-tab" href="#select-item-content" data-bs-toggle="tab" class="nav-link active">
-                                    <span class="d-sm-none">Tab 1</span>
-                                    <span class="d-sm-block d-none">Select Item</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a id="new-item-tab" href="#new-item-content" data-bs-toggle="tab" class="nav-link">
-                                    <span class="d-sm-none">Tab 2</span>
-                                    <span class="d-sm-block d-none">New Item</span>
-                                </a>
-                            </li>
-                        </ul>--%>
-                    <!-- END nav-tabs -->
-                    <!-- BEGIN tab-content -->
-                    <%--<div class="tab-content panel rounded-0 p-3 m-0">--%>
-
-                    <!-- BEGIN tab-pane for Existing Item Selectbox -->
-                    <%--<div class="tab-pane fade active show" id="select-item-content">
-                            <label class="form-label col-form-label col-md-12">Item</label>
-                            <div class="col-md-12">
-                                <div id="dxItem_SupportGroupItem_HeaderIDSelectBox"></div>
-                                <div class="invalid-feedback" id="Item_SupportGroupItem_HeaderValidation">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a id="CreateTab" href="#Create" data-bs-toggle="tab" class="nav-link active">
+                                <span class="d-sm-none">Tab 1</span>
+                                <span id="CreateTabTitle" class="d-sm-block d-none">Create</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="SelectItemTab">
+                            <a href="#SelectItem" data-bs-toggle="tab" class="nav-link">
+                                <span class="d-sm-none">Tab 2</span>
+                                <span class="d-sm-block d-none">Select</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content panel rounded-0 p-3 m-0">
+                        <!-- BEGIN tab-pane -->
+                        <div class="tab-pane fade active show" id="Create">
+                            <div class="row mx-auto">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                                        <div id="dxItem_HeaderThumbnailFileUploader"></div>
+                                        <div class="col-md-12 text-center">
+                                            <img id="ItemThumbnail"
+                                                src="/App/Common/Assets/img/no-product-image.png"
+                                                class="img-fluid" style="height: 200px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Name (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderEnglishNameTextBox"></div>
+                                            <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Model (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderModelTextBox"></div>
+                                            <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Brand (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderBrandTextBox"></div>
+                                            <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">Classification</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderItemClassificationSelectBox"></div>
+                                            <div class="invalid-feedback"
+                                                id="Item_HeaderItemClassificationValidation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-15px">
+                                        <div class="col-md-6">
+                                            <div id="dxItem_HeaderIsActiveCheckBox"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div id="dxItem_HeaderIsESDCheckBox"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>--%>
-                    <!-- END tab-pane -->
+                        </div>
+                        <!-- END tab-pane -->
+                        <!-- BEGIN tab-pane -->
+                        <div class="tab-pane fade" id="SelectItem">
+                            <label class="form-label col-form-label col-md-12">
+                                Select a item (<span
+                                    class="text-danger">*</span>)</label>
+                            <div class="col-md-4">
+                                <div id="dxItem_HeaderSelectBox"></div>
+                                <div class="invalid-feedback" id="Item_HeaderValidation">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END tab-pane -->
+                    </div>
 
-                    <!-- BEGIN tab-pane for New Item -->
-                    <%--<div class="tab-pane fade" id="new-item-content">--%>
-                    <!-- BEGIN nav-tabs -->
-                    <%--<div class="mb-2">
-                                        <ul class="nav inlineTabs tab-border nav-tabs">
-                                            <li class="nav-item">
-                                                <a href="#equipment-tab" data-bs-toggle="tab" class="nav-link active">
-                                                    <span class="d-sm-none">Equipment</span>
-                                                    <span class="d-sm-block d-none">Equipment</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#attachments-tab" data-bs-toggle="tab" class="nav-link">
-                                                    <span class="d-sm-none">Attachments</span>
-                                                    <span class="d-sm-block d-none">Attachments</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <hr class="m-0" />
-                                    </div>--%>
-                    <!-- END nav-tabs -->
-                    <!-- BEGIN tab-pane -->
-                    <div class="row mx-auto">
+                    <div class="row mx-auto mt-2">
+                        <div class="col-md-6">
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">
+                                    Support Group (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_SupportGroupSupportGroupSelectBox"></div>
+                                    <div class="invalid-feedback" id="Item_SupportGroupSupportGroupValidation">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">Custom fields List </label>
+                                <div class="col-md-12">
+                                    <div class="panel-body">
+                                        <div class="panel panel-inverse">
+                                            <div class="col-md-12">
+                                                <div id="dxUserDefinedList"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--<div class="row mx-auto">
                         <div id="DivItem" class="col-md-12" hidden>
                                 <label class="form-label col-form-label col-md-12">
                                     Select a item (<span
@@ -220,26 +269,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <!-- END tab-pane -->
-                    <%--</div>--%>
-                    <!-- END tab-pane -->
-
-                    <%--</div>--%>
-                    <!-- END tab-content -->
-                    <%--</div>--%>
-                    <!-- BEGIN tab-pane for Step 2 -->
-                    <%--<div class="wizard-step tab-pane fade " id="Item_SupportGroupStep2">--%>
-
-                    <%--</div>--%>
-                    <!-- END tab-pane for Step 2 -->
-
+                    </div>--%>
                 </div>
                 <div class="modal-footer" id="modalFooter">
-                    <%--<a class="btn btn-secondary" id="btnAddNewItemBack">Back</a>--%>
-                    <%--<a class="btn btn-success" id="btnAddNewItemNext">Save</a>--%>
                     <div class="row" id="Item_HeaderActionButtons"></div>
                 </div>
             </div>

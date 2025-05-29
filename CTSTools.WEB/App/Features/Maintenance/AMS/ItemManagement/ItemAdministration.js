@@ -293,7 +293,7 @@ async function InitializeItemAdministrationCatalogControls() {
                                     document.getElementById("AttachmentsModalSaveBtn").addEventListener("click", SaveAttachmentsItem_Header);
                                 }
                                 else if (e.itemData.value == 3) {
-                                    window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID, "_blank");
+                                    window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID + "&Item_HeaderID=" + options.data.Item_HeaderDTO.ID, "_blank");
                                 }
                                 else if (e.itemData.value == 4) {
                                     $("#hiddenItem_SupportGroupID").val(options.data.ID);
@@ -562,6 +562,11 @@ function ClearItem_HeaderFields(CleanGrid) {
     _fileDTO = {};
     $("#ItemThumbnail").attr('src', "/App/Common/Assets/img/no-product-image.png");
     ClearErrorFeedback();
+    // Gets a reference to the "Create" tab link using its ID.
+    // In this case, the <a> element must have id="CreateTab" in the HTML.
+    let _createTab = new bootstrap.Tab(document.getElementById('CreateTab'));
+    // Calls the 'show()' method to activate and display the "Create" tab.
+    _createTab.show();
 }
 async function PopulateItem_HeaderFields(data) {
     document.getElementById("hiddenItem_HeaderID").value = data.Item_HeaderDTO.ID;//new
@@ -606,10 +611,11 @@ function Item_HeaderActionButtons(Action) {
     $("#Item_HeaderActionButtons").empty();
     document.getElementById('Item_HeaderModalTitle').innerText = '';
     if (Action == "Save") {
-        document.getElementById("DivItem").hidden = false;
-        document.getElementById("DivSeparator").hidden = false;
+        document.getElementById("SelectItemTab").hidden = false;
+        document.getElementById("SelectItem").hidden = false;
         document.getElementById("AddNewItemHeaderBtn").addEventListener("click", ClearItem_HeaderFields);
         document.getElementById('Item_HeaderModalTitle').innerText = 'Add Item Form';
+        document.getElementById('CreateTabTitle').innerText = 'Create';
         document.getElementById("Item_HeaderActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateItem_HeaderButton" type="button">Save</button>' +
@@ -620,9 +626,10 @@ function Item_HeaderActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById("DivItem").hidden = true;
-        document.getElementById("DivSeparator").hidden = true;
+        document.getElementById("SelectItemTab").hidden = true;
+        document.getElementById("SelectItem").hidden = true;
         document.getElementById('Item_HeaderModalTitle').innerText = 'Update Item Form';
+        document.getElementById('CreateTabTitle').innerText = 'Update';
         document.getElementById("Item_HeaderActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateItem_HeaderButton" type="button">Update</button>' +
@@ -1283,7 +1290,7 @@ async function InitializeUserDefinedControls() {
         placeholder: "Type name.."
     });
     $("#dxUserDefinedDataGrid").dxDataGrid({
-        dataSource: [],
+        dataSource: await GetDXUserDefinedDataSource(),
         remoteOperations: true,
         pager: {
             showPageSizeSelector: true,
@@ -1646,13 +1653,13 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             }
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
-            $("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
+            //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
 
         }
         if (UserDTO.hasSystemRole) {
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
-            $("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource());
+            //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource());
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
         }
     }

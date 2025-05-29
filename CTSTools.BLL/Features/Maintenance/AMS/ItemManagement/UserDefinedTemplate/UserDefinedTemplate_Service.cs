@@ -35,7 +35,7 @@ public class UserDefinedTemplate_Service
                     {
                         var _userdefinedTemplateDTO = new UserDefinedTemplateDTO();
                         _userdefinedTemplateDTO.UserDefinedDTO.ID = _userdefinedIDObj;
-                        //_userdefinedTemplateDTO.Item_HeaderDTO = UserDefinedTemplateDTO.Item_HeaderDTO;
+                        _userdefinedTemplateDTO.Item_HeaderID = UserDefinedTemplateDTO.Item_HeaderID;
                         _userdefinedTemplateDTO.Item_SupportGroupDTO = UserDefinedTemplateDTO.Item_SupportGroupDTO;
                         _userdefinedTemplateDTO.AddedByID = UserDefinedTemplateDTO.LastUpdateByID;
                         _userdefinedTemplateDTO.IsActive = UserDefinedTemplateDTO.IsActive;

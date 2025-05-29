@@ -51,6 +51,7 @@ public class Item_Header_Service
         {
             var _userDefinedTemplateDTO = new UserDefinedTemplateDTO();
             _userDefinedTemplateDTO.UserDefinedIDArray = Item_HeaderDTO.UserDefinedIDArray;
+            _userDefinedTemplateDTO.Item_HeaderID = Item_HeaderDTO.ID;
             _userDefinedTemplateDTO.Item_SupportGroupDTO.ID = _ValidationResultDTO.Data;
             _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
             _userDefinedTemplateDTO.LastUpdateByID = Item_HeaderDTO.AddedByID;
@@ -92,6 +93,7 @@ public class Item_Header_Service
         {
             var _userDefinedTemplateDTO = new UserDefinedTemplateDTO();
             _userDefinedTemplateDTO.UserDefinedIDArray = Item_HeaderDTO.UserDefinedIDArray;
+            _userDefinedTemplateDTO.Item_HeaderID = Item_HeaderDTO.ID;
             _userDefinedTemplateDTO.Item_SupportGroupDTO.ID = Item_HeaderDTO.Item_SupportGroupID;
             _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
             _userDefinedTemplateDTO.LastUpdateByID = Item_HeaderDTO.LastUpdateByID;

@@ -323,11 +323,9 @@ public class Item_Line_Service
         {
             _userDefinedList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO
             {
-                Item_SupportGroupDTO = Item_LineDTO.Item_SupportGroupDTO,
+                Item_HeaderID = Item_LineDTO.Item_HeaderDTO.ID,
                 GetUserDefinedDTO = true
             }).Select(s => s.UserDefinedDTO).ToList();
-
-
             var _item_lineList = GetItem_LineList_Global(new Item_LineDTO { Item_SupportGroupDTO = Item_LineDTO.Item_SupportGroupDTO, GetItem_SupportGroupDTO = true, IsActive = true });
             if (_item_lineList.Count() > 0)
             {

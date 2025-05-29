@@ -22,6 +22,7 @@ public class UserDefinedTemplateDTO
     #region Extended Properties
 
     public int?[] UserDefinedTemplateIDArray { get; set; }
+    public int? Item_HeaderID { get; set; }
     public Item_HeaderDTO Item_HeaderDTO { get; set; }
     public bool GetItem_HeaderDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
