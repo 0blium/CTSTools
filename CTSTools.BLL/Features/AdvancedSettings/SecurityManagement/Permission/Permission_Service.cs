@@ -54,12 +54,7 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     _permissionglobalList = _permissionList;
                     return _permissionglobalList;
                 }
-                if (!PermissionDTO.GetActionDTO)
-                {
-                    _permissionglobalList = _permissionList;
-                    return _permissionglobalList;
-                }
-                if (!PermissionDTO.GetModuleDTO)
+                if (!PermissionDTO.GetActionDTO && !PermissionDTO.GetModuleDTO && !PermissionDTO.GetPermissionIDArray)
                 {
                     _permissionglobalList = _permissionList;
                     return _permissionglobalList;
@@ -102,7 +97,13 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     _moduleDict = Module_Service.GetModuleList_Global(PermissionDTO.ModuleDTO)
                                                 .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
                 }
-                foreach (var _permissionDTO in PermissionList)
+                if (PermissionDTO.GetPermissionIDArray)
+                {
+                    PermissionDTO.PermissionIDArray = PermissionList.GroupBy(g => g.ID)
+                                                                  .Select(s => s.Key)
+                                                                  .ToArray();
+                }
+                    foreach (var _permissionDTO in PermissionList)
                 {
                     if (PermissionDTO.GetActionDTO && _actionDict.ContainsKey(_permissionDTO.ActionDTO.ID))
                     {
@@ -111,6 +112,10 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     if (PermissionDTO.GetModuleDTO && _moduleDict.ContainsKey(_permissionDTO.ModuleDTO.ID))
                     {
                         _permissionDTO.ModuleDTO = _moduleDict[_permissionDTO.ModuleDTO.ID];
+                    }
+                    if (PermissionDTO.GetPermissionIDArray)
+                    {
+                        _permissionDTO.PermissionIDArray = PermissionDTO.PermissionIDArray;
                     }
                     _permissionglobalList.Add(_permissionDTO);
                 }

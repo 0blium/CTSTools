@@ -9,6 +9,10 @@ using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
+using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
+using CTSTools.BLL.Features.Security.Permissions.Permission;
+using CTSTools.BLL.Common.Excel;
 
 namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMember
 {
@@ -59,7 +63,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 }
                 if (_ValidationResultDTO.Result)
                 {
-                    ChangeLog_Service.BuildChangeLogActionUpdate<SupportGroupMemberDTO>(_previousSupportGroupMemberDTO,SupportGroupMemberDTO, (int)SupportGroupMemberDTO.LastUpdateByID, (int)SupportGroupMemberDTO.ID);
+                    ChangeLog_Service.BuildChangeLogActionUpdate<SupportGroupMemberDTO>(_previousSupportGroupMemberDTO, SupportGroupMemberDTO, (int)SupportGroupMemberDTO.LastUpdateByID, (int)SupportGroupMemberDTO.ID);
 
                 }
             }
@@ -275,66 +279,28 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             var _validationResultDTO = new ValidationResultDTO();
             try
             {
-                //get user roles
+                // step 1. Get user roles
                 SupportGroupMemberDTO.UserDTO.GetRoleArray = true;
                 var _userDTO = User_Service.GetUserList_Global(SupportGroupMemberDTO.UserDTO).FirstOrDefault();
-
-                //validate permission exist and support group to avoid exceptions or errors
-                if ((SupportGroupMemberDTO.UserDTO.PermissionDTO != null && SupportGroupMemberDTO.UserDTO.PermissionDTO.ID > 0) &&
-                    (SupportGroupMemberDTO.SupportGroupDTO.ID != null && SupportGroupMemberDTO.SupportGroupDTO.ID > 0))
+                // step 2. Validate that the list has data
+                if (_userDTO == null)
                 {
-                   
-                    if (!_userDTO.RoleIDArray.Contains((int)Role_Enum.SystemAdmin) && !_userDTO.RoleIDArray.Contains((int)Role_Enum.WarehouseReceiver))
-                    {
-                        //get roles by permission ID
-                        var _rolesPermissionIDArray = Role_Permission_Service.GetRole_PermissionList_Global(new Role_PermissionDTO
-                        {
-                            PermissionDTO = SupportGroupMemberDTO.UserDTO.PermissionDTO,
-                        }).Select(s => s.RoleDTO.ID).ToArray();
-
-                        if (_rolesPermissionIDArray.Length > 0)
-                        {
-                            //check if the user has the role assigned to that support group
-                            var _supportGroupMemberDTO = GetSupportGroupMemberList_Global(new SupportGroupMemberDTO
-                            {
-                                IsActive = true,
-                                SupportGroupDTO = SupportGroupMemberDTO.SupportGroupDTO,
-                                UserDTO = SupportGroupMemberDTO.UserDTO,
-                                RoleIDArray = _rolesPermissionIDArray
-                            }).FirstOrDefault();
-
-
-                            if (_supportGroupMemberDTO == null)
-                            {
-                                // If the user has the permission but does not have any role related to that permission,
-                                //then it is a special permission.
-                                if (_userDTO.RoleIDArray.Intersect(_rolesPermissionIDArray).Any())
-                                {
-                                    _validationResultDTO.Result = false;
-                                    _validationResultDTO.Message = "Error!";
-                                    _validationResultDTO.Description = "You don't have the necessary permissions to perform this action in this support group.";
-                                }
-                            }
-                        }
-                        else
-                        {
-                            _validationResultDTO.Result = false;
-                            _validationResultDTO.Message = "Error!";
-                            _validationResultDTO.Description = "The permission is not assigned to any role";
-                        }
-
-                    }
+                    _validationResultDTO.Result = false;
+                    _validationResultDTO.Message = "Error!";
+                    _validationResultDTO.Description = "An error occurred validating the user, please contact an administrator.";
+                    return _validationResultDTO;
                 }
-                else
+                // step 3. Validate if the user has the support group administrator role
+                if (_userDTO.RoleIDArray.Contains((int)Role_Enum.Administrator))
+                    return _validationResultDTO;
+                // step 4. If the user does not have the administrator role, check if the user has the create or update action
+                var _user_PermissionDTO = new User_PermissionDTO { PermissionIDArray = SupportGroupMemberDTO.UserDTO.PermissionDTO.PermissionIDArray, UserID = _userDTO.ID, GetPermissionDTO = true };
+                var _user_PermissionList = User_Permission_Service.GetUser_PermissionList_Global(_user_PermissionDTO);
+                if (!_user_PermissionList.Any(p => p.PermissionDTO.ActionID == (int)Action_Enum.Create || p.PermissionDTO.ActionID == (int)Action_Enum.Update))
                 {
-                    //This is in the special case in which you are looking to update a station for an item without a support group.
-                    if (!_userDTO.RoleIDArray.Contains((int)Role_Enum.SystemAdmin))
-                    {
-                        _validationResultDTO.Result = false;
-                        _validationResultDTO.Message = "Error!";
-                        _validationResultDTO.Description = "Something went wrong, please verify if you selected a support group. ";
-                    }
-                   
+                    _validationResultDTO.Result = false;
+                    _validationResultDTO.Message = "Error!";
+                    _validationResultDTO.Description = "You don't have the necessary permissions to perform this action.";
                 }
             }
             catch (Exception ex)

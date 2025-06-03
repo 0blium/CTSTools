@@ -68,7 +68,7 @@ public class User_Permission_Service
         {
             if (User_PermissionDTO.GetPermissionDTO)
             {
-                User_PermissionDTO.PermissionDTO.PermissionIDArray = User_PermissionList.GroupBy(g => g.PermissionID)
+                User_PermissionDTO.PermissionIDArray = User_PermissionList.GroupBy(g => g.PermissionID)
                                                                                         .Select(s => s.Key)
                                                                                         .ToArray();
 

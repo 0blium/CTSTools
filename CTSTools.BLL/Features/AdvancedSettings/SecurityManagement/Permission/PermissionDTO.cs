@@ -26,9 +26,11 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
 
         #region Extended Properties
 
+        public bool GetPermissionIDArray { get; set; }
         public int?[] PermissionIDArray { get; set; }
         public ActionDTO ActionDTO { get; set; }
         public bool GetActionDTO { get; set; }
+        public bool GetActionArray { get; set; }
         public int?[] ActionIDArray { get; set; }
         public ModuleDTO ModuleDTO { get; set; }
         public bool GetModuleDTO { get; set; }
