@@ -48,7 +48,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusModal" id="SupplyTypeButton"><i class="fa-solid fa-circle-plus"></i> Status</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusModal" id="SupplyTypeButton"><i class="fa-solid fa-circle-plus"></i>Status</a>
                                         <div id="dxStatusGrid"></div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusTypeModal" id="SupplyTypeButton"><i class="fa-solid fa-circle-plus"></i> Status Type</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusTypeModal" id="SupplyTypeButton"><i class="fa-solid fa-circle-plus"></i>Status Type</a>
                                         <div id="dxStatusTypeGrid"></div>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                             <div class="col-md-12">
                                 <div class="panel panel-inverse">
                                     <div class="panel-body">
-                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusRelationModal" id="StatusRelationButton"><i class="fa-solid fa-circle-plus"></i> Status Relation</a>
+                                        <a class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#StatusRelationModal" id="StatusRelationButton"><i class="fa-solid fa-circle-plus"></i>Status Relation</a>
                                         <div id="dxStatus_StatusTypeGrid"></div>
                                     </div>
                                 </div>
@@ -176,19 +176,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">Status (<span class="text-danger">*</span>)</label>
-                        <div class="col-xl-9 col-md-12">
-                            <%--<input type="email" class="form-control mb-5px" id="StatusName" placeholder="Enter Status Name">--%>
-                            <div id="dxStatus_StatusTypeStatusSelectBox"></div>
-                            <div class="invalid-feedback" id="Status_StatusTypeStatusValidation"></div>
-                        </div>
-                    </div>
-                    <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">Status Type (<span class="text-danger">*</span>)</label>
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Type (<span class="text-danger">*</span>)</label>
                         <div class="col-xl-9 col-md-12">
                             <%--<textarea class="form-control" id="StatusDescription" rows="3"></textarea>--%>
                             <div id="dxStatus_StatusTypeStatusTypeSelectBox"></div>
                             <div class="invalid-feedback" id="Status_StatusTypeStatusTypeValidation"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-15px">
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Status (<span class="text-danger">*</span>)</label>
+                        <div class="col-xl-9 col-md-12">
+                            <%--<input type="email" class="form-control mb-5px" id="StatusName" placeholder="Enter Status Name">--%>
+                            <div id="dxStatus_StatusTypeStatusTagBox"></div>
+                            <div class="invalid-feedback" id="Status_StatusTypeStatusValidation"></div>
                         </div>
                     </div>
                     <div class="row mb-15px">

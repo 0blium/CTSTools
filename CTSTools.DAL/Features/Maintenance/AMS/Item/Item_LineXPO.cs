@@ -162,6 +162,20 @@ public class Item_LineXPO : XPObject
         get { return fDeclarationNumber; }
         set { SetPropertyValue<string>(nameof(DeclarationNumber), ref fDeclarationNumber, value); }
     }
+
+    int fPOLine;
+    public int POLine
+    {
+        get { return fPOLine; }
+        set { SetPropertyValue<int>(nameof(POLine), ref fPOLine, value); }
+    }
+    string fPONumber;
+    public string PONumber
+    {
+        get { return fPONumber; }
+        set { SetPropertyValue<string>(nameof(PONumber), ref fPONumber, value); }
+    }
+
     TransactionOriginXPO fTransactionOrigin;
     public TransactionOriginXPO TransactionOrigin
     {

@@ -59,7 +59,7 @@ async function InitializeItemLineCatalogControls() {
         searchEnabled: true
     });
     $("#dxItem_LineStationSelectBox").dxSelectBox({
-        dataSource: await GetDXStationDataSource(),
+        //dataSource: await GetDXStationDataSource(),
         valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,
@@ -111,11 +111,11 @@ async function InitializeItemLineCatalogControls() {
     $("#dxItem_LineStatusSelectBox").dxSelectBox({
         dataSource: await GetDXStatus_StatusTypeDataSource({
             StatusTypeDTO: {
-                ID: StatusType_Enum.Item
+                ID: StatusType_Enum.AMS
             },
         }),
-        valueExpr: "StatusDTO.ID",
-        displayExpr: "StatusDTO.Name",
+        valueExpr: "StatusID",
+        displayExpr: "StatusName",
         deferRendering: false,
         searchEnabled: true
     })
@@ -260,7 +260,7 @@ async function InitializeItemLineCatalogControls() {
 async function GetItem_SupportGroupIDByURL() {
     let _item_SupportGroupID = GetURLParameter("Item_SupportGroupID");
     let _item_HeaderID = GetURLParameter("Item_HeaderID");
-    let _item_SupportGroupDTO = { ID: _item_SupportGroupID };
+    let _item_SupportGroupDTO = { ID: _item_SupportGroupID, GetSupportGroupDTO: true };
     const _item_LineDTO = { Item_SupportGroupDTO: { ID: _item_SupportGroupID }, Item_HeaderDTO: { ID: _item_HeaderID }, IsActive: true };
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let _item_SupportGroupList = await GetItem_SupportGroupInformation(_item_SupportGroupDTO);
@@ -278,9 +278,20 @@ async function GetItem_SupportGroupIDByURL() {
         await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
         $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemHeaderID").val()));
         $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemSupportGroupID").val()));
+        GetStationListByFacility(_item_SupportGroupList[0].SupportGroupDTO.FacilityDTO.ID);
     } else {
         toastr["error"]("Please, select a Line to get the information", "Line Not selected");
     }
+}
+async function GetStationListByFacility(FacilityID) {
+    const _stationDTO = {
+        FacilityDTO: {
+            ID: FacilityID
+        },
+        IsActive: true
+    };
+    const _stationList = await GetDXStationDataSource(_stationDTO);
+    $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("dataSource", _stationList);
 }
 function RefreshGrid()
 {

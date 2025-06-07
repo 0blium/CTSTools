@@ -79,7 +79,7 @@ public class Status_StatusType_Service
         {
             if (Status_StatusTypeDTO.GetStatusDTO)
             {
-                Status_StatusTypeDTO.StatusDTO.StatusIDArray = Status_StatusTypeList.GroupBy(g => g.StatusDTO.ID)
+                Status_StatusTypeDTO.StatusDTO.StatusIDArray = Status_StatusTypeList.GroupBy(g => g.StatusID)
                     .Select(s => s.Key)
                     .ToArray();
 
@@ -89,7 +89,7 @@ public class Status_StatusType_Service
 
             if (Status_StatusTypeDTO.GetStatusTypeDTO)
             {
-                Status_StatusTypeDTO.StatusTypeDTO.StatusTypeIDArray = Status_StatusTypeList.GroupBy(g => g.StatusTypeDTO.ID)
+                Status_StatusTypeDTO.StatusTypeDTO.StatusTypeIDArray = Status_StatusTypeList.GroupBy(g => g.StatusTypeID)
                     .Select(s => s.Key)
                     .ToArray();
 
@@ -99,14 +99,14 @@ public class Status_StatusType_Service
 
             foreach(var _status_statustypeDTO in Status_StatusTypeList)
             {
-                if(Status_StatusTypeDTO.GetStatusDTO && _statusDict.ContainsKey(_status_statustypeDTO.StatusDTO.ID))
+                if(Status_StatusTypeDTO.GetStatusDTO && _statusDict.ContainsKey(_status_statustypeDTO.StatusID))
                 {
-                    _status_statustypeDTO.StatusDTO = _statusDict[_status_statustypeDTO.StatusDTO.ID];
+                    _status_statustypeDTO.StatusDTO = _statusDict[_status_statustypeDTO.StatusID];
                 }
 
-                if (Status_StatusTypeDTO.GetStatusTypeDTO && _statusTypeDict.ContainsKey(_status_statustypeDTO.StatusTypeDTO.ID))
+                if (Status_StatusTypeDTO.GetStatusTypeDTO && _statusTypeDict.ContainsKey(_status_statustypeDTO.StatusTypeID))
                 {
-                    _status_statustypeDTO.StatusTypeDTO = _statusTypeDict[_status_statustypeDTO.StatusTypeDTO.ID];
+                    _status_statustypeDTO.StatusTypeDTO = _statusTypeDict[_status_statustypeDTO.StatusTypeID];
                 }
 
                 _status_statustypeglobalList.Add(_status_statustypeDTO);
@@ -135,5 +135,40 @@ public class Status_StatusType_Service
         return PagedResultDTO.TotalCount;
     }
 
+    #endregion
+
+    #region Business Logic
+    public static ValidationResultDTO CreateStatus_StatusTypeByArray(Status_StatusTypeDTO Status_StatusTypeDTO)
+    {
+        var _validationResultDTO = new ValidationResultDTO();
+        try
+        {
+            _validationResultDTO = Status_StatusType_Validator.CreateStatus_StatusTypeByIDArray_Validation(Status_StatusTypeDTO);
+            if (_validationResultDTO.Result)
+            {
+                foreach (var _status_StatusTypeID in Status_StatusTypeDTO.Status_StatusTypeIDArray)
+                {
+                    var _status_StatusTypeDTO = new Status_StatusTypeDTO
+                    {
+                        StatusTypeID = Status_StatusTypeDTO.StatusTypeID,
+                        AddedByID = Status_StatusTypeDTO.AddedByID,
+                        IsActive = Status_StatusTypeDTO.IsActive,
+                        StatusID = _status_StatusTypeID
+                    };
+
+                    _validationResultDTO = CreateStatus_StatusType_Global(_status_StatusTypeDTO);
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to create the record.");
+        }
+        return _validationResultDTO;
+    }
     #endregion
 }

@@ -394,7 +394,7 @@ async function InitializeItemAdministrationCatalogControls() {
     $("#dxItem_HeaderSelectBox").dxSelectBox({
         dataSource: await GetDXItem_HeaderDataSource(),
         valueExpr: "ID",
-        displayExpr: "Names",
+        displayExpr: "NamesWithModel",
         deferRendering: false,
         searchEnabled: true,
         onSelectionChanged: function (e) {
@@ -1645,6 +1645,7 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             if (UserDTO.SupportGroupIDArray.length == 1) {
                 document.getElementById("hiddenUserSupportGroupID").value = UserDTO.SupportGroupIDArray[0]
                 //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
+                $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
                 $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true }));
             } else {
@@ -1657,7 +1658,7 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
 
         }
-        if (UserDTO.hasSystemRole) {
+        if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
             //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource());
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());

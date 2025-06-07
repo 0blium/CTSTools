@@ -67,6 +67,7 @@ public class Item_Header_Validator
                     Result = false,
                     Message = "Support Group is not selected",
                     Description = " Please, complete the missing information ",
+                    Data = "Item_SupportGroupSupportGroup",
                 });
             }
 
@@ -84,19 +85,32 @@ public class Item_Header_Validator
                     });
                 }
             }
-            if (Item_HeaderDTO.ID != null || Item_HeaderDTO.ID != 0)
+            if ((Item_HeaderDTO.ID == null || Item_HeaderDTO.ID == 0) && (string.IsNullOrEmpty(Item_HeaderDTO.EnglishName) || string.IsNullOrEmpty(Item_HeaderDTO.Model) || string.IsNullOrEmpty(Item_HeaderDTO.Brand)))
             {
-                _validation_ResultList.Clear();
-                var _item_SupportGroupDTO = new Item_SupportGroupDTO { Item_HeaderID = Item_HeaderDTO.ID, SupportGroupID = Item_HeaderDTO.SupportGroupID };
-                var _itemSupportGroupDTO = Item_SupportGroup_Service.GetItem_SupportGroupList_Global(_item_SupportGroupDTO).FirstOrDefault();
-                if (_itemSupportGroupDTO != null)
+                _validation_ResultList.Add(new ValidationResultDTO
                 {
-                    _validation_ResultList.Add(new ValidationResultDTO
+                    Result = false,
+                    Message = "Item is not selected",
+                    Description = " Please, complete the missing information",
+                    Data = $"{nameof(Item_Header)}",
+                });
+            }
+            if (Item_HeaderDTO.ID != null && Item_HeaderDTO.ID != 0)
+            {
+                if (Item_HeaderDTO.SupportGroupID != null && Item_HeaderDTO.SupportGroupID != 0) 
+                {
+                    _validation_ResultList.Clear();
+                    var _item_SupportGroupDTO = new Item_SupportGroupDTO { Item_HeaderID = Item_HeaderDTO.ID, SupportGroupID = Item_HeaderDTO.SupportGroupID };
+                    var _itemSupportGroupDTO = Item_SupportGroup_Service.GetItem_SupportGroupList_Global(_item_SupportGroupDTO).FirstOrDefault();
+                    if (_itemSupportGroupDTO != null)
                     {
-                        Result = false,
-                        Message = "Item is already related to the support group",
-                        Description = " Please, relate to a different support group",
-                    });
+                        _validation_ResultList.Add(new ValidationResultDTO
+                        {
+                            Result = false,
+                            Message = "Item is already related to the support group",
+                            Description = " Please, relate to a different support group",
+                        });
+                    }
                 }
             }
 
@@ -187,16 +201,16 @@ public class Item_Header_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (Item_HeaderDTO.ItemClassificationDTO.ID == null || Item_HeaderDTO.ItemClassificationDTO.ID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "ItemClassification Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ItemClassificationDTO)}",
-                });
-            }
+            //if (Item_HeaderDTO.ItemClassificationDTO.ID == null || Item_HeaderDTO.ItemClassificationDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "ItemClassification Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ItemClassificationDTO)}",
+            //    });
+            //}
 
             if (Item_HeaderDTO.LastUpdateByID == null || Item_HeaderDTO.LastUpdateByID == 0)
             {

@@ -352,6 +352,8 @@ public class Item_Line_Service
                     properties.Add($"{nameof(_item_lineDTO.Item_SupportGroupDTO)}{nameof(_item_lineDTO.Item_SupportGroupDTO.ID)}", _item_lineDTO.Item_SupportGroupDTO.ID);
                     properties.Add(nameof(Item_LineXPO.Status), _item_lineDTO.StatusDTO.Name);
                     properties.Add($"{nameof(_item_lineDTO.StatusDTO)}{nameof(_item_lineDTO.StatusDTO.ID)}", _item_lineDTO.StatusDTO.ID);
+                    properties.Add(nameof(Item_LineXPO.PONumber), _item_lineDTO.PONumber);
+                    properties.Add(nameof(Item_LineXPO.POLine), _item_lineDTO.POLine);
                     properties.Add(nameof(Item_LineXPO.ImportInvoice), _item_lineDTO.ImportInvoice);
                     properties.Add(nameof(Item_LineXPO.ImportInvoiceLine), _item_lineDTO.ImportInvoiceLine);
                     properties.Add(nameof(Item_LineXPO.DeclarationNumber), _item_lineDTO.DeclarationNumber);

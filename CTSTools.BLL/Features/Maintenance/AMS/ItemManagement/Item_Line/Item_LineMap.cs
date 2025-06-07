@@ -29,6 +29,8 @@ public class Item_LineMap
             _item_lineDTO.OwnerDTO.Name = (Item_LineXPO.Owner != null) ? Item_LineXPO.Owner.Name : "Unnassigned";
             _item_lineDTO.Item_SupportGroupDTO.ID = (Item_LineXPO.Item_SupportGroup != null) ? Item_LineXPO.Item_SupportGroup.Oid : 0;
             _item_lineDTO.Serial = Item_LineXPO.Serial;
+            _item_lineDTO.PONumber = Item_LineXPO.PONumber;
+            _item_lineDTO.POLine = Item_LineXPO.POLine;
             _item_lineDTO.ManufactureSerialID = Item_LineXPO.ManufactureSerialID;
             _item_lineDTO.LegacyID = Item_LineXPO.LegacyID;
             _item_lineDTO.ShipmentReceiptID = Item_LineXPO.ShipmentReceiptID;
@@ -85,6 +87,8 @@ public class Item_LineMap
             _item_lineXPO.LastUpdate = _item_lineXPO.LastUpdate == Item_LineDTO.LastUpdate ? _item_lineXPO.LastUpdate : Item_LineDTO.LastUpdate;
             _item_lineXPO.LastUpdateBy = (_item_lineXPO.LastUpdateBy != null && _item_lineXPO.LastUpdateBy.Oid == Item_LineDTO.LastUpdateByID) ? _item_lineXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(Item_LineDTO.LastUpdateByID);
             _item_lineXPO.IsActive = _item_lineXPO.IsActive == Item_LineDTO.IsActive ? (bool)_item_lineXPO.IsActive : (bool)Item_LineDTO.IsActive;
+            _item_lineXPO.POLine = Item_LineDTO.POLine;
+            _item_lineXPO.PONumber = Item_LineDTO.PONumber;
             _item_lineXPO.ImportInvoice = Item_LineDTO.ImportInvoice;
             _item_lineXPO.ShipmentReceiptNumber = Item_LineDTO.ShipmentReceiptNumber;
             _item_lineXPO.Item_SupportGroup = (_item_lineXPO.Item_SupportGroup != null && _item_lineXPO.Item_SupportGroup.Oid == Item_LineDTO.Item_SupportGroupDTO.ID) ? _item_lineXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(Item_LineDTO.Item_SupportGroupDTO.ID);
