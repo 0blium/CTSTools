@@ -118,7 +118,19 @@ public class User_Permission_Service
         return PagedResultDTO.TotalCount;
     }
 
+    public static ValidationResultDTO CreateMultiple_Global(List<User_PermissionDTO> User_PermissionList)
+    {
+        // Step 1. 
+        var _validationResultDTO = User_Permission_Validator.CreateMultiple_Validation(User_PermissionList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 2.
+        _validationResultDTO = User_Permission_Repository.CreateMultiple(User_PermissionList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
 
+        return _validationResultDTO;
+    }
     #endregion
 
     #region Business Logic

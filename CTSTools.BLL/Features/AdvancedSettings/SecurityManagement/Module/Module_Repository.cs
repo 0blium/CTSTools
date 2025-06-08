@@ -87,6 +87,7 @@ public class Module_Repository
                 var _ModuleXPO = ModuleMap.DTOtoXPO(ModuleDTO, _unit);
                 _unit.Save(_ModuleXPO);
                 _unit.CommitChanges();
+                ModuleDTO.ID = _ModuleXPO.Oid;
             }
         }
         catch (Exception ex)

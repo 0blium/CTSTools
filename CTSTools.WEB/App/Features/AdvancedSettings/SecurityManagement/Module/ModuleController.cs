@@ -52,6 +52,18 @@ public class ModuleController : ApiController
         return Json(_validationResultDTO);
     }
     [HttpPost]
+    [Route("api/Module/AdvancedSetUp")]
+    public IHttpActionResult AdvancedModuleSetUp([FromBody] ModuleDTO ModuleDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Module), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ModuleDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Module_Service.CreateAdvancedModule_Global(ModuleDTO);
+        }
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
     [Route("api/Module/Update")]
     public IHttpActionResult UpdateModule([FromBody] ModuleDTO ModuleDTO)
     {

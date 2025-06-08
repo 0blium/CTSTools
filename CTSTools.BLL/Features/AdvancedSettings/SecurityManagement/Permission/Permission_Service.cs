@@ -42,6 +42,20 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             }
             return _ValidationResultDTO;
         }
+
+        public static ValidationResultDTO CreateMultiple_Global(List<PermissionDTO> PermissionList)
+        {
+            // Step 1. 
+            var _validationResultDTO = Permission_Validator.CreateMultiple_Validation(PermissionList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // Step 2.
+            _validationResultDTO = Permission_Repository.CreateMultiple(PermissionList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+
+            return _validationResultDTO;
+        }
         public static List<PermissionDTO> GetPermissionList_Global(PermissionDTO PermissionDTO, PagedResultDTO<PermissionDTO> PagedResultDTO = null)
         {
             var _permissionglobalList = new List<PermissionDTO>();

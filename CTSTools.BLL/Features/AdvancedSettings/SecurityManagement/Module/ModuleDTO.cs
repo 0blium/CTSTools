@@ -19,14 +19,21 @@ public class ModuleDTO
     #endregion
 
     #region Extended Properties
-
+    public bool CreatePermissionCheck { get;set; }
+    public bool ReadPermissionCheck { get;set; }
+    public bool UpdatePermissionCheck { get;set; }
+    public bool DeletePermissionCheck { get;set; }
     public int?[] ModuleIDArray { get; set; }
+    public int?[] RoleIDArray { get; set; }
+    public int?[] ActionIDArray { get; set; }
 
     #endregion
     #region Constructor
     public ModuleDTO()
     {
         ModuleIDArray = new int?[] { };
+        RoleIDArray = new int?[] { };
+        ActionIDArray = new int?[] { };
 
     }
     #endregion

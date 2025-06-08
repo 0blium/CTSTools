@@ -43,6 +43,19 @@ public class Role_Permission_Service
         _validationResultDTO = User_Permission_Service.DeletePermisssionToAllUsersByRole(_oldRole_PermissionDTO);
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Global(List<Role_PermissionDTO> Role_PermissionList)
+    {
+        // Step 1. 
+        var _validationResultDTO = Role_Permission_Validator.CreateMultiple_Validation(Role_PermissionList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 2.
+        _validationResultDTO = Role_Permission_Repository.CreateMultiple(Role_PermissionList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        return _validationResultDTO;
+    }
     public static List<Role_PermissionDTO> GetRole_PermissionList_Global(Role_PermissionDTO Role_PermissionDTO, PagedResultDTO<Role_PermissionDTO> PagedResultDTO = null)
     {
         var _role_permissionglobalList = new List<Role_PermissionDTO>();
