@@ -1,4 +1,5 @@
 using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -20,24 +21,24 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                 
                 // Field Validation
                
-                if (MailGroupMemberDTO.MailGroupDTO.ID == null || MailGroupMemberDTO.MailGroupDTO.ID == 0 )
+                if (MailGroupMemberDTO.MailGroupID == null || MailGroupMemberDTO.MailGroupID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "MailGroup Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.MailGroupDTO)}", 
+                        //Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.MailGroupDTO)}", 
                     });
                 }
-                if (MailGroupMemberDTO.UserDTO.ID == null || MailGroupMemberDTO.UserDTO.ID == 0 )
+                if (MailGroupMemberDTO.UserID == null || MailGroupMemberDTO.UserID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "User Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.UserDTO)}", 
+                        //Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.UserDTO)}", 
                     });
                 }
                 else
@@ -45,8 +46,8 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                     var _mailgroupMemberDTO = MailGroupMember_Service.GetMailGroupMemberList_Global(
                         new MailGroupMemberDTO
                         {
-                            UserDTO = MailGroupMemberDTO.UserDTO,
-                            MailGroupDTO = MailGroupMemberDTO.MailGroupDTO
+                            UserID = MailGroupMemberDTO.UserID,
+                            MailGroupID = MailGroupMemberDTO.MailGroupID
                         }).FirstOrDefault();
                     if(_mailgroupMemberDTO != null)
                     {
@@ -100,24 +101,24 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                 // Field Validation
                 
                
-                if (MailGroupMemberDTO.MailGroupDTO.ID == null || MailGroupMemberDTO.MailGroupDTO.ID == 0 )
+                if (MailGroupMemberDTO.MailGroupID == null || MailGroupMemberDTO.MailGroupID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "MailGroup Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.MailGroupDTO)}", 
+                        //Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.MailGroupDTO)}", 
                     });
                 }
-                if (MailGroupMemberDTO.UserDTO.ID == null || MailGroupMemberDTO.UserDTO.ID == 0 )
+                if (MailGroupMemberDTO.UserID == null || MailGroupMemberDTO.UserID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "User Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.UserDTO)}", 
+                        //Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.UserDTO)}", 
                     });
                 }
                 else
@@ -125,8 +126,8 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                     var _mailgroupMemberDTO = MailGroupMember_Service.GetMailGroupMemberList_Global(
                         new MailGroupMemberDTO
                         {
-                            UserDTO = MailGroupMemberDTO.UserDTO,
-                            MailGroupDTO = MailGroupMemberDTO.MailGroupDTO
+                            UserID = MailGroupMemberDTO.UserID,
+                            MailGroupID = MailGroupMemberDTO.MailGroupID
                         }).FirstOrDefault();
                     if (_mailgroupMemberDTO != null)
                     {
@@ -208,6 +209,109 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
             }
             return _validation_ResultDTO;
         }
-   
+
+        public static ValidationResultDTO CreateMailGroupMemberByGroups_Validation(MailGroupMemberDTO MailGroupMemberDTO)
+        {
+            var _validation_ResultDTO = new ValidationResultDTO
+            {
+                Description = "The record has been validated successfully.."
+            };
+            try
+            {
+                var _validation_ResultList = new List<ValidationResultDTO>();
+
+                // Field Validation
+
+                if (MailGroupMemberDTO.MailGroupIDArray == null || MailGroupMemberDTO.MailGroupIDArray.Count() == 0)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "MailGroup Field Empty",
+                        Description = " Please, complete the missing information ",
+                        //Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.MailGroupDTO)}",
+                    });
+                }
+                if (MailGroupMemberDTO.UserID == null || MailGroupMemberDTO.UserID == 0)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "User Field Empty",
+                        Description = " Please, complete the missing information ",
+                        Data = $"{nameof(MailGroupMember)}{nameof(MailGroupMemberDTO.UserDTO)}",
+                    });
+                }
+
+                if (MailGroupMemberDTO.AddedByID == null || MailGroupMemberDTO.AddedByID == 0)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "AddedByID Field Empty",
+                        Description = " Please, complete the missing information ",
+                    });
+                }
+                // if list contains a error, update main validation result
+                if (_validation_ResultList.Count > 0)
+                {
+                    _validation_ResultDTO.Result = false;
+                    _validation_ResultDTO.Message = "Errors!";
+                    _validation_ResultDTO.Description = "There is a list of errors";
+                    _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorSignal.FromCurrentContext().Raise(ex);
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Error!";
+                _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+            }
+            return _validation_ResultDTO;
+        }
+
+
+        public static ValidationResultDTO CreateMultiple_Validation(List<MailGroupMemberDTO> MailGroupMemberList)
+        {
+            var _validation_ResultDTO = new ValidationResultDTO
+            {
+                Description = "The record has been validated successfully.."
+            };
+            try
+            {
+                var _validation_ResultList = new List<ValidationResultDTO>();
+
+                foreach (var _mailGroupMemberDTO in MailGroupMemberList)
+                {
+                    // Field Validation
+                    _mailGroupMemberDTO.AddedDate = DateTime.Now;
+                    _mailGroupMemberDTO.IsActive = true;
+                    _validation_ResultDTO = CreateMailGroupMember_Validation(_mailGroupMemberDTO);
+                    if (!_validation_ResultDTO.Result)
+                        _validation_ResultList.Add(_validation_ResultDTO);
+                }
+
+                // if list contains a error, update main validation result
+                if (_validation_ResultList.Count > 0)
+                {
+                    _validation_ResultDTO.Result = false;
+                    _validation_ResultDTO.Message = "Errors!";
+                    _validation_ResultDTO.Description = "There is a list of errors";
+                    _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorSignal.FromCurrentContext().Raise(ex);
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Error!";
+                _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+            }
+            return _validation_ResultDTO;
+        }
+
     }
 }

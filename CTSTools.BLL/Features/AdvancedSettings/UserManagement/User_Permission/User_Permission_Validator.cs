@@ -1,5 +1,6 @@
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.BLL.Features.Security.Permissions.Permission;
 using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using Elmah;
@@ -333,6 +334,48 @@ public class User_Permission_Validator
                 if (!_validation_ResultDTO.Result)
                     _validation_ResultList.Add(_validation_ResultDTO);
             }
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
+
+
+    public static ValidationResultDTO DeleteMultiple_Validation(List<User_PermissionDTO> User_PermissionList)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            foreach (var _user_permissionDTO in User_PermissionList)
+            {
+                _user_permissionDTO.AddedDate = DateTime.Now;
+                _user_permissionDTO.IsActive = true;
+                _validation_ResultDTO = DeleteUser_Permission_Validation(_user_permissionDTO);
+                if (!_validation_ResultDTO.Result)
+                    _validation_ResultList.Add(_validation_ResultDTO);
+            }
+
 
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)

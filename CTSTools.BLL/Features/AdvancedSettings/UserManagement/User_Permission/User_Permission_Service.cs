@@ -1,6 +1,7 @@
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Role;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.ValueLink;
 using CTSTools.BLL.Features.Security.Permissions.Permission;
 using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using Elmah;
@@ -28,6 +29,7 @@ public class User_Permission_Service
         var _ValidationResultDTO = User_Permission_Validator.DeleteUser_Permission_Validation(User_PermissionDTO);
         if (_ValidationResultDTO.Result)
         {
+            User_PermissionDTO.IsActive = true;
             _ValidationResultDTO = User_Permission_Repository.DeleteUser_Permission(User_PermissionDTO);
         }
         return _ValidationResultDTO;
@@ -68,7 +70,7 @@ public class User_Permission_Service
         {
             if (User_PermissionDTO.GetPermissionDTO)
             {
-                User_PermissionDTO.PermissionIDArray = User_PermissionList.GroupBy(g => g.PermissionID)
+                User_PermissionDTO.PermissionDTO.PermissionIDArray = User_PermissionList.GroupBy(g => g.PermissionID)
                                                                                         .Select(s => s.Key)
                                                                                         .ToArray();
 
@@ -131,6 +133,16 @@ public class User_Permission_Service
 
         return _validationResultDTO;
     }
+
+    public static ValidationResultDTO DeleteMultiple_Global(List<User_PermissionDTO> User_PermissionList)
+    {
+        var _validationResultDTO = User_Permission_Validator.DeleteMultiple_Validation(User_PermissionList);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = User_Permission_Repository.DeleteMultiple(User_PermissionList);
+        }
+        return _validationResultDTO;
+    }
     #endregion
 
     #region Business Logic
@@ -142,18 +154,27 @@ public class User_Permission_Service
             _validationResultDTO = User_Permission_Validator.CreateUser_PermissionByArray_Validation(User_PermissionDTO);
             if (_validationResultDTO.Result)
             {
-                foreach (var _permissionID in User_PermissionDTO.PermissionIDArray)
-                {
-                    var _role_PermissionDTO = new User_PermissionDTO
-                    {
-                        UserID = User_PermissionDTO.UserID,
-                        AddedByID = User_PermissionDTO.AddedByID,
-                        IsActive = true,
-                        PermissionID = _permissionID
-                    };
+                // Retrieve current records to prevent duplicate insertions
+                var _userPermissionIDArray = GetUser_PermissionList_Global(new User_PermissionDTO { UserID = User_PermissionDTO.UserID })
+                    .GroupBy(x => x.PermissionID).Select(x => x.Key).ToArray();
 
-                    _validationResultDTO = CreateUser_Permission_Global(_role_PermissionDTO);
-                }
+                User_PermissionDTO.PermissionIDArray = User_PermissionDTO.PermissionIDArray.Except(_userPermissionIDArray).ToArray();
+
+                //Create new objects
+                var _user_PermissionDTOList = User_PermissionDTO.PermissionIDArray.Select(permissionID => 
+                new User_PermissionDTO
+                {
+                    PermissionID = permissionID,
+                    UserID = User_PermissionDTO.UserID,
+                    AddedByID = User_PermissionDTO.AddedByID,
+                    IsActive = true,
+                }).ToList();
+
+
+                if (_user_PermissionDTOList.Count() > 0)
+                    CreateMultiple_Global(_user_PermissionDTOList);
+
+
             }
 
         }

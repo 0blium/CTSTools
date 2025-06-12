@@ -7,7 +7,7 @@ import { GetDXRoleDataSource } from '../SecurityManagement/Role/Role_Service.js'
 import { GetDXPermissionDataSource } from '../SecurityManagement/Permission/Permission_Service.js'
 import { GetUser_PermissionInformation, CreateUser_Permission, DeleteUser_Permission } from './User_Permission/User_Permission_Service.js'
 import { GetDXMailGroupDataSource } from '../MailGroupManagement/MailGroup/MailGroup_Service.js'
-import { GetDXMailGroupMemberDataSource, GetMailGroupMemberInformation } from '../MailGroupManagement/MailGroupMember/MailGroupMember_Service.js'
+import { GetDXMailGroupMemberDataSource, GetMailGroupMemberInformation, CreateMailGroupMemberByGroups,DeleteMailGroupMember } from '../MailGroupManagement/MailGroupMember/MailGroupMember_Service.js'
 
 import { GetDXUser_RoleDataSource, GetUser_RoleInformation, CreateUser_Role, DeleteUser_Role } from './User_Role/User_Role_Service.js'
 import { RoleType_Enum } from '../../AdvancedSettings/SecurityManagement/RoleType/RoleType_Enum.js'
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     await InitializeUserCatalogControls();
     InitializeUser_PermissionControls();
     InitializeUser_RoleControls();
-
+    InitializeMailGroupControls();
 });
 //#region User Catalog
 async function InitializeUserCatalogControls() {
@@ -204,6 +204,11 @@ function masterDetailTemplate(_, masterDetailOptions) {
             template: MailGroupMemberTabTemplate(masterDetailOptions.data),
         }
         ],
+        onSelectionChanged: function () {
+            setTimeout(function () {
+                masterDetailOptions.component.updateDimensions();
+            }, 0); 
+        }
     });
 }
 function ClearUserFields() {
@@ -380,7 +385,6 @@ async function InitializeUser_PermissionControls() {
 function PermissionTabTemplate(masterDetailData) {
 
     return function () {
-        //document.getElementById("User_PermissionButton").addEventListener("click", ClearUser_PermissionFields);
         let _user_permissionDataGrid;
         async function onDataGridInitialized(e) {
             _user_permissionDataGrid = e.component;
@@ -458,22 +462,32 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
             },
             columns: [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenUserID").val(options.data.UserID);
-                                $("#hiddenUser_PermissionID").val(options.data.ID);
-                                ShowUser_PermissionDeleteQuestion();
-                            }).appendTo(container);
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 1 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenUserID").val(options.data.UserID);
+                                    $("#hiddenUser_PermissionID").val(options.data.ID);
+                                    ShowUser_PermissionDeleteQuestion();
+                                }
+                                else if (e.itemData.value == 2) {
+
+                                }
+                            },
+                        });
                     },
                 },
                 { caption: "ID", dataField: "ID", visible: false },
@@ -491,14 +505,10 @@ function PermissionButton(UserID) {
     return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewPermissionUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Permission</a>`).on("click", $("#hiddenUserID").val(UserID));
 
 }
-function ClearUser_PermissionFields() {
+function ClearUser_PermissionFields(UserID) {
     User_PermissionActionButtons("Save");
     $('#hiddenUser_PermissionID').val("");
-    let dxUser_PermissionPermissionKeys = $("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxPermissionDataGrid").dxDataGrid("instance").deselectRows(dxUser_PermissionPermissionKeys);
-    $("#dxPermissionDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxPermissionDataGrid").dxDataGrid("instance").refresh();
-
+    
     ClearErrorFeedback();
 }
 function User_PermissionActionButtons(Action) {
@@ -527,8 +537,8 @@ async function CreateUser_Permission_Global() {
     const _user_PermissionDTO = GetUser_PermissionDTO();
     const _validation_ResultDTO = await CreateUser_Permission(_user_PermissionDTO);
     if (_validation_ResultDTO.Result) {
-        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
-        ClearUser_PermissionFields();
+        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID, GetPermissionDTO: true }));
+        ClearUser_PermissionFields(_user_PermissionDTO.UserID);
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -538,8 +548,8 @@ async function DeleteUser_Permission_Global() {
     const _user_PermissionDTO = GetUser_PermissionDTO();
     const _validation_ResultDTO = await DeleteUser_Permission(_user_PermissionDTO);
     if (_validation_ResultDTO.Result) {
-        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
-        ClearUser_PermissionFields();
+        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID, GetPermissionDTO: true }));
+        ClearUser_PermissionFields(_user_PermissionDTO.UserID);
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -575,31 +585,28 @@ async function InitializeUser_RoleControls() {
 }
 function RoleTabTemplate(masterDetailData) {
     return function () {
-        //document.getElementById("User_RoleButton").addEventListener("click", ClearUser_RoleFields);
         let _user_roleDataGrid;
         async function onDataGridInitialized(e) {
             _user_roleDataGrid = e.component;
             let _user_roleDTO = await GetDXUser_RoleDataSource({ UserID: masterDetailData.ID })
-            console.log(_user_roleDTO)
-            console.log(masterDetailData.ID)
             _user_roleDataGrid.option('dataSource', _user_roleDTO);
+
         }
         return $('<div>').addClass('form-container').dxForm({
             labelLocation: 'top',
             items: [
                 {
-                    template: RoleButton(),
+                    template: RoleButton(masterDetailData.ID),
                 }
                 , {
-                    template: RoleGridTemplate(onDataGridInitialized),
+                    template: RoleGridTemplate(onDataGridInitialized, masterDetailData.ID),
                 }],
         });
     };
 }
-function RoleGridTemplate(onDataGridInitialized) {
-    return async function () {
-        //return $('<div>').dxDataGrid({
-        return $(`<div id="dxUser_RoleGrid">`).dxDataGrid({
+function RoleGridTemplate(onDataGridInitialized, UserID) {
+    return function () {
+        return $(`<div id="dxUser_RoleGrid${UserID}">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
             keyExpr: "ID",
             paging: {
@@ -608,22 +615,32 @@ function RoleGridTemplate(onDataGridInitialized) {
             showBorders: true,
             columns: [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenUser_PermissionID").val(options.data.ID);
-                                ShowUser_PermissionDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 1 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenUserID").val(options.data.UserID);
+                                    $("#hiddenUser_RoleID").val(options.data.ID);
+                                    ShowUser_RoleDeleteQuestion();
+                                }
+                                else if (e.itemData.value == 2) {
+                                }
+                            },
+                        });
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false },
                 { caption: "Role", dataField: "RoleName" },
@@ -637,22 +654,19 @@ function RoleGridTemplate(onDataGridInitialized) {
         });
     };
 }
-function RoleButton() {
-    return $('<br><a class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewRoleUserModal" id="User_RoleButton"><i class="fa-solid fa-circle-plus"></i> Role</a>');
+function RoleButton(UserID) {
+    return $(`<br><a class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewRoleUserModal" id="User_RoleButton" data-userid="${UserID}" id="User_RoleButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Role</a>`).on("click", $("#hiddenUserID").val(UserID));
 }
 
-function ClearUser_RoleFields() {
+function ClearUser_RoleFields(UserID) {
     User_RoleActionButtons("Save");
     $('#hiddenUser_RoleID').val("");
     $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").reset();
-    let keys = $("#dxUser_RoleGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxUser_RoleGrid").dxDataGrid("instance").deselectRows(keys);
-    $("#dxUser_RoleGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxUser_RoleGrid").dxDataGrid("instance").refresh();
     ClearErrorFeedback();
 }
 function User_RoleActionButtons(Action) {
     $("#UserActionButtons").empty();
+    document.getElementById("User_RoleModalCloseButton").addEventListener("click", ClearUser_RoleFields);
     if (Action == "Save") {
         document.getElementById("User_RoleActionButtons").innerHTML =
             '<div class="col-md-12">' +
@@ -662,8 +676,6 @@ function User_RoleActionButtons(Action) {
 
     }
     else {
-        // Update
-        document.getElementById("ClearUser_RoleButton").addEventListener("click", ClearUserFields);
     }
 }
 async function PopulateUser_RoleFields(data) {
@@ -674,7 +686,6 @@ async function PopulateUser_RoleFields(data) {
 function GetUser_RoleDTO() {
     let _user_RoleDTO = {
         ID: $("#hiddenUser_RoleID").val(),
-        //UserID: $("#dxUser_RoleUserSelectBox").dxSelectBox("instance").option("value"),
         UserID: $("#hiddenUserID").val(),
         RoleID: $("#dxUser_RoleRoleSelectBox").dxSelectBox("instance").option("value"),
         IsActive: true
@@ -686,7 +697,10 @@ async function CreateUser_Role_Global() {
     const _user_RoleDTO = GetUser_RoleDTO();
     const _validation_ResultDTO = await CreateUser_Role(_user_RoleDTO);
     if (_validation_ResultDTO.Result) {
-        ClearUser_RoleFields();
+        $(`#dxUser_RoleGrid${_user_RoleDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetDXUser_RoleDataSource({ UserID: _user_RoleDTO.UserID }));
+        $(`#dxUser_PermissionGrid${_user_RoleDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_RoleDTO.UserID, GetPermissionDTO: true }));
+
+        ClearUser_RoleFields(_user_RoleDTO.UserID);
         $("#AddNewRoleUserModal").modal('hide');
     }
     HostResponse(_validation_ResultDTO);
@@ -697,7 +711,10 @@ async function DeleteUser_Role_Global() {
     const _user_RoleDTO = GetUser_RoleDTO();
     const _validation_ResultDTO = await DeleteUser_Role(_user_RoleDTO);
     if (_validation_ResultDTO.Result) {
-        ClearUser_RoleFields();
+        $(`#dxUser_RoleGrid${_user_RoleDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetDXUser_RoleDataSource({ UserID: _user_RoleDTO.UserID }));
+        $(`#dxUser_PermissionGrid${_user_RoleDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_RoleDTO.UserID, GetPermissionDTO: true }));
+
+        ClearUser_RoleFields(_user_RoleDTO.UserID);
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -714,7 +731,7 @@ async function ShowUser_RoleDeleteQuestion() {
     if (_alert.isConfirmed) {
         DeleteUser_Role_Global();
     } else {
-        ClearUser_RoleFields();
+        ClearUser_RoleFields($("#hiddenUserID").val());
     }
 }
 //#endregion
@@ -730,77 +747,18 @@ async function getUserDataGridDataSource_Global() {
 //#endregion
 
 
-//#region User Roles
+//#region Mail Group 
 async function InitializeMailGroupControls() {
-    $("#dxMailGroupDataGrid").dxDataGrid({
-        dataSource: await GetDXMailGroupDataSource(),
-        keyExpr: "ID",
-        remoteOperations: true,
-        pager: {
-            showPageSizeSelector: true,
-            allowedPageSizes: [15, 50, 100],
-            showInfo: true
-        },
-        allowColumnReordering: true,
-        allowColumnResizing: true,
-        columnResizingMode: 'widget',
-        columnMinWidth: 100,
-        showRowLines: true,
-        showColumnLines: false,
-        showBorders: true,
-        focusedRowEnabled: true,
-        hoverStateEnabled: true,
-        rowAlternationEnabled: false,
-        columnAutoWidth: true,
-        groupPanel: {
-            visible: true
-        },
-        grouping: {
-            autoExpandAll: true,
-        },
-        columnChooser: {
-            enabled: true
-        },
-        columnFixing: {
-            enabled: true
-        },
-        "export": {
-            enabled: true,
-            fileName: "Mail Group Catalog",
-            allowExportSelectedData: true
-        },
-        filterRow: {
-            visible: true,
-            applyFilter: "auto"
-        },
-        searchPanel: {
-            visible: true,
-            placeholder: "Search...",
-            width: 300
-        },
-        sorting: {
-            mode: "multiple"
-        },
-        selection: {
-            mode: 'multiple',
-            selectAllMode: 'page',
-            showCheckBoxesMode: 'always'
-        },
-        columns:
-            [
-                { caption: "ID", dataField: "ID", visible: false },
-                { caption: "Name", dataField: "Name" },
-                { caption: "Description", dataField: "Description" },
-                { caption: "Action", dataField: "ActionName" },
-                { caption: "Added By ID", dataField: "AddedByID", visible: false },
-                { caption: "Added By", dataField: "AddedByName" },
-                { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
-                { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
-                { caption: "Last Update By", dataField: "LastUpdateByName" },
-                { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
-
-
-            ],
+    
+    $("#dxUserMailGroupTagBox").dxTagBox({
+        dataSource: await GetDXMailGroupDataSource({IsActive:true}),
+        displayExpr: "Name",
+        deferRendering: false,
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'useButtons',
+        popupWidth: 450,
     });
     MailGroupMemberActionButtons("Save");
 }
@@ -810,7 +768,7 @@ function MailGroupMemberTabTemplate(masterDetailData) {
         let _mailgroupmemberDataGrid;
         async function onDataGridInitialized(e) {
             _mailgroupmemberDataGrid = e.component;
-            let _mailgroupmemberDTO = await GetMailGroupMemberInformation({ UserID: masterDetailData.ID });
+            let _mailgroupmemberDTO = await GetDXMailGroupMemberDataSource({ UserID: masterDetailData.ID });
             _mailgroupmemberDataGrid.option('dataSource', _mailgroupmemberDTO);
         }
         return $('<div>').addClass('form-container').dxForm({
@@ -883,28 +841,38 @@ function MailGroupMemberGridTemplate(onDataGridInitialized, UserID) {
             },
             columns: [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
+                    width: 80,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenUserID").val(options.data.UserID);
-                                $("#hiddenMailGroupMemberID").val(options.data.ID);
-                                ShowMailGroupMemberDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 1 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $("#hiddenUserID").val(options.data.UserID);
+                                    $("#hiddenMailGroupMemberID").val(options.data.ID);
+                                    ShowMailGroupMemberDeleteQuestion();
+                                }
+                                else if (e.itemData.value == 2) {
+                                    
+                                }
+                            },
+                        });
+                    },                   
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
-                { caption: "Mail Group", dataField: "MailGroupDTO.Name" },
-                { caption: "User", dataField: "UserDTO.Name" },
+                { caption: "Mail Group", dataField: "MailGroupName" },
+                { caption: "User", dataField: "UserName" },
                 { caption: "Added By ID", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
@@ -914,58 +882,58 @@ function MailGroupMemberGridTemplate(onDataGridInitialized, UserID) {
     };
 }
 function MailGroupButton(UserID) {
-    return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewPermissionUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Mail Group</a>`).on("click", $("#hiddenUserID").val(UserID));
+    return $(`<br><a  class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#AddNewMailGroupMemberUserModal" data-userid="${UserID}" id="User_PermissionButton${UserID}"><i class="fa-solid fa-circle-plus"></i> Mail Group</a>`).on("click", $("#hiddenUserID").val(UserID));
 
 }
 function ClearMailGroupFields() {
     MailGroupMemberActionButtons("Save");
     $('#hiddenMailGroupMemberID').val("");
-    let dxMailGroupKeys = $("#dxMailGroupDataGrid").dxDataGrid("instance").getSelectedRowKeys();
-    $("#dxMailGroupDataGrid").dxDataGrid("instance").deselectRows(dxMailGroupKeys);
-    $("#dxMailGroupDataGrid").dxDataGrid("instance").option("focusedRowIndex", -1);
-    $("#dxMailGroupDataGrid").dxDataGrid("instance").refresh();
+    $("#dxUserMailGroupTagBox").dxTagBox("instance").reset();
 
     ClearErrorFeedback();
 }
 function MailGroupMemberActionButtons(Action) {
 
-    document.getElementById("User_PermissionModalCloseButton").addEventListener("click", ClearMailGroupFields);
-    $("#UserActionButtons").empty();
+    document.getElementById("UserMailGroupModalCloseButton").addEventListener("click", ClearMailGroupFields);
+    $("#UserMailGroupActionButtons").empty();
     if (Action == "Save") {
-        document.getElementById("User_PermissionActionButtons").innerHTML =
+        document.getElementById("UserMailGroupActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateUser_PermissionButton" type="button">Save</button>' +
+            '<button class="btn btn-success m-b-15 float-end" id="CreateMailGroupMemberButton" type="button">Save</button>' +
             '</div>';
-        document.getElementById("CreateUser_PermissionButton").addEventListener("click", CreateMailGroupMember_Global);
+        document.getElementById("CreateMailGroupMemberButton").addEventListener("click", CreateMailGroupMember_Global);
 
     }
 }
 function GetMailGroupMemberDTO() {
-    let _user_PermissionDTO = {
-        ID: $("#hiddenUser_PermissionID").val(),
+    let _mailGroupMemberDTO = {
+        ID: $("#hiddenMailGroupMemberID").val(),
         UserID: $("#hiddenUserID").val(),
-        PermissionIDArray: ($("#dxPermissionDataGrid").dxDataGrid("instance").getSelectedRowsData()).map(m => m.ID),
+        MailGroupIDArray: $("#dxUserMailGroupTagBox").dxTagBox("instance").option("value")
+,
     }
-    return _user_PermissionDTO;
+    return _mailGroupMemberDTO;
 }
 async function CreateMailGroupMember_Global() {
     await dxLoadPanel.show();
-    const _user_PermissionDTO = GetMailGroupMemberDTO();
-    const _validation_ResultDTO = await CreateUser_Permission(_user_PermissionDTO);
+    const _mailGroupMemberDTO = GetMailGroupMemberDTO();
+    const _validation_ResultDTO = await CreateMailGroupMemberByGroups(_mailGroupMemberDTO);
     if (_validation_ResultDTO.Result) {
-        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
-        ClearUser_PermissionFields();
+        $(`#dxMailGroupMemberGrid${_mailGroupMemberDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetDXMailGroupMemberDataSource({ UserID: _mailGroupMemberDTO.UserID }));
+        ClearMailGroupFields();
+
+        $("#AddNewMailGroupMemberUserModal").modal('hide');
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
 async function DeleteMailGroupMember_Global() {
     await dxLoadPanel.show();
-    const _user_PermissionDTO = GetMailGroupMemberDTO();
-    const _validation_ResultDTO = await DeleteUser_Permission(_user_PermissionDTO);
+    const _mailGroupMemberDTO = GetMailGroupMemberDTO();
+    const _validation_ResultDTO = await DeleteMailGroupMember(_mailGroupMemberDTO);
     if (_validation_ResultDTO.Result) {
-        $(`#dxUser_PermissionGrid${_user_PermissionDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetUser_PermissionInformation({ UserID: _user_PermissionDTO.UserID }));
-        ClearUser_PermissionFields();
+        $(`#dxMailGroupMemberGrid${_mailGroupMemberDTO.UserID}`).dxDataGrid("instance").option("dataSource", await GetDXMailGroupMemberDataSource({ UserID: _mailGroupMemberDTO.UserID }));
+        ClearMailGroupFields();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
@@ -982,7 +950,7 @@ async function ShowMailGroupMemberDeleteQuestion() {
     if (_alert.isConfirmed) {
         DeleteMailGroupMember_Global();
     } else {
-        ClearUser_PermissionFields();
+        ClearMailGroupFields();
     }
 }
 //#endregion

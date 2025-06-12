@@ -101,7 +101,8 @@ public class Module_Service
         var _actionDTOList = Action_Service.GetActionList_Global(new ActionDTO { ActionIDArray=ModuleDTO.ActionIDArray });
         
         var _permissionDTOList = _actionDTOList.Select(ActionDTO => new PermissionDTO {
-            Name = $"Allow to {(ActionDTO.ID == (int)Action_Enum.Read ? "see" : ActionDTO.ID == (int)Action_Enum.Update ? "edit" : ActionDTO.Name.ToLower())} {System.Text.RegularExpressions.Regex.Replace(ModuleDTO.Name, "(?<!^)(?=[A-Z])", " ").ToLower()}",
+            Name = $"Allow to {(ActionDTO.ID == (int)Action_Enum.Read ? "see" : ActionDTO.ID == (int)Action_Enum.Update ? "edit" : ActionDTO.Name.ToLower())} " +
+            $"{System.Text.RegularExpressions.Regex.Replace(ModuleDTO.Name, "(?<!^)(?=[A-Z])", " ").ToLower()}",
             ModuleID = ModuleDTO.ID,
             ActionID = ActionDTO.ID,
             AddedByID = ModuleDTO.AddedByID
@@ -112,9 +113,11 @@ public class Module_Service
         if (!_validationResultDTO.Result)
             return _validationResultDTO;
         //step 3 assign permission to role
-        var _permissionIDArray = Permission_Service.GetPermissionList_Global(new PermissionDTO { ModuleID = ModuleDTO.ID }).Select(x=>x.ID).ToArray();
+        var _permissionIDArray = Permission_Service.GetPermissionList_Global(new PermissionDTO { ModuleID = ModuleDTO.ID })
+            .Select(x=>x.ID).ToArray();
 
-        var _rolePermissionDTOList = ModuleDTO.RoleIDArray.SelectMany(roleID => _permissionIDArray,(roleId,permissionID) => new Role_PermissionDTO
+        var _rolePermissionDTOList = ModuleDTO.RoleIDArray.SelectMany(roleID => _permissionIDArray,(roleId,permissionID) => 
+        new Role_PermissionDTO
         {
             RoleID=roleId,
             PermissionID=permissionID,
@@ -128,9 +131,11 @@ public class Module_Service
             return _validationResultDTO;
 
         //step 4 assign permission to users
-        var _userIDArray = User_Role_Service.GetUser_RoleList_Global(new User_RoleDTO { RoleIDArray = ModuleDTO.RoleIDArray }).GroupBy(g => g.UserID).Select(s => s.Key).ToArray();
+        var _userIDArray = User_Role_Service.GetUser_RoleList_Global(new User_RoleDTO { RoleIDArray = ModuleDTO.RoleIDArray })
+            .GroupBy(g => g.UserID).Select(s => s.Key).ToArray();
 
-        var _user_PermissionDTOList = _userIDArray.SelectMany(userID => _permissionIDArray, (userID, permissionID) => new User_PermissionDTO
+        var _user_PermissionDTOList = _userIDArray.SelectMany(userID => _permissionIDArray, (userID, permissionID) => 
+        new User_PermissionDTO
         {
             UserID = userID,
             PermissionID = permissionID,

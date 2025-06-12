@@ -149,7 +149,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="rolesModalLabel">Add new roles to user</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"  id="User_RoleModalCloseButton" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="col-md-12 mb-2">
@@ -170,6 +170,33 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="AddNewMailGroupMemberUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="MailGroupModalLabel">Add new mail groups to user</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"  id="UserMailGroupModalCloseButton" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 mb-2">
+                    <label class="text-muted">If the value that you want doesn´t exits on the list below, create a new mailgroup clicking <a class="h6 text-color-link" href="/App/Features/AdvancedSettings/MailGroupManagement/MailGroupCatalog.aspx">here</a>)</label>
+
+                </div>
+                <div class="row mb-15px">
+                    <label class="form-label col-form-label col-md-3">Mail Groups (<span class="text-danger">*</span>)</label>
+                    <div class="col-md-9">
+                        <div id="dxUserMailGroupTagBox"></div>
+                        <div class="invalid-feedback" id="UserMailGroupValidation"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row" id="UserMailGroupActionButtons"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <input type="hidden" id="hiddenUserID" hidden />
     <input type="hidden" id="hiddenUser_PermissionID" hidden />

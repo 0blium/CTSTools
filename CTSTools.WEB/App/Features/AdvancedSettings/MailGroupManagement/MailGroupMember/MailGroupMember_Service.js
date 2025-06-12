@@ -17,6 +17,20 @@ export async function CreateMailGroupMember(MailGroupMemberDTO) {
     return _validationResultDTO;
 }
 
+export async function CreateMailGroupMemberByGroups(MailGroupMemberDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/MailGroupMember/CreateByGroups`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', MailGroupMemberDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
+
 export async function UpdateMailGroupMember(MailGroupMemberDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/MailGroupMember/Update`;

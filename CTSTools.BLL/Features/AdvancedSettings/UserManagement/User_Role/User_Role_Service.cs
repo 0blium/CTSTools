@@ -3,6 +3,7 @@ using CTSTools.BLL.Features.AdvancedSettings.RoleManagement.Role;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
 using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
+using CTSTools.DAL.Features.AdvancedSettings.SecurityManagement;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ public class User_Role_Service
     {
         var _ValidationResultDTO = User_Role_Validator.DeleteUser_Role_Validation(User_RoleDTO);
         if (_ValidationResultDTO.Result)
+            User_RoleDTO = GetUser_RoleList_Global(new User_RoleDTO { ID=  User_RoleDTO.ID }).FirstOrDefault();
             _ValidationResultDTO = User_Role_Repository.DeleteUser_Role(User_RoleDTO);
         if (_ValidationResultDTO.Result)
             RemovePermissionToUserByRole(User_RoleDTO);
@@ -277,22 +279,31 @@ public class User_Role_Service
                 RoleID = User_RoleDTO.RoleID,
                 IsActive = true
             };
-            var _role_PermissionInformation = Role_Permission_Service.GetRole_PermissionList_Global(_role_permissionDTO);
+            // Retrieve current records to prevent duplicate insertions
+            var _rolePermissionIDArray = Role_Permission_Service.GetRole_PermissionList_Global(_role_permissionDTO)
+                .GroupBy(x => x.PermissionID).Select(x => x.Key).ToArray();
 
-            if (_role_PermissionInformation.Count() == 0)
+            var _userPermissionIDArray = User_Permission_Service.GetUser_PermissionList_Global(new User_PermissionDTO { UserID = User_RoleDTO.UserID })
+                .GroupBy(x => x.PermissionID).Select(x => x.Key).ToArray();
+
+
+            var _newPermissionIDArray = _rolePermissionIDArray.Except(_userPermissionIDArray).ToArray();
+
+            if (_newPermissionIDArray.Count() == 0)
                 return _validation_ResultDTO;
 
-            foreach (var role_permissionDTO in _role_PermissionInformation)
+            //Create new objects
+            var _user_PermissionDTOList = _newPermissionIDArray.Select(permissionID => new User_PermissionDTO
             {
-                var _user_permissionDTO = new User_PermissionDTO
-                {
-                    PermissionID = role_permissionDTO.PermissionID,
-                    UserID = User_RoleDTO.UserID,
-                    AddedByID = User_RoleDTO.AddedByID,
-                    IsActive = User_RoleDTO.IsActive
-                };
-                _validation_ResultDTO = User_Permission_Service.CreateUser_Permission_Global(_user_permissionDTO);
-            }
+                PermissionID = permissionID,
+                UserID = User_RoleDTO.UserID,
+                AddedByID = User_RoleDTO.AddedByID
+            }).ToList();
+
+            if (_user_PermissionDTOList.Count() > 0)
+                User_Permission_Service.CreateMultiple_Global(_user_PermissionDTOList);
+
+
         }
         catch (Exception ex)
         {
@@ -310,32 +321,60 @@ public class User_Role_Service
         var _validation_ResultDTO = new ValidationResultDTO();
         try
         {
-            //Get Permissions by role
+
+
+
+            ////Get Permissions by role
             var _role_permissionDTO = new Role_PermissionDTO
             {
                 RoleID = User_RoleDTO.RoleID,
                 IsActive = true
             };
-            var _role_PermissionInformation = Role_Permission_Service.GetRole_PermissionList_Global(_role_permissionDTO);
-            if (_role_PermissionInformation.Count() > 0)
-                return _validation_ResultDTO;
-            //Get  Permission ID Array 
-            var _permissionIDArray = _role_PermissionInformation.Select(s => s.PermissionID).ToArray();
-            //Get User and Permissions Relation ,Consult User ID and Permissions ID's
-            var _user_permission = new User_PermissionDTO
+            var _rolePermissionIDArray = Role_Permission_Service.GetRole_PermissionList_Global(_role_permissionDTO)
+                .GroupBy(x => x.PermissionID).Select(x => x.Key).ToArray();
+
+            var _userRoleIDArray = GetUser_RoleList_Global(new User_RoleDTO { UserID = User_RoleDTO.UserID })
+                .GroupBy(x => x.RoleID).Select(x => x.Key).ToArray();
+
+            var _userRolesPermissionIDArray = Role_Permission_Service.GetRole_PermissionList_Global(new Role_PermissionDTO { RoleIDArray = _userRoleIDArray})
+                .GroupBy(x => x.PermissionID).Select(x => x.Key).ToArray();
+
+
+            _rolePermissionIDArray = _rolePermissionIDArray.Except(_userRolesPermissionIDArray).ToArray();
+
+
+            var _user_permissionDTO = new User_PermissionDTO
             {
                 UserID = User_RoleDTO.UserID,
-                PermissionIDArray = _permissionIDArray
+                PermissionIDArray = _rolePermissionIDArray
             };
-            var _user_PermissionList = User_Permission_Service.GetUser_PermissionList_Global(_user_permission);
-            //Delete User Permission relation
-            foreach (var _user_PermissionDTO in _user_PermissionList)
-            {
-                _validation_ResultDTO = User_Permission_Validator.ValidateRemovePermissionToUserByRole(_user_PermissionDTO);
-                if (_validation_ResultDTO.Result)
-                    _validation_ResultDTO = User_Permission_Service.DeleteUser_Permission_Global(_user_PermissionDTO);
+            var _user_PermissionDTOList = User_Permission_Service.GetUser_PermissionList_Global(_user_permissionDTO);
 
-            }
+            if (_user_PermissionDTOList.Count() > 0)
+                User_Permission_Service.DeleteMultiple_Global(_user_PermissionDTOList);
+
+
+
+            //var _role_PermissionInformation = Role_Permission_Service.GetRole_PermissionList_Global(_role_permissionDTO);
+            //if (_role_PermissionInformation.Count() > 0)
+            //    return _validation_ResultDTO;
+            ////Get  Permission ID Array 
+            //var _permissionIDArray = _role_PermissionInformation.Select(s => s.PermissionID).ToArray();
+            ////Get User and Permissions Relation ,Consult User ID and Permissions ID's
+            //var _user_permission = new User_PermissionDTO
+            //{
+            //    UserID = User_RoleDTO.UserID,
+            //    PermissionIDArray = _permissionIDArray
+            //};
+            //var _user_PermissionList = User_Permission_Service.GetUser_PermissionList_Global(_user_permission);
+            ////Delete User Permission relation
+            //foreach (var _user_PermissionDTO in _user_PermissionList)
+            //{
+            //    _validation_ResultDTO = User_Permission_Validator.ValidateRemovePermissionToUserByRole(_user_PermissionDTO);
+            //    if (_validation_ResultDTO.Result)
+            //        _validation_ResultDTO = User_Permission_Service.DeleteUser_Permission_Global(_user_PermissionDTO);
+
+            //}
         }
         catch (Exception ex)
         {
