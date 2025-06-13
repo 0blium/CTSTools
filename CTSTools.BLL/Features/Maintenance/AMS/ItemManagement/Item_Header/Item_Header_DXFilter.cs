@@ -32,14 +32,6 @@ public class Item_Header_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Model), Item_HeaderDTO.Model));
             }
-            if (Item_HeaderDTO.ItemClassificationDTO.ID != null || Item_HeaderDTO.ItemClassificationDTO.ID > 0)
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.ItemClassification), Item_HeaderDTO.ItemClassificationDTO.ID));
-            }
-            if (Item_HeaderDTO.ItemClassificationIDArray != null && Item_HeaderDTO.ItemClassificationIDArray.Count() > 0)
-            {
-                _groupOperator.Operands.Add(new InOperator(nameof(Item_HeaderXPO.ItemClassification), Item_HeaderDTO.ItemClassificationIDArray));
-            }
             if (Item_HeaderDTO.AddedByID != null && Item_HeaderDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.AddedBy), Item_HeaderDTO.AddedByID));

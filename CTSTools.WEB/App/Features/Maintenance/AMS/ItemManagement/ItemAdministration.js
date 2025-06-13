@@ -5,7 +5,6 @@ import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Respo
 import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile, SaveItem_HeaderMultipleFile } from './Item_Header/Item_Header_Service.js'
 import { GetDXItem_SupportGroupDataSource, CreateItem_SupportGroup, UpdateItem_SupportGroup, DeleteItem_SupportGroup, GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
 import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
-import { GetDXItemClassificationDataSource } from '../../../AdvancedSettings/ItemClassification/ItemClassification_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetDXItem_LineDataSource, GetItem_LineMasterDetailInformation, GetItem_LineFilesInformation, DeleteItem_LineFile, GetItem_LineFilesTreeView, ReassignSupportGroup } from './Item_Line/Item_Line_Service.js'
@@ -344,10 +343,6 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataField: "Item_HeaderDTO.Brand"
                 },
                 {
-                    caption: "Classification Name",
-                    dataField: "Item_HeaderDTO.ItemClassificationDTO.EnglishName",
-                },
-                {
                     caption: "Is Active?",
                     dataField: "Item_HeaderDTO.IsActive"
                 },
@@ -419,15 +414,6 @@ async function InitializeItemAdministrationCatalogControls() {
         value: true,
         readOnly: true,
         text: "Is Active?"
-    });
-    $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox({
-        dataSource: await GetDXItemClassificationDataSource(),
-        valueExpr: "ID",
-        displayExpr: "Names",
-        deferRendering: false,
-        searchEnabled: true,
-        searchExpr: ["EnglishName"],
-        searchMode: 'contains'
     });
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox({
         value: false,
@@ -515,7 +501,6 @@ function DisabledProperties(Action)
     $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("disabled", Action);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("disabled", Action);
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("disabled", Action);
-    $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("disabled", Action);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("disabled", Action);
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("disabled", Action);
 }
@@ -541,7 +526,6 @@ function ClearItem_HeaderFields(CleanGrid) {
     $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", false);
-    $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").reset();
     //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_HeaderSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").reset();
@@ -580,7 +564,6 @@ async function PopulateItem_HeaderFields(data) {
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsESD)
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("disabled", true);
-    await $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.ItemClassificationDTO.ID);
     if (data.Item_HeaderDTO.ItemImg != null) {
         $("#ItemThumbnail").attr('src', data.Item_HeaderDTO.ItemImg);
     } else {
@@ -599,9 +582,6 @@ function GetItem_HeaderDTO() {
         SupportGroupID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
         Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(),
         UserDefinedIDArray: $("#dxUserDefinedList").dxList("instance").option("selectedItemKeys"),
-        ItemClassificationDTO: {
-            ID: $("#dxItem_HeaderItemClassificationSelectBox").dxSelectBox("instance").option("value"),
-        },
         //IsItemCreated: $("#dxItem_HeaderIsItemCreatedCheckBox").dxCheckBox("instance").option("value"),
         FileDTO: GetFileDTO()
     }
@@ -1655,11 +1635,11 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
-            $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
+            $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemHeaderPicture: true } }));
 
         }
         if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
-            $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemClassificationDTO: true, GetItemHeaderPicture: true } }));
+            $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemHeaderPicture: true } }));
             //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource());
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
         }

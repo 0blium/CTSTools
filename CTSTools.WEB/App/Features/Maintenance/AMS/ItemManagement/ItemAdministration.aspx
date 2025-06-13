@@ -108,12 +108,12 @@
                                         </div>
                                     </div>
                                     <div class="mb-15px">
-                                        <label class="form-label col-form-label col-md-12">Classification</label>
+                                        <label class="form-label col-form-label col-md-12">Class</label>
                                         <div class="col-md-12">
-                                            <div id="dxItem_HeaderItemClassificationSelectBox"></div>
+                                            <%--<div id="dxItem_HeaderItemClassificationSelectBox"></div>
                                             <div class="invalid-feedback"
                                                 id="Item_HeaderItemClassificationValidation">
-                                            </div>
+                                            </div>--%>
                                         </div>
                                     </div>
                                     <div class="row mb-15px">

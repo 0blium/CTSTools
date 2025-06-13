@@ -1,5 +1,4 @@
 ﻿using CTSTools.BLL.Common.Files;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.ItemClassification;
 using System;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
@@ -28,9 +27,6 @@ public class Item_HeaderDTO
     #region Extended Properties
 
     public int?[] Item_HeaderIDArray { get; set; }
-    public ItemClassificationDTO ItemClassificationDTO { get; set; }
-    public bool GetItemClassificationDTO { get; set; }
-    public int?[] ItemClassificationIDArray { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
     public FileDTO FileDTO { get; set; }
@@ -45,11 +41,8 @@ public class Item_HeaderDTO
     public Item_HeaderDTO()
     {
         Item_HeaderIDArray = new int?[] { };
-        ItemClassificationDTO = new ItemClassificationDTO();
-        ItemClassificationIDArray = new int?[] { };
         SupportGroupIDArray = new int?[] { };
         UserDefinedIDArray = new int?[] { };
-
     }
     #endregion
 }

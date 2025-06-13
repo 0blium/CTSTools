@@ -39,13 +39,6 @@ public class Item_HeaderXPO : XPObject
         set { SetPropertyValue<bool>(nameof(IsESD), ref fIsESD, value); }
     }
 
-    ItemClassificationXPO fItemClassification;
-    public ItemClassificationXPO ItemClassification
-    {
-        get { return fItemClassification; }
-        set { SetPropertyValue<ItemClassificationXPO>(nameof(ItemClassification), ref fItemClassification, value); }
-    }
-
     DateTime? fAddedDate;
     public DateTime? AddedDate
     {

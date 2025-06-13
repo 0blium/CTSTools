@@ -91,6 +91,7 @@
     <Compile Include="Features\Engineering\ComponentID\PartManagement\PartXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_AttributeXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\SupplierXPO.cs" />
+    <Compile Include="Features\Maintenance\AMS\Item\BrandXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\DashboardCategoryXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\DashboardLineXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\Dashboard_KPIXPO.cs" />
@@ -108,7 +109,6 @@
     <Compile Include="Features\Quality\QMS\DocumentXPO.cs" />
     <Compile Include="Features\Quality\QMS\ProductXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\DataTypeXPO.cs" />
-    <Compile Include="Features\Maintenance\AMS\Item\ItemClassificationXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\Item_HeaderXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\Item_LineXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\Item_SupportGroupXPO.cs" />

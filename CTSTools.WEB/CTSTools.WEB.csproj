@@ -242,6 +242,9 @@
     <Content Include="App\Common\Utils\Utils.js" />
     <Content Include="App\Common\Utils\SidebarNavigationShowItems.js" />
     <Content Include="App\Common\Utils\ValidationResultDTO.js" />
+    <Content Include="App\Features\AdvancedSettings\Brand\BrandCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\Brand\BrandCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\Brand\Brand_Service.js" />
     <Content Include="App\Features\AdvancedSettings\ChangeLog\ChangeLog.js" />
     <Content Include="App\Features\AdvancedSettings\ChangeLog\ChangeLogCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\ChangeLog\ChangeLog_Service.js" />
@@ -378,9 +381,6 @@
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\Item_SupportGroup\Item_SupportGroup_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\UserDefinedTemplate\UserDefinedTemplate_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\UserDefined\UserDefined_Service.js" />
-    <Content Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.aspx" />
-    <Content Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.js" />
-    <Content Include="App\Features\AdvancedSettings\ItemClassification\ItemClassification_Service.js" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.aspx" />
     <Content Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.js" />
     <Content Include="App\Features\AdvancedSettings\SupplyType\SupplyTypeCatalog.aspx" />
@@ -550,6 +550,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Features\AdvancedSettings\Brand\BrandCatalog.aspx.cs">
+      <DependentUpon>BrandCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\Brand\BrandCatalog.aspx.designer.cs">
+      <DependentUpon>BrandCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\AdvancedSettings\Brand\BrandController.cs" />
     <Compile Include="App\Features\AdvancedSettings\ChangeLog\ChangeLogCatalog.aspx.cs">
       <DependentUpon>ChangeLogCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -867,14 +875,6 @@
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\Item_SupportGroup\Item_SupportGroupController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\UserDefinedTemplate\UserDefinedTemplateController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\UserDefined\UserDefinedController.cs" />
-    <Compile Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.aspx.cs">
-      <DependentUpon>ItemClassificationCatalog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationCatalog.aspx.designer.cs">
-      <DependentUpon>ItemClassificationCatalog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="App\Features\AdvancedSettings\ItemClassification\ItemClassificationController.cs" />
     <Compile Include="App\Features\Maintenance\AMS\ItemManagement\ItemRegistration.aspx.cs">
       <DependentUpon>ItemRegistration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

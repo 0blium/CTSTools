@@ -201,16 +201,6 @@ public class Item_Header_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            //if (Item_HeaderDTO.ItemClassificationDTO.ID == null || Item_HeaderDTO.ItemClassificationDTO.ID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "ItemClassification Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ItemClassificationDTO)}",
-            //    });
-            //}
 
             if (Item_HeaderDTO.LastUpdateByID == null || Item_HeaderDTO.LastUpdateByID == 0)
             {

@@ -2,11 +2,11 @@
 import { ValidationResultDTO } from '../../../Common/Utils/ValidationResultDTO.js'
 import APIRequest from '../../../Common/Utils/APIRequest.js'
 
-export async function CreateItemClassification(ItemClassificationDTO) {
+export async function CreateBrand(BrandDTO) {
     let _validationResultDTO = ValidationResultDTO;
-    const _url = `${APIURL}/ItemClassification/Create`;
+    const _url = `${APIURL}/Brand/Create`;
     try {
-        _validationResultDTO = await APIRequest(_url, 'POST', ItemClassificationDTO);
+        _validationResultDTO = await APIRequest(_url, 'POST', BrandDTO);
     }
     catch (error) {
         _validationResultDTO.Result = false;
@@ -16,11 +16,11 @@ export async function CreateItemClassification(ItemClassificationDTO) {
     return _validationResultDTO;
 }
 
-export async function UpdateItemClassification(ItemClassificationDTO) {
+export async function UpdateBrand(BrandDTO) {
     let _validationResultDTO = ValidationResultDTO;
-    const _url = `${APIURL}/ItemClassification/Update`;
+    const _url = `${APIURL}/Brand/Update`;
     try {
-        _validationResultDTO = await APIRequest(_url, 'POST', ItemClassificationDTO);
+        _validationResultDTO = await APIRequest(_url, 'POST', BrandDTO);
     }
     catch (error) {
         _validationResultDTO.Result = false;
@@ -30,11 +30,11 @@ export async function UpdateItemClassification(ItemClassificationDTO) {
     return _validationResultDTO;
 }
 
-export async function DeleteItemClassification(ItemClassificationDTO) {
+export async function DeleteBrand(BrandDTO) {
     let _validationResultDTO = ValidationResultDTO;
-    const _url = `${APIURL}/ItemClassification/Delete`;
+    const _url = `${APIURL}/Brand/Delete`;
     try {
-        _validationResultDTO = await APIRequest(_url, 'POST', ItemClassificationDTO);
+        _validationResultDTO = await APIRequest(_url, 'POST', BrandDTO);
     }
     catch (error) {
         _validationResultDTO.Result = false;
@@ -44,10 +44,10 @@ export async function DeleteItemClassification(ItemClassificationDTO) {
     return _validationResultDTO;
 }
 
-export async function GetItemClassificationInformation(itemClassificationDTO) {
+export async function GetBrandInformation(BrandDTO) {
     let _validation_resultDTO = new Object();
     try {
-        const _response = await fetch(`${APIURL}/ItemClassification/GetItemClassificationList?` + new URLSearchParams(itemClassificationDTO), {
+        const _response = await fetch(`${APIURL}/Brand/GetBrandList?` + new URLSearchParams(BrandDTO), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json; charset= UTF-8' }
         });
@@ -64,18 +64,18 @@ export async function GetItemClassificationInformation(itemClassificationDTO) {
 }
 
 //DX DataSource
-export async function GetDXItemClassificationDataSource(ItemClassificationDTO) {
+export async function GetDXBrandDataSource(BrandDTO) {
     let _store = new DevExpress.data.AspNet.createStore({
-        loadUrl: `${APIURL}/ItemClassification/GetPagedList?` + new URLSearchParams(ItemClassificationDTO),
+        loadUrl: `${APIURL}/Brand/GetPagedList?` + new URLSearchParams(BrandDTO),
         key: "ID",
         beforeSend: (sender, ajaxSettings) => {
         },
     });
-    let _itemClassificationDataSource = new DevExpress.data.DataSource({
+    let _brandDataSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,
         pageSize: 15,
         remoteOperations: true,
     });
-    return _itemClassificationDataSource;
+    return _brandDataSource;
 }

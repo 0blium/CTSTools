@@ -299,6 +299,12 @@
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Repository.cs" />
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Service.cs" />
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Validator.cs" />
+    <Compile Include="Features\Maintenance\AMS\ItemManagement\Brand\BrandDTO.cs" />
+    <Compile Include="Features\Maintenance\AMS\ItemManagement\Brand\BrandMap.cs" />
+    <Compile Include="Features\Maintenance\AMS\ItemManagement\Brand\Brand_DXFilter.cs" />
+    <Compile Include="Features\Maintenance\AMS\ItemManagement\Brand\Brand_Repository.cs" />
+    <Compile Include="Features\Maintenance\AMS\ItemManagement\Brand\Brand_Service.cs" />
+    <Compile Include="Features\Maintenance\AMS\ItemManagement\Brand\Brand_Validator.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategoryDTO.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategoryMap.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\DashboardCategory\DashboardCategory_DXFilter.cs" />
@@ -415,12 +421,6 @@
     <Compile Include="Features\Maintenance\AMS\ItemManagement\DataType\DataType_Repository.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\DataType\DataType_Service.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\DataType\DataType_Validator.cs" />
-    <Compile Include="Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassificationDTO.cs" />
-    <Compile Include="Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassificationMap.cs" />
-    <Compile Include="Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassification_DXFilter.cs" />
-    <Compile Include="Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassification_Repository.cs" />
-    <Compile Include="Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassification_Service.cs" />
-    <Compile Include="Features\Maintenance\AMS\ItemManagement\ItemClassification\ItemClassification_Validator.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\Item_Header\Item_HeaderDTO.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\Item_Header\Item_HeaderMap.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\Item_Header\Item_Header_DXFilter.cs" />
