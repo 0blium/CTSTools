@@ -348,6 +348,11 @@
                                     <div class="menu-text">Users </div>
                                 </a>
                             </div>
+                            <div id="RoleAdministrationAdvancedSettings" class="menu-item module-nav" data-tech="RoleAdministration User_Permission User_Role" hidden>
+                                <a href="/App/Features/AdvancedSettings/SecurityManagement/RoleAdministration.aspx" class="menu-link">
+                                    <div class="menu-text">Roles </div>
+                                </a>
+                            </div>
                             <div id="LocationsCatalogAdvancedSettings" class="menu-item module-nav" data-tech="LocationsCatalog FacilityCatalog DepartmentCatalog Facility Department" hidden>
                                 <a href="/App/Features/AdvancedSettings/LocationManagement/LocationsCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Locations </div>

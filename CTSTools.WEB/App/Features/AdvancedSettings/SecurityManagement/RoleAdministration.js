@@ -475,7 +475,7 @@ async function InitializeRole_PermissionCatalogControls() {
         value: true,
     });
     $("#dxRole_PermissionGrid").dxDataGrid({
-        dataSource: await GetDXRole_PermissionDataSource(),
+        dataSource: await GetDXRole_PermissionDataSource({ GetPermissionDTO: true }),
         keyExpr: "ID",
         //remoteOperations: { groupPaging: true },
         pager: {
