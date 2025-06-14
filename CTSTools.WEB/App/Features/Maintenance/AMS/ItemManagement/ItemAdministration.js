@@ -6,6 +6,7 @@ import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, Delet
 import { GetDXItem_SupportGroupDataSource, CreateItem_SupportGroup, UpdateItem_SupportGroup, DeleteItem_SupportGroup, GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
 import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { GetDXBrandDataSource } from '../../../AdvancedSettings/Brand/Brand_Service.js'
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetDXItem_LineDataSource, GetItem_LineMasterDetailInformation, GetItem_LineFilesInformation, DeleteItem_LineFile, GetItem_LineFilesTreeView, ReassignSupportGroup } from './Item_Line/Item_Line_Service.js'
 import { CreateUserDefined, UpdateUserDefined, DeleteUserDefined, GetDXUserDefinedDataSource } from './UserDefined/UserDefined_Service.js'
@@ -331,25 +332,21 @@ async function InitializeItemAdministrationCatalogControls() {
                     },
                 },
                 {
-                    caption: "Name",
-                    dataField: "Item_HeaderDTO.EnglishName"
-                },
-                {
                     caption: "Model",
                     dataField: "Item_HeaderDTO.Model"
                 },
                 {
                     caption: "Brand",
-                    dataField: "Item_HeaderDTO.Brand"
+                    dataField: "Item_HeaderDTO.BrandName"
                 },
                 {
                     caption: "Is Active?",
                     dataField: "Item_HeaderDTO.IsActive"
                 },
-                {
-                    caption: "Is ESD?",
-                    dataField: "Item_HeaderDTO.IsESD"
-                },
+                //{
+                //    caption: "Is ESD?",
+                //    dataField: "Item_HeaderDTO.IsESD"
+                //},
                 {
                     caption: "Added By ID",
                     dataField: "Item_HeaderDTO.AddedByID",
@@ -401,24 +398,25 @@ async function InitializeItemAdministrationCatalogControls() {
             }
         },
     });
-    $("#dxItem_HeaderEnglishNameTextBox").dxTextBox({
-        placeholder: "Type name.."
-    });
     $("#dxItem_HeaderModelTextBox").dxTextBox({
         placeholder: "Type model.."
     });
-    $("#dxItem_HeaderBrandTextBox").dxTextBox({
-        placeholder: "Type brand.."
+    $("#dxItem_HeaderBrandSelectBox").dxSelectBox({
+        dataSource: await GetDXBrandDataSource(),
+        valueExpr: "ID",
+        displayExpr: "Name",
+        deferRendering: false,
+        searchEnabled: true,
     });
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox({
         value: true,
         readOnly: true,
         text: "Is Active?"
     });
-    $("#dxItem_HeaderIsESDCheckBox").dxCheckBox({
-        value: false,
-        text: "Is ESD?",
-    });
+    //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox({
+    //    value: false,
+    //    text: "Is ESD?",
+    //});
     $("#dxItem_HeaderAttachmentFileUploader").dxFileUploader({
         selectButtonText: "Select a file",
         labelText: "or drop it here",
@@ -498,11 +496,10 @@ async function InitializeItemAdministrationCatalogControls() {
 function DisabledProperties(Action)
 {
     $("#dxItem_HeaderThumbnailFileUploader").dxFileUploader("instance").option("disabled", Action);
-    $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("disabled", Action);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("disabled", Action);
-    $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("disabled", Action);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("disabled", Action);
-    $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("disabled", Action);
+    //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("disabled", Action);
 }
 async function SaveAttachmentsItem_Header() {
     await dxLoadPanel.show();
@@ -521,11 +518,10 @@ function ClearItem_HeaderFields(CleanGrid) {
     Item_HeaderActionButtons("Save");
     $("#hiddenItem_HeaderID").val("0");
     $("#hiddenItem_SupportGroupID").val("0");
-    $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", "");
-    $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", "");
+    $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value", "");
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
-    $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", false);
+    //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", false);
     //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_HeaderSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").reset();
@@ -556,12 +552,11 @@ async function PopulateItem_HeaderFields(data) {
     document.getElementById("hiddenItem_HeaderID").value = data.Item_HeaderDTO.ID;//new
     document.getElementById("hiddenItem_SupportGroupID").value = data.ID;
     document.getElementById("hiddenUserSupportGroupID").value = data.SupportGroupDTO.ID
-    $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
     //$("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Model);
-    $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Brand);
+    $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.BrandID);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsActive);
-    $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsESD)
+    //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsESD)
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("disabled", true);
     if (data.Item_HeaderDTO.ItemImg != null) {
@@ -574,11 +569,10 @@ async function PopulateItem_HeaderFields(data) {
 function GetItem_HeaderDTO() {
     let _item_HeaderDTO = {
         ID: $("#hiddenItem_HeaderID").val(),
-        EnglishName: $("#dxItem_HeaderEnglishNameTextBox").dxTextBox("instance").option("value"),
         Model: $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value"),
-        Brand: $("#dxItem_HeaderBrandTextBox").dxTextBox("instance").option("value"),
+        BrandID: $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value"),
-        IsESD: $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value"),
+        //IsESD: $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value"),
         SupportGroupID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
         Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(),
         UserDefinedIDArray: $("#dxUserDefinedList").dxList("instance").option("selectedItemKeys"),

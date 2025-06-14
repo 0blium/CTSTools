@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
+namespace CTSTools.BLL.Features.Engineering.ComponentID.ComponentType
 {
-    public class Brand_Validator
+    public class ComponentType_Validator
     {
-        public static ValidationResultDTO CreateBrand_Validation(BrandDTO BrandDTO)
+        public static ValidationResultDTO CreateComponentType_Validation(ComponentTypeDTO ComponentTypeDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
             {
@@ -19,32 +19,42 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                 var _validation_ResultList = new List<ValidationResultDTO>();
 
                 // Field Validation
-                if (string.IsNullOrEmpty(BrandDTO.Name))
+                if (string.IsNullOrEmpty(ComponentTypeDTO.Name))
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false,
                         Message = "Name Field Empty",
                         Description = " Please, complete the missing information ",
-                        Data = $"{nameof(Brand)}{nameof(BrandDTO.Name)}",
+                        Data = $"{nameof(ComponentType)}{nameof(ComponentTypeDTO.Name)}",
                     });
                 }
                 else 
                 {
-                    var _brandDTO = new BrandDTO { Name = BrandDTO.Name };
-                    var _sameBrandDTO = Brand_Service.GetBrandList_Global(_brandDTO).FirstOrDefault();
-                    if (_sameBrandDTO != null)
+                    var _componentTypeDTO = new ComponentTypeDTO { Name = ComponentTypeDTO.Name };
+                    var _sameComponentTypeDTO = ComponentType_Service.GetComponentTypeList_Global(_componentTypeDTO).FirstOrDefault();
+                    if (_sameComponentTypeDTO != null)
                     {
                         return new ValidationResultDTO
                         {
                             Result = false,
                             Message = "Duplicated",
-                            Description = "There is an brand with the same name"
+                            Description = "There is an component type with the same name"
                         };
                     }
                 }
+                if (ComponentTypeDTO.PartTypeID == null || ComponentTypeDTO.PartTypeID == 0)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Part Type is not selected",
+                        Description = " Please, complete the missing information ",
+                        Data = "PartType",
+                    });
+                }
 
-                if (BrandDTO.AddedByID == null || BrandDTO.AddedByID == 0)
+                if (ComponentTypeDTO.AddedByID == null || ComponentTypeDTO.AddedByID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -72,7 +82,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
             }
             return _validation_ResultDTO;
         }
-        public static ValidationResultDTO UpdateBrand_Validation(BrandDTO BrandDTO)
+        public static ValidationResultDTO UpdateComponentType_Validation(ComponentTypeDTO ComponentTypeDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
             {
@@ -83,7 +93,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                 var _validation_ResultList = new List<ValidationResultDTO>();
 
                 // Field Validation
-                if (BrandDTO.ID == null || BrandDTO.ID == 0)
+                if (ComponentTypeDTO.ID == null || ComponentTypeDTO.ID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -92,21 +102,21 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                         Description = "Please, complete the missing information ",
                     });
                 }
-                if (string.IsNullOrEmpty(BrandDTO.Name))
+                if (string.IsNullOrEmpty(ComponentTypeDTO.Name))
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false,
                         Message = "Name Field Empty",
                         Description = " Please, complete the missing information ",
-                        Data = $"{nameof(Brand)}{nameof(BrandDTO.Name)}",
+                        Data = $"{nameof(ComponentType)}{nameof(ComponentTypeDTO.Name)}",
                     });
                 }
                 else 
                 {
-                    var _brandDTO = new BrandDTO { Name = BrandDTO.Name };
-                    var _sameBrandDTO = Brand_Service.GetBrandList_Global(_brandDTO).Where(w => w.ID != BrandDTO.ID).FirstOrDefault();
-                    if (_sameBrandDTO != null)
+                    var _componentTypeDTO = new ComponentTypeDTO { Name = ComponentTypeDTO.Name };
+                    var _sameComponentTypeDTO = ComponentType_Service.GetComponentTypeList_Global(_componentTypeDTO).Where(w => w.ID != ComponentTypeDTO.ID).FirstOrDefault();
+                    if (_sameComponentTypeDTO != null)
                     {
                         return new ValidationResultDTO
                         {
@@ -116,8 +126,18 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                         };
                     }
                 }
+                if (ComponentTypeDTO.PartTypeID == null || ComponentTypeDTO.PartTypeID == 0)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Part Type is not selected",
+                        Description = " Please, complete the missing information ",
+                        Data = $"{nameof(ComponentTypeDTO)}{nameof(ComponentTypeDTO.PartTypeID)}",
+                    });
+                }
 
-                if (BrandDTO.LastUpdateByID == null || BrandDTO.LastUpdateByID == 0)
+                if (ComponentTypeDTO.LastUpdateByID == null || ComponentTypeDTO.LastUpdateByID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -146,7 +166,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
             }
             return _validation_ResultDTO;
         }
-        public static ValidationResultDTO DeleteBrand_Validation(BrandDTO BrandDTO)
+        public static ValidationResultDTO DeleteComponentType_Validation(ComponentTypeDTO ComponentTypeDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
             {
@@ -157,7 +177,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                 var _validation_ResultList = new List<ValidationResultDTO>();
 
                 // Field Validation
-                if (BrandDTO.ID == null || BrandDTO.ID == 0)
+                if (ComponentTypeDTO.ID == null || ComponentTypeDTO.ID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {

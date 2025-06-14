@@ -81,16 +81,6 @@
                                 <div class="col-md-6">
                                     <div class="mb-15px">
                                         <label class="form-label col-form-label col-md-12">
-                                            Name (<span
-                                                class="text-danger">*</span>)</label>
-                                        <div class="col-md-12">
-                                            <div id="dxItem_HeaderEnglishNameTextBox"></div>
-                                            <div class="invalid-feedback" id="Item_HeaderEnglishNameValidation">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-15px">
-                                        <label class="form-label col-form-label col-md-12">
                                             Model (<span
                                                 class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
@@ -103,7 +93,7 @@
                                             Brand (<span
                                                 class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
-                                            <div id="dxItem_HeaderBrandTextBox"></div>
+                                            <div id="dxItem_HeaderBrandSelectBox"></div>
                                             <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
                                         </div>
                                     </div>
@@ -120,9 +110,9 @@
                                         <div class="col-md-6">
                                             <div id="dxItem_HeaderIsActiveCheckBox"></div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <%--<div class="col-md-6">
                                             <div id="dxItem_HeaderIsESDCheckBox"></div>
-                                        </div>
+                                        </div>--%>
                                     </div>
                                 </div>
                             </div>

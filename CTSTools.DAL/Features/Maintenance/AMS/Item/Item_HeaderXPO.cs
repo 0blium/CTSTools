@@ -14,30 +14,24 @@ public class Item_HeaderXPO : XPObject
 
 
     // Default XPObject (VC)
-    string fEnglishName;
-    public string EnglishName
-    {
-        get { return fEnglishName; }
-        set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
-    }
     string fModel;
     public string Model
     {
         get { return fModel; }
         set { SetPropertyValue<string>(nameof(Model), ref fModel, value); }
     }
-    string fBrand;
-    public string Brand
+    BrandXPO fBrand;
+    public BrandXPO Brand
     {
         get { return fBrand; }
-        set { SetPropertyValue<string>(nameof(Brand), ref fBrand, value); }
+        set { SetPropertyValue<BrandXPO>(nameof(Brand), ref fBrand, value); }
     }
-    bool fIsESD;
-    public bool IsESD
-    {
-        get { return fIsESD; }
-        set { SetPropertyValue<bool>(nameof(IsESD), ref fIsESD, value); }
-    }
+    //bool fIsESD;
+    //public bool IsESD
+    //{
+    //    get { return fIsESD; }
+    //    set { SetPropertyValue<bool>(nameof(IsESD), ref fIsESD, value); }
+    //}
 
     DateTime? fAddedDate;
     public DateTime? AddedDate

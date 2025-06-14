@@ -21,16 +21,6 @@ public class Item_Header_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (string.IsNullOrEmpty(Item_HeaderDTO.EnglishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "EnglishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.EnglishName)}",
-                });
-            }
             if (string.IsNullOrEmpty(Item_HeaderDTO.Model))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -41,25 +31,25 @@ public class Item_Header_Validator
                     Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.Model)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_HeaderDTO.Brand))
+            if (Item_HeaderDTO.BrandID == null || Item_HeaderDTO.BrandID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Brand Field Empty",
+                    Message = "Brand is not selected",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.Brand)}",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.BrandID)}",
                 });
             }
-            if (Item_HeaderDTO.IsESD == null)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "IsESD Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
+            //if (Item_HeaderDTO.IsESD == null)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "IsESD Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //    });
+            //}
             if (Item_HeaderDTO.SupportGroupID == null || Item_HeaderDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -72,9 +62,9 @@ public class Item_Header_Validator
             }
 
             //verify if asset type already exist in the system
-            if (!string.IsNullOrEmpty(Item_HeaderDTO.Model) && !string.IsNullOrEmpty(Item_HeaderDTO.Brand))
+            if (!string.IsNullOrEmpty(Item_HeaderDTO.Model) && (Item_HeaderDTO.BrandID != null || Item_HeaderDTO.BrandID != 0))
             {
-                var _itemHeaderDTO = Item_Header_Service.GetItem_HeaderList_Global(new Item_HeaderDTO { Brand = Item_HeaderDTO.Brand, Model = Item_HeaderDTO.Model }).FirstOrDefault();
+                var _itemHeaderDTO = Item_Header_Service.GetItem_HeaderList_Global(new Item_HeaderDTO { BrandID = Item_HeaderDTO.BrandID, Model = Item_HeaderDTO.Model }).FirstOrDefault();
                 if (_itemHeaderDTO != null && _itemHeaderDTO.ID != Item_HeaderDTO.ID)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
@@ -85,7 +75,7 @@ public class Item_Header_Validator
                     });
                 }
             }
-            if ((Item_HeaderDTO.ID == null || Item_HeaderDTO.ID == 0) && (string.IsNullOrEmpty(Item_HeaderDTO.EnglishName) || string.IsNullOrEmpty(Item_HeaderDTO.Model) || string.IsNullOrEmpty(Item_HeaderDTO.Brand)))
+            if ((Item_HeaderDTO.ID == null || Item_HeaderDTO.ID == 0) && ( string.IsNullOrEmpty(Item_HeaderDTO.Model) || (Item_HeaderDTO.BrandID == null || Item_HeaderDTO.BrandID == 0)))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -162,16 +152,6 @@ public class Item_Header_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (string.IsNullOrEmpty(Item_HeaderDTO.EnglishName))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "EnglishName Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.EnglishName)}",
-                });
-            }
             if (string.IsNullOrEmpty(Item_HeaderDTO.Model))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -182,25 +162,25 @@ public class Item_Header_Validator
                     Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.Model)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_HeaderDTO.Brand))
+            if (Item_HeaderDTO.BrandID == null || Item_HeaderDTO.BrandID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Brand Field Empty",
+                    Message = "Brand is not selected",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.Brand)}",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.BrandID)}",
                 });
             }
-            if (Item_HeaderDTO.IsESD == null)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "IsESD Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
+            //if (Item_HeaderDTO.IsESD == null)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "IsESD Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //    });
+            //}
 
             if (Item_HeaderDTO.LastUpdateByID == null || Item_HeaderDTO.LastUpdateByID == 0)
             {

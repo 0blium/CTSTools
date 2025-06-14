@@ -304,6 +304,9 @@
     <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Service.js" />
     <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Enum.js" />
     <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.js" />
+    <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentType_Service.js" />
     <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.aspx" />
     <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.js" />
     <Content Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderConfigurator.aspx" />
@@ -316,6 +319,9 @@
     <Content Include="App\Features\Engineering\ComponentID\PartManagement\PartList.aspx" />
     <Content Include="App\Features\Engineering\ComponentID\PartManagement\PartList.js" />
     <Content Include="App\Features\Engineering\ComponentID\PartManagement\Part\Part_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\PartType\PartTypeCatalog.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\PartType\PartTypeCatalog.js" />
+    <Content Include="App\Features\Engineering\ComponentID\PartType\PartType_Service.js" />
     <Content Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.aspx" />
     <Content Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.js" />
     <Content Include="App\Features\Engineering\ComponentID\SupplierManagement\Supplier\Supplier_Service.js" />
@@ -680,6 +686,14 @@
     </Compile>
     <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Controller.cs" />
     <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx.cs">
+      <DependentUpon>ComponentTypeCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx.designer.cs">
+      <DependentUpon>ComponentTypeCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeController.cs" />
     <Compile Include="App\Features\Engineering\ComponentID\DecoderManagement\DecoderCatalog.aspx.cs">
       <DependentUpon>DecoderCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -712,6 +726,14 @@
       <DependentUpon>PartList.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Engineering\ComponentID\PartManagement\Part\Part_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\PartType\PartTypeCatalog.aspx.cs">
+      <DependentUpon>PartTypeCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\PartType\PartTypeCatalog.aspx.designer.cs">
+      <DependentUpon>PartTypeCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\PartType\PartTypeController.cs" />
     <Compile Include="App\Features\Engineering\ComponentID\SupplierManagement\SupplierCatalog.aspx.cs">
       <DependentUpon>SupplierCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

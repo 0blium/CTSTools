@@ -18,9 +18,8 @@ public class Item_LineMap
         {
             _item_lineDTO.ID = Item_LineXPO.Oid;
             _item_lineDTO.Item_HeaderDTO.ID = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.Oid : 0;
-            _item_lineDTO.Item_HeaderDTO.EnglishName = (Item_LineXPO.Item_Header != null) ? Item_LineXPO.Item_Header.EnglishName : "Unnassigned";
-            _item_lineDTO.ItemHeaderNameWithPartNumberSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Serial} - {Item_LineXPO.Item_Header.EnglishName} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
-            _item_lineDTO.ItemNameWithManufactureSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Item_Header.EnglishName} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
+            _item_lineDTO.ItemHeaderNameWithPartNumberSerial = (Item_LineXPO.Item_Header != null) ? $"{Item_LineXPO.Serial} - {"BrandName"} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
+            _item_lineDTO.ItemNameWithManufactureSerial = (Item_LineXPO.Item_Header != null) ? $"{"BrandName"} - {Item_LineXPO.ManufactureSerialID}" : "Unnassigned";
             _item_lineDTO.StationDTO.ID = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Oid : 0;
             _item_lineDTO.StationDTO.Name = (Item_LineXPO.Station != null) ? Item_LineXPO.Station.Name : "Unnassigned";
             _item_lineDTO.StatusDTO.ID = (Item_LineXPO.Status != null) ? Item_LineXPO.Status.Oid : 0;

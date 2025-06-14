@@ -20,13 +20,13 @@ public class Item_Header_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_HeaderXPO.Oid), Item_HeaderDTO.Item_HeaderIDArray));
             }
-            if (Item_HeaderDTO.IsESD != null)
+            //if (Item_HeaderDTO.IsESD != null)
+            //{
+            //    _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.IsESD), Item_HeaderDTO.IsESD));
+            //}
+            if (Item_HeaderDTO.BrandID != null || Item_HeaderDTO.BrandID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.IsESD), Item_HeaderDTO.IsESD));
-            }
-            if (!string.IsNullOrEmpty(Item_HeaderDTO.Brand))
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Brand), Item_HeaderDTO.Brand));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Brand), Item_HeaderDTO.BrandID));
             }
             if (!string.IsNullOrEmpty(Item_HeaderDTO.Model))
             {

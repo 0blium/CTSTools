@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
+namespace CTSTools.BLL.Features.Engineering.ComponentID.PartType
 {
-    public class Brand_Validator
+    public class PartType_Validator
     {
-        public static ValidationResultDTO CreateBrand_Validation(BrandDTO BrandDTO)
+        public static ValidationResultDTO CreatePartType_Validation(PartTypeDTO PartTypeDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
             {
@@ -19,32 +19,32 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                 var _validation_ResultList = new List<ValidationResultDTO>();
 
                 // Field Validation
-                if (string.IsNullOrEmpty(BrandDTO.Name))
+                if (string.IsNullOrEmpty(PartTypeDTO.Name))
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false,
                         Message = "Name Field Empty",
                         Description = " Please, complete the missing information ",
-                        Data = $"{nameof(Brand)}{nameof(BrandDTO.Name)}",
+                        Data = $"{nameof(PartType)}{nameof(PartTypeDTO.Name)}",
                     });
                 }
                 else 
                 {
-                    var _brandDTO = new BrandDTO { Name = BrandDTO.Name };
-                    var _sameBrandDTO = Brand_Service.GetBrandList_Global(_brandDTO).FirstOrDefault();
-                    if (_sameBrandDTO != null)
+                    var _partTypeDTO = new PartTypeDTO { Name = PartTypeDTO.Name };
+                    var _samePartTypeDTO = PartType_Service.GetPartTypeList_Global(_partTypeDTO).FirstOrDefault();
+                    if (_samePartTypeDTO != null)
                     {
                         return new ValidationResultDTO
                         {
                             Result = false,
                             Message = "Duplicated",
-                            Description = "There is an brand with the same name"
+                            Description = "There is an part type with the same name"
                         };
                     }
                 }
 
-                if (BrandDTO.AddedByID == null || BrandDTO.AddedByID == 0)
+                if (PartTypeDTO.AddedByID == null || PartTypeDTO.AddedByID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -72,7 +72,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
             }
             return _validation_ResultDTO;
         }
-        public static ValidationResultDTO UpdateBrand_Validation(BrandDTO BrandDTO)
+        public static ValidationResultDTO UpdatePartType_Validation(PartTypeDTO PartTypeDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
             {
@@ -83,7 +83,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                 var _validation_ResultList = new List<ValidationResultDTO>();
 
                 // Field Validation
-                if (BrandDTO.ID == null || BrandDTO.ID == 0)
+                if (PartTypeDTO.ID == null || PartTypeDTO.ID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -92,32 +92,32 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                         Description = "Please, complete the missing information ",
                     });
                 }
-                if (string.IsNullOrEmpty(BrandDTO.Name))
+                if (string.IsNullOrEmpty(PartTypeDTO.Name))
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false,
                         Message = "Name Field Empty",
                         Description = " Please, complete the missing information ",
-                        Data = $"{nameof(Brand)}{nameof(BrandDTO.Name)}",
+                        Data = $"{nameof(PartType)}{nameof(PartTypeDTO.Name)}",
                     });
                 }
                 else 
                 {
-                    var _brandDTO = new BrandDTO { Name = BrandDTO.Name };
-                    var _sameBrandDTO = Brand_Service.GetBrandList_Global(_brandDTO).Where(w => w.ID != BrandDTO.ID).FirstOrDefault();
-                    if (_sameBrandDTO != null)
+                    var _partTypeDTO = new PartTypeDTO { Name = PartTypeDTO.Name };
+                    var _samePartTypeDTO = PartType_Service.GetPartTypeList_Global(_partTypeDTO).Where(w => w.ID != PartTypeDTO.ID).FirstOrDefault();
+                    if (_samePartTypeDTO != null)
                     {
                         return new ValidationResultDTO
                         {
                             Result = false,
                             Message = "Duplicated",
-                            Description = "There is an brand with the same name."
+                            Description = "There is an part type with the same name."
                         };
                     }
                 }
 
-                if (BrandDTO.LastUpdateByID == null || BrandDTO.LastUpdateByID == 0)
+                if (PartTypeDTO.LastUpdateByID == null || PartTypeDTO.LastUpdateByID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -146,7 +146,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
             }
             return _validation_ResultDTO;
         }
-        public static ValidationResultDTO DeleteBrand_Validation(BrandDTO BrandDTO)
+        public static ValidationResultDTO DeletePartType_Validation(PartTypeDTO PartTypeDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
             {
@@ -157,7 +157,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                 var _validation_ResultList = new List<ValidationResultDTO>();
 
                 // Field Validation
-                if (BrandDTO.ID == null || BrandDTO.ID == 0)
+                if (PartTypeDTO.ID == null || PartTypeDTO.ID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
