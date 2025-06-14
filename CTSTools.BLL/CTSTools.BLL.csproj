@@ -262,6 +262,12 @@
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Repository.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Service.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Value\Value_Validator.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\ClassDTO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\ClassMap.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\Class_DXFilter.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\Class_Repository.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\Class_Service.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\Class_Validator.cs" />
     <Compile Include="Features\Engineering\ComponentID\ComponentType\ComponentTypeDTO.cs" />
     <Compile Include="Features\Engineering\ComponentID\ComponentType\ComponentTypeMap.cs" />
     <Compile Include="Features\Engineering\ComponentID\ComponentType\ComponentType_DXFilter.cs" />

@@ -304,6 +304,9 @@
     <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Service.js" />
     <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Enum.js" />
     <Content Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\Class\ClassCatalog.aspx" />
+    <Content Include="App\Features\Engineering\ComponentID\Class\ClassCatalog.js" />
+    <Content Include="App\Features\Engineering\ComponentID\Class\Class_Service.js" />
     <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx" />
     <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.js" />
     <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentType_Service.js" />
@@ -686,6 +689,14 @@
     </Compile>
     <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\ValueLink\ValueLink_Controller.cs" />
     <Compile Include="App\Features\Engineering\ComponentID\AttributeManagement\Value\Value_Controller.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\Class\ClassCatalog.aspx.cs">
+      <DependentUpon>ClassCatalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\Class\ClassCatalog.aspx.designer.cs">
+      <DependentUpon>ClassCatalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App\Features\Engineering\ComponentID\Class\ClassCatalogController.cs" />
     <Compile Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx.cs">
       <DependentUpon>ComponentTypeCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

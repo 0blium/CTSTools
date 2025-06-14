@@ -85,6 +85,7 @@
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\Class_Sequence_SQL.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueLinkXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\AttributeManagement\ValueXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\Class\ClassXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\ComponentType\ComponentTypeXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderStructureXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\DecoderManagement\DecoderXPO.cs" />
@@ -135,8 +136,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Features\Engineering\ComponentID\Class\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

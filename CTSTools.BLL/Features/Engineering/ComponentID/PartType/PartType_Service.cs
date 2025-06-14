@@ -18,7 +18,7 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.PartType
                 return _validationResultDTO;
 
             // Step 2. create ValueDTO and create value
-            var _value = new ValueDTO {
+            var _valueDTO = new ValueDTO {
             Name = PartTypeDTO.Name,
             Code = PartTypeDTO.Code,
             Description = PartTypeDTO.Description,
@@ -26,7 +26,7 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.PartType
             AddedByID = PartTypeDTO.AddedByID,
             IsActive = PartTypeDTO.IsActive,
             };
-            _validationResultDTO = Value_Service.CreateValue_Global(_value);
+            _validationResultDTO = Value_Service.CreateValue_Global(_valueDTO);
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
 
@@ -48,7 +48,7 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.PartType
                 return _validationResultDTO;
 
             // Step 2. create ValueDTO and update value
-            var _value = new ValueDTO
+            var _valueDTO = new ValueDTO
             {
                 ID = PartTypeDTO.ValueID,
                 Name = PartTypeDTO.Name,
@@ -58,7 +58,7 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.PartType
                 LastUpdateByID = PartTypeDTO.LastUpdateByID,
                 IsActive = PartTypeDTO.IsActive,
             };
-            _validationResultDTO = Value_Service.UpdateValue_Global(_value);
+            _validationResultDTO = Value_Service.UpdateValue_Global(_valueDTO);
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
 
@@ -79,8 +79,8 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.PartType
                 return _validationResultDTO;
 
             // Step 2. Delete ValueDTO
-            var _value = new ValueDTO{ ID = PartTypeDTO.ValueID, IsActive = PartTypeDTO.IsActive };
-            _validationResultDTO = Value_Service.DeleteValue_Global(_value);
+            var _valueDTO = new ValueDTO{ ID = PartTypeDTO.ValueID, IsActive = PartTypeDTO.IsActive };
+            _validationResultDTO = Value_Service.DeleteValue_Global(_valueDTO);
             if (!_validationResultDTO.Result)
                 return _validationResultDTO;
 
