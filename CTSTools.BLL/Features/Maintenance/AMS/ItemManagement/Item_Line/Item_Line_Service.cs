@@ -411,7 +411,7 @@ public class Item_Line_Service
                 {
                     var properties = new ExpandoObject() as IDictionary<string, Object>;
                     properties.Add(nameof(_item_lineDTO.ID), _item_lineDTO.ID);
-                    properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.EnglishName)}", _item_lineDTO.Item_HeaderDTO.EnglishName);
+                    //properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.EnglishName)}", _item_lineDTO.Item_HeaderDTO.EnglishName);
                     properties.Add(nameof(_item_lineDTO.ManufactureSerialID), _item_lineDTO.ManufactureSerialID);
                     properties.Add(nameof(_item_lineDTO.LegacyID), _item_lineDTO.LegacyID);
                     properties.Add(nameof(_item_lineDTO.Serial), _item_lineDTO.Serial);

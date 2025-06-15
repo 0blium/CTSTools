@@ -492,7 +492,7 @@ public class Item_Line_Validator
                             {
                                 Result = false,
                                 Message = "Item is already at the station ",
-                                Description = $"The item {_item_lineDTO.Item_HeaderDTO.EnglishName} is already at the station {_item_lineDTO.StationDTO.Name}"
+                                Description = $"The item {"BrandName"} is already at the station {_item_lineDTO.StationDTO.Name}"
                             });
                         }
                     }

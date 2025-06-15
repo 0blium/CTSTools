@@ -40,7 +40,7 @@ public class DataTypeMap
             _datatypeXPO.Name = _datatypeXPO.Name == DataTypeDTO.Name ? _datatypeXPO.Name : DataTypeDTO.Name;
             _datatypeXPO.Description = _datatypeXPO.Description == DataTypeDTO.Description ? _datatypeXPO.Description : DataTypeDTO.Description;
             _datatypeXPO.AddedDate = _datatypeXPO.AddedDate != null ? _datatypeXPO.AddedDate : DataTypeDTO.AddedDate;
-            _datatypeXPO.AddedBy = (_datatypeXPO.AddedBy != null && _datatypeXPO.AddedBy.Oid == DataTypeDTO.AddedByID) ? _datatypeXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DataTypeDTO.AddedByID);
+            _datatypeXPO.AddedBy = _datatypeXPO.AddedBy != null ? _datatypeXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(DataTypeDTO.AddedByID);
             _datatypeXPO.LastUpdate = _datatypeXPO.LastUpdate == DataTypeDTO.LastUpdate ? _datatypeXPO.LastUpdate : DataTypeDTO.LastUpdate;
             _datatypeXPO.LastUpdateBy = (_datatypeXPO.LastUpdateBy != null && _datatypeXPO.LastUpdateBy.Oid == DataTypeDTO.LastUpdateByID) ? _datatypeXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(DataTypeDTO.LastUpdateByID);
             _datatypeXPO.IsActive = _datatypeXPO.IsActive == DataTypeDTO.IsActive ? (bool)_datatypeXPO.IsActive : (bool)DataTypeDTO.IsActive;

@@ -114,10 +114,19 @@
                                             <div class="menu-text">Part Creator</div>
                                         </a>
                                     </div>
-
                                     <div id="PartListComponentID" class="menu-item module-nav" data-tech="PartList" hidden>
                                         <a href="/App/Features/Engineering/ComponentID/PartManagement/PartList.aspx" class="menu-link">
                                             <div class="menu-text">Part List</div>
+                                        </a>
+                                    </div>
+                                    <div id="PartTypeComponentID" class="menu-item module-nav" data-tech="PartType" hidden>
+                                        <a href="/App/Features/Engineering/ComponentID/PartType/PartTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Part Type</div>
+                                        </a>
+                                    </div>
+                                    <div id="ComponentTypeComponentID" class="menu-item module-nav" data-tech="ComponentType" hidden>
+                                        <a href="/App/Features/Engineering/ComponentID/ComponentType/ComponentTypeCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Component Type</div>
                                         </a>
                                     </div>
                                     <div id="DecoderCatalogComponentID" class="menu-item module-nav" data-tech="DecoderCatalog DecoderConfigurator" hidden>
@@ -368,9 +377,9 @@
                                     <div class="menu-text">Data Type</div>
                                 </a>
                             </div>
-                            <div id="ItemClassificationAdvancedSettings" class="menu-item " data-tech="ItemClassification">
-                                <a href="/App/Features/AdvancedSettings/ItemClassification/ItemClassificationCatalog.aspx" class="menu-link">
-                                    <div class="menu-text">Classification</div>
+                            <div id="BrandCatalogAdvancedSettings" class="menu-item " data-tech="BrandCatalog">
+                                <a href="/App/Features/AdvancedSettings/Brand/BrandCatalog.aspx" class="menu-link">
+                                    <div class="menu-text">Brand</div>
                                 </a>
                             </div>
                             <div id="PermissionCatalogAdvancedSettings" class="menu-item module-nav" data-tech="PermissionCatalog Permission" hidden>

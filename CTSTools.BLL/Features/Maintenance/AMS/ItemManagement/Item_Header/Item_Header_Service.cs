@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.ItemClassification;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefinedTemplate;
 using Elmah;
 using System;
@@ -135,7 +135,7 @@ public class Item_Header_Service
                 _item_headerglobalList = _item_headerList;
                 return _item_headerglobalList;
             }
-            if (!Item_HeaderDTO.GetItemClassificationDTO /*&& !Item_HeaderDTO.GetSupportGroupDTO*/ && !Item_HeaderDTO.GetItemHeaderPicture)
+            if (/*&& !Item_HeaderDTO.GetSupportGroupDTO*/ !Item_HeaderDTO.GetBrandDTO && !Item_HeaderDTO.GetItemHeaderPicture)
             {
                 _item_headerglobalList = _item_headerList;
                 return _item_headerglobalList;
@@ -155,27 +155,24 @@ public class Item_Header_Service
     public static List<Item_HeaderDTO> GetItem_HeaderRelatedData(Item_HeaderDTO Item_HeaderDTO, List<Item_HeaderDTO> Item_HeaderList)
     {
         var _item_headerglobalList = new List<Item_HeaderDTO>();
-        var _itemclassificationDict = new Dictionary<int?, ItemClassificationDTO>();
-
+        var _brandDict = new Dictionary<int?, BrandDTO>();
         try
         {
-            if (Item_HeaderDTO.GetItemClassificationDTO)
+            if (Item_HeaderDTO.GetBrandDTO)
             {
-                Item_HeaderDTO.ItemClassificationDTO.ItemClassificationIDArray = Item_HeaderList.GroupBy(g => g.ItemClassificationDTO.ID)
+                Item_HeaderDTO.BrandDTO.BrandIDArray = Item_HeaderList.GroupBy(g => g.BrandID)
                         .Select(s => s.Key)
                         .ToArray();
 
-                _itemclassificationDict = ItemClassification_Service.GetItemClassificationList_Global(Item_HeaderDTO.ItemClassificationDTO)
+                _brandDict = Brand_Service.GetBrandList_Global(Item_HeaderDTO.BrandDTO)
                         .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
             }
-
             foreach (var _item_headerDTO in Item_HeaderList)
             {
-                if (Item_HeaderDTO.GetItemClassificationDTO && _itemclassificationDict.ContainsKey(_item_headerDTO.ItemClassificationDTO.ID))
+                if (Item_HeaderDTO.GetBrandDTO && _brandDict.ContainsKey(_item_headerDTO.BrandID))
                 {
-                    _item_headerDTO.ItemClassificationDTO = _itemclassificationDict[_item_headerDTO.ItemClassificationDTO.ID];
+                    _item_headerDTO.BrandDTO = _brandDict[_item_headerDTO.BrandID];
                 }
-
                 if (Item_HeaderDTO.GetItemHeaderPicture)
                 {
                     var _fileDTO = new FileDTO
@@ -187,7 +184,6 @@ public class Item_Header_Service
                 }
                 _item_headerglobalList.Add(_item_headerDTO);
             }
-
         }
         catch (Exception ex)
         {

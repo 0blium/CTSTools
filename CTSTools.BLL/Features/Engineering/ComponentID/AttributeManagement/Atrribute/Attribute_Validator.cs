@@ -30,6 +30,20 @@ public class Attribute_Validator
                     Data = $"{nameof(Attribute)}{nameof(AttributeDTO.Name)}",
                 });
             }
+            else 
+            {
+                var _attributeDTO = new AttributeDTO { Name = AttributeDTO.Name };
+                var _sameAttributeDTO = Attribute_Service.GetAttributeList_Global(_attributeDTO).FirstOrDefault();
+                if (_sameAttributeDTO != null)
+                {
+                    return new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Duplicated",
+                        Description = "There is an attribute with the same name"
+                    };
+                }
+            }
 
             //if (AttributeDTO.AddedByID == null || AttributeDTO.AddedByID == 0)
             //{
@@ -41,17 +55,6 @@ public class Attribute_Validator
             //    });
             //}
             // if list contains a error, update main validation result
-            var _attributeDTO = new AttributeDTO { Name = AttributeDTO.Name };
-            var _sameAttributeDTO = Attribute_Service.GetAttributeList_Global(_attributeDTO).FirstOrDefault();
-            if (_sameAttributeDTO != null)
-            {
-                return new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Duplicated",
-                    Description = "There is an attribute with the same name"
-                };
-            }
             if (_validation_ResultList.Count > 0)
             {
                 _validation_ResultDTO.Result = false;
@@ -100,6 +103,20 @@ public class Attribute_Validator
                     Data = $"{nameof(Attribute)}{nameof(AttributeDTO.Name)}",
                 });
             }
+            else 
+            {
+                var _attributeDTO = new AttributeDTO { Name = AttributeDTO.Name };
+                var _sameAttributeDTO = Attribute_Service.GetAttributeList_Global(_attributeDTO).Where(w => w.ID != AttributeDTO.ID).FirstOrDefault();
+                if (_sameAttributeDTO != null)
+                {
+                    return new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Duplicated",
+                        Description = "There is an attribute with the same name."
+                    };
+                }
+            }
 
             if (AttributeDTO.LastUpdateByID == null || AttributeDTO.LastUpdateByID == 0)
             {
@@ -109,17 +126,6 @@ public class Attribute_Validator
                     Message = "Last Update By is Empty",
                     Description = "Please, complete the missing information ",
                 });
-            }
-            var _attributeDTO = new AttributeDTO { Name = AttributeDTO.Name };
-            var _sameAttributeDTO = Attribute_Service.GetAttributeList_Global(_attributeDTO).Where(w => w.ID != AttributeDTO.ID).FirstOrDefault();
-            if (_sameAttributeDTO != null)
-            {
-                return new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Duplicated",
-                    Description = "There is an attribute with the same name."
-                };
             }
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)

@@ -1,5 +1,5 @@
 ﻿using CTSTools.BLL.Common.Files;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.ItemClassification;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand;
 using System;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
@@ -8,10 +8,8 @@ public class Item_HeaderDTO
 {
     #region Base Properties
     public int? ID { get; set; }
-    public string EnglishName { get; set; }
     public string Model { get; set; }
-    public string Brand { get; set; }
-    public bool? IsESD { get; set; }
+    //public bool? IsESD { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? SupportGroupID { get; set; }
     public int? Item_SupportGroupID { get; set; }
@@ -26,11 +24,12 @@ public class Item_HeaderDTO
     #endregion
 
     #region Extended Properties
-
+    public int? BrandID { get; set; }
+    public string BrandName { get; set; }
+    public BrandDTO BrandDTO { get; set; }
+    public int?[] BrandIDArray { get; set; }
+    public bool GetBrandDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
-    public ItemClassificationDTO ItemClassificationDTO { get; set; }
-    public bool GetItemClassificationDTO { get; set; }
-    public int?[] ItemClassificationIDArray { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
     public FileDTO FileDTO { get; set; }
@@ -41,15 +40,15 @@ public class Item_HeaderDTO
     public int?[] UserDefinedIDArray { get; set; }
 
     #endregion
+
     #region Constructor
     public Item_HeaderDTO()
     {
+        BrandDTO = new BrandDTO();
+        BrandIDArray = new int?[] { };
         Item_HeaderIDArray = new int?[] { };
-        ItemClassificationDTO = new ItemClassificationDTO();
-        ItemClassificationIDArray = new int?[] { };
         SupportGroupIDArray = new int?[] { };
         UserDefinedIDArray = new int?[] { };
-
     }
     #endregion
 }
