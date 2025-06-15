@@ -1,4 +1,6 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Attribute;
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -53,7 +55,7 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.Class
                         Data = "PartType",
                     });
                 }
-                if (ClassDTO.ComponentTypeID == null || ClassDTO.ComponentTypeID == 0)
+                if (ClassDTO.PartTypeID == (int)Value_Enum.PartTypeValue_Enum.Manufactured && ClassDTO.ComponentTypeID == null || ClassDTO.ComponentTypeID == 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {

@@ -32,8 +32,8 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.Class
                     IsActive = ClassDTO.IsActive,
                     AttributeID = (int)Attribute_Enum.Class
                 },
-                ParentAttributeID = ClassDTO.ComponentTypeID == 0 ? (int)Attribute_Enum.PartType : (int)Attribute_Enum.ComponentType,
-                ParentValueID = ClassDTO.ComponentTypeID == 0 ? PartType_Repository.GetPartTypeByID((int)ClassDTO.PartTypeID).ValueID : ComponentType_Repository.GetComponentTypeByID((int)ClassDTO.ComponentTypeID).ValueID,
+                ParentAttributeID = ClassDTO.ComponentTypeID == null ? (int)Attribute_Enum.PartType : (int)Attribute_Enum.ComponentType,
+                ParentValueID = ClassDTO.ComponentTypeID == null ? PartType_Repository.GetPartTypeByID((int)ClassDTO.PartTypeID).ValueID : ComponentType_Repository.GetComponentTypeByID((int)ClassDTO.ComponentTypeID).ValueID,
                 ChildAttributeID = (int)Attribute_Enum.Class,
                 AddedByID = ClassDTO.AddedByID,
                 IsActive = ClassDTO.IsActive

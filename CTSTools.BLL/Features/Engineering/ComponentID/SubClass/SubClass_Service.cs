@@ -33,7 +33,9 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.SubClass
                 },
                 ParentAttributeID = (int)Attribute_Enum.Class,
                 ParentValueID = Class_Repository.GetClassByID((int)SubClassDTO.ClassID).ValueID,
-                ChildAttributeID = (int)Attribute_Enum.SubClass
+                ChildAttributeID = (int)Attribute_Enum.SubClass,
+                AddedByID = SubClassDTO.AddedByID,
+                IsActive = true
             };
             
             _validationResultDTO = AttributeManagement.SubClass.SubClass_Service.CreateSubClass_Global(_subClassDTO);
