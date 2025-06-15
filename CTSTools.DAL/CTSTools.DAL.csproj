@@ -93,6 +93,7 @@
     <Compile Include="Features\Engineering\ComponentID\PartManagement\PartXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\PartManagement\Part_AttributeXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\PartType\PartTypeXPO.cs" />
+    <Compile Include="Features\Engineering\ComponentID\SubClass\SubClassXPO.cs" />
     <Compile Include="Features\Engineering\ComponentID\SupplierManagement\SupplierXPO.cs" />
     <Compile Include="Features\Maintenance\AMS\Item\BrandXPO.cs" />
     <Compile Include="Features\Management\Edashboard\Dashboard\DashboardCategoryXPO.cs" />

@@ -307,6 +307,7 @@
     <Content Include="App\Features\Engineering\ComponentID\Class\ClassCatalog.aspx" />
     <Content Include="App\Features\Engineering\ComponentID\Class\ClassCatalog.js" />
     <Content Include="App\Features\Engineering\ComponentID\Class\Class_Service.js" />
+    <Content Include="App\Features\Engineering\ComponentID\Class\SubClass\SubClass_Service.js" />
     <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx" />
     <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.js" />
     <Content Include="App\Features\Engineering\ComponentID\ComponentType\ComponentType_Service.js" />
@@ -697,6 +698,7 @@
       <DependentUpon>ClassCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Engineering\ComponentID\Class\ClassCatalogController.cs" />
+    <Compile Include="App\Features\Engineering\ComponentID\Class\SubClass\SubClassController.cs" />
     <Compile Include="App\Features\Engineering\ComponentID\ComponentType\ComponentTypeCatalog.aspx.cs">
       <DependentUpon>ComponentTypeCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
