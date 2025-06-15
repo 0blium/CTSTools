@@ -4,6 +4,8 @@ import { CreateClass, UpdateClass, DeleteClass, GetDXClassDataSource } from '../
 import { CreateSubClass, UpdateSubClass, DeleteSubClass, GetDXSubClassDataSource } from './SubClass/SubClass_Service.js'
 import { GetDXPartTypeDataSource } from '../PartType/PartType_Service.js'
 import { GetDXComponentTypeDataSource } from '../ComponentType/ComponentType_Service.js'
+import { Value_Enum } from '../AttributeManagement/Value/Value_Enum.js'
+
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeClassCatalogControls();
