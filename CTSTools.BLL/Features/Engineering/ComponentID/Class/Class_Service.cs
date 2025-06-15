@@ -22,18 +22,22 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.Class
                 return _validationResultDTO;
 
             // Step 2. create ClassDTO and create value
-            var _classDTO = new AttributeManagement.Class.ClassDTO();
-            _classDTO.ClassValueDTO = new ValueDTO();
-            _classDTO.ClassValueDTO.Name = ClassDTO.Name;
-            _classDTO.ClassValueDTO.Code = ClassDTO.Code;
-            _classDTO.ClassValueDTO.Description = ClassDTO.Description;
-            _classDTO.ClassValueDTO.IsActive = ClassDTO.IsActive;
-            _classDTO.ClassValueDTO.AttributeID = (int)Attribute_Enum.Class;
-            _classDTO.ParentAttributeID = ClassDTO.PartTypeID;
-            _classDTO.ParentValueID = ClassDTO.ComponentTypeID;
-            _classDTO.ChildAttributeID = (int)Attribute_Enum.Class;
-            _classDTO.AddedByID = ClassDTO.AddedByID;
-            _classDTO.IsActive = ClassDTO.IsActive;
+            var _classDTO = new AttributeManagement.Class.ClassDTO
+            {
+                ClassValueDTO = new ValueDTO
+                {
+                    Name = ClassDTO.Name,
+                    Code = ClassDTO.Code,
+                    Description = ClassDTO.Description,
+                    IsActive = ClassDTO.IsActive,
+                    AttributeID = (int)Attribute_Enum.Class
+                },
+                ParentAttributeID = ClassDTO.ComponentTypeID == 0 ? (int)Attribute_Enum.PartType : (int)Attribute_Enum.ComponentType,
+                ParentValueID = ClassDTO.ComponentTypeID == 0 ? PartType_Repository.GetPartTypeByID((int)ClassDTO.PartTypeID).ValueID : ComponentType_Repository.GetComponentTypeByID((int)ClassDTO.ComponentTypeID).ValueID,
+                ChildAttributeID = (int)Attribute_Enum.Class,
+                AddedByID = ClassDTO.AddedByID,
+                IsActive = ClassDTO.IsActive
+            };
 
             _validationResultDTO = AttributeManagement.Class.Class_Service.CreateClass_Global(_classDTO);
             if (!_validationResultDTO.Result)

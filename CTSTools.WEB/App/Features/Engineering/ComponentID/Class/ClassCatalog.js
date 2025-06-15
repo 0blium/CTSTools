@@ -21,16 +21,16 @@ async function InitializeClassCatalogControls() {
         displayExpr: "Name",
         deferRendering: false,
         searchEnabled: true,
-        onValueChanged: function (e) {
-            // We get the complete item based on the selected value in the SelectBox
-            let _partTypeDTO = e.component.getDataSource().items().find(item => item.ID === e.value);
-            console.log(_partTypeDTO.ValueID);
-            console.log(_partTypeDTO.ID);
-        }
+        //onValueChanged: function (e) {
+        //    // We get the complete item based on the selected value in the SelectBox
+        //    let _partTypeDTO = e.component.getDataSource().items().find(item => item.ID === e.value);
+        //    console.log(_partTypeDTO.ValueID);
+        //    console.log(_partTypeDTO.ID);
+        //}
     });
     $("#dxComponentTypeSelectBox").dxSelectBox({
         dataSource: await GetDXComponentTypeDataSource(),
-        valueExpr: "ValueID",
+        valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,
         searchEnabled: true
