@@ -135,7 +135,7 @@
                                         </a>
                                     </div>
                                     <div id="ClassAdministrationComponentID" class="menu-item module-nav" data-tech="ClassAdministration Class SubClass" hidden>
-                                        <a href="/App/Features/Engineering/ComponentID/AttributeManagement/ClassAdministration.aspx" class="menu-link">
+                                        <a href="/App/Features/Engineering/ComponentID/Class/ClassCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Class & Subs</div>
                                         </a>
                                     </div>

@@ -1,4 +1,6 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Engineering.ComponentID.Class;
+using CTSTools.DAL.Features.Engineering.ComponentID.SubClass;
 using DevExpress.Xpo;
 using System;
 
@@ -25,6 +27,18 @@ public class Item_HeaderXPO : XPObject
     {
         get { return fBrand; }
         set { SetPropertyValue<BrandXPO>(nameof(Brand), ref fBrand, value); }
+    }
+    ClassXPO fClass;
+    public ClassXPO Class
+    {
+        get { return fClass; }
+        set { SetPropertyValue<ClassXPO>(nameof(Class), ref fClass, value); }
+    }
+    SubClassXPO fSubClass;
+    public SubClassXPO SubClass
+    {
+        get { return fSubClass; }
+        set { SetPropertyValue<SubClassXPO>(nameof(SubClass), ref fSubClass, value); }
     }
     //bool fIsESD;
     //public bool IsESD

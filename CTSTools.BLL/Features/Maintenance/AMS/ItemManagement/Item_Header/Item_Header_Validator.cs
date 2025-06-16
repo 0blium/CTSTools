@@ -41,6 +41,26 @@ public class Item_Header_Validator
                     Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.BrandID)}",
                 });
             }
+            if (Item_HeaderDTO.ClassID == null || Item_HeaderDTO.ClassID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Class is not selected",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ClassID)}",
+                });
+            }
+            if (Item_HeaderDTO.SubClassID == null || Item_HeaderDTO.SubClassID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Sub Class is not selected",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.SubClassID)}",
+                });
+            }
             //if (Item_HeaderDTO.IsESD == null)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
@@ -170,6 +190,26 @@ public class Item_Header_Validator
                     Message = "Brand is not selected",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.BrandID)}",
+                });
+            }
+            if (Item_HeaderDTO.ClassID == null || Item_HeaderDTO.ClassID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Class is not selected",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.ClassID)}",
+                });
+            }
+            if (Item_HeaderDTO.SubClassID == null || Item_HeaderDTO.SubClassID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Sub Class is not selected",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Item_Header)}{nameof(Item_HeaderDTO.SubClassID)}",
                 });
             }
             //if (Item_HeaderDTO.IsESD == null)

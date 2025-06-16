@@ -98,12 +98,23 @@
                                         </div>
                                     </div>
                                     <div class="mb-15px">
-                                        <label class="form-label col-form-label col-md-12">Class</label>
+                                        <label class="form-label col-form-label col-md-12">Class (<span
+                                                class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
-                                            <%--<div id="dxItem_HeaderItemClassificationSelectBox"></div>
+                                            <div id="dxItem_HeaderClassSelectBox"></div>
                                             <div class="invalid-feedback"
-                                                id="Item_HeaderItemClassificationValidation">
-                                            </div>--%>
+                                                id="Item_HeaderClassValidation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">Sub Class (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderSubClassSelectBox"></div>
+                                            <div class="invalid-feedback"
+                                                id="Item_HeaderSubClassValidation">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row mb-15px">

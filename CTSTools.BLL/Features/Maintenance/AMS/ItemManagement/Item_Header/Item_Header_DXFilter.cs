@@ -28,6 +28,14 @@ public class Item_Header_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Brand), Item_HeaderDTO.BrandID));
             }
+            if (Item_HeaderDTO.ClassID != null || Item_HeaderDTO.ClassID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Class), Item_HeaderDTO.ClassID));
+            }
+            if (Item_HeaderDTO.SubClassID != null || Item_HeaderDTO.SubClassID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.SubClass), Item_HeaderDTO.SubClassID));
+            }
             if (!string.IsNullOrEmpty(Item_HeaderDTO.Model))
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Model), Item_HeaderDTO.Model));

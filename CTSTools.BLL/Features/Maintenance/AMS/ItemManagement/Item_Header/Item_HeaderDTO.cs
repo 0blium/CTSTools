@@ -1,4 +1,6 @@
 ﻿using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.Engineering.ComponentID.Class;
+using CTSTools.BLL.Features.Engineering.ComponentID.SubClass;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand;
 using System;
 
@@ -20,6 +22,12 @@ public class Item_HeaderDTO
     public string LastUpdateByName { get; set; }
     public bool? IsActive { get; set; }
 
+    public int? ClassID { get; set; }
+    public string ClassName { get; set; }
+    public ClassDTO ClassDTO { get; set; }
+    public int? SubClassID { get; set; }
+    public string SubClassName { get; set; }
+    public SubClassDTO SubClassDTO { get; set; }
 
     #endregion
 
@@ -29,6 +37,10 @@ public class Item_HeaderDTO
     public BrandDTO BrandDTO { get; set; }
     public int?[] BrandIDArray { get; set; }
     public bool GetBrandDTO { get; set; }
+    public int?[] ClassIDArray { get; set; }
+    public bool GetClassDTO { get; set; }
+    public int?[] SubClassIDArray { get; set; }
+    public bool SubGetClassDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
@@ -46,6 +58,10 @@ public class Item_HeaderDTO
     {
         BrandDTO = new BrandDTO();
         BrandIDArray = new int?[] { };
+        ClassDTO = new ClassDTO();
+        ClassIDArray = new int?[] { };
+        SubClassDTO = new SubClassDTO();
+        SubClassIDArray = new int?[] { };
         Item_HeaderIDArray = new int?[] { };
         SupportGroupIDArray = new int?[] { };
         UserDefinedIDArray = new int?[] { };

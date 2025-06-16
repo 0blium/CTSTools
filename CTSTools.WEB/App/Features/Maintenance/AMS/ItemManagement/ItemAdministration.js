@@ -21,6 +21,8 @@ import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/Stat
 import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 import { DataType_Enum } from '../../../AdvancedSettings/DataType/DataType_Enum.js'
 import { SupplyType_Enum } from '../../../AdvancedSettings/SupplyType/SupplyType_Enum.js'
+import { GetDXClassDataSource } from '../../../Engineering/ComponentID/Class/Class_Service.js'
+import { GetDXSubClassDataSource } from '../../../Engineering/ComponentID/Class/SubClass/SubClass_Service.js'
 //#endregion
 
 let _fileDTOList = [];
@@ -408,6 +410,36 @@ async function InitializeItemAdministrationCatalogControls() {
         deferRendering: false,
         searchEnabled: true,
     });
+    $("#dxItem_HeaderClassSelectBox").dxSelectBox({
+        dataSource: await GetDXClassDataSource({IsActive:true}),
+        valueExpr: "ID",
+        displayExpr: "Name",
+        deferRendering: false,
+        searchEnabled: true,
+        onValueChanged: async function (e) {
+            await $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").reset();
+
+            if (e.value != 0 && e.value != null) {
+                $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSubClassDataSource(
+                    {
+                        IsActive: true,
+                        ClassID: e.value
+                    }));                
+            }
+            else
+            {
+                $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").reset();
+                $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").option("dataSource", []);
+            }
+        }
+    });
+    $("#dxItem_HeaderSubClassSelectBox").dxSelectBox({
+        dataSource: await GetDXSubClassDataSource(),
+        valueExpr: "ID",
+        displayExpr: "Name",
+        deferRendering: false,
+        searchEnabled: true,
+    });
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox({
         value: true,
         readOnly: true,
@@ -498,6 +530,8 @@ function DisabledProperties(Action)
     $("#dxItem_HeaderThumbnailFileUploader").dxFileUploader("instance").option("disabled", Action);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("disabled", Action);
     $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderClassSelectBox").dxSelectBox("instance").option("disabled", Action);
+    $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").option("disabled", Action);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("disabled", Action);
     //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("disabled", Action);
 }
@@ -520,6 +554,8 @@ function ClearItem_HeaderFields(CleanGrid) {
     $("#hiddenItem_SupportGroupID").val("0");
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", "");
     $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value", "");
+    $("#dxItem_HeaderClassSelectBox").dxSelectBox("instance").reset();
+    $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").reset();
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", false);
     //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").reset();
@@ -555,6 +591,8 @@ async function PopulateItem_HeaderFields(data) {
     //$("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Model);
     $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.BrandID);
+    $("#dxItem_HeaderClassSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.ClassID);
+    $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.SubClassID);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsActive);
     //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsESD)
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
@@ -571,6 +609,8 @@ function GetItem_HeaderDTO() {
         ID: $("#hiddenItem_HeaderID").val(),
         Model: $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value"),
         BrandID: $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value"),
+        ClassID: $("#dxItem_HeaderClassSelectBox").dxSelectBox("instance").option("value"),
+        SubClassID: $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value"),
         //IsESD: $("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value"),
         SupportGroupID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
