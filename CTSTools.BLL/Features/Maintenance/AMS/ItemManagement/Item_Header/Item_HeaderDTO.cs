@@ -47,8 +47,7 @@ public class Item_HeaderDTO
     public FileDTO FileDTO { get; set; }
     public bool GetItemHeaderPicture { get; set; }
     public string ItemImg { get; set; }
-    public string Names { get; set; }
-    public string NamesWithModel { get; set; }
+    public string ModelWithBrand { get; set; }
     public int?[] UserDefinedIDArray { get; set; }
 
     #endregion

@@ -15,7 +15,7 @@ public class Item_HeaderMap
         try
         {
             _item_headerDTO.ID = Item_HeaderXPO.Oid;
-            _item_headerDTO.NamesWithModel = $"{Item_HeaderXPO.Model}";
+            _item_headerDTO.ModelWithBrand = $"{Item_HeaderXPO.Model} - {Item_HeaderXPO.Brand.Name}";
             _item_headerDTO.Model = Item_HeaderXPO.Model;
             _item_headerDTO.BrandID = (Item_HeaderXPO.Brand != null) ? Item_HeaderXPO.Brand.Oid : 0;
             _item_headerDTO.BrandName = (Item_HeaderXPO.Brand != null) ? Item_HeaderXPO.Brand.Name : "Unnassigned";
