@@ -122,33 +122,6 @@ public class Item_Line_Validator
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.ManufactureSerialID)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_LineDTO.Serial))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Serial Field Empty",
-                    Description = " Please, complete the missing information or check the box to generate the serial",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                });
-
-            }
-            else
-            {
-
-                //Validate if serial already exist in the database
-                var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Serial = Item_LineDTO.Serial }).FirstOrDefault();
-                if (_item_lineDTO != null && Item_LineDTO.ID != _item_lineDTO.ID)
-                {
-                    _validation_ResultList.Add(new ValidationResultDTO
-                    {
-                        Result = false,
-                        Message = "The serial already exist in the system",
-                        Description = "Please verify the information.",
-                        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                    });
-                }
-            }
             //if (string.IsNullOrEmpty(Item_LineDTO.PONumber))
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
@@ -349,31 +322,31 @@ public class Item_Line_Validator
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.BasePriceUSD)}",
                 });
             }
-            if (string.IsNullOrEmpty(Item_LineDTO.Serial))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Serial Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                });
-            }
-            else
-            {
-                //Validate if serial already exist in the database
-                var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Serial = Item_LineDTO.Serial }).FirstOrDefault();
-                if (_item_lineDTO != null && Item_LineDTO.ID != _item_lineDTO.ID)
-                {
-                    _validation_ResultList.Add(new ValidationResultDTO
-                    {
-                        Result = false,
-                        Message = "The serial already exist in the system",
-                        Description = "Please verify the information.",
-                        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                    });
-                }
-            }
+            //if (string.IsNullOrEmpty(Item_LineDTO.Serial))
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Serial Field Empty",
+            //        Description = " Please, complete the missing information ",
+            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
+            //    });
+            //}
+            //else
+            //{
+            //    //Validate if serial already exist in the database
+            //    var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Serial = Item_LineDTO.Serial }).FirstOrDefault();
+            //    if (_item_lineDTO != null && Item_LineDTO.ID != _item_lineDTO.ID)
+            //    {
+            //        _validation_ResultList.Add(new ValidationResultDTO
+            //        {
+            //            Result = false,
+            //            Message = "The serial already exist in the system",
+            //            Description = "Please verify the information.",
+            //            Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
+            //        });
+            //    }
+            //}
 
             if (Item_LineDTO.LastUpdateByID == null || Item_LineDTO.LastUpdateByID == 0)
             {

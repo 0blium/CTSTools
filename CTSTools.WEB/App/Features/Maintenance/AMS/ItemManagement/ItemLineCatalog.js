@@ -100,7 +100,7 @@ async function InitializeItemLineCatalogControls() {
         placeholder: "Type Legacy ID.."
     });
     $("#dxItem_LineSerialTextBox").dxTextBox({
-        readOnly: false,
+        readOnly: true,
     })
     $("#dxItem_LinePONumberTextBox").dxTextBox({
         placeholder: "Type PO Number.."

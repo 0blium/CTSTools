@@ -23,33 +23,40 @@ public class Item_Line_Service
     public static ValidationResultDTO CreateItem_Line_Global(Item_LineDTO Item_LineDTO)
     {
 
-        //validate fields
-        var _ValidationResultDTO = Item_Line_Validator.CreateItem_Line_Validation(Item_LineDTO);
-        if (_ValidationResultDTO.Result)
+        // Step. 1 Validate fields
+        var _validationResultDTO = Item_Line_Validator.CreateItem_Line_Validation(Item_LineDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        // Step. 2 Get station serial from secuence
+        _validationResultDTO = GetSerialSecuenceForItem();
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        // Step. 3 Save item line
+        Item_LineDTO.Serial = _validationResultDTO.Data;
+        Item_LineDTO.AddedDate = DateTime.Now;
+        _validationResultDTO = Item_Line_Repository.CreateItem_Line(Item_LineDTO);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        // Step. 4 Save UserDefined Value
+        if (Item_LineDTO.UserDefinedValueList != null && Item_LineDTO.ID > 0)
         {
-            //save item line
-            Item_LineDTO.AddedDate = DateTime.Now;
-            _ValidationResultDTO = Item_Line_Repository.CreateItem_Line(Item_LineDTO);
-        }
-        if (_ValidationResultDTO.Result)
-        {
-            //Save UserDefined Value
-            if (Item_LineDTO.UserDefinedValueList != null && Item_LineDTO.ID > 0)
+            foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
             {
-                foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
-                {
-                    _userDefinedValueDTO.Item_LineDTO = Item_LineDTO;
-                    _userDefinedValueDTO.AddedByID = Item_LineDTO.AddedByID;
-                    _ValidationResultDTO = UserDefinedValue_Service.CreateUserDefinedValue_Global(_userDefinedValueDTO);
-                }
+                _userDefinedValueDTO.Item_LineDTO = Item_LineDTO;
+                _userDefinedValueDTO.AddedByID = Item_LineDTO.AddedByID;
+                _validationResultDTO = UserDefinedValue_Service.CreateUserDefinedValue_Global(_userDefinedValueDTO);
             }
         }
-        if (_ValidationResultDTO.Result)
-        {
-            ChangeLog.ChangeLog_Service.BuildChangeLogActionCreate<Item_LineDTO>(Item_LineDTO, (int)Item_LineDTO.AddedByID, (int)Item_LineDTO.ID);
-        }
 
-        return _ValidationResultDTO;
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step. 5 Create record ChangeLog
+        ChangeLog.ChangeLog_Service.BuildChangeLogActionCreate<Item_LineDTO>(Item_LineDTO, (int)Item_LineDTO.AddedByID, (int)Item_LineDTO.ID);
+
+        return _validationResultDTO;
     }
     public static ValidationResultDTO UpdateItem_Line_Global(Item_LineDTO Item_LineDTO)
     {
@@ -287,33 +294,50 @@ public class Item_Line_Service
         return _item_lineglobalList;
     }
 
-
-    public static ValidationResultDTO GetSerialSecuenceForItem(Item_LineDTO Item_LineDTO)
+    public static ValidationResultDTO GetSerialSecuenceForItem()
     {
-        var _validationResultDTO = new ValidationResultDTO() { Result = false };
+        var _validationResultDTO = new ValidationResultDTO();
         try
         {
-            var _itemSerial = string.Empty;
-            while (_validationResultDTO.Result == false)
-            {
-                _itemSerial = string.Format("AMS{0}", AssetManagementSQL.GetItemLineSerial());
-                var _item_LineDTO = GetItem_LineList_Global(new Item_LineDTO { Serial = _itemSerial }).FirstOrDefault();
-                if (_item_LineDTO == null)
-                {
-                    _validationResultDTO.Result = true;
-                }
-            }
-            Item_LineDTO.Serial = _itemSerial;
+            var _item_LineSerial = string.Format("STN{0}", AssetManagementSQL.GetItemLineSerial());
+            _validationResultDTO.Data = _item_LineSerial;
         }
         catch (Exception ex)
         {
             ErrorSignal.FromCurrentContext().Raise(ex);
             _validationResultDTO.Result = false;
             _validationResultDTO.Message = "Error!";
-            _validationResultDTO.Description = string.Format("Ha ocurrido un error. {0}", ex.Message);
+            _validationResultDTO.Description = string.Format("An error has occurred. {0}", ex.Message);
         }
         return _validationResultDTO;
+
     }
+    //public static ValidationResultDTO GetSerialSecuenceForItem(Item_LineDTO Item_LineDTO)
+    //{
+    //    var _validationResultDTO = new ValidationResultDTO() { Result = false };
+    //    try
+    //    {
+    //        var _itemSerial = string.Empty;
+    //        while (_validationResultDTO.Result == false)
+    //        {
+    //            _itemSerial = string.Format("AMS{0}", AssetManagementSQL.GetItemLineSerial());
+    //            var _item_LineDTO = GetItem_LineList_Global(new Item_LineDTO { Serial = _itemSerial }).FirstOrDefault();
+    //            if (_item_LineDTO == null)
+    //            {
+    //                _validationResultDTO.Result = true;
+    //            }
+    //        }
+    //        Item_LineDTO.Serial = _itemSerial;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        ErrorSignal.FromCurrentContext().Raise(ex);
+    //        _validationResultDTO.Result = false;
+    //        _validationResultDTO.Message = "Error!";
+    //        _validationResultDTO.Description = string.Format("Ha ocurrido un error. {0}", ex.Message);
+    //    }
+    //    return _validationResultDTO;
+    //}
 
     public static List<IDictionary<string, Object>> GetItem_LineWithUserDefined(Item_LineDTO Item_LineDTO)
     {
