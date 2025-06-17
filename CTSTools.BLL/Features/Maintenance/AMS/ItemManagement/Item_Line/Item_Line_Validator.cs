@@ -102,16 +102,16 @@ public class Item_Line_Validator
             //        });
             //    }
             //}
-            if (Item_LineDTO.StationDTO.ID == null || Item_LineDTO.StationDTO.ID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Station Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationDTO)}",
-                });
-            }
+            //if (Item_LineDTO.StationDTO.ID == null || Item_LineDTO.StationDTO.ID == 0)
+            //{
+            //    _validation_ResultList.Add(new ValidationResultDTO
+            //    {
+            //        Result = false,
+            //        Message = "Station Field Empty",
+            //        Description = "Please, complete the missing information",
+            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationDTO)}",
+            //    });
+            //}
             if (string.IsNullOrEmpty(Item_LineDTO.ManufactureSerialID))
             {
                 _validation_ResultList.Add(new ValidationResultDTO

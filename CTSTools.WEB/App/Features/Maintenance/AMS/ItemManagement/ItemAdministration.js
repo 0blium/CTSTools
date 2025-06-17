@@ -388,7 +388,7 @@ async function InitializeItemAdministrationCatalogControls() {
     $("#dxItem_HeaderSelectBox").dxSelectBox({
         dataSource: await GetDXItem_HeaderDataSource(),
         valueExpr: "ID",
-        displayExpr: "NamesWithModel",
+        displayExpr: "ModelWithBrand",
         deferRendering: false,
         searchEnabled: true,
         onSelectionChanged: function (e) {
