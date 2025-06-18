@@ -240,25 +240,25 @@
                                             <div class="menu-text">Inventory</div>
                                         </a>
                                     </div>
-                                    <div id="SupportGroupManagementAMS" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement">
+                                    <div id="SupportGroupManagementAMS" class="menu-item has-sub submenu-nav" data-tech="SupportGroupManagement SupportGroup SupportGroupMember" hidden>
                                         <a href="javascript:;" class="menu-link">
                                             <div class="menu-text">Support Groups</div>
                                             <div class="menu-caret"></div>
                                         </a>
                                         <div class="menu-submenu">
-                                            <div id="SupportGroupAMS" class="menu-item module-nav" data-tech="SupportGroup" hidden>
+                                            <div id="SupportGroupSupportGroupManagementAMS" class="menu-item module-nav" data-tech="SupportGroup" hidden>
                                                 <a href="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Groups</div>
                                                 </a>
                                             </div>
-                                            <div id="SupportGroupMemberAMS" class="menu-item module-nav" data-tech="SupportGroupMember" hidden>
+                                            <div id="SupportGroupMemberSupportGroupManagementAMS" class="menu-item module-nav" data-tech="SupportGroupMember" hidden>
                                                 <a href="/App/Features/Maintenance/AMS/SupportGroupManagement/SupportGroupMemberCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Members</div>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="StationManagement" class="menu-item has-sub submenu-nav" data-tech="StationManagement">
+                                    <div id="StationManagementAMS" class="menu-item has-sub submenu-nav" data-tech="StationManagement StationType Station" hidden>
                                         <a href="javascript:;" class="menu-link">
                                             <div class="menu-text">Stations</div>
                                             <div class="menu-caret"></div>
@@ -276,51 +276,51 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="SpareParts" class="menu-item has-sub submenu-nav" data-tech="SpareParts">
+                                    <div id="SparePartAMS" class="menu-item has-sub submenu-nav" data-tech="SparePartAMS SparePart SparePartInventory Provider" hidden>
                                         <a href="javascript:;" class="menu-link">
                                             <div class="menu-text">Spare Parts</div>
                                             <div class="menu-caret"></div>
                                         </a>
                                         <div class="menu-submenu">
-                                            <div id="SparePartSparePartsAMS" class="menu-item module-nav" data-tech="SparePart" hidden>
+                                            <div id="SparePartSparePartAMS" class="menu-item module-nav" data-tech="SparePart" hidden>
                                                 <a href="/App/Features/Maintenance/AMS/SparePartManagement/SparePartCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Spare Parts</div>
                                                 </a>
                                             </div>
-                                            <div id="SparePartInventorySparePartsAMS" class="menu-item module-nav" data-tech="SparePartInventory" hidden>
+                                            <div id="SparePartInventorySparePartAMS" class="menu-item module-nav" data-tech="SparePartInventory" hidden>
                                                 <a href="/App/Features/Maintenance/AMS/SparePartManagement/SparePartInventory.aspx" class="menu-link">
                                                     <div class="menu-text">Spare Part Inventory</div>
                                                 </a>
                                             </div>
-                                            <div id="ProviderSparePartsAMS" class="menu-item module-nav" data-tech="Provider" hidden>
+                                            <div id="ProviderSparePartAMS" class="menu-item module-nav" data-tech="Provider" hidden>
                                                 <a href="/App/Features/Maintenance/AMS/SparePartManagement/ProviderCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Provider </div>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="Tickets" class="menu-item has-sub submenu-nav" data-tech="Tickets">
+                                    <div id="TicketAMS" class="menu-item has-sub submenu-nav" data-tech="TicketAMS Priority Category CreateTicket Consult" hidden>
                                         <a href="javascript:;" class="menu-link">
                                             <div class="menu-text">Tickets</div>
                                             <div class="menu-caret"></div>
                                         </a>
                                         <div class="menu-submenu">
-                                            <div id="PriorityTicketsAMS" class="menu-item module-nav" data-tech="Priority" hidden>
+                                            <div id="PriorityTicketAMS" class="menu-item module-nav" data-tech="Priority" hidden>
                                                 <a href="/App/Features/Ticket/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Priority </div>
                                                 </a>
                                             </div>
-                                            <div id="CategoryTicketsAMS" class="menu-item module-nav" data-tech="Category" hidden>
+                                            <div id="CategoryTicketAMS" class="menu-item module-nav" data-tech="Category" hidden>
                                                 <a href="/App/Features/Ticket/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Category </div>
                                                 </a>
                                             </div>
-                                            <div id="CreateTicketTicketsAMS" class="menu-item module-nav" data-tech="CreateTicket" hidden>
+                                            <div id="CreateTicketTicketAMS" class="menu-item module-nav" data-tech="CreateTicket" hidden>
                                                 <a href="/App/Features/Ticket/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
                                                     <div class="menu-text">Create Ticket </div>
                                                 </a>
                                             </div>
-                                            <div id="ConsultTicketsAMS" class="menu-item module-nav" data-tech="Consult" hidden>
+                                            <div id="ConsultTicketAMS" class="menu-item module-nav" data-tech="Consult" hidden>
                                                 <a href="/App/Features/Ticket/Tickets/Consult/TicketConsult.aspx" class="menu-link">
                                                     <div class="menu-text">Consult </div>
                                                 </a>
