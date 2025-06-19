@@ -23,9 +23,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12 ">
-                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i>Item</a>
-                                <%--<a id="AssignUserDefinedBtn" class="btn btn-success d-none mb-2 ms-1 float-end" data-bs-target="#AssignUserDefinedFieldsModal" data-bs-toggle="modal">Assign Fields</a>--%>
-                                <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i>Fields</a>
+                                <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item</a>
+                                <a class="btn btn-success mb-2 float-end" id="UploadMassiveItemAdministrationModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelItem_HeaderModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
+                                <a class="btn btn-success mb-2 me-1 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
                             </div>
                             <div class="col-12">
                                 <div id="dxItemAdministrationDatGrid"></div>
@@ -98,7 +98,8 @@
                                         </div>
                                     </div>
                                     <div class="mb-15px">
-                                        <label class="form-label col-form-label col-md-12">Class (<span
+                                        <label class="form-label col-form-label col-md-12">
+                                            Class (<span
                                                 class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
                                             <div id="dxItem_HeaderClassSelectBox"></div>
@@ -108,7 +109,8 @@
                                         </div>
                                     </div>
                                     <div class="mb-15px">
-                                        <label class="form-label col-form-label col-md-12">Sub Class (<span
+                                        <label class="form-label col-form-label col-md-12">
+                                            Sub Class (<span
                                                 class="text-danger">*</span>)</label>
                                         <div class="col-md-12">
                                             <div id="dxItem_HeaderSubClassSelectBox"></div>
@@ -581,6 +583,33 @@
             </div>
         </div>
     </div>
+    <%-- Upload Excel Modal --%>
+    <div class="modal fade" id="UploadExcelItem_HeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelItem_HeaderCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelItem_HeaderFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
+                    <div class="row mb-15px">
+                        <div id="dxItem_HeaderFileUploader"></div>
+                    </div>
+                    <div id="successItem_HeaderMessage" class="alert alert-success" hidden></div>
+                    <div id="errorItem_HeaderMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearItem_HeaderExcelModalButton" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <input type="hidden" id="hiddenItem_HeaderID" hidden />
     <input type="hidden" id="hiddenItem_SupportGroupID" hidden />
     <input type="hidden" id="hiddenItem_LineID" hidden />

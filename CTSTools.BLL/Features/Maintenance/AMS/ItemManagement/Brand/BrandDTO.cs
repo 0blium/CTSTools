@@ -20,6 +20,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
         #region Extended Properties
 
         public int?[] BrandIDArray { get; set; }
+        public string[] BrandNameArray { get; set; }
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
         public BrandDTO()
         {
             BrandIDArray = new int?[] { };
+            BrandNameArray = new string[] { };
         }
         #endregion
     }

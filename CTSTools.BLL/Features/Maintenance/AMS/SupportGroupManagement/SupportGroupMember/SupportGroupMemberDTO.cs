@@ -25,6 +25,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
         public SupportGroupDTO SupportGroupDTO { get; set; }
         public bool GetSupportGroupDTO { get; set; }
         public int?[] SupportGroupIDArray { get; set; }
+        public string[] SupportGroupNameArray { get; set; }
         public UserDTO UserDTO { get; set; }
         public bool GetUserDTO { get; set; }
         public int?[] UserIDArray { get; set; }
@@ -37,6 +38,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
         public SupportGroupMemberDTO()
         {
             SupportGroupMemberIDArray = new int?[] { };
+            SupportGroupNameArray = new string[] { };
             SupportGroupDTO = new SupportGroupDTO();
             SupportGroupIDArray = new int?[] { };
             UserDTO = new UserDTO();

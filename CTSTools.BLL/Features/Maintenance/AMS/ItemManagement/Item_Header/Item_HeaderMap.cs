@@ -4,6 +4,7 @@ using CTSTools.DAL.Features.Engineering.ComponentID.SubClass;
 using CTSTools.DAL.Features.Maintenance.AMS.Item;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
 
@@ -63,5 +64,37 @@ public class Item_HeaderMap
             throw ex;
         }
         return _item_headerXPO;
+    }
+    public static List<Item_HeaderXPO> DTOListToXPOList(List<Item_HeaderDTO> Item_HeaderDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<Item_HeaderXPO>();
+        try
+        {
+            foreach (var _Item_HeaderDTO in Item_HeaderDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_Item_HeaderDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<Item_HeaderDTO> XPCollectionToList(XPCollection<Item_HeaderXPO> Item_HeaderXPCollection)
+    {
+        var _dTOList = new List<Item_HeaderDTO>();
+        try
+        {
+            foreach (var _Item_HeaderXPO in Item_HeaderXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_Item_HeaderXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
     }
 }

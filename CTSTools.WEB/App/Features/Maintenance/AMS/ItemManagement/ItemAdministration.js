@@ -2,7 +2,7 @@
 //#region Import service and resources
 import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile, SaveItem_HeaderMultipleFile } from './Item_Header/Item_Header_Service.js'
+import { GetDXItem_HeaderDataSource, CreateItem_Header, CreateMassiveItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile, SaveItem_HeaderMultipleFile } from './Item_Header/Item_Header_Service.js'
 import { GetDXItem_SupportGroupDataSource, CreateItem_SupportGroup, UpdateItem_SupportGroup, DeleteItem_SupportGroup, GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
 import { GetDXSupportGroupDataSource } from '../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
@@ -511,7 +511,39 @@ async function InitializeItemAdministrationCatalogControls() {
 
         },
     });
+    $("#dxItem_HeaderFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    var _propetieNameArray = Item_HeaderPropertyNameArray();
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File,
+                        DirectoryArray: _propetieNameArray
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveItem_Header(_fileDTO);
+                    ShowItem_HeaderValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     document.getElementById("btnCloseItem_HeaderModal").addEventListener("click", ClearItem_HeaderFields);
+    document.getElementById("UploadExcelItem_HeaderCloseModalButton").addEventListener("click", ClearExcelItem_HeaderModalFields);
+    document.getElementById("ClearItem_HeaderExcelModalButton").addEventListener("click", ClearExcelItem_HeaderModalFields);
+    document.getElementById("ExcelItem_HeaderFormatButton").addEventListener("click", ExportItem_HeaderExcelFormat);
     Item_HeaderActionButtons("Save");
 }
 //async function MasterDetailItem_Line(container, masterDetailOptions) {
@@ -621,6 +653,102 @@ function GetItem_HeaderDTO() {
     }
     return _item_HeaderDTO;
 }
+//#region Item_Header Excel functions
+function ExportItem_HeaderExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Model', key: 'model', width: 30 },
+        { header: 'Brand', key: 'brand', width: 30 },
+        { header: 'Support Group', key: 'supportgroup', width: 30 },
+        { header: 'Sub Class', key: 'subclass', width: 30 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'InventoryFormat.xlsx';
+        link.click();
+    });
+}
+function ClearExcelItem_HeaderModalFields() {
+    $('#successItem_HeaderMessage').hide();
+    $('#errorItem_HeaderMessages').hide();
+    var uploader = $("#dxItem_HeaderFileUploader").dxFileUploader("instance");
+    // Show FileUploader
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    // reset FileUploader to upload another file
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowItem_HeaderSuccessMessage(Message) {
+    $('#successItem_HeaderMessage').text(Message).show();
+    $('#successItem_HeaderMessage').removeAttr('hidden');
+}
+
+function ShowItem_HeaderErrorMessages(Message) {
+    $('#errorItem_HeaderMessages').html(Message).show();
+    $('#errorItem_HeaderMessages').removeAttr('hidden');
+}
+
+function ShowItem_HeaderValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    if (_validationResultDTO.Data != null) {
+        const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
+        if (_goodLinesList && !_badLinesList) {
+            // If there are no bad lines, a message is sent that all the data was created.
+            successMessage = "Items were created successfully.";
+            ShowItem_HeaderSuccessMessage(successMessage);
+            GetUserInformationbyID();
+            ClearItem_HeaderFields();
+        }
+        else if (_goodLinesList && _badLinesList) {
+            // If there are good and bad lines, a message is sent that there was missing data to save.
+            successMessage = "Items created: Some were skipped due to missing or invalid data.";
+            ShowItem_HeaderSuccessMessage(successMessage);
+            GetUserInformationbyID();
+            ClearItem_HeaderFields();
+        }
+        if (_badLinesList) {
+            // If there are bad lines, add each one in the message
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
+                errorMessages += `<li>Row ${badLine.ID}:<br>Model: ${badLine.Model}, Brand: ${badLine.BrandName}, Support Group = ${badLine.SupportGroupName}, Sub Class = ${badLine.SubClassName}.</li>`;
+            });
+            errorMessages += '</ul>';
+            ShowItem_HeaderErrorMessages(errorMessages);
+        }
+    }
+    if (_validationResultDTO.Message === "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        ShowItem_HeaderErrorMessages(errorMessages);
+    }
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
+        $('#UploadExcelItem_HeaderModal').modal('hide');
+        ClearExcelItem_HeaderModalFields();
+        return HostResponse(_validationResultDTO);
+    }
+    // Hide FileUploader to show messages
+    $("#dxItem_HeaderFileUploader").dxFileUploader("instance").option("visible", false);
+}
+function Item_HeaderPropertyNameArray() {
+    // With Object.keys we create an array of properties of the Item_HeaderDTO object
+    var _propertyNameArray = Object.keys(GetItem_HeaderDTO());
+    // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive" && PropertyName !== "ClassID" && PropertyName !== "Item_SupportGroupID" && PropertyName !== "UserDefinedIDArray" && PropertyName !== "FileDTO");
+    return _propertyNameArray;
+}
+//#endregion
 function Item_HeaderActionButtons(Action) {
     $("#Item_HeaderActionButtons").empty();
     document.getElementById('Item_HeaderModalTitle').innerText = '';

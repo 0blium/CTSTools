@@ -14,6 +14,7 @@ public class Item_HeaderDTO
     //public bool? IsESD { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public int? Item_SupportGroupID { get; set; }
     public int? AddedByID { get; set; }
     public string AddedByName { get; set; }

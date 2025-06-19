@@ -18,6 +18,8 @@ namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand
                     _groupOperator.Operands.Add(new BinaryOperator(nameof(BrandXPO.Name), BrandDTO.Name));
                 if (BrandDTO.BrandIDArray != null && BrandDTO.BrandIDArray.Count() > 0)
                     _groupOperator.Operands.Add(new InOperator(nameof(BrandXPO.Oid), BrandDTO.BrandIDArray));
+                if (BrandDTO.BrandNameArray != null && BrandDTO.BrandNameArray.Count() > 0)
+                    _groupOperator.Operands.Add(new InOperator(nameof(BrandXPO.Name), BrandDTO.BrandNameArray));
                 if (BrandDTO.AddedByID != null && BrandDTO.AddedByID > 0)
                     _groupOperator.Operands.Add(new BinaryOperator(nameof(BrandXPO.AddedBy), BrandDTO.AddedByID));
                 if (BrandDTO.LastUpdateByID != null && BrandDTO.LastUpdateByID > 0)
