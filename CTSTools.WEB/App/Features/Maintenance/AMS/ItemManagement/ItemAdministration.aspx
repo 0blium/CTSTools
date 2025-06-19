@@ -24,8 +24,8 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item</a>
-                                <a class="btn btn-success mb-2 float-end" id="UploadMassiveItemAdministrationModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelItem_HeaderModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
-                                <a class="btn btn-success mb-2 me-1 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
+                                <a class="btn btn-success mb-2 ms-1 float-end" id="UploadMassiveItemAdministrationModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelItem_HeaderModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
+                                <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
                             </div>
                             <div class="col-12">
                                 <div id="dxItemAdministrationDatGrid"></div>
