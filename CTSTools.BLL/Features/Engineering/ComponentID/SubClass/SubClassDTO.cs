@@ -43,6 +43,7 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.SubClass
         public int?[] ClassIDArray { get; set; }
         public bool GetClassDTO { get; set; }
         public int?[] SubClassIDArray { get; set; }
+        public string[] SubClassNameArray { get; set; }
 
         #endregion
 

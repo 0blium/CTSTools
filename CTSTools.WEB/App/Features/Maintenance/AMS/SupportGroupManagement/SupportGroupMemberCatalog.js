@@ -30,7 +30,6 @@ function GetUserDTO() {
     return _userDTO;
 }
 async function FilterDataSourceBySupportGroups(UserDTO) {
-    debugger;
     if (UserDTO.RoleIDArray != null) {
         if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());

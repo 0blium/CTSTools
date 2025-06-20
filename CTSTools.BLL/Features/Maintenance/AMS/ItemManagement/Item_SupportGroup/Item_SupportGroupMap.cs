@@ -3,6 +3,7 @@ using CTSTools.DAL.Features.Maintenance.AMS.Item;
 using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 
@@ -53,5 +54,37 @@ public class Item_SupportGroupMap
             throw ex;
         }
         return _item_supportgroupXPO;
+    }
+    public static List<Item_SupportGroupXPO> DTOListToXPOList(List<Item_SupportGroupDTO> Item_SupportGroupDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<Item_SupportGroupXPO>();
+        try
+        {
+            foreach (var _Item_SupportGroupDTO in Item_SupportGroupDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_Item_SupportGroupDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<Item_SupportGroupDTO> XPCollectionToList(XPCollection<Item_SupportGroupXPO> Item_SupportGroupXPCollection)
+    {
+        var _dTOList = new List<Item_SupportGroupDTO>();
+        try
+        {
+            foreach (var _Item_SupportGroupXPO in Item_SupportGroupXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_Item_SupportGroupXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
     }
 }

@@ -155,4 +155,27 @@ public class Item_SupportGroup_Repository
         }
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple(List<Item_SupportGroupDTO> Item_SupportGroupDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = Item_SupportGroupMap.DTOListToXPOList(Item_SupportGroupDTOList, _unit);
+            _unit.Save(_xPOList);
+            _unit.CommitChanges();
+            _validationResultDTO.Data = _xPOList;
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
 }

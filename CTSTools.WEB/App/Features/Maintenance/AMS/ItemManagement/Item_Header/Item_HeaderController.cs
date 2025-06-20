@@ -59,6 +59,18 @@ public class Item_HeaderController : ApiController
         }
         return Json(_validationResultDTO);
     }
+    [HttpPost]
+    [Route("api/Item_Header/CreateMassive")]
+    public IHttpActionResult CreateMassiveItem_Header([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Item_Header), (int)Action_Enum.Import);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Item_Header_Service.GenerateItem_HeaderFromExcel(FileDTO);
+        }
+        return Json(_validationResultDTO);
+    }
 
     [HttpPost]
     [Route("api/Item_Header/Update")]

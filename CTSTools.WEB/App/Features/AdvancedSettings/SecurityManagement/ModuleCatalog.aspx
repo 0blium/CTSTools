@@ -132,7 +132,7 @@
                     </div>
 
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3  col-md-12">Actions (<span class="text-danger">*</span>)</label>
+                        <label class="form-label col-form-label col-xl-3  col-md-12">Actions <span id="ActionRequire" hidden>(<span class="text-danger">*</span>)</span></label>
                         <div class="col-xl-9 col-md-12">                            
                                 <div type="text" id="dxModuleSetupActionsTagBox"></div>
                             <%--<div class="mt-2 mb-2 d-flex justify-content-between">
@@ -144,7 +144,7 @@
                         </div>
                     </div>
                     <div class="row mb-15px">
-                        <label class="form-label col-form-label col-xl-3 col-md-12">Role (<span class="text-danger">*</span>)</label>
+                        <label class="form-label col-form-label col-xl-3 col-md-12">Role <span id="RolesRequire" hidden>(<span class="text-danger">*</span>)</span></label>
                         <div class="col-xl-9 col-md-12">
                             <div class="mt-2 mb-2">
                                 <div type="text" id="dxModuleSetupRoleTagBox"></div>
@@ -170,5 +170,7 @@
         </div>
     </div>
     <input type="hidden" id="hiddenModuleID" hidden />
+    <input type="hidden" id="hiddenModuleSetUpID" hidden />
+    <input type="hidden" id="hiddenPermissionID" hidden />
     <script type="module" src="/App/Features/AdvancedSettings/SecurityManagement/ModuleCatalog.js"></script>
 </asp:Content>

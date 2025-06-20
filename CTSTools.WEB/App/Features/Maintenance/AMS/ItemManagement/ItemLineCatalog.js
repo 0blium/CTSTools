@@ -27,7 +27,7 @@ async function InitializeItemLineCatalogControls() {
     $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox({
         dataSource: await GetDXItem_HeaderDataSource(),
         valueExpr: "ID",
-        displayExpr: "Names",
+        displayExpr: "ModelWithBrand",
         readOnly: true,
         deferRendering: false,
         searchEnabled: true
@@ -100,7 +100,7 @@ async function InitializeItemLineCatalogControls() {
         placeholder: "Type Legacy ID.."
     });
     $("#dxItem_LineSerialTextBox").dxTextBox({
-        readOnly: false,
+        readOnly: true,
     })
     $("#dxItem_LinePONumberTextBox").dxTextBox({
         placeholder: "Type PO Number.."

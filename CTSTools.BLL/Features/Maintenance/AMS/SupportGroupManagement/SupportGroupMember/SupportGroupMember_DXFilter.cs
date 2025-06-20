@@ -20,7 +20,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                {
                     _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupMemberXPO.Oid), SupportGroupMemberDTO.SupportGroupMemberIDArray));
                }
-               if ( SupportGroupMemberDTO.SupportGroupDTO.ID != null || SupportGroupMemberDTO.SupportGroupDTO.ID > 0)
+                if ( SupportGroupMemberDTO.SupportGroupDTO.ID != null || SupportGroupMemberDTO.SupportGroupDTO.ID > 0)
                {
                     _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.SupportGroup), SupportGroupMemberDTO.SupportGroupDTO.ID));
                }
@@ -28,7 +28,11 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                {
                     _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupMemberXPO.SupportGroup), SupportGroupMemberDTO.SupportGroupIDArray));
                }
-               if ( SupportGroupMemberDTO.UserDTO.ID != null || SupportGroupMemberDTO.UserDTO.ID > 0)
+                if (SupportGroupMemberDTO.SupportGroupNameArray != null && SupportGroupMemberDTO.SupportGroupNameArray.Count() > 0) 
+                {
+                    _groupOperator.Operands.Add(new InOperator("SupportGroup.EnglishName", SupportGroupMemberDTO.SupportGroupNameArray));
+                }
+                if ( SupportGroupMemberDTO.UserDTO.ID != null || SupportGroupMemberDTO.UserDTO.ID > 0)
                {
                     _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.User), SupportGroupMemberDTO.UserDTO.ID));
                }
