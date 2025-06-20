@@ -414,8 +414,11 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
             keyExpr: "ID",
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [15, 50, 100],
+                allowedPageSizes: [10, 25, 50],
                 showInfo: true
+            },
+            paging: {
+                pageSize: 10,
             },
             allowColumnReordering: true,
             allowColumnResizing: true,
@@ -793,8 +796,11 @@ function MailGroupMemberGridTemplate(onDataGridInitialized, UserID) {
             keyExpr: "ID",
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [15, 50, 100],
+                allowedPageSizes: [10, 25, 50],
                 showInfo: true
+            },
+            paging: {
+                pageSize: 10,
             },
             allowColumnReordering: true,
             allowColumnResizing: true,

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
 using CTSTools.BLL.Features.Security.Permissions.Permission;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
@@ -154,6 +155,29 @@ public class Role_Permission_Repository
             _unit.Save(_xPOList);
             _unit.CommitChanges();
             //_validationResultDTO.Data = _xPOList;
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = false;
+            _validationResultDTO.Message = "Error!";
+            _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+        }
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO DeleteMultiple(List<Role_PermissionDTO> Role_PermissionDTOList)
+    {
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been deleted successfully."
+        };
+        try
+        {
+            using var _unit = XPO_Helper.GetNewUnitOfWork();
+            var _xPOList = Role_PermissionMap.DTOListToXPOList(Role_PermissionDTOList, _unit);
+            _unit.Delete(_xPOList);
+            _unit.CommitChanges();
+            _unit.PurgeDeletedObjects();
         }
         catch (Exception ex)
         {

@@ -251,11 +251,33 @@ namespace CTSTools.BLL.Features.XPO
 
         public static string[] SplitDXFilterList(IList DXFilterList, int position)
         {
-            //string[] _filterArray = Regex.Replace(DXFilterList[position].ToString(), @"(\s+|@|&|'|\(|\)|#|]|\[|"")", "").Split(','); //Removes absolutely all blanks
-            string[] _filterArray = Regex.Replace(DXFilterList[position].ToString(), @"(@|&|'|\(|\)|#|\]|\[|"")|[\r\n]", "").Split(',');//Does not remove blanks
+            if (DXFilterList == null || DXFilterList.Count <= position)
+                return Array.Empty<string>();
 
-            //remove blanks at the beginning and end of each element
-            return _filterArray.Select(s => s.Trim()).ToArray();
+            var item = DXFilterList[position];
+
+            // Si el item es una lista interna como ["field", "operator", "value"]
+            if (item is IList sublist)
+            {
+                return sublist
+                    .Cast<object>()
+                    .Select(o => o?.ToString().Trim())
+                    .Where(s => !string.IsNullOrWhiteSpace(s))
+                    .ToArray();
+            }
+
+            // Si no es una lista, intentar convertirlo a string plano (último recurso)
+            string[] filterArray = Regex
+                .Replace(item.ToString(), @"(@|&|'|\(|\)|#|\]|\[|"")|[\r\n]", "")
+                .Split(',')
+                .Select(s => s.Trim())
+                .ToArray();
+
+            return filterArray;
+            //string[] _filterArray = Regex.Replace(DXFilterList[position].ToString(), @"(@|&|'|\(|\)|#|\]|\[|"")|[\r\n]", "").Split(',');//Does not remove blanks
+
+            ////remove blanks at the beginning and end of each element
+            //return _filterArray.Select(s => s.Trim()).ToArray();
         }
 
         public static List<GroupOperator> SplitIDArrayToGroupOperator(int?[] IDArray)

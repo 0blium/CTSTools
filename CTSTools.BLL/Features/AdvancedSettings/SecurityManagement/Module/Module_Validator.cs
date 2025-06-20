@@ -31,6 +31,20 @@ public class Module_Validator
                     //Data = $"{nameof(Module)}{nameof(ModuleDTO.Name)}",
                 });
             }
+            else
+            {
+                var _moduleDTO = Module_Service.GetModuleList_Global(new ModuleDTO { Name = ModuleDTO.Name.Trim() }).FirstOrDefault();
+                if (_moduleDTO != null)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Module Name already exist!",
+                        Description = " Please, complete the missing information ",
+                        //Data = $"{nameof(Module)}{nameof(ModuleDTO.Name)}",
+                    });
+                }
+            }
 
             if (ModuleDTO.AddedByID == null || ModuleDTO.AddedByID == 0)
             {
@@ -87,8 +101,22 @@ public class Module_Validator
                     Result = false,
                     Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Module)}{nameof(ModuleDTO.Name)}",
+                    //Data = $"{nameof(Module)}{nameof(ModuleDTO.Name)}",
                 });
+            }
+            else
+            {
+                var _moduleDTO = Module_Service.GetModuleList_Global(new ModuleDTO { Name = ModuleDTO.Name.Trim() }).FirstOrDefault();
+                if (_moduleDTO != null && _moduleDTO.ID != ModuleDTO.ID)
+                {
+                    _validation_ResultList.Add(new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Module Name already exist!",
+                        Description = " Please, complete the missing information ",
+                        //Data = $"{nameof(Module)}{nameof(ModuleDTO.Name)}",
+                    });
+                }
             }
 
             if (ModuleDTO.LastUpdateByID == null || ModuleDTO.LastUpdateByID == 0)
