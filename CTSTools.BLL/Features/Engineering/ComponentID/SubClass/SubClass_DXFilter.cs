@@ -26,6 +26,8 @@ namespace CTSTools.BLL.Features.Engineering.ComponentID.SubClass
                     _groupOperator.Operands.Add(new InOperator(nameof(SubClassXPO.Class), SubClassDTO.ClassIDArray));
                 if (SubClassDTO.SubClassIDArray != null && SubClassDTO.SubClassIDArray.Count() > 0)
                     _groupOperator.Operands.Add(new InOperator(nameof(SubClassXPO.Oid), SubClassDTO.SubClassIDArray));
+                if (SubClassDTO.SubClassNameArray != null && SubClassDTO.SubClassNameArray.Count() > 0)
+                    _groupOperator.Operands.Add(new InOperator(nameof(SubClassXPO.Name), SubClassDTO.SubClassNameArray));
                 if (SubClassDTO.AddedByID != null && SubClassDTO.AddedByID > 0)
                     _groupOperator.Operands.Add(new BinaryOperator(nameof(SubClassXPO.AddedBy), SubClassDTO.AddedByID));
                 if (SubClassDTO.LastUpdateByID != null && SubClassDTO.LastUpdateByID > 0)

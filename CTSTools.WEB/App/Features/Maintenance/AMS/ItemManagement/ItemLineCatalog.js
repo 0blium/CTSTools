@@ -27,7 +27,7 @@ async function InitializeItemLineCatalogControls() {
     $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox({
         dataSource: await GetDXItem_HeaderDataSource(),
         valueExpr: "ID",
-        displayExpr: "Names",
+        displayExpr: "ModelWithBrand",
         readOnly: true,
         deferRendering: false,
         searchEnabled: true
@@ -100,7 +100,7 @@ async function InitializeItemLineCatalogControls() {
         placeholder: "Type Legacy ID.."
     });
     $("#dxItem_LineSerialTextBox").dxTextBox({
-        readOnly: false,
+        readOnly: true,
     })
     $("#dxItem_LinePONumberTextBox").dxTextBox({
         placeholder: "Type PO Number.."
@@ -260,13 +260,14 @@ async function InitializeItemLineCatalogControls() {
 async function GetItem_SupportGroupIDByURL() {
     let _item_SupportGroupID = GetURLParameter("Item_SupportGroupID");
     let _item_HeaderID = GetURLParameter("Item_HeaderID");
-    let _item_SupportGroupDTO = { ID: _item_SupportGroupID, GetSupportGroupDTO: true };
+    let _item_SupportGroupDTO = { ID: _item_SupportGroupID, GetSupportGroupDTO: true, GetItem_HeaderDTO: true };
     const _item_LineDTO = { Item_SupportGroupDTO: { ID: _item_SupportGroupID }, Item_HeaderDTO: { ID: _item_HeaderID }, IsActive: true };
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let _item_SupportGroupList = await GetItem_SupportGroupInformation(_item_SupportGroupDTO);
     if (_item_SupportGroupID != null && _item_SupportGroupID != undefined && _item_SupportGroupID != 0 && !Number.isNaN(_item_SupportGroupID) && (ItemLineList.length != 0 || _item_SupportGroupList.length != 0)) {
         console.log(_item_SupportGroupList);
         console.log(_item_SupportGroupList[0].Item_HeaderDTO.ID);
+        document.getElementById('AssetTitle').innerText = _item_SupportGroupList[0].Item_HeaderDTO.ModelWithBrand;
         document.getElementById('hiddenItemLineSupportGroupID').value = _item_SupportGroupID;
         document.getElementById('hiddenItemHeaderID').value = _item_HeaderID;
         document.getElementById('hiddenItemSupportGroupID').value = _item_SupportGroupList[0].SupportGroupDTO.ID;

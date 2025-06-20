@@ -16,7 +16,19 @@ export async function CreateItem_Header(Item_HeaderDTO) {
     }
     return _validationResultDTO;
 }
-
+export async function CreateMassiveItem_Header(FileDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Item_Header/CreateMassive`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', FileDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
 export async function UpdateItem_Header(Item_HeaderDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Item_Header/Update`;

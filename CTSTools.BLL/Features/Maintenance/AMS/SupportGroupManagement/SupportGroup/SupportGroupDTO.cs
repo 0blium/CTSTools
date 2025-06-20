@@ -23,6 +23,7 @@ public class SupportGroupDTO
     #region Extended Properties
 
     public int?[] SupportGroupIDArray { get; set; }
+    public string[] SupportGroupNameArray { get; set; }
     public FacilityDTO FacilityDTO { get; set; }
     public bool GetFacilityDTO { get; set; }
     public int?[] FacilityIDArray { get; set; }
