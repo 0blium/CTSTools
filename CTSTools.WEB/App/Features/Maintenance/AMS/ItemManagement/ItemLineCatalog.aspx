@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Owner (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Owner</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineOwnerSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineOwnerValidation"></div>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Delivered To (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Delivered To</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineDeliveredToSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineDeliveredToValidation"></div>
@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Supply Type(<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Supply Type</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineSupplyTypeSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineSupplyTypeValidation"></div>
@@ -124,14 +124,14 @@
                             </div>
                             <div class="row d-none" id="SupplyTypeLocal">
                                 <div class="mb-15px">
-                                    <label class="form-label col-form-label col-md-12">PO Number (<span class="text-danger">*</span>)</label>
+                                    <label class="form-label col-form-label col-md-12">PO Number</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_LinePONumberTextBox"></div>
                                         <div class="invalid-feedback" id="Item_LinePONumberValidation"></div>
                                     </div>
                                 </div>
                                 <div class="mb-15px">
-                                    <label class="form-label col-form-label col-md-12">PO Line (<span class="text-danger">*</span>)</label>
+                                    <label class="form-label col-form-label col-md-12">PO Line</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_LinePOLineTextBox"></div>
                                         <div class="invalid-feedback" id="Item_LinePOLineValidation"></div>
@@ -140,7 +140,7 @@
                             </div>
                             <div class="row d-none" id="SupplyTypeImport">
                                 <div class="mb-15px">
-                                    <label class="form-label col-form-label col-md-12">Import Invoice (<span class="text-danger">*</span>)</label>
+                                    <label class="form-label col-form-label col-md-12">Import Invoice</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_LineImportInvoiceTextBox"></div>
                                         <div class="invalid-feedback" id="Item_LineImportInvoiceValidation"></div>

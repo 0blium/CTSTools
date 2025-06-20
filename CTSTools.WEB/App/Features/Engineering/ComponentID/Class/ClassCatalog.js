@@ -175,18 +175,6 @@ async function InitializeClassCatalogControls() {
                     dataField: "Code"
                 },
                 {
-                    caption: "Attribute",
-                    dataField: "AttributeName"
-                },
-                {
-                    caption: "Value",
-                    dataField: "ValueName"
-                },
-                //{
-                //    caption: "ValueLink",
-                //    dataField: "ValueName"
-                //},
-                {
                     caption: "Part Type",
                     dataField: "PartTypeName"
                 },
@@ -544,18 +532,6 @@ async function InitializeSubClassCatalogControls() {
                     caption: "Code",
                     dataField: "Code"
                 },
-                {
-                    caption: "Attribute",
-                    dataField: "AttributeName"
-                },
-                {
-                    caption: "Value",
-                    dataField: "ValueName"
-                },
-                //{
-                //    caption: "ValueLink",
-                //    dataField: "ValueName"
-                //},
                 {
                     caption: "Class",
                     dataField: "ClassName"

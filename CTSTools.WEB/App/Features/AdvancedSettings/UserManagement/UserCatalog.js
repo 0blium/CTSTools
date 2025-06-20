@@ -94,7 +94,7 @@ async function InitializeUserCatalogControls() {
         remoteOperations: true,
         pager: {
             showPageSizeSelector: true,
-            allowedPageSizes: [15, 50, 100],
+            allowedPageSizes: [10, 50, 100],
             showInfo: true
         },
         allowColumnReordering: true,
@@ -315,7 +315,7 @@ async function InitializeUser_PermissionControls() {
         remoteOperations: true,
         pager: {
             showPageSizeSelector: true,
-            allowedPageSizes: [15, 50, 100],
+            allowedPageSizes: [10, 50, 100],
             showInfo: true
         },
         allowColumnReordering: true,
@@ -390,7 +390,6 @@ function PermissionTabTemplate(masterDetailData) {
             _user_permissionDataGrid = e.component;
             let _user_permissionDTO = await GetUser_PermissionInformation({ UserID: masterDetailData.ID, GetPermissionDTO: true });
             _user_permissionDataGrid.option('dataSource', _user_permissionDTO);
-
         }
         return $('<div>').addClass('form-container').dxForm({
             labelLocation: 'top',
@@ -412,9 +411,12 @@ function PermissionGridTemplate(onDataGridInitialized, UserID) {
         return $(`<div id="dxUser_PermissionGrid${UserID}">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
             keyExpr: "ID",
+            paging: {
+                pageSize: 10,
+            },
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [15, 50, 100],
+                allowedPageSizes: [10, 50, 100],
                 showInfo: true
             },
             allowColumnReordering: true,
@@ -791,9 +793,12 @@ function MailGroupMemberGridTemplate(onDataGridInitialized, UserID) {
         return $(`<div id="dxMailGroupMemberGrid${UserID}">`).dxDataGrid({
             onInitialized: onDataGridInitialized,
             keyExpr: "ID",
+            paging: {
+                pageSize: 10,
+            },
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [15, 50, 100],
+                allowedPageSizes: [10, 50, 100],
                 showInfo: true
             },
             allowColumnReordering: true,

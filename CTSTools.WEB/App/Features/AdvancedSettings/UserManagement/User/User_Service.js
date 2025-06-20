@@ -74,7 +74,7 @@ export async function GetDXUserDataSource(UserDTO) {
     let _userDataSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,
-        pageSize: 15
+        pageSize: 10
     });
     return _userDataSource;
 }
