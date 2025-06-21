@@ -1,6 +1,6 @@
 ﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXItem_LineDataSource, CreateItem_Line, UpdateItem_Line, DeleteItem_Line, GetItem_LineMasterDetailInformation, ReassignSupportGroup } from './Item_Line/Item_Line_Service.js'
+import { GetDXItem_LineDataSource, CreateItem_Line, CreateMassiveItem_Line, UpdateItem_Line, DeleteItem_Line, GetItem_LineMasterDetailInformation, ReassignSupportGroup } from './Item_Line/Item_Line_Service.js'
 import { GetDXItem_HeaderDataSource, CreateItem_Header, UpdateItem_Header, DeleteItem_Header, GetItem_HeaderFilesInformation, DeleteItem_HeaderFile } from './Item_Header/Item_Header_Service.js'
 import { GetItem_SupportGroupInformation } from './Item_SupportGroup/Item_SupportGroup_Service.js'
 import { GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
@@ -140,8 +140,38 @@ async function InitializeItemLineCatalogControls() {
     $("#dxItem_LineCommentsTextArea").dxTextArea({
         placeholder: "Type comments..."
     })
-
-
+    $("#dxItem_LineFileUploader").dxFileUploader({
+        accept: ".xlsx",
+        selectButtonText: "Select Excel File",
+        labelText: "or Drop here",
+        uploadMode: "instantly",
+        onValueChanged: function (e) {
+            var file = e.value[0];
+            let _fileDTO;
+            let _validationResultDTO;
+            if (file) {
+                var filename = file.name;
+                var reader = new FileReader();
+                reader.onload = async function (readerEvent) {
+                    var base64File = readerEvent.target.result;
+                    var _propetieNameArray = Item_LinePropertyNameArray();
+                    _fileDTO = {
+                        FileName: filename,
+                        Data: base64File,
+                        DirectoryArray: _propetieNameArray,
+                        FileDirectory: $("#hiddenItemHeaderID").val(),
+                        TreeViewID: $("#hiddenItemLineSupportGroupID").val(),
+                        ParentID: $("#hiddenItemSupportGroupID").val(),
+                    };
+                    await dxLoadPanel.show();
+                    _validationResultDTO = await CreateMassiveItem_Line(_fileDTO);
+                    await ShowItem_LineValidationResults(_validationResultDTO);
+                    dxLoadPanel.hide();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
     $("#dxItemLineGrid").dxDataGrid({
         dataSource: ItemLineList,
         keyExpr: "ID",
@@ -254,6 +284,9 @@ async function InitializeItemLineCatalogControls() {
     });
     RefreshGrid();
     document.getElementById("btnCloseItemLineModal").addEventListener("click", ClearItemLineFields);
+    document.getElementById("UploadExcelItem_LineCloseModalButton").addEventListener("click", ClearExcelItem_LineModalFields);
+    document.getElementById("ClearItem_LineExcelModalButton").addEventListener("click", ClearExcelItem_LineModalFields);
+    document.getElementById("ExcelItem_LineFormatButton").addEventListener("click", ExportItem_LineExcelFormat);
     ItemLineActionButtons("Save");
     ReassignSupportGroupModalActionButtons("Update");
 }
@@ -265,14 +298,12 @@ async function GetItem_SupportGroupIDByURL() {
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let _item_SupportGroupList = await GetItem_SupportGroupInformation(_item_SupportGroupDTO);
     if (_item_SupportGroupID != null && _item_SupportGroupID != undefined && _item_SupportGroupID != 0 && !Number.isNaN(_item_SupportGroupID) && (ItemLineList.length != 0 || _item_SupportGroupList.length != 0)) {
-        console.log(_item_SupportGroupList);
-        console.log(_item_SupportGroupList[0].Item_HeaderDTO.ID);
         document.getElementById('AssetTitle').innerText = _item_SupportGroupList[0].Item_HeaderDTO.ModelWithBrand;
         document.getElementById('hiddenItemLineSupportGroupID').value = _item_SupportGroupID;
         document.getElementById('hiddenItemHeaderID').value = _item_HeaderID;
         document.getElementById('hiddenItemSupportGroupID').value = _item_SupportGroupList[0].SupportGroupDTO.ID;
         document.getElementById('NewItemLineBtn').removeAttribute('hidden');
-        InitializeItemLineCatalogControls();
+        await InitializeItemLineCatalogControls();
         InitializeReassignSupportGroupModalControls();
         const _userDefinedTemplateDTO = { Item_HeaderID: _item_HeaderID , IsActive: true, GetUserDefinedDTO: true };
         UserDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
@@ -498,6 +529,115 @@ function GetItem_LineDTO(UserDefinedTemplateList) {
     }
     return _item_LineDTO;
 }
+//#region Item_Line Excel functions
+function ExportItem_LineExcelFormat() {
+    // Create the Excel workbook and sheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet('Sheet');
+    // Define the columns of the sheet
+    worksheet.columns = [
+        { header: 'Manufacture Serial', key: 'manufactureserial', width: 30 },
+        { header: 'Legacy', key: 'legacy', width: 30 },
+        { header: 'Owner', key: 'owner', width: 30 },
+        { header: 'Price', key: 'price', width: 30 },
+        { header: 'Station', key: 'station', width: 30 },
+        { header: 'Comments', key: 'comments', width: 30 },
+        { header: 'Status', key: 'status', width: 30 },
+        { header: 'Delivered To', key: 'deliveredto', width: 30 },
+    ];
+    // Set the header style to bold
+    worksheet.getRow(1).font = { bold: true };
+    // Create the Excel file and download it
+    workbook.xlsx.writeBuffer().then(function (buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'AssetFormat.xlsx';
+        link.click();
+    });
+}
+function ClearExcelItem_LineModalFields() {
+    $('#successItem_LineMessage').hide();
+    $('#errorItem_LineMessages').hide();
+    var uploader = $("#dxItem_LineFileUploader").dxFileUploader("instance");
+    // Show FileUploader
+    if (uploader) {
+        uploader.option("visible", true);
+    }
+    // reset FileUploader to upload another file
+    if (uploader) {
+        uploader.reset();
+    }
+}
+function ShowItem_LineSuccessMessage(Message) {
+    $('#successItem_LineMessage').text(Message).show();
+    $('#successItem_LineMessage').removeAttr('hidden');
+}
+
+function ShowItem_LineErrorMessages(Message) {
+    $('#errorItem_LineMessages').html(Message).show();
+    $('#errorItem_LineMessages').removeAttr('hidden');
+}
+
+async function ShowItem_LineValidationResults(_validationResultDTO) {
+    let successMessage = '';
+    let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxItem_LineFileUploader").dxFileUploader("instance").option("visible", false);
+    if (_validationResultDTO.Data != null) {
+        const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
+        const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
+        if (_goodLinesList && !_badLinesList) {
+            // If there are no bad lines, a message is sent that all the data was created.
+            successMessage = "Assets were created successfully.";
+            ShowItem_LineSuccessMessage(successMessage);
+            await ClearItemLineGrid();
+            await RefreshGrid();
+        }
+        else if (_goodLinesList && _badLinesList) {
+            // If there are good and bad lines, a message is sent that there was missing data to save.
+            successMessage = "Assets created: Some were skipped due to missing or invalid data.";
+            ShowItem_LineSuccessMessage(successMessage);
+            await ClearItemLineGrid();
+            await RefreshGrid();
+        }
+        if (_badLinesList) {
+            // If there are bad lines, add each one in the message
+            errorMessages = '<strong>The following rows contain invalid data:</strong><ul>';
+            _validationResultDTO.Data.BadRowLinesList.forEach(function (badLine) {
+                var _price = badLine.BasePriceUSD == -1 ? "Error, The price is null or different of numbers" : badLine.BasePriceUSD;
+                errorMessages += `<li>Row ${badLine.ID}:<br>Price: ${_price}.</li>`;
+            });
+            errorMessages += '</ul>';
+            ShowItem_LineErrorMessages(errorMessages);
+        }
+    }
+    if (_validationResultDTO.Message === "Error") {
+        errorMessages = `<li><strong>Column error:</strong><br>${_validationResultDTO.Description}</li>`;
+        ShowItem_LineErrorMessages(errorMessages);
+    }
+    if (_validationResultDTO.Message === "Don't have access to this action.") {
+        $('#UploadExcelItem_LineModal').modal('hide');
+        ClearExcelItem_LineModalFields();
+        return HostResponse(_validationResultDTO);
+    }
+}
+function Item_LinePropertyNameArray() {
+    // With Object.keys we create an array of properties of the Item_LineDTO object
+    var _propertyNameArray = Object.keys(GetItem_LineDTO());
+    // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive" && PropertyName !== "Item_HeaderDTO"
+        && PropertyName !== "Item_SupportGroupDTO" && PropertyName !== "OwnerDTO" && PropertyName !== "SupplyTypeDTO" && PropertyName !== "Serial" && PropertyName !== "ShipmentReceiptNumber"
+        && PropertyName !== "StatusDTO" && PropertyName !== "StationDTO" && PropertyName !== "ImportInvoice" && PropertyName !== "PONumber" && PropertyName !== "POLine" && PropertyName !== "GenerateSerial"
+        && PropertyName !== "ShipmentReceiptID" && PropertyName !== "BasePriceUSD" && PropertyName !== "UserDefinedValueList");
+    // In this case we add the missing columns
+    _propertyNameArray.push("Owner");
+    _propertyNameArray.push("Status");
+    _propertyNameArray.push("Station");
+    _propertyNameArray.push("Price");
+    return _propertyNameArray;
+}
+//#endregion
 async function ShowItem_LineDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',

@@ -20,6 +20,10 @@ public class Status_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(StatusXPO.Oid), StatusDTO.StatusIDArray));
             }
+            if (StatusDTO.StatusNameArray != null && StatusDTO.StatusNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(StatusXPO.Name), StatusDTO.StatusNameArray));
+            }
             if (StatusDTO.AddedByID != null || StatusDTO.AddedByID > 0)
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(StatusXPO.AddedBy), StatusDTO.AddedByID));

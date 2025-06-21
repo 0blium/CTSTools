@@ -19,7 +19,7 @@ public class FileDTO
     public int? FileDirectory { get; set; }
     #endregion
     #region Extended Properties
-    public string TreeViewID { get; set; }
+    public int? TreeViewID { get; set; }
     public int? ParentID { get; set; }
     public string[] DirectoryArray { get; set; }
     public List<FileDTO> FileList { get; set; }

@@ -3,9 +3,9 @@ using CTSTools.DAL.Features.AdvancedSettings.TransactionOrigin;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using CTSTools.DAL.Features.Maintenance.AMS.Item;
 using CTSTools.DAL.Features.Maintenance.AMS.Station;
-using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Line;
 
@@ -104,5 +104,37 @@ public class Item_LineMap
             throw ex;
         }
         return _item_lineXPO;
+    }
+    public static List<Item_LineXPO> DTOListToXPOList(List<Item_LineDTO> Item_LineList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<Item_LineXPO>();
+        try
+        {
+            foreach (var _Item_LineDTO in Item_LineList)
+            {
+                _xPOList.Add(DTOtoXPO(_Item_LineDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
+    }
+    public static List<Item_LineDTO> XPCollectionToList(XPCollection<Item_LineXPO> Item_LineXPCollection)
+    {
+        var _dTOList = new List<Item_LineDTO>();
+        try
+        {
+            foreach (var _Item_LineXPO in Item_LineXPCollection)
+            {
+                _dTOList.Add(XPOToDTO(_Item_LineXPO));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _dTOList;
     }
 }

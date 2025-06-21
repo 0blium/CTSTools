@@ -19,17 +19,15 @@ public class StatusDTO
     #endregion
 
     #region Extended Properties
-    //public UserDTO AddedBy { get; set; }
-    //public UserDTO LastUpdateBy { get; set; }
-
     public int?[] StatusIDArray { get; set; }
-
+    public string[] StatusNameArray { get; set; }
     #endregion
+
     #region Constructor
     public StatusDTO()
     {
-        StatusIDArray = [];
-
+        StatusIDArray = new int?[] { };
+        StatusNameArray = new string[] { };
     }
     #endregion
 }

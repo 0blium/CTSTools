@@ -20,6 +20,10 @@ public class Station_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(StationXPO.Oid), StationDTO.StationIDArray));
             }
+            if (StationDTO.StationNameArray != null && StationDTO.StationNameArray.Count() > 0)
+            {
+                _groupOperator.Operands.Add(new InOperator(nameof(StationXPO.Name), StationDTO.StationNameArray));
+            }
             if (!string.IsNullOrEmpty(StationDTO.Serial))
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.Serial), StationDTO.Serial));

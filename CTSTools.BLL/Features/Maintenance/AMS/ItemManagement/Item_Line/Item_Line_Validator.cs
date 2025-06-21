@@ -1,5 +1,13 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Excel;
+using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
+using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefined;
+using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.Station;
+using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -416,6 +424,7 @@ public class Item_Line_Validator
         return _validation_ResultList;
     }
     #endregion
+
     #region Delivery asset line Validation
     public static ValidationResultDTO ItemDeliveryValidation(Item_LineDTO Item_LineDTO)
     {
@@ -474,6 +483,7 @@ public class Item_Line_Validator
         return _validation_ResultDTO;
     }
     #endregion
+
     #region Reassign Owner 
     public static ValidationResultDTO ReassignOwnerToItemValidation(Item_LineDTO Item_LineDTO)
     {
@@ -583,4 +593,153 @@ public class Item_Line_Validator
         return _validation_ResultDTO;
     }
     #endregion
+
+    #region Excel Item_Line Validation
+    public static ValidationResultDTO ExcelItem_LineRows_Validation(Item_LineDTO Item_LineDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<Item_LineDTO>(),
+            BadRowLinesList = new List<Item_LineDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+        try
+        {
+            bool isSucces = true;
+            var _item_LineDTO = new Item_LineDTO
+            {
+                ID = Item_LineDTO.ID,
+                Item_HeaderDTO = new Item_HeaderDTO 
+                {
+                    ID = Item_LineDTO.Item_HeaderDTO.ID
+                },
+                Item_SupportGroupDTO = new Item_SupportGroupDTO 
+                {
+                    ID = Item_LineDTO.Item_SupportGroupDTO.ID,
+                    SupportGroupDTO = new SupportGroupDTO 
+                    {
+                        ID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID
+                    }
+                },
+                ManufactureSerialID = Item_LineDTO.ManufactureSerialID,
+                LegacyID = Item_LineDTO.LegacyID,
+                OwnerDTO = new UserDTO { Name = Item_LineDTO.OwnerDTO.Name},
+                BasePriceUSD = Item_LineDTO.BasePriceUSD,
+                StatusDTO = new StatusDTO { Name = Item_LineDTO.StatusDTO.Name },
+                StationDTO = new StationDTO { Name = Item_LineDTO.StationDTO.Name },
+                Comments = Item_LineDTO.Comments,
+                DeliveredToName = Item_LineDTO.DeliveredToName,
+                AddedByID = Item_LineDTO.AddedByID,
+                AddedDate = DateTime.Now,
+                IsActive = true
+            };
+
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
+            if (_item_LineDTO.Item_HeaderDTO.ID == null || _item_LineDTO.Item_HeaderDTO.ID == 0 ||
+                _item_LineDTO.Item_SupportGroupDTO.ID == null || _item_LineDTO.Item_SupportGroupDTO.ID == 0 ||
+                _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID == null || _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID == 0 ||
+                _item_LineDTO.BasePriceUSD < 0.0f)
+                isSucces = false;
+
+            // If it meets all the validations, it saves it in GoodRowLinesList else
+            if (isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_item_LineDTO);
+            else // If not save it BadRowLinesList
+                _excelRowDTO.BadRowLinesList.Add(_item_LineDTO);
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw ex;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelItem_LineInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<Item_LineDTO>(),
+            BadRowLinesList = new List<Item_LineDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the Item_Line that passed the first validation
+            var _Item_LineDTOList = (List<Item_LineDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous Item_Line that did not pass the first validation
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
+            if (_Item_LineDTOList.Count <= 0)
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
+
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            var _ownerDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.OwnerDTO.Name.ToLower()).Distinct().ToArray() };
+            var _stationDTO = new StationDTO { StationNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StationDTO.Name.ToLower()).Distinct().ToArray() };
+            var _statusDTO = new StatusDTO { StatusNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StatusDTO.Name.ToLower()).Distinct().ToArray() };
+            var _deliveredToDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.DeliveredToName.ToLower()).Distinct().ToArray() };
+
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
+            var _ownerList = User_Service.GetUserList_Global(_ownerDTO);
+            var _stationList = Station_Service.GetStationList_Global(_stationDTO);
+            var _statusList = Status_Service.GetStatusList_Global(_statusDTO);
+            var _deliveredToList = User_Service.GetUserList_Global(_deliveredToDTO);
+
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
+            var _ownerDict = _ownerList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
+            var _stationDict = _stationList.ToDictionary(StationDTO => StationDTO.Name.ToLower(), StationDTO => (int?)StationDTO.ID);
+            var _statusDict = _statusList.ToDictionary(StatusDTO => StatusDTO.Name.ToLower(), StatusDTO => (int?)StatusDTO.ID);
+            var _deliveredToDict = _deliveredToList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
+
+            foreach (var Item_LineDTO in _Item_LineDTOList)
+            {
+                bool isSuccess = true;
+
+                // we use TryGetValue to try to get the Item_Line associated with the key from the dictionary,
+                // If the Item_Line of DeliveredToName is found, it is assigned with the corresponding Item_Line (ID) from the dictionary.
+                // 'out' keyword indicates that DeliveredToName is an output parameter, if the name is not found, save the error message.
+                if (_ownerDict.TryGetValue(Item_LineDTO.OwnerDTO.Name.ToLower(), out int? OwnerID)) Item_LineDTO.OwnerDTO.ID = OwnerID;
+                if (_stationDict.TryGetValue(Item_LineDTO.StationDTO.Name.ToLower(), out int? StationID)) Item_LineDTO.StationDTO.ID = StationID;
+                if (_statusDict.TryGetValue(Item_LineDTO.StatusDTO.Name.ToLower(), out int? StatusID)) Item_LineDTO.StatusDTO.ID = StatusID;
+                if (_deliveredToDict.TryGetValue(Item_LineDTO.DeliveredToName.ToLower(), out int? DeliveredToID)) Item_LineDTO.DeliveredToID = DeliveredToID;
+
+                if (isSuccess)
+                {
+                    Item_LineDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(Item_LineDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(Item_LineDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<Item_LineDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(Item_LineDTO => Item_LineDTO.ID).ToList();
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    #endregion
+
 }

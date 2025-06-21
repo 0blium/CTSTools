@@ -285,6 +285,8 @@ function ShowSupplierErrorMessagesExcelModal(Message) {
 function ShowSupplierValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxSupplierFileUploader").dxFileUploader("instance").option("visible", false);
     if (_validationResultDTO.Data != null) {
         const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
@@ -319,8 +321,6 @@ function ShowSupplierValidationResults(_validationResultDTO) {
         ClearExcelModalFields();
         return HostResponse(_validationResultDTO);
     }
-    // Hide FileUploader to show messages
-    $("#dxSupplierFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function SupplierPropertyNameArray() {
     // With Object.keys we create an array of properties of the SupplierDTO object

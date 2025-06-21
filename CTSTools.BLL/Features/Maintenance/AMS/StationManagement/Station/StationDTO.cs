@@ -26,6 +26,7 @@ public class StationDTO
     #region Extended Properties
 
     public int?[] StationIDArray { get; set; }
+    public string[] StationNameArray { get; set; }
     public int?[] Item_LineIDArray { get; set; }
     public FacilityDTO FacilityDTO { get; set; }
     public bool GetFacilityDTO { get; set; }
@@ -42,6 +43,7 @@ public class StationDTO
     public StationDTO()
     {
         StationIDArray = new int?[] { };
+        StationNameArray = new string[] { };
         FacilityDTO = new FacilityDTO();
         FacilityIDArray = new int?[] { };
         DepartmentDTO = new DepartmentDTO();
