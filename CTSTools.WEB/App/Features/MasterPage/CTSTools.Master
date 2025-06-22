@@ -299,34 +299,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="TicketAMS" class="menu-item has-sub submenu-nav" data-tech="TicketAMS Priority Category CreateTicket Consult" hidden>
+                                    <%--                                    <div id="TicketAMS" class="menu-item has-sub submenu-nav" data-tech="TicketAMS Priority Category CreateTicket Consult" hidden>
                                         <a href="javascript:;" class="menu-link">
                                             <div class="menu-text">Tickets</div>
                                             <div class="menu-caret"></div>
                                         </a>
                                         <div class="menu-submenu">
                                             <div id="PriorityTicketAMS" class="menu-item module-nav" data-tech="Priority" hidden>
-                                                <a href="/App/Features/Ticket/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
+                                                <a href="/App/Features/Maintenance/AMS/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Priority </div>
                                                 </a>
                                             </div>
                                             <div id="CategoryTicketAMS" class="menu-item module-nav" data-tech="Category" hidden>
-                                                <a href="/App/Features/Ticket/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
+                                                <a href="/App/Features/Maintenance/AMS/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
                                                     <div class="menu-text">Category </div>
                                                 </a>
                                             </div>
                                             <div id="CreateTicketTicketAMS" class="menu-item module-nav" data-tech="CreateTicket" hidden>
-                                                <a href="/App/Features/Ticket/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
+                                                <a href="/App/Features/Maintenance/AMS/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
                                                     <div class="menu-text">Create Ticket </div>
                                                 </a>
                                             </div>
                                             <div id="ConsultTicketAMS" class="menu-item module-nav" data-tech="Consult" hidden>
-                                                <a href="/App/Features/Ticket/Tickets/Consult/TicketConsult.aspx" class="menu-link">
+                                                <a href="/App/Features/Maintenance/AMS/Tickets/Consult/TicketConsult.aspx" class="menu-link">
                                                     <div class="menu-text">Consult </div>
                                                 </a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--%>
                                     <div id="ChangeLogAMS" class="menu-item module-nav" data-tech="ChangeLog" hidden>
                                         <a href="/App/Features/AdvancedSettings/ChangeLog/ChangeLogCatalog.aspx" class="menu-link">
                                             <div class="menu-text">ChangeLog </div>
@@ -334,12 +334,38 @@
                                     </div>
                                 </div>
                             </div>
-                            <%--<div class="menu-item"><a href="javascript:;" class="menu-link">
-                                <div class="menu-text">Menu 1.2</div>
-                            </a></div>
-                            <div class="menu-item"><a href="javascript:;" class="menu-link">
-                                <div class="menu-text">Menu 1.3</div>
-                            </a></div>--%>
+                            <div id="TicketAMS" class="menu-item has-sub submenu-nav" data-tech="TicketAMS Priority Category CreateTicket Consult" hidden>
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-icon">
+                                        <i class="fa-solid fa-helmet-safety"></i>
+                                    </div>
+                                    <div class="menu-text">Tickets</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu">
+                                    <div id="PriorityTicketAMS" class="menu-item module-nav" data-tech="Priority" hidden>
+                                        <a href="/App/Features/Maintenance/AMS/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Priority </div>
+                                        </a>
+                                    </div>
+                                    <div id="CategoryTicketAMS" class="menu-item module-nav" data-tech="Category" hidden>
+                                        <a href="/App/Features/Maintenance/AMS/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
+                                            <div class="menu-text">Category </div>
+                                        </a>
+                                    </div>
+                                    <div id="CreateTicketTicketAMS" class="menu-item module-nav" data-tech="CreateTicket" hidden>
+                                        <a href="/App/Features/Maintenance/AMS/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
+                                            <div class="menu-text">Create Ticket </div>
+                                        </a>
+                                    </div>
+                                    <div id="ConsultTicketAMS" class="menu-item module-nav" data-tech="Consult" hidden>
+                                        <a href="/App/Features/Maintenance/AMS/Tickets/Consult/TicketConsult.aspx" class="menu-link">
+                                            <div class="menu-text">Consult </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 

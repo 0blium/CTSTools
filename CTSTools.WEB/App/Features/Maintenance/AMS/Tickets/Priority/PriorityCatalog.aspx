@@ -73,5 +73,5 @@
     </div>
 </div>
 <input type="hidden" id="hiddenPriorityID" hidden />
-<script type="module" src="/App/Features/Ticket/Tickets/Priority/PriorityCatalog.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/Tickets/Priority/PriorityCatalog.js"></script>
 </asp:Content>

@@ -46,7 +46,7 @@ public class TicketController : ApiController
     public IHttpActionResult CreateTicket([FromBody] TicketDTO TicketDTO)
     {
 
-        TicketDTO.CreatedByDTO.ID = Auth_Helper.GetLoggedUserOid();
+        TicketDTO.CreatedByID = Auth_Helper.GetLoggedUserOid();
         var _validationResultDTO = Ticket_Service.CreateTicket_Global(TicketDTO);
 
         return Json(_validationResultDTO);

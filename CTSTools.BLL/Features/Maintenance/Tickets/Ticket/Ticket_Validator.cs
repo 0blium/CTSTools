@@ -51,7 +51,7 @@ public class Ticket_Validator
             //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Resolution)}",
             //    });
             //}
-            if (TicketDTO.CreatedByDTO.ID == null || TicketDTO.CreatedByDTO.ID == 0)
+            if (TicketDTO.CreatedByID == null || TicketDTO.CreatedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -60,7 +60,7 @@ public class Ticket_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (TicketDTO.FacilityDTO.ID == null || TicketDTO.FacilityDTO.ID == 0)
+            if (TicketDTO.FacilityID == null || TicketDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -70,7 +70,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityDTO)}",
                 });
             }
-            if (TicketDTO.DepartmentDTO.ID == null || TicketDTO.DepartmentDTO.ID == 0)
+            if (TicketDTO.DepartmentID == null || TicketDTO.DepartmentID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -81,7 +81,7 @@ public class Ticket_Validator
                 });
             }
 
-            //if (TicketDTO.AssignedToDTO.ID == null || TicketDTO.AssignedToDTO.ID == 0)
+            //if (TicketDTO.AssignedToID == null || TicketDTO.AssignedToID == 0)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
@@ -101,7 +101,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.Description)}",
                 });
             }
-            //if (TicketDTO.Item_LineDTO.ID == null || TicketDTO.Item_LineDTO.ID == 0)
+            //if (TicketDTO.Item_LineID == null || TicketDTO.Item_LineID == 0)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
@@ -111,7 +111,7 @@ public class Ticket_Validator
             //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Item_LineDTO)}",
             //    });
             //}
-            if (TicketDTO.StatusDTO.ID == null || TicketDTO.StatusDTO.ID == 0)
+            if (TicketDTO.StatusID == null || TicketDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -121,7 +121,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusDTO)}",
                 });
             }
-            if (TicketDTO.PriorityDTO.ID == null || TicketDTO.PriorityDTO.ID == 0)
+            if (TicketDTO.PriorityID == null || TicketDTO.PriorityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -131,7 +131,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityDTO)}",
                 });
             }
-            if (TicketDTO.CategoryDTO.ID == null || TicketDTO.CategoryDTO.ID == 0)
+            if (TicketDTO.CategoryID == null || TicketDTO.CategoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -141,7 +141,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryDTO)}",
                 });
             }
-            if (TicketDTO.SupportGroupDTO.ID == null || TicketDTO.SupportGroupDTO.ID == 0)
+            if (TicketDTO.SupportGroupID == null || TicketDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -212,7 +212,7 @@ public class Ticket_Validator
             //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.CreatedByDTO)}",
             //    });
             //}
-            if (TicketDTO.FacilityDTO.ID == null || TicketDTO.FacilityDTO.ID == 0)
+            if (TicketDTO.FacilityID == null || TicketDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -222,7 +222,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityDTO)}",
                 });
             }
-            if (TicketDTO.DepartmentDTO.ID == null || TicketDTO.DepartmentDTO.ID == 0)
+            if (TicketDTO.DepartmentID == null || TicketDTO.DepartmentID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -232,11 +232,11 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentDTO)}",
                 });
             }
-            if (TicketDTO.AssignedToDTO.ID == null || TicketDTO.AssignedToDTO.ID == 0)
+            if (TicketDTO.AssignedToID == null || TicketDTO.AssignedToID == 0)
             {
 
             }
-            //if (TicketDTO.Item_LineDTO.ID == null || TicketDTO.Item_LineDTO.ID == 0)
+            //if (TicketDTO.Item_LineID == null || TicketDTO.Item_LineID == 0)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
@@ -246,7 +246,7 @@ public class Ticket_Validator
             //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Item_LineDTO)}",
             //    });
             //}
-            if (TicketDTO.StatusDTO.ID == null || TicketDTO.StatusDTO.ID == 0)
+            if (TicketDTO.StatusID == null || TicketDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -256,7 +256,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusDTO)}",
                 });
             }
-            if (TicketDTO.PriorityDTO.ID == null || TicketDTO.PriorityDTO.ID == 0)
+            if (TicketDTO.PriorityID == null || TicketDTO.PriorityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -266,7 +266,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityDTO)}",
                 });
             }
-            if (TicketDTO.CategoryDTO.ID == null || TicketDTO.CategoryDTO.ID == 0)
+            if (TicketDTO.CategoryID == null || TicketDTO.CategoryID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -276,7 +276,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryDTO)}",
                 });
             }
-            if (TicketDTO.SupportGroupDTO.ID == null || TicketDTO.SupportGroupDTO.ID == 0)
+            if (TicketDTO.SupportGroupID == null || TicketDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -286,7 +286,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupDTO)}",
                 });
             }
-            //if (TicketDTO.ClosedByDTO.ID == null || TicketDTO.ClosedByDTO.ID == 0)
+            //if (TicketDTO.ClosedByID == null || TicketDTO.ClosedByID == 0)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
@@ -311,7 +311,7 @@ public class Ticket_Validator
 
             //Validate if ticket not as closed
             var _previousTicket = Ticket_Service.GetTicketList_Global(new TicketDTO { ID = TicketDTO.ID }).FirstOrDefault();
-            if (_previousTicket.StatusDTO.ID == (int)Statuses_Enum.Closed)
+            if (_previousTicket.StatusID == (int)Statuses_Enum.Closed)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -323,7 +323,7 @@ public class Ticket_Validator
             }
 
             //Validate if solution & resolution fields are empty when ticket change to closed
-            if (string.IsNullOrEmpty(TicketDTO.Solution) && TicketDTO.StatusDTO?.ID == (int)Statuses_Enum.Closed)
+            if (string.IsNullOrEmpty(TicketDTO.Solution) && TicketDTO.StatusID == (int)Statuses_Enum.Closed)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -333,7 +333,7 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.Solution)}",
                 });
             }
-            if (string.IsNullOrEmpty(TicketDTO.Resolution) && TicketDTO.StatusDTO?.ID == (int)Statuses_Enum.Closed)
+            if (string.IsNullOrEmpty(TicketDTO.Resolution) && TicketDTO.StatusID == (int)Statuses_Enum.Closed)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -344,7 +344,7 @@ public class Ticket_Validator
                 });
             }
             //Validate if assignedTo is empty when ticket status change to closed
-            if (TicketDTO.StatusDTO?.ID == (int)Statuses_Enum.Closed && (TicketDTO.AssignedToDTO?.ID == null || TicketDTO.AssignedToDTO.ID == 0))
+            if (TicketDTO.StatusID == (int)Statuses_Enum.Closed && (TicketDTO.AssignedToID == null || TicketDTO.AssignedToID == 0))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {

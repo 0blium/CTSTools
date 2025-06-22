@@ -94,5 +94,5 @@
         </div>
     </div>
 </div>
-<script type="module" src="/App/Features/Ticket/Tickets/Consult/TicketConsult.js"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/Tickets/Consult/TicketConsult.js"></script>
 </asp:Content>

@@ -1,9 +1,9 @@
-﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+﻿import { dxLoadPanel } from '../../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../../Common/Utils/Response.js'
 import { GetDXCategoryDataSource, CreateCategory, UpdateCategory, DeleteCategory } from './Category_Service.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
-import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
-import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
+import { GetDXSupportGroupDataSource } from '../../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
+import { GetUserInformation } from '../../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { Role_Enum } from '../../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await InitializeCategoryCatalogControls();

@@ -1,22 +1,22 @@
-﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetURLParameter } from '../../../../Common/Utils/Utils.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
+﻿import { dxLoadPanel } from '../../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../../Common/Utils/Response.js'
+import { GetURLParameter } from '../../../../../Common/Utils/Utils.js'
+import { GetDXSupportGroupDataSource } from '../../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
 import { GetDXPriorityDataSource } from '../Priority/Priority_Service.js'
 import { GetDXCategoryDataSource } from '../Category/Category_Service.js'
-import { GetItem_LineInformationBySupportGroup } from '../../Item/ItemAdministration/Item_Line/Item_Line_Service.js'
-import { GetUserInformation, GetDXUserDataSource } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { GetItem_LineInformationBySupportGroup } from '../../ItemManagement/Item_Line/Item_Line_Service.js'
+import { GetUserInformation, GetDXUserDataSource } from '../../../../AdvancedSettings/UserManagement/User/User_Service.js'
 //import { GetDXEmployeeTressDataSource } from '../../AdvancedSettings/Users/EmployeeTress/EmployeeTress_Service.js'//
-import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
-import { GetDXFacilityDataSource } from '../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
-import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'
-import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
-import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
+import { Role_Enum } from '../../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
+import { GetDXFacilityDataSource } from '../../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
+import { GetDXDepartmentDataSource } from '../../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'
+import { StatusType_Enum } from '../../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { DeleteTicketFile, GetTicketFilesInformation, GetTicketInformation, UpdateTicket, UploadTicketFile } from '../Ticket/Ticket_Service.js'
-import { GetDXSupportGroupMemberDataSource } from '../../SupportGroupMember/SupportGroupMember_Service.js'
-import { Status_Enum } from '../../../AdvancedSettings/StatusManagement/Status/Status_Enum.js'
-import { GetDXSparePart_LotDataSource, GetSparePart_LotInformation } from '../../SpareParts/SparePartInventory/SparePart_Lot/SparePart_Lot_Service.js'
-import { DeleteSparePartUsage, GetDXSparePartUsageDataSource, CreateSparePartUsage } from '../../SpareParts/SparePartInventory/SparePartUsage/SparePartUsage_Service.js'
+import { GetDXSupportGroupMemberDataSource } from '../../SupportGroupManagement/SupportGroupMember/SupportGroupMember_Service.js'
+import { Status_Enum } from '../../../../AdvancedSettings/StatusManagement/Status/Status_Enum.js'
+import { GetDXSparePart_LotDataSource, GetSparePart_LotInformation } from '../../SparePartManagement/SparePart_Lot/SparePart_Lot_Service.js'
+import { DeleteSparePartUsage, GetDXSparePartUsageDataSource, CreateSparePartUsage } from '../../SparePartManagement/SparePartUsage/SparePartUsage_Service.js'
 
 let _fileDTOList = [];
 let _fileDTO = {};
@@ -146,6 +146,12 @@ async function InitializeTicketControls() {
     //    searchEnabled: true
     //});
 
+    $("#dxTicketStatusSelectBox").dxSelectBox({
+        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.Tickets }),
+        displayExpr: "StatusName",
+        valueExpr: "StatusID",
+        searchEnable: true
+    })
     $("#dxTicketDepartmentSelectBox").dxSelectBox({
         dataSource: [],
         displayExpr: "Name",
@@ -333,12 +339,6 @@ async function InitializeTicketControls() {
         height: 100,
         readOnly: true
     });
-    $("#dxTicketStatusSelectBox").dxSelectBox({
-        dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.Tickets }),
-        displayExpr: "StatusName",
-        valueExpr: "StatusID",
-        searchEnable: true
-    })
     $("#dxTicketAddedDateDateBox").dxDateBox({
         type: "datetime",
         max: now,
@@ -391,30 +391,32 @@ async function PopulateTicketInformation(TicketDTO) {
 
     if (TicketDTO != null) {
         await dxLoadPanel.show();
-        await $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value", TicketDTO.SupportGroupDTO.ID);
-        $("#hiddenCreatedByID").val(TicketDTO.CreatedByDTO.ID);
+        await $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value", TicketDTO.SupportGroupID);
+        $("#hiddenCreatedByID").val(TicketDTO.CreatedByID);
         document.getElementById('TicketNumber').innerHTML = `Ticket #<span class="fw-bold">${TicketDTO.TicketNumber}<span>`;
-        await PopulateStatusSection(TicketDTO.StatusDTO);
-        //await $("#dxTicketRequestorSelectBox").dxSelectBox("instance").option("value", TicketDTO.RequestorDTO.ID);
-        await $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value", TicketDTO.FacilityDTO.ID);
-        await $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value", TicketDTO.DepartmentDTO.ID);      
-        await $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.CategoryDTO.ID);
-        await $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.SubCategoryDTO.ID);
-        await $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.ThirdLevelCategoryDTO.ID);
+        await PopulateStatusSection(TicketDTO.StatusID, TicketDTO.StatusName);
+        //await $("#dxTicketRequestorSelectBox").dxSelectBox("instance").option("value", TicketDTO.RequestorID);
+        await $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value", TicketDTO.FacilityID);
+        await $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value", TicketDTO.DepartmentID);      
+        await $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.CategoryID);
+        await $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.SubCategoryID);
+        await $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.ThirdLevelCategoryID);
         await $("#dxTicketTitleTextBox").dxTextBox("instance").option("value", TicketDTO.Title);
         await $("#dxTicketDescriptionTextArea").dxTextArea("instance").option("value", TicketDTO.Description);
         await $("#dxTicketNoteTextArea").dxTextArea("instance").option("value", TicketDTO.Note);
         await $("#dxTicketSolutionTextArea").dxTextArea("instance").option("value", TicketDTO.Solution);
         await $("#dxTicketResolutionTextArea").dxTextArea("instance").option("value", TicketDTO.Resolution);
         await $("#dxTicketAddedDateDateBox").dxDateBox("instance").option("value", TicketDTO.AddedDate);
-        await $("#dxTicketAssignedToSelectBox").dxSelectBox("instance").option("value", TicketDTO.AssignedToDTO.ID);
+        await $("#dxTicketAssignedToSelectBox").dxSelectBox("instance").option("value", TicketDTO.AssignedToID);
         await $("#dxTicketAssignedDateDateBox").dxDateBox("instance").option("value", TicketDTO.AssignedDate);
-        await $("#dxTicketClosedBySelectBox").dxSelectBox("instance").option("value", TicketDTO.ClosedByDTO.ID);
+        await $("#dxTicketClosedBySelectBox").dxSelectBox("instance").option("value", TicketDTO.ClosedByID);
         await $("#dxTicketClosedDateDateBox").dxDateBox("instance").option("value", TicketDTO.ClosedDate);
-        await PopulateItemSection(TicketDTO.Item_LineDTO.ID);
-        await $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value", TicketDTO.PriorityDTO.ID);
-        await $("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value", TicketDTO.StatusDTO.ID);
-        console.log(TicketDTO.StatusDTO.ID)
+        await PopulateItemSection(TicketDTO.Item_LineID);
+        await $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value", TicketDTO.PriorityID);
+        await $("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value", TicketDTO.StatusID);
+        console.log(TicketDTO.StatusID)
+        console.log($("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value"))
+        console.log($("#dxTicketStatusSelectBox").dxSelectBox("instance").option("displayValue"))
         await GetFileList();
         dxLoadPanel.hide();
     } else {
@@ -422,10 +424,10 @@ async function PopulateTicketInformation(TicketDTO) {
     }
 }
 
-async function PopulateStatusSection(StatusDTO) {
-    $("#hiddenCurrentStatusID").val(StatusDTO.ID);
+async function PopulateStatusSection(StatusID,StatusName) {
+    $("#hiddenCurrentStatusID").val(StatusID);
     let bgcolor;
-    switch (StatusDTO.ID) {
+    switch (StatusID) {
         case Status_Enum.Active:
             bgcolor = "bg-green";
             break;
@@ -437,8 +439,8 @@ async function PopulateStatusSection(StatusDTO) {
             bgcolor = "bg-gray";
             break;
     }
-    document.getElementById('TicketStatus').innerHTML = `<div class="  btn btn-sm ${bgcolor} statusTitle py-0 px-2 text-white fs-5" >${StatusDTO.Name}</div>`;
-
+    document.getElementById('TicketStatus').innerHTML = `<div class="  btn btn-sm ${bgcolor} statusTitle py-0 px-2 text-white fs-5" >${StatusName}</div>`;
+    await $("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value", StatusID);
 }
 
 async function PopulateItemSection(Item_LineID) {
@@ -450,39 +452,18 @@ async function PopulateItemSection(Item_LineID) {
 function GetTicketDTO() {
     let _ticketDTO = {
         ID: document.getElementById('hiddenTicketID').value,
-        FacilityDTO: {
-            ID: $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value")
-        },
-        SupportGroupDTO: {
-            ID: $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value")
-        },
-        DepartmentDTO: {
-            ID: $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value"),
-        },
-        Item_LineDTO: {
-            ID: $("#dxTicketItemLookup").dxLookup("instance").option("value"),
-        },
-        CreatedByDTO: {
-            ID: document.getElementById('hiddenCreatedByID').value,
-        },
-        PriorityDTO: {
-            ID: $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value"),
-        },
-        CategoryDTO: {
-            ID: $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value"),
-        },
-        SubCategoryDTO: {
-            ID: $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("value"),
-        },
-        ThirdLevelCategoryDTO: {
-            ID: $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("value"),
-        },
-        StatusDTO: {
-            ID: $("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value"),
-        },
-        AssignedToDTO: {
-            ID: $("#dxTicketAssignedToSelectBox").dxSelectBox("instance").option("value"),
-        },
+        FacilityID: $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value"),
+        SupportGroupID: $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value"),
+        DepartmentID: $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value"),        
+        Item_LineID: $("#dxTicketItemLookup").dxLookup("instance").option("value"),        
+        CreatedByID: document.getElementById('hiddenCreatedByID').value,        
+        PriorityID: $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value"),
+        CategoryID: $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value"),        
+        SubCategoryID: $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("value"),
+        ThirdLevelCategoryID: $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("value"),
+        StatusID: $("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value"),        
+        AssignedToID: $("#dxTicketAssignedToSelectBox").dxSelectBox("instance").option("value"),
+        
         Title: $("#dxTicketTitleTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxTicketDescriptionTextArea").dxTextArea("instance").option("value"),
         Note: $("#dxTicketNoteTextArea").dxTextArea("instance").option("value"),

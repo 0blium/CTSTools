@@ -100,6 +100,6 @@
 <input type="hidden" id="hiddenCategoryID" hidden />
 <input type="hidden" id="hiddenParentCategoryID" hidden />
 
-<script type="module" src="/App/Features/Ticket/Tickets/Category/CategoryCatalog.js?v=1"></script>
+<script type="module" src="/App/Features/Maintenance/AMS/Tickets/Category/CategoryCatalog.js?v=1"></script>
 </asp:Content>
 
