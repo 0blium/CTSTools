@@ -12,12 +12,16 @@
                 </ol>
             </div>
             <div class="row">
-                <h1 class="page-header mb-1" id="TicketNumber"></h1>
+                <div class="col-12 row p-0 m-0">
+
+                    <h1 class="page-header mb-1 col-auto me-10px" id="TicketNumber"></h1>
+
+                    <h3 class="page-header mb-1 col-auto" id="CreatedBySection"></h3>
+                </div>
                 <div class="col-auto mb-2 px-0 align-items-center d-flex">
                     <h3 class="page-header me-1 mb-0">Status :</h3>
                     <div id="TicketStatus"></div>
                 </div>
-
             </div>
         </div>
         <%--tab section--%>

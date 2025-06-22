@@ -394,6 +394,7 @@ async function PopulateTicketInformation(TicketDTO) {
         await $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value", TicketDTO.SupportGroupID);
         $("#hiddenCreatedByID").val(TicketDTO.CreatedByID);
         document.getElementById('TicketNumber').innerHTML = `Ticket #<span class="fw-bold">${TicketDTO.TicketNumber}<span>`;
+        document.getElementById('CreatedBySection').innerHTML = `Created By : <span class="fw-bold">${TicketDTO.CreatedByName}<span>`;
         await PopulateStatusSection(TicketDTO.StatusID, TicketDTO.StatusName);
         //await $("#dxTicketRequestorSelectBox").dxSelectBox("instance").option("value", TicketDTO.RequestorID);
         await $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value", TicketDTO.FacilityID);
