@@ -414,7 +414,8 @@ async function PopulateTicketInformation(TicketDTO) {
         await $("#dxTicketClosedDateDateBox").dxDateBox("instance").option("value", TicketDTO.ClosedDate);
         await PopulateItemSection(TicketDTO.Item_LineID);
         await $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value", TicketDTO.PriorityID);
-        await $("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value", TicketDTO.StatusID);
+        
+
         console.log(TicketDTO.StatusID)
         console.log($("#dxTicketStatusSelectBox").dxSelectBox("instance").option("value"))
         console.log($("#dxTicketStatusSelectBox").dxSelectBox("instance").option("displayValue"))
@@ -425,7 +426,12 @@ async function PopulateTicketInformation(TicketDTO) {
     }
 }
 
-async function PopulateStatusSection(StatusID,StatusName) {
+async function PopulateStatusSection(StatusID, StatusName) {
+    let selectBox = $("#dxTicketStatusSelectBox").dxSelectBox("instance");
+
+    await selectBox.getDataSource().load();
+
+    selectBox.option("value", StatusID);
     $("#hiddenCurrentStatusID").val(StatusID);
     let bgcolor;
     switch (StatusID) {
