@@ -123,22 +123,32 @@ async function InitializePriorityCatalogControls() {
         columns:
             [
                 {
-                    caption: "Delete",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: 70,
                     cellTemplate: function (container, options) {
-                        container.height(30);
-                        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(30)
-                            .on('dxclick', function () {
-                                $("#hiddenPriorityID").val(options.data.ID);
-                                ShowPriorityDeleteQuestion();
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
+                                    $('#SavePriorityRecordModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    document.getElementById('hiddenPriorityID').value = options.data.ID;
+                                    ShowPriorityDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Is Active",
@@ -194,19 +204,27 @@ async function InitializePriorityCatalogControls() {
 
             ],
     });
+    document.getElementById("btnClosePriorityModal").addEventListener("click", ClearSupportGroupFields);
+
     PriorityActionButtons("Save");
 }
 function PriorityActionButtons(Action) {
     $("#PriorityActionButtons").empty();
+    document.getElementById('PriorityModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById("NewPriorityBtn").addEventListener("click", ClearPriorityFields);
+        document.getElementById('PriorityModalTitle').innerText = 'Add Priority';
         document.getElementById("PriorityActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreatePriorityButton" type="button">Save</button>' +
+        '<button class="btn btn-success m-b-15 float-end" id="CreatePriorityButton" type="button">Save</button>' +
+        '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearPriorityButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("CreatePriorityButton").addEventListener("click", CreatePriority_Global);
+        document.getElementById("ClearPriorityButton").addEventListener("click", ClearPriorityFields);
     }
     else {
         // Update
+        document.getElementById('PriorityModalTitle').innerText = 'Update Priority';
         document.getElementById("PriorityActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearPriorityButton" type="button">Cancel</button>' +
@@ -217,6 +235,8 @@ function PriorityActionButtons(Action) {
     }
 }
 function ClearPriorityFields() {
+
+    $('#SavePriorityRecordModal').modal('hide');
     PriorityActionButtons("Save");
     $('#hiddenPriorityID').val("");
     $("#dxPriorityIsActiveCheckBox").dxCheckBox("instance").option("value", true);
