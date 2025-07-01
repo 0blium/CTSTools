@@ -338,6 +338,14 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataField: "Item_HeaderDTO.Model"
                 },
                 {
+                    caption: "Class",
+                    dataField: "Item_HeaderDTO.ClassName"
+                },
+                {
+                    caption: "Sub Class",
+                    dataField: "Item_HeaderDTO.SubClassName"
+                },
+                {
                     caption: "Brand",
                     dataField: "Item_HeaderDTO.BrandName"
                 },
