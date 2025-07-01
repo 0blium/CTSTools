@@ -24,73 +24,73 @@ public class Ticket_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.TicketNumber), TicketDTO.TicketNumber));
             }
-            if (TicketDTO.CreatedByDTO.ID != null || TicketDTO.CreatedByDTO.ID > 0)
+            if (TicketDTO.CreatedByID != null || TicketDTO.CreatedByID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.CreatedBy), TicketDTO.CreatedByDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.CreatedBy), TicketDTO.CreatedByID));
             }
-            if (TicketDTO.FacilityDTO.ID != null || TicketDTO.FacilityDTO.ID > 0)
+            if (TicketDTO.FacilityID != null || TicketDTO.FacilityID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Facility), TicketDTO.FacilityDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Facility), TicketDTO.FacilityID));
             }
             if (TicketDTO.FacilityIDArray != null && TicketDTO.FacilityIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.Facility), TicketDTO.FacilityIDArray));
             }
-            if (TicketDTO.DepartmentDTO.ID != null || TicketDTO.DepartmentDTO.ID > 0)
+            if (TicketDTO.DepartmentID != null || TicketDTO.DepartmentID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Department), TicketDTO.DepartmentDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Department), TicketDTO.DepartmentID));
             }
             if (TicketDTO.DepartmentIDArray != null && TicketDTO.DepartmentIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.Department), TicketDTO.DepartmentIDArray));
             }
-            if (TicketDTO.AssignedToDTO.ID != null || TicketDTO.AssignedToDTO.ID > 0)
+            if (TicketDTO.AssignedToID != null || TicketDTO.AssignedToID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.AssignedTo), TicketDTO.AssignedToDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.AssignedTo), TicketDTO.AssignedToID));
             }
-            if (TicketDTO.Item_LineDTO.ID != null || TicketDTO.Item_LineDTO.ID > 0)
+            if (TicketDTO.Item_LineID != null || TicketDTO.Item_LineID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Item_Line), TicketDTO.Item_LineDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Item_Line), TicketDTO.Item_LineID));
             }
             if (TicketDTO.Item_LineIDArray != null && TicketDTO.Item_LineIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.Item_Line), TicketDTO.Item_LineIDArray));
             }
-            if (TicketDTO.StatusDTO.ID != null || TicketDTO.StatusDTO.ID > 0)
+            if (TicketDTO.StatusID != null || TicketDTO.StatusID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Status), TicketDTO.StatusDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Status), TicketDTO.StatusID));
             }
             if (TicketDTO.StatusIDArray != null && TicketDTO.StatusIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.Status), TicketDTO.StatusIDArray));
             }
-            if (TicketDTO.PriorityDTO.ID != null || TicketDTO.PriorityDTO.ID > 0)
+            if (TicketDTO.PriorityID != null || TicketDTO.PriorityID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Priority), TicketDTO.PriorityDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Priority), TicketDTO.PriorityID));
             }
             if (TicketDTO.PriorityIDArray != null && TicketDTO.PriorityIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.Priority), TicketDTO.PriorityIDArray));
             }
-            if (TicketDTO.CategoryDTO.ID != null || TicketDTO.CategoryDTO.ID > 0)
+            if (TicketDTO.CategoryID != null || TicketDTO.CategoryID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Category), TicketDTO.CategoryDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.Category), TicketDTO.CategoryID));
             }
             if (TicketDTO.CategoryIDArray != null && TicketDTO.CategoryIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.Category), TicketDTO.CategoryIDArray));
             }
-            if (TicketDTO.SupportGroupDTO.ID != null || TicketDTO.SupportGroupDTO.ID > 0)
+            if (TicketDTO.SupportGroupID != null || TicketDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.SupportGroup), TicketDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.SupportGroup), TicketDTO.SupportGroupID));
             }
             if (TicketDTO.SupportGroupIDArray != null && TicketDTO.SupportGroupIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(TicketXPO.SupportGroup), TicketDTO.SupportGroupIDArray));
             }
-            if (TicketDTO.ClosedByDTO.ID != null || TicketDTO.ClosedByDTO.ID > 0)
+            if (TicketDTO.ClosedByID != null || TicketDTO.ClosedByID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.ClosedBy), TicketDTO.ClosedByDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(TicketXPO.ClosedBy), TicketDTO.ClosedByID));
             }
             if (TicketDTO.LastUpdateByID != null && TicketDTO.LastUpdateByID > 0)
             {

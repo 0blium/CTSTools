@@ -22,7 +22,8 @@
                 <div class="panel panel-inverse">
                     <div class="panel-body">
                         <div class="col-md-12 ">
-                            <a id="NewItemLineBtn" href="#SaveItemLineRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal" hidden><i class="fa-solid fa-circle-plus"></i> Asset</a>
+                            <a id="NewItemLineBtn" href="#SaveItemLineRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal" hidden><i class="fa-solid fa-circle-plus"></i>Asset</a>
+                            <a class="btn btn-success mb-2 float-end" id="UploadMassiveItemLineModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelItem_LineModal" hidden><i class="fa-solid fa-file-import"></i>Excel</a>
                         </div>
                         <div id="dxItemLineGrid"></div>
                     </div>
@@ -190,6 +191,32 @@
                 </div>
                 <div class="modal-footer">
                     <div class="row" id="ReassignSupportGroupModalActionButtons"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- Upload Excel Modal --%>
+    <div class="modal fade" id="UploadExcelItem_LineModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelItem_LineCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelItem_LineFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
+                    <div class="row mb-15px">
+                        <div id="dxItem_LineFileUploader"></div>
+                    </div>
+                    <div id="successItem_LineMessage" class="alert alert-success" hidden></div>
+                    <div id="errorItem_LineMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearItem_LineExcelModalButton" type="button">Clear</button>
                 </div>
             </div>
         </div>

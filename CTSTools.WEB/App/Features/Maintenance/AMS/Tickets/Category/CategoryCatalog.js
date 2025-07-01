@@ -1,9 +1,9 @@
-﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
+﻿import { dxLoadPanel } from '../../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../../Common/Utils/Response.js'
 import { GetDXCategoryDataSource, CreateCategory, UpdateCategory, DeleteCategory } from './Category_Service.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
-import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
-import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
+import { GetDXSupportGroupDataSource } from '../../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
+import { GetUserInformation } from '../../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { Role_Enum } from '../../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     await InitializeCategoryCatalogControls();
@@ -167,37 +167,42 @@ async function InitializeCategoryCatalogControls() {
                     allowSorting: false,
                     width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(27);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', function () {
-                                $("#hiddenCategoryID").val(options.data.ID);
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                ShowCategoryDeleteQuestion();
-                            }).appendTo(container);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal" class="btn EditFirstCategoryBtn ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', function () {
-                                CategoryActionButtons("Update");
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                PopulateCategoryFields(options.data);
-                            }).appendTo(container);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal" class="btn NewSubCategoryBtn ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-plus-circle"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', async function () {
-                                CategoryActionButtons("Save");
-                                $("#hiddenParentCategoryID").val(options.data.ID);
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                await GetDataSourceParentSelectBox(options.data.ParentID);
-                                await PopulateNewChildCategoryFields(options.data);
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Add", icon: "fa fa-plus-circle text-primary",value: 1 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 2 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 3 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: async function (e) {
+                                if (e.itemData.value == 1) {
+                                    CategoryActionButtons("Save");
+                                    $("#hiddenParentCategoryID").val(options.data.ID);
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    await GetDataSourceParentSelectBox(options.data.ParentID);
+                                    await PopulateNewChildCategoryFields(options.data);
+                                    $('#AddNewCategoryModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+
+                                    CategoryActionButtons("Update");
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    PopulateCategoryFields(options.data);
+                                    $('#AddNewCategoryModal').modal('show');
+                                }
+                                else if (e.itemData.value == 3) {
+
+                                    $("#hiddenCategoryID").val(options.data.ID);
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    ShowCategoryDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Name",
@@ -463,39 +468,44 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                     allowSorting: false,
                     width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(27);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', function () {
-                                $("#hiddenCategoryID").val(options.data.ID);
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                ShowCategoryDeleteQuestion();
-                            }).appendTo(container);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal" class="btn EditSubCategoryBtn ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', function () {
-                                CategoryActionButtons("Update");
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
-                                PopulateCategoryFields(options.data);
-                            }).appendTo(container);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal" class="btn NewThirdCategoryBtn ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-plus-circle"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', async function () {
-                                CategoryActionButtons("Save");
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
-                                $("#hiddenParentCategoryID").val(options.data.ID);
-                                await GetDataSourceParentSelectBox(options.data.ParentID);
-                                await PopulateNewChildCategoryFields(options.data);
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Add", icon: "fa fa-plus-circle text-primary", value: 1 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 2 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 3 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: async function (e) {
+                                if (e.itemData.value == 1) {
+                                    CategoryActionButtons("Save");
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
+                                    $("#hiddenParentCategoryID").val(options.data.ID);
+                                    await GetDataSourceParentSelectBox(options.data.ParentID);
+                                    await PopulateNewChildCategoryFields(options.data);
+                                    $('#AddNewCategoryModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+
+                                    CategoryActionButtons("Update");
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
+                                    PopulateCategoryFields(options.data);
+                                    $('#AddNewCategoryModal').modal('show');
+                                }
+                                else if (e.itemData.value == 3) {
+
+                                    $("#hiddenCategoryID").val(options.data.ID);
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    ShowCategoryDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Name",
@@ -646,28 +656,33 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                     allowSorting: false,
                     width: 'auto',
                     cellTemplate: function (container, options) {
-                        container.height(27);
-                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', function () {
-                                $("#hiddenCategoryID").val(options.data.ID);
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                ShowCategoryDeleteQuestion();
-                            }).appendTo(container);
-                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal" class="btn EditThirdCategoryBtn ms-2" style="padding-top: 2px; ' +
-                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                            + '</span></button>')
-                            .height(27)
-                            .on('dxclick', async function () {
-                                CategoryActionButtons("Update");
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                                $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
-                                await GetDataSourceParentSelectBox(OldParentID);
-                                PopulateCategoryFields(options.data);
-                            }).appendTo(container);
-                    },
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: async function (e) {
+                                if (e.itemData.value == 1) {
+                                    CategoryActionButtons("Update");
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
+                                    await GetDataSourceParentSelectBox(OldParentID);
+                                    PopulateCategoryFields(options.data);
+                                    $('#AddNewCategoryModal').modal('show');
+                                }
+                                else if (e.itemData.value == 2) {
+                                    $("#hiddenCategoryID").val(options.data.ID);
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    ShowCategoryDeleteQuestion();
+                                }
+                            },
+                        });
+                    }
                 },
                 {
                     caption: "Name",

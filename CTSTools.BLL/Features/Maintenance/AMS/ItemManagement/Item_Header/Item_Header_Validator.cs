@@ -429,7 +429,7 @@ public class Item_Header_Validator
             {
                 bool isSuccess = true;
 
-                // we use TryGetItem_Header to try to get the Item_Header associated with the key from the dictionary,
+                // we use TryGetValue to try to get the Item_Header associated with the key from the dictionary,
                 // If the Item_Header of BrandName is found, it is assigned with the corresponding Item_Header (ID) from the dictionary.
                 // 'out' keyword indicates that BrandName is an output parameter, if the name is not found, save the error message.
                 if (_brandDict.TryGetValue(Item_HeaderDTO.BrandName.ToLower(), out int? BrandID)) Item_HeaderDTO.BrandID = BrandID;

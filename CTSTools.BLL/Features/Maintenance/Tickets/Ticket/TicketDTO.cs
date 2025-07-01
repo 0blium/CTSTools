@@ -22,11 +22,34 @@ public class TicketDTO
     public int TicketNumber { get; set; }
     public DateTime? AssignedDate { get; set; }
     public string Note { get; set; }
+    public int? LastUpdateByID { get; set; }
+    public string LastUpdateByName { get; set; }
     public DateTime? AddedDate { get; set; }
     public DateTime? ClosedDate { get; set; }
     public DateTime? LastUpdate { get; set; }
-    public int? LastUpdateByID { get; set; }
-    public string LastUpdateByName { get; set; }
+    public int? CreatedByID { get; set; }
+    public string CreatedByName { get; set; }
+    public int? FacilityID { get; set; }
+    public string FacilityName { get; set; }
+    public int? DepartmentID { get; set; }
+    public string DepartmentName { get; set; }
+    public int? AssignedToID { get; set; }
+    public string AssignedToName { get; set; }
+    public int? StatusID { get; set; }
+    public string StatusName { get; set; }
+    public int? PriorityID { get; set; }
+    public string PriorityName { get; set; }
+    public int? CategoryID { get; set; }
+    public string CategoryName { get; set; }
+    public int? SupportGroupID { get; set; }
+    public int? Item_LineID { get; set; }
+    public string SupportGroupEnglishName { get; set; }
+    public int? ClosedByID { get; set; }
+    public string ClosedByName { get; set; }
+    public int? SubCategoryID { get; set; }
+    public string SubCategoryName { get; set; }
+    public int? ThirdLevelCategoryID { get; set; }
+    public string ThirdLevelCategoryName { get; set; }
     public bool? IsActive { get; set; }
 
     #endregion

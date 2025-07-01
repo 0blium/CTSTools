@@ -1,14 +1,14 @@
-﻿import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
-import { GetItem_LineInformationBySupportGroup } from '../../Item/ItemAdministration/Item_Line/Item_Line_Service.js'
-import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
-import { GetDXFacilityDataSource } from '../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
-import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
-import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
+﻿import { GetUserInformation } from '../../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { GetItem_LineInformationBySupportGroup } from '../../ItemManagement/Item_Line/Item_Line_Service.js'
+import { dxLoadPanel } from '../../../../../Common/Components/dxLoadPanel.js'
+import { GetDXFacilityDataSource } from '../../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
+import { GetDXSupportGroupDataSource } from '../../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
+import { StatusType_Enum } from '../../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
 import { GetDXPriorityDataSource } from '../Priority/Priority_Service.js'
 import { GetDXTicketDataSource } from '../Ticket/Ticket_Service.js'
-import { Status_Enum } from '../../../AdvancedSettings/StatusManagement/Status/Status_Enum.js'
-import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
+import { Status_Enum } from '../../../../AdvancedSettings/StatusManagement/Status/Status_Enum.js'
+import { Role_Enum } from '../../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 
 
 
@@ -192,24 +192,24 @@ async function InitializeTicketConsultControls() {
         headerFilter: {
             visible: true
         },
-        onCellPrepared: function (e) {
-            if (e.rowType == "data" && e.column.dataField === 'StatusDTO.Name') {
-                e.cellElement.css("color", "black");
-                e.cellElement.css("text-align", "center");
-                //e.cellElement.css("text-transform", "uppercase");
-                switch (e.data.StatusDTO.ID) {
-                    case Status_Enum.Active:
-                        e.cellElement.addClass("bg-green");
-                        break;
-                    case Status_Enum.In_Progress:
-                        e.cellElement.addClass("bg-orange");
-                        break;
-                    case Status_Enum.Closed:
-                        e.cellElement.addClass("bg-gray");
-                        break;
-                }
-            }
-        },
+        //onCellPrepared: function (e) {
+        //    if (e.rowType == "data" && e.column.dataField === 'StatusName') {
+        //        e.cellElement.css("color", "black");
+        //        e.cellElement.css("text-align", "center");
+        //        //e.cellElement.css("text-transform", "uppercase");
+        //        switch (e.data.StatusID) {
+        //            case Status_Enum.Active:
+        //                e.cellElement.addClass("bg-green");
+        //                break;
+        //            case Status_Enum.In_Progress:
+        //                e.cellElement.addClass("bg-orange");
+        //                break;
+        //            case Status_Enum.Closed:
+        //                e.cellElement.addClass("bg-gray");
+        //                break;
+        //        }
+        //    }
+        //},
         onSelectionChanged: function (data) {
         },
         columns:
@@ -231,14 +231,14 @@ async function InitializeTicketConsultControls() {
                                 let _data = options.data;
                                 if (options.data.ID != null && options.data.ID > 0) {
                                     // Open the label
-                                    window.open('/App/Features/Ticket/Tickets/ViewTicket/ViewTicket.aspx?TicketID=' + _data.ID);
+                                    window.open('/App/Features/Maintenance/AMS/Tickets/ViewTicket/ViewTicket.aspx?TicketID=' + _data.ID);
                                 }
                             }).appendTo(container);
                     }
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupEnglishName",
                     //groupIndex: 0
                 },
                 {
@@ -257,11 +257,11 @@ async function InitializeTicketConsultControls() {
                 },
                 {
                     caption: "Status",
-                    dataField: "StatusDTO.Name",
+                    dataField: "StatusName",
                 },
                 {
                     caption: "Priority",
-                    dataField: "PriorityDTO.Name"
+                    dataField: "PriorityName"
                 },
                 {
                     caption: "Item",
@@ -297,30 +297,30 @@ async function InitializeTicketConsultControls() {
                 },
                 {
                     caption: "Category",
-                    dataField: "CategoryDTO.Name"
+                    dataField: "CategoryName"
                 },
                 {
                     caption: "Subcategory",
-                    dataField: "SubCategoryDTO.Name",
+                    dataField: "SubCategoryName",
                     visible: false
                 },
                 {
                     caption: "Third Level Category",
-                    dataField: "ThirdLevelCategoryDTO.Name",
+                    dataField: "ThirdLevelCategoryName",
                     visible: false
                 },
                 {
                     caption: "Facility",
-                    dataField: "FacilityDTO.Name"
+                    dataField: "FacilityName"
                 },
                 {
                     caption: "Department",
-                    dataField: "DepartmentDTO.Name",
+                    dataField: "DepartmentName",
                     visible: false
                 },
                 {
                     caption: "Assigned To",
-                    dataField: "AssignedToDTO.Name"
+                    dataField: "AssignedToName"
                 },
                 {
                     caption: "Created Date",
@@ -350,7 +350,7 @@ async function InitializeTicketConsultControls() {
                 },
                 {
                     caption: "Closed By",
-                    dataField: "ClosedByDTO.Name",
+                    dataField: "ClosedByName",
                 },
 
 

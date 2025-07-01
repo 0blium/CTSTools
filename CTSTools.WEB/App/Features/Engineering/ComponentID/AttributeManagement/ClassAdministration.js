@@ -293,6 +293,8 @@ function ShowClassErrorMessagesExcelModal(Message) {
 function ShowClassValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
     if (_validationResultDTO.Data != null) {
         const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
@@ -329,8 +331,6 @@ function ShowClassValidationResults(_validationResultDTO) {
         ClearExcelClassModalFields();
         return HostResponse(_validationResultDTO);
     }
-    // Hide FileUploader to show messages
-    $("#dxClassFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function ClassPropertyNameArray() {
     // With Object.keys we create an array of properties of the ClassDTO object
@@ -770,6 +770,8 @@ function ShowSubClassErrorMessages(Message) {
 function ShowSubClassValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);
     if (_validationResultDTO.Data != null) {
         const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
@@ -806,8 +808,6 @@ function ShowSubClassValidationResults(_validationResultDTO) {
         ClearExcelSubClassModalFields();
         return HostResponse(_validationResultDTO);
     }
-    // Hide FileUploader to show messages
-    $("#dxSubClassFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function SubClassPropertyNameArray() {
     // With Object.keys we create an array of properties of the SubClassDTO object

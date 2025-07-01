@@ -702,6 +702,8 @@ function ShowItem_HeaderErrorMessages(Message) {
 function ShowItem_HeaderValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxItem_HeaderFileUploader").dxFileUploader("instance").option("visible", false);
     if (_validationResultDTO.Data != null) {
         const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
@@ -738,8 +740,6 @@ function ShowItem_HeaderValidationResults(_validationResultDTO) {
         ClearExcelItem_HeaderModalFields();
         return HostResponse(_validationResultDTO);
     }
-    // Hide FileUploader to show messages
-    $("#dxItem_HeaderFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function Item_HeaderPropertyNameArray() {
     // With Object.keys we create an array of properties of the Item_HeaderDTO object

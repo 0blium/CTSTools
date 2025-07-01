@@ -284,6 +284,8 @@ function ShowValueErrorMessagesExcelModal(Message) {
 function ShowValueValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
     if (_validationResultDTO.Data != null) {
         const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
@@ -320,8 +322,6 @@ function ShowValueValidationResults(_validationResultDTO) {
         ClearExcelValueModal();
         return HostResponse(_validationResultDTO);
     }
-    // Hide FileUploader to show messages
-    $("#dxValueFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function ValuePropertyNameArray() {
     // With Object.keys we create an array of properties of the ValueDTO object
@@ -618,6 +618,8 @@ function ShowAttributeErrorMessagesExcelModal(Message) {
 function ShowAttributeValidationResults(_validationResultDTO) {
     let successMessage = '';
     let errorMessages = '';
+    // Hide FileUploader to show messages
+    $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);
     if (_validationResultDTO.Data != null) {
         const _goodLinesList = _validationResultDTO.Data.GoodRowLinesList.length > 0;
         const _badLinesList = _validationResultDTO.Data.BadRowLinesList.length > 0;
@@ -654,8 +656,6 @@ function ShowAttributeValidationResults(_validationResultDTO) {
         ClearExcelAttributeModal();
         return HostResponse(_validationResultDTO);
     }
-    // Hide FileUploader to show messages
-    $("#dxAttributeFileUploader").dxFileUploader("instance").option("visible", false);
 }
 function AttributePropertyNameArray() {
     // With Object.keys we create an array of properties of the AttributeDTO object
