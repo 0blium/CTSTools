@@ -21,17 +21,17 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                {
                     _groupOperator.Operands.Add(new InOperator(nameof(MailGroupMemberXPO.Oid), MailGroupMemberDTO.MailGroupMemberIDArray));
                }
-               if ( MailGroupMemberDTO.MailGroupDTO.ID != null || MailGroupMemberDTO.MailGroupDTO.ID > 0)
+               if ( MailGroupMemberDTO.MailGroupID != null || MailGroupMemberDTO.MailGroupID > 0)
                {
-                    _groupOperator.Operands.Add(new BinaryOperator(nameof(MailGroupMemberXPO.MailGroup), MailGroupMemberDTO.MailGroupDTO.ID));
+                    _groupOperator.Operands.Add(new BinaryOperator(nameof(MailGroupMemberXPO.MailGroup), MailGroupMemberDTO.MailGroupID));
                }
                if (MailGroupMemberDTO.MailGroupIDArray != null && MailGroupMemberDTO.MailGroupIDArray.Count() > 0 )
                {
                     _groupOperator.Operands.Add(new InOperator(nameof(MailGroupMemberXPO.MailGroup), MailGroupMemberDTO.MailGroupIDArray));
                }
-               if ( MailGroupMemberDTO.UserDTO.ID != null || MailGroupMemberDTO.UserDTO.ID > 0)
+               if ( MailGroupMemberDTO.UserID != null || MailGroupMemberDTO.UserID > 0)
                {
-                    _groupOperator.Operands.Add(new BinaryOperator(nameof(MailGroupMemberXPO.User), MailGroupMemberDTO.UserDTO.ID));
+                    _groupOperator.Operands.Add(new BinaryOperator(nameof(MailGroupMemberXPO.User), MailGroupMemberDTO.UserID));
                }
                if (MailGroupMemberDTO.UserIDArray != null && MailGroupMemberDTO.UserIDArray.Count() > 0 )
                {

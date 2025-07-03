@@ -30,6 +30,20 @@ public class Supplier_Validator
                     Data = $"{nameof(Supplier)}{nameof(SupplierDTO.Name)}",
                 });
             }
+            else 
+            {
+                var _supplierDTO = new SupplierDTO { Name = SupplierDTO.Name };
+                var _sameSupplierDTO = Supplier_Service.GetSupplierList_Global(_supplierDTO).FirstOrDefault();
+                if (_sameSupplierDTO != null)
+                {
+                    return new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Duplicated",
+                        Description = "There is an attribute with the same name"
+                    };
+                }
+            }
 
             if (SupplierDTO.AddedByID == null || SupplierDTO.AddedByID == 0)
             {
@@ -57,17 +71,6 @@ public class Supplier_Validator
                 _validation_ResultDTO.Description = "There is a list of errors";
                 _validation_ResultDTO.ValidationResultList = _validation_ResultList;
 
-            }
-            var _supplierDTO = new SupplierDTO { Name = SupplierDTO.Name };
-            var _sameSupplierDTO = Supplier_Service.GetSupplierList_Global(_supplierDTO).FirstOrDefault();
-            if (_sameSupplierDTO != null)
-            {
-                return new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Duplicated",
-                    Description = "There is an attribute with the same name"
-                };
             }
         }
         catch (Exception ex)
@@ -109,6 +112,23 @@ public class Supplier_Validator
                     Data = $"{nameof(Supplier)}{nameof(SupplierDTO.Name)}",
                 });
             }
+            else 
+            {
+                var _supplierDTO = new SupplierDTO { Name = SupplierDTO.Name };
+                var _sameSupplierDTO = Supplier_Service.GetSupplierList_Global(_supplierDTO)
+                                                       .Where(w => w.ID != SupplierDTO.ID)
+                                                       .FirstOrDefault();
+                if (_sameSupplierDTO != null)
+                {
+                    return new ValidationResultDTO
+                    {
+                        Result = false,
+                        Message = "Duplicated",
+                        Description = "There is an attribute with the same name."
+                    };
+                }
+            }
+
             if (SupplierDTO.LastUpdateByID == null || SupplierDTO.LastUpdateByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -117,19 +137,6 @@ public class Supplier_Validator
                     Message = "Last Update By is Empty",
                     Description = "Please, complete the missing information ",
                 });
-            }
-            var _supplierDTO = new SupplierDTO { Name = SupplierDTO.Name };
-            var _sameSupplierDTO = Supplier_Service.GetSupplierList_Global(_supplierDTO)
-                                                   .Where(w => w.ID != SupplierDTO.ID)
-                                                   .FirstOrDefault();
-            if (_sameSupplierDTO != null)
-            {
-                return new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Duplicated",
-                    Description = "There is an attribute with the same name."
-                };
             }
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)

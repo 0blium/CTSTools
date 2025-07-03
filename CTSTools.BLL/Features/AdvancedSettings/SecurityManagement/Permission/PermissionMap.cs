@@ -1,8 +1,11 @@
+using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using CTSTools.DAL.Features.AdvancedSettings.SecurityManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
+using CTSTools.DAL.Features.Engineering.ComponentID.AttributeManagement;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 
 namespace CTSTools.BLL.Features.Security.Permissions.Permission
@@ -59,6 +62,24 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                 throw ex;
             }
             return _permissionXPO;
+        }
+
+
+        public static List<PermissionXPO> DTOListToXPOList(List<PermissionDTO> PermissionDTOList, UnitOfWork UnitOfWork)
+        {
+            var _xPOList = new List<PermissionXPO>();
+            try
+            {
+                foreach (var _permissionDTO in PermissionDTOList)
+                {
+                    _xPOList.Add(DTOtoXPO(_permissionDTO, UnitOfWork));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _xPOList;
         }
 
     }

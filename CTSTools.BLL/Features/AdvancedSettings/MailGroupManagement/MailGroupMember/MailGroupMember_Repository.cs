@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CTSTools.BLL.Common;
+using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using CTSTools.BLL.Features.XPO;
 using CTSTools.DAL.Common;
 using CTSTools.DAL.Features.AdvancedSettings.MailGroupManagement;
@@ -146,6 +147,29 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                 _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
             }
             return _validationResultDTO;
-        }              
+        }
+        public static ValidationResultDTO CreateMultiple(List<MailGroupMemberDTO> MailGroupMemberDTOList)
+        {
+            var _validationResultDTO = new ValidationResultDTO
+            {
+                Description = "The record has been saved successfully."
+            };
+            try
+            {
+                using var _unit = XPO_Helper.GetNewUnitOfWork();
+                var _xPOList = MailGroupMemberMap.DTOListToXPOList(MailGroupMemberDTOList, _unit);
+                _unit.Save(_xPOList);
+                _unit.CommitChanges();
+                //_validationResultDTO.Data = _xPOList;
+            }
+            catch (Exception ex)
+            {
+                ErrorSignal.FromCurrentContext().Raise(ex);
+                _validationResultDTO.Result = false;
+                _validationResultDTO.Message = "Error!";
+                _validationResultDTO.Description = string.Format("There was an error trying to save the record.");
+            }
+            return _validationResultDTO;
+        }
     }
 }

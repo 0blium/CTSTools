@@ -65,7 +65,7 @@ namespace CTSTools.WEB.App_Start
             if (_validationResultDTO.Result)
             {
                 var _userDTO = new UserDTO { ID = GetLoggedUserOid() };
-                _userDTO.PermissionDTO = Permission_Service.GetPermissionList_Global(new PermissionDTO { ModuleName = ModuleName, ActionDTO = new ActionDTO { ID = Action } }).FirstOrDefault();
+                _userDTO.PermissionDTO = Permission_Service.GetPermissionList_Global(new PermissionDTO { ModuleName = ModuleName, ActionDTO = new ActionDTO { ID = Action }, GetPermissionIDArray = true }).FirstOrDefault();
                 var _supportGroupMemberDTO = new SupportGroupMemberDTO
                 {
                     SupportGroupDTO = SupportGroupDTO,

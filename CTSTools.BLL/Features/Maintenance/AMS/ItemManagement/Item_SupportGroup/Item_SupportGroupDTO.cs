@@ -22,12 +22,10 @@ public class Item_SupportGroupDTO
 
     public int?[] Item_SupportGroupIDArray { get; set; }
     public int? Item_HeaderID { get; set; }
-    public string Item_HeaderName { get; set; }
     public Item_HeaderDTO Item_HeaderDTO { get; set; }
     public bool GetItem_HeaderDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
     public int? SupportGroupID { get; set; }
-    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }

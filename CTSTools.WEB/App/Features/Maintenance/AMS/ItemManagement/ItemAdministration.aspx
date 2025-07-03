@@ -7,14 +7,13 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
-                    <li class="breadcrumb-item active">Administration</li>
+                    <li class="breadcrumb-item active">Inventory</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Administration</h1>
+                <h1 class="page-header">Inventory</h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -25,7 +24,7 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <a id="AddNewItemHeaderBtn" class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal"><i class="fa-solid fa-circle-plus"></i> Item</a>
-                                <%--<a id="AssignUserDefinedBtn" class="btn btn-success d-none mb-2 ms-1 float-end" data-bs-target="#AssignUserDefinedFieldsModal" data-bs-toggle="modal">Assign Fields</a>--%>
+                                <a class="btn btn-success mb-2 ms-1 float-end" id="UploadMassiveItemAdministrationModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelItem_HeaderModal" hidden><i class="fa-solid fa-file-import"></i> Excel</a>
                                 <a class="btn btn-success mb-2 float-end" data-bs-toggle="modal" data-bs-target="#AddUserDefinedFieldsModal"><i class="fa-solid fa-circle-plus"></i> Fields</a>
                             </div>
                             <div class="col-12">
@@ -47,82 +46,150 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 id="Item_HeaderModalTitle" class="modal-title fs-5"></h4>
-                    <button type="button" id="btnCloseItem_HeaderModal" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                    <%--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="WizardCloseButton"></button>--%>
+                    <button type="button" id="btnCloseItem_HeaderModal" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <%--<div class="card" id="wizard-card">
-                        <div class="card-body bg-light">
-                            <ul class="nav nav-tabs workflow-wizard justify-content-center" id="LetterType">
-                                <li class="nav-item item">
-                                    <a href="#Item_SupportGroupStep1" data-bs-toggle="tab" class="active">
-                                        <div class="nav-no">1</div>
-                                        <div class="nav-text">Select Item</div>
-                                    </a>
-                                </li>
-                                <li class="nav-item item">
-                                    <a href="#Item_SupportGroupStep2" data-bs-toggle="tab" class="">
-                                        <div class="nav-no">2</div>
-                                        <div class="nav-text">Support Group</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>--%>
-                    <%--<div class="wizard-step tab-pane fade active show" id="Item_SupportGroupStep1">--%>
-                    <!-- BEGIN nav-tabs -->
-                    <%--<ul class="nav nav-tabs" id="modal-nav-tabs">
-                            <li class="nav-item">
-                                <a id="select-item-tab" href="#select-item-content" data-bs-toggle="tab" class="nav-link active">
-                                    <span class="d-sm-none">Tab 1</span>
-                                    <span class="d-sm-block d-none">Select Item</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a id="new-item-tab" href="#new-item-content" data-bs-toggle="tab" class="nav-link">
-                                    <span class="d-sm-none">Tab 2</span>
-                                    <span class="d-sm-block d-none">New Item</span>
-                                </a>
-                            </li>
-                        </ul>--%>
-                    <!-- END nav-tabs -->
-                    <!-- BEGIN tab-content -->
-                    <%--<div class="tab-content panel rounded-0 p-3 m-0">--%>
-
-                    <!-- BEGIN tab-pane for Existing Item Selectbox -->
-                    <%--<div class="tab-pane fade active show" id="select-item-content">
-                            <label class="form-label col-form-label col-md-12">Item</label>
-                            <div class="col-md-12">
-                                <div id="dxItem_SupportGroupItem_HeaderIDSelectBox"></div>
-                                <div class="invalid-feedback" id="Item_SupportGroupItem_HeaderValidation">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a id="CreateTab" href="#Create" data-bs-toggle="tab" class="nav-link active">
+                                <span class="d-sm-none">Tab 1</span>
+                                <span id="CreateTabTitle" class="d-sm-block d-none">Create</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="SelectItemTab">
+                            <a href="#SelectItem" data-bs-toggle="tab" class="nav-link">
+                                <span class="d-sm-none">Tab 2</span>
+                                <span class="d-sm-block d-none">Select</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content panel rounded-0 p-3 m-0">
+                        <!-- BEGIN tab-pane -->
+                        <div class="tab-pane fade active show" id="Create">
+                            <div class="row mx-auto">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
+                                        <div id="dxItem_HeaderThumbnailFileUploader"></div>
+                                        <div class="col-md-12 text-center">
+                                            <img id="ItemThumbnail"
+                                                src="/App/Common/Assets/img/no-product-image.png"
+                                                class="img-fluid" style="height: 200px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Model (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderModelTextBox"></div>
+                                            <div class="invalid-feedback" id="Item_HeaderModelValidation"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Brand (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderBrandSelectBox"></div>
+                                            <div class="invalid-feedback" id="Item_HeaderBrandValidation"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Class (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderClassSelectBox"></div>
+                                            <div class="invalid-feedback"
+                                                id="Item_HeaderClassValidation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-15px">
+                                        <label class="form-label col-form-label col-md-12">
+                                            Sub Class (<span
+                                                class="text-danger">*</span>)</label>
+                                        <div class="col-md-12">
+                                            <div id="dxItem_HeaderSubClassSelectBox"></div>
+                                            <div class="invalid-feedback"
+                                                id="Item_HeaderSubClassValidation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-15px">
+                                        <div class="col-md-6">
+                                            <div id="dxItem_HeaderIsActiveCheckBox"></div>
+                                        </div>
+                                        <%--<div class="col-md-6">
+                                            <div id="dxItem_HeaderIsESDCheckBox"></div>
+                                        </div>--%>
+                                    </div>
                                 </div>
                             </div>
-                        </div>--%>
-                    <!-- END tab-pane -->
+                        </div>
+                        <!-- END tab-pane -->
+                        <!-- BEGIN tab-pane -->
+                        <div class="tab-pane fade" id="SelectItem">
+                            <label class="form-label col-form-label col-md-12">
+                                Select a item (<span
+                                    class="text-danger">*</span>)</label>
+                            <div class="col-md-4">
+                                <div id="dxItem_HeaderSelectBox"></div>
+                                <div class="invalid-feedback" id="Item_HeaderValidation">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END tab-pane -->
+                    </div>
 
-                    <!-- BEGIN tab-pane for New Item -->
-                    <%--<div class="tab-pane fade" id="new-item-content">--%>
-                    <!-- BEGIN nav-tabs -->
-                    <%--<div class="mb-2">
-                                        <ul class="nav inlineTabs tab-border nav-tabs">
-                                            <li class="nav-item">
-                                                <a href="#equipment-tab" data-bs-toggle="tab" class="nav-link active">
-                                                    <span class="d-sm-none">Equipment</span>
-                                                    <span class="d-sm-block d-none">Equipment</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#attachments-tab" data-bs-toggle="tab" class="nav-link">
-                                                    <span class="d-sm-none">Attachments</span>
-                                                    <span class="d-sm-block d-none">Attachments</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <hr class="m-0" />
-                                    </div>--%>
-                    <!-- END nav-tabs -->
-                    <!-- BEGIN tab-pane -->
-                    <div class="row mx-auto">
+                    <div class="row mx-auto mt-2">
+                        <div class="col-md-6">
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">
+                                    Support Group (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-12">
+                                    <div id="dxItem_SupportGroupSupportGroupSelectBox"></div>
+                                    <div class="invalid-feedback" id="Item_SupportGroupSupportGroupValidation">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-15px">
+                                <label class="form-label col-form-label col-md-12">Custom fields List </label>
+                                <div class="col-md-12">
+                                    <div class="panel-body">
+                                        <div class="panel panel-inverse">
+                                            <div class="col-md-12">
+                                                <div id="dxUserDefinedList"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--<div class="row mx-auto">
+                        <div id="DivItem" class="col-md-12" hidden>
+                                <label class="form-label col-form-label col-md-12">
+                                    Select a item (<span
+                                        class="text-danger">*</span>)</label>
+                                <div class="col-md-3">
+                                    <div id="dxItem_HeaderSelectBox"></div>
+                                    <div class="invalid-feedback" id="Item_HeaderValidation">
+                                    </div>
+                                </div>
+                        </div>
+                        <div id="DivSeparator" class="col-md-12" hidden>
+                            <div class="separator">
+                                <span>OR</span>
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group row">
                                 <span class="fs-11px">Maximum file size: <span>5 MB</span>.</span>
@@ -205,26 +272,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <!-- END tab-pane -->
-                    <%--</div>--%>
-                    <!-- END tab-pane -->
-
-                    <%--</div>--%>
-                    <!-- END tab-content -->
-                    <%--</div>--%>
-                    <!-- BEGIN tab-pane for Step 2 -->
-                    <%--<div class="wizard-step tab-pane fade " id="Item_SupportGroupStep2">--%>
-
-                    <%--</div>--%>
-                    <!-- END tab-pane for Step 2 -->
-
+                    </div>--%>
                 </div>
                 <div class="modal-footer" id="modalFooter">
-                    <%--<a class="btn btn-secondary" id="btnAddNewItemBack">Back</a>--%>
-                    <%--<a class="btn btn-success" id="btnAddNewItemNext">Save</a>--%>
                     <div class="row" id="Item_HeaderActionButtons"></div>
                 </div>
             </div>
@@ -533,6 +583,33 @@
             </div>
         </div>
     </div>
+    <%-- Upload Excel Modal --%>
+    <div class="modal fade" id="UploadExcelItem_HeaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelItem_HeaderCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelItem_HeaderFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
+                    <div class="row mb-15px">
+                        <div id="dxItem_HeaderFileUploader"></div>
+                    </div>
+                    <div id="successItem_HeaderMessage" class="alert alert-success" hidden></div>
+                    <div id="errorItem_HeaderMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearItem_HeaderExcelModalButton" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <input type="hidden" id="hiddenItem_HeaderID" hidden />
     <input type="hidden" id="hiddenItem_SupportGroupID" hidden />
     <input type="hidden" id="hiddenItem_LineID" hidden />

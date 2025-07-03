@@ -3,6 +3,7 @@ using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Action;
 using CTSTools.BLL.Features.AdvancedSettings.SecurityManagement.Module;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User_Permission;
+using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -38,9 +39,45 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
             var _ValidationResultDTO = Permission_Validator.DeletePermission_Validation(PermissionDTO);
             if (_ValidationResultDTO.Result)
             {
+                //delete  Roles permission
+                var _role_PermissionDTOList = Role_Permission_Service.GetRole_PermissionList_Global(
+                    new Role_PermissionDTO { PermissionID = PermissionDTO.ID });
+                if (_role_PermissionDTOList.Count() > 0)
+                    Role_Permission_Service.DeleteMultiple_Global(_role_PermissionDTOList);
+               //delete Users Permission
+               var _user_PermisisonDTOList = User_Permission_Service.GetUser_PermissionList_Global(
+                   new User_PermissionDTO { PermissionID = PermissionDTO.ID });
+                if (_user_PermisisonDTOList.Count() > 0)
+                    User_Permission_Service.DeleteMultiple_Global(_user_PermisisonDTOList);
+
+                PermissionDTO.IsActive=true;
                 _ValidationResultDTO = Permission_Repository.DeletePermission(PermissionDTO);
             }
             return _ValidationResultDTO;
+        }
+
+        public static ValidationResultDTO CreateMultiple_Global(List<PermissionDTO> PermissionList)
+        {
+            // Step 1. 
+            var _validationResultDTO = Permission_Validator.CreateMultiple_Validation(PermissionList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // Step 2.
+            _validationResultDTO = Permission_Repository.CreateMultiple(PermissionList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+
+            return _validationResultDTO;
+        }
+
+        public static ValidationResultDTO DeleteMultiple_Global(List<PermissionDTO> PermissionList)
+        {
+            var _validationResultDTO = Permission_Validator.DeleteMultiple_Validation(PermissionList);
+            if (_validationResultDTO.Result)
+            {
+                _validationResultDTO = Permission_Repository.DeleteMultiple(PermissionList);
+            }
+            return _validationResultDTO;
         }
         public static List<PermissionDTO> GetPermissionList_Global(PermissionDTO PermissionDTO, PagedResultDTO<PermissionDTO> PagedResultDTO = null)
         {
@@ -54,12 +91,7 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     _permissionglobalList = _permissionList;
                     return _permissionglobalList;
                 }
-                if (!PermissionDTO.GetActionDTO)
-                {
-                    _permissionglobalList = _permissionList;
-                    return _permissionglobalList;
-                }
-                if (!PermissionDTO.GetModuleDTO)
+                if (!PermissionDTO.GetActionDTO && !PermissionDTO.GetModuleDTO && !PermissionDTO.GetPermissionIDArray)
                 {
                     _permissionglobalList = _permissionList;
                     return _permissionglobalList;
@@ -102,7 +134,13 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     _moduleDict = Module_Service.GetModuleList_Global(PermissionDTO.ModuleDTO)
                                                 .ToDictionary(keySelector: m => m.ID, elementSelector: m => m);
                 }
-                foreach (var _permissionDTO in PermissionList)
+                if (PermissionDTO.GetPermissionIDArray)
+                {
+                    PermissionDTO.PermissionIDArray = PermissionList.GroupBy(g => g.ID)
+                                                                  .Select(s => s.Key)
+                                                                  .ToArray();
+                }
+                    foreach (var _permissionDTO in PermissionList)
                 {
                     if (PermissionDTO.GetActionDTO && _actionDict.ContainsKey(_permissionDTO.ActionDTO.ID))
                     {
@@ -111,6 +149,10 @@ namespace CTSTools.BLL.Features.Security.Permissions.Permission
                     if (PermissionDTO.GetModuleDTO && _moduleDict.ContainsKey(_permissionDTO.ModuleDTO.ID))
                     {
                         _permissionDTO.ModuleDTO = _moduleDict[_permissionDTO.ModuleDTO.ID];
+                    }
+                    if (PermissionDTO.GetPermissionIDArray)
+                    {
+                        _permissionDTO.PermissionIDArray = PermissionDTO.PermissionIDArray;
                     }
                     _permissionglobalList.Add(_permissionDTO);
                 }

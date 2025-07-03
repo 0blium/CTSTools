@@ -6,14 +6,14 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Items</a></li>
-                    <li class="breadcrumb-item active">Administration</li>
+                    <li class="breadcrumb-item"><a href="javascript:;">Inventory</a></li>
+                    <li class="breadcrumb-item active">Asset</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Asset Catalog</h1>
+                <h1 id="AssetTitle" class="page-header"></h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -22,7 +22,8 @@
                 <div class="panel panel-inverse">
                     <div class="panel-body">
                         <div class="col-md-12 ">
-                            <a id="NewItemLineBtn" href="#SaveItemLineRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal" hidden><i class="fa-solid fa-circle-plus"></i> Asset</a>
+                            <a id="NewItemLineBtn" href="#SaveItemLineRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal" hidden><i class="fa-solid fa-circle-plus"></i>Asset</a>
+                            <a class="btn btn-success mb-2 float-end" id="UploadMassiveItemLineModalButton" data-bs-toggle="modal" data-bs-target="#UploadExcelItem_LineModal" hidden><i class="fa-solid fa-file-import"></i>Excel</a>
                         </div>
                         <div id="dxItemLineGrid"></div>
                     </div>
@@ -42,7 +43,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Item (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Item</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineItem_HeaderSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineItem_HeaderValidation"></div>
@@ -56,14 +57,14 @@
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Owner (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Owner</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineOwnerSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineOwnerValidation"></div>
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Serial (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Serial</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineSerialTextBox"></div>
                                     <div class="invalid-feedback" id="Item_LineSerialValidation"></div>
@@ -71,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Delivered To (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Delivered To</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineDeliveredToSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineDeliveredToValidation"></div>
@@ -80,14 +81,14 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Support Group (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Support Group</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineSupportGroupSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineSupportGroupValidation"></div>
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Manufacture Serial ID (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Manufacture Serial ID</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineManufactureSerialIDTextBox"></div>
                                     <div class="invalid-feedback" id="Item_LineManufactureSerialIDValidation"></div>
@@ -101,7 +102,7 @@
                                 </div>
                             </div>
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Station (<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Station</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineStationSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineStationValidation"></div>
@@ -116,7 +117,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-15px">
-                                <label class="form-label col-form-label col-md-12">Supply Type(<span class="text-danger">*</span>)</label>
+                                <label class="form-label col-form-label col-md-12">Supply Type</label>
                                 <div class="col-md-12">
                                     <div id="dxItem_LineSupplyTypeSelectBox"></div>
                                     <div class="invalid-feedback" id="Item_LineSupplyTypeValidation"></div>
@@ -124,14 +125,14 @@
                             </div>
                             <div class="row d-none" id="SupplyTypeLocal">
                                 <div class="mb-15px">
-                                    <label class="form-label col-form-label col-md-12">PO Number (<span class="text-danger">*</span>)</label>
+                                    <label class="form-label col-form-label col-md-12">PO Number</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_LinePONumberTextBox"></div>
                                         <div class="invalid-feedback" id="Item_LinePONumberValidation"></div>
                                     </div>
                                 </div>
                                 <div class="mb-15px">
-                                    <label class="form-label col-form-label col-md-12">PO Line (<span class="text-danger">*</span>)</label>
+                                    <label class="form-label col-form-label col-md-12">PO Line</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_LinePOLineTextBox"></div>
                                         <div class="invalid-feedback" id="Item_LinePOLineValidation"></div>
@@ -140,7 +141,7 @@
                             </div>
                             <div class="row d-none" id="SupplyTypeImport">
                                 <div class="mb-15px">
-                                    <label class="form-label col-form-label col-md-12">Import Invoice (<span class="text-danger">*</span>)</label>
+                                    <label class="form-label col-form-label col-md-12">Import Invoice</label>
                                     <div class="col-md-12">
                                         <div id="dxItem_LineImportInvoiceTextBox"></div>
                                         <div class="invalid-feedback" id="Item_LineImportInvoiceValidation"></div>
@@ -190,6 +191,32 @@
                 </div>
                 <div class="modal-footer">
                     <div class="row" id="ReassignSupportGroupModalActionButtons"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- Upload Excel Modal --%>
+    <div class="modal fade" id="UploadExcelItem_LineModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload file excel</h1>
+                    <button type="button" id="UploadExcelItem_LineCloseModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <label class="text-muted">Step 1: Download the Excel format by clicking <a class="h6 text-color-link" id="ExcelItem_LineFormatButton">here</a>.</label>
+                        <br />
+                        <label class="text-muted">Step 2: To upload your file with the data, click the button below.</label>
+                    </div>
+                    <div class="row mb-15px">
+                        <div id="dxItem_LineFileUploader"></div>
+                    </div>
+                    <div id="successItem_LineMessage" class="alert alert-success" hidden></div>
+                    <div id="errorItem_LineMessages" class="alert alert-danger" hidden></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary float-end" id="ClearItem_LineExcelModalButton" type="button">Clear</button>
                 </div>
             </div>
         </div>

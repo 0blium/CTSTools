@@ -454,14 +454,16 @@ async function DeleteStatusType_Global() {
 //#endregion
 //#region Status relation Catalog
 async function InitializeStatus_StatusTypeCatalogControls() {
-    $("#dxStatus_StatusTypeStatusSelectBox").dxSelectBox({
+    $("#dxStatus_StatusTypeStatusTagBox").dxTagBox({
         dataSource: await GetDXStatusDataSource(),
-        valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,
-        searchEnabled: true
+        valueExpr: "ID",
+        searchEnabled: true,
+        showSelectionControls: true,
+        applyValueMode: 'instantly',
+        popupWidth: 450,
     });
-
     $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox({
         dataSource: await GetDXStatusTypeDataSource(),
         valueExpr: "ID",
@@ -473,7 +475,7 @@ async function InitializeStatus_StatusTypeCatalogControls() {
         value: true
     });
     $("#dxStatus_StatusTypeGrid").dxDataGrid({
-        dataSource: [],
+        dataSource: await GetDXStatus_StatusTypeDataSource(),
         keyExpr: "ID",
         remoteOperations: true,
         pager: {
@@ -565,8 +567,8 @@ async function InitializeStatus_StatusTypeCatalogControls() {
                 },
                 { caption: "Is Active", dataField: "IsActive" },
                 { caption: "ID", dataField: "ID", visible: false },
-                { caption: "Status", dataField: "StatusDTO.Name" },
-                { caption: "Status Type", dataField: "StatusTypeDTO.Name" },
+                { caption: "Status", dataField: "StatusName" },
+                { caption: "Status Type", dataField: "StatusTypeName" },
                 { caption: "Added By I D", dataField: "AddedByID", visible: false },
                 { caption: "Added By", dataField: "AddedByName" },
                 { caption: "Added Date", dataField: "AddedDate", dataType: "datetime" },
@@ -578,7 +580,6 @@ async function InitializeStatus_StatusTypeCatalogControls() {
             ],
     });
     Status_StatusTypeActionButtons("Save");
-    GetDXStatus_StatusTypeDataSource_Global();
 }
 function Status_StatusTypeActionButtons(Action) {
     $("#Status_StatusTypeActionButtons").empty();
@@ -604,9 +605,8 @@ function ClearStatus_StatusTypeFields() {
     $("#StatusRelationModal").modal("hide");
     Status_StatusTypeActionButtons("Save");
     $('#hiddenStatus_StatusTypeID').val("");
-
     $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox("instance").reset();
-    $("#dxStatus_StatusTypeStatusSelectBox").dxSelectBox("instance").reset();
+    $("#dxStatus_StatusTypeStatusTagBox").dxTagBox("instance").reset();
     $("#dxStatus_StatusTypeIsActiveCheckBox").dxCheckBox("instance").option("value", true);
     let keys = $("#dxStatus_StatusTypeGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxStatus_StatusTypeGrid").dxDataGrid("instance").deselectRows(keys);
@@ -616,19 +616,15 @@ function ClearStatus_StatusTypeFields() {
 }
 function PopulateStatus_StatusTypeFields(data) {
     $('#hiddenStatus_StatusTypeID').val(data.ID);
-    $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox("instance").option("value", data.StatusTypeDTO.ID);
-    $("#dxStatus_StatusTypeStatusSelectBox").dxSelectBox("instance").option("value", data.StatusDTO.ID);
+    $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox("instance").option("value", data.StatusTypeID);
+    $("#dxStatus_StatusTypeStatusTagBox").dxTagBox("instance").option("value", [data.StatusID]);
     $("#dxStatus_StatusTypeIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
 }
 function GetStatus_StatusTypeDTO() {
     let _status_StatusTypeDTO = {
         ID: $('#hiddenStatus_StatusTypeID').val(),
-        StatusDTO: {
-            ID: $("#dxStatus_StatusTypeStatusSelectBox").dxSelectBox("instance").option("value")
-        },
-        StatusTypeDTO: {
-            ID: $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox("instance").option("value")
-        },
+        Status_StatusTypeIDArray: $("#dxStatus_StatusTypeStatusTagBox").dxTagBox("instance").option("value"),
+        StatusTypeID: $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxStatus_StatusTypeIsActiveCheckBox").dxCheckBox("instance").option("value")
     }
     return _status_StatusTypeDTO;
@@ -680,19 +676,7 @@ async function DeleteStatus_StatusType_Global() {
 }
 //#endregion
 
-
-//#region datasources 
-async function GetDXStatus_StatusTypeDataSource_Global() {
-    let _status_StatusTypeDTO = {
-        GetStatusDTO: true,
-        GetStatusTypeDTO: true
-    }
-    let _status_StatusTypeDataSourceList = await GetDXStatus_StatusTypeDataSource(_status_StatusTypeDTO);
-    $("#dxStatus_StatusTypeGrid").dxDataGrid("instance").option("dataSource", _status_StatusTypeDataSourceList);
-}
-//#endregion
-
 async function ReloadStatusRelatedFields() {
-    $("#dxStatus_StatusTypeStatusSelectBox").dxSelectBox("instance").option("dataSource", await GetDXStatusDataSource());
+    $("#dxStatus_StatusTypeStatusTagBox").dxTagBox("instance").option("dataSource", await GetDXStatusDataSource());
     $("#dxStatus_StatusTypeStatusTypeSelectBox").dxSelectBox("instance").option("dataSource", await GetDXStatusTypeDataSource());
 }

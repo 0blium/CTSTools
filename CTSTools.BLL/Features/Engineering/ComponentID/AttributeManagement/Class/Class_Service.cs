@@ -123,7 +123,7 @@ public class Class_Service
             _validationResultDTO = ValueLink_Service.DeleteValueLink_Global(ClassDTO);
             return _validationResultDTO;
         }
-
+        _validationResultDTO.Data = ClassDTO;
 
         return _validationResultDTO;
     }

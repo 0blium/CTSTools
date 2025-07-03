@@ -24,16 +24,17 @@ public class Ticket_Service
     #region Global CRUD
     public static ValidationResultDTO CreateTicket_Global(TicketDTO TicketDTO)
     {
+
+        TicketDTO.StatusID = (int)Statuses_Enum.Active;
         var _ValidationResultDTO = Ticket_Validator.CreateTicket_Validation(TicketDTO);
         if (_ValidationResultDTO.Result)
         {
             TicketDTO.AddedDate = DateTime.Now;
-            TicketDTO.StatusDTO.ID = (int)Statuses_Enum.Active;
             GetTicketNumber(TicketDTO);
             _ValidationResultDTO = Ticket_Repository.CreateTicket(TicketDTO);
         }
         //SaveAttachments
-        if (_ValidationResultDTO.Result && TicketDTO.FileDTO?.FileList != null)
+        if (_ValidationResultDTO.Result && TicketDTO.FileDTO?.FileList != null && TicketDTO.FileDTO?.FileList?.Count()>0)
         {
             TicketDTO.FileDTO.ID = (int)TicketDTO.ID;
             TicketDTO.FileDTO.FileDirectory = (int)FileDirectory_Enum.TicketAttachmentsDirectory;
@@ -64,47 +65,48 @@ public class Ticket_Service
         if (_ValidationResultDTO.Result)
         {
             TicketDTO.LastUpdate = DateTime.Now;
-            TicketDTO.AssignedDate = (_previousTicketDTO.AssignedToDTO?.ID != TicketDTO.AssignedToDTO?.ID) &&
-                (_previousTicketDTO.AssignedToDTO?.ID != null && TicketDTO.AssignedToDTO?.ID != null) ? DateTime.Now : _previousTicketDTO.AssignedDate;
+            TicketDTO.AssignedDate = (_previousTicketDTO.AssignedToID != TicketDTO.AssignedToID) &&
+                (_previousTicketDTO.AssignedToID != null && TicketDTO.AssignedToID != null) ? DateTime.Now : _previousTicketDTO.AssignedDate;
             //Ticket Status change to closed
-            if (TicketDTO.StatusDTO.ID == (int)Statuses_Enum.Closed && _previousTicketDTO.StatusDTO.ID != TicketDTO.StatusDTO.ID)
+            if (TicketDTO.StatusID == (int)Statuses_Enum.Closed && _previousTicketDTO.StatusID != TicketDTO.StatusID)
             {
                 //If ticket is closed assigned new values
                 TicketDTO.ClosedByDTO = new UserDTO { ID = TicketDTO.LastUpdateByID };
+                TicketDTO.ClosedByID = TicketDTO.LastUpdateByID ;
                 TicketDTO.ClosedDate = DateTime.Now;
             }
             else
             {
                 //If ticket not closed not changes values
-                TicketDTO.ClosedByDTO = _previousTicketDTO.ClosedByDTO;
+                TicketDTO.ClosedByID = _previousTicketDTO.ClosedByID;
                 TicketDTO.ClosedDate = _previousTicketDTO.ClosedDate;
             }
             _ValidationResultDTO = Ticket_Repository.UpdateTicket(TicketDTO);
         }
         //Create Spare Part Inventory Trasanction
-        if (_ValidationResultDTO.Result && TicketDTO.Item_LineDTO?.ID != null && TicketDTO.Item_LineDTO?.ID != 0 && TicketDTO.StatusDTO.ID == (int)Statuses_Enum.Closed)
+        if (_ValidationResultDTO.Result && TicketDTO.Item_LineID != null && TicketDTO.Item_LineID != 0 && TicketDTO.StatusID == (int)Statuses_Enum.Closed)
         {
-            _ValidationResultDTO = SparePartInventory_Service.SparePartInventoryTransaction(new SparePartUsageDTO { TicketDTO = TicketDTO, LastUpdateByID = TicketDTO.LastUpdateByID });
+            //_ValidationResultDTO = SparePartInventory_Service.SparePartInventoryTransaction(new SparePartUsageDTO { TicketDTO = TicketDTO, LastUpdateByID = TicketDTO.LastUpdateByID });
         }
         //Create log
         if (_ValidationResultDTO.Result)
         {
-            ChangeLog.ChangeLog_Service.BuildChangeLogActionUpdate(_previousTicketDTO, TicketDTO, (int)TicketDTO.LastUpdateByID, (int)TicketDTO.ID);
+            //ChangeLog.ChangeLog_Service.BuildChangeLogActionUpdate(_previousTicketDTO, TicketDTO, (int)TicketDTO.LastUpdateByID, (int)TicketDTO.ID);
         }
         //Send min & max Notification To Support Group
 
         //Send email to support group if support group change
-        if (_ValidationResultDTO.Result && (_previousTicketDTO.SupportGroupDTO.ID != TicketDTO.SupportGroupDTO.ID))
+        if (_ValidationResultDTO.Result && (_previousTicketDTO.SupportGroupID != TicketDTO.SupportGroupID))
         {
 
         }
         //Send email to requestor when change status
-        if (_ValidationResultDTO.Result && (_previousTicketDTO.StatusDTO.ID != TicketDTO.StatusDTO.ID))
+        if (_ValidationResultDTO.Result && (_previousTicketDTO.StatusID != TicketDTO.StatusID))
         {
 
         }
         //Send email to responsible when the "Assigned to" change
-        if (_ValidationResultDTO.Result && (_previousTicketDTO.SupportGroupDTO.ID != TicketDTO.SupportGroupDTO.ID))
+        if (_ValidationResultDTO.Result && (_previousTicketDTO.SupportGroupID != TicketDTO.SupportGroupID))
         {
 
         }
@@ -164,7 +166,7 @@ public class Ticket_Service
         {
             if (TicketDTO.GetFacilityDTO)
             {
-                TicketDTO.FacilityDTO.FacilityIDArray = TicketList.GroupBy(g => g.FacilityDTO.ID)
+                TicketDTO.FacilityDTO.FacilityIDArray = TicketList.GroupBy(g => g.FacilityID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -173,7 +175,7 @@ public class Ticket_Service
             }
             if (TicketDTO.GetDepartmentDTO)
             {
-                TicketDTO.DepartmentDTO.DepartmentIDArray = TicketList.GroupBy(g => g.DepartmentDTO.ID)
+                TicketDTO.DepartmentDTO.DepartmentIDArray = TicketList.GroupBy(g => g.DepartmentID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -182,7 +184,7 @@ public class Ticket_Service
             }
             if (TicketDTO.GetItem_LineDTO)
             {
-                TicketDTO.Item_LineDTO.Item_LineIDArray = TicketList.GroupBy(g => g.Item_LineDTO.ID)
+                TicketDTO.Item_LineDTO.Item_LineIDArray = TicketList.GroupBy(g => g.Item_LineID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -191,7 +193,7 @@ public class Ticket_Service
             }
             if (TicketDTO.GetStatusDTO)
             {
-                TicketDTO.StatusDTO.StatusIDArray = TicketList.GroupBy(g => g.StatusDTO.ID)
+                TicketDTO.StatusDTO.StatusIDArray = TicketList.GroupBy(g => g.StatusID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -200,7 +202,7 @@ public class Ticket_Service
             }
             if (TicketDTO.GetPriorityDTO)
             {
-                TicketDTO.PriorityDTO.PriorityIDArray = TicketList.GroupBy(g => g.PriorityDTO.ID)
+                TicketDTO.PriorityDTO.PriorityIDArray = TicketList.GroupBy(g => g.PriorityID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -209,7 +211,7 @@ public class Ticket_Service
             }
             if (TicketDTO.GetCategoryDTO)
             {
-                TicketDTO.CategoryDTO.CategoryIDArray = TicketList.GroupBy(g => g.CategoryDTO.ID)
+                TicketDTO.CategoryDTO.CategoryIDArray = TicketList.GroupBy(g => g.CategoryID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -218,7 +220,7 @@ public class Ticket_Service
             }
             if (TicketDTO.GetSupportGroupDTO)
             {
-                TicketDTO.SupportGroupDTO.SupportGroupIDArray = TicketList.GroupBy(g => g.SupportGroupDTO.ID)
+                TicketDTO.SupportGroupDTO.SupportGroupIDArray = TicketList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -227,33 +229,33 @@ public class Ticket_Service
             }
             foreach (var _ticketDTO in TicketList)
             {
-                if (TicketDTO.GetFacilityDTO && _facilityDict.ContainsKey(_ticketDTO.FacilityDTO.ID))
+                if (TicketDTO.GetFacilityDTO && _facilityDict.ContainsKey(_ticketDTO.FacilityID))
                 {
-                    _ticketDTO.FacilityDTO = _facilityDict[_ticketDTO.FacilityDTO.ID];
+                    _ticketDTO.FacilityDTO = _facilityDict[_ticketDTO.FacilityID];
                 }
-                if (TicketDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_ticketDTO.DepartmentDTO.ID))
+                if (TicketDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_ticketDTO.DepartmentID))
                 {
-                    _ticketDTO.DepartmentDTO = _departmentDict[_ticketDTO.DepartmentDTO.ID];
+                    _ticketDTO.DepartmentDTO = _departmentDict[_ticketDTO.DepartmentID];
                 }
-                if (TicketDTO.GetItem_LineDTO && _item_lineDict.ContainsKey(_ticketDTO.Item_LineDTO.ID))
+                if (TicketDTO.GetItem_LineDTO && _item_lineDict.ContainsKey(_ticketDTO.Item_LineID))
                 {
-                    _ticketDTO.Item_LineDTO = _item_lineDict[_ticketDTO.Item_LineDTO.ID];
+                    _ticketDTO.Item_LineDTO = _item_lineDict[_ticketDTO.Item_LineID];
                 }
-                if (TicketDTO.GetStatusDTO && _statusDict.ContainsKey(_ticketDTO.StatusDTO.ID))
+                if (TicketDTO.GetStatusDTO && _statusDict.ContainsKey(_ticketDTO.StatusID))
                 {
-                    _ticketDTO.StatusDTO = _statusDict[_ticketDTO.StatusDTO.ID];
+                    _ticketDTO.StatusDTO = _statusDict[_ticketDTO.StatusID];
                 }
-                if (TicketDTO.GetPriorityDTO && _priorityDict.ContainsKey(_ticketDTO.PriorityDTO.ID))
+                if (TicketDTO.GetPriorityDTO && _priorityDict.ContainsKey(_ticketDTO.PriorityID))
                 {
-                    _ticketDTO.PriorityDTO = _priorityDict[_ticketDTO.PriorityDTO.ID];
+                    _ticketDTO.PriorityDTO = _priorityDict[_ticketDTO.PriorityID];
                 }
-                if (TicketDTO.GetCategoryDTO && _categoryDict.ContainsKey(_ticketDTO.CategoryDTO.ID))
+                if (TicketDTO.GetCategoryDTO && _categoryDict.ContainsKey(_ticketDTO.CategoryID))
                 {
-                    _ticketDTO.CategoryDTO = _categoryDict[_ticketDTO.CategoryDTO.ID];
+                    _ticketDTO.CategoryDTO = _categoryDict[_ticketDTO.CategoryID];
                 }
-                if (TicketDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_ticketDTO.SupportGroupDTO.ID))
+                if (TicketDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_ticketDTO.SupportGroupID))
                 {
-                    _ticketDTO.SupportGroupDTO = _supportgroupDict[_ticketDTO.SupportGroupDTO.ID];
+                    _ticketDTO.SupportGroupDTO = _supportgroupDict[_ticketDTO.SupportGroupID];
                 }
                 _ticketglobalList.Add(_ticketDTO);
             }

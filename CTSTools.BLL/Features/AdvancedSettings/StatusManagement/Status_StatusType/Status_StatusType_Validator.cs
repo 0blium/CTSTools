@@ -86,6 +86,59 @@ class Status_StatusType_Validator
         }
         return _validation_ResultDTO;
     }
+    public static ValidationResultDTO CreateStatus_StatusTypeByIDArray_Validation(Status_StatusTypeDTO Status_StatusTypeDTO)
+    {
+        var _validation_ResultDTO = new ValidationResultDTO
+        {
+            Description = "The record has been validated successfully.."
+        };
+        try
+        {
+            var _validation_ResultList = new List<ValidationResultDTO>();
+
+            // Field Validation
+            if (Status_StatusTypeDTO.Status_StatusTypeIDArray == null || Status_StatusTypeDTO.Status_StatusTypeIDArray.Count() == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Status_StatusTypeDTO)}{nameof(Status_StatusTypeDTO.Status_StatusTypeIDArray)}",
+                });
+            }
+
+            if (Status_StatusTypeDTO.StatusTypeID == null || Status_StatusTypeDTO.StatusTypeID == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Type Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = $"{nameof(Status_StatusTypeDTO)}{nameof(Status_StatusTypeDTO.StatusTypeID)}",
+                });
+            }
+
+
+            // if list contains a error, update main validation result
+            if (_validation_ResultList.Count > 0)
+            {
+                _validation_ResultDTO.Result = false;
+                _validation_ResultDTO.Message = "Errors!";
+                _validation_ResultDTO.Description = "There is a list of errors";
+                _validation_ResultDTO.ValidationResultList = _validation_ResultList;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validation_ResultDTO.Result = false;
+            _validation_ResultDTO.Message = "Error!";
+            _validation_ResultDTO.Description = string.Format("There was an error trying to validate the fields. {0}", ex.Message);
+        }
+        return _validation_ResultDTO;
+    }
     public static ValidationResultDTO UpdateStatus_StatusType_Validation(Status_StatusTypeDTO Status_StatusTypeDTO)
     {
         var _validation_ResultDTO = new ValidationResultDTO
@@ -107,29 +160,41 @@ class Status_StatusType_Validator
                     Data = $"{nameof(Status_StatusType)}{nameof(Status_StatusTypeDTO.ID)}"
                 });
             }
-            if (Status_StatusTypeDTO.StatusID == null || Status_StatusTypeDTO.StatusID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "StatusID Field Empty",
-                    Description = " Please, complete the missing information ",
-                });
-            }
             if (Status_StatusTypeDTO.StatusTypeID == null || Status_StatusTypeDTO.StatusTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "StatusTypeID Field Empty",
+                    Message = "Type Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
-            else
+
+            if (Status_StatusTypeDTO.Status_StatusTypeIDArray == null || Status_StatusTypeDTO.Status_StatusTypeIDArray.Count() == 0)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Status Field Empty",
+                    Description = " Please, complete the missing information ",
+                    Data = "Status_StatusTypeStatus",
+                });
+            }
+            if (Status_StatusTypeDTO.Status_StatusTypeIDArray == null || Status_StatusTypeDTO.Status_StatusTypeIDArray.Count() > 1)
+            {
+                _validation_ResultList.Add(new ValidationResultDTO
+                {
+                    Result = false,
+                    Message = "Select a single status from the list.",
+                    Description = " Please, complete the missing information ",
+                    Data = "Status_StatusTypeStatus",
+                });
+            }
+            if (Status_StatusTypeDTO.Status_StatusTypeIDArray.Count() == 1)
             {
                 var _status_StatusTypeDTO = new Status_StatusTypeDTO
                 {
-                    StatusID = Status_StatusTypeDTO.StatusID,
+                    StatusID = Status_StatusTypeDTO.Status_StatusTypeIDArray[0],
                     StatusTypeID = Status_StatusTypeDTO.StatusTypeID,
                 };
                 var _statusRelationDTO = Status_StatusType_Service.GetStatus_StatusTypeList_Global(_status_StatusTypeDTO).FirstOrDefault();

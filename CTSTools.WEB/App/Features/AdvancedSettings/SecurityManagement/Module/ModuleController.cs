@@ -52,6 +52,18 @@ public class ModuleController : ApiController
         return Json(_validationResultDTO);
     }
     [HttpPost]
+    [Route("api/Module/AdvancedSetUp")]
+    public IHttpActionResult AdvancedModuleSetUp([FromBody] ModuleDTO ModuleDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Module), (int)Action_Enum.Create);
+        if (_validationResultDTO.Result)
+        {
+            ModuleDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Module_Service.CreateAdvancedModule_Global(ModuleDTO);
+        }
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
     [Route("api/Module/Update")]
     public IHttpActionResult UpdateModule([FromBody] ModuleDTO ModuleDTO)
     {
@@ -60,6 +72,18 @@ public class ModuleController : ApiController
         {
             ModuleDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
             _validationResultDTO = Module_Service.UpdateModule_Global(ModuleDTO);
+        }
+        return Json(_validationResultDTO);
+    }
+    [HttpPost]
+    [Route("api/Module/UpdateSetUp")]
+    public IHttpActionResult UpdateModuleSetUp([FromBody] ModuleDTO ModuleDTO)
+    {
+        var _validationResultDTO = Auth_Helper.ValidatePermission_Global(nameof(Module), (int)Action_Enum.Update);
+        if (_validationResultDTO.Result)
+        {
+            ModuleDTO.LastUpdateByID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Module_Service.UpdateSetUpModule_Global(ModuleDTO);
         }
         return Json(_validationResultDTO);
     }

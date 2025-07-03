@@ -1,14 +1,14 @@
-﻿import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js'
-import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
-import { GetDXSupportGroupDataSource } from '../../SupportGroup/SupportGroup_Service.js'
+﻿import { dxLoadPanel } from '../../../../../Common/Components/dxLoadPanel.js'
+import { HostResponse, ClearErrorFeedback } from '../../../../../Common/Utils/Response.js'
+import { GetDXSupportGroupDataSource } from '../../SupportGroupManagement/SupportGroup/SupportGroup_Service.js'
 import { GetDXPriorityDataSource } from '../Priority/Priority_Service.js'
 import { GetDXCategoryDataSource } from '../Category/Category_Service.js'
-import { GetItem_LineInformation, GetItem_LineInformationBySupportGroup } from '../../Item/ItemAdministration/Item_Line/Item_Line_Service.js'
-import { GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
+import { GetItem_LineInformation, GetItem_LineInformationBySupportGroup } from '../../ItemManagement/Item_Line/Item_Line_Service.js'
+import { GetUserInformation } from '../../../../AdvancedSettings/UserManagement/User/User_Service.js'
 //import { GetDXEmployeeTressDataSource } from '../../AdvancedSettings/Users/EmployeeTress/EmployeeTress_Service.js'//
 //import { Role_Enum } from '../../AdvancedSettings/Security/Roles/Role/Role_Enum.js'//
-import { GetDXFacilityDataSource } from '../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
-import { GetDXDepartmentDataSource } from '../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'//
+import { GetDXFacilityDataSource } from '../../../../AdvancedSettings/LocationManagement/Facility/Facility_Service.js'
+import { GetDXDepartmentDataSource } from '../../../../AdvancedSettings/LocationManagement/Department/Department_Service.js'//
 import { CreateTicket } from '../Ticket/Ticket_Service.js'
 
 let _fileDTOList = [];
@@ -52,8 +52,8 @@ async function GetUserInformationbyID() {
 async function PopulateUserInformation(UserDTO) {
     if (UserDTO != null) {
         //await $("#dxTicketRequestorSelectBox").dxSelectBox("instance").option("value", UserDTO.EmployeeTressDTO.ID);
-        await $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value", UserDTO.FacilityDTO.ID);
-        await $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value", UserDTO.DepartmentDTO.ID);
+        await $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value", UserDTO.FacilityID);
+        await $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value", UserDTO.DepartmentID);
     }
 }
 
@@ -286,30 +286,14 @@ function GetTicketDTO() {
         //RequestorDTO: {
         //    ID: $("#dxTicketRequestorSelectBox").dxSelectBox("instance").option("value")
         //},
-        FacilityDTO: {
-            ID: $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value")
-        },
-        SupportGroupDTO: {
-            ID: $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value")
-        },
-        DepartmentDTO: {
-            ID: $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value"),
-        },
-        Item_LineDTO: {
-            ID: $("#dxTicketItemLookup").dxLookup("instance").option("value"),
-        },
-        PriorityDTO: {
-            ID: $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value"),
-        },
-        CategoryDTO: {
-            ID: $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value"),
-        },
-        SubCategoryDTO: {
-            ID: $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("value"),
-        },
-        ThirdLevelCategoryDTO: {
-            ID: $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("value"),
-        },
+        FacilityID: $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value"),
+        SupportGroupID: $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value"),
+        DepartmentID: $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value"),
+        Item_LineID: $("#dxTicketItemLookup").dxLookup("instance").option("value"),
+        PriorityID: $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("value"),        
+        CategoryID: $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value"),        
+        SubCategoryID: $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("value"),        
+        ThirdLevelCategoryID: $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("value"),        
         Title: $("#dxTicketTitleTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxTicketDescriptionTextArea").dxTextArea("instance").option("value"),
         Note: $("#dxTicketNoteTextArea").dxTextArea("instance").option("value"),
@@ -460,9 +444,9 @@ function BuildSuccessMessage(ValidationResult) {
         '<div class="card-body text-center" style="font-size:20px;"><i style="color:#2F6B68;" class="fas fa-envelope-circle-check fa-3x"></i>' +
         '<h2 class="pb-3"><strong>The ticket has been sent successfully!</strong></h2>' +
         '<p class="mb-2">You will receive support from the members of the support group of the correspondig area.</p>' +
-        '<p> We are sending you a confirmation email.  <br>  <b style="font-size: x-large">Ticket Number #' + ValidationResult.Data + '</b></p>' +
+        '<p>   <br>  <b style="font-size: x-large">Ticket Number #' + ValidationResult.Data + '</b></p>' +
         /* '<p><u>:</u></p>' +*/
-        '<a class="btn btn-default mt-3 mr-3" href="/App/Features/Default.aspx">Home</a> <a class="btn btn-success mt-3 mr-3" href="/App/Features/Ticket/Tickets/CreateTicket/CreateTicket.aspx">Submit Another ticket</a>' +
+        '<a class="btn btn-default mt-3 mr-3" href="/App/Features/Default.aspx">Home</a> <a class="btn btn-success mt-3 mr-3" href="/App/Features/Maintenance/AMS/Tickets/CreateTicket/CreateTicket.aspx">Submit Another ticket</a>' +
         '</div>' +
         '</div>' +
         '</div>');

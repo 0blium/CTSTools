@@ -43,6 +43,28 @@ public class Role_Permission_Service
         _validationResultDTO = User_Permission_Service.DeletePermisssionToAllUsersByRole(_oldRole_PermissionDTO);
         return _validationResultDTO;
     }
+    public static ValidationResultDTO CreateMultiple_Global(List<Role_PermissionDTO> Role_PermissionList)
+    {
+        // Step 1. 
+        var _validationResultDTO = Role_Permission_Validator.CreateMultiple_Validation(Role_PermissionList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+        // Step 2.
+        _validationResultDTO = Role_Permission_Repository.CreateMultiple(Role_PermissionList);
+        if (!_validationResultDTO.Result)
+            return _validationResultDTO;
+
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO DeleteMultiple_Global(List<Role_PermissionDTO> Role_PermissionList)
+    {
+        var _validationResultDTO = Role_Permission_Validator.DeleteMultiple_Validation(Role_PermissionList);
+        if (_validationResultDTO.Result)
+        {
+            _validationResultDTO = Role_Permission_Repository.DeleteMultiple(Role_PermissionList);
+        }
+        return _validationResultDTO;
+    }
     public static List<Role_PermissionDTO> GetRole_PermissionList_Global(Role_PermissionDTO Role_PermissionDTO, PagedResultDTO<Role_PermissionDTO> PagedResultDTO = null)
     {
         var _role_permissionglobalList = new List<Role_PermissionDTO>();
@@ -82,7 +104,7 @@ public class Role_Permission_Service
         {
             if (Role_PermissionDTO.GetPermissionDTO)
             {
-                Role_PermissionDTO.PermissionDTO.PermissionIDArray = Role_PermissionList.GroupBy(g => g.PermissionDTO.ID)
+                Role_PermissionDTO.PermissionDTO.PermissionIDArray = Role_PermissionList.GroupBy(g => g.PermissionID)
                                                                                         .Select(s => s.Key)
                                                                                         .ToArray();
 
@@ -91,7 +113,7 @@ public class Role_Permission_Service
             }
             if (Role_PermissionDTO.GetRoleDTO)
             {
-                Role_PermissionDTO.RoleDTO.RoleIDArray = Role_PermissionList.GroupBy(g => g.RoleDTO.ID)
+                Role_PermissionDTO.RoleDTO.RoleIDArray = Role_PermissionList.GroupBy(g => g.RoleID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -100,13 +122,13 @@ public class Role_Permission_Service
             }
             foreach (var _role_permissionDTO in Role_PermissionList)
             {
-                if (Role_PermissionDTO.GetPermissionDTO && _permissionDict.ContainsKey(_role_permissionDTO.PermissionDTO.ID))
+                if (Role_PermissionDTO.GetPermissionDTO && _permissionDict.ContainsKey(_role_permissionDTO.PermissionID))
                 {
-                    _role_permissionDTO.PermissionDTO = _permissionDict[_role_permissionDTO.PermissionDTO.ID];
+                    _role_permissionDTO.PermissionDTO = _permissionDict[_role_permissionDTO.PermissionID];
                 }
-                if (Role_PermissionDTO.GetRoleDTO && _roleDict.ContainsKey(_role_permissionDTO.RoleDTO.ID))
+                if (Role_PermissionDTO.GetRoleDTO && _roleDict.ContainsKey(_role_permissionDTO.RoleID))
                 {
-                    _role_permissionDTO.RoleDTO = _roleDict[_role_permissionDTO.RoleDTO.ID];
+                    _role_permissionDTO.RoleDTO = _roleDict[_role_permissionDTO.RoleID];
                 }
                 _role_permissionglobalList.Add(_role_permissionDTO);
             }

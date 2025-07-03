@@ -20,17 +20,21 @@ public class UserDefinedTemplate_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedTemplateXPO.Oid), UserDefinedTemplateDTO.UserDefinedTemplateIDArray));
             }
-            if (UserDefinedTemplateDTO.Item_SupportGroupID != null || UserDefinedTemplateDTO.Item_SupportGroupID > 0)
+            if (UserDefinedTemplateDTO.Item_HeaderID != null || UserDefinedTemplateDTO.Item_HeaderID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.Item_SupportGroup), UserDefinedTemplateDTO.Item_SupportGroupID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.Item_Header), UserDefinedTemplateDTO.Item_HeaderID));
+            }
+            if (UserDefinedTemplateDTO.Item_SupportGroupDTO.ID != null || UserDefinedTemplateDTO.Item_SupportGroupDTO.ID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.Item_SupportGroup), UserDefinedTemplateDTO.Item_SupportGroupDTO.ID));
             }
             if (UserDefinedTemplateDTO.Item_SupportGroupIDArray != null && UserDefinedTemplateDTO.Item_SupportGroupIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(UserDefinedTemplateXPO.Item_SupportGroup), UserDefinedTemplateDTO.Item_SupportGroupIDArray));
             }
-            if (UserDefinedTemplateDTO.UserDefinedID != null || UserDefinedTemplateDTO.UserDefinedID > 0)
+            if (UserDefinedTemplateDTO.UserDefinedDTO.ID != null || UserDefinedTemplateDTO.UserDefinedDTO.ID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.UserDefined), UserDefinedTemplateDTO.UserDefinedID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(UserDefinedTemplateXPO.UserDefined), UserDefinedTemplateDTO.UserDefinedDTO.ID));
             }
             if (UserDefinedTemplateDTO.UserDefinedIDArray != null && UserDefinedTemplateDTO.UserDefinedIDArray.Count() > 0)
             {

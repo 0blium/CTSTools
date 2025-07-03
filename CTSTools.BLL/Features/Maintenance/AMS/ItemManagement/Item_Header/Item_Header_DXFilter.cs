@@ -20,25 +20,25 @@ public class Item_Header_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_HeaderXPO.Oid), Item_HeaderDTO.Item_HeaderIDArray));
             }
-            if (Item_HeaderDTO.IsESD != null)
+            //if (Item_HeaderDTO.IsESD != null)
+            //{
+            //    _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.IsESD), Item_HeaderDTO.IsESD));
+            //}
+            if (Item_HeaderDTO.BrandID != null || Item_HeaderDTO.BrandID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.IsESD), Item_HeaderDTO.IsESD));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Brand), Item_HeaderDTO.BrandID));
             }
-            if (!string.IsNullOrEmpty(Item_HeaderDTO.Brand))
+            if (Item_HeaderDTO.ClassID != null || Item_HeaderDTO.ClassID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Brand), Item_HeaderDTO.Brand));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Class), Item_HeaderDTO.ClassID));
+            }
+            if (Item_HeaderDTO.SubClassID != null || Item_HeaderDTO.SubClassID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.SubClass), Item_HeaderDTO.SubClassID));
             }
             if (!string.IsNullOrEmpty(Item_HeaderDTO.Model))
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.Model), Item_HeaderDTO.Model));
-            }
-            if (Item_HeaderDTO.ItemClassificationID != null || Item_HeaderDTO.ItemClassificationID > 0)
-            {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_HeaderXPO.ItemClassification), Item_HeaderDTO.ItemClassificationID));
-            }
-            if (Item_HeaderDTO.ItemClassificationIDArray != null && Item_HeaderDTO.ItemClassificationIDArray.Count() > 0)
-            {
-                _groupOperator.Operands.Add(new InOperator(nameof(Item_HeaderXPO.ItemClassification), Item_HeaderDTO.ItemClassificationIDArray));
             }
             if (Item_HeaderDTO.AddedByID != null && Item_HeaderDTO.AddedByID > 0)
             {

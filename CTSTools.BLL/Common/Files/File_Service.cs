@@ -95,6 +95,9 @@ public class File_Service
     {
         try
         {
+            FileDTO = GetDirectory(FileDTO).Data;
+            FileDTO.URL = String.Format("{0}\\{1}", FileDTO.URL, FileDTO.ID);
+
             // Validate if directory exist
             if (!Directory.Exists(FileDTO.URL))
                 return FileDTO;
@@ -124,6 +127,10 @@ public class File_Service
         var _fileList = new List<FileDTO>();
         try
         {
+            // Get File Directory URL
+            FileDTO = GetDirectory(FileDTO).Data;
+            FileDTO.URL = String.Format("{0}\\{1}", FileDTO.URL, FileDTO.ID);
+
             // Validate if directory exist
             if (!Directory.Exists(FileDTO.URL))
                 return _fileList;
@@ -306,7 +313,7 @@ public class File_Service
         {
             //Get File Directory
             FileDTO = GetDirectory(FileDTO).Data;
-            FileDTO.URL = String.Format("{0}{1}\\", FileDTO.URL, FileDTO.ID);
+            FileDTO.URL = String.Format("{0}\\{1}\\", FileDTO.URL, FileDTO.ID);
 
             if (Directory.Exists(FileDTO.URL))
             {

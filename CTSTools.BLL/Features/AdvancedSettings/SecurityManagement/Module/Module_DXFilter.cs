@@ -15,6 +15,8 @@ public class Module_DXFilter
         {
             if (ModuleDTO.ID > 0)
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(ModuleXPO.Oid), ModuleDTO.ID));
+            if (!string.IsNullOrEmpty(ModuleDTO.Name))
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(ModuleXPO.Name), ModuleDTO.Name));
             if (ModuleDTO.ModuleIDArray != null && ModuleDTO.ModuleIDArray.Count() > 0)
                 _groupOperator.Operands.Add(new InOperator(nameof(ModuleXPO.Oid), ModuleDTO.ModuleIDArray));
             if (ModuleDTO.AddedByID != null && ModuleDTO.AddedByID > 0)

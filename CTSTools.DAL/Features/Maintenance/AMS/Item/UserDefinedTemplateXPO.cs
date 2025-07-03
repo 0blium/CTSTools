@@ -12,6 +12,12 @@ public class UserDefinedTemplateXPO : XPObject
     }
     // XPObject relationships
 
+    Item_HeaderXPO fItem_Header;
+    public Item_HeaderXPO Item_Header
+    {
+        get { return fItem_Header; }
+        set { SetPropertyValue<Item_HeaderXPO>(nameof(Item_Header), ref fItem_Header, value); }
+    }
 
     // Default XPObject (VC)
     Item_SupportGroupXPO fItem_SupportGroup;

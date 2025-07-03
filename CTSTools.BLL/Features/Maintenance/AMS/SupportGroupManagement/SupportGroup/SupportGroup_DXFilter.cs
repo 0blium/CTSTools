@@ -13,33 +13,21 @@ public class SupportGroup_DXFilter
         try
         {
             if (SupportGroupDTO.ID > 0)
-            {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.Oid), SupportGroupDTO.ID));
-            }
             if (SupportGroupDTO.SupportGroupIDArray != null && SupportGroupDTO.SupportGroupIDArray.Count() > 0)
-            {
                 _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.Oid), SupportGroupDTO.SupportGroupIDArray));
-            }
+            if (SupportGroupDTO.SupportGroupNameArray != null && SupportGroupDTO.SupportGroupNameArray.Count() > 0)
+                _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.EnglishName), SupportGroupDTO.SupportGroupNameArray));
             if (SupportGroupDTO.FacilityDTO.ID != null || SupportGroupDTO.FacilityDTO.ID > 0)
-            {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.Facility), SupportGroupDTO.FacilityDTO.ID));
-            }
             if (SupportGroupDTO.FacilityIDArray != null && SupportGroupDTO.FacilityIDArray.Count() > 0)
-            {
                 _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.Facility), SupportGroupDTO.FacilityIDArray));
-            }
             if (SupportGroupDTO.AddedByID != null)
-            {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.AddedBy), SupportGroupDTO.AddedByID));
-            }
             if (SupportGroupDTO.LastUpdateByID != null)
-            {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.LastUpdateBy), SupportGroupDTO.LastUpdateByID));
-            }
             if (SupportGroupDTO.IsActive != null)
-            {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.IsActive), SupportGroupDTO.IsActive));
-            }
         }
         catch (Exception ex)
         {

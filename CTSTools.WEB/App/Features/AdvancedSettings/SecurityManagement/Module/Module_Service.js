@@ -18,9 +18,37 @@ export async function CreateModule(ModuleDTO) {
     return _validationResultDTO;
 }
 
+export async function CreateModuleSetUp(ModuleDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Module/AdvancedSetUp`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', ModuleDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
+
 export async function UpdateModule(ModuleDTO) {
     let _validationResultDTO = ValidationResultDTO;
     const _url = `${APIURL}/Module/Update`;
+    try {
+        _validationResultDTO = await APIRequest(_url, 'POST', ModuleDTO);
+    }
+    catch (error) {
+        _validationResultDTO.Result = false;
+        _validationResultDTO.Message = error.Message;
+        _validationResultDTO.Description = error.Data;
+    }
+    return _validationResultDTO;
+}
+
+export async function UpdateModuleSetUp(ModuleDTO) {
+    let _validationResultDTO = ValidationResultDTO;
+    const _url = `${APIURL}/Module/UpdateSetUp`;
     try {
         _validationResultDTO = await APIRequest(_url, 'POST', ModuleDTO);
     }

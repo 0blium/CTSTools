@@ -52,7 +52,7 @@ public class Status_StatusTypeController : ApiController
         if (_validationResultDTO.Result)
         {
             Status_StatusTypeDTO.AddedByID = Auth_Helper.GetLoggedUserOid();
-            _validationResultDTO = Status_StatusType_Service.CreateStatus_StatusType_Global(Status_StatusTypeDTO);
+            _validationResultDTO = Status_StatusType_Service.CreateStatus_StatusTypeByArray(Status_StatusTypeDTO);
         }
         return Json(_validationResultDTO);
     }

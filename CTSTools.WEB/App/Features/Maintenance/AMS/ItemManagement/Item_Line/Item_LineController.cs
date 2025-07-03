@@ -6,6 +6,7 @@ using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using System.Web.Http;
+using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 
 namespace CTSTools.WEB.App.Features.Maintenance.AMS.ItemManagement.Item_Line;
 
@@ -88,7 +89,20 @@ public class Item_LineController : ApiController
         }
         return Json(_validationResultDTO);
     }
-
+    [HttpPost]
+    [Route("api/Item_Line/CreateMassive")]
+    public IHttpActionResult CreateMassiveItem_Line([FromBody] FileDTO FileDTO)
+    {
+        var _validationResultDTO = FileDTO.ParentID != null ?
+            Auth_Helper.ValidateSupportGroupMemberPermissions_Global(new SupportGroupDTO { ID = FileDTO.ParentID }, nameof(Item_Line), (int)Action_Enum.Create)
+            : Auth_Helper.ValidatePermission_Global(nameof(Item_Line), (int)Action_Enum.Import);
+        if (_validationResultDTO.Result)
+        {
+            FileDTO.ID = Auth_Helper.GetLoggedUserOid();
+            _validationResultDTO = Item_Line_Service.GenerateItem_LineFromExcel(FileDTO);
+        }
+        return Json(_validationResultDTO);
+    }
 
     [HttpPost]
     [Route("api/Item_Line/Update")]

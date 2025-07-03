@@ -24,9 +24,17 @@ public class Item_SupportGroup_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderID));
             }
+            if (Item_SupportGroupDTO.Item_HeaderID != null || Item_SupportGroupDTO.Item_HeaderID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderID));
+            }
             if (Item_SupportGroupDTO.Item_HeaderIDArray != null && Item_SupportGroupDTO.Item_HeaderIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(Item_SupportGroupXPO.Item_Header), Item_SupportGroupDTO.Item_HeaderIDArray));
+            }
+            if (Item_SupportGroupDTO.SupportGroupID != null || Item_SupportGroupDTO.SupportGroupID > 0)
+            {
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(Item_SupportGroupXPO.SupportGroup), Item_SupportGroupDTO.SupportGroupID));
             }
             if (Item_SupportGroupDTO.SupportGroupID != null || Item_SupportGroupDTO.SupportGroupID > 0)
             {

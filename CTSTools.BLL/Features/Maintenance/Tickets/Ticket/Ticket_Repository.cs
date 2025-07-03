@@ -90,6 +90,7 @@ public class Ticket_Repository
                 TicketDTO.ID = _ticketXPO.Oid;
                 //TicketDTO.CreatedByDTO.Email = _ticketXPO.CreatedBy?.Email;
                 TicketDTO.StatusDTO.Name = _ticketXPO.Status?.Name;
+                TicketDTO.StatusName = _ticketXPO.Status?.Name;
             }
         }
         catch (Exception ex)

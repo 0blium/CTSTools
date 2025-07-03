@@ -1,7 +1,9 @@
+using CTSTools.BLL.Features.Security.Permissions.Permission;
 using CTSTools.DAL.Features.AdvancedSettings.SecurityManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 
 namespace CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 
@@ -51,6 +53,23 @@ public class Role_PermissionMap
             throw ex;
         }
         return _role_permissionXPO;
+    }
+
+    public static List<Role_PermissionXPO> DTOListToXPOList(List<Role_PermissionDTO> Role_PermissionDTOList, UnitOfWork UnitOfWork)
+    {
+        var _xPOList = new List<Role_PermissionXPO>();
+        try
+        {
+            foreach (var _rolepermissionDTO in Role_PermissionDTOList)
+            {
+                _xPOList.Add(DTOtoXPO(_rolepermissionDTO, UnitOfWork));
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return _xPOList;
     }
 
 }

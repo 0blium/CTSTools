@@ -1,6 +1,7 @@
 using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.AdvancedSettings.MailGroupManagement.MailGroup;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Security.Permissions.Role_Permission;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -36,9 +37,23 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
             var _ValidationResultDTO = MailGroupMember_Validator.DeleteMailGroupMember_Validation(MailGroupMemberDTO);
             if (_ValidationResultDTO.Result)
             {
+                MailGroupMemberDTO = GetMailGroupMemberList_Global(new MailGroupMemberDTO { ID = MailGroupMemberDTO.ID }).FirstOrDefault();
                 _ValidationResultDTO = MailGroupMember_Repository.DeleteMailGroupMember(MailGroupMemberDTO);
             }
             return _ValidationResultDTO;
+        }
+        public static ValidationResultDTO CreateMultiple_Global(List<MailGroupMemberDTO> MailGroupMemberList)
+        {
+            // Step 1. 
+            var _validationResultDTO = MailGroupMember_Validator.CreateMultiple_Validation(MailGroupMemberList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+            // Step 2.
+            _validationResultDTO = MailGroupMember_Repository.CreateMultiple(MailGroupMemberList);
+            if (!_validationResultDTO.Result)
+                return _validationResultDTO;
+
+            return _validationResultDTO;
         }
         public static List<MailGroupMemberDTO> GetMailGroupMemberList_Global(MailGroupMemberDTO MailGroupMemberDTO,PagedResultDTO<MailGroupMemberDTO> PagedResultDTO = null)
         {
@@ -79,7 +94,7 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
             {
                 if (MailGroupMemberDTO.GetMailGroupDTO)
                 {
-                        MailGroupMemberDTO.MailGroupDTO.MailGroupIDArray = MailGroupMemberList.GroupBy(g => g.MailGroupDTO.ID)
+                        MailGroupMemberDTO.MailGroupDTO.MailGroupIDArray = MailGroupMemberList.GroupBy(g => g.MailGroupID)
                                 .Select(s => s.Key)
                                 .ToArray();
 
@@ -88,7 +103,7 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                 }
                 if (MailGroupMemberDTO.GetUserDTO)
                 {
-                        MailGroupMemberDTO.UserDTO.UserIDArray = MailGroupMemberList.GroupBy(g => g.UserDTO.ID)
+                        MailGroupMemberDTO.UserDTO.UserIDArray = MailGroupMemberList.GroupBy(g => g.UserID)
                                 .Select(s => s.Key)
                                 .ToArray();
 
@@ -97,13 +112,13 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
                 }
                 foreach (var _mailgroupmemberDTO in MailGroupMemberList)
                 {
-                        if (MailGroupMemberDTO.GetMailGroupDTO && _mailgroupDict.ContainsKey(_mailgroupmemberDTO.MailGroupDTO.ID))
+                        if (MailGroupMemberDTO.GetMailGroupDTO && _mailgroupDict.ContainsKey(_mailgroupmemberDTO.MailGroupID))
                         {
-                                _mailgroupmemberDTO.MailGroupDTO = _mailgroupDict[_mailgroupmemberDTO.MailGroupDTO.ID];
+                                _mailgroupmemberDTO.MailGroupDTO = _mailgroupDict[_mailgroupmemberDTO.MailGroupID];
                         }
-                        if (MailGroupMemberDTO.GetUserDTO && _userDict.ContainsKey(_mailgroupmemberDTO.UserDTO.ID))
+                        if (MailGroupMemberDTO.GetUserDTO && _userDict.ContainsKey(_mailgroupmemberDTO.UserID))
                         {
-                                _mailgroupmemberDTO.UserDTO = _userDict[_mailgroupmemberDTO.UserDTO.ID];
+                                _mailgroupmemberDTO.UserDTO = _userDict[_mailgroupmemberDTO.UserID];
                         }
                         _mailgroupmemberglobalList.Add(_mailgroupmemberDTO);
                 }                        
@@ -136,8 +151,33 @@ namespace CTSTools.BLL.Features.MailGroups.MailGroupMember
 
         #region Business Logic
 
-        // Aqui va la logica 
+        public static ValidationResultDTO CreateMailGroupMemberByGroups_Global(MailGroupMemberDTO MailGroupMemberDTO)
+        {
+            var _ValidationResultDTO = MailGroupMember_Validator.CreateMailGroupMemberByGroups_Validation(MailGroupMemberDTO);
+            if (_ValidationResultDTO.Result)
+            {
+                // Retrieve current records to prevent duplicate insertions
+                var _userMailGroupIDArray = GetMailGroupMemberList_Global(new MailGroupMemberDTO { UserID = MailGroupMemberDTO.UserID })
+                    .GroupBy(x => x.MailGroupID).Select(x => x.Key).ToArray();
 
+                MailGroupMemberDTO.MailGroupIDArray = MailGroupMemberDTO.MailGroupIDArray.Except(_userMailGroupIDArray).ToArray();
+
+
+                //Create new objects
+                var _mailGroupMemberDTOList = MailGroupMemberDTO.MailGroupIDArray.Select(MailGroupID => new MailGroupMemberDTO
+                {
+                    UserID = MailGroupMemberDTO.UserID,
+                    MailGroupID = MailGroupID,
+                    IsActive = true,
+                    AddedByID = MailGroupMemberDTO.AddedByID
+                }).ToList();
+
+                if(_mailGroupMemberDTOList.Count() > 0)
+                    CreateMultiple_Global(_mailGroupMemberDTOList);
+
+            }
+            return _ValidationResultDTO;
+        }
         #endregion
     }
 }

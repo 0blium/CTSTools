@@ -1,5 +1,13 @@
 ﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Excel;
+using CTSTools.BLL.Common.Files;
+using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
+using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
+using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefined;
+using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.Station;
+using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -21,90 +29,24 @@ public class Item_Line_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (Item_LineDTO.Item_HeaderID == null || Item_LineDTO.Item_HeaderID == 0)
+            if (Item_LineDTO.Item_HeaderDTO.ID == null || Item_LineDTO.Item_HeaderDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderID)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderDTO)}",
                 });
             }
-            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Owner Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.OwnerDTO)}",
-                });
-            }
-            if (Item_LineDTO.SupplyTypeID == null || Item_LineDTO.SupplyTypeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Supply Type Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.SupplyTypeID)}",
-                });
-            }
-            if (Item_LineDTO.SupplyTypeID != null && Item_LineDTO.SupplyTypeID != 0)
-            {
-                var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
-                foreach (var _validationResultDTO in _supplyTypeValidation)
-                {
-                    _validation_ResultList.Add(_validationResultDTO);
-                }
-            }
-            if (Item_LineDTO.StationID == null || Item_LineDTO.StationID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Station Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.StationID)}",
-                });
-            }
-            if (string.IsNullOrEmpty(Item_LineDTO.ManufactureSerialID))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "ManufactureSerialID Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.ManufactureSerialID)}",
-                });
-            }
-            if (string.IsNullOrEmpty(Item_LineDTO.Serial))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Serial Field Empty",
-                    Description = " Please, complete the missing information or check the box to generate the serial",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                });
-
-            }
-            else
-            {
-                //Validate if serial already exist in the database
-                var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Serial = Item_LineDTO.Serial }).FirstOrDefault();
-                if (_item_lineDTO != null && Item_LineDTO.ID != _item_lineDTO.ID)
-                {
-                    _validation_ResultList.Add(new ValidationResultDTO
-                    {
-                        Result = false,
-                        Message = "The serial already exist in the system",
-                        Description = "Please verify the information.",
-                        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                    });
-                }
-            }
+            //if (Item_LineDTO.SupplyTypeDTO.ID != null && Item_LineDTO.SupplyTypeDTO.ID != 0)
+            //{
+            //    var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
+            //    foreach (var _validationResultDTO in _supplyTypeValidation)
+            //    {
+            //        _validation_ResultList.Add(_validationResultDTO);
+            //    }
+            //}
             if (Item_LineDTO.BasePriceUSD == null || Item_LineDTO.BasePriceUSD == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -121,7 +63,7 @@ public class Item_Line_Validator
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     // Get User Defined information
-                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedID }).FirstOrDefault();
+                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedDTO.ID }).FirstOrDefault();
                     if ((bool)_userDefinedDTO.IsMandatory)
                     {
                         // If it is mandatory, check that it is not empty
@@ -137,6 +79,7 @@ public class Item_Line_Validator
                     }
                 }
             }
+
 
             if (Item_LineDTO.AddedByID == null || Item_LineDTO.AddedByID == 0)
             {
@@ -175,6 +118,7 @@ public class Item_Line_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
+
             // Field Validation
             if (Item_LineDTO.ID == null || Item_LineDTO.ID == 0)
             {
@@ -185,53 +129,15 @@ public class Item_Line_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (Item_LineDTO.Item_HeaderID == null || Item_LineDTO.Item_HeaderID == 0)
+            if (Item_LineDTO.Item_HeaderDTO.ID == null || Item_LineDTO.Item_HeaderDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderID)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderDTO)}",
                 });
-            }
-            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Owner Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.OwnerID)}",
-                });
-            }
-            if (Item_LineDTO.SupplyTypeID == null || Item_LineDTO.SupplyTypeID == 0)
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Supply Type Field Empty",
-                    Description = "Please, complete the missing information",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.SupplyTypeID)}",
-                });
-            }
-            if (string.IsNullOrEmpty(Item_LineDTO.ManufactureSerialID))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Manufacture Serial ID Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.ManufactureSerialID)}",
-                });
-            }
-            if (Item_LineDTO.SupplyTypeID != null && Item_LineDTO.SupplyTypeID != 0)
-            {
-                var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
-                foreach (var _validationResultDTO in _supplyTypeValidation)
-                {
-                    _validation_ResultList.Add(_validationResultDTO);
-                }
             }
             if (Item_LineDTO.BasePriceUSD == null || Item_LineDTO.BasePriceUSD == 0)
             {
@@ -242,31 +148,6 @@ public class Item_Line_Validator
                     Description = "Please, complete the missing information",
                     Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.BasePriceUSD)}",
                 });
-            }
-            if (string.IsNullOrEmpty(Item_LineDTO.Serial))
-            {
-                _validation_ResultList.Add(new ValidationResultDTO
-                {
-                    Result = false,
-                    Message = "Serial Field Empty",
-                    Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                });
-            }
-            else
-            {
-                //Validate if serial already exist in the database
-                var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Serial = Item_LineDTO.Serial }).FirstOrDefault();
-                if (_item_lineDTO != null && Item_LineDTO.ID != _item_lineDTO.ID)
-                {
-                    _validation_ResultList.Add(new ValidationResultDTO
-                    {
-                        Result = false,
-                        Message = "The serial already exist in the system",
-                        Description = "Please verify the information.",
-                        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Serial)}",
-                    });
-                }
             }
 
             if (Item_LineDTO.LastUpdateByID == null || Item_LineDTO.LastUpdateByID == 0)
@@ -284,7 +165,7 @@ public class Item_Line_Validator
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     // Get User Defined information
-                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedID }).FirstOrDefault();
+                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedDTO.ID }).FirstOrDefault();
                     if ((bool)_userDefinedDTO.IsMandatory)
                     {
                         // If it is mandatory, check that it is not empty
@@ -361,7 +242,6 @@ public class Item_Line_Validator
         return _validation_ResultDTO;
     }
     #endregion
-
     #region Station Line Validation
     public static ValidationResultDTO CreateItem_StationValidation(Item_LineDTO Item_LineDTO)
     {
@@ -381,13 +261,13 @@ public class Item_Line_Validator
                     var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = _item_LineID }).FirstOrDefault();
                     if (_item_lineDTO != null)
                     {
-                        if (_item_lineDTO.StationID > 0)
+                        if (_item_lineDTO.StationDTO.ID > 0)
                         {
                             _validation_ResultList.Add(new ValidationResultDTO
                             {
                                 Result = false,
                                 Message = "Item is already at the station ",
-                                Description = $"The item {_item_lineDTO.Item_HeaderDTO.Name} is already at the station {_item_lineDTO.StationName}"
+                                Description = $"The item {"BrandName"} is already at the station {_item_lineDTO.StationDTO.Name}"
                             });
                         }
                     }
@@ -440,7 +320,7 @@ public class Item_Line_Validator
                 var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
                 if (Item_LineDTO != null)
                 {
-                    if (_item_lineDTO.StationID == Item_LineDTO.StationID)
+                    if (_item_lineDTO.StationDTO.ID == Item_LineDTO.StationDTO.ID)
                     {
                         _validation_ResultList.Add(new ValidationResultDTO
                         {
@@ -625,7 +505,7 @@ public class Item_Line_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
+            if (Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -638,7 +518,7 @@ public class Item_Line_Validator
             {
                 //validate if is the current owner
                 var _item_LineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
-                if (_item_LineDTO.OwnerID == Item_LineDTO.OwnerID)
+                if (_item_LineDTO.OwnerDTO.ID == Item_LineDTO.OwnerDTO.ID)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -680,14 +560,14 @@ public class Item_Line_Validator
         try
         {
             // Field Validation
-            if (!(Item_LineDTO.ID == null || Item_LineDTO.ID == 0) && !(Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0))
+            if (!(Item_LineDTO.ID == null || Item_LineDTO.ID == 0) && !(Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0))
             {
                 //validate if the item belongs to that owner
                 var _item_line = Item_Line_Service.GetItem_LineList_Global(
                     new Item_LineDTO
                     {
                         ID = Item_LineDTO.ID,
-                        OwnerID = Item_LineDTO.OwnerID
+                        OwnerDTO = Item_LineDTO.OwnerDTO
                     }).FirstOrDefault();
                 if (_item_line == null)
                 {
@@ -713,4 +593,153 @@ public class Item_Line_Validator
         return _validation_ResultDTO;
     }
     #endregion
+
+    #region Excel Item_Line Validation
+    public static ValidationResultDTO ExcelItem_LineRows_Validation(Item_LineDTO Item_LineDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<Item_LineDTO>(),
+            BadRowLinesList = new List<Item_LineDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+        try
+        {
+            bool isSucces = true;
+            var _item_LineDTO = new Item_LineDTO
+            {
+                ID = Item_LineDTO.ID,
+                Item_HeaderDTO = new Item_HeaderDTO 
+                {
+                    ID = Item_LineDTO.Item_HeaderDTO.ID
+                },
+                Item_SupportGroupDTO = new Item_SupportGroupDTO 
+                {
+                    ID = Item_LineDTO.Item_SupportGroupDTO.ID,
+                    SupportGroupDTO = new SupportGroupDTO 
+                    {
+                        ID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID
+                    }
+                },
+                ManufactureSerialID = Item_LineDTO.ManufactureSerialID,
+                LegacyID = Item_LineDTO.LegacyID,
+                OwnerDTO = new UserDTO { Name = Item_LineDTO.OwnerDTO.Name},
+                BasePriceUSD = Item_LineDTO.BasePriceUSD,
+                StatusDTO = new StatusDTO { Name = Item_LineDTO.StatusDTO.Name },
+                StationDTO = new StationDTO { Name = Item_LineDTO.StationDTO.Name },
+                Comments = Item_LineDTO.Comments,
+                DeliveredToName = Item_LineDTO.DeliveredToName,
+                AddedByID = Item_LineDTO.AddedByID,
+                AddedDate = DateTime.Now,
+                IsActive = true
+            };
+
+            // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
+            if (_item_LineDTO.Item_HeaderDTO.ID == null || _item_LineDTO.Item_HeaderDTO.ID == 0 ||
+                _item_LineDTO.Item_SupportGroupDTO.ID == null || _item_LineDTO.Item_SupportGroupDTO.ID == 0 ||
+                _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID == null || _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID == 0 ||
+                _item_LineDTO.BasePriceUSD < 0.0f)
+                isSucces = false;
+
+            // If it meets all the validations, it saves it in GoodRowLinesList else
+            if (isSucces)
+                _excelRowDTO.GoodRowLinesList.Add(_item_LineDTO);
+            else // If not save it BadRowLinesList
+                _excelRowDTO.BadRowLinesList.Add(_item_LineDTO);
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw ex;
+        }
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    public static ValidationResultDTO ExcelItem_LineInformation_Validation(ExcelRowDTO ExcelRowDTO)
+    {
+        var _excelRowDTO = new ExcelRowDTO
+        {
+            GoodRowLinesList = new List<Item_LineDTO>(),
+            BadRowLinesList = new List<Item_LineDTO>()
+        };
+        var _validationResultDTO = new ValidationResultDTO
+        {
+            Description = "The file has the correct format."
+        };
+
+        try
+        {
+            // We have to declare the type of the list, because GoodRowLinesList is a dynamic type
+            // This list contains the Item_Line that passed the first validation
+            var _Item_LineDTOList = (List<Item_LineDTO>)ExcelRowDTO.GoodRowLinesList;
+            // We add the previous Item_Line that did not pass the first validation
+            _excelRowDTO.BadRowLinesList.AddRange(ExcelRowDTO.BadRowLinesList);
+            // If it does not contain data, return _validationResultDTO with _excelRowDTO
+            if (_Item_LineDTOList.Count <= 0)
+            {
+                _validationResultDTO.Data = _excelRowDTO;
+                return _validationResultDTO;
+            }
+
+            // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
+            var _ownerDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.OwnerDTO.Name.ToLower()).Distinct().ToArray() };
+            var _stationDTO = new StationDTO { StationNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StationDTO.Name.ToLower()).Distinct().ToArray() };
+            var _statusDTO = new StatusDTO { StatusNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StatusDTO.Name.ToLower()).Distinct().ToArray() };
+            var _deliveredToDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.DeliveredToName.ToLower()).Distinct().ToArray() };
+
+            // We send the DTOs to the gets so that it brings the data from the db if it exists
+            var _ownerList = User_Service.GetUserList_Global(_ownerDTO);
+            var _stationList = Station_Service.GetStationList_Global(_stationDTO);
+            var _statusList = Status_Service.GetStatusList_Global(_statusDTO);
+            var _deliveredToList = User_Service.GetUserList_Global(_deliveredToDTO);
+
+            // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
+            var _ownerDict = _ownerList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
+            var _stationDict = _stationList.ToDictionary(StationDTO => StationDTO.Name.ToLower(), StationDTO => (int?)StationDTO.ID);
+            var _statusDict = _statusList.ToDictionary(StatusDTO => StatusDTO.Name.ToLower(), StatusDTO => (int?)StatusDTO.ID);
+            var _deliveredToDict = _deliveredToList.ToDictionary(UserDTO => UserDTO.Name.ToLower(), UserDTO => (int?)UserDTO.ID);
+
+            foreach (var Item_LineDTO in _Item_LineDTOList)
+            {
+                bool isSuccess = true;
+
+                // we use TryGetValue to try to get the Item_Line associated with the key from the dictionary,
+                // If the Item_Line of DeliveredToName is found, it is assigned with the corresponding Item_Line (ID) from the dictionary.
+                // 'out' keyword indicates that DeliveredToName is an output parameter, if the name is not found, save the error message.
+                if (_ownerDict.TryGetValue(Item_LineDTO.OwnerDTO.Name.ToLower(), out int? OwnerID)) Item_LineDTO.OwnerDTO.ID = OwnerID;
+                if (_stationDict.TryGetValue(Item_LineDTO.StationDTO.Name.ToLower(), out int? StationID)) Item_LineDTO.StationDTO.ID = StationID;
+                if (_statusDict.TryGetValue(Item_LineDTO.StatusDTO.Name.ToLower(), out int? StatusID)) Item_LineDTO.StatusDTO.ID = StatusID;
+                if (_deliveredToDict.TryGetValue(Item_LineDTO.DeliveredToName.ToLower(), out int? DeliveredToID)) Item_LineDTO.DeliveredToID = DeliveredToID;
+
+                if (isSuccess)
+                {
+                    Item_LineDTO.ID = null;
+                    _excelRowDTO.GoodRowLinesList.Add(Item_LineDTO);
+                }
+                else _excelRowDTO.BadRowLinesList.Add(Item_LineDTO);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorSignal.FromCurrentContext().Raise(ex);
+            _validationResultDTO.Result = true;
+            _validationResultDTO.Message = "Success";
+            _validationResultDTO.Description = "The file was read successfully";
+            throw;
+        }
+        // We have to declare the type of the list, because BadRowLinesList is a dynamic type
+        // Before sending the list, we have to sort it by ID
+        var _badRowLinesList = (List<Item_LineDTO>)_excelRowDTO.BadRowLinesList;
+        _excelRowDTO.BadRowLinesList = _badRowLinesList.OrderBy(Item_LineDTO => Item_LineDTO.ID).ToList();
+        _validationResultDTO.Data = _excelRowDTO;
+        return _validationResultDTO;
+    }
+    #endregion
+
 }
