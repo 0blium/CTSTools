@@ -125,7 +125,7 @@ async function InitializeSupportGroupCatalogControls() {
                 },
                 {
                     caption: "Name",
-                    dataField: "EnglishName"
+                    dataField: "Name"
                 },
                 {
                     caption: "Description",
@@ -215,14 +215,14 @@ function ClearSupportGroupFields() {
 async function PopulateSupportGroupFields(data) {
     $('#hiddenSupportGroupID').val(data.ID);
     $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
-    $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", data.EnglishName);
+    $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", data.Name);
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     await $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
 }
 function GetSupportGroupDTO() {
     let _supportGroupDTO = {
         ID: $('#hiddenSupportGroupID').val(),
-        EnglishName: $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value"),
+        Name: $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value"),
         IsActive: $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value"),
         FacilityDTO: {

@@ -39,7 +39,7 @@ namespace CTSTools.BLL.Features.XPO
                     }
                     else
                     {
-                        if (!PagedDataDTO.SortPropertyName.StartsWith("Name") && PagedDataDTO.SortPropertyName.EndsWith("Name") && PagedDataDTO.SortPropertyName != "SupportGroup.EnglishName")
+                        if (!PagedDataDTO.SortPropertyName.StartsWith("Name") && PagedDataDTO.SortPropertyName.EndsWith("Name"))
                         {
                             PagedDataDTO.SortPropertyName = PagedDataDTO.SortPropertyName.Replace("Name", ".") + "Name";
                         }
@@ -462,7 +462,7 @@ namespace CTSTools.BLL.Features.XPO
             {
                 return FilterArray[position].ToString().Replace("DTO", "").Replace("Name", ".") + "Name";
             }
-            else if (!FilterArray[position].StartsWith("Name") && FilterArray[position].EndsWith("Name") && FilterArray[position] != "SupportGroup.EnglishName")
+            else if (!FilterArray[position].StartsWith("Name") && FilterArray[position].EndsWith("Name"))
             {
                 return FilterArray[position].ToString().Replace("Name", ".") + "Name";
             }

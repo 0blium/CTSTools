@@ -18,14 +18,14 @@ public class SupportGroup_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (string.IsNullOrEmpty(SupportGroupDTO.EnglishName))
+            if (string.IsNullOrEmpty(SupportGroupDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "EnglishName Field Empty",
+                    Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.EnglishName)}",
+                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.Name)}",
                 });
             }
             if (SupportGroupDTO.FacilityDTO.ID == null || SupportGroupDTO.FacilityDTO.ID == 0)
@@ -86,14 +86,14 @@ public class SupportGroup_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (string.IsNullOrEmpty(SupportGroupDTO.EnglishName))
+            if (string.IsNullOrEmpty(SupportGroupDTO.Name))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "EnglishName Field Empty",
+                    Message = "Name Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.EnglishName)}",
+                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.Name)}",
                 });
             }
             if (SupportGroupDTO.FacilityDTO.ID == null || SupportGroupDTO.FacilityDTO.ID == 0)

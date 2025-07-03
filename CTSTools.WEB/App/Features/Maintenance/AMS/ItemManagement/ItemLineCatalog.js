@@ -735,7 +735,7 @@ async function InitializeReassignSupportGroupModalControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains'
     });
 }

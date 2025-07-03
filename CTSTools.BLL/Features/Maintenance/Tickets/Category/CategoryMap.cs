@@ -21,7 +21,7 @@ public class CategoryMap
             _categoryDTO.ParentName = (CategoryXPO.Parent != null) ? CategoryXPO.Parent.Name : "Unnasigned";
             _categoryDTO.NameWithParent = (CategoryXPO.Parent != null) ? $"{CategoryXPO.Parent.Name} - {CategoryXPO.Name}" : $"{CategoryXPO.Name}";
             _categoryDTO.SupportGroupDTO.ID = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.Oid : 0;
-            _categoryDTO.SupportGroupDTO.EnglishName = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.EnglishName : "Unnassigned";
+            _categoryDTO.SupportGroupDTO.Name = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.Name : "Unnassigned";
             _categoryDTO.AddedDate = (CategoryXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? CategoryXPO.AddedDate : (DateTime?)null;
             _categoryDTO.AddedByID = (CategoryXPO.AddedBy != null) ? CategoryXPO.AddedBy.Oid : 0;
             _categoryDTO.AddedByName = (CategoryXPO.AddedBy != null) ? CategoryXPO.AddedBy.Name : "Unnassigned";

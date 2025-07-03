@@ -8,7 +8,7 @@ public class SupportGroupDTO
 {
     #region Base Properties
     public int? ID { get; set; }
-    public string EnglishName { get; set; }
+    public string Name { get; set; }
     public string Description { get; set; }
     public DateTime? AddedDate { get; set; }
     public int? AddedByID { get; set; }

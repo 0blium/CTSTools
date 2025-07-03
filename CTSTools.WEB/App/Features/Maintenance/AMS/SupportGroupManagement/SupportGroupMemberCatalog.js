@@ -50,7 +50,7 @@ async function InitializeSupportGroupMemberCatalogControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains'
     });
     $("#dxSupportGroupMemberUserSelectBox").dxSelectBox({
@@ -173,7 +173,7 @@ async function InitializeSupportGroupMemberCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     //groupIndex: 0
                 },
                 {

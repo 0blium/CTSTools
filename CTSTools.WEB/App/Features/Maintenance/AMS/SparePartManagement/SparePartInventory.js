@@ -174,7 +174,7 @@ async function InitializeSparePartIventoryControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     //groupIndex: 0
                 },
                 {
@@ -318,7 +318,7 @@ async function InitializeSparePartIventoryControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                 },
                 {
                     caption: "Minimum",
@@ -494,7 +494,7 @@ async function InitializeSparePartIventoryModalControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains'
     });
     $("#dxSparePartInventoryModalGrid").dxDataGrid({
@@ -986,7 +986,7 @@ async function InitializeSparePartLotControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                 },
                 {
                     caption: "Added By I D",

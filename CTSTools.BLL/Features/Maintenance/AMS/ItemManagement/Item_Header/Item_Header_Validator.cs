@@ -421,8 +421,8 @@ public class Item_Header_Validator
 
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _brandDict = _brandList.ToDictionary(BrandDTO => BrandDTO.Name.ToLower(), BrandDTO => (int?)BrandDTO.ID);
-            var _supportGroupDict = _supportGroupList.ToDictionary(SupportGroupDTO => SupportGroupDTO.EnglishName.ToLower(), SupportGroupDTO => (int?)SupportGroupDTO.ID);
-            var _supportGroupMemberDict = _supportGroupMemberList.ToDictionary(SupportGroupMemberDTO => SupportGroupMemberDTO.SupportGroupDTO.EnglishName.ToLower(), SupportGroupMemberDTO => (int?)SupportGroupMemberDTO.ID);
+            var _supportGroupDict = _supportGroupList.ToDictionary(SupportGroupDTO => SupportGroupDTO.Name.ToLower(), SupportGroupDTO => (int?)SupportGroupDTO.ID);
+            var _supportGroupMemberDict = _supportGroupMemberList.ToDictionary(SupportGroupMemberDTO => SupportGroupMemberDTO.SupportGroupDTO.Name.ToLower(), SupportGroupMemberDTO => (int?)SupportGroupMemberDTO.ID);
             var _subClassDict = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => SubClassDTO);
 
             foreach (var Item_HeaderDTO in _item_HeaderDTOList)

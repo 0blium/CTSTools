@@ -17,8 +17,8 @@ public class PriorityMap
             _priorityDTO.Name = PriorityXPO.Name;
             _priorityDTO.Description = PriorityXPO.Description;
             _priorityDTO.SupportGroupDTO.ID = (PriorityXPO.SupportGroup != null) ? PriorityXPO.SupportGroup.Oid : 0;
-            _priorityDTO.SupportGroupDTO.EnglishName = (PriorityXPO.SupportGroup != null) ? PriorityXPO.SupportGroup.EnglishName : "Unnassigned";
-            _priorityDTO.PriorityWithSupportGroup = (PriorityXPO.SupportGroup != null) ? $"{PriorityXPO.Name} - {PriorityXPO.SupportGroup.EnglishName}" : "Unnassigned";
+            _priorityDTO.SupportGroupDTO.Name = (PriorityXPO.SupportGroup != null) ? PriorityXPO.SupportGroup.Name : "Unnassigned";
+            _priorityDTO.PriorityWithSupportGroup = (PriorityXPO.SupportGroup != null) ? $"{PriorityXPO.Name} - {PriorityXPO.SupportGroup.Name}" : "Unnassigned";
             _priorityDTO.AddedDate = (PriorityXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? PriorityXPO.AddedDate : (DateTime?)null;
             _priorityDTO.AddedByID = (PriorityXPO.AddedBy != null) ? PriorityXPO.AddedBy.Oid : 0;
             _priorityDTO.AddedByName = (PriorityXPO.AddedBy != null) ? PriorityXPO.AddedBy.Name : "Unnassigned";

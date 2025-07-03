@@ -195,7 +195,7 @@ async function InitializeTicketControls() {
         deferRendering: false,
         searchEnabled: true,
         readOnly: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains',
         onValueChanged: async function (e) {
             if (e.value != 0 && e.value != null) {

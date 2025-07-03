@@ -16,11 +16,11 @@ public class SupportGroupXPO : XPObject
 
 
     // Default XPObject (VC)
-    string fEnglishName;
-    public string EnglishName
+    string fName;
+    public string Name
     {
-        get { return fEnglishName; }
-        set { SetPropertyValue<string>(nameof(EnglishName), ref fEnglishName, value); }
+        get { return fName; }
+        set { SetPropertyValue<string>(nameof(Name), ref fName, value); }
     }
     string fDescription;
     public string Description

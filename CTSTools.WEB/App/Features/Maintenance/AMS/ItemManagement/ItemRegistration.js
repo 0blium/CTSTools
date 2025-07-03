@@ -238,7 +238,7 @@ async function InitializeItemTypeControls() {
                 },
                 {
                     caption: "Name",
-                    dataField: "EnglishName"
+                    dataField: "Name"
                 },
                 {
                     caption: "Model",
@@ -250,7 +250,7 @@ async function InitializeItemTypeControls() {
                 },
                 {
                     caption: "Classification Name",
-                    dataField: "ItemClassificationDTO.EnglishName",
+                    dataField: "ItemClassificationDTO.Name",
                 },
                 {
                     caption: "Is Active?",
@@ -315,7 +315,7 @@ async function InitializeItemTypeControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains'
     });
     $("#dxItem_HeaderIsESDCheckBox").dxCheckBox({
@@ -658,7 +658,7 @@ async function MasterDetailTemplate(container, masterDetailOptions) {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "Item_SupportGroupDTO.SupportGroupDTO.EnglishName"
+                    dataField: "Item_SupportGroupDTO.SupportGroupDTO.Name"
                 },
 
                 {

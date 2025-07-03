@@ -17,7 +17,7 @@ public class SupportGroup_DXFilter
             if (SupportGroupDTO.SupportGroupIDArray != null && SupportGroupDTO.SupportGroupIDArray.Count() > 0)
                 _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.Oid), SupportGroupDTO.SupportGroupIDArray));
             if (SupportGroupDTO.SupportGroupNameArray != null && SupportGroupDTO.SupportGroupNameArray.Count() > 0)
-                _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.EnglishName), SupportGroupDTO.SupportGroupNameArray));
+                _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupXPO.Name), SupportGroupDTO.SupportGroupNameArray));
             if (SupportGroupDTO.FacilityDTO.ID != null || SupportGroupDTO.FacilityDTO.ID > 0)
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupXPO.Facility), SupportGroupDTO.FacilityDTO.ID));
             if (SupportGroupDTO.FacilityIDArray != null && SupportGroupDTO.FacilityIDArray.Count() > 0)

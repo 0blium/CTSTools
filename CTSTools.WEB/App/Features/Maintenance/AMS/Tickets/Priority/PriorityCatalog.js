@@ -58,7 +58,7 @@ async function InitializePriorityCatalogControls() {
         displayExpr: "Names",
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains'
     });
     $("#dxPriorityGrid").dxDataGrid({
@@ -161,7 +161,7 @@ async function InitializePriorityCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     //groupIndex: 0
                 },
                 {

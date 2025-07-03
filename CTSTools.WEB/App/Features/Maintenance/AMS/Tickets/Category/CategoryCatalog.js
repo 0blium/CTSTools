@@ -73,7 +73,7 @@ async function InitializeCategoryCatalogControls() {
         deferRendering: false,
         searchEnabled: true,
         readOnly: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains',
         onValueChanged: async function (e) {
             if (e.value != 0 && e.value != null) {
@@ -219,7 +219,7 @@ async function InitializeCategoryCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     //groupIndex: 0
                 },
                 {
@@ -522,7 +522,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     //groupIndex: 0
                     visible: false
                 },
@@ -699,7 +699,7 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     //groupIndex: 0
                     visible: false
                 },

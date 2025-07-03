@@ -43,7 +43,7 @@ public class TicketDTO
     public string CategoryName { get; set; }
     public int? SupportGroupID { get; set; }
     public int? Item_LineID { get; set; }
-    public string SupportGroupEnglishName { get; set; }
+    public string SupportGroupName { get; set; }
     public int? ClosedByID { get; set; }
     public string ClosedByName { get; set; }
     public int? SubCategoryID { get; set; }

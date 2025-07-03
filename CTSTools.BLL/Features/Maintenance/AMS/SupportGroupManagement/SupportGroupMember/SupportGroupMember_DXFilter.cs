@@ -30,7 +30,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                }
                 if (SupportGroupMemberDTO.SupportGroupNameArray != null && SupportGroupMemberDTO.SupportGroupNameArray.Count() > 0) 
                 {
-                    _groupOperator.Operands.Add(new InOperator("SupportGroup.EnglishName", SupportGroupMemberDTO.SupportGroupNameArray));
+                    _groupOperator.Operands.Add(new InOperator("SupportGroup.Name", SupportGroupMemberDTO.SupportGroupNameArray));
                 }
                 if ( SupportGroupMemberDTO.UserDTO.ID != null || SupportGroupMemberDTO.UserDTO.ID > 0)
                {

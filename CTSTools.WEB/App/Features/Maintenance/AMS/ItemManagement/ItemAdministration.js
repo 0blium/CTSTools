@@ -313,7 +313,7 @@ async function InitializeItemAdministrationCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName",
+                    dataField: "SupportGroupDTO.Name",
                     alignment: "center",
                 },
                 {
@@ -1528,7 +1528,7 @@ async function InitializeUserDefinedControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.EnglishName"
+                    dataField: "SupportGroupDTO.Name"
                 },
                 {
                     caption: "Name",
@@ -2007,7 +2007,7 @@ async function InitializeReassignSupportGroupModalControls() {
         deferRendering: false,
         readOnly: true,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains'
     });
 }
@@ -2079,7 +2079,7 @@ async function InitializeItem_SupportGroupControls() {
         readOnly: false,
         deferRendering: false,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: 'contains',
         onSelectionChanged: async function (data) {
             if (data.selectedItem != null) {

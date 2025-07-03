@@ -45,7 +45,7 @@ public class TicketMap
             _ticketDTO.ThirdLevelCategoryID = (TicketXPO.ThirdLevelCategory != null) ? TicketXPO.ThirdLevelCategory.Oid : 0;
             _ticketDTO.ThirdLevelCategoryName = (TicketXPO.ThirdLevelCategory != null) ? TicketXPO.ThirdLevelCategory.Name : "Unnassigned";
             _ticketDTO.SupportGroupID = (TicketXPO.SupportGroup != null) ? TicketXPO.SupportGroup.Oid : 0;
-            _ticketDTO.SupportGroupEnglishName = (TicketXPO.SupportGroup != null) ? TicketXPO.SupportGroup.EnglishName : "Unnassigned";
+            _ticketDTO.SupportGroupName = (TicketXPO.SupportGroup != null) ? TicketXPO.SupportGroup.Name : "Unnassigned";
             _ticketDTO.AddedDate = (TicketXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? TicketXPO.AddedDate : (DateTime?)null;
             _ticketDTO.ClosedByID = (TicketXPO.ClosedBy != null) ? TicketXPO.ClosedBy.Oid : 0;
             _ticketDTO.ClosedByName = (TicketXPO.ClosedBy != null) ? TicketXPO.ClosedBy.Name : "Unnassigned";

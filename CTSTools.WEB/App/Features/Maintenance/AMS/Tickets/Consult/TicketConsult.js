@@ -85,11 +85,11 @@ async function InitializeTicketConsultControls() {
     });
     $("#dxTicketSupportGroupTagBox").dxTagBox({
         dataSource: await GetDXSupportGroupDataSource({ IsActive: true }),
-        displayExpr: "EnglishName",
+        displayExpr: "Name",
         valueExpr: "ID",
         showSelectionControls: true,
         searchEnabled: true,
-        searchExpr: ["EnglishName"],
+        searchExpr: ["Name"],
         searchMode: "contains",
         popupWidth: 450,
         deferRendering: false,
@@ -238,7 +238,7 @@ async function InitializeTicketConsultControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupEnglishName",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                 },
                 {
@@ -434,9 +434,9 @@ async function BuildFilterAppliedToTicketDataGrid() {
         _supportGroupSelected.forEach(function (item, index, arr) {
             _supportGroupCounter++;
             if (index > 0) {
-                _supportGroupApply += ", " + item.EnglishName;
+                _supportGroupApply += ", " + item.Name;
             } else {
-                _supportGroupApply += item.EnglishName;
+                _supportGroupApply += item.Name;
             }
             if (_supportGroupCounter == 5 || index == arr.length - 1) {
                 _filterSection.innerHTML += "<div class=\"ms-2 bg-filter text-white rounded-5 mb-1 p-1 px-3\"> <i class=\"fas fa-user-group me-2 text-white\"></i>Support Group as " + _supportGroupApply + "</div>";
