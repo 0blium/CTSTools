@@ -15,16 +15,11 @@ public class Item_SupportGroupController : ApiController
     [Route("api/Item_SupportGroup/GetPagedList")]
     public IHttpActionResult Get(DataSourceLoadOptions loadOptions, [FromUri] Item_SupportGroupDTO Item_SupportGroupDTO)
     {
-        // Asigna los filtros de DevExtreme, pero eliminando "DTO" de los nombres de campos
-        var _dxFilter = loadOptions.Filter?
-            .Cast<object>() // Convierte IList a IEnumerable<object> para usar LINQ
-            .Select(f => f is string str ? str.Replace("DTO", "") : f) // Si es string, quita "DTO"
-            .ToList(); // Convierte de nuevo a List (que implementa IList)
         var _pagedItem_SupportGroupDTO = new PagedResultDTO<Item_SupportGroupDTO>()
         {
             Skip = loadOptions.Skip,
             Take = loadOptions.Take,
-            dxFilters = _dxFilter,
+            dxFilters = loadOptions.Filter,
             SortDescending = loadOptions.Sort?[0]?.Desc,
             SortPropertyName = loadOptions.Sort?[0].Selector.Replace("DTO", ""),
             Filter = Item_SupportGroupDTO

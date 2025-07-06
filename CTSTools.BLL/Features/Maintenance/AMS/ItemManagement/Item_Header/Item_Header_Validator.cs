@@ -410,7 +410,7 @@ public class Item_Header_Validator
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
             var _brandDTO = new BrandDTO { BrandNameArray = _item_HeaderDTOList.Select(Item_HeaderDTO => Item_HeaderDTO.BrandName.ToLower()).Distinct().ToArray() };
             var _supportGroupDTO = new SupportGroupDTO { SupportGroupNameArray = _item_HeaderDTOList.Select(Item_HeaderDTO => Item_HeaderDTO.SupportGroupName.ToLower()).Distinct().ToArray() };
-            var _supportGroupMemberDTO = new SupportGroupMemberDTO { SupportGroupNameArray = _item_HeaderDTOList.Select(Item_HeaderDTO => Item_HeaderDTO.SupportGroupName.ToLower()).Distinct().ToArray(), UserDTO = new UserDTO { ID = _item_HeaderDTOList.FirstOrDefault().AddedByID } };
+            var _supportGroupMemberDTO = new SupportGroupMemberDTO { SupportGroupNameArray = _item_HeaderDTOList.Select(Item_HeaderDTO => Item_HeaderDTO.SupportGroupName.ToLower()).Distinct().ToArray(), UserID = _item_HeaderDTOList.FirstOrDefault().AddedByID };
             var _subClassDTO = new SubClassDTO { SubClassNameArray = _item_HeaderDTOList.Select(Item_HeaderDTO => Item_HeaderDTO.SubClassName.ToLower()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
@@ -422,7 +422,7 @@ public class Item_Header_Validator
             // We create the dictionary (key, value), where the key will be the name in lowercase and the value is the ID
             var _brandDict = _brandList.ToDictionary(BrandDTO => BrandDTO.Name.ToLower(), BrandDTO => (int?)BrandDTO.ID);
             var _supportGroupDict = _supportGroupList.ToDictionary(SupportGroupDTO => SupportGroupDTO.Name.ToLower(), SupportGroupDTO => (int?)SupportGroupDTO.ID);
-            var _supportGroupMemberDict = _supportGroupMemberList.ToDictionary(SupportGroupMemberDTO => SupportGroupMemberDTO.SupportGroupDTO.Name.ToLower(), SupportGroupMemberDTO => (int?)SupportGroupMemberDTO.ID);
+            var _supportGroupMemberDict = _supportGroupMemberList.ToDictionary(SupportGroupMemberDTO => SupportGroupMemberDTO.SupportGroupName.ToLower(), SupportGroupMemberDTO => (int?)SupportGroupMemberDTO.ID);
             var _subClassDict = _subClassList.ToDictionary(SubClassDTO => SubClassDTO.Name.ToLower(), SubClassDTO => SubClassDTO);
 
             foreach (var Item_HeaderDTO in _item_HeaderDTOList)

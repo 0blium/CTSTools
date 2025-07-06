@@ -48,7 +48,7 @@ public class Item_SupportGroup_Service
         var _previousItem_SupportGroupDTO = GetItem_SupportGroupList_Global(new Item_SupportGroupDTO { ID = Item_SupportGroupDTO.ID }).FirstOrDefault();
         if (_ValidationResultDTO.Result)
         {
-            var _userDefinedTemplateList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_SupportGroupDTO = Item_SupportGroupDTO });
+            var _userDefinedTemplateList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { Item_SupportGroupID = Item_SupportGroupDTO.ID });
             if (_userDefinedTemplateList != null)
             {
                 foreach (var _userdefinedDTO in _userDefinedTemplateList)
@@ -83,7 +83,6 @@ public class Item_SupportGroup_Service
                 return _item_supportgroupglobalList;
             }
             _item_supportgroupglobalList = GetItem_SupportGroupRelatedData(Item_SupportGroupDTO, _item_supportgroupList);
-
         }
         catch (Exception ex)
         {

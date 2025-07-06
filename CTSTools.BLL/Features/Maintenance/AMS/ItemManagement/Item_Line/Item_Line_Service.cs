@@ -49,7 +49,7 @@ public class Item_Line_Service
         {
             foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
             {
-                _userDefinedValueDTO.Item_LineDTO = Item_LineDTO;
+                _userDefinedValueDTO.Item_LineID = Item_LineDTO.ID;
                 _userDefinedValueDTO.AddedByID = Item_LineDTO.AddedByID;
                 _validationResultDTO = UserDefinedValue_Service.CreateUserDefinedValue_Global(_userDefinedValueDTO);
             }
@@ -99,7 +99,7 @@ public class Item_Line_Service
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     //Set item line ID and Added by for each useer defined value 
-                    _userDefinedValueDTO.Item_LineDTO = Item_LineDTO;
+                    _userDefinedValueDTO.Item_LineID = Item_LineDTO.ID;
                     //get userDefineValueOldDTO record
 
                     var _userDefinedValueOldDTO = UserDefinedValue_Service.GetUserDefinedValueList_Global(_userDefinedValueDTO).FirstOrDefault();
@@ -116,8 +116,6 @@ public class Item_Line_Service
                         _userDefinedValueDTO.AddedByID = Item_LineDTO.LastUpdateByID;
                         _ValidationResultDTO = UserDefinedValue_Service.CreateUserDefinedValue_Global(_userDefinedValueDTO);
                     }
-
-
                 }
             }
 
@@ -195,7 +193,7 @@ public class Item_Line_Service
         {
             if (Item_LineDTO.GetItem_HeaderDTO)
             {
-                Item_LineDTO.Item_HeaderDTO.Item_HeaderIDArray = Item_LineList.GroupBy(g => g.Item_HeaderDTO.ID)
+                Item_LineDTO.Item_HeaderDTO.Item_HeaderIDArray = Item_LineList.GroupBy(g => g.Item_HeaderID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -204,7 +202,7 @@ public class Item_Line_Service
             }
             if (Item_LineDTO.GetStatusDTO)
             {
-                Item_LineDTO.StatusDTO.StatusIDArray = Item_LineList.GroupBy(g => g.StatusDTO.ID)
+                Item_LineDTO.StatusDTO.StatusIDArray = Item_LineList.GroupBy(g => g.StatusID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -213,7 +211,7 @@ public class Item_Line_Service
             }
             if (Item_LineDTO.GetItem_SupportGroupDTO)
             {
-                Item_LineDTO.Item_SupportGroupDTO.Item_SupportGroupIDArray = Item_LineList.GroupBy(g => g.Item_SupportGroupDTO.ID)
+                Item_LineDTO.Item_SupportGroupDTO.Item_SupportGroupIDArray = Item_LineList.GroupBy(g => g.Item_SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -222,7 +220,7 @@ public class Item_Line_Service
             }
             if (Item_LineDTO.GetStationDTO)
             {
-                Item_LineDTO.StationDTO.StationIDArray = Item_LineList.GroupBy(g => g.StationDTO.ID)
+                Item_LineDTO.StationDTO.StationIDArray = Item_LineList.GroupBy(g => g.StationID)
                         .Select(s => s.Key)
                         .ToArray();
                 _stationDict = Station_Service.GetStationList_Global(Item_LineDTO.StationDTO)
@@ -230,26 +228,22 @@ public class Item_Line_Service
             }
             foreach (var _item_lineDTO in Item_LineList)
             {
-                if (Item_LineDTO.GetItem_HeaderDTO && _item_headerDict.ContainsKey(_item_lineDTO.Item_HeaderDTO.ID))
+                if (Item_LineDTO.GetItem_HeaderDTO && _item_headerDict.ContainsKey(_item_lineDTO.Item_HeaderID))
                 {
-                    _item_lineDTO.Item_HeaderDTO = _item_headerDict[_item_lineDTO.Item_HeaderDTO.ID];
+                    _item_lineDTO.Item_HeaderDTO = _item_headerDict[_item_lineDTO.Item_HeaderID];
                 }
-                if (Item_LineDTO.GetStatusDTO && _statusDict.ContainsKey(_item_lineDTO.StatusDTO.ID))
+                if (Item_LineDTO.GetStatusDTO && _statusDict.ContainsKey(_item_lineDTO.StatusID))
                 {
-                    _item_lineDTO.StatusDTO = _statusDict[_item_lineDTO.StatusDTO.ID];
+                    _item_lineDTO.StatusDTO = _statusDict[_item_lineDTO.StatusID];
                 }
-                if (Item_LineDTO.GetStationDTO && _stationDict.ContainsKey(_item_lineDTO.StationDTO.ID))
+                if (Item_LineDTO.GetStationDTO && _stationDict.ContainsKey(_item_lineDTO.StationID))
                 {
-                    _item_lineDTO.StationDTO = _stationDict[_item_lineDTO.StationDTO.ID];
+                    _item_lineDTO.StationDTO = _stationDict[_item_lineDTO.StationID];
                 }
-                if (Item_LineDTO.GetItem_SupportGroupDTO && _item_supportgroupDict.ContainsKey(_item_lineDTO.Item_SupportGroupDTO.ID))
+                if (Item_LineDTO.GetItem_SupportGroupDTO && _item_supportgroupDict.ContainsKey(_item_lineDTO.Item_SupportGroupID))
                 {
-                    _item_lineDTO.Item_SupportGroupDTO = _item_supportgroupDict[_item_lineDTO.Item_SupportGroupDTO.ID];
+                    _item_lineDTO.Item_SupportGroupDTO = _item_supportgroupDict[_item_lineDTO.Item_SupportGroupID];
                 }
-                //if (Item_LineDTO.GetFileList)
-                //{
-                //    _item_lineDTO.FileList = Item_Line_Service.GetItem_LineFileList(_item_lineDTO);
-                //}
                 _item_lineglobalList.Add(_item_lineDTO);
             }
 
@@ -335,32 +329,6 @@ public class Item_Line_Service
         return _validationResultDTO;
 
     }
-    //public static ValidationResultDTO GetSerialSecuenceForItem(Item_LineDTO Item_LineDTO)
-    //{
-    //    var _validationResultDTO = new ValidationResultDTO() { Result = false };
-    //    try
-    //    {
-    //        var _itemSerial = string.Empty;
-    //        while (_validationResultDTO.Result == false)
-    //        {
-    //            _itemSerial = string.Format("AMS{0}", AssetManagementSQL.GetItemLineSerial());
-    //            var _item_LineDTO = GetItem_LineList_Global(new Item_LineDTO { Serial = _itemSerial }).FirstOrDefault();
-    //            if (_item_LineDTO == null)
-    //            {
-    //                _validationResultDTO.Result = true;
-    //            }
-    //        }
-    //        Item_LineDTO.Serial = _itemSerial;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        ErrorSignal.FromCurrentContext().Raise(ex);
-    //        _validationResultDTO.Result = false;
-    //        _validationResultDTO.Message = "Error!";
-    //        _validationResultDTO.Description = string.Format("Ha ocurrido un error. {0}", ex.Message);
-    //    }
-    //    return _validationResultDTO;
-    //}
 
     public static List<IDictionary<string, Object>> GetItem_LineWithUserDefined(Item_LineDTO Item_LineDTO)
     {
@@ -370,10 +338,10 @@ public class Item_Line_Service
         {
             _userDefinedList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO
             {
-                Item_HeaderID = Item_LineDTO.Item_HeaderDTO.ID,
+                Item_HeaderID = Item_LineDTO.Item_HeaderID,
                 GetUserDefinedDTO = true
             }).Select(s => s.UserDefinedDTO).ToList();
-            var _item_lineList = GetItem_LineList_Global(new Item_LineDTO { Item_SupportGroupDTO = Item_LineDTO.Item_SupportGroupDTO, GetItem_SupportGroupDTO = true, IsActive = true });
+            var _item_lineList = GetItem_LineList_Global(new Item_LineDTO { Item_SupportGroupID = Item_LineDTO.Item_SupportGroupID, GetItem_SupportGroupDTO = true, IsActive = true });
             if (_item_lineList.Count() > 0)
             {
                 foreach (var _item_lineDTO in _item_lineList)
@@ -384,32 +352,29 @@ public class Item_Line_Service
                     properties.Add(nameof(_item_lineDTO.LegacyID), _item_lineDTO.LegacyID);
                     properties.Add(nameof(_item_lineDTO.Serial), _item_lineDTO.Serial);
                     properties.Add(nameof(_item_lineDTO.IsActive), _item_lineDTO.IsActive);
-                    properties.Add(nameof(Item_LineXPO.Owner), _item_lineDTO.OwnerDTO.Name);
-                    properties.Add(nameof(Item_LineXPO.SupplyType), _item_lineDTO.SupplyTypeDTO.Name);
-                    properties.Add($"{nameof(_item_lineDTO.SupplyTypeDTO)}{nameof(_item_lineDTO.SupplyTypeDTO.ID)}", _item_lineDTO.SupplyTypeDTO.ID);
+                    properties.Add(nameof(Item_LineXPO.Owner), _item_lineDTO.OwnerName);
+                    properties.Add(nameof(Item_LineXPO.SupplyType), _item_lineDTO.SupplyTypeName);
+                    properties.Add(nameof(_item_lineDTO.SupplyTypeID), _item_lineDTO.SupplyTypeID);
                     properties.Add(nameof(_item_lineDTO.BasePriceUSD), _item_lineDTO.BasePriceUSD);
-                    properties.Add(nameof(Item_LineXPO.Station), _item_lineDTO.StationDTO.Name);
-                    properties.Add($"{nameof(_item_lineDTO.StationDTO)}{nameof(_item_lineDTO.StationDTO.ID)}", _item_lineDTO.StationDTO.ID);
+                    properties.Add(nameof(Item_LineXPO.Station), _item_lineDTO.StationName);
+                    properties.Add(nameof(_item_lineDTO.StationID), _item_lineDTO.StationID);
                     properties.Add(nameof(_item_lineDTO.Comments), _item_lineDTO.Comments);
-                    //properties.Add(nameof(Item_LineXPO.TransactionOrigin), _item_lineDTO.TransactionOriginDTO.Name);
-                    //properties.Add(nameof(_item_lineDTO.TransactionNumber), _item_lineDTO.TransactionNumber);
-                    //properties.Add(nameof(_item_lineDTO.TransactionLine), _item_lineDTO.TransactionLine);
-                    properties.Add($"{nameof(_item_lineDTO.OwnerDTO)}{nameof(_item_lineDTO.OwnerDTO.ID)}", _item_lineDTO.OwnerDTO.ID);
-                    properties.Add($"{nameof(_item_lineDTO.Item_SupportGroupDTO.SupportGroupDTO)}{nameof(_item_lineDTO.Item_HeaderDTO.ID)}", _item_lineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID);
-                    properties.Add($"{nameof(_item_lineDTO.Item_SupportGroupDTO)}{nameof(_item_lineDTO.Item_SupportGroupDTO.ID)}", _item_lineDTO.Item_SupportGroupDTO.ID);
-                    properties.Add(nameof(Item_LineXPO.Status), _item_lineDTO.StatusDTO.Name);
-                    properties.Add($"{nameof(_item_lineDTO.StatusDTO)}{nameof(_item_lineDTO.StatusDTO.ID)}", _item_lineDTO.StatusDTO.ID);
+                    properties.Add(nameof(_item_lineDTO.OwnerID), _item_lineDTO.OwnerID);
+                    properties.Add(nameof(_item_lineDTO.Item_SupportGroupDTO.SupportGroupID), _item_lineDTO.Item_SupportGroupDTO.SupportGroupID);
+                    properties.Add(nameof(_item_lineDTO.Item_SupportGroupID), _item_lineDTO.Item_SupportGroupID);
+                    properties.Add(nameof(Item_LineXPO.Status), _item_lineDTO.StatusName);
+                    properties.Add(nameof(_item_lineDTO.StatusID), _item_lineDTO.StatusID);
                     properties.Add(nameof(Item_LineXPO.PONumber), _item_lineDTO.PONumber);
                     properties.Add(nameof(Item_LineXPO.POLine), _item_lineDTO.POLine);
                     properties.Add(nameof(Item_LineXPO.ImportInvoice), _item_lineDTO.ImportInvoice);
                     properties.Add(nameof(Item_LineXPO.ImportInvoiceLine), _item_lineDTO.ImportInvoiceLine);
                     properties.Add(nameof(Item_LineXPO.DeclarationNumber), _item_lineDTO.DeclarationNumber);
                     properties.Add(nameof(Item_LineXPO.ShipmentReceiptNumber), _item_lineDTO.ShipmentReceiptNumber);
-                    properties.Add($"{nameof(_item_lineDTO.Item_HeaderDTO)}{nameof(_item_lineDTO.Item_HeaderDTO.ID)}", _item_lineDTO.Item_HeaderDTO.ID);
+                    properties.Add(nameof(_item_lineDTO.Item_HeaderID), _item_lineDTO.Item_HeaderID);
                     properties.Add(nameof(Item_LineXPO.AddedBy), _item_lineDTO.AddedByName);
                     properties.Add(nameof(_item_lineDTO.AddedDate), _item_lineDTO.AddedDate);
                     properties.Add(nameof(Item_LineXPO.LastUpdateBy), _item_lineDTO.LastUpdateByName);
-                    properties.Add("DeliveredToDTOID", _item_lineDTO.DeliveredToID);
+                    properties.Add("DeliveredToID", _item_lineDTO.DeliveredToID);
                     properties.Add(nameof(Item_LineXPO.DeliveredTo), _item_lineDTO.DeliveredToName);
                     properties.Add(nameof(_item_lineDTO.DeliveredDate), _item_lineDTO.DeliveredDate);
 
@@ -417,8 +382,8 @@ public class Item_Line_Service
                     {
                         var _userDefinedValueDTO = UserDefinedValue_Service.GetUserDefinedValueList_Global(new UserDefinedValueDTO
                         {
-                            UserDefinedDTO = _userdefinedDTO,
-                            Item_LineDTO = _item_lineDTO
+                            UserDefinedID = _userdefinedDTO.ID,
+                            Item_LineID = _item_lineDTO.ID
                         }).FirstOrDefault();
 
                         properties.Add(_userdefinedDTO.Name, (_userDefinedValueDTO is null) ? string.Empty : _userDefinedValueDTO.Value);
@@ -440,16 +405,12 @@ public class Item_Line_Service
         var _userDefinedList = new List<UserDefinedDTO>();
         try
         {
-            var _item_lineList = GetItem_LineList_Global(new Item_LineDTO { StationDTO = Item_LineDTO.StationDTO, GetItem_SupportGroupDTO = true, IsActive = true });
-
-            var _item_SupportGroupIDArray = _item_lineList.Select(s => s.Item_SupportGroupDTO.ID).ToArray();
+            var _item_lineList = GetItem_LineList_Global(new Item_LineDTO { StationID = Item_LineDTO.StationID, GetItem_SupportGroupDTO = true, IsActive = true });
+            var _item_SupportGroupIDArray = _item_lineList.Select(s => s.Item_SupportGroupID).ToArray();
 
             _userDefinedList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO
             { Item_SupportGroupIDArray = _item_SupportGroupIDArray, GetUserDefinedDTO = true }).Select(s => s.UserDefinedDTO).ToList();
-
-
             _userDefinedList = _userDefinedList.GroupBy(g => g.ID).Select(s => s.First()).ToList();
-
 
             if (_item_lineList.Count() > 0)
             {
@@ -457,30 +418,27 @@ public class Item_Line_Service
                 {
                     var properties = new ExpandoObject() as IDictionary<string, Object>;
                     properties.Add(nameof(_item_lineDTO.ID), _item_lineDTO.ID);
-                    //properties.Add($"{nameof(Item_LineXPO.Item_Header)}{nameof(_item_lineDTO.Item_HeaderDTO.EnglishName)}", _item_lineDTO.Item_HeaderDTO.EnglishName);
                     properties.Add(nameof(_item_lineDTO.ManufactureSerialID), _item_lineDTO.ManufactureSerialID);
                     properties.Add(nameof(_item_lineDTO.LegacyID), _item_lineDTO.LegacyID);
                     properties.Add(nameof(_item_lineDTO.Serial), _item_lineDTO.Serial);
                     properties.Add(nameof(_item_lineDTO.BasePriceUSD), _item_lineDTO.BasePriceUSD);
-                    //properties.Add(nameof(Item_LineXPO.TransactionOrigin), _item_lineDTO.TransactionOriginDTO.Name);
-                    //properties.Add(nameof(_item_lineDTO.TransactionNumber), _item_lineDTO.TransactionNumber);
-                    //properties.Add(nameof(_item_lineDTO.TransactionLine), _item_lineDTO.TransactionLine);
-                    properties.Add(nameof(Item_LineXPO.Owner), _item_lineDTO.OwnerDTO.Name);
-                    properties.Add($"{nameof(_item_lineDTO.OwnerDTO)}{nameof(_item_lineDTO.OwnerDTO.ID)}", _item_lineDTO.OwnerDTO.ID);
-                    properties.Add(nameof(Item_LineXPO.Status), _item_lineDTO.StatusDTO.Name);
-                    properties.Add(nameof(Item_LineXPO.SupplyType), _item_lineDTO.SupplyTypeDTO.Name);
-                    properties.Add($"{nameof(_item_lineDTO.SupplyTypeDTO)}{nameof(_item_lineDTO.SupplyTypeDTO.ID)}", _item_lineDTO.SupplyTypeDTO.ID); properties.Add(nameof(Item_LineXPO.Station), _item_lineDTO.StationDTO.Name);
+                    properties.Add(nameof(Item_LineXPO.Owner), _item_lineDTO.OwnerName);
+                    properties.Add(nameof(_item_lineDTO.OwnerID), _item_lineDTO.OwnerID);
+                    properties.Add(nameof(Item_LineXPO.Status), _item_lineDTO.StatusName);
+                    properties.Add(nameof(Item_LineXPO.SupplyType), _item_lineDTO.SupplyTypeName);
+                    properties.Add(nameof(_item_lineDTO.SupplyTypeID), _item_lineDTO.SupplyTypeID); 
+                    properties.Add(nameof(Item_LineXPO.Station), _item_lineDTO.StationName);
                     properties.Add(nameof(Item_LineXPO.ImportInvoice), _item_lineDTO.ImportInvoice);
                     properties.Add(nameof(Item_LineXPO.ImportInvoiceLine), _item_lineDTO.ImportInvoiceLine);
                     properties.Add(nameof(Item_LineXPO.DeclarationNumber), _item_lineDTO.DeclarationNumber);
                     properties.Add(nameof(Item_LineXPO.ShipmentReceiptNumber), _item_lineDTO.ShipmentReceiptNumber);
-                    properties.Add($"{nameof(_item_lineDTO.StationDTO)}{nameof(_item_lineDTO.StationDTO.ID)}", _item_lineDTO.StationDTO.ID);
-                    properties.Add($"{nameof(_item_lineDTO.Item_HeaderDTO)}{nameof(_item_lineDTO.Item_HeaderDTO.ID)}", _item_lineDTO.Item_HeaderDTO.ID);
-                    properties.Add($"{nameof(_item_lineDTO.Item_SupportGroupDTO.SupportGroupDTO)}{nameof(_item_lineDTO.Item_SupportGroupDTO.ID)}", _item_lineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID);
+                    properties.Add(nameof(_item_lineDTO.StationID), _item_lineDTO.StationID);
+                    properties.Add(nameof(_item_lineDTO.Item_HeaderID), _item_lineDTO.Item_HeaderID);
+                    properties.Add(nameof(_item_lineDTO.Item_SupportGroupDTO.SupportGroupID), _item_lineDTO.Item_SupportGroupDTO.SupportGroupID);
                     properties.Add(nameof(Item_LineXPO.AddedBy), _item_lineDTO.AddedByName);
                     properties.Add(nameof(Item_LineXPO.AddedDate), _item_lineDTO.AddedDate);
                     properties.Add(nameof(Item_LineXPO.LastUpdateBy), _item_lineDTO.LastUpdateByName);
-                    properties.Add("DeliveredToDTOID", _item_lineDTO.DeliveredToID);
+                    properties.Add("DeliveredToID", _item_lineDTO.DeliveredToID);
                     properties.Add(nameof(Item_LineXPO.DeliveredTo), _item_lineDTO.DeliveredToName);
                     properties.Add(nameof(Item_LineXPO.DeliveredDate), _item_lineDTO.DeliveredDate);
 
@@ -488,8 +446,8 @@ public class Item_Line_Service
                     {
                         var _userDefinedValueDTO = UserDefinedValue_Service.GetUserDefinedValueList_Global(new UserDefinedValueDTO
                         {
-                            UserDefinedDTO = _userdefinedDTO,
-                            Item_LineDTO = _item_lineDTO
+                            UserDefinedID = _userdefinedDTO.ID,
+                            Item_LineID = _item_lineDTO.ID
                         }).FirstOrDefault();
 
                         properties.Add(_userdefinedDTO.Name, (_userDefinedValueDTO is null) ? string.Empty : _userDefinedValueDTO.Value);
@@ -517,7 +475,7 @@ public class Item_Line_Service
                 var _item_LineList = GetItem_LineList_Global(new Item_LineDTO { Item_LineIDArray = Item_LineDTO.Item_LineIDArray });
                 foreach (var _item_lineDTO in _item_LineList)
                 {
-                    _item_lineDTO.StationDTO = Item_LineDTO.StationDTO;
+                    _item_lineDTO.StationID = Item_LineDTO.StationID;
                     _item_lineDTO.LastUpdateByID = Item_LineDTO.AddedByID;
                     _validationResultDTO = UpdateItem_Line_Global(_item_lineDTO);
                 }
@@ -534,7 +492,7 @@ public class Item_Line_Service
             var _item_lineDTO = GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
             if (_item_lineDTO != null)
             {
-                _item_lineDTO.StationDTO = Item_LineDTO.StationDTO;
+                _item_lineDTO.StationID = Item_LineDTO.StationID;
                 _item_lineDTO.LastUpdateByID = Item_LineDTO.LastUpdateByID;
                 _validationResultDTO = UpdateItem_Line_Global(_item_lineDTO);
             }
@@ -556,8 +514,8 @@ public class Item_Line_Service
             {
                 var _item_supportGroupDTO = new Item_SupportGroupDTO
                 {
-                    Item_HeaderDTO = Item_LineDTO.Item_HeaderDTO,
-                    SupportGroupDTO = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO,
+                    Item_HeaderID = Item_LineDTO.Item_HeaderID,
+                    SupportGroupID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupID,
                     AddedByID = Item_LineDTO.LastUpdateByID,
                     IsActive = true
                 };
@@ -568,10 +526,9 @@ public class Item_Line_Service
                 //get current information of item line
                 var _currentItem_lineDTO = GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
                 //update the new relation into item line
-                _currentItem_lineDTO.Item_SupportGroupDTO.ID = _validationResultDTO.Data;
+                _currentItem_lineDTO.Item_SupportGroupID = _validationResultDTO.Data;
                 _currentItem_lineDTO.LastUpdateByID = Item_LineDTO.LastUpdateByID;
                 _validationResultDTO = UpdateItem_Line_Global(_currentItem_lineDTO);
-
             }
 
         }
@@ -590,8 +547,8 @@ public class Item_Line_Service
                 //If relation beetwen Item Header and support group dont exist, create it
                 var _item_supportGroupDTO = new Item_SupportGroupDTO
                 {
-                    Item_HeaderDTO = Item_LineDTO.Item_HeaderDTO,
-                    SupportGroupDTO = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO,
+                    Item_HeaderID = Item_LineDTO.Item_HeaderID,
+                    SupportGroupID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupID,
                     AddedByID = Item_LineDTO.LastUpdateByID,
                     IsActive = true
                 };
@@ -609,7 +566,6 @@ public class Item_Line_Service
                         ID = _validationResultDTO.Data,
                         GetSupportGroupDTO = true
                     }).FirstOrDefault();
-
                 //update the new relation into item line
                 //_currentItem_lineDTO.DeliveredToDTO = Item_LineDTO.DeliveredToDTO;
                 _currentItem_lineDTO.DeliveredDate = DateTime.Now;
@@ -630,13 +586,14 @@ public class Item_Line_Service
         {
             //get current information of item line
             var _currentItem_lineDTO = GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
-            _currentItem_lineDTO.OwnerDTO = Item_LineDTO.OwnerDTO;
+            _currentItem_lineDTO.OwnerID = Item_LineDTO.OwnerID;
             _currentItem_lineDTO.LastUpdateByID = Item_LineDTO.LastUpdateByID;
             _validationResultDTO = UpdateItem_Line_Global(_currentItem_lineDTO);
         }
         return _validationResultDTO;
     }
     #endregion
+
     #endregion
 
     #region Upload Excel functions
@@ -729,18 +686,18 @@ public class Item_Line_Service
                     // The assigned ID is to have the Excel row identified in case it does not pass the validations.
                     _item_LineDTO.ID = rowIndex + 1;
 
-                    _item_LineDTO.Item_HeaderDTO.ID = FileDTO.FileDirectory;
-                    _item_LineDTO.Item_SupportGroupDTO.ID = FileDTO.TreeViewID;
-                    _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = FileDTO.ParentID;
+                    _item_LineDTO.Item_HeaderID = FileDTO.FileDirectory;
+                    _item_LineDTO.Item_SupportGroupID = FileDTO.TreeViewID;
+                    _item_LineDTO.Item_SupportGroupDTO.SupportGroupID = FileDTO.ParentID;
                     // The row[_columnHeaderMap["NAME"]] returns the index of that directory name (e.g row[0] -> TestName) and turns it into string
                     // What the CleanRowString function does is remove all the spaces on the sides and internal in each word,
                     // Leaving only one space between the words (e.g. " Unit  Of Measure " -> "Unit Of Measure")
                     _item_LineDTO.ManufactureSerialID = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["MANUFACTURESERIAL"]].ToString());
                     _item_LineDTO.LegacyID = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["LEGACY"]].ToString());
-                    _item_LineDTO.OwnerDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNER"]].ToString());
-                    _item_LineDTO.StationDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["STATION"]].ToString());
+                    _item_LineDTO.OwnerName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["OWNER"]].ToString());
+                    _item_LineDTO.StationName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["STATION"]].ToString());
                     _item_LineDTO.Comments = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["COMMENTS"]].ToString());
-                    _item_LineDTO.StatusDTO.Name = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["STATUS"]].ToString());
+                    _item_LineDTO.StatusName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["STATUS"]].ToString());
                     _item_LineDTO.DeliveredToName = ExcelImport_Service.CleanRowString(row[_columnHeaderMap["DELIVEREDTO"]].ToString());
                     _item_LineDTO.AddedByID = FileDTO.ID;
 

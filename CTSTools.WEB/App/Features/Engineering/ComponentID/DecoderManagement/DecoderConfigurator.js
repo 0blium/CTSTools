@@ -153,7 +153,6 @@ async function SubmitDecoder_Global() {
         PopulateDecoderConfigurator();
     else
         HostResponse(_validationResultDTO);
-    console.log(_validationResultDTO);
     dxLoadPanel.hide();
 }
 async function EditDecoder_Global() {
@@ -167,7 +166,6 @@ async function EditDecoder_Global() {
         PopulateDecoderConfigurator();
     else
         HostResponse(_validationResultDTO);
-    console.log(_validationResultDTO);
     dxLoadPanel.hide();
 }
 
@@ -217,7 +215,6 @@ async function InitializeDecoderStructureControls() {
         onSelectionChanged: async function (e) {
             let _attributeDTO = e.selectedItem;
             if (_attributeDTO != null) {
-                console.log(e);
                 if (_attributeDTO.HasMultipleOptions) {
                     document.getElementById("DecoderStructureOptionsGroup").hidden = false;
                     document.getElementById("DecoderStructureValueGroup").hidden = true;

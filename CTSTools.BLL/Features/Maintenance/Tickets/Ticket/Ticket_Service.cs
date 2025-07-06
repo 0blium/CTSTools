@@ -1,5 +1,5 @@
-﻿using CTSTools.BLL.Common.Files;
-using CTSTools.BLL.Common;
+﻿using CTSTools.BLL.Common;
+using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
@@ -14,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status.Status_Enum;
-using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePartInventory;
-using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePartUsage;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Ticket;
 

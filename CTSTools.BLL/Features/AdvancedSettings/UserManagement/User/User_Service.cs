@@ -151,9 +151,9 @@ public class User_Service
             }
             if (UserDTO.GetSupportGroupArray)
             {
-                var _supportGroupMemberDTO = new SupportGroupMemberDTO { UserDTO = { ID = UserDTO.ID } };
-                _supportGroupArrayDict = SupportGroupMember_Service.GetSupportGroupMemberList_Global(_supportGroupMemberDTO).GroupBy(g => g.UserDTO.ID)
-                                                                                         .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.Select(s => s.SupportGroupDTO.ID)
+                var _supportGroupMemberDTO = new SupportGroupMemberDTO { UserID = UserDTO.ID };
+                _supportGroupArrayDict = SupportGroupMember_Service.GetSupportGroupMemberList_Global(_supportGroupMemberDTO).GroupBy(g => g.UserID)
+                                                                                         .ToDictionary(keySelector: m => m.Key, elementSelector: m => m.Select(s => s.SupportGroupID)
                                                                                          .ToArray());
             }
 

@@ -15,22 +15,21 @@ public class Item_SupportGroupDTO
     public int? LastUpdateByID { get; set; }
     public string LastUpdateByName { get; set; }
     public bool? IsActive { get; set; }
-
     #endregion
 
     #region Extended Properties
-
     public int?[] Item_SupportGroupIDArray { get; set; }
     public int? Item_HeaderID { get; set; }
     public Item_HeaderDTO Item_HeaderDTO { get; set; }
     public bool GetItem_HeaderDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
     public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
-
     #endregion
+
     #region Constructor
     public Item_SupportGroupDTO()
     {
@@ -39,7 +38,6 @@ public class Item_SupportGroupDTO
         Item_HeaderIDArray = new int?[] { };
         SupportGroupDTO = new SupportGroupDTO();
         SupportGroupIDArray = new int?[] { };
-
     }
     #endregion
 }

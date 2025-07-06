@@ -51,25 +51,37 @@ public class Item_LineDTO
     #region Extended Properties
 
     public int?[] Item_LineIDArray { get; set; }
+    public int? Item_HeaderID { get; set; }
     public Item_HeaderDTO Item_HeaderDTO { get; set; }
     public bool GetItem_HeaderDTO { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
+    public int? StationID { get; set; }
+    public string StationName { get; set; }
     public StationDTO StationDTO { get; set; }
     public bool GetStationDTO { get; set; }
     public int?[] StationIDArray { get; set; }
+    public int? StatusID { get; set; }
+    public string StatusName { get; set; }
     public StatusDTO StatusDTO { get; set; }
     public bool GetStatusDTO { get; set; }
     public int?[] StatusIDArray { get; set; }
+    public int? OwnerID { get; set; }
+    public string OwnerName { get; set; }
     public UserDTO OwnerDTO { get; set; }
     public FileDTO FileDTO { get; set; }
+    public int? SupplyTypeID { get; set; }
+    public string SupplyTypeName { get; set; }
     public SupplyTypeDTO SupplyTypeDTO { get; set; }
     public List<UserDefinedValueDTO> UserDefinedValueList { get; set; }
     public bool GetFileList { get; set; }
     public List<FileDTO> FileList { get; set; }
+    public int? Item_SupportGroupID { get; set; }
     public Item_SupportGroupDTO Item_SupportGroupDTO { get; set; }
     public bool GetItem_SupportGroupDTO { get; set; }
     public int?[] Item_SupportGroupIDArray { get; set; }
     public bool GenerateSerial { get; set; }
+    public int? TransactionOriginID { get; set; }
+    public string TransactionOriginName { get; set; }
     public TransactionOriginDTO TransactionOriginDTO { get; set; }
     public string[] TransactionNumberArray { get; set; }
     #region Filters

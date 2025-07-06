@@ -43,7 +43,7 @@ namespace CTSTools.BLL.Features.XPO
                         {
                             PagedDataDTO.SortPropertyName = PagedDataDTO.SortPropertyName.Replace("Name", ".") + "Name";
                         }
-                        if (!PagedDataDTO.SortPropertyName.StartsWith("ID") && PagedDataDTO.SortPropertyName.EndsWith("ID"))
+                        if (!PagedDataDTO.SortPropertyName.StartsWith("ID") && PagedDataDTO.SortPropertyName.EndsWith("ID") && !PagedDataDTO.SortPropertyName.EndsWith("ManufactureID"))
                         {
                             PagedDataDTO.SortPropertyName = PagedDataDTO.SortPropertyName.Replace("ID", ".") + "Oid";
                         }
@@ -248,7 +248,6 @@ namespace CTSTools.BLL.Features.XPO
             return _groupOperator;
         }
 
-
         public static string[] SplitDXFilterList(IList DXFilterList, int position)
         {
             if (DXFilterList == null || DXFilterList.Count <= position)
@@ -261,14 +260,14 @@ namespace CTSTools.BLL.Features.XPO
             {
                 return sublist
                     .Cast<object>()
-                    .Select(o => o?.ToString().Trim())
+                    .Select(o => o?.ToString().Trim().Replace("DTO", ""))
                     .Where(s => !string.IsNullOrWhiteSpace(s))
                     .ToArray();
             }
 
             // Si no es una lista, intentar convertirlo a string plano (último recurso)
             string[] filterArray = Regex
-                .Replace(item.ToString(), @"(@|&|'|\(|\)|#|\]|\[|"")|[\r\n]", "")
+                .Replace(item.ToString(), @"(@|&|'|\(|\)|#|\]|\[|""|DTO)|[\r\n]", "")
                 .Split(',')
                 .Select(s => s.Trim())
                 .ToArray();
@@ -409,10 +408,6 @@ namespace CTSTools.BLL.Features.XPO
                     for (int i = 0; i < DXFilterList.Count; i++)
                     {
                         string[] _filterArray = { };
-
-
-
-
                         if (i == 0)
                         {
                             _filterArray = SplitDXFilterList(DXFilterList, i);
@@ -427,13 +422,9 @@ namespace CTSTools.BLL.Features.XPO
                         {
                             _filterDTO.Value = (DXFilterList[i] != null) ? DXFilterList[i].ToString().Trim() : DXFilterList[i];
                             _filterList.Add(_filterDTO);
-
                         }
-
-
                     }
                     _groupOperator.Operands.Add(GenerateGroupOperator(_filterList));
-
                 }
             }
             catch (Exception ex)
@@ -453,7 +444,7 @@ namespace CTSTools.BLL.Features.XPO
             {               
                 return FilterArray[position].ToString().Replace("DTO.ID", ".") + "Oid";
             }
-            else if (!FilterArray[position].StartsWith("ID") && FilterArray[position].EndsWith("ID"))
+            else if (!FilterArray[position].StartsWith("ID") && FilterArray[position].EndsWith("ID") && !FilterArray[position].EndsWith("ManufactureID"))
             {
                 return FilterArray[position].ToString().Replace("ID", ".") + "Oid";
             }

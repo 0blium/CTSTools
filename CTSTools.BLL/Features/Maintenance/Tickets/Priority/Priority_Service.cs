@@ -91,7 +91,7 @@ public class Priority_Service
         {
             if (PriorityDTO.GetSupportGroupDTO)
             {
-                PriorityDTO.SupportGroupDTO.SupportGroupIDArray = PriorityList.GroupBy(g => g.SupportGroupDTO.ID)
+                PriorityDTO.SupportGroupDTO.SupportGroupIDArray = PriorityList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -100,9 +100,9 @@ public class Priority_Service
             }
             foreach (var _priorityDTO in PriorityList)
             {
-                if (PriorityDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_priorityDTO.SupportGroupDTO.ID))
+                if (PriorityDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_priorityDTO.SupportGroupID))
                 {
-                    _priorityDTO.SupportGroupDTO = _supportgroupDict[_priorityDTO.SupportGroupDTO.ID];
+                    _priorityDTO.SupportGroupDTO = _supportgroupDict[_priorityDTO.SupportGroupID];
                 }
                 _priorityglobalList.Add(_priorityDTO);
             }

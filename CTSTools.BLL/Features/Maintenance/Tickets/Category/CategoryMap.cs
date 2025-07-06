@@ -20,8 +20,8 @@ public class CategoryMap
             _categoryDTO.ParentID = (CategoryXPO.Parent != null) ? CategoryXPO.Parent.Oid : 0;
             _categoryDTO.ParentName = (CategoryXPO.Parent != null) ? CategoryXPO.Parent.Name : "Unnasigned";
             _categoryDTO.NameWithParent = (CategoryXPO.Parent != null) ? $"{CategoryXPO.Parent.Name} - {CategoryXPO.Name}" : $"{CategoryXPO.Name}";
-            _categoryDTO.SupportGroupDTO.ID = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.Oid : 0;
-            _categoryDTO.SupportGroupDTO.Name = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.Name : "Unnassigned";
+            _categoryDTO.SupportGroupID = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.Oid : 0;
+            _categoryDTO.SupportGroupName = (CategoryXPO.SupportGroup != null) ? CategoryXPO.SupportGroup.Name : "Unnassigned";
             _categoryDTO.AddedDate = (CategoryXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? CategoryXPO.AddedDate : (DateTime?)null;
             _categoryDTO.AddedByID = (CategoryXPO.AddedBy != null) ? CategoryXPO.AddedBy.Oid : 0;
             _categoryDTO.AddedByName = (CategoryXPO.AddedBy != null) ? CategoryXPO.AddedBy.Name : "Unnassigned";
@@ -29,7 +29,6 @@ public class CategoryMap
             _categoryDTO.LastUpdateByID = (CategoryXPO.LastUpdateBy != null) ? CategoryXPO.LastUpdateBy.Oid : 0;
             _categoryDTO.LastUpdateByName = (CategoryXPO.LastUpdateBy != null) ? CategoryXPO.LastUpdateBy.Name : "Unnassigned";
             _categoryDTO.IsActive = CategoryXPO.IsActive;
-
         }
         catch (Exception ex)
         {
@@ -48,13 +47,12 @@ public class CategoryMap
             _categoryXPO.Description = _categoryXPO.Description == CategoryDTO.Description ? _categoryXPO.Description : CategoryDTO.Description;
             _categoryXPO.HasParent = CategoryDTO.HasParent == null ? _categoryXPO.HasParent : _categoryXPO.HasParent == (bool)CategoryDTO.HasParent ? _categoryXPO.HasParent : (bool)CategoryDTO.HasParent;
             _categoryXPO.Parent = (_categoryXPO.Parent?.Oid == CategoryDTO.ParentID) ? _categoryXPO.Parent : UnitOfWork.GetObjectByKey<CategoryXPO>(CategoryDTO.ParentID);
-            _categoryXPO.SupportGroup = (_categoryXPO.SupportGroup?.Oid == CategoryDTO.SupportGroupDTO.ID) ? _categoryXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(CategoryDTO.SupportGroupDTO.ID);
+            _categoryXPO.SupportGroup = (_categoryXPO.SupportGroup?.Oid == CategoryDTO.SupportGroupID) ? _categoryXPO.SupportGroup : UnitOfWork.GetObjectByKey<SupportGroupXPO>(CategoryDTO.SupportGroupID);
             _categoryXPO.AddedDate = _categoryXPO.AddedDate ?? CategoryDTO.AddedDate;
             _categoryXPO.AddedBy = _categoryXPO.AddedBy ?? UnitOfWork.GetObjectByKey<UserXPO>(CategoryDTO.AddedByID);
             _categoryXPO.LastUpdate = _categoryXPO.LastUpdate == CategoryDTO.LastUpdate ? _categoryXPO.LastUpdate : CategoryDTO.LastUpdate;
             _categoryXPO.LastUpdateBy = (_categoryXPO.LastUpdateBy?.Oid == CategoryDTO.LastUpdateByID) ? _categoryXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(CategoryDTO.LastUpdateByID);
             _categoryXPO.IsActive = _categoryXPO.IsActive == CategoryDTO.IsActive ? (bool)_categoryXPO.IsActive : (bool)CategoryDTO.IsActive;
-
         }
         catch (Exception ex)
         {

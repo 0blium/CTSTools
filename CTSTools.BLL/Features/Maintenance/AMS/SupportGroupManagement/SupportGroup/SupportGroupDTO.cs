@@ -1,5 +1,4 @@
 ﻿using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Facility;
-using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.Station;
 using System;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
@@ -21,13 +20,15 @@ public class SupportGroupDTO
     #endregion
 
     #region Extended Properties
-
     public int?[] SupportGroupIDArray { get; set; }
     public string[] SupportGroupNameArray { get; set; }
+    public int? FacilityID { get; set; }
+    public string FacilityName { get; set; }
     public FacilityDTO FacilityDTO { get; set; }
     public bool GetFacilityDTO { get; set; }
     public int?[] FacilityIDArray { get; set; }
     #endregion
+
     #region Constructor
     public SupportGroupDTO()
     {

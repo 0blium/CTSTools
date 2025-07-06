@@ -29,16 +29,14 @@ public class Category_Validator
                     Data = $"{nameof(Category)}{nameof(CategoryDTO.Name)}",
                 });
             }
-
-
-            if (CategoryDTO.SupportGroupDTO.ID == null || CategoryDTO.SupportGroupDTO.ID == 0)
+            if (CategoryDTO.SupportGroupID == null || CategoryDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Category)}{nameof(CategoryDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(Category)}{nameof(CategoryDTO.SupportGroupID)}",
                 });
             }
 
@@ -115,15 +113,14 @@ public class Category_Validator
                     Data = $"{nameof(Category)}{nameof(CategoryDTO.Name)}",
                 });
             }
-
-            if (CategoryDTO.SupportGroupDTO.ID == null || CategoryDTO.SupportGroupDTO.ID == 0)
+            if (CategoryDTO.SupportGroupID == null || CategoryDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Category)}{nameof(CategoryDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(Category)}{nameof(CategoryDTO.SupportGroupID)}",
                 });
             }
 

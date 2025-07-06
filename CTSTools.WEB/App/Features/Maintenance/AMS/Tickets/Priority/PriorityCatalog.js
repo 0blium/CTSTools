@@ -31,9 +31,7 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
             if (UserDTO.SupportGroupIDArray.length > 0) {
                 $("#dxPrioritySupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxPriorityGrid").dxDataGrid("instance").option("dataSource", await GetDXPriorityDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetSupportGroupDTO: true }));
-
             }
-
         }
         if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             $("#dxPrioritySupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
@@ -161,7 +159,7 @@ async function InitializePriorityCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                 },
                 {
@@ -173,7 +171,7 @@ async function InitializePriorityCatalogControls() {
                     dataField: "Description"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -187,7 +185,7 @@ async function InitializePriorityCatalogControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -200,12 +198,9 @@ async function InitializePriorityCatalogControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
-    document.getElementById("btnClosePriorityModal").addEventListener("click", ClearSupportGroupFields);
-
+    document.getElementById("btnClosePriorityModal").addEventListener("click", ClearPriorityFields);
     PriorityActionButtons("Save");
 }
 function PriorityActionButtons(Action) {
@@ -216,8 +211,8 @@ function PriorityActionButtons(Action) {
         document.getElementById('PriorityModalTitle').innerText = 'Add Priority';
         document.getElementById("PriorityActionButtons").innerHTML =
             '<div class="col-md-12">' +
-        '<button class="btn btn-success m-b-15 float-end" id="CreatePriorityButton" type="button">Save</button>' +
-        '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearPriorityButton" type="button">Cancel</button>' +
+            '<button class="btn btn-success m-b-15 float-end" id="CreatePriorityButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearPriorityButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("CreatePriorityButton").addEventListener("click", CreatePriority_Global);
         document.getElementById("ClearPriorityButton").addEventListener("click", ClearPriorityFields);
@@ -227,15 +222,14 @@ function PriorityActionButtons(Action) {
         document.getElementById('PriorityModalTitle').innerText = 'Update Priority';
         document.getElementById("PriorityActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearPriorityButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdatePriorityButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdatePriorityButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearPriorityButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearPriorityButton").addEventListener("click", ClearPriorityFields);
         document.getElementById("UpdatePriorityButton").addEventListener("click", UpdatePriority_Global);
     }
 }
 function ClearPriorityFields() {
-
     $('#SavePriorityRecordModal').modal('hide');
     PriorityActionButtons("Save");
     $('#hiddenPriorityID').val("");
@@ -256,16 +250,14 @@ function PopulatePriorityFields(data) {
     $("#dxPriorityIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
     $("#dxPriorityNameTextBox").dxTextBox("instance").option("value", data.Name);
     $("#dxPriorityDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
-    $("#dxPrioritySupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
+    $("#dxPrioritySupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupID);
 }
 function GetPriorityDTO() {
     let _PriorityDTO = {
         ID: $('#hiddenPriorityID').val(),
         Name: $("#dxPriorityNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxPriorityDescriptionTextArea").dxTextArea("instance").option("value"),
-        SupportGroupDTO: {
-            ID: $("#dxPrioritySupportGroupSelectBox").dxSelectBox("instance").option("value")
-        },
+        SupportGroupID: $("#dxPrioritySupportGroupSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxPriorityIsActiveCheckBox").dxCheckBox("instance").option("value"),
     }
     return _PriorityDTO;

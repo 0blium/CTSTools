@@ -16,24 +16,24 @@ public class PriorityDTO
     public int? LastUpdateByID { get; set; }
     public string LastUpdateByName { get; set; }
     public bool? IsActive { get; set; }
-
     #endregion
 
     #region Extended Properties
     public string PriorityWithSupportGroup { get; set; }
     public int?[] PriorityIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
-
     #endregion
+
     #region Constructor
     public PriorityDTO()
     {
         PriorityIDArray = new int?[] { };
         SupportGroupDTO = new SupportGroupDTO();
         SupportGroupIDArray = new int?[] { };
-
     }
     #endregion
 }

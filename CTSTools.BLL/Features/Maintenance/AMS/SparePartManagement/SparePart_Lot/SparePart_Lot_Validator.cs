@@ -23,7 +23,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "PartNumber Field Empty",
+                    Message = "Part Number Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.PartNumber)}",
                 });
@@ -43,7 +43,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePart Field Empty",
+                    Message = "Spare Part Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -52,7 +52,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePartInventory Field Empty",
+                    Message = "Spare Part Inventory Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -61,7 +61,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SupportGroup Field Empty",
+                    Message = "Support Group Field Empty",
                     Description = " Please, complete the missing information ", 
                 });
             }
@@ -70,7 +70,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "TransactionOrigin Field Empty",
+                    Message = "Transaction Origin Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionOriginID)}",
                 });
@@ -80,7 +80,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "TransactionNumber Field Empty",
+                    Message = "Transaction Number Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionNumber)}",
                 });
@@ -159,7 +159,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "PartNumber Field Empty",
+                    Message = "Part Number Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.PartNumber)}",
                 });
@@ -179,7 +179,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePart Field Empty",
+                    Message = "Spare Part Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.SparePartID)}",
                 });
@@ -189,7 +189,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePartInventory Field Empty",
+                    Message = "Spare Part Inventory Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -198,7 +198,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SupportGroup Field Empty",
+                    Message = "Support Group Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -207,7 +207,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "TransactionOrigin Field Empty",
+                    Message = "Transaction Origin Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionOriginID)}",
                 });
@@ -217,7 +217,7 @@ public class SparePart_Lot_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "TransactionNumber Field Empty",
+                    Message = "Transaction Number Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePart_Lot)}{nameof(SparePart_LotDTO.TransactionNumber)}",
                 });

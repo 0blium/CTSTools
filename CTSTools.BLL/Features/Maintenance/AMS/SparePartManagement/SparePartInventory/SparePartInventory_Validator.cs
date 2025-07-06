@@ -24,7 +24,7 @@ public class SparePartInventory_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePart Field Empty",
+                    Message = "Spare Part Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -33,7 +33,7 @@ public class SparePartInventory_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SupportGroup Field Empty",
+                    Message = "Support Group Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -110,7 +110,7 @@ public class SparePartInventory_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePart Field Empty",
+                    Message = "Spare Part Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePartInventory)}{nameof(SparePartInventoryDTO.SparePartDTO)}",
                 });
@@ -120,7 +120,7 @@ public class SparePartInventory_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SupportGroup Field Empty",
+                    Message = "Support Group Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePartInventory)}{nameof(SparePartInventoryDTO.SupportGroupDTO)}",
                 });

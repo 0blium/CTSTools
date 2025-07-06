@@ -2,11 +2,8 @@
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js'
 import { CreateSupportGroupMember, UpdateSupportGroupMember, DeleteSupportGroupMember, GetDXSupportGroupMemberDataSource } from './SupportGroupMember/SupportGroupMember_Service.js'
 import { GetDXUserDataSource, GetUserInformation } from '../../../AdvancedSettings/UserManagement/User/User_Service.js'
-//import { GetDXRoleRelationDataSource } from '../../../AdvancedSettings/Security/Roles/RoleRelation/RoleRelation_Service.js'
-//import { GetDXUser_RoleDataSource } from "../../../AdvancedSettings/UserManagement/User_Role/User_Role_Service.js"
 import { GetDXRoleDataSource } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Service.js'
 import { GetDXSupportGroupDataSource } from './SupportGroup/SupportGroup_Service.js'
-
 import { RoleType_Enum } from '../../../AdvancedSettings/SecurityManagement/RoleType/RoleType_Enum.js'
 import { Role_Enum } from '../../../AdvancedSettings/SecurityManagement/Role/Role_Enum.js'
 
@@ -61,10 +58,6 @@ async function InitializeSupportGroupMemberCatalogControls() {
         searchEnabled: true
     });
     $("#dxSupportGroupMemberRoleSelectBox").dxSelectBox({
-        //dataSource: await GetDXUser_RoleDataSource({
-        //    RoleTypeID: 1,
-        //    /*...{ 'RoleTypeDTO.ID': RoleType_Enum.SupportGroup }*/
-        //})
         dataSource: await GetDXRoleDataSource({ RoleTypeID: RoleType_Enum.SupportGroup }),
         valueExpr: "ID",
         displayExpr: "Name",
@@ -173,19 +166,19 @@ async function InitializeSupportGroupMemberCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                 },
                 {
                     caption: "User",
-                    dataField: "UserDTO.Name"
+                    dataField: "UserName"
                 },
                 {
                     caption: "Role",
-                    dataField: "RoleDTO.Name"
+                    dataField: "RoleName"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -199,7 +192,7 @@ async function InitializeSupportGroupMemberCatalogControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -212,8 +205,6 @@ async function InitializeSupportGroupMemberCatalogControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
     document.getElementById("btnCloseSupportGroupMemberModal").addEventListener("click", ClearSupportGroupMemberFields);
@@ -239,8 +230,8 @@ function SupportGroupMemberActionButtons(Action) {
         document.getElementById('SupportGroupMemberModalTitle').innerText = 'Update Member';
         document.getElementById("SupportGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateSupportGroupMemberButton" type="button">Update</button>' +
-            '<button class="btn btn-secondary float-end" id="ClearSupportGroupMemberButton" type="button">Cancel</button>' +
+            '<button class="btn btn-success float-end" id="UpdateSupportGroupMemberButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearSupportGroupMemberButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearSupportGroupMemberButton").addEventListener("click", ClearSupportGroupMemberFields);
         document.getElementById("UpdateSupportGroupMemberButton").addEventListener("click", UpdateSupportGroupMember_Global);
@@ -265,24 +256,17 @@ function ClearSupportGroupMemberFields() {
 function PopulateSupportGroupMemberFields(data) {
     $('#hiddenSupportGroupMemberID').val(data.ID);
     $("#dxSupportGroupMemberIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
-    $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
-    $("#dxSupportGroupMemberUserSelectBox").dxSelectBox("instance").option("value", data.UserDTO.ID);
-    $("#dxSupportGroupMemberRoleSelectBox").dxSelectBox("instance").option("value", data.RoleDTO.ID);
-
+    $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupID);
+    $("#dxSupportGroupMemberUserSelectBox").dxSelectBox("instance").option("value", data.UserID);
+    $("#dxSupportGroupMemberRoleSelectBox").dxSelectBox("instance").option("value", data.RoleID);
 }
 
 function GetSupportGroupMemberDTO() {
     let _supportGroupMemberDTO = {
         ID: $('#hiddenSupportGroupMemberID').val(),
-        SupportGroupDTO: {
-            ID: $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("value")
-        },
-        UserDTO: {
-            ID: $("#dxSupportGroupMemberUserSelectBox").dxSelectBox("instance").option("value")
-        },
-        RoleDTO: {
-            ID: $("#dxSupportGroupMemberRoleSelectBox").dxSelectBox("instance").option("value")
-        },
+        SupportGroupID: $("#dxSupportGroupMemberSupportGroupSelectBox").dxSelectBox("instance").option("value"),
+        UserID: $("#dxSupportGroupMemberUserSelectBox").dxSelectBox("instance").option("value"),
+        RoleID: $("#dxSupportGroupMemberRoleSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxSupportGroupMemberIsActiveCheckBox").dxCheckBox("instance").option("value")
     }
     return _supportGroupMemberDTO;
@@ -316,12 +300,10 @@ async function DeleteSupportGroupMember_Global() {
     const _validation_ResultDTO = await DeleteSupportGroupMember(_supportGroupMemberDTO);
     if (_validation_ResultDTO.Result) {
         ClearSupportGroupMemberFields();
-        //ReloadRelated();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-
 async function ShowDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
@@ -337,6 +319,3 @@ async function ShowDeleteQuestion() {
         ClearSupportGroupMemberFields();
     }
 }
-
-
-//Reload SelectBox and TagBox for related fields

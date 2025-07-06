@@ -67,7 +67,6 @@ export async function GetTicketInformation(TicketDTO) {
 
 //DX DataSource
 export async function GetDXTicketDataSource(TicketDTO) {
-    console.log("service")
     let _params = await BuildSearchParams(TicketDTO);
     let _store = new DevExpress.data.AspNet.createStore({
         loadUrl: `${APIURL}/Ticket/GetPagedList?` + _params.toString(),

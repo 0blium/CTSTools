@@ -28,25 +28,25 @@ public class Station_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.Serial), StationDTO.Serial));
             }
-            if (StationDTO.FacilityDTO.ID != null || StationDTO.FacilityDTO.ID > 0)
+            if (StationDTO.FacilityID != null || StationDTO.FacilityID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.Facility), StationDTO.FacilityDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.Facility), StationDTO.FacilityID));
             }
             if (StationDTO.FacilityIDArray != null && StationDTO.FacilityIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(StationXPO.Facility), StationDTO.FacilityIDArray));
             }
-            if (StationDTO.DepartmentDTO.ID != null || StationDTO.DepartmentDTO.ID > 0)
+            if (StationDTO.DepartmentID != null || StationDTO.DepartmentID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.Department), StationDTO.DepartmentDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.Department), StationDTO.DepartmentID));
             }
             if (StationDTO.DepartmentIDArray != null && StationDTO.DepartmentIDArray.Count() > 0)
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(StationXPO.Department), StationDTO.DepartmentIDArray));
             }
-            if (StationDTO.StationTypeDTO.ID != null || StationDTO.StationTypeDTO.ID > 0)
+            if (StationDTO.StationTypeID != null || StationDTO.StationTypeID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.StationType), StationDTO.StationTypeDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(StationXPO.StationType), StationDTO.StationTypeID));
             }
             if (StationDTO.StationTypeIDArray != null && StationDTO.StationTypeIDArray.Count() > 0)
             {

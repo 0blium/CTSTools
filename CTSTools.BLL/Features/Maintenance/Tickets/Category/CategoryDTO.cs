@@ -23,13 +23,14 @@ public class CategoryDTO
     #endregion
 
     #region Extended Properties
-
     public int?[] CategoryIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public SupportGroupDTO SupportGroupDTO { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
-
     #endregion
+
     #region Constructor
     public CategoryDTO()
     {

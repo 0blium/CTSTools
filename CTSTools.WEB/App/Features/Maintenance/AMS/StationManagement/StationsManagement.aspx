@@ -6,7 +6,6 @@
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
                     <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                    <li class="breadcrumb-item active">Stations</li>
                 </ol>
             </div>
             <!-- END breadcrumb -->

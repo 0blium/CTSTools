@@ -17,7 +17,6 @@ public class UserDefined_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             if (string.IsNullOrEmpty(UserDefinedDTO.Name))
             {
@@ -96,7 +95,6 @@ public class UserDefined_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             if (UserDefinedDTO.ID == null || UserDefinedDTO.ID == 0)
             {
@@ -198,7 +196,7 @@ public class UserDefined_Validator
             }
             else
             {
-                var _userDefinedTemplateList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { UserDefinedDTO = UserDefinedDTO });
+                var _userDefinedTemplateList = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO { UserDefinedID = UserDefinedDTO.ID });
                 if (_userDefinedTemplateList != null && _userDefinedTemplateList.Count > 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
@@ -217,7 +215,6 @@ public class UserDefined_Validator
                 _validation_ResultDTO.Message = "Errors!";
                 _validation_ResultDTO.Description = "There is a list of errors";
                 _validation_ResultDTO.ValidationResultList = _validation_ResultList;
-
             }
         }
         catch (Exception ex)

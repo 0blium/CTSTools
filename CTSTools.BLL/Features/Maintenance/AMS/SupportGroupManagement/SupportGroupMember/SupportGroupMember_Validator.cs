@@ -19,44 +19,43 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 var _validation_ResultList = new List<ValidationResultDTO>();
                 
                 // Field Validation
-                if (SupportGroupMemberDTO.SupportGroupDTO.ID == null || SupportGroupMemberDTO.SupportGroupDTO.ID == 0 )
+                if (SupportGroupMemberDTO.SupportGroupID == null || SupportGroupMemberDTO.SupportGroupID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
-                        Message = "SupportGroup Field Empty", 
+                        Message = "Support Group Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.SupportGroupDTO)}", 
+                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.SupportGroupID)}", 
                     });
                 }
-                if (SupportGroupMemberDTO.UserDTO.ID == null || SupportGroupMemberDTO.UserDTO.ID == 0 )
+                if (SupportGroupMemberDTO.UserID == null || SupportGroupMemberDTO.UserID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "User Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.UserDTO)}", 
+                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.UserID)}", 
                     });
                 }
-                if (SupportGroupMemberDTO.RoleDTO.ID == null || SupportGroupMemberDTO.RoleDTO.ID == 0 )
+                if (SupportGroupMemberDTO.RoleID == null || SupportGroupMemberDTO.RoleID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "Role Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.RoleDTO)}", 
+                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.RoleID)}", 
                     });
                 }
-
-                if(SupportGroupMemberDTO.RoleDTO.ID > 0 && SupportGroupMemberDTO.UserDTO.ID > 0)
+                if(SupportGroupMemberDTO.RoleID > 0 && SupportGroupMemberDTO.UserID > 0)
                 {
                     //validate if user already exist in support Group
                     var _supportGroupMemberDTO = SupportGroupMember_Service.GetSupportGroupMemberList_Global(new SupportGroupMemberDTO
                     {
-                        UserDTO = SupportGroupMemberDTO.UserDTO,
-                        SupportGroupDTO = SupportGroupMemberDTO.SupportGroupDTO
+                        UserID = SupportGroupMemberDTO.UserID,
+                        SupportGroupID = SupportGroupMemberDTO.SupportGroupID
                     }).FirstOrDefault();
 
                     if(_supportGroupMemberDTO != null)
@@ -66,7 +65,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                             Result = false,
                             Message = "The user is already a member of the group.",
                             Description = " Please, verify the information ",
-                            Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.UserDTO)}",
+                            Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.UserID)}",
                         });
                     };
                 }
@@ -120,34 +119,34 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                         Description = "Please, complete the missing information ",
                     });
                 }
-                if (SupportGroupMemberDTO.SupportGroupDTO.ID == null || SupportGroupMemberDTO.SupportGroupDTO.ID == 0 )
+                if (SupportGroupMemberDTO.SupportGroupID == null || SupportGroupMemberDTO.SupportGroupID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
-                        Message = "SupportGroup Field Empty", 
+                        Message = "Support Group Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.SupportGroupDTO)}", 
+                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.SupportGroupID)}", 
                     });
                 }
-                if (SupportGroupMemberDTO.UserDTO.ID == null || SupportGroupMemberDTO.UserDTO.ID == 0 )
+                if (SupportGroupMemberDTO.UserID == null || SupportGroupMemberDTO.UserID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "User Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.UserDTO)}", 
+                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.UserID)}", 
                     });
                 }
-                if (SupportGroupMemberDTO.RoleDTO.ID == null || SupportGroupMemberDTO.RoleDTO.ID == 0 )
+                if (SupportGroupMemberDTO.RoleID == null || SupportGroupMemberDTO.RoleID == 0 )
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
                         Result = false, 
                         Message = "Role Field Empty", 
                         Description = " Please, complete the missing information ", 
-                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.RoleDTO)}", 
+                        Data = $"{nameof(SupportGroupMember)}{nameof(SupportGroupMemberDTO.RoleID)}", 
                     });
                 }
                 
@@ -168,7 +167,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                     _validation_ResultDTO.Message = "Errors!";
                     _validation_ResultDTO.Description = "There is a list of errors";
                     _validation_ResultDTO.ValidationResultList = _validation_ResultList;
-
                 }
             }
             catch (Exception ex)
@@ -181,7 +179,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             return _validation_ResultDTO;
         }
 
-
         public static ValidationResultDTO UnnasingRole_User_Validation(SupportGroupMemberDTO SupportGroupMemberDTO)
         {
             var _validation_ResultDTO = new ValidationResultDTO
@@ -191,16 +188,13 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             try
             {
                 var _validation_ResultList = new List<ValidationResultDTO>();
-
-                
-
-                if (SupportGroupMemberDTO.RoleDTO.ID > 0 && SupportGroupMemberDTO.UserDTO.ID > 0)
+                if (SupportGroupMemberDTO.RoleID > 0 && SupportGroupMemberDTO.UserID > 0)
                 {
                     //validate if user already exist in support Group
                     var _supportGroupMemberDTO = SupportGroupMember_Service.GetSupportGroupMemberList_Global(new SupportGroupMemberDTO
                     {
-                        UserDTO = SupportGroupMemberDTO.UserDTO,
-                        RoleDTO = SupportGroupMemberDTO.RoleDTO,
+                        UserID = SupportGroupMemberDTO.UserID,
+                        RoleID = SupportGroupMemberDTO.RoleID,
                         IsActive=true
                     }).FirstOrDefault();
 
@@ -215,7 +209,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                     };
                 }
 
-
                 // if list contains a error, update main validation result
                 if (_validation_ResultList.Count > 0)
                 {
@@ -223,7 +216,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                     _validation_ResultDTO.Message = "Errors!";
                     _validation_ResultDTO.Description = "There is a list of errors";
                     _validation_ResultDTO.ValidationResultList = _validation_ResultList;
-
                 }
             }
             catch (Exception ex)
@@ -265,7 +257,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                     _validation_ResultDTO.Message = "Errors!";
                     _validation_ResultDTO.Description = "There is a list of errors";
                     _validation_ResultDTO.ValidationResultList = _validation_ResultList;
-
                 }
             }
             catch (Exception ex)

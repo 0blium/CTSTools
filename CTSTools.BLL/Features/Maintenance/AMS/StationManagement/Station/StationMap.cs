@@ -18,12 +18,12 @@ public class StationMap
             _stationDTO.Description = StationXPO.Description;
             _stationDTO.Serial = StationXPO.Serial;
             _stationDTO.NameWithSerial = $"{StationXPO.Serial} - {StationXPO.Name}";
-            _stationDTO.FacilityDTO.ID = (StationXPO.Facility != null) ? StationXPO.Facility.Oid : 0;
-            _stationDTO.FacilityDTO.Name = (StationXPO.Facility != null) ? StationXPO.Facility.Name : "Unnassigned";
-            _stationDTO.DepartmentDTO.ID = (StationXPO.Department != null) ? StationXPO.Department.Oid : 0;
-            _stationDTO.DepartmentDTO.Name = (StationXPO.Department != null) ? StationXPO.Department.Name : "Unnassigned";
-            _stationDTO.StationTypeDTO.ID = (StationXPO.StationType != null) ? StationXPO.StationType.Oid : 0;
-            _stationDTO.StationTypeDTO.Name = (StationXPO.StationType != null) ? StationXPO.StationType.Name : "Unnassigned";
+            _stationDTO.FacilityID = (StationXPO.Facility != null) ? StationXPO.Facility.Oid : 0;
+            _stationDTO.FacilityName = (StationXPO.Facility != null) ? StationXPO.Facility.Name : "Unnassigned";
+            _stationDTO.DepartmentID = (StationXPO.Department != null) ? StationXPO.Department.Oid : 0;
+            _stationDTO.DepartmentName = (StationXPO.Department != null) ? StationXPO.Department.Name : "Unnassigned";
+            _stationDTO.StationTypeID = (StationXPO.StationType != null) ? StationXPO.StationType.Oid : 0;
+            _stationDTO.StationTypeName = (StationXPO.StationType != null) ? StationXPO.StationType.Name : "Unnassigned";
             _stationDTO.AddedDate = (StationXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? StationXPO.AddedDate : (DateTime?)null;
             _stationDTO.AddedByID = (StationXPO.AddedBy != null) ? StationXPO.AddedBy.Oid : 0;
             _stationDTO.AddedByName = (StationXPO.AddedBy != null) ? StationXPO.AddedBy.Name : "Unnassigned";
@@ -31,7 +31,6 @@ public class StationMap
             _stationDTO.LastUpdateByID = (StationXPO.LastUpdateBy != null) ? StationXPO.LastUpdateBy.Oid : 0;
             _stationDTO.LastUpdateByName = (StationXPO.LastUpdateBy != null) ? StationXPO.LastUpdateBy.Name : "Unnassigned";
             _stationDTO.IsActive = StationXPO.IsActive;
-
         }
         catch (Exception ex)
         {
@@ -49,15 +48,14 @@ public class StationMap
             _stationXPO.Name = _stationXPO.Name == StationDTO.Name ? _stationXPO.Name : StationDTO.Name;
             _stationXPO.Description = _stationXPO.Description == StationDTO.Description ? _stationXPO.Description : StationDTO.Description;
             _stationXPO.Serial = _stationXPO.Serial == StationDTO.Serial ? _stationXPO.Serial : StationDTO.Serial;
-            _stationXPO.Facility = (_stationXPO.Facility != null && _stationXPO.Facility.Oid == StationDTO.FacilityDTO.ID) ? _stationXPO.Facility : UnitOfWork.GetObjectByKey<FacilityXPO>(StationDTO.FacilityDTO.ID);
-            _stationXPO.Department = (_stationXPO.Department != null && _stationXPO.Department.Oid == StationDTO.DepartmentDTO.ID) ? _stationXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(StationDTO.DepartmentDTO.ID);
-            _stationXPO.StationType = (_stationXPO.StationType != null && _stationXPO.StationType.Oid == StationDTO.StationTypeDTO.ID) ? _stationXPO.StationType : UnitOfWork.GetObjectByKey<StationTypeXPO>(StationDTO.StationTypeDTO.ID);
+            _stationXPO.Facility = (_stationXPO.Facility != null && _stationXPO.Facility.Oid == StationDTO.FacilityID) ? _stationXPO.Facility : UnitOfWork.GetObjectByKey<FacilityXPO>(StationDTO.FacilityID);
+            _stationXPO.Department = (_stationXPO.Department != null && _stationXPO.Department.Oid == StationDTO.DepartmentID) ? _stationXPO.Department : UnitOfWork.GetObjectByKey<DepartmentXPO>(StationDTO.DepartmentID);
+            _stationXPO.StationType = (_stationXPO.StationType != null && _stationXPO.StationType.Oid == StationDTO.StationTypeID) ? _stationXPO.StationType : UnitOfWork.GetObjectByKey<StationTypeXPO>(StationDTO.StationTypeID);
             _stationXPO.AddedDate = _stationXPO.AddedDate != null ? _stationXPO.AddedDate : StationDTO.AddedDate;
             _stationXPO.AddedBy = (_stationXPO.AddedBy != null) ? _stationXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(StationDTO.AddedByID);
             _stationXPO.LastUpdate = _stationXPO.LastUpdate == StationDTO.LastUpdate ? _stationXPO.LastUpdate : StationDTO.LastUpdate;
             _stationXPO.LastUpdateBy = (_stationXPO.LastUpdateBy != null && _stationXPO.LastUpdateBy.Oid == StationDTO.LastUpdateByID) ? _stationXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(StationDTO.LastUpdateByID);
             _stationXPO.IsActive = _stationXPO.IsActive == StationDTO.IsActive ? (bool)_stationXPO.IsActive : (bool)StationDTO.IsActive;
-
         }
         catch (Exception ex)
         {

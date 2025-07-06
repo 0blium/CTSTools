@@ -1,6 +1,5 @@
 ﻿using CTSTools.DAL.Features.AdvancedSettings.LocationManagement;
 using CTSTools.DAL.Features.AdvancedSettings.UserManagement;
-using CTSTools.DAL.Features.Maintenance.AMS.Station;
 using CTSTools.DAL.Features.Maintenance.AMS.SupportGroup;
 using DevExpress.Xpo;
 using System;
@@ -19,8 +18,8 @@ public class SupportGroupMap
             _supportgroupDTO.Names = $"{SupportGroupXPO.Name}";
             _supportgroupDTO.Description = SupportGroupXPO.Description;
             _supportgroupDTO.AddedDate = (SupportGroupXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? SupportGroupXPO.AddedDate : (DateTime?)null;
-            _supportgroupDTO.FacilityDTO.ID = (SupportGroupXPO.Facility != null) ? SupportGroupXPO.Facility.Oid : 0;
-            _supportgroupDTO.FacilityDTO.Name = (SupportGroupXPO.Facility != null) ? SupportGroupXPO.Facility.Name : "Unnassigned";
+            _supportgroupDTO.FacilityID = (SupportGroupXPO.Facility != null) ? SupportGroupXPO.Facility.Oid : 0;
+            _supportgroupDTO.FacilityName = (SupportGroupXPO.Facility != null) ? SupportGroupXPO.Facility.Name : "Unnassigned";
             _supportgroupDTO.AddedByID = (SupportGroupXPO.AddedBy != null) ? SupportGroupXPO.AddedBy.Oid : 0;
             _supportgroupDTO.AddedByName = (SupportGroupXPO.AddedBy != null) ? SupportGroupXPO.AddedBy.Name : "Unnassigned";
             _supportgroupDTO.LastUpdate = (SupportGroupXPO.LastUpdate.ToString() != DateTime.MinValue.ToString()) ? SupportGroupXPO.LastUpdate : (DateTime?)null;
@@ -44,7 +43,7 @@ public class SupportGroupMap
             _supportgroupXPO.Name = _supportgroupXPO.Name == SupportGroupDTO.Name ? _supportgroupXPO.Name : SupportGroupDTO.Name;
             _supportgroupXPO.Description = _supportgroupXPO.Description == SupportGroupDTO.Description ? _supportgroupXPO.Description : SupportGroupDTO.Description;
             _supportgroupXPO.AddedDate = _supportgroupXPO.AddedDate != null ? _supportgroupXPO.AddedDate : SupportGroupDTO.AddedDate;
-            _supportgroupXPO.Facility = (_supportgroupXPO.Facility != null && _supportgroupXPO.Facility.Oid == SupportGroupDTO.FacilityDTO.ID) ? _supportgroupXPO.Facility : UnitOfWork.GetObjectByKey<FacilityXPO>(SupportGroupDTO.FacilityDTO.ID);
+            _supportgroupXPO.Facility = (_supportgroupXPO.Facility != null && _supportgroupXPO.Facility.Oid == SupportGroupDTO.FacilityID) ? _supportgroupXPO.Facility : UnitOfWork.GetObjectByKey<FacilityXPO>(SupportGroupDTO.FacilityID);
             _supportgroupXPO.AddedBy = (_supportgroupXPO.AddedBy != null) ? _supportgroupXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(SupportGroupDTO.AddedByID);
             _supportgroupXPO.LastUpdate = _supportgroupXPO.LastUpdate == SupportGroupDTO.LastUpdate ? _supportgroupXPO.LastUpdate : SupportGroupDTO.LastUpdate;
             _supportgroupXPO.LastUpdateBy = (_supportgroupXPO.LastUpdateBy != null && _supportgroupXPO.LastUpdateBy.Oid == SupportGroupDTO.LastUpdateByID) ? _supportgroupXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(SupportGroupDTO.LastUpdateByID);

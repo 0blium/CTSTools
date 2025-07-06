@@ -266,10 +266,10 @@ async function InitializeTicketConsultControls() {
                 {
                     caption: "Item",
                     dataField: "Item_LineDTO.ItemNameWithManufactureSerial",
-                    calculateSortValue: "Item_LineDTO.Item_HeaderDTO.EnglishName",
+                    calculateSortValue: "Item_LineDTO.Item_HeaderDTO.Model",
                     calculateFilterExpression: function (filterValue, selectedFilterOperation, target) {
                         // Build Filter Search Expression 
-                        return [["Item_LineDTO.Item_HeaderDTO.EnglishName", "contains", filterValue],
+                        return [["Item_LineDTO.Item_HeaderDTO.Model", "contains", filterValue],
                             "or",
                         ["Item_LineDTO.ManufactureSerialID", "contains", filterValue]];
                     }
@@ -352,8 +352,6 @@ async function InitializeTicketConsultControls() {
                     caption: "Closed By",
                     dataField: "ClosedByName",
                 },
-
-
             ],
     });
 }

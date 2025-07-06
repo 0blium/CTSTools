@@ -17,13 +17,10 @@ public class UserDefinedDTO
     public int? LastUpdateByID { get; set; }
     public string LastUpdateByName { get; set; }
     public bool? IsActive { get; set; }
-
     public string NameWithDataType { get; set; }
-
     #endregion
 
     #region Extended Properties
-
     public int?[] UserDefinedIDArray { get; set; }
     public int? SupportGroupID { get; set; }
     public string SupportGroupName { get; set; }
@@ -35,8 +32,8 @@ public class UserDefinedDTO
     public DataTypeDTO DataTypeDTO { get; set; }
     public bool GetDataTypeDTO { get; set; }
     public int?[] DataTypeIDArray { get; set; }
-
     #endregion
+
     #region Constructor
     public UserDefinedDTO()
     {

@@ -30,44 +30,34 @@ public class Station_Validator
                     Data = $"{nameof(Station)}{nameof(StationDTO.Name)}",
                 });
             }
-            //if (string.IsNullOrEmpty(StationDTO.Serial) )
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false, 
-            //        Message = "Serial Field Empty", 
-            //        Description = " Please, complete the missing information ", 
-            //        Data = $"{nameof(Station)}{nameof(StationDTO.Serial)}", 
-            //    });
-            //}
-            if (StationDTO.FacilityDTO.ID == null || StationDTO.FacilityDTO.ID == 0)
+            if (StationDTO.FacilityID == null || StationDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Station)}{nameof(StationDTO.FacilityDTO)}",
+                    Data = $"{nameof(Station)}{nameof(StationDTO.FacilityID)}",
                 });
             }
-            if (StationDTO.DepartmentDTO.ID == null || StationDTO.DepartmentDTO.ID == 0)
+            if (StationDTO.DepartmentID == null || StationDTO.DepartmentID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Department Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Station)}{nameof(StationDTO.DepartmentDTO)}",
+                    Data = $"{nameof(Station)}{nameof(StationDTO.DepartmentID)}",
                 });
             }
-            if (StationDTO.StationTypeDTO.ID == null || StationDTO.StationTypeDTO.ID == 0)
+            if (StationDTO.StationTypeID == null || StationDTO.StationTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "StationType Field Empty",
+                    Message = "Station Type Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Station)}{nameof(StationDTO.StationTypeDTO)}",
+                    Data = $"{nameof(Station)}{nameof(StationDTO.StationTypeID)}",
                 });
             }
 
@@ -139,34 +129,34 @@ public class Station_Validator
                     Data = $"{nameof(Station)}{nameof(StationDTO.Serial)}",
                 });
             }
-            if (StationDTO.FacilityDTO.ID == null || StationDTO.FacilityDTO.ID == 0)
+            if (StationDTO.FacilityID == null || StationDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Station)}{nameof(StationDTO.FacilityDTO)}",
+                    Data = $"{nameof(Station)}{nameof(StationDTO.FacilityID)}",
                 });
             }
-            if (StationDTO.DepartmentDTO.ID == null || StationDTO.DepartmentDTO.ID == 0)
+            if (StationDTO.DepartmentID == null || StationDTO.DepartmentID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Department Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Station)}{nameof(StationDTO.DepartmentDTO)}",
+                    Data = $"{nameof(Station)}{nameof(StationDTO.DepartmentID)}",
                 });
             }
-            if (StationDTO.StationTypeDTO.ID == null || StationDTO.StationTypeDTO.ID == 0)
+            if (StationDTO.StationTypeID == null || StationDTO.StationTypeID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "StationType Field Empty",
+                    Message = "Station Type Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Station)}{nameof(StationDTO.StationTypeDTO)}",
+                    Data = $"{nameof(Station)}{nameof(StationDTO.StationTypeID)}",
                 });
             }
 
@@ -222,7 +212,7 @@ public class Station_Validator
             else
             {
                 //validate if stations have items
-                var _item_lineList = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { StationDTO = StationDTO });
+                var _item_lineList = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { StationID = StationDTO.ID });
                 if (_item_lineList.Count() > 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO

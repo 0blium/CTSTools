@@ -99,7 +99,7 @@ public class Station_Service
         {
             if (StationDTO.GetFacilityDTO)
             {
-                StationDTO.FacilityDTO.FacilityIDArray = StationList.GroupBy(g => g.FacilityDTO.ID)
+                StationDTO.FacilityDTO.FacilityIDArray = StationList.GroupBy(g => g.FacilityID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -108,7 +108,7 @@ public class Station_Service
             }
             if (StationDTO.GetDepartmentDTO)
             {
-                StationDTO.DepartmentDTO.DepartmentIDArray = StationList.GroupBy(g => g.DepartmentDTO.ID)
+                StationDTO.DepartmentDTO.DepartmentIDArray = StationList.GroupBy(g => g.DepartmentID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -117,7 +117,7 @@ public class Station_Service
             }
             if (StationDTO.GetStationTypeDTO)
             {
-                StationDTO.StationTypeDTO.StationTypeIDArray = StationList.GroupBy(g => g.StationTypeDTO.ID)
+                StationDTO.StationTypeDTO.StationTypeIDArray = StationList.GroupBy(g => g.StationTypeID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -126,17 +126,17 @@ public class Station_Service
             }
             foreach (var _stationDTO in StationList)
             {
-                if (StationDTO.GetFacilityDTO && _facilityDict.ContainsKey(_stationDTO.FacilityDTO.ID))
+                if (StationDTO.GetFacilityDTO && _facilityDict.ContainsKey(_stationDTO.FacilityID))
                 {
-                    _stationDTO.FacilityDTO = _facilityDict[_stationDTO.FacilityDTO.ID];
+                    _stationDTO.FacilityDTO = _facilityDict[_stationDTO.FacilityID];
                 }
-                if (StationDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_stationDTO.DepartmentDTO.ID))
+                if (StationDTO.GetDepartmentDTO && _departmentDict.ContainsKey(_stationDTO.DepartmentID))
                 {
-                    _stationDTO.DepartmentDTO = _departmentDict[_stationDTO.DepartmentDTO.ID];
+                    _stationDTO.DepartmentDTO = _departmentDict[_stationDTO.DepartmentID];
                 }
-                if (StationDTO.GetStationTypeDTO && _stationtypeDict.ContainsKey(_stationDTO.StationTypeDTO.ID))
+                if (StationDTO.GetStationTypeDTO && _stationtypeDict.ContainsKey(_stationDTO.StationTypeID))
                 {
-                    _stationDTO.StationTypeDTO = _stationtypeDict[_stationDTO.StationTypeDTO.ID];
+                    _stationDTO.StationTypeDTO = _stationtypeDict[_stationDTO.StationTypeID];
                 }
                 _stationglobalList.Add(_stationDTO);
             }
@@ -161,7 +161,7 @@ public class Station_Service
                 //get item lines by items ID's
                 _item_lineList = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Item_LineIDArray = StationDTO.Item_LineIDArray });
                 //get stations ID's of items where station ID doesnt null
-                StationDTO.StationIDArray = _item_lineList.Where(w => w.StationDTO.ID > 0).GroupBy(g => g.StationDTO.ID).Select(s => s.Key).ToArray();
+                StationDTO.StationIDArray = _item_lineList.Where(w => w.StationID > 0).GroupBy(g => g.StationID).Select(s => s.Key).ToArray();
 
                 if (StationDTO.StationIDArray != null && StationDTO.StationIDArray.Length > 0)
                 {

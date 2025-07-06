@@ -94,7 +94,7 @@ public class Category_Service
         {
             if (CategoryDTO.GetSupportGroupDTO)
             {
-                CategoryDTO.SupportGroupDTO.SupportGroupIDArray = CategoryList.GroupBy(g => g.SupportGroupDTO.ID)
+                CategoryDTO.SupportGroupDTO.SupportGroupIDArray = CategoryList.GroupBy(g => g.SupportGroupID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -103,13 +103,12 @@ public class Category_Service
             }
             foreach (var _categoryDTO in CategoryList)
             {
-                if (CategoryDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_categoryDTO.SupportGroupDTO.ID))
+                if (CategoryDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_categoryDTO.SupportGroupID))
                 {
-                    _categoryDTO.SupportGroupDTO = _supportgroupDict[_categoryDTO.SupportGroupDTO.ID];
+                    _categoryDTO.SupportGroupDTO = _supportgroupDict[_categoryDTO.SupportGroupID];
                 }
                 _categoryglobalList.Add(_categoryDTO);
             }
-
         }
         catch (Exception ex)
         {

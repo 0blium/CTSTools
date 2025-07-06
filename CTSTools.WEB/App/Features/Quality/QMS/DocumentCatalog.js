@@ -142,7 +142,6 @@ async function InitializeDocumentCatalogControls() {
                     dataField: "LastRevision",
                     alignment: 'center',
                     cellTemplate: function (container, options) {
-                        console.log(options.data)
                         const _link = `data:${options.data.FileDTO.MIMEType};base64,${options.data.FileDTO.Data}`
                         if (options.data.StatusID == Status_Enum.Released) {
                             $('<a style="text-decoration:none;">' + options.data.LastRevision + '</a>')

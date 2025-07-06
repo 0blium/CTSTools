@@ -28,14 +28,14 @@ public class SupportGroup_Validator
                     Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.Name)}",
                 });
             }
-            if (SupportGroupDTO.FacilityDTO.ID == null || SupportGroupDTO.FacilityDTO.ID == 0)
+            if (SupportGroupDTO.FacilityID == null || SupportGroupDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.FacilityDTO)}",
+                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.FacilityID)}",
                 });
             }
             if (SupportGroupDTO.AddedByID == null || SupportGroupDTO.AddedByID == 0)
@@ -96,14 +96,14 @@ public class SupportGroup_Validator
                     Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.Name)}",
                 });
             }
-            if (SupportGroupDTO.FacilityDTO.ID == null || SupportGroupDTO.FacilityDTO.ID == 0)
+            if (SupportGroupDTO.FacilityID == null || SupportGroupDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.FacilityDTO)}",
+                    Data = $"{nameof(SupportGroup)}{nameof(SupportGroupDTO.FacilityID)}",
                 });
             }
             if (SupportGroupDTO.LastUpdateByID == null || SupportGroupDTO.LastUpdateByID == 0)

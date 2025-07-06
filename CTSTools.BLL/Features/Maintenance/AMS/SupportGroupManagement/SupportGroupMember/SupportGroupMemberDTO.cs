@@ -22,13 +22,19 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
         #region Extended Properties
 
         public int?[] SupportGroupMemberIDArray { get; set; }
+        public int? SupportGroupID { get; set; }
+        public string SupportGroupName { get; set; }
         public SupportGroupDTO SupportGroupDTO { get; set; }
         public bool GetSupportGroupDTO { get; set; }
         public int?[] SupportGroupIDArray { get; set; }
         public string[] SupportGroupNameArray { get; set; }
+        public int? UserID { get; set; }
+        public string UserName { get; set; }
         public UserDTO UserDTO { get; set; }
         public bool GetUserDTO { get; set; }
         public int?[] UserIDArray { get; set; }
+        public int? RoleID { get; set; }
+        public string RoleName { get; set; }
         public RoleDTO RoleDTO { get; set; }
         public bool GetRoleDTO { get; set; }
         public int?[] RoleIDArray { get; set; }

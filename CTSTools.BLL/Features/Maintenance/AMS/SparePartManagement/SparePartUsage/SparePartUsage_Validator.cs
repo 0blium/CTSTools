@@ -56,7 +56,7 @@ public class SparePartUsage_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePartInventory Field Empty",
+                    Message = "Spare Part Inventory Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -65,7 +65,7 @@ public class SparePartUsage_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Item Field Empty",
+                    Message = "Item Line Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -75,7 +75,7 @@ public class SparePartUsage_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePart_Lot Field Empty",
+                    Message = "Spare Part Lot Field Empty",
                     Description = " Please, complete the missing information ",
                 });
             }
@@ -134,7 +134,6 @@ public class SparePartUsage_Validator
                     Result = false,
                     Message = "Quantity Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.Quantity)}",
                 });
             }
             // if list contains a error, update main validation result
@@ -191,7 +190,7 @@ public class SparePartUsage_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePartInventory Field Empty",
+                    Message = "Spare Part Inventory Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.SparePartInventoryDTO)}",
                 });
@@ -201,7 +200,7 @@ public class SparePartUsage_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "Item_Line Field Empty",
+                    Message = "Item Line Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.Item_LineDTO)}",
                 });
@@ -211,7 +210,7 @@ public class SparePartUsage_Validator
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
-                    Message = "SparePart_Lot Field Empty",
+                    Message = "Spare Part Lot Field Empty",
                     Description = " Please, complete the missing information ",
                     Data = $"{nameof(SparePartUsage)}{nameof(SparePartUsageDTO.SparePart_LotDTO)}",
                 });

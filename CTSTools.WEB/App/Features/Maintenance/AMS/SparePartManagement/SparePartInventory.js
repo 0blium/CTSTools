@@ -56,9 +56,6 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
     }
 }
 
-
-
-
 //#region Spare Part Inventory
 
 async function InitializeSparePartIventoryControls() {
@@ -174,12 +171,12 @@ async function InitializeSparePartIventoryControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                 },
                 {
                     caption: "SparePart",
-                    dataField: "SparePartDTO.Name"
+                    dataField: "SparePartName"
                 },
                 {
                     caption: "Manufacture ID",
@@ -190,7 +187,7 @@ async function InitializeSparePartIventoryControls() {
                     dataField: "SparePartDTO.Description"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -204,7 +201,7 @@ async function InitializeSparePartIventoryControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -285,24 +282,6 @@ async function InitializeSparePartIventoryControls() {
         },
         columns:
             [
-                //{
-                //    caption: "Delete",
-                //    alignment: "center",
-                //    allowFiltering: false,
-                //    allowSorting: false,
-                //    width: 70,
-                //    cellTemplate: function (container, options) {
-                //        container.height(30);
-                //        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenSparePartInventoryID").val(options.data.ID);
-                //                ShowSparePartInventoryDeleteQuestion();
-                //            }).appendTo(container);
-                //    },
-                //},
                 {
                     caption: "Is Active",
                     dataField: "IsActive"
@@ -314,11 +293,11 @@ async function InitializeSparePartIventoryControls() {
                 },
                 {
                     caption: "SparePart",
-                    dataField: "SparePartDTO.Name"
+                    dataField: "SparePartName"
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                 },
                 {
                     caption: "Minimum",
@@ -333,7 +312,7 @@ async function InitializeSparePartIventoryControls() {
                     dataField: "AvailableQty",
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -347,7 +326,7 @@ async function InitializeSparePartIventoryControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -360,8 +339,6 @@ async function InitializeSparePartIventoryControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
 }
@@ -393,8 +370,8 @@ function SparePartInventoryActionButtons(Action) {
 function PopulateSparePartInventoryFields(data) {
 
     $('#hiddenSparePartInventoryID').val(data.ID);
-    $('#hiddenSparePartID').val(data.SparePartDTO.ID);
-    $('#hiddenSupportGroupID').val(data.SupportGroupDTO.ID);
+    $('#hiddenSparePartID').val(data.SparePartID);
+    $('#hiddenSupportGroupID').val(data.SupportGroupID);
     $("#dxSparePartInventoryMaxQtyNumberBox").dxNumberBox("instance").option("value", data.MaxQty)
     $("#dxSparePartInventoryMinQtyNumberBox").dxNumberBox("instance").option("value", data.MinQty)
     $("#dxSparePartInventoryAvailableQtyTextBox").dxTextBox("instance").option("value", data.AvailableQty)
@@ -403,9 +380,9 @@ function PopulateSparePartInventoryFields(data) {
 function PopulateSparePartFields(data) {
     TabMode("Active");
     $('#hiddenSparePartInventoryID').val(data.ID);
-    $('#hiddenSparePartID').val(data.SparePartDTO.ID);
-    $('#hiddenSupportGroupID').val(data.SupportGroupDTO.ID);
-    $("#dxSparePartNameTextBox").dxTextBox("instance").option("value", data.SparePartDTO.Name)
+    $('#hiddenSparePartID').val(data.SparePartID);
+    $('#hiddenSupportGroupID').val(data.SupportGroupID);
+    $("#dxSparePartNameTextBox").dxTextBox("instance").option("value", data.SparePartName)
     $("#dxSparePartManufactureIDTextBox").dxTextBox("instance").option("value", data.SparePartDTO.ManufactureID)
     $("#dxSparePartDescriptionTextArea").dxTextArea("instance").option("value", data.SparePartDTO.Description)
     $("#dxSparePartIsActiveCheckBox").dxCheckBox("instance").option("value", data.SparePartDTO.IsActive)
@@ -431,13 +408,8 @@ function ClearSparePartFields() {
     ClearErrorFeedback();
 }
 
-
-
 function ClearSparePartInventoryFields() {
     $("#SparePartInventoryActionButtons").empty();
-    //$('#hiddenSparePartInventoryID').val("0");
-    //$('#hiddenSparePartID').val("0");
-    //$('#hiddenSupportGroupID').val("0");
     $("#dxSparePartInventoryMaxQtyNumberBox").dxNumberBox("instance").option("value", '0');
     $("#dxSparePartInventoryMinQtyNumberBox").dxNumberBox("instance").option("value", '0');
     $("#dxSparePartInventoryAvailableQtyTextBox").dxTextBox("instance").option("value", '0');
@@ -448,16 +420,11 @@ function ClearSparePartInventoryFields() {
     $("#dxSparePartInventorySparePartGrid").dxDataGrid("instance").refresh();
     ClearErrorFeedback();
 }
-
 function GetSparePartInventoryDTO() {
     let _sparePartInventoryDTO = {
         ID: $('#hiddenSparePartInventoryID').val(),
-        SupportGroupDTO: {
-            ID: $('#hiddenSupportGroupID').val()
-        },
-        SparePartDTO: {
-            ID: $('#hiddenSparePartID').val()
-        },
+        SupportGroupID: $('#hiddenSupportGroupID').val(),
+        SparePartID: $('#hiddenSparePartID').val(),
         MaxQty: $("#dxSparePartInventoryMaxQtyNumberBox").dxNumberBox("instance").option("value"),
         MinQty: $("#dxSparePartInventoryMinQtyNumberBox").dxNumberBox("instance").option("value"),
         AvailableQty: $("#dxSparePartInventoryAvailableQtyTextBox").dxTextBox("instance").option("value"),
@@ -466,10 +433,7 @@ function GetSparePartInventoryDTO() {
     return _sparePartInventoryDTO;
 }
 
-
-
 //Modal
-
 async function InitializeSparePartIventoryModalControls() {
     $("#dxSparePartInventorySparePartTextBox").dxTextBox({
         placeholder: 'select a spare part from the table',
@@ -560,24 +524,6 @@ async function InitializeSparePartIventoryModalControls() {
         },
         columns:
             [
-                //{
-                //    caption: "Delete",
-                //    alignment: "center",
-                //    allowFiltering: false,
-                //    allowSorting: false,
-                //    width: 70,
-                //    cellTemplate: function (container, options) {
-                //        container.height(30);
-                //        $('<button type="button" class="btn btn-danger" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenSparePartID").val(options.data.ID);
-                //                ShowSparePartDeleteQuestion();
-                //            }).appendTo(container);
-                //    },
-                //},
                 {
                     caption: 'Spare Part image',
                     width: 100,
@@ -617,7 +563,7 @@ async function InitializeSparePartIventoryModalControls() {
                     dataField: "IsActive"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -631,7 +577,7 @@ async function InitializeSparePartIventoryModalControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -684,12 +630,8 @@ function ClearSparePartInventoryModalFields() {
 
 function GetSparePartInventoryModalDTO() {
     let _sparePartInventoryDTO = {
-        SupportGroupDTO: {
-            ID: $("#dxSparePartInventorySupportGroupModalSelectBox").dxSelectBox("instance").option("value")
-        },
-        SparePartDTO: {
-            ID: $('#hiddenSparePartModalID').val()
-        },
+        SupportGroupID: $("#dxSparePartInventorySupportGroupModalSelectBox").dxSelectBox("instance").option("value"),
+        SparePartID: $('#hiddenSparePartModalID').val(),
         MaxQty: $("#dxSparePartInventoryMaxQtyModalNumberBox").dxNumberBox("instance").option("value"),
         MinQty: $("#dxSparePartInventoryMinQtyModalNumberBox").dxNumberBox("instance").option("value"),
         IsActive: true
@@ -745,14 +687,12 @@ async function InitializeSparePartControls() {
     $("#dxSparePartIsActiveCheckBox").dxCheckBox({
         value: true,
     });
-
 }
-
 
 async function GetSparePartInventoryInformation() {
     await dxLoadPanel.show();
     ClearSparePartInventoryFields();
-    let _ds = await GetDXSparePartInventoryDataSource({ SupportGroupDTO: { ID: $('#hiddenSupportGroupID').val() }, SparePartDTO: { ID: $('#hiddenSparePartID').val() } });
+    let _ds = await GetDXSparePartInventoryDataSource({ SupportGroupID: $('#hiddenSupportGroupID').val(), SparePartID: $('#hiddenSparePartID').val() });
     $("#dxSparePartInventorySparePartGrid").dxDataGrid("instance").option("dataSource", _ds);
     await dxLoadPanel.hide();
 }
@@ -882,33 +822,6 @@ async function InitializeSparePartLotControls() {
         },
         columns:
             [
-                //{
-                //    caption: "Options",
-                //    alignment: "center",
-                //    allowFiltering: false,
-                //    allowSorting: false,
-                //    width: 'auto',
-                //    cellTemplate: function (container, options) {
-                //        container.height(30);
-                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenSparePartLotID").val(options.data.ID);
-                //                ShowSparePartLotDeleteQuestion();
-                //            }).appendTo(container);
-                //        $('<button type="button" class="btn btn-info ms-2 " style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fas fa-print"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                var _data = options.data;
-                //                // Open Label
-                //                window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2083-02-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
-                //            }).appendTo(container);
-                //    },
-                //},
                 {
                     caption: "Options",
                     alignment: "center",
@@ -950,7 +863,7 @@ async function InitializeSparePartLotControls() {
                 },
                 {
                     caption: "SparePart",
-                    dataField: "SparePartDTO.Name"
+                    dataField: "SparePartName"
                 },
                 {
                     caption: "Reference #",
@@ -962,7 +875,7 @@ async function InitializeSparePartLotControls() {
                 },
                 {
                     caption: "Provider",
-                    dataField: "ProviderDTO.Name",
+                    dataField: "ProviderName",
                 },
                 {
                     caption: "Part Number",
@@ -986,10 +899,10 @@ async function InitializeSparePartLotControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -1003,7 +916,7 @@ async function InitializeSparePartLotControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -1016,8 +929,6 @@ async function InitializeSparePartLotControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
     SparePartLotActionButtons("Save")
@@ -1063,15 +974,15 @@ function SparePartLotActionButtons(Action) {
 
 function PopulateSparePartLotFields(data) {
     $('#hiddenSparePartLotID').val(data.ID);
-    $('#hiddenSparePartID').val(data.SparePartDTO.ID);
-    $('#hiddenSupportGroupID').val(data.SupportGroupDTO.ID);
+    $('#hiddenSparePartID').val(data.SparePartID);
+    $('#hiddenSupportGroupID').val(data.SupportGroupID);
     $("#dxSparePart_LotPartNumberTextBox").dxTextBox("instance").option("value", data.PartNumber)
     $("#dxSparePart_LotQtyNumberBox").dxNumberBox("instance").option("value", data.Quantity)
     $("#dxSparePart_LotQtyNumberBox").dxNumberBox("instance").option("readOnly", true)
     $("#dxSparePart_LotAvailableQtyTextBox").dxTextBox("instance").option("value", data.AvailableQty)
     $("#dxSparePart_LotSerialTextBox").dxTextBox("instance").option("value", data.Serial)
-    $("#dxSparePart_LotProviderSelectBox").dxSelectBox("instance").option("value", data.ProviderDTO.ID)
-    $("#dxSparePart_LotTransactionOriginSelectBox").dxSelectBox("instance").option("value", data.TransactionOriginDTO.ID)
+    $("#dxSparePart_LotProviderSelectBox").dxSelectBox("instance").option("value", data.ProviderID)
+    $("#dxSparePart_LotTransactionOriginSelectBox").dxSelectBox("instance").option("value", data.TransactionOriginID)
     $("#dxSparePart_LotTransactionNumberTextBox").dxTextBox("instance").option("value", data.TransactionNumber)
     $("#dxSparePart_LotTransactionLineNumberBox").dxNumberBox("instance").option("value", data.TransactionLine)
     $("#dxSparePart_LotCostNumberBox").dxNumberBox("instance").option("value", data.Cost)
@@ -1106,18 +1017,10 @@ function ClearSparePartLotFields() {
 function GetSparePartLotDTO() {
     let _sparePartLotDTO = {
         ID: $('#hiddenSparePartLotID').val(),
-        SupportGroupDTO: {
-            ID: $('#hiddenSupportGroupID').val()
-        },
-        SparePartDTO: {
-            ID: $('#hiddenSparePartID').val()
-        },
-        ProviderDTO: {
-            ID: $("#dxSparePart_LotProviderSelectBox").dxSelectBox("instance").option("value"),
-        },
-        TransactionOriginDTO: {
-            ID: $("#dxSparePart_LotTransactionOriginSelectBox").dxSelectBox("instance").option("value"),
-        },
+        SupportGroupID: $('#hiddenSupportGroupID').val(),
+        SparePartID: $('#hiddenSparePartID').val(),
+        ProviderID: $("#dxSparePart_LotProviderSelectBox").dxSelectBox("instance").option("value"),
+        TransactionOriginID: $("#dxSparePart_LotTransactionOriginSelectBox").dxSelectBox("instance").option("value"),
         Quantity: $("#dxSparePart_LotQtyNumberBox").dxNumberBox("instance").option("value"),
         AvailableQty: $("#dxSparePart_LotAvailableQtyTextBox").dxTextBox("instance").option("value"),
         PartNumber: $("#dxSparePart_LotPartNumberTextBox").dxTextBox("instance").option("value"),

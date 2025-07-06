@@ -28,9 +28,9 @@ public class Category_DXFilter
             {
                 _groupOperator.Operands.Add(new BinaryOperator(nameof(CategoryXPO.Parent), CategoryDTO.ParentID));
             }
-            if (CategoryDTO.SupportGroupDTO.ID != null || CategoryDTO.SupportGroupDTO.ID > 0)
+            if (CategoryDTO.SupportGroupID != null || CategoryDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(CategoryXPO.SupportGroup), CategoryDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(CategoryXPO.SupportGroup), CategoryDTO.SupportGroupID));
             }
             if (CategoryDTO.SupportGroupIDArray != null && CategoryDTO.SupportGroupIDArray.Count() > 0)
             {

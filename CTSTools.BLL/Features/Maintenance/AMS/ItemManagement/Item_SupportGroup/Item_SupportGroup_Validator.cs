@@ -18,7 +18,6 @@ public class Item_SupportGroup_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             if (Item_SupportGroupDTO.Item_HeaderID == null || Item_SupportGroupDTO.Item_HeaderID == 0)
             {
@@ -27,7 +26,6 @@ public class Item_SupportGroup_Validator
                     Result = false,
                     Message = "Selected Item Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(Item_SupportGroup)}{nameof(Item_SupportGroupDTO.Item_HeaderDTO)}",
                 });
             }
             if (Item_SupportGroupDTO.SupportGroupID == null || Item_SupportGroupDTO.SupportGroupID == 0)
@@ -37,10 +35,8 @@ public class Item_SupportGroup_Validator
                     Result = false,
                     Message = "Support Group Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(Item_SupportGroup)}{nameof(Item_SupportGroupDTO.SupportGroupDTO)}",
                 });
             }
-
             if (Item_SupportGroupDTO.AddedByID == null || Item_SupportGroupDTO.AddedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -50,7 +46,6 @@ public class Item_SupportGroup_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-
             //validate if relation already exist
             if (!(Item_SupportGroupDTO.Item_HeaderID == null || Item_SupportGroupDTO.Item_HeaderID == 0) &&
                 !(Item_SupportGroupDTO.SupportGroupID == null || Item_SupportGroupDTO.SupportGroupID == 0))
@@ -71,9 +66,6 @@ public class Item_SupportGroup_Validator
                     });
                 }
             }
-
-
-
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)
             {
@@ -81,7 +73,6 @@ public class Item_SupportGroup_Validator
                 _validation_ResultDTO.Message = "Errors!";
                 _validation_ResultDTO.Description = "There is a list of errors";
                 _validation_ResultDTO.ValidationResultList = _validation_ResultList;
-
             }
         }
         catch (Exception ex)
@@ -102,7 +93,6 @@ public class Item_SupportGroup_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             if (Item_SupportGroupDTO.ID == null || Item_SupportGroupDTO.ID == 0)
             {
@@ -123,7 +113,6 @@ public class Item_SupportGroup_Validator
                     Data = $"{nameof(Item_SupportGroup)}{nameof(Item_SupportGroupDTO.Item_HeaderID)}",
                 });
             }
-
             if (Item_SupportGroupDTO.LastUpdateByID == null || Item_SupportGroupDTO.LastUpdateByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -133,7 +122,6 @@ public class Item_SupportGroup_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)
             {
@@ -176,7 +164,7 @@ public class Item_SupportGroup_Validator
             else
             {
                 //Validate if item lines dont contain relation with Item Support Group ID
-                var _item_linesDTOList = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Item_SupportGroupDTO = Item_SupportGroupDTO });
+                var _item_linesDTOList = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { Item_SupportGroupID = Item_SupportGroupDTO.ID });
                 if (_item_linesDTOList?.Count > 0)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
@@ -217,7 +205,6 @@ public class Item_SupportGroup_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             //Validation Relation Item Header & SupportGroup exist 
             if (Item_LineDTO.Item_HeaderID != null && Item_LineDTO.Item_SupportGroupDTO?.SupportGroupID != null)
@@ -266,7 +253,6 @@ public class Item_SupportGroup_Validator
                 _validation_ResultDTO.Message = "Errors!";
                 _validation_ResultDTO.Description = "There is a list of errors";
                 _validation_ResultDTO.ValidationResultList = _validation_ResultList;
-
             }
         }
         catch (Exception ex)

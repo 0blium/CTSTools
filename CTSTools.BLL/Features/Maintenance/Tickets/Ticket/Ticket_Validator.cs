@@ -67,7 +67,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityID)}",
                 });
             }
             if (TicketDTO.DepartmentID == null || TicketDTO.DepartmentID == 0)
@@ -77,7 +77,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Department Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentID)}",
                 });
             }
 
@@ -118,7 +118,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Status Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusID)}",
                 });
             }
             if (TicketDTO.PriorityID == null || TicketDTO.PriorityID == 0)
@@ -128,7 +128,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Priority Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityID)}",
                 });
             }
             if (TicketDTO.CategoryID == null || TicketDTO.CategoryID == 0)
@@ -138,7 +138,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Category Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryID)}",
                 });
             }
             if (TicketDTO.SupportGroupID == null || TicketDTO.SupportGroupID == 0)
@@ -148,7 +148,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupID)}",
                 });
             }
             
@@ -219,7 +219,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Facility Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.FacilityID)}",
                 });
             }
             if (TicketDTO.DepartmentID == null || TicketDTO.DepartmentID == 0)
@@ -229,7 +229,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Department Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentID)}",
                 });
             }
             if (TicketDTO.AssignedToID == null || TicketDTO.AssignedToID == 0)
@@ -253,7 +253,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Status Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.StatusID)}",
                 });
             }
             if (TicketDTO.PriorityID == null || TicketDTO.PriorityID == 0)
@@ -263,7 +263,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Priority Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.PriorityID)}",
                 });
             }
             if (TicketDTO.CategoryID == null || TicketDTO.CategoryID == 0)
@@ -273,7 +273,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "Category Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.CategoryID)}",
                 });
             }
             if (TicketDTO.SupportGroupID == null || TicketDTO.SupportGroupID == 0)
@@ -283,7 +283,7 @@ public class Ticket_Validator
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupID)}",
                 });
             }
             //if (TicketDTO.ClosedByID == null || TicketDTO.ClosedByID == 0)

@@ -28,12 +28,18 @@ public class StationDTO
     public int?[] StationIDArray { get; set; }
     public string[] StationNameArray { get; set; }
     public int?[] Item_LineIDArray { get; set; }
+    public int? FacilityID { get; set; }
+    public string FacilityName { get; set; }
     public FacilityDTO FacilityDTO { get; set; }
     public bool GetFacilityDTO { get; set; }
     public int?[] FacilityIDArray { get; set; }
+    public int? DepartmentID { get; set; }
+    public string DepartmentName { get; set; }
     public DepartmentDTO DepartmentDTO { get; set; }
     public bool GetDepartmentDTO { get; set; }
     public int?[] DepartmentIDArray { get; set; }
+    public int? StationTypeID { get; set; }
+    public string StationTypeName { get; set; }
     public StationTypeDTO StationTypeDTO { get; set; }
     public bool GetStationTypeDTO { get; set; }
     public int?[] StationTypeIDArray { get; set; }

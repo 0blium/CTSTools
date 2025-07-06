@@ -37,27 +37,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     EventHandler();
 });
 async function EventHandler() {
-    //document.getElementById('AssignUserDefinedBtn').addEventListener("click", GetUserDefinedList);
-    //document.getElementById("UpdateUserDefinedTemplateButton").addEventListener("click", UpdateUserDefinedTemplate_Global);
-    //document.getElementById("WizardCloseButton").addEventListener("click", CloseWizard);
-    //document.getElementById('AddNewItemLineModal').addEventListener('hidden.bs.modal', async function (event) {
-    //    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };//new
-    //    const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-    //    ClearItem_LineFields(_userDefinedTemplateList);
-    //});
     document.getElementById('AddNewItemHeaderModal').addEventListener('hidden.bs.modal', async function (event) {
         ClearItem_HeaderFields(true);
     });
     document.getElementById("AddNewItemHeaderBtn").addEventListener("click", function () {
         ClearItem_HeaderFields();
-        //SetWizardStyle("add");
-        //GetCurrentStep();
-    }); // Clears all fields before opening the New Item modal in case ID isn't cleared
-
-
+    }); // Clears all fields before opening the New Item modal in case ID isn't cleare
     // Assuming your DevExpress button has a specific class like "dx-my-button"
     let devExpressButton = document.querySelectorAll(".dx-fileuploader-button");
-
     devExpressButton.forEach(function (currentButton) {
         // Remove DevExpress button classes
         currentButton.classList.remove("dx-button", "dx-widget", "dx-button-normal", "dx-button-mode-contained", "dx-widget", "dx-button-has-text");
@@ -65,28 +52,6 @@ async function EventHandler() {
         // Add Bootstrap button classes
         currentButton.classList.add("btn", "btn-default");
     });
-
-    //document.getElementById('btnAddNewItemBack').addEventListener("click", function () {
-    //    ShowPreviousStep()
-    //    GetCurrentStep();
-    //});
-    //document.getElementById('btnAddNewItemNext').addEventListener("click", function (e) {
-    //    //e.preventDefault()
-    //    //if (event.target.innerText == 'Next' || event.target.innerText == 'Save') {
-    //    //    let _wizard = document.querySelector('#AddNewItemHeaderModal');
-    //    //    let activeTab = _wizard.querySelector('.workflow-wizard li a.active').parentNode;
-    //    //    let nextTab = activeTab.nextElementSibling;
-    //    //    ShowNextStep();
-    //    //    GetCurrentStep();
-    //    //}
-    //    //if (event.target.innerText == "Update") {
-    //    //    UpdateItem_Header_Global();
-    //    //    $("#AddNewItemHeaderModal").modal("hide");
-    //    //}
-
-
-    //});
-
 }
 //#region User
 async function GetUserInformationbyID() {
@@ -182,7 +147,7 @@ async function InitializeItemAdministrationCatalogControls() {
         },
         "export": {
             enabled: true,
-            fileName: "ItemAdministration",
+            fileName: "Inventory",
             allowExportSelectedData: true
         },
         filterRow: {
@@ -203,32 +168,12 @@ async function InitializeItemAdministrationCatalogControls() {
         headerFilter: {
             visible: true
         },
-        //onCellClick: async function (e) {
-        //    // Assuming you have access to the rowKey
-        //    var rowKey = e.key;
-        //    // Pass the event to the function
-        //    //toggleMasterRow(rowKey, e.event);
-        //    event.preventDefault()
-        //    if (e.row != null) {
-        //        $("#hiddenItem_HeaderID").val(e.row.data.Item_HeaderDTO.ID);
-        //        $("#hiddenItem_SupportGroupID").val(e.row.data.ID);
-        //        $("#hiddenUserSupportGroupID").val(e.row.data.SupportGroupDTO.ID)
-        //        //document.getElementById("AssignUserDefinedBtn").classList.remove("d-none");
-        //        console.log(e.row.data);
-        //        //await GetUserDefinedTemplateList();
-        //    }
-        //},
-        onRowClick: function (e) {
-            var rowKey = e.key;
-            // Pass the event to the function
-            //toggleMasterRow(rowKey, e.event);
-        },
         onSelectionChanged: async function (data) {
             let _itemAdministrationData = data.selectedRowsData[0];
             if (_itemAdministrationData != null) {
-                $("#hiddenItem_HeaderID").val(_itemAdministrationData.Item_HeaderDTO.ID);
+                $("#hiddenItem_HeaderID").val(_itemAdministrationData.Item_HeaderID);
                 $("#hiddenItem_SupportGroupID").val(_itemAdministrationData.ID);
-                $("#hiddenUserSupportGroupID").val(_itemAdministrationData.SupportGroupDTO.ID)
+                $("#hiddenUserSupportGroupID").val(_itemAdministrationData.SupportGroupID)
                 Item_HeaderActionButtons("Update");
                 await PopulateItem_HeaderFields(_itemAdministrationData);
                 GetItem_HeaderFileList();
@@ -238,33 +183,6 @@ async function InitializeItemAdministrationCatalogControls() {
         },
         columns:
             [
-                //{
-                //    caption: "Actions",
-                //    alignment: "center",
-                //    allowFiltering: false,
-                //    allowSorting: false,
-                //    width: 'auto',
-                //    cellTemplate: function (container, options) {
-                //        container.height(30);
-                //        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemHeaderModal" class="btn btn-success" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenItem_HeaderID").val(options.data.ID);
-                //                SetWizardStyle("edit");
-                //            }).appendTo(container);
-                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenItem_HeaderID").val(options.data.ID);
-                //                $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
-                //                ShowItem_SupportGroupDeleteQuestion();
-                //            }).appendTo(container);
-                //    },
-                //},
                 {
                     caption: "Options",
                     alignment: "center",
@@ -285,21 +203,20 @@ async function InitializeItemAdministrationCatalogControls() {
                             hideSubmenuOnMouseLeave: true,
                             onItemClick: function (e) {
                                 if (e.itemData.value == 1) {
-                                    $("#hiddenItem_HeaderID").val(options.data.Item_HeaderDTO.ID);
+                                    $("#hiddenItem_HeaderID").val(options.data.Item_HeaderID);
                                     $("#hiddenItem_SupportGroupID").val(options.data.ID);
                                     $('#AddNewItemHeaderModal').modal('show');
-                                    //SetWizardStyle("edit");
                                 }
                                 else if (e.itemData.value == 2) {
                                     $('#AttachmentsModal').modal('show');
                                     document.getElementById("AttachmentsModalSaveBtn").addEventListener("click", SaveAttachmentsItem_Header);
                                 }
                                 else if (e.itemData.value == 3) {
-                                    window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID + "&Item_HeaderID=" + options.data.Item_HeaderDTO.ID, "_blank");
+                                    window.open("/App/Features/Maintenance/AMS/ItemManagement/ItemLineCatalog.aspx?Item_SupportGroupID=" + options.data.ID + "&Item_HeaderID=" + options.data.Item_HeaderID, "_blank");
                                 }
                                 else if (e.itemData.value == 4) {
                                     $("#hiddenItem_SupportGroupID").val(options.data.ID);
-                                    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     ShowItem_SupportGroupDeleteQuestion();
                                 }
                             },
@@ -313,7 +230,7 @@ async function InitializeItemAdministrationCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     alignment: "center",
                 },
                 {
@@ -385,13 +302,7 @@ async function InitializeItemAdministrationCatalogControls() {
                     dataField: "Item_HeaderDTO.LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
-        //masterDetail: {
-        //    enabled: true,
-        //    template: MasterDetailItem_Line
-        //}
     });
     $("#dxItem_HeaderSelectBox").dxSelectBox({
         dataSource: await GetDXItem_HeaderDataSource(),
@@ -554,17 +465,6 @@ async function InitializeItemAdministrationCatalogControls() {
     document.getElementById("ExcelItem_HeaderFormatButton").addEventListener("click", ExportItem_HeaderExcelFormat);
     Item_HeaderActionButtons("Save");
 }
-//async function MasterDetailItem_Line(container, masterDetailOptions) {
-//    await dxLoadPanel.show()
-//    const _item_LineDTO = { Item_SupportGroupDTO: { ID: masterDetailOptions.data.ID }, IsActive: true };
-//    const _item_LineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
-//    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", masterDetailOptions.data.Item_HeaderDTO.ID);
-//    $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", masterDetailOptions.data.SupportGroupDTO.ID)
-//    $("#hiddenItem_HeaderID").val(masterDetailOptions.data.Item_HeaderDTO.ID);
-//    $("#hiddenItem_SupportGroupID").val(masterDetailOptions.data.ID);
-//    await BuildItem_LineGrid(container, _item_LineList, masterDetailOptions);
-//    dxLoadPanel.hide();
-//}
 function DisabledProperties(Action)
 {
     $("#dxItem_HeaderThumbnailFileUploader").dxFileUploader("instance").option("disabled", Action);
@@ -625,9 +525,9 @@ function ClearItem_HeaderFields(CleanGrid) {
     _createTab.show();
 }
 async function PopulateItem_HeaderFields(data) {
-    document.getElementById("hiddenItem_HeaderID").value = data.Item_HeaderDTO.ID;//new
+    document.getElementById("hiddenItem_HeaderID").value = data.Item_HeaderID;//new
     document.getElementById("hiddenItem_SupportGroupID").value = data.ID;
-    document.getElementById("hiddenUserSupportGroupID").value = data.SupportGroupDTO.ID
+    document.getElementById("hiddenUserSupportGroupID").value = data.SupportGroupID
     //$("#dxItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.EnglishName);
     $("#dxItem_HeaderModelTextBox").dxTextBox("instance").option("value", data.Item_HeaderDTO.Model);
     $("#dxItem_HeaderBrandSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.BrandID);
@@ -635,7 +535,7 @@ async function PopulateItem_HeaderFields(data) {
     $("#dxItem_HeaderSubClassSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTO.SubClassID);
     $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsActive);
     //$("#dxItem_HeaderIsESDCheckBox").dxCheckBox("instance").option("value", data.Item_HeaderDTO.IsESD)
-    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
+    $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupID);
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("disabled", true);
     if (data.Item_HeaderDTO.ItemImg != null) {
         $("#ItemThumbnail").attr('src', data.Item_HeaderDTO.ItemImg);
@@ -833,207 +733,8 @@ async function UpdateItem_Header_Global() {
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();
 }
-//async function BuildItem_LineGrid(container, ItemLineList, masterDetailOptions) {
-//    $(`<div id="dxItem_HeaderLineList${masterDetailOptions.data.ID}">`).dxDataGrid({
-//        dataSource: ItemLineList,
-//        remoteOperations: true,
-//        paging: {
-//            pageSize: 5,
-//        },
-//        pager: {
-//            showPageSizeSelector: true,
-//            allowedPageSizes: [10, 50, 100],
-//            showInfo: true
-//        },
-//        allowColumnReordering: true,
-//        showRowLines: true,
-//        showColumnLines: false,
-//        showBorders: true,
-//        focusedRowEnabled: false,
-//        hoverStateEnabled: true,
-//        rowAlternationEnabled: false,
-//        columnAutoWidth: true,
-//        allowColumnResizing: true,
-//        columnResizingMode: 'widget',
-//        columnMinWidth: 50,
-//        groupPanel: {
-//            visible: false
-//        },
-//        columnChooser: {
-//            enabled: true
-//        },
-//        columnFixing: {
-//            enabled: true
-//        },
-//        "export": {
-//            enabled: true,
-//            fileName: "ItemAdministration",
-//            allowExportSelectedData: true
-//        },
-//        filterRow: {
-//            visible: true,
-//            applyFilter: "auto"
-//        },
-//        searchPanel: {
-//            visible: false,
-//            placeholder: "Search...",
-//            width: 300
-//        },
-//        onSelectionChanged: async function (data) {
-//            let _item_LineData = data.selectedRowsData[0];
-//            if (_item_LineData != null) {
-//                Item_LineActionButtons("Update");
-//                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
-//                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-//                PopulateItem_LineFields(_item_LineData, _userDefinedTemplateList);
-//                GetItem_LineFileList();
-//            }
-//        },
-//        sorting: {
-//            mode: "multiple"
-//        },
-//        selection: {
-//            mode: 'single'
-//        },
-//        headerFilter: {
-//            visible: true
-//        },
-//        columns:
-//            [
-//                {
-//                    caption: "ID",
-//                    dataField: "ID",
-//                    width: 'auto',
-//                    visible: false
-//                },
-//                {
-//                    caption: "Actions",
-//                    visibleIndex: 1,
-//                    alignment: "center",
-//                    allowFiltering: false,
-//                    allowSorting: false,
-//                    width: 'auto',
-//                    cellTemplate: function (container, options) {
-//                        container.height(30);
-//                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#AddNewItemLineModal" class="btn btn-success" style="padding-top: 2px; ' +
-//                            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-//                            + '</span></button>')
-//                            .height(30)
-//                            .on('dxclick', async function () {
-//                                $("#hiddenItem_LineID").val(options.data.ID);
-//                                const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: options.data.Item_SupportGroupDTOID }, IsActive: true, GetUserDefinedDTO: true };
-//                                const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-//                                await PopulateItem_LineFields(options.data, _userDefinedTemplateList);
-//                            }).appendTo(container);
-//                        $('<button type="button" data-bs-toggle="modal" data-bs-target="#ReassingSupportGroupModal" class="btn btn-primary ms-2" style="padding-top: 2px; ' +
-//                            'padding-bottom:5px"><i class="fa fa-right-left"></i><span>' +
-//                            + '</span></button>')
-//                            .height(30)
-//                            .on('dxclick', function () {
-//                                PopulateReassignSupportGroupModalFields(options.data);
-//                            }).appendTo(container);
-//                        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-//                            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-//                            + '</span></button>')
-//                            .height(30)
-//                            .on('dxclick', function () {
-//                                $("#hiddenItem_LineID").val(options.data.ID);
-//                                ShowItem_LineDeleteQuestion();
-//                            }).appendTo(container);
-
-//                    },
-//                },
-//                {
-//                    // Dropdown
-//                    caption: "Labels",
-//                    width: 110,
-//                    visibleIndex: 0,
-//                    alignment: "center",
-//                    editCellTemplate: function (cellElement, cellInfo) {
-//                        let wrapper = $('<div class="d-flex justify-content-center align-items-center">').appendTo(cellElement);
-//                        $('<div class="d-flex justify-content-center">').appendTo(wrapper).dxMenu({
-//                            items: [{
-//                                // Dropdown tittle
-//                                text: 'Print',
-//                                icon: 'print',
-//                                // Declaration of the list of options for the dropdown
-//                                items: [{
-//                                    text: 'S',
-//                                    LabelFile: 'LF-0001-15-A'
-//                                }, {
-//                                    text: 'M',
-//                                    LabelFile: 'LF-2173-03-A'
-//                                }, {
-//                                    text: 'L',
-//                                    LabelFile: 'LF-2173-02-A'
-//                                }, {
-//                                    text: 'S ESD',
-//                                    LabelFile: 'LF-0001-13-A'
-//                                }, {
-//                                    text: 'M ESD',
-//                                    LabelFile: 'LF-2173-01-A'
-//                                }, {
-//                                    text: 'L ESD',
-//                                    LabelFile: 'LF-2173-00-A'
-//                                }]
-//                            }],
-//                            showFirstSubmenuMode: 'onHover',
-//                            hideSubmenuOnMouseLeave: true,
-//                            onItemClick: function (e) {
-//                                var _data = cellInfo.data;
-//                                // Validates if the LabelFile property exists in the selected option
-//                                if (e.itemData.LabelFile != null) {
-//                                    // Open the label
-//                                    window.open('http://avmx-s05:8044//LabelPrint.aspx?LabelFile=' + e.itemData.LabelFile + "&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
-//                                }
-//                            },
-//                            onItemRendered: function (e) {
-//                                let menuItemText = e.itemElement.find('.dx-menu-item-text');
-//                                if (menuItemText.text().trim() === 'Print') {
-//                                    menuItemText.append('<i class="ms-1 fa fa-angle-down"></i>');
-//                                }
-//                            }
-//                        });
-//                    },
-//                    showEditorAlways: true,
-//                    allowEditing: false
-//                },
-//            ],
-//    }).appendTo(container);
-//    let _itemLineMasterDetailsGrid = $(`#dxItem_HeaderLineList${masterDetailOptions.data.ID}`).dxDataGrid("instance");
-//    if (_itemLineMasterDetailsGrid != null) {
-//        var _state = _itemLineMasterDetailsGrid.state();
-//        var _columns = _itemLineMasterDetailsGrid.option("columns");
-//        if (ItemLineList.length > 0) {
-//            Object.keys(ItemLineList[0]).forEach(key => {
-//                let column = { dataField: key }
-//                if (key.includes("Date")) {
-//                    column.dataType = 'date';
-//                }
-//                if (key.includes("DTO")) {
-//                    column.visible = false;
-//                }
-//                _columns.push(column);
-
-//            });
-//        }
-//        _itemLineMasterDetailsGrid.option("columns", _columns);
-//        _itemLineMasterDetailsGrid.state(_state)
-//    }
-
-//    $('<a id="AddNewItemBtn" class="btn btn-success mb-2" data-bs-target="#AddNewItemLineModal" data-bs-toggle="modal">Add new Item</a>').prependTo(container);
-//    let _addNewItemBtn = document.getElementById("AddNewItemBtn");
-//    if (_addNewItemBtn != null) {
-//        _addNewItemBtn.addEventListener("click", async function () {
-//            const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };//new
-//            const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
-//            ClearItem_LineFields(_userDefinedTemplateList);
-//            await PopulateNewItemLineField(masterDetailOptions.data);
-//        });
-//    }
-//    ReassignSupportGroupModalActionButtons("Update");
-//}
 //#endregion
+
 //#region CRUD Item Line
 async function InitializeItem_LineModalControls() {
     const now = new Date();
@@ -1092,7 +793,6 @@ async function InitializeItem_LineModalControls() {
                         break;
                 }
             }
-
         }
     });
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox({
@@ -1119,8 +819,8 @@ async function InitializeItem_LineModalControls() {
                 ID: StatusType_Enum.Item
             },
         }),
-        valueExpr: "StatusDTO.ID",
-        displayExpr: "StatusDTO.Name",
+        valueExpr: "StatusID",
+        displayExpr: "StatusName",
         deferRendering: false,
         searchEnabled: true
     })
@@ -1191,22 +891,20 @@ async function Item_LineActionButtons(Action) {
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateItem_LineButton" type="button">Update</button>';
         document.getElementById("UpdateItem_LineButton").addEventListener("click", UpdateItem_Line_Global);
     }
-
-
 }
 async function PopulateItem_LineFields(Data, UserDefinedList) {
     Item_LineActionButtons("Update");
     $("#hiddenItem_LineID").val(Data.ID);
-    $("#hiddenStationID").val(Data.StationDTOID);
-    $("#hiddenItem_SupportGroupID").val(Data.Item_SupportGroupDTOID);
-    $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Data.SupportGroupDTOID);
-    $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value", Data.StationDTOID)
-    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Data.Item_HeaderDTOID);
-    $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value", Data.OwnerDTOID);
-    $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value", Data.SupplyTypeDTOID);
+    $("#hiddenStationID").val(Data.StationID);
+    $("#hiddenItem_SupportGroupID").val(Data.Item_SupportGroupID);
+    $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Data.SupportGroupID);
+    $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value", Data.StationID)
+    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Data.Item_HeaderID);
+    $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value", Data.OwnerID);
+    $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value", Data.SupplyTypeID);
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", Data.ManufactureSerialID);
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", Data.ShipmentReceiptNumber);
-    $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value", Data.StatusDTOID);
+    $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value", Data.StatusID);
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value", Data.ImportInvoice);
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", Data.BasePriceUSD);
     $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value", Data.Comments);
@@ -1215,27 +913,27 @@ async function PopulateItem_LineFields(Data, UserDefinedList) {
     $("#dxItem_LineLegacyIDTextBox").dxTextBox("instance").option("value", Data.LegacyID);
     $("#dxItem_LineSerialTextBox").dxTextBox("instance").option("value", Data.Serial);
     for (var _userDefined in UserDefinedList) {
-        switch (UserDefinedList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedList[_userDefined].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
-                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedDTO.Name]);
+                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedName]);
                 break;
             case DataType_Enum.DateTime:
-                $("#dxUserDefined" + _userDefined).dxDateBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedDTO.Name]);
+                $("#dxUserDefined" + _userDefined).dxDateBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedName]);
                 break;
             case DataType_Enum.Check:
-                let _userDefinedValue = Data[UserDefinedList[_userDefined].UserDefinedDTO.Name] == 'true' ? true : false;
+                let _userDefinedValue = Data[UserDefinedList[_userDefined].UserDefinedName] == 'true' ? true : false;
                 $("#dxUserDefined" + _userDefined).dxCheckBox("instance").option("value", _userDefinedValue);
                 break;
             case DataType_Enum.Numeric:
-                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedDTO.Name]);
+                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedName]);
                 break;
         }
     }
 
 }
 async function PopulateNewItemLineField(Data) {
-    await $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Data.Item_HeaderDTO.ID);
-    await $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Data.SupportGroupDTO.ID);
+    await $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Data.Item_HeaderID);
+    await $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Data.SupportGroupID);
 
 }
 function ClearItem_LineFields(UserDefinedTemplateList) {
@@ -1262,7 +960,7 @@ function ClearItem_LineFields(UserDefinedTemplateList) {
     _fileDTO = {};
 
     for (var _userDefined in UserDefinedTemplateList) {
-        switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
                 $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", "");
                 break;
@@ -1282,30 +980,18 @@ function ClearItem_LineFields(UserDefinedTemplateList) {
 function GetItem_LineDTO(UserDefinedTemplateList) {
     let _item_LineDTO = {
         ID: $("#hiddenItem_LineID").val(),
-        Item_HeaderDTO: {
-            ID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value")
-        },
+        Item_HeaderID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value"),
+        Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(),
         Item_SupportGroupDTO: {
-            ID: $("#hiddenItem_SupportGroupID").val(),
-            SupportGroupDTO: {
-                ID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value")
-            }
+            SupportGroupID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value")
         },
-        OwnerDTO: {
-            ID: $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value"),
-        },
-        SupplyTypeDTO: {
-            ID: $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value"),
-        },
+        OwnerID: $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value"),
+        SupplyTypeID: $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value"),
         Serial: $("#dxItem_LineSerialTextBox").dxTextBox("instance").option("value"),
         ManufactureSerialID: $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value"),
         ShipmentReceiptNumber: $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value"),
-        StatusDTO: {
-            ID: $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value")
-        },
-        StationDTO: {
-            ID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value")
-        },
+        StatusID: $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value"),
+        StationID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value"),
         ImportInvoice: $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value"),
         BasePriceUSD: $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value"),
         Comments: $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value"),
@@ -1316,21 +1002,16 @@ function GetItem_LineDTO(UserDefinedTemplateList) {
         GenerateSerial: $("#dxItem_LineGenerateSerialCheckBox").dxCheckBox("instance").option("value"),
         ShipmentReceiptID: null,
         UserDefinedValueList: [],
-
         FileDTO: GetFileDTO()
     }
     for (var _userDefined in UserDefinedTemplateList) {
         let _userDefinedValueDTO = {
-            UserDefinedDTO: {
-                ID: UserDefinedTemplateList[_userDefined].UserDefinedDTO.ID
-            },
-            SupportGroupDTO: {
-                ID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value")
-            },
+            UserDefinedID: UserDefinedTemplateList[_userDefined].UserDefinedID,
+            SupportGroupID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value"),
             IsActive: true,
             Value: ""
         }
-        switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
                 _userDefinedValueDTO.Value = $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value");
                 break;
@@ -1360,14 +1041,14 @@ async function ShowItem_LineDeleteQuestion() {
     if (_alert.isConfirmed) {
         DeleteItem_Line_Global();
     } else {
-        const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+        const _userDefinedTemplateDTO = { Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(), IsActive: true, GetUserDefinedDTO: true };
         const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
         ClearItem_LineFields(_userDefinedTemplateList);
     }
 }
 async function CreateItem_Line_Global() {
     await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+    const _userDefinedTemplateDTO = { Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(), IsActive: true, GetUserDefinedDTO: true };
     const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
     const _item_LineDTO = GetItem_LineDTO(_userDefinedTemplateList);
     const _validation_ResultDTO = await CreateItem_Line(_item_LineDTO);
@@ -1382,7 +1063,7 @@ async function CreateItem_Line_Global() {
 }
 async function UpdateItem_Line_Global() {
     await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+    const _userDefinedTemplateDTO = { Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(), IsActive: true, GetUserDefinedDTO: true };
     const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
     const _item_LineDTO = GetItem_LineDTO(_userDefinedTemplateList);
     const _validation_ResultDTO = await UpdateItem_Line(_item_LineDTO);
@@ -1397,13 +1078,12 @@ async function UpdateItem_Line_Global() {
 }
 async function DeleteItem_Line_Global() {
     await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+    const _userDefinedTemplateDTO = { Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(), IsActive: true, GetUserDefinedDTO: true };
     const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
     const _item_LineDTO = GetItem_LineDTO();
     const _validation_ResultDTO = await DeleteItem_Line(_item_LineDTO);
     if (_validation_ResultDTO.Result) {
         ClearItem_LineFields(_userDefinedTemplateList);
-        //toggleMasterRow()
         GetUserInformationbyID();
     }
     HostResponse(_validation_ResultDTO);
@@ -1469,7 +1149,7 @@ async function InitializeUserDefinedControls() {
         },
         "export": {
             enabled: true,
-            fileName: "ItemAdministration",
+            fileName: "UserDefined",
             allowExportSelectedData: true
         },
         filterRow: {
@@ -1528,7 +1208,7 @@ async function InitializeUserDefinedControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name"
+                    dataField: "SupportGroupName"
                 },
                 {
                     caption: "Name",
@@ -1536,14 +1216,14 @@ async function InitializeUserDefinedControls() {
                 },
                 {
                     caption: "Data Type",
-                    dataField: "DataTypeDTO.Name"
+                    dataField: "DataTypeName"
                 },
                 {
                     caption: "Required?",
                     dataField: "IsMandatory"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -1557,7 +1237,7 @@ async function InitializeUserDefinedControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -1570,8 +1250,6 @@ async function InitializeUserDefinedControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
     $("#dxUserDefinedList").dxList({
@@ -1626,8 +1304,8 @@ async function PopulateUserDefinedFields(data) {
     $("#hiddenUserDefinedID").val(data.ID);
     $("#dxUserDefinedIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
     $("#dxUserDefinedIsMandatoryCheckBox").dxCheckBox("instance").option("value", data.IsMandatory);
-    $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTO.ID);
-    $("#dxUserDefinedDataTypeSelectBox").dxSelectBox("instance").option("value", data.DataTypeDTO.ID);
+    $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value", data.SupportGroupID);
+    $("#dxUserDefinedDataTypeSelectBox").dxSelectBox("instance").option("value", data.DataTypeID);
     $("#dxUserDefinedNameTextBox").dxTextBox("instance").option("value", data.Name);
 }
 function GetUserDefinedDTO() {
@@ -1636,12 +1314,8 @@ function GetUserDefinedDTO() {
         Name: $("#dxUserDefinedNameTextBox").dxTextBox("instance").option("value"),
         IsMandatory: $("#dxUserDefinedIsMandatoryCheckBox").dxCheckBox("instance").option("value"),
         IsActive: $("#dxUserDefinedIsActiveCheckBox").dxCheckBox("instance").option("value"),
-        DataTypeDTO: {
-            ID: $("#dxUserDefinedDataTypeSelectBox").dxSelectBox("instance").option("value")
-        },
-        SupportGroupDTO: {
-            ID: $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value")
-        }
+        DataTypeID: $("#dxUserDefinedDataTypeSelectBox").dxSelectBox("instance").option("value"),
+        SupportGroupID: $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value"),
     }
     return _userDefinedDTO;
 }
@@ -1693,25 +1367,23 @@ async function DeleteUserDefined_Global() {
 async function GetUserDefinedList(SupportGroupID) {
     //await dxLoadPanel.show();
     const _userDefinedDTO = {
-        SupportGroupDTO: {
-            ID: SupportGroupID, IsActive: true
-        }
+        SupportGroupID: SupportGroupID,
+        IsActive: true
     };
     const _userDefinedList = await GetDXUserDefinedDataSource(_userDefinedDTO);
     $("#dxUserDefinedList").dxList("instance").option("dataSource", _userDefinedList);
     //dxLoadPanel.hide();
 }
 //#endregion
-//#region User Defined Template
 
+//#region User Defined Template
 function GetUserDefinedTemplateDTO() {
     let _userDefinedTemplateDTO = {
         UserDefinedIDArray: $("#dxUserDefinedList").dxList("instance").option("selectedItemKeys"),
-        Item_SupportGroupDTO: {
-            ID: $("#hiddenItem_SupportGroupID").val(),
-            SupportGroupDTO: {
-                ID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
-            },
+        Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(),
+        Item_SupportGroupDTO:
+        {
+            SupportGroupID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value")
         },
         IsActive: true
     }
@@ -1722,7 +1394,6 @@ async function UpdateUserDefinedTemplate_Global() {
     let _userDefinedTemplateDTO = GetUserDefinedTemplateDTO();
     const _validation_ResultDTO = await UpdateUserDefinedTemplate(_userDefinedTemplateDTO);
     if (_validation_ResultDTO.Result) {
-        //$("#AssignUserDefinedFieldsModal").modal("hide");
         GetUserDefinedTemplateList();
     }
     HostResponse(_validation_ResultDTO);
@@ -1730,11 +1401,9 @@ async function UpdateUserDefinedTemplate_Global() {
 }
 async function GetUserDefinedTemplateList() {
     //await dxLoadPanel.show();
-    const _userDefinedTemplateDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItem_SupportGroupID").val() }, IsActive: true, GetUserDefinedDTO: true };
+    const _userDefinedTemplateDTO = { Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(), IsActive: true, GetUserDefinedDTO: true };
     const _userDefinedTemplateList = await GetUserDefinedTemplateInformation(_userDefinedTemplateDTO);
     await SelectUserDefinedFieldsFromTemplate(_userDefinedTemplateList);
-    //await BuildUserDefinedOnItem_LineModal(_userDefinedTemplateList);
-
     //dxLoadPanel.hide();
 }
 async function SelectUserDefinedFieldsFromTemplate(UserDefinedTemplateList) {
@@ -1742,20 +1411,19 @@ async function SelectUserDefinedFieldsFromTemplate(UserDefinedTemplateList) {
     _list.option("selectedItemKeys", []);
     for (let i in UserDefinedTemplateList) {
         var _selectedFields = _list.option("selectedItemKeys");
-        _selectedFields.push(UserDefinedTemplateList[i].UserDefinedDTO.ID);
+        _selectedFields.push(UserDefinedTemplateList[i].UserDefinedID);
         _list.option("selectedItemKeys", _selectedFields);
     }
 }
 async function BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList) {
-
     let _userDefinedSection = document.getElementById("UserDefinedTemplateSection");
     _userDefinedSection.innerHTML = ""
     for (let i in UserDefinedTemplateList) {
-        _userDefinedSection.innerHTML += "<label class=\"form-label col-form-label col-md-12\">" + UserDefinedTemplateList[i].UserDefinedDTO.Name + "</label>";
+        _userDefinedSection.innerHTML += "<label class=\"form-label col-form-label col-md-12\">" + UserDefinedTemplateList[i].UserDefinedName + "</label>";
         _userDefinedSection.innerHTML += '<div class="col-md-12"><div id="dxUserDefined' + i + '"></div></div>';
     }
     for (let i in UserDefinedTemplateList) {
-        switch (UserDefinedTemplateList[i].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedTemplateList[i].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
                 $("#dxUserDefined" + i).dxTextBox({});
                 break;
@@ -1784,8 +1452,6 @@ function DisabledAdministrationFields(UserDTO) {
         if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin) || UserDTO.RoleIDArray.includes(Role_Enum.Administrator) || UserDTO.RoleIDArray.includes(Role_Enum.Warehouse_Receiver)) {
             $("#dxItem_HeaderIsActiveCheckBox").dxCheckBox("instance").option("readOnly", false);
             $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("readOnly", false);
-            //$("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("readOnly", false);
-            //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("readOnly", false);
         }
     }
 }
@@ -1794,53 +1460,23 @@ async function FilterDataSourceBySupportGroups(UserDTO) {
         if (UserDTO.SupportGroupIDArray != null && !UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             if (UserDTO.SupportGroupIDArray.length == 1) {
                 document.getElementById("hiddenUserSupportGroupID").value = UserDTO.SupportGroupIDArray[0]
-                //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("value", UserDTO.SupportGroupIDArray[0]);
                 $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true }));
             } else {
-                //$("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
                 $("#dxUserDefinedSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             }
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
-            //$("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
-            //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray }));
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ SupportGroupIDArray: UserDTO.SupportGroupIDArray, GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemHeaderPicture: true } }));
-
         }
         if (UserDTO.RoleIDArray.includes(Role_Enum.System_Admin)) {
             $("#dxItemAdministrationDatGrid").dxDataGrid("instance").option('dataSource', await GetDXItem_SupportGroupDataSource({ GetItem_HeaderDTO: true, Item_HeaderDTO: { GetItemHeaderPicture: true } }));
-            //$("#dxUserDefinedDataGrid").dxDataGrid("instance").option("dataSource", await GetDXUserDefinedDataSource());
             $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupDataSource());
         }
     }
 }
 //#endregion
 
-//let currentlyOpenRowKey = null;
-//function toggleMasterRow(rowKey, event) {
-//    var dataGrid = $("#dxItemAdministrationDatGrid").dxDataGrid("instance");
-
-//    // Check if the click is on the expand/collapse button
-//    var isClickOnExpandCollapseButton = $(event.target).closest(".dx-datagrid-expand").length > 0;
-
-//    // If the click is on the expand/collapse button, proceed with expanding/collapsing
-//    if (isClickOnExpandCollapseButton) {
-//        // Collapse the currently open row if there is one
-//        if (currentlyOpenRowKey !== null && currentlyOpenRowKey !== rowKey) {
-//            dataGrid.collapseRow(currentlyOpenRowKey);
-//        }
-
-//        // Toggle the clicked row
-//        if (dataGrid.isRowExpanded(rowKey)) {
-//            dataGrid.collapseRow(rowKey);
-//            currentlyOpenRowKey = null; // No row is open
-//        } else {
-//            dataGrid.expandRow(rowKey);
-//            currentlyOpenRowKey = rowKey; // Update the currently open row
-//        }
-//    }
-//}
 //#region Files region
 
 //#region Header Files 
@@ -1983,7 +1619,7 @@ async function DeleteAttachmentLine(FileDTO) {
     dxLoadPanel.hide()
 }
 async function GetItem_LineTreeViewList() {
-    $("#dxTreeViewList").dxTreeView("instance").option("dataSource", await GetItem_LineFilesTreeView({ Item_HeaderDTO: { ID: $("#hiddenItem_HeaderID").val() } }));
+    $("#dxTreeViewList").dxTreeView("instance").option("dataSource", await GetItem_LineFilesTreeView({ Item_HeaderID: $("#hiddenItem_HeaderID").val() }));
     $("#dxTreeViewList").dxTreeView("expandAll");
 }
 function TreeViewExpand() {
@@ -2026,9 +1662,9 @@ function ReassignSupportGroupModalActionButtons(Action) {
 }
 async function PopulateReassignSupportGroupModalFields(data) {
     $("#hiddenItem_LineID").val(data.ID);
-    $("#hiddenItem_SupportGroupID").val(data.Item_SupportGroupDTOID);
-    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTOID);
-    $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTOID);
+    $("#hiddenItem_SupportGroupID").val(data.Item_SupportGroupID);
+    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderID);
+    $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value", data.SupportGroupID);
 }
 
 function ClearReassignSupportGroupModalFields() {
@@ -2038,14 +1674,10 @@ function GetItemLine_SupportGroupModalDTO() {
     //This build a item line with Item_supportGroup Relation
     let _item_LineDTO = {
         ID: $("#hiddenItem_LineID").val(),
-        Item_HeaderDTO: {
-            ID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value"),
-        },
+        Item_HeaderID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value"),
+        Item_SupportGroupID: $("#hiddenItem_SupportGroupID").val(),
         Item_SupportGroupDTO: {
-            ID: $("#hiddenItem_SupportGroupID").val(),
-            SupportGroupDTO: {
-                ID: $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value"),
-            },
+            SupportGroupID: $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value"),
         },
         IsActive: true
     }
@@ -2063,15 +1695,6 @@ async function ReassignSupportGroupGlobal() {
     dxLoadPanel.hide();
 }
 async function InitializeItem_SupportGroupControls() {
-    //$("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox({
-    //    dataSource: await GetDXItem_HeaderDataSource(),
-    //    valueExpr: "ID",
-    //    displayExpr: "NamesWithModel",
-    //    deferRendering: false,
-    //    searchEnabled: true,
-    //    searchExpr: ["Model", "EnglishName"],
-    //    searchMode: 'contains'
-    //});
     $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox({
         dataSource: [], //await GetDXSupportGroupDataSource(),
         valueExpr: "ID",
@@ -2095,13 +1718,8 @@ async function InitializeItem_SupportGroupControls() {
 function GetItem_SupportGroupDTO() {
     let _item_SupportGroupDTO = {
         ID: $("#hiddenItem_SupportGroupID").val(),
-        Item_HeaderDTO: {
-            //ID: $("#hiddenItem_HeaderID").val() == 0 ? $("#dxItem_SupportGroupItem_HeaderIDSelectBox").dxSelectBox("instance").option("value") : $("#hiddenItem_HeaderID").val(),
-            ID: $("#hiddenItem_HeaderID").val(),
-        },
-        SupportGroupDTO: {
-            ID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
-        },
+        Item_HeaderID: $("#hiddenItem_HeaderID").val(),
+        SupportGroupID: $("#dxItem_SupportGroupSupportGroupSelectBox").dxSelectBox("instance").option("value"),
         IsActive: true
     }
     return _item_SupportGroupDTO;
@@ -2114,7 +1732,6 @@ async function CreateItem_SupportGroup_Global() {
     if (_validation_ResultDTO.Result) {
         ClearItem_HeaderFields(true);
         GetUserInformationbyID();
-        //CloseWizard();
     }
     HostResponse(_validation_ResultDTO);
     dxLoadPanel.hide();

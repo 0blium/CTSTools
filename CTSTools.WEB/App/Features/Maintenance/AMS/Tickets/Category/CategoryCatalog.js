@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function EventHandler() {
     document.getElementById("AddNewCategoryButton").addEventListener("click", ClearCategoryFields);
-    document.getElementById("CloseModalButton").addEventListener("click", ClearCategoryFields);
+    document.getElementById("btnCloseCategoryModal").addEventListener("click", ClearCategoryFields);
 }
 
 async function GetUserInformationbyID() {
@@ -171,7 +171,7 @@ async function InitializeCategoryCatalogControls() {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Add", icon: "fa fa-plus-circle text-primary",value: 1 },
+                                    { text: "Add", icon: "fa fa-plus-circle text-primary", value: 1 },
                                     { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 2 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 3 },
                                 ]
@@ -182,7 +182,7 @@ async function InitializeCategoryCatalogControls() {
                                 if (e.itemData.value == 1) {
                                     CategoryActionButtons("Save");
                                     $("#hiddenParentCategoryID").val(options.data.ID);
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     await GetDataSourceParentSelectBox(options.data.ParentID);
                                     await PopulateNewChildCategoryFields(options.data);
                                     $('#AddNewCategoryModal').modal('show');
@@ -190,14 +190,14 @@ async function InitializeCategoryCatalogControls() {
                                 else if (e.itemData.value == 2) {
 
                                     CategoryActionButtons("Update");
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     PopulateCategoryFields(options.data);
                                     $('#AddNewCategoryModal').modal('show');
                                 }
                                 else if (e.itemData.value == 3) {
 
                                     $("#hiddenCategoryID").val(options.data.ID);
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     ShowCategoryDeleteQuestion();
                                 }
                             },
@@ -219,7 +219,7 @@ async function InitializeCategoryCatalogControls() {
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                 },
                 {
@@ -227,7 +227,7 @@ async function InitializeCategoryCatalogControls() {
                     dataField: "Description"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -241,7 +241,7 @@ async function InitializeCategoryCatalogControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -265,29 +265,36 @@ async function InitializeCategoryCatalogControls() {
             $('#dxCategoryGrid').dxDataGrid("instance").updateDimensions();
         },
     });
+    document.getElementById("btnCloseCategoryModal").addEventListener("click", ClearCategoryFields);
     CategoryActionButtons("Save");
 }
 function CategoryActionButtons(Action) {
     $("#CategoryActionButtons").empty();
     if (Action == "Save") {
+        document.getElementById("AddNewCategoryButton").addEventListener("click", ClearCategoryFields);
+        document.getElementById('CategoryModalTitle').innerText = 'Add Category';
         document.getElementById("CategoryActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-success m-b-15 float-end" id="CreateCategoryButton" type="button">Save</button>' +
+            '<button class="btn btn-success float-end" id="CreateCategoryButton" type="button">Save</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearCategoryButton" type="button">Cancel</button>' +
             '</div>';
+        document.getElementById("ClearCategoryButton").addEventListener("click", ClearCategoryFields);
         document.getElementById("CreateCategoryButton").addEventListener("click", CreateCategory_Global);
     }
     else {
         // Update
+        document.getElementById('CategoryModalTitle').innerText = 'Update Category';
         document.getElementById("CategoryActionButtons").innerHTML =
             '<div class="col-md-12">' +
-            '<button class="btn btn-secondary float-end" id="ClearCategoryButton" type="button">Cancel</button>' +
-            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateCategoryButton" type="button">Update</button>' +
+            '<button class="btn btn-success float-end" id="UpdateCategoryButton" type="button">Update</button>' +
+            '<button class="btn btn-secondary me-1 m-b-15 float-end" id="ClearCategoryButton" type="button">Cancel</button>' +
             '</div>';
         document.getElementById("ClearCategoryButton").addEventListener("click", ClearCategoryFields);
         document.getElementById("UpdateCategoryButton").addEventListener("click", UpdateCategory_Global);
     }
 }
 function ClearCategoryFields() {
+    $('#AddNewCategoryModal').modal('hide');
     CategoryActionButtons("Save");
     $('#hiddenCategoryID').val("0");
     $('#hiddenParentCategoryID').val("0");
@@ -326,9 +333,7 @@ function GetCategoryDTO() {
         ID: $('#hiddenCategoryID').val(),
         Name: $("#dxCategoryNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxCategoryDescriptionTextArea").dxTextArea("instance").option("value"),
-        SupportGroupDTO: {
-            ID: $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value")
-        },
+        SupportGroupID: $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value"),
         ParentID: $("#dxCategoryParentSelectBox").dxSelectBox("instance").option("value"),
         IsActive: $("#dxCategoryIsActiveCheckBox").dxCheckBox("instance").option("value"),
     }
@@ -385,7 +390,7 @@ async function DeleteCategory_Global() {
 async function GetDataSourceParentSelectBox(ParentID) {
     let _categoryDTO = ParentID > 0 ?
         { ParentID: ParentID, IsActive: true } :
-        { SupportGroupDTO: { ID: $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value") }, IsActive: true, HasParent: false }
+        { SupportGroupID: $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value"), IsActive: true, HasParent: false }
     $("#dxCategoryParentSelectBox").dxSelectBox("instance").reset();
     $("#dxCategoryParentSelectBox").dxSelectBox("instance").option("dataSource", await GetDXCategoryDataSource(_categoryDTO));
 }
@@ -400,8 +405,6 @@ async function MasterDetailSubCategory(container, masterDetailOptions) {
 }
 
 async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions) {
-
-
     $(`<div id="dxSubCategoryList${masterDeatilOptions.data.ID}">`).dxDataGrid({
         dataSource: CategoryList,
         keyExpr: "ID",
@@ -482,7 +485,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                             onItemClick: async function (e) {
                                 if (e.itemData.value == 1) {
                                     CategoryActionButtons("Save");
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
                                     $("#hiddenParentCategoryID").val(options.data.ID);
                                     await GetDataSourceParentSelectBox(options.data.ParentID);
@@ -492,7 +495,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                                 else if (e.itemData.value == 2) {
 
                                     CategoryActionButtons("Update");
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
                                     PopulateCategoryFields(options.data);
                                     $('#AddNewCategoryModal').modal('show');
@@ -500,7 +503,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                                 else if (e.itemData.value == 3) {
 
                                     $("#hiddenCategoryID").val(options.data.ID);
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     ShowCategoryDeleteQuestion();
                                 }
                             },
@@ -522,7 +525,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                     visible: false
                 },
@@ -536,7 +539,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                     dataField: "ParentName"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -550,7 +553,7 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -563,8 +566,6 @@ async function BuildSubCateogryGrid(container, CategoryList, masterDeatilOptions
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
         masterDetail: {
             enabled: true,
@@ -588,8 +589,6 @@ async function MasterDetailThirdCategory(container, masterDetailOptions) {
 }
 
 async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptions, OldParentID) {
-
-
     $(`<div id="dxThirdCategoryList${masterDeatilOptions.data.ID}">`).dxDataGrid({
         dataSource: CategoryList,
         keyExpr: "ID",
@@ -669,7 +668,7 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                             onItemClick: async function (e) {
                                 if (e.itemData.value == 1) {
                                     CategoryActionButtons("Update");
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("readOnly", true);
                                     await GetDataSourceParentSelectBox(OldParentID);
                                     PopulateCategoryFields(options.data);
@@ -677,7 +676,7 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                                 }
                                 else if (e.itemData.value == 2) {
                                     $("#hiddenCategoryID").val(options.data.ID);
-                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupDTO.ID)
+                                    $("#dxCategorySupportGroupSelectBox").dxSelectBox("instance").option("value", options.data.SupportGroupID)
                                     ShowCategoryDeleteQuestion();
                                 }
                             },
@@ -699,7 +698,7 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                 },
                 {
                     caption: "Support Group",
-                    dataField: "SupportGroupDTO.Name",
+                    dataField: "SupportGroupName",
                     //groupIndex: 0
                     visible: false
                 },
@@ -712,7 +711,7 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                     dataField: "ParentName"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -726,7 +725,7 @@ async function BuildThirdCateogryGrid(container, CategoryList, masterDeatilOptio
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },

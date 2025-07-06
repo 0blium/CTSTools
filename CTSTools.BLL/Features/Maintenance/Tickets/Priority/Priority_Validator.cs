@@ -28,14 +28,14 @@ public class Priority_Validator
                     Data = $"{nameof(Priority)}{nameof(PriorityDTO.Name)}",
                 });
             }
-            if (PriorityDTO.SupportGroupDTO.ID == null || PriorityDTO.SupportGroupDTO.ID == 0)
+            if (PriorityDTO.SupportGroupID == null || PriorityDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Priority)}{nameof(PriorityDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(Priority)}{nameof(PriorityDTO.SupportGroupID)}",
                 });
             }
 
@@ -97,14 +97,14 @@ public class Priority_Validator
                     Data = $"{nameof(Priority)}{nameof(PriorityDTO.Name)}",
                 });
             }
-            if (PriorityDTO.SupportGroupDTO.ID == null || PriorityDTO.SupportGroupDTO.ID == 0)
+            if (PriorityDTO.SupportGroupID == null || PriorityDTO.SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Priority)}{nameof(PriorityDTO.SupportGroupDTO)}",
+                    Data = $"{nameof(Priority)}{nameof(PriorityDTO.SupportGroupID)}",
                 });
             }
 

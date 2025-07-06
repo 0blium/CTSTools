@@ -162,7 +162,6 @@ async function InitializeDocumentRevisionCatalogControls() {
                     alignment: 'center',
                     sortOrder: "desc",
                     cellTemplate: function (container, options) {
-                        console.log(options.data)
                         const _link = `data:${options.data.FileDTO.MIMEType};base64,${options.data.FileDTO.Data}`
                         $('<a style="text-decoration:none;">' + options.data.Revision + '</a>')
                             .attr('href', _link)

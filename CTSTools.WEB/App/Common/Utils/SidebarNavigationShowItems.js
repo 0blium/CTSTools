@@ -29,7 +29,6 @@ export async function ShowSidebarMenu(UserID) {
         _subMenuNav.forEach(MenuName => {
             const _exist = _moduleNavList.some(id => id.endsWith(MenuName.id));
             if (_exist && !_subMenuList.includes(MenuName.id)) {
-                console.log(MenuName.id);
                 _subMenuList.push(MenuName.id);
             }
         });

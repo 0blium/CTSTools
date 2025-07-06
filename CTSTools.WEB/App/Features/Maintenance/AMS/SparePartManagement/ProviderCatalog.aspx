@@ -5,13 +5,13 @@
         <div class="row">
             <ol class="breadcrumb float-xl-start">
                 <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                <li class="breadcrumb-item active">Provider</li>
+                <li class="breadcrumb-item active">Spare Parts</li>
             </ol>
         </div>
         <!-- END breadcrumb -->
         <!-- BEGIN page-header -->
         <div class="row">
-            <h1 class="page-header">Provider Catalog</h1>
+            <h1 class="page-header">Provider</h1>
         </div>
     </div>
     <!-- END page-header -->

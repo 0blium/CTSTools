@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function InitializeSupportGroupCatalogControls() {
-    $("#dxSupportGroupEnglishNameTextBox").dxTextBox({
+    $("#dxSupportGroupNameTextBox").dxTextBox({
         placeholder: 'Type name..'
     });
     $("#dxSupportGroupFacilitySelectBox").dxSelectBox({
@@ -133,10 +133,10 @@ async function InitializeSupportGroupCatalogControls() {
                 },
                 {
                     caption: "Facility",
-                    dataField: "FacilityDTO.Name"
+                    dataField: "FacilityName"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -150,7 +150,7 @@ async function InitializeSupportGroupCatalogControls() {
                     dataType: 'datetime'
                 },
                 {
-                    caption: "Last Update By I D",
+                    caption: "Last Update By ID",
                     dataField: "LastUpdateByID",
                     visible: false
                 },
@@ -202,7 +202,7 @@ function ClearSupportGroupFields() {
     SupportGroupActionButtons("Save");
     $('#hiddenSupportGroupID').val("");
     $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value", true);
-    $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", '');
+    $("#dxSupportGroupNameTextBox").dxTextBox("instance").option("value", '');
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", '');
     $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").reset();
     let keys = $("#dxSupportGroupGrid").dxDataGrid("instance").getSelectedRowKeys();
@@ -215,19 +215,17 @@ function ClearSupportGroupFields() {
 async function PopulateSupportGroupFields(data) {
     $('#hiddenSupportGroupID').val(data.ID);
     $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
-    $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value", data.Name);
+    $("#dxSupportGroupNameTextBox").dxTextBox("instance").option("value", data.Name);
     $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
-    await $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
+    await $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityID);
 }
 function GetSupportGroupDTO() {
     let _supportGroupDTO = {
         ID: $('#hiddenSupportGroupID').val(),
-        Name: $("#dxSupportGroupEnglishNameTextBox").dxTextBox("instance").option("value"),
+        Name: $("#dxSupportGroupNameTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxSupportGroupDescriptionTextArea").dxTextArea("instance").option("value"),
         IsActive: $("#dxSupportGroupIsActiveCheckBox").dxCheckBox("instance").option("value"),
-        FacilityDTO: {
-            ID: $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value")
-        },
+        FacilityID: $("#dxSupportGroupFacilitySelectBox").dxSelectBox("instance").option("value")
     }
     return _supportGroupDTO;
 }

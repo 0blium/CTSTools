@@ -20,9 +20,9 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                {
                     _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupMemberXPO.Oid), SupportGroupMemberDTO.SupportGroupMemberIDArray));
                }
-                if ( SupportGroupMemberDTO.SupportGroupDTO.ID != null || SupportGroupMemberDTO.SupportGroupDTO.ID > 0)
+                if ( SupportGroupMemberDTO.SupportGroupID != null || SupportGroupMemberDTO.SupportGroupID > 0)
                {
-                    _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.SupportGroup), SupportGroupMemberDTO.SupportGroupDTO.ID));
+                    _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.SupportGroup), SupportGroupMemberDTO.SupportGroupID));
                }
                if (SupportGroupMemberDTO.SupportGroupIDArray != null && SupportGroupMemberDTO.SupportGroupIDArray.Count() > 0 )
                {
@@ -32,17 +32,17 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 {
                     _groupOperator.Operands.Add(new InOperator("SupportGroup.Name", SupportGroupMemberDTO.SupportGroupNameArray));
                 }
-                if ( SupportGroupMemberDTO.UserDTO.ID != null || SupportGroupMemberDTO.UserDTO.ID > 0)
+                if ( SupportGroupMemberDTO.UserID != null || SupportGroupMemberDTO.UserID > 0)
                {
-                    _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.User), SupportGroupMemberDTO.UserDTO.ID));
+                    _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.User), SupportGroupMemberDTO.UserID));
                }
                if (SupportGroupMemberDTO.UserIDArray != null && SupportGroupMemberDTO.UserIDArray.Count() > 0 )
                {
                     _groupOperator.Operands.Add(new InOperator(nameof(SupportGroupMemberXPO.User), SupportGroupMemberDTO.UserIDArray));
                }
-               if ( SupportGroupMemberDTO.RoleDTO.ID != null || SupportGroupMemberDTO.RoleDTO.ID > 0)
+               if ( SupportGroupMemberDTO.RoleID != null || SupportGroupMemberDTO.RoleID > 0)
                {
-                    _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.Role), SupportGroupMemberDTO.RoleDTO.ID));
+                    _groupOperator.Operands.Add(new BinaryOperator(nameof(SupportGroupMemberXPO.Role), SupportGroupMemberDTO.RoleID));
                }
                if (SupportGroupMemberDTO.RoleIDArray != null && SupportGroupMemberDTO.RoleIDArray.Count() > 0 )
                {

@@ -848,7 +848,6 @@ function GetSubClassAttributeValueDTO() {
     }
 }
 function PopulateSubClassFields(SubClassDTO) {
-    console.log(SubClassDTO)
     $("#hiddenSubClassValueLinkID").val(SubClassDTO.ID);
     $("#hiddenSubClassID").val(SubClassDTO.SubClassValueDTO.ID);
     $("#dxSubClassNameTextBox").dxTextBox("instance").option("value", SubClassDTO.SubClassValueDTO.Name);

@@ -28,7 +28,6 @@ public class UserDefinedMap
             _userdefinedDTO.LastUpdateByID = (UserDefinedXPO.LastUpdateBy != null) ? UserDefinedXPO.LastUpdateBy.Oid : 0;
             _userdefinedDTO.LastUpdateByName = (UserDefinedXPO.LastUpdateBy != null) ? UserDefinedXPO.LastUpdateBy.Name : "Unnassigned";
             _userdefinedDTO.IsActive = UserDefinedXPO.IsActive;
-
         }
         catch (Exception ex)
         {
@@ -52,7 +51,6 @@ public class UserDefinedMap
             _userdefinedXPO.LastUpdate = _userdefinedXPO.LastUpdate == UserDefinedDTO.LastUpdate ? _userdefinedXPO.LastUpdate : UserDefinedDTO.LastUpdate;
             _userdefinedXPO.LastUpdateBy = (_userdefinedXPO.LastUpdateBy != null && _userdefinedXPO.LastUpdateBy.Oid == UserDefinedDTO.LastUpdateByID) ? _userdefinedXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(UserDefinedDTO.LastUpdateByID);
             _userdefinedXPO.IsActive = _userdefinedXPO.IsActive == UserDefinedDTO.IsActive ? (bool)_userdefinedXPO.IsActive : (bool)UserDefinedDTO.IsActive;
-
         }
         catch (Exception ex)
         {

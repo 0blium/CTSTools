@@ -1,7 +1,6 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Excel;
 using CTSTools.BLL.Common.Files;
-using CTSTools.BLL.Features.Engineering.ComponentID.AttributeManagement.Value;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Brand;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefinedTemplate;
@@ -39,8 +38,8 @@ public class Item_Header_Service
         if (_ValidationResultDTO.Result && Item_HeaderDTO.SupportGroupID != 0 && Item_HeaderDTO.SupportGroupID != null)
         {
             var _item_SupportGroupDTO = new Item_SupportGroupDTO();
-            _item_SupportGroupDTO.Item_HeaderDTO.ID = Item_HeaderDTO.ID;
-            _item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
+            _item_SupportGroupDTO.Item_HeaderID = Item_HeaderDTO.ID;
+            _item_SupportGroupDTO.SupportGroupID = Item_HeaderDTO.SupportGroupID;
             _item_SupportGroupDTO.AddedByID = Item_HeaderDTO.AddedByID;
             _item_SupportGroupDTO.IsActive = Item_HeaderDTO.IsActive;
             _ValidationResultDTO = Item_SupportGroup_Service.CreateItem_SupportGroup_Global(_item_SupportGroupDTO);
@@ -58,8 +57,8 @@ public class Item_Header_Service
             var _userDefinedTemplateDTO = new UserDefinedTemplateDTO();
             _userDefinedTemplateDTO.UserDefinedIDArray = Item_HeaderDTO.UserDefinedIDArray;
             _userDefinedTemplateDTO.Item_HeaderID = Item_HeaderDTO.ID;
-            _userDefinedTemplateDTO.Item_SupportGroupDTO.ID = _ValidationResultDTO.Data;
-            _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
+            _userDefinedTemplateDTO.Item_SupportGroupID = _ValidationResultDTO.Data;
+            _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupID = Item_HeaderDTO.SupportGroupID;
             _userDefinedTemplateDTO.LastUpdateByID = Item_HeaderDTO.AddedByID;
             _userDefinedTemplateDTO.IsActive = Item_HeaderDTO.IsActive;
             _ValidationResultDTO = UserDefinedTemplate_Service.UpdateUserDefinedTemplate_Global(_userDefinedTemplateDTO);
@@ -100,8 +99,8 @@ public class Item_Header_Service
             var _userDefinedTemplateDTO = new UserDefinedTemplateDTO();
             _userDefinedTemplateDTO.UserDefinedIDArray = Item_HeaderDTO.UserDefinedIDArray;
             _userDefinedTemplateDTO.Item_HeaderID = Item_HeaderDTO.ID;
-            _userDefinedTemplateDTO.Item_SupportGroupDTO.ID = Item_HeaderDTO.Item_SupportGroupID;
-            _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupDTO.ID = Item_HeaderDTO.SupportGroupID;
+            _userDefinedTemplateDTO.Item_SupportGroupID = Item_HeaderDTO.Item_SupportGroupID;
+            _userDefinedTemplateDTO.Item_SupportGroupDTO.SupportGroupID = Item_HeaderDTO.SupportGroupID;
             _userDefinedTemplateDTO.LastUpdateByID = Item_HeaderDTO.LastUpdateByID;
             _userDefinedTemplateDTO.IsActive = Item_HeaderDTO.IsActive;
             _ValidationResultDTO = UserDefinedTemplate_Service.UpdateUserDefinedTemplate_Global(_userDefinedTemplateDTO);
@@ -150,14 +149,8 @@ public class Item_Header_Service
         {
             var _item_SupportGroupDTO = new Item_SupportGroupDTO
             {
-                Item_HeaderDTO = new Item_HeaderDTO
-                {
-                    ID = _item_HeaderDTO.ID,
-                },
-                SupportGroupDTO = new SupportGroupDTO
-                {
-                    ID = _item_HeaderDTO.SupportGroupID,
-                },
+                Item_HeaderID = _item_HeaderDTO.ID,
+                SupportGroupID = _item_HeaderDTO.SupportGroupID,
                 AddedByID = _item_HeaderDTO.AddedByID,
                 AddedDate = _item_HeaderDTO.AddedDate,
                 IsActive = _item_HeaderDTO.IsActive,

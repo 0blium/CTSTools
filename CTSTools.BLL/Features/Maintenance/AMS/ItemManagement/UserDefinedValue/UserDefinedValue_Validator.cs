@@ -25,7 +25,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "Value Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Value)}", 
                 });
             }
             if (UserDefinedValueDTO.Item_LineID == null || UserDefinedValueDTO.Item_LineID == 0)
@@ -35,7 +34,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "Item_Line Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Item_LineDTO)}", 
                 });
             }
             if (UserDefinedValueDTO.SupportGroupID == null || UserDefinedValueDTO.SupportGroupID == 0)
@@ -45,7 +43,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.SupportGroupDTO)}", 
                 });
             }
             if (UserDefinedValueDTO.UserDefinedID == null || UserDefinedValueDTO.UserDefinedID == 0)
@@ -55,7 +52,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "UserDefined Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.UserDefinedDTO)}", 
                 });
             }
 
@@ -114,7 +110,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "Value Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Value)}", 
                 });
             }
             if (UserDefinedValueDTO.Item_LineID == null || UserDefinedValueDTO.Item_LineID == 0)
@@ -124,7 +119,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "Item_Line Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.Item_LineDTO)}", 
                 });
             }
             if (UserDefinedValueDTO.SupportGroupID == null || UserDefinedValueDTO.SupportGroupID == 0)
@@ -134,7 +128,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "SupportGroup Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.SupportGroupDTO)}", 
                 });
             }
             if (UserDefinedValueDTO.UserDefinedID == null || UserDefinedValueDTO.UserDefinedID == 0)
@@ -144,7 +137,6 @@ public class UserDefinedValue_Validator
                     Result = false,
                     Message = "UserDefined Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedValue)}{nameof(UserDefinedValueDTO.UserDefinedDTO)}", 
                 });
             }
 

@@ -4,9 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-start">
-                <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Support Group </a></li>
-                <li class="breadcrumb-item active">Priority Catalog </li>
+                <li class="breadcrumb-item"><a href="javascript:;">Tickets</a></li>
             </ol>
         </div>
         <!-- END breadcrumb -->
@@ -21,7 +19,7 @@
             <div class="panel panel-inverse">
                 <div class="panel-body">
                     <div class="col-md-12 ">
-                        <a id="NewPriorityBtn" href="#SavePriorityRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i>Priority</a>
+                        <a id="NewPriorityBtn" href="#SavePriorityRecordModal" class="btn btn-success mb-2" data-bs-toggle="modal"><i class="fa-solid fa-circle-plus"></i> Priority</a>
                     </div>
                     <div id="dxPriorityGrid"></div>
                 </div>

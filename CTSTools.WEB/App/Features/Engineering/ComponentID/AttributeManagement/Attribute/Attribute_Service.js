@@ -87,8 +87,6 @@ export async function GetDXAttributeDataSource(AttributeDTO, Filter) {
         pageSize: 15,
         loadMode: "raw",
         load: function (loadOptions) {
-            console.log(loadOptions);
-
             // Validar si se esta buscando un valor en la propiedad Search value y si se esta aplicando un Filter estatico
             if (loadOptions.searchValue && Filter) {
                 // Combinar el filtro estático con el dinámico usando "and"
@@ -97,12 +95,9 @@ export async function GetDXAttributeDataSource(AttributeDTO, Filter) {
                     "and",
                     [loadOptions.searchExpr, loadOptions.searchOperation, loadOptions.searchValue]
                 ];
-                console.log(loadOptions.filter);
             }
             //validar si esta aplicando un filtrado estatico
             if (Filter) {
-                console.log(loadOptions);
-
                 // Aplicar solo el filtro estático si no hay dinámico
                 loadOptions.filter = Filter;
             }

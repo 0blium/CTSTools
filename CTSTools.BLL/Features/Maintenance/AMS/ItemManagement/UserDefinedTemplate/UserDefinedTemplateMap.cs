@@ -14,9 +14,10 @@ public class UserDefinedTemplateMap
         {
             _userdefinedtemplateDTO.ID = UserDefinedTemplateXPO.Oid;
             _userdefinedtemplateDTO.Item_HeaderID = (UserDefinedTemplateXPO.Item_Header != null) ? UserDefinedTemplateXPO.Item_Header.Oid : 0;
-            _userdefinedtemplateDTO.Item_SupportGroupDTO.ID = (UserDefinedTemplateXPO.Item_SupportGroup != null) ? UserDefinedTemplateXPO.Item_SupportGroup.Oid : 0;
-            _userdefinedtemplateDTO.UserDefinedDTO.ID = (UserDefinedTemplateXPO.UserDefined != null) ? UserDefinedTemplateXPO.UserDefined.Oid : 0;
-            _userdefinedtemplateDTO.UserDefinedDTO.Name = (UserDefinedTemplateXPO.UserDefined != null) ? UserDefinedTemplateXPO.UserDefined.Name : "Unnassigned";
+            _userdefinedtemplateDTO.Item_SupportGroupID = (UserDefinedTemplateXPO.Item_SupportGroup != null) ? UserDefinedTemplateXPO.Item_SupportGroup.Oid : 0;
+            _userdefinedtemplateDTO.UserDefinedID = (UserDefinedTemplateXPO.UserDefined != null) ? UserDefinedTemplateXPO.UserDefined.Oid : 0;
+            _userdefinedtemplateDTO.UserDefinedName = (UserDefinedTemplateXPO.UserDefined != null) ? UserDefinedTemplateXPO.UserDefined.Name : "Unnassigned";
+            _userdefinedtemplateDTO.UserDefinedDTO.DataTypeID = (UserDefinedTemplateXPO.UserDefined.DataType != null) ? UserDefinedTemplateXPO.UserDefined.DataType.Oid : 0;
             _userdefinedtemplateDTO.AddedDate = (UserDefinedTemplateXPO.AddedDate.ToString() != DateTime.MinValue.ToString()) ? UserDefinedTemplateXPO.AddedDate : (DateTime?)null;
             _userdefinedtemplateDTO.AddedByID = (UserDefinedTemplateXPO.AddedBy != null) ? UserDefinedTemplateXPO.AddedBy.Oid : 0;
             _userdefinedtemplateDTO.AddedByName = (UserDefinedTemplateXPO.AddedBy != null) ? UserDefinedTemplateXPO.AddedBy.Name : "Unnassigned";
@@ -24,7 +25,6 @@ public class UserDefinedTemplateMap
             _userdefinedtemplateDTO.LastUpdateByID = (UserDefinedTemplateXPO.LastUpdateBy != null) ? UserDefinedTemplateXPO.LastUpdateBy.Oid : 0;
             _userdefinedtemplateDTO.LastUpdateByName = (UserDefinedTemplateXPO.LastUpdateBy != null) ? UserDefinedTemplateXPO.LastUpdateBy.Name : "Unnassigned";
             _userdefinedtemplateDTO.IsActive = UserDefinedTemplateXPO.IsActive;
-
         }
         catch (Exception ex)
         {
@@ -40,14 +40,13 @@ public class UserDefinedTemplateMap
         {
             _userdefinedtemplateXPO = UserDefinedTemplateDTO.ID == null || UserDefinedTemplateDTO.ID == 0 ? new UserDefinedTemplateXPO(UnitOfWork) : UnitOfWork.GetObjectByKey<UserDefinedTemplateXPO>(UserDefinedTemplateDTO.ID);
             _userdefinedtemplateXPO.Item_Header = (_userdefinedtemplateXPO.Item_Header != null && _userdefinedtemplateXPO.Item_Header.Oid == UserDefinedTemplateDTO.Item_HeaderDTO.ID ) ? _userdefinedtemplateXPO.Item_Header : UnitOfWork.GetObjectByKey<Item_HeaderXPO>(UserDefinedTemplateDTO.Item_HeaderID);
-            _userdefinedtemplateXPO.Item_SupportGroup = (_userdefinedtemplateXPO.Item_SupportGroup?.Oid == UserDefinedTemplateDTO.Item_SupportGroupDTO.ID) ? _userdefinedtemplateXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(UserDefinedTemplateDTO.Item_SupportGroupDTO.ID);
-            _userdefinedtemplateXPO.UserDefined = (_userdefinedtemplateXPO.UserDefined != null && _userdefinedtemplateXPO.UserDefined.Oid == UserDefinedTemplateDTO.UserDefinedDTO.ID) ? _userdefinedtemplateXPO.UserDefined : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedTemplateDTO.UserDefinedDTO.ID);
+            _userdefinedtemplateXPO.Item_SupportGroup = (_userdefinedtemplateXPO.Item_SupportGroup?.Oid == UserDefinedTemplateDTO.Item_SupportGroupID) ? _userdefinedtemplateXPO.Item_SupportGroup : UnitOfWork.GetObjectByKey<Item_SupportGroupXPO>(UserDefinedTemplateDTO.Item_SupportGroupID);
+            _userdefinedtemplateXPO.UserDefined = (_userdefinedtemplateXPO.UserDefined != null && _userdefinedtemplateXPO.UserDefined.Oid == UserDefinedTemplateDTO.UserDefinedID) ? _userdefinedtemplateXPO.UserDefined : UnitOfWork.GetObjectByKey<UserDefinedXPO>(UserDefinedTemplateDTO.UserDefinedID);
             _userdefinedtemplateXPO.AddedDate = _userdefinedtemplateXPO.AddedDate != null ? _userdefinedtemplateXPO.AddedDate : UserDefinedTemplateDTO.AddedDate;
             _userdefinedtemplateXPO.AddedBy = (_userdefinedtemplateXPO.AddedBy != null) ? _userdefinedtemplateXPO.AddedBy : UnitOfWork.GetObjectByKey<UserXPO>(UserDefinedTemplateDTO.AddedByID);
             _userdefinedtemplateXPO.LastUpdate = _userdefinedtemplateXPO.LastUpdate == UserDefinedTemplateDTO.LastUpdate ? _userdefinedtemplateXPO.LastUpdate : UserDefinedTemplateDTO.LastUpdate;
             _userdefinedtemplateXPO.LastUpdateBy = (_userdefinedtemplateXPO.LastUpdateBy != null && _userdefinedtemplateXPO.LastUpdateBy.Oid == UserDefinedTemplateDTO.LastUpdateByID) ? _userdefinedtemplateXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(UserDefinedTemplateDTO.LastUpdateByID);
             _userdefinedtemplateXPO.IsActive = _userdefinedtemplateXPO.IsActive == UserDefinedTemplateDTO.IsActive ? (bool)_userdefinedtemplateXPO.IsActive : (bool)UserDefinedTemplateDTO.IsActive;
-
         }
         catch (Exception ex)
         {

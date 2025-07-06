@@ -13,22 +13,12 @@ public class Item_HeaderDTO
     public string Model { get; set; }
     //public bool? IsESD { get; set; }
     public DateTime? AddedDate { get; set; }
-    public int? SupportGroupID { get; set; }
-    public string SupportGroupName { get; set; }
-    public int? Item_SupportGroupID { get; set; }
     public int? AddedByID { get; set; }
     public string AddedByName { get; set; }
     public DateTime? LastUpdate { get; set; }
     public int? LastUpdateByID { get; set; }
     public string LastUpdateByName { get; set; }
     public bool? IsActive { get; set; }
-
-    public int? ClassID { get; set; }
-    public string ClassName { get; set; }
-    public ClassDTO ClassDTO { get; set; }
-    public int? SubClassID { get; set; }
-    public string SubClassName { get; set; }
-    public SubClassDTO SubClassDTO { get; set; }
 
     #endregion
 
@@ -38,11 +28,20 @@ public class Item_HeaderDTO
     public BrandDTO BrandDTO { get; set; }
     public int?[] BrandIDArray { get; set; }
     public bool GetBrandDTO { get; set; }
+    public int? ClassID { get; set; }
+    public string ClassName { get; set; }
+    public ClassDTO ClassDTO { get; set; }
     public int?[] ClassIDArray { get; set; }
     public bool GetClassDTO { get; set; }
+    public int? SubClassID { get; set; }
+    public string SubClassName { get; set; }
+    public SubClassDTO SubClassDTO { get; set; }
     public int?[] SubClassIDArray { get; set; }
     public bool SubGetClassDTO { get; set; }
+    public int? Item_SupportGroupID { get; set; }
     public int?[] Item_HeaderIDArray { get; set; }
+    public int? SupportGroupID { get; set; }
+    public string SupportGroupName { get; set; }
     public bool GetSupportGroupDTO { get; set; }
     public int?[] SupportGroupIDArray { get; set; }
     public FileDTO FileDTO { get; set; }

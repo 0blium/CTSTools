@@ -58,7 +58,6 @@ public class UserDefined_Service
                 return _userdefinedglobalList;
             }
             _userdefinedglobalList = GetUserDefinedRelatedData(UserDefinedDTO, _userdefinedList);
-
         }
         catch (Exception ex)
         {
@@ -66,8 +65,6 @@ public class UserDefined_Service
         }
         return _userdefinedglobalList;
     }
-
-
 
     public static List<UserDefinedDTO> GetUserDefinedRelatedData(UserDefinedDTO UserDefinedDTO, List<UserDefinedDTO> UserDefinedList)
     {
@@ -115,9 +112,6 @@ public class UserDefined_Service
         }
         return _userdefinedglobalList;
     }
-
-
-
 
     public static int GetUserDefinedTotalCount(PagedResultDTO<UserDefinedDTO> PagedResultDTO)
     {

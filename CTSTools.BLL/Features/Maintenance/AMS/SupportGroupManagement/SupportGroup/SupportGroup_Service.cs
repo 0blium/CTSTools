@@ -73,7 +73,6 @@ public class SupportGroup_Service
                 return _supportgroupglobalList;
             }
             _supportgroupglobalList = GetSupportGroupRelatedData(SupportGroupDTO, _supportgroupList);
-
         }
         catch (Exception ex)
         {
@@ -89,7 +88,7 @@ public class SupportGroup_Service
         {
             if (SupportGroupDTO.GetFacilityDTO)
             {
-                SupportGroupDTO.FacilityDTO.FacilityIDArray = SupportGroupList.GroupBy(g => g.FacilityDTO.ID)
+                SupportGroupDTO.FacilityDTO.FacilityIDArray = SupportGroupList.GroupBy(g => g.FacilityID)
                         .Select(s => s.Key)
                         .ToArray();
 
@@ -98,9 +97,9 @@ public class SupportGroup_Service
             }
             foreach (var _supportgroupDTO in SupportGroupList)
             {
-                if (SupportGroupDTO.GetFacilityDTO && _facilityDict.ContainsKey(_supportgroupDTO.FacilityDTO.ID))
+                if (SupportGroupDTO.GetFacilityDTO && _facilityDict.ContainsKey(_supportgroupDTO.FacilityID))
                 {
-                    _supportgroupDTO.FacilityDTO = _facilityDict[_supportgroupDTO.FacilityDTO.ID];
+                    _supportgroupDTO.FacilityDTO = _facilityDict[_supportgroupDTO.FacilityID];
                 }
                 _supportgroupglobalList.Add(_supportgroupDTO);
             }
@@ -128,8 +127,6 @@ public class SupportGroup_Service
     #endregion
 
     #region Business Logic
-
-    // Aqui va la logica 
     public static List<SupportGroupDTO> GetSupportGroupByUser(UserDTO UserDTO)
     {
         var _supportGroupList = new List<SupportGroupDTO>();

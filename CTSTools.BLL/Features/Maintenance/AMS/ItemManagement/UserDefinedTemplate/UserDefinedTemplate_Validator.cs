@@ -17,9 +17,7 @@ public class UserDefinedTemplate_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
-
             if (UserDefinedTemplateDTO.Item_SupportGroupID == null || UserDefinedTemplateDTO.Item_SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -27,7 +25,6 @@ public class UserDefinedTemplate_Validator
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedTemplate)}{nameof(UserDefinedTemplateDTO.Item_HeaderDTO)}", 
                 });
             }
             if (UserDefinedTemplateDTO.UserDefinedID == null || UserDefinedTemplateDTO.UserDefinedID == 0)
@@ -36,20 +33,19 @@ public class UserDefinedTemplate_Validator
                 {
                     Result = false,
                     Message = "UserDefined Field Empty",
-                    Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedTemplate)}{nameof(UserDefinedTemplateDTO.UserDefinedDTO)}", 
+                    Description = " Please, complete the missing information ", 
                 });
             }
+
             //get user defined template list
             var _userDefinedTemplateDTO = UserDefinedTemplate_Service.GetUserDefinedTemplateList_Global(new UserDefinedTemplateDTO
             {
-
                 UserDefinedID = UserDefinedTemplateDTO.UserDefinedID,
                 Item_SupportGroupID = UserDefinedTemplateDTO.Item_SupportGroupID,
                 IsActive = UserDefinedTemplateDTO.IsActive
             }).FirstOrDefault();
-            // Validate if user defined template exist and at least one User defined Check
 
+            // Validate if user defined template exist and at least one User defined Check
             if (_userDefinedTemplateDTO != null)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -96,21 +92,16 @@ public class UserDefinedTemplate_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
-
             if (UserDefinedTemplateDTO.Item_SupportGroupID == null || UserDefinedTemplateDTO.Item_SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
-                    Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedTemplate)}{nameof(UserDefinedTemplateDTO.Item_HeaderDTO)}", 
+                    Description = " Please, complete the missing information ", 
                 });
             }
-
-
             if (UserDefinedTemplateDTO.UserDefinedIDArray == null || UserDefinedTemplateDTO.UserDefinedIDArray.Count() == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -118,7 +109,6 @@ public class UserDefinedTemplate_Validator
                     Result = false,
                     Message = "UserDefined Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedTemplate)}{nameof(UserDefinedTemplateDTO.UserDefinedIDArray)}",
                 });
             }
 
@@ -131,7 +121,6 @@ public class UserDefinedTemplate_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-
             // if list contains a error, update main validation result
             if (_validation_ResultList.Count > 0)
             {
@@ -160,7 +149,6 @@ public class UserDefinedTemplate_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
             if (UserDefinedTemplateDTO.ID == null || UserDefinedTemplateDTO.ID == 0)
             {
@@ -201,10 +189,7 @@ public class UserDefinedTemplate_Validator
         try
         {
             var _validation_ResultList = new List<ValidationResultDTO>();
-
             // Field Validation
-
-
             if (UserDefinedTemplateDTO.UserDefinedIDArray == null)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -214,8 +199,6 @@ public class UserDefinedTemplate_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-
-
             if (UserDefinedTemplateDTO.Item_SupportGroupID == null || UserDefinedTemplateDTO.Item_SupportGroupID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -223,7 +206,6 @@ public class UserDefinedTemplate_Validator
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    //Data = $"{nameof(UserDefinedTemplate)}{nameof(UserDefinedTemplateDTO.Item_HeaderDTO)}", 
                 });
             }
             // if list contains a error, update main validation result

@@ -25,7 +25,7 @@ public class SparePart_Lot_Service
                 SparePartID = SparePart_LotDTO.SparePartID,
                 SupportGroupID = SparePart_LotDTO.SupportGroupID
             }).FirstOrDefault();
-        SparePart_LotDTO.SparePartInventoryDTO = _sparePartInventoryDTO;
+        SparePart_LotDTO.SparePartInventoryID = _sparePartInventoryDTO.ID;
         var _ValidationResultDTO = SparePart_Lot_Validator.CreateSparePart_Lot_Validation(SparePart_LotDTO);
         if (_ValidationResultDTO.Result)
         {
@@ -54,7 +54,7 @@ public class SparePart_Lot_Service
                SparePartID = SparePart_LotDTO.SparePartID,
                SupportGroupID = SparePart_LotDTO.SupportGroupID
            }).FirstOrDefault();
-        SparePart_LotDTO.SparePartInventoryDTO = _sparePartInventoryDTO;
+        SparePart_LotDTO.SparePartInventoryID = _sparePartInventoryDTO.ID;
         var _ValidationResultDTO = SparePart_Lot_Validator.UpdateSparePart_Lot_Validation(SparePart_LotDTO);
         var _previousSparePart_LotDTO = GetSparePart_LotList_Global(new SparePart_LotDTO { ID = SparePart_LotDTO.ID }).FirstOrDefault();
         if (_ValidationResultDTO.Result)
@@ -104,7 +104,6 @@ public class SparePart_Lot_Service
                 return _sparepart_lotglobalList;
             }
             _sparepart_lotglobalList = GetSparePart_LotRelatedData(SparePart_LotDTO, _sparepart_lotList);
-
         }
         catch (Exception ex)
         {
@@ -112,8 +111,6 @@ public class SparePart_Lot_Service
         }
         return _sparepart_lotglobalList;
     }
-
-
 
     public static List<SparePart_LotDTO> GetSparePart_LotRelatedData(SparePart_LotDTO SparePart_LotDTO, List<SparePart_LotDTO> SparePart_LotList)
     {
@@ -203,9 +200,6 @@ public class SparePart_Lot_Service
         }
         return _sparepart_lotglobalList;
     }
-
-
-
 
     public static int GetSparePart_LotTotalCount(PagedResultDTO<SparePart_LotDTO> PagedResultDTO)
     {

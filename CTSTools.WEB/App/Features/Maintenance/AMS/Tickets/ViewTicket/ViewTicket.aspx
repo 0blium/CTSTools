@@ -6,7 +6,6 @@
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
                     <li class="breadcrumb-item"><a href="javascript:;">Tickets</a></li>
                     <li class="breadcrumb-item active">View Ticket</li>
                 </ol>

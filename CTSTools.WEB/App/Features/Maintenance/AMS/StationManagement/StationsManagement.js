@@ -127,43 +127,6 @@ async function InitializeStationCatalogControls() {
         },
         columns:
             [
-                //{
-                //    caption: "Actions",
-                //    alignment: "center",
-                //    allowFiltering: false,
-                //    allowSorting: false,
-                //    width: 'auto',
-                //    cellTemplate: function (container, options) {
-                //        container.height(30);
-                //        $('<button type="button" class="btn btn-danger me-1" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenStationID").val(options.data.ID);
-                //                ShowStationDeleteQuestion();
-                //            }).appendTo(container);
-                //        $('<button type="button" class="btn btn-info me-1" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fas fa-print"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                var _data = options.data;
-                //                // Open Label
-                //                window.open("http://avmx-s05:8044//LabelPrint.aspx?LabelFile=LF-2173-00-A&Dummy=False&WO=" + _data.Serial + "&Qty=1&From=&To=&SkipEvery=&SerialLength=&ESD=True&SAS=False&FullWorkOrder=" + _data.Serial);
-                //            }).appendTo(container);
-                //        $('<button type="button" class="btn btn-success" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenStationID").val(options.data.ID);
-                //                StationActionButtons("Update");
-                //                $("#AddNewStationModal").modal("show");
-                //                PopulateStationFields(options.data);
-                //            }).appendTo(container);
-                //    },
-                //},
                 {
                     caption: "Options",
                     alignment: "center",
@@ -224,18 +187,18 @@ async function InitializeStationCatalogControls() {
                 },
                 {
                     caption: "Station Type",
-                    dataField: "StationTypeDTO.Name"
+                    dataField: "StationTypeName"
                 },
                 {
                     caption: "Facility",
-                    dataField: "FacilityDTO.Name"
+                    dataField: "FacilityName"
                 },
                 {
                     caption: "Department",
-                    dataField: "DepartmentDTO.Name"
+                    dataField: "DepartmentName"
                 },
                 {
-                    caption: "Added By I D",
+                    caption: "Added By ID",
                     dataField: "AddedByID",
                     visible: false
                 },
@@ -262,8 +225,6 @@ async function InitializeStationCatalogControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
     StationActionButtons("Save");
@@ -313,9 +274,9 @@ async function PopulateStationFields(data) {
     $("#dxStationSerialTextBox").dxTextBox("instance").option("value", data.Serial);
     $("#dxStationDescriptionTextArea").dxTextArea("instance").option("value", data.Description);
     $("#dxStationIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
-    $("#dxStationStationTypeSelectBox").dxSelectBox("instance").option("value", data.StationTypeDTO.ID);
-    $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityDTO.ID);
-    $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
+    $("#dxStationStationTypeSelectBox").dxSelectBox("instance").option("value", data.StationTypeID);
+    $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value", data.FacilityID);
+    $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentID);
     await $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.FacilityID);
     await $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value", data.DepartmentDTO.ID);
 }
@@ -326,15 +287,9 @@ function GetStationDTO() {
         Serial: $("#dxStationSerialTextBox").dxTextBox("instance").option("value"),
         Description: $("#dxStationDescriptionTextArea").dxTextArea("instance").option("value"),
         IsActive: $("#dxStationIsActiveCheckBox").dxCheckBox("instance").option("value"),
-        StationTypeDTO: {
-            ID: $("#dxStationStationTypeSelectBox").dxSelectBox("instance").option("value")
-        },
-        FacilityDTO: {
-            ID: $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value")
-        },
-        DepartmentDTO: {
-            ID: $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value"),
-        },
+        StationTypeID: $("#dxStationStationTypeSelectBox").dxSelectBox("instance").option("value"),
+        FacilityID: $("#dxStationFacilitySelectBox").dxSelectBox("instance").option("value"),
+        DepartmentID: $("#dxStationDepartmentSelectBox").dxSelectBox("instance").option("value"),
     }
     return _stationDTO;
 }

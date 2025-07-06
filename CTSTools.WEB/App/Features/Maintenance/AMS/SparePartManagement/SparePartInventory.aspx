@@ -6,8 +6,7 @@
         <div class="row">
             <ol class="breadcrumb float-xl-start">
                 <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Spare Parts</a></li>
-                <li class="breadcrumb-item active">Spare Part Inventory</li>
+                <li class="breadcrumb-item active">Spare Parts</li>
             </ol>
         </div>
         <div class="row">

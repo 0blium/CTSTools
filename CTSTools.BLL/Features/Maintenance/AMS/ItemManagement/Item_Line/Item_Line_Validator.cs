@@ -1,13 +1,10 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Common.Excel;
-using CTSTools.BLL.Common.Files;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
-using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Header;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.UserDefined;
 using CTSTools.BLL.Features.Maintenance.AMS.StationManagement.Station;
-using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 using Elmah;
 using System;
 using System.Collections.Generic;
@@ -29,24 +26,16 @@ public class Item_Line_Validator
             var _validation_ResultList = new List<ValidationResultDTO>();
 
             // Field Validation
-            if (Item_LineDTO.Item_HeaderDTO.ID == null || Item_LineDTO.Item_HeaderDTO.ID == 0)
+            if (Item_LineDTO.Item_HeaderID == null || Item_LineDTO.Item_HeaderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
                     Result = false,
                     Message = "Item_Header Field Empty",
                     Description = " Please, complete the missing information ",
-                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderDTO)}",
+                    Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.Item_HeaderID)}",
                 });
             }
-            //if (Item_LineDTO.SupplyTypeDTO.ID != null && Item_LineDTO.SupplyTypeDTO.ID != 0)
-            //{
-            //    var _supplyTypeValidation = Item_LineValidationBySupplyType(Item_LineDTO);
-            //    foreach (var _validationResultDTO in _supplyTypeValidation)
-            //    {
-            //        _validation_ResultList.Add(_validationResultDTO);
-            //    }
-            //}
             if (Item_LineDTO.BasePriceUSD == null || Item_LineDTO.BasePriceUSD == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -63,7 +52,7 @@ public class Item_Line_Validator
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     // Get User Defined information
-                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedDTO.ID }).FirstOrDefault();
+                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedID }).FirstOrDefault();
                     if ((bool)_userDefinedDTO.IsMandatory)
                     {
                         // If it is mandatory, check that it is not empty
@@ -129,7 +118,7 @@ public class Item_Line_Validator
                     Description = "Please, complete the missing information ",
                 });
             }
-            if (Item_LineDTO.Item_HeaderDTO.ID == null || Item_LineDTO.Item_HeaderDTO.ID == 0)
+            if (Item_LineDTO.Item_HeaderID == null || Item_LineDTO.Item_HeaderID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -165,7 +154,7 @@ public class Item_Line_Validator
                 foreach (var _userDefinedValueDTO in Item_LineDTO.UserDefinedValueList)
                 {
                     // Get User Defined information
-                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedDTO.ID }).FirstOrDefault();
+                    var _userDefinedDTO = UserDefined_Service.GetUserDefinedList_Global(new UserDefinedDTO { ID = _userDefinedValueDTO.UserDefinedID }).FirstOrDefault();
                     if ((bool)_userDefinedDTO.IsMandatory)
                     {
                         // If it is mandatory, check that it is not empty
@@ -258,16 +247,16 @@ public class Item_Line_Validator
             {
                 foreach (var _item_LineID in Item_LineDTO.Item_LineIDArray)
                 {
-                    var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = _item_LineID }).FirstOrDefault();
+                    var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = _item_LineID, GetItem_HeaderDTO = true }).FirstOrDefault();
                     if (_item_lineDTO != null)
                     {
-                        if (_item_lineDTO.StationDTO.ID > 0)
+                        if (_item_lineDTO.StationID > 0)
                         {
                             _validation_ResultList.Add(new ValidationResultDTO
                             {
                                 Result = false,
                                 Message = "Item is already at the station ",
-                                Description = $"The item {"BrandName"} is already at the station {_item_lineDTO.StationDTO.Name}"
+                                Description = $"The item {_item_lineDTO.Item_HeaderDTO.BrandName} is already at the station {_item_lineDTO.StationName}"
                             });
                         }
                     }
@@ -320,7 +309,7 @@ public class Item_Line_Validator
                 var _item_lineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
                 if (Item_LineDTO != null)
                 {
-                    if (_item_lineDTO.StationDTO.ID == Item_LineDTO.StationDTO.ID)
+                    if (_item_lineDTO.StationID == Item_LineDTO.StationID)
                     {
                         _validation_ResultList.Add(new ValidationResultDTO
                         {
@@ -331,7 +320,7 @@ public class Item_Line_Validator
                     }
                 }
             }
-            if (Item_LineDTO.StationDTO.ID == null)
+            if (Item_LineDTO.StationID == null)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -447,14 +436,14 @@ public class Item_Line_Validator
                 });
             }
 
-            //if (Item_LineDTO.DeliveredToDTO.ID == null || Item_LineDTO.DeliveredToDTO.ID == 0)
+            //if (Item_LineDTO.DeliveredToID == null || Item_LineDTO.DeliveredToID == 0)
             //{
             //    _validation_ResultList.Add(new ValidationResultDTO
             //    {
             //        Result = false,
             //        Message = "Deliver To Field Empty",
             //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.DeliveredToDTO)}",
+            //        Data = $"{nameof(Item_Line)}{nameof(Item_LineDTO.DeliveredToID)}",
             //    });
             //}
 
@@ -505,7 +494,7 @@ public class Item_Line_Validator
                     Description = " Please, complete the missing information ",
                 });
             }
-            if (Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0)
+            if (Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
                 {
@@ -518,7 +507,7 @@ public class Item_Line_Validator
             {
                 //validate if is the current owner
                 var _item_LineDTO = Item_Line_Service.GetItem_LineList_Global(new Item_LineDTO { ID = Item_LineDTO.ID }).FirstOrDefault();
-                if (_item_LineDTO.OwnerDTO.ID == Item_LineDTO.OwnerDTO.ID)
+                if (_item_LineDTO.OwnerID == Item_LineDTO.OwnerID)
                 {
                     _validation_ResultList.Add(new ValidationResultDTO
                     {
@@ -560,14 +549,14 @@ public class Item_Line_Validator
         try
         {
             // Field Validation
-            if (!(Item_LineDTO.ID == null || Item_LineDTO.ID == 0) && !(Item_LineDTO.OwnerDTO.ID == null || Item_LineDTO.OwnerDTO.ID == 0))
+            if (!(Item_LineDTO.ID == null || Item_LineDTO.ID == 0) && !(Item_LineDTO.OwnerID == null || Item_LineDTO.OwnerID == 0))
             {
                 //validate if the item belongs to that owner
                 var _item_line = Item_Line_Service.GetItem_LineList_Global(
                     new Item_LineDTO
                     {
                         ID = Item_LineDTO.ID,
-                        OwnerDTO = Item_LineDTO.OwnerDTO
+                        OwnerID = Item_LineDTO.OwnerID,
                     }).FirstOrDefault();
                 if (_item_line == null)
                 {
@@ -612,24 +601,18 @@ public class Item_Line_Validator
             var _item_LineDTO = new Item_LineDTO
             {
                 ID = Item_LineDTO.ID,
-                Item_HeaderDTO = new Item_HeaderDTO 
-                {
-                    ID = Item_LineDTO.Item_HeaderDTO.ID
-                },
+                Item_HeaderID = Item_LineDTO.Item_HeaderID,
+                Item_SupportGroupID = Item_LineDTO.Item_SupportGroupID,
                 Item_SupportGroupDTO = new Item_SupportGroupDTO 
                 {
-                    ID = Item_LineDTO.Item_SupportGroupDTO.ID,
-                    SupportGroupDTO = new SupportGroupDTO 
-                    {
-                        ID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID
-                    }
+                    SupportGroupID = Item_LineDTO.Item_SupportGroupDTO.SupportGroupID
                 },
                 ManufactureSerialID = Item_LineDTO.ManufactureSerialID,
                 LegacyID = Item_LineDTO.LegacyID,
-                OwnerDTO = new UserDTO { Name = Item_LineDTO.OwnerDTO.Name},
+                OwnerName = Item_LineDTO.OwnerName,
                 BasePriceUSD = Item_LineDTO.BasePriceUSD,
-                StatusDTO = new StatusDTO { Name = Item_LineDTO.StatusDTO.Name },
-                StationDTO = new StationDTO { Name = Item_LineDTO.StationDTO.Name },
+                StatusName = Item_LineDTO.StatusName,
+                StationName = Item_LineDTO.StationName,
                 Comments = Item_LineDTO.Comments,
                 DeliveredToName = Item_LineDTO.DeliveredToName,
                 AddedByID = Item_LineDTO.AddedByID,
@@ -638,9 +621,9 @@ public class Item_Line_Validator
             };
 
             // StartsWith checks if any of the properties start with the text 'Error' to identify invalid DTOs.
-            if (_item_LineDTO.Item_HeaderDTO.ID == null || _item_LineDTO.Item_HeaderDTO.ID == 0 ||
-                _item_LineDTO.Item_SupportGroupDTO.ID == null || _item_LineDTO.Item_SupportGroupDTO.ID == 0 ||
-                _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID == null || _item_LineDTO.Item_SupportGroupDTO.SupportGroupDTO.ID == 0 ||
+            if (_item_LineDTO.Item_HeaderID == null || _item_LineDTO.Item_HeaderID == 0 ||
+                _item_LineDTO.Item_SupportGroupID == null || _item_LineDTO.Item_SupportGroupID == 0 ||
+                _item_LineDTO.Item_SupportGroupDTO.SupportGroupID == null || _item_LineDTO.Item_SupportGroupDTO.SupportGroupID == 0 ||
                 _item_LineDTO.BasePriceUSD < 0.0f)
                 isSucces = false;
 
@@ -688,9 +671,9 @@ public class Item_Line_Validator
             }
 
             // We save an array list of the names in lowercase to eliminate names that are repeated with Distinct
-            var _ownerDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.OwnerDTO.Name.ToLower()).Distinct().ToArray() };
-            var _stationDTO = new StationDTO { StationNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StationDTO.Name.ToLower()).Distinct().ToArray() };
-            var _statusDTO = new StatusDTO { StatusNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StatusDTO.Name.ToLower()).Distinct().ToArray() };
+            var _ownerDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.OwnerName.ToLower()).Distinct().ToArray() };
+            var _stationDTO = new StationDTO { StationNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StationName.ToLower()).Distinct().ToArray() };
+            var _statusDTO = new StatusDTO { StatusNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.StatusName.ToLower()).Distinct().ToArray() };
             var _deliveredToDTO = new UserDTO { UserNameArray = _Item_LineDTOList.Select(Item_LineDTO => Item_LineDTO.DeliveredToName.ToLower()).Distinct().ToArray() };
 
             // We send the DTOs to the gets so that it brings the data from the db if it exists
@@ -712,9 +695,9 @@ public class Item_Line_Validator
                 // we use TryGetValue to try to get the Item_Line associated with the key from the dictionary,
                 // If the Item_Line of DeliveredToName is found, it is assigned with the corresponding Item_Line (ID) from the dictionary.
                 // 'out' keyword indicates that DeliveredToName is an output parameter, if the name is not found, save the error message.
-                if (_ownerDict.TryGetValue(Item_LineDTO.OwnerDTO.Name.ToLower(), out int? OwnerID)) Item_LineDTO.OwnerDTO.ID = OwnerID;
-                if (_stationDict.TryGetValue(Item_LineDTO.StationDTO.Name.ToLower(), out int? StationID)) Item_LineDTO.StationDTO.ID = StationID;
-                if (_statusDict.TryGetValue(Item_LineDTO.StatusDTO.Name.ToLower(), out int? StatusID)) Item_LineDTO.StatusDTO.ID = StatusID;
+                if (_ownerDict.TryGetValue(Item_LineDTO.OwnerName.ToLower(), out int? OwnerID)) Item_LineDTO.OwnerID = OwnerID;
+                if (_stationDict.TryGetValue(Item_LineDTO.StationName.ToLower(), out int? StationID)) Item_LineDTO.StationID = StationID;
+                if (_statusDict.TryGetValue(Item_LineDTO.StatusName.ToLower(), out int? StatusID)) Item_LineDTO.StatusID = StatusID;
                 if (_deliveredToDict.TryGetValue(Item_LineDTO.DeliveredToName.ToLower(), out int? DeliveredToID)) Item_LineDTO.DeliveredToID = DeliveredToID;
 
                 if (isSuccess)

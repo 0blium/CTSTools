@@ -41,8 +41,8 @@
                     <div class="row mb-15px">
                         <label class="form-label col-form-label col-xl-4 col-md-12">Name(<span class="text-danger">*</span>)</label>
                         <div class="col-xl-8 col-md-12">
-                            <div id="dxSupportGroupEnglishNameTextBox"></div>
-                            <div class="invalid-feedback" id="SupportGroupEnglishNameValidation"></div>
+                            <div id="dxSupportGroupNameTextBox"></div>
+                            <div class="invalid-feedback" id="SupportGroupNameValidation"></div>
                         </div>
                     </div>
                     <div class="row mb-15px">

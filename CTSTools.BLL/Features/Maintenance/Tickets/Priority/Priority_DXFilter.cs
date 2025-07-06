@@ -20,9 +20,9 @@ public class Priority_DXFilter
             {
                 _groupOperator.Operands.Add(new InOperator(nameof(PriorityXPO.Oid), PriorityDTO.PriorityIDArray));
             }
-            if (PriorityDTO.SupportGroupDTO.ID != null || PriorityDTO.SupportGroupDTO.ID > 0)
+            if (PriorityDTO.SupportGroupID != null || PriorityDTO.SupportGroupID > 0)
             {
-                _groupOperator.Operands.Add(new BinaryOperator(nameof(PriorityXPO.SupportGroup), PriorityDTO.SupportGroupDTO.ID));
+                _groupOperator.Operands.Add(new BinaryOperator(nameof(PriorityXPO.SupportGroup), PriorityDTO.SupportGroupID));
             }
             if (PriorityDTO.SupportGroupIDArray != null && PriorityDTO.SupportGroupIDArray.Count() > 0)
             {

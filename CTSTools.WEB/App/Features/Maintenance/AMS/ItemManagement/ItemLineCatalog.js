@@ -10,7 +10,6 @@ import { GetDXSupplyTypeDataSource } from '../../../AdvancedSettings/SupplyType/
 import { GetDXStatus_StatusTypeDataSource } from '../../../AdvancedSettings/StatusManagement/Status_StatusType/Status_StatusType_Service.js'
 import { UpdateUserDefinedTemplate, GetUserDefinedTemplateInformation } from './UserDefinedTemplate/UserDefinedTemplate_Service.js'
 import { GetURLParameter } from '../../../../Common/Utils/GetURLParameter.js'
-
 import { StatusType_Enum } from '../../../AdvancedSettings/StatusManagement/StatusType/StatusType_Enum.js'
 import { SupplyType_Enum } from '../../../AdvancedSettings/SupplyType/SupplyType_Enum.js'
 import { DataType_Enum } from '../../../AdvancedSettings/DataType/DataType_Enum.js'
@@ -59,7 +58,6 @@ async function InitializeItemLineCatalogControls() {
         searchEnabled: true
     });
     $("#dxItem_LineStationSelectBox").dxSelectBox({
-        //dataSource: await GetDXStationDataSource(),
         valueExpr: "ID",
         displayExpr: "Name",
         deferRendering: false,
@@ -87,7 +85,6 @@ async function InitializeItemLineCatalogControls() {
                         break;
                 }
             }
-
         }
     });
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox({
@@ -203,7 +200,7 @@ async function InitializeItemLineCatalogControls() {
         },
         "export": {
             enabled: true,
-            fileName: "ItemLineCatalog",
+            fileName: "Assets",
             allowExportSelectedData: true
         },
         filterRow: {
@@ -265,6 +262,7 @@ async function InitializeItemLineCatalogControls() {
                                 }
                                 else if (e.itemData.value == 2) {
                                     $('#ReassingSupportGroupModal').modal('show');
+                                    $("#hiddenItemLineID").val(options.data.ID);
                                     PopulateReassignSupportGroupModalFields(options.data);
                                 }
                                 else if (e.itemData.value == 3) {
@@ -294,14 +292,14 @@ async function GetItem_SupportGroupIDByURL() {
     let _item_SupportGroupID = GetURLParameter("Item_SupportGroupID");
     let _item_HeaderID = GetURLParameter("Item_HeaderID");
     let _item_SupportGroupDTO = { ID: _item_SupportGroupID, GetSupportGroupDTO: true, GetItem_HeaderDTO: true };
-    const _item_LineDTO = { Item_SupportGroupDTO: { ID: _item_SupportGroupID }, Item_HeaderDTO: { ID: _item_HeaderID }, IsActive: true };
+    const _item_LineDTO = { Item_SupportGroupID: _item_SupportGroupID, Item_HeaderID: _item_HeaderID, IsActive: true };
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let _item_SupportGroupList = await GetItem_SupportGroupInformation(_item_SupportGroupDTO);
     if (_item_SupportGroupID != null && _item_SupportGroupID != undefined && _item_SupportGroupID != 0 && !Number.isNaN(_item_SupportGroupID) && (ItemLineList.length != 0 || _item_SupportGroupList.length != 0)) {
         document.getElementById('AssetTitle').innerText = _item_SupportGroupList[0].Item_HeaderDTO.ModelWithBrand;
         document.getElementById('hiddenItemLineSupportGroupID').value = _item_SupportGroupID;
         document.getElementById('hiddenItemHeaderID').value = _item_HeaderID;
-        document.getElementById('hiddenItemSupportGroupID').value = _item_SupportGroupList[0].SupportGroupDTO.ID;
+        document.getElementById('hiddenItemSupportGroupID').value = _item_SupportGroupList[0].SupportGroupID;
         document.getElementById('NewItemLineBtn').removeAttribute('hidden');
         await InitializeItemLineCatalogControls();
         InitializeReassignSupportGroupModalControls();
@@ -310,16 +308,14 @@ async function GetItem_SupportGroupIDByURL() {
         await BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList);
         $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemHeaderID").val()));
         $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value", Number($("#hiddenItemSupportGroupID").val()));
-        GetStationListByFacility(_item_SupportGroupList[0].SupportGroupDTO.FacilityDTO.ID);
+        GetStationListByFacility(_item_SupportGroupList[0].SupportGroupDTO.FacilityID);
     } else {
         toastr["error"]("Please, select a Line to get the information", "Line Not selected");
     }
 }
 async function GetStationListByFacility(FacilityID) {
     const _stationDTO = {
-        FacilityDTO: {
-            ID: FacilityID
-        },
+        FacilityID: FacilityID,
         IsActive: true
     };
     const _stationList = await GetDXStationDataSource(_stationDTO);
@@ -341,7 +337,6 @@ function RefreshGrid()
                     column.visible = false;
                 }
                 _columns.push(column);
-
             });
         }
         _itemLineMasterDetailsGrid.option("columns", _columns);
@@ -397,7 +392,7 @@ async function ClearItemLineFields() {
     $("#dxItem_LineGenerateSerialCheckBox").dxCheckBox("instance").option("value", false);
     for (var _userDefined in UserDefinedTemplateList) {
         if (_userDefined != null && _userDefined >= 0) {
-            switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
+            switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeID) {
                 case DataType_Enum.Text:
                     $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", "");
                     break;
@@ -416,7 +411,7 @@ async function ClearItemLineFields() {
     }
 }
 async function ClearItemLineGrid() {
-    const _item_LineDTO = { Item_SupportGroupDTO: { ID: $("#hiddenItemLineSupportGroupID").val() }, Item_HeaderDTO: { ID: $("#hiddenItemHeaderID").val() }, IsActive: true };
+    const _item_LineDTO = { Item_SupportGroupID: $("#hiddenItemLineSupportGroupID").val(), Item_HeaderID: $("#hiddenItemHeaderID").val(), IsActive: true };
     ItemLineList = await GetItem_LineMasterDetailInformation(_item_LineDTO);
     let keys = $("#dxItemLineGrid").dxDataGrid("instance").getSelectedRowKeys();
     $("#dxItemLineGrid").dxDataGrid("instance").deselectRows(keys);
@@ -428,14 +423,14 @@ async function ClearItemLineGrid() {
 function PopulateItemLineFields(Data, UserDefinedList) {
     ItemLineActionButtons("Update");
     $("#hiddenItemLineID").val(Data.ID);
-    $("#hiddenStationID").val(Data.StationDTOID);
-    $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value", Data.StationDTOID)
-    $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value", Data.OwnerDTOID);
-    $("#dxItem_LineDeliveredToSelectBox").dxSelectBox("instance").option("value", Data.DeliveredToDTOID);
-    $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value", Data.SupplyTypeDTOID);
+    $("#hiddenStationID").val(Data.StationID);
+    $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value", Data.StationID)
+    $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value", Data.OwnerID);
+    $("#dxItem_LineDeliveredToSelectBox").dxSelectBox("instance").option("value", Data.DeliveredToID);
+    $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value", Data.SupplyTypeID);
     $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value", Data.ManufactureSerialID);
     $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value", Data.ShipmentReceiptNumber);
-    $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value", Data.StatusDTOID);
+    $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value", Data.StatusID);
     $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value", Data.ImportInvoice);
     $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value", Data.BasePriceUSD);
     $("#dxItem_LineCommentsTextArea").dxTextArea("instance").option("value", Data.Comments);
@@ -444,19 +439,19 @@ function PopulateItemLineFields(Data, UserDefinedList) {
     $("#dxItem_LineLegacyIDTextBox").dxTextBox("instance").option("value", Data.LegacyID);
     $("#dxItem_LineSerialTextBox").dxTextBox("instance").option("value", Data.Serial);
     for (var _userDefined in UserDefinedList) {
-        switch (UserDefinedList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedList[_userDefined].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
-                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedDTO.Name]);
+                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedName]);
                 break;
             case DataType_Enum.DateTime:
-                $("#dxUserDefined" + _userDefined).dxDateBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedDTO.Name]);
+                $("#dxUserDefined" + _userDefined).dxDateBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedName]);
                 break;
             case DataType_Enum.Check:
-                let _userDefinedValue = Data[UserDefinedList[_userDefined].UserDefinedDTO.Name] == 'true' ? true : false;
+                let _userDefinedValue = Data[UserDefinedList[_userDefined].UserDefinedName] == 'true' ? true : false;
                 $("#dxUserDefined" + _userDefined).dxCheckBox("instance").option("value", _userDefinedValue);
                 break;
             case DataType_Enum.Numeric:
-                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedDTO.Name]);
+                $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value", Data[UserDefinedList[_userDefined].UserDefinedName]);
                 break;
         }
     }
@@ -464,30 +459,18 @@ function PopulateItemLineFields(Data, UserDefinedList) {
 function GetItem_LineDTO(UserDefinedTemplateList) {
     let _item_LineDTO = {
         ID: $("#hiddenItemLineID").val(),
-        Item_HeaderDTO: {
-            ID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value")
-        },
+        Item_HeaderID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value"),
+        Item_SupportGroupID: $("#hiddenItemLineSupportGroupID").val(),
         Item_SupportGroupDTO: {
-            ID: $("#hiddenItemLineSupportGroupID").val(),
-            SupportGroupDTO: {
-                ID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value")
-            }
+            SupportGroupID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value"),
         },
-        OwnerDTO: {
-            ID: $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value"),
-        },
-        SupplyTypeDTO: {
-            ID: $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value"),
-        },
+        OwnerID: $("#dxItem_LineOwnerSelectBox").dxSelectBox("instance").option("value"),
+        SupplyTypeID: $("#dxItem_LineSupplyTypeSelectBox").dxSelectBox("instance").option("value"),
         Serial: $("#dxItem_LineSerialTextBox").dxTextBox("instance").option("value"),
         ManufactureSerialID: $("#dxItem_LineManufactureSerialIDTextBox").dxTextBox("instance").option("value"),
         ShipmentReceiptNumber: $("#dxItem_LineShipmentReceiptNumberTextBox").dxTextBox("instance").option("value"),
-        StatusDTO: {
-            ID: $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value")
-        },
-        StationDTO: {
-            ID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value")
-        },
+        StatusID: $("#dxItem_LineStatusSelectBox").dxSelectBox("instance").option("value"),
+        StationID: $("#dxItem_LineStationSelectBox").dxSelectBox("instance").option("value"),
         DeliveredToID: $("#dxItem_LineDeliveredToSelectBox").dxSelectBox("instance").option("value"),
         ImportInvoice: $("#dxItem_LineImportInvoiceTextBox").dxTextBox("instance").option("value"),
         BasePriceUSD: $("#dxItem_LineBasePriceUSDTextBox").dxTextBox("instance").option("value"),
@@ -502,16 +485,12 @@ function GetItem_LineDTO(UserDefinedTemplateList) {
     }
     for (var _userDefined in UserDefinedTemplateList) {
         let _userDefinedValueDTO = {
-            UserDefinedDTO: {
-                ID: UserDefinedTemplateList[_userDefined].UserDefinedDTO.ID
-            },
-            SupportGroupDTO: {
-                ID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value")
-            },
+            UserDefinedID: UserDefinedTemplateList[_userDefined].UserDefinedID,
+            SupportGroupID: $("#dxItem_LineSupportGroupSelectBox").dxSelectBox("instance").option("value"),
             IsActive: true,
             Value: ""
         }
-        switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedTemplateList[_userDefined].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
                 _userDefinedValueDTO.Value = $("#dxUserDefined" + _userDefined).dxTextBox("instance").option("value");
                 break;
@@ -626,9 +605,9 @@ function Item_LinePropertyNameArray() {
     // With Object.keys we create an array of properties of the Item_LineDTO object
     var _propertyNameArray = Object.keys(GetItem_LineDTO());
     // We filter the properties of the array that we are not going to use ID and IsActive note: in normal catalogs it is necessary up to this point
-    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive" && PropertyName !== "Item_HeaderDTO"
-        && PropertyName !== "Item_SupportGroupDTO" && PropertyName !== "OwnerDTO" && PropertyName !== "SupplyTypeDTO" && PropertyName !== "Serial" && PropertyName !== "ShipmentReceiptNumber"
-        && PropertyName !== "StatusDTO" && PropertyName !== "StationDTO" && PropertyName !== "ImportInvoice" && PropertyName !== "PONumber" && PropertyName !== "POLine" && PropertyName !== "GenerateSerial"
+    _propertyNameArray = _propertyNameArray.filter(PropertyName => PropertyName !== "ID" && PropertyName !== "IsActive" && PropertyName !== "Item_HeaderID"
+        && PropertyName !== "Item_SupportGroupID" && PropertyName !== "Item_SupportGroupDTO" && PropertyName !== "OwnerID" && PropertyName !== "SupplyTypeID" && PropertyName !== "Serial" && PropertyName !== "ShipmentReceiptNumber"
+        && PropertyName !== "StatusID" && PropertyName !== "StationID" && PropertyName !== "ImportInvoice" && PropertyName !== "PONumber" && PropertyName !== "POLine" && PropertyName !== "GenerateSerial"
         && PropertyName !== "ShipmentReceiptID" && PropertyName !== "BasePriceUSD" && PropertyName !== "UserDefinedValueList");
     // In this case we add the missing columns
     _propertyNameArray.push("Owner");
@@ -696,16 +675,16 @@ async function BuildUserDefinedOnItem_LineModal(UserDefinedTemplateList) {
     for (let i in UserDefinedTemplateList) {
         rowContent += // agregamos los UserDefinedTemplate
         `   <div class="col-md-4 mb-3">
-                <label class="form-label col-form-label">${UserDefinedTemplateList[i].UserDefinedDTO.Name}</label>
+                <label class="form-label col-form-label">${UserDefinedTemplateList[i].UserDefinedName}</label>
                 <div id="dxUserDefined${i}"></div>
             </div>`;
     }
     rowContent += '</div>';  // Cierra el contenedor de la fila
     _userDefinedSection.innerHTML = rowContent;  // Asigna el contenido HTML a la sección
     for (let i in UserDefinedTemplateList) {
-        switch (UserDefinedTemplateList[i].UserDefinedDTO.DataTypeDTO.ID) {
+        switch (UserDefinedTemplateList[i].UserDefinedDTO.DataTypeID) {
             case DataType_Enum.Text:
-                $("#dxUserDefined" + i).dxTextBox({ placeholder: "Type " + UserDefinedTemplateList[i].UserDefinedDTO.Name+" .." });
+                $("#dxUserDefined" + i).dxTextBox({ placeholder: "Type " + UserDefinedTemplateList[i].UserDefinedName+" .." });
                 break;
             case DataType_Enum.DateTime:
                 let now = new Date();
@@ -753,8 +732,8 @@ function ReassignSupportGroupModalActionButtons(Action) {
     }
 }
 async function PopulateReassignSupportGroupModalFields(data) {
-    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderDTOID);
-    $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value", data.SupportGroupDTOID);
+    $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value", data.Item_HeaderID);
+    $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value", data.SupportGroupID);
 }
 
 function ClearReassignSupportGroupModalFields() {
@@ -764,14 +743,10 @@ function GetItemLine_SupportGroupModalDTO() {
     //This build a item line with Item_supportGroup Relation
     let _item_LineDTO = {
         ID: $("#hiddenItemLineID").val(),
-        Item_HeaderDTO: {
-            ID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value"),
-        },
+        Item_HeaderID: $("#dxItem_LineItem_HeaderSelectBox").dxSelectBox("instance").option("value"),
+        Item_SupportGroupID: $("#hiddenItemLineSupportGroupID").val(),
         Item_SupportGroupDTO: {
-            ID: $("#hiddenItemLineSupportGroupID").val(),
-            SupportGroupDTO: {
-                ID: $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value"),
-            },
+            SupportGroupID: $("#dxReassignSupportGroupModalSelectBox").dxSelectBox("instance").option("value"),
         },
         IsActive: true
     }

@@ -32,7 +32,6 @@ public class TicketMap
             _ticketDTO.AssignedToName = (TicketXPO.AssignedTo != null) ? TicketXPO.AssignedTo.Name : "Unnassigned";
             _ticketDTO.AssignedDate = (TicketXPO.AssignedDate.ToString() != DateTime.MinValue.ToString()) ? TicketXPO.AssignedDate : (DateTime?)null;
             _ticketDTO.Note = TicketXPO.Note;
-            _ticketDTO.Item_LineDTO.ID = (TicketXPO.Item_Line != null) ? TicketXPO.Item_Line.Oid : 0;
             _ticketDTO.Item_LineID = (TicketXPO.Item_Line != null) ? TicketXPO.Item_Line.Oid : 0;
             _ticketDTO.StatusID = (TicketXPO.Status != null) ? TicketXPO.Status.Oid : 0;
             _ticketDTO.StatusName = (TicketXPO.Status != null) ? TicketXPO.Status.Name : "Unnassigned";
@@ -54,7 +53,6 @@ public class TicketMap
             _ticketDTO.LastUpdateByID = (TicketXPO.LastUpdateBy != null) ? TicketXPO.LastUpdateBy.Oid : 0;
             _ticketDTO.LastUpdateByName = (TicketXPO.LastUpdateBy != null) ? TicketXPO.LastUpdateBy.Name : "Unnassigned";
             _ticketDTO.IsActive = TicketXPO.IsActive;
-
         }
         catch (Exception ex)
         {
@@ -93,7 +91,6 @@ public class TicketMap
             _ticketXPO.LastUpdate = _ticketXPO.LastUpdate == TicketDTO.LastUpdate ? _ticketXPO.LastUpdate : TicketDTO.LastUpdate;
             _ticketXPO.LastUpdateBy = (_ticketXPO.LastUpdateBy?.Oid == TicketDTO.LastUpdateByID) ? _ticketXPO.LastUpdateBy : UnitOfWork.GetObjectByKey<UserXPO>(TicketDTO.LastUpdateByID);
             _ticketXPO.IsActive = _ticketXPO.IsActive == TicketDTO.IsActive ? (bool)_ticketXPO.IsActive : (bool)TicketDTO.IsActive;
-
         }
         catch (Exception ex)
         {

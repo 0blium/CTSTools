@@ -6,15 +6,13 @@
         <div class="container-fluid">
             <div class="row">
                 <ol class="breadcrumb float-xl-start">
-                    <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:;">Support Groups</a></li>
-                    <li class="breadcrumb-item active">Category Catalog</li>
+                    <li class="breadcrumb-item"><a href="javascript:;">Tickets</a></li>
                 </ol>
             </div>
             <!-- END breadcrumb -->
             <!-- BEGIN page-header -->
             <div class="row">
-                <h1 class="page-header">Category Catalog</h1>
+                <h1 class="page-header">Category</h1>
             </div>
         </div>
         <!-- END page-header -->
@@ -24,7 +22,7 @@
 
                     <div class="panel-body">
                         <div class="col-md-12 ">
-                            <a class="btn btn-success mb-1" id="AddNewCategoryButton" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal">Add new category</a>
+                            <a class="btn btn-success mb-1" id="AddNewCategoryButton" data-bs-toggle="modal" data-bs-target="#AddNewCategoryModal"><i class="fa-solid fa-circle-plus"></i> Category</a>
                         </div>
                         <div id="dxCategoryGrid"></div>
                     </div>
@@ -36,13 +34,12 @@
     <!-- Add new item Modal -->
     <div class="modal fade" id="AddNewCategoryModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
-            <div class="modal-content" style="background-color: #DEE2E6;">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Add new Category</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="CloseModalButton" aria-label="Close"></button>
+                    <h1 id="CategoryModalTitle" class="modal-title fs-5">Add Category</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="btnCloseCategoryModal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="panel panel-inverse">
                         <div class="panel-body">
                             <div class="row mb-15px">
                                 <div class="col-md-12">
@@ -67,7 +64,6 @@
                                     <div class="invalid-feedback" id="CategorySupportGroupValidation"></div>
                                 </div>
                             </div>
-
                             <div class="mb-15px">
                                 <label class="form-label col-form-label col-md-12">Parent</label>
                                 <div class="col-md-12">
@@ -84,7 +80,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <div class="d-flex justify-content-end">
                         <div id="CategoryActionButtons"></div>
                     </div>

@@ -55,7 +55,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             }
             if (_ValidationResultDTO.Result)
             {
-                if ((_previousSupportGroupMemberDTO.UserDTO.ID != SupportGroupMemberDTO.UserDTO.ID) || (_previousSupportGroupMemberDTO.RoleDTO.ID != SupportGroupMemberDTO.RoleDTO.ID))
+                if ((_previousSupportGroupMemberDTO.UserID != SupportGroupMemberDTO.UserID) || (_previousSupportGroupMemberDTO.RoleID != SupportGroupMemberDTO.RoleID))
                 {
                     UnassingRoleToUserBySupportGroup(_previousSupportGroupMemberDTO);
                     SupportGroupMemberDTO.AddedByID = SupportGroupMemberDTO.LastUpdateByID;
@@ -129,7 +129,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             {
                 if (SupportGroupMemberDTO.GetSupportGroupDTO)
                 {
-                    SupportGroupMemberDTO.SupportGroupDTO.SupportGroupIDArray = SupportGroupMemberList.GroupBy(g => g.SupportGroupDTO.ID)
+                    SupportGroupMemberDTO.SupportGroupDTO.SupportGroupIDArray = SupportGroupMemberList.GroupBy(g => g.SupportGroupID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -138,7 +138,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 }
                 if (SupportGroupMemberDTO.GetUserDTO)
                 {
-                    SupportGroupMemberDTO.UserDTO.UserIDArray = SupportGroupMemberList.GroupBy(g => g.UserDTO.ID)
+                    SupportGroupMemberDTO.UserDTO.UserIDArray = SupportGroupMemberList.GroupBy(g => g.UserID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -147,7 +147,7 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 }
                 if (SupportGroupMemberDTO.GetRoleDTO)
                 {
-                    SupportGroupMemberDTO.RoleDTO.RoleIDArray = SupportGroupMemberList.GroupBy(g => g.RoleDTO.ID)
+                    SupportGroupMemberDTO.RoleDTO.RoleIDArray = SupportGroupMemberList.GroupBy(g => g.RoleID)
                             .Select(s => s.Key)
                             .ToArray();
 
@@ -156,17 +156,17 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 }
                 foreach (var _supportgroupmemberDTO in SupportGroupMemberList)
                 {
-                    if (SupportGroupMemberDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_supportgroupmemberDTO.SupportGroupDTO.ID))
+                    if (SupportGroupMemberDTO.GetSupportGroupDTO && _supportgroupDict.ContainsKey(_supportgroupmemberDTO.SupportGroupID))
                     {
-                        _supportgroupmemberDTO.SupportGroupDTO = _supportgroupDict[_supportgroupmemberDTO.SupportGroupDTO.ID];
+                        _supportgroupmemberDTO.SupportGroupDTO = _supportgroupDict[_supportgroupmemberDTO.SupportGroupID];
                     }
-                    if (SupportGroupMemberDTO.GetUserDTO && _userDict.ContainsKey(_supportgroupmemberDTO.UserDTO.ID))
+                    if (SupportGroupMemberDTO.GetUserDTO && _userDict.ContainsKey(_supportgroupmemberDTO.UserID))
                     {
-                        _supportgroupmemberDTO.UserDTO = _userDict[_supportgroupmemberDTO.UserDTO.ID];
+                        _supportgroupmemberDTO.UserDTO = _userDict[_supportgroupmemberDTO.UserID];
                     }
-                    if (SupportGroupMemberDTO.GetRoleDTO && _roleDict.ContainsKey(_supportgroupmemberDTO.RoleDTO.ID))
+                    if (SupportGroupMemberDTO.GetRoleDTO && _roleDict.ContainsKey(_supportgroupmemberDTO.RoleID))
                     {
-                        _supportgroupmemberDTO.RoleDTO = _roleDict[_supportgroupmemberDTO.RoleDTO.ID];
+                        _supportgroupmemberDTO.RoleDTO = _roleDict[_supportgroupmemberDTO.RoleID];
                     }
                     _supportgroupmemberglobalList.Add(_supportgroupmemberDTO);
                 }
@@ -178,9 +178,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             }
             return _supportgroupmemberglobalList;
         }
-
-
-
 
         public static int GetSupportGroupMemberTotalCount(PagedResultDTO<SupportGroupMemberDTO> PagedResultDTO)
         {
@@ -206,8 +203,8 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             {
                 var _user_RoleDTO = new User_RoleDTO
                 {
-                    UserID = SupportGroupMemberDTO.UserDTO.ID,
-                    RoleID = SupportGroupMemberDTO.RoleDTO.ID,
+                    UserID = SupportGroupMemberDTO.UserID,
+                    RoleID = SupportGroupMemberDTO.RoleID,
                     AddedByID = SupportGroupMemberDTO.AddedByID,
                     IsActive = SupportGroupMemberDTO.IsActive
                 };
@@ -255,8 +252,8 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
                 {
                     var _user_RoleDTO = new User_RoleDTO
                     {
-                        UserDTO = SupportGroupMemberDTO.UserDTO,
-                        RoleDTO = SupportGroupMemberDTO.RoleDTO,
+                        UserID = SupportGroupMemberDTO.UserID,
+                        RoleID = SupportGroupMemberDTO.RoleID,
                         IsActive = true
                     };
                     _user_RoleDTO = User_Role_Service.GetUser_RoleList_Global(_user_RoleDTO).FirstOrDefault();
@@ -309,8 +306,6 @@ namespace AMS.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroupMe
             }
             return _validationResultDTO;
         }
-
-
         #endregion
     }
 }

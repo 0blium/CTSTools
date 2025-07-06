@@ -162,7 +162,7 @@ public class SparePartInventory_Service
         {
 
             //Get Spare Part Usage to Ticket
-            var _sparePartUsageList = SparePartUsage_Service.GetSparePartUsageList_Global(new SparePartUsageDTO { TicketDTO = SparePartUsageDTO.TicketDTO });
+            var _sparePartUsageList = SparePartUsage_Service.GetSparePartUsageList_Global(new SparePartUsageDTO { TicketID = SparePartUsageDTO.TicketID });
             int _sparePartUsageQty = 0;
             if (_sparePartUsageList.Count() > 0)
             {

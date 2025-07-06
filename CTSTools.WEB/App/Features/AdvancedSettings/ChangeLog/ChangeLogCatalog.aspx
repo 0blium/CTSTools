@@ -5,9 +5,7 @@
     <div class="container-fluid">
         <div class="row">
             <ol class="breadcrumb float-xl-start">
-                <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript:;">Advanced Settings</a></li>
-                <li class="breadcrumb-item active">Change Log History</li>
+                <li class="breadcrumb-item"><a href="javascript:;">AMS</a></li>
             </ol>
         </div>
         <!-- END breadcrumb -->

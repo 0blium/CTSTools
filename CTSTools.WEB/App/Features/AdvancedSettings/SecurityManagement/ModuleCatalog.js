@@ -234,7 +234,6 @@ const GetDXModuleDataSource_Global = () => {
 
 //#region Setup
 async function InitializeModuleSetupControls() {
-    console.log("sdfdsf")
     $("#dxModuleSetupIsActiveCheckBox").dxCheckBox({
         value: true
     });    

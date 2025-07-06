@@ -219,7 +219,6 @@ function BuildTQCFormat(Dashboard_KPIList) {
                         let _fontColor = "000";
                         let _value = "";
                         let _valueTypeIcon = "";
-                        console.log(_dasboardLineDTO)
                         if (_dasboardLineDTO?.Validated == true) {
                             if (Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID === UnitOfMeasure_Enum.USD) {
                                 _value = ConvertToMoney(_dasboardLineDTO.Value);
@@ -271,7 +270,6 @@ function BuildTQCFormat(Dashboard_KPIList) {
 //#endregion
 //#region Event handlers
 function TendencyKPIEventHandler() {
-    console.log(this);
     let _Dashboard_KPIDTO = {
         DashboardCategoryID: this.dataset.dashboardcategoryid,
         KPIDTO: {
@@ -284,7 +282,6 @@ function TendencyKPIEventHandler() {
             Abbreviation: this.dataset.abbreviation
         }
     }
-    console.log(_Dashboard_KPIDTO);
     $('#Dashboard_KPITendencyModal').on('shown.bs.modal', function () {
         $("#dxKPITendenceChart").dxChart("instance").render();
     });
