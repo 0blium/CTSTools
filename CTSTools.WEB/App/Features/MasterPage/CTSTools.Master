@@ -170,7 +170,7 @@
                                         </a>
                                     </div>
                                     <div id="KPIListEDashboard" class="menu-item module-nav" data-tech="DashboardList DashboardDataEntry KPICatalog DashboardCatalog" hidden>
-                                        <a href="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Management/Edashboard/KPI/KPICatalog.aspx" class="menu-link">
                                             <div class="menu-text">KPIs</div>
                                         </a>
                                     </div>
@@ -299,34 +299,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <%--                                    <div id="TicketAMS" class="menu-item has-sub submenu-nav" data-tech="TicketAMS Priority Category CreateTicket Consult" hidden>
-                                        <a href="javascript:;" class="menu-link">
-                                            <div class="menu-text">Tickets</div>
-                                            <div class="menu-caret"></div>
-                                        </a>
-                                        <div class="menu-submenu">
-                                            <div id="PriorityTicketAMS" class="menu-item module-nav" data-tech="Priority" hidden>
-                                                <a href="/App/Features/Maintenance/AMS/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Priority </div>
-                                                </a>
-                                            </div>
-                                            <div id="CategoryTicketAMS" class="menu-item module-nav" data-tech="Category" hidden>
-                                                <a href="/App/Features/Maintenance/AMS/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
-                                                    <div class="menu-text">Category </div>
-                                                </a>
-                                            </div>
-                                            <div id="CreateTicketTicketAMS" class="menu-item module-nav" data-tech="CreateTicket" hidden>
-                                                <a href="/App/Features/Maintenance/AMS/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
-                                                    <div class="menu-text">Create Ticket </div>
-                                                </a>
-                                            </div>
-                                            <div id="ConsultTicketAMS" class="menu-item module-nav" data-tech="Consult" hidden>
-                                                <a href="/App/Features/Maintenance/AMS/Tickets/Consult/TicketConsult.aspx" class="menu-link">
-                                                    <div class="menu-text">Consult </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>--%>
                                     <div id="ChangeLogAMS" class="menu-item module-nav" data-tech="ChangeLog" hidden>
                                         <a href="/App/Features/AdvancedSettings/ChangeLog/ChangeLogCatalog.aspx" class="menu-link">
                                             <div class="menu-text">ChangeLog </div>
@@ -344,22 +316,22 @@
                                 </a>
                                 <div class="menu-submenu">
                                     <div id="PriorityTicketAMS" class="menu-item module-nav" data-tech="Priority" hidden>
-                                        <a href="/App/Features/Maintenance/AMS/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/Tickets/Priority/PriorityCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Priority </div>
                                         </a>
                                     </div>
                                     <div id="CategoryTicketAMS" class="menu-item module-nav" data-tech="Category" hidden>
-                                        <a href="/App/Features/Maintenance/AMS/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/Tickets/Category/CategoriesCatalog.aspx" class="menu-link">
                                             <div class="menu-text">Category </div>
                                         </a>
                                     </div>
                                     <div id="CreateTicketTicketAMS" class="menu-item module-nav" data-tech="CreateTicket" hidden>
-                                        <a href="/App/Features/Maintenance/AMS/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/Tickets/CreateTicket/CreateTicket.aspx" class="menu-link">
                                             <div class="menu-text">Create Ticket </div>
                                         </a>
                                     </div>
                                     <div id="ConsultTicketAMS" class="menu-item module-nav" data-tech="Consult" hidden>
-                                        <a href="/App/Features/Maintenance/AMS/Tickets/Consult/TicketConsult.aspx" class="menu-link">
+                                        <a href="/App/Features/Maintenance/Tickets/Consult/TicketConsult.aspx" class="menu-link">
                                             <div class="menu-text">Consult </div>
                                         </a>
                                     </div>
@@ -398,12 +370,12 @@
                                     <div class="menu-text">Mail Groups </div>
                                 </a>
                             </div>
-                            <div id="DataTypeAdvancedSettings" class="menu-item " data-tech="DataType">
+                            <div id="DataTypeAdvancedSettings" class="menu-item " data-tech="DataType" hidden>
                                 <a href="/App/Features/AdvancedSettings/DataType/DataTypeCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Data Type</div>
                                 </a>
                             </div>
-                            <div id="BrandCatalogAdvancedSettings" class="menu-item " data-tech="BrandCatalog">
+                            <div id="BrandCatalogAdvancedSettings" class="menu-item " data-tech="BrandCatalog" hidden>
                                 <a href="/App/Features/AdvancedSettings/Brand/BrandCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Brand</div>
                                 </a>
@@ -434,12 +406,12 @@
                                 </a>
                             </div>
                             <div id="CustomerAdvancedSettings" class="menu-item module-nav" data-tech="Customer" hidden>
-                                <a href="/App/Features/Quality/QMS/CustomerCatalog.aspx" class="menu-link">
+                                <a href="/App/Features/AdvancedSettings/Customer/CustomerCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Customers</div>
                                 </a>
                             </div>
                             <div id="ProductAdvancedSettings" class="menu-item module-nav" data-tech="Product" hidden>
-                                <a href="/App/Features/Quality/QMS/ProductCatalog.aspx" class="menu-link">
+                                <a href="/App/Features/AdvancedSettings/Product/ProductCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Products</div>
                                 </a>
                             </div>
@@ -448,7 +420,7 @@
                                     <div class="menu-text">Suppliers</div>
                                 </a>
                             </div>
-                            <div id="SupplyTypeAdvancedSettings" class="menu-item " data-tech="SupplyType">
+                            <div id="SupplyTypeAdvancedSettings" class="menu-item " data-tech="SupplyType" hidden>
                                 <a href="/App/Features/AdvancedSettings/SupplyType/SupplyTypeCatalog.aspx" class="menu-link">
                                     <div class="menu-text">Supply Type</div>
                                 </a>

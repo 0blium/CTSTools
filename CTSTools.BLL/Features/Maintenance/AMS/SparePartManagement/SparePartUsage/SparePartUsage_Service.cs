@@ -2,7 +2,7 @@
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Line;
 using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePart_Lot;
 using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePartInventory;
-using CTSTools.BLL.Features.Maintenance.AMS.Tickets.Ticket;
+using CTSTools.BLL.Features.Maintenance.Tickets.Ticket;
 using Elmah;
 using System;
 using System.Collections.Generic;

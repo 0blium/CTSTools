@@ -1,12 +1,12 @@
 ﻿import { GetDXDocumentRevisionDataSource, UpdateDocumentFile, CreateDocumentRevision, UpdateDocumentRevision, DeleteDocumentRevision } from './DocumentRevision/DocumentRevision_Service.js'
-import { HostResponse, ClearErrorFeedback } from '../../../common/utils/response.js'
-import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
-import { GetFileDTO } from '../../../common/utils/GetFileDTO.js'
+import { HostResponse, ClearErrorFeedback } from '../../../Common/Utils/Response.js'
+import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
+import { GetFileDTO } from '../../../Common/Utils/GetFileDTO.js'
 
 import { GetURLParameter } from '../../../Common/Utils/GetURLParameter.js'
-import { GetDocumentInformation } from './document/document_service.js'
-import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
-import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
+import { GetDocumentInformation } from './Document/Document_service.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../Advancedsettings/Statusmanagement/Status_StatusType/Status_StatusType_Service.js'
+import { StatusType_Enum } from '../../Advancedsettings/Statusmanagement/StatusType/StatusType_Enum.js'
 
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -129,7 +129,7 @@ async function InitializeDocumentRevisionCatalogControls() {
                             items: options.data.ID === recentID ? [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
                                     { text: "Upload", icon: "fa fa-cloud-arrow-up text-info", value: 2 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 3 }]
                             }] : [],
@@ -178,7 +178,6 @@ async function InitializeDocumentRevisionCatalogControls() {
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
-
             ],
     });
 
@@ -218,7 +217,7 @@ function DocumentRevisionActionButtons(Action) {
 
     const revisionField = $("#dxDocumentRevisionRevisionTextBox").dxTextBox("instance");
     if (Action == "Save") {
-        document.getElementById('DocumentRevisionModalTitle').innerText = 'New Revision Form';
+        document.getElementById('DocumentRevisionModalTitle').innerText = 'New Revision';
         $("#DocumentRevisionActionButtons").html(
             `<div class="col-md-12">
                 <button class="btn btn-success float-end" id="CreateDocumentRevisionButton" type="button">Save</button>
@@ -231,7 +230,7 @@ function DocumentRevisionActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('DocumentRevisionModalTitle').innerText = 'Update Revision Form';
+        document.getElementById('DocumentRevisionModalTitle').innerText = 'Update Revision';
         $("#DocumentRevisionActionButtons").html(
             `<div class="col-md-12">
                 <button class="btn btn-success float-end" id="UpdateDocumentRevisionButton" type="button">Update</button>

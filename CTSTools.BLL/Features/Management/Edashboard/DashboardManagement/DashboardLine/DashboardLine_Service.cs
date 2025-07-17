@@ -1,17 +1,14 @@
 ﻿using CTSTools.BLL.Common;
-using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
+using CTSTools.BLL.Features.Management.Edashboard.KPI;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.Equivalence;
 using Elmah;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine
 {

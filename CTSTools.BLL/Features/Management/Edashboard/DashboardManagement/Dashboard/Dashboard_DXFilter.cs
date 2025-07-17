@@ -1,5 +1,4 @@
-﻿using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
-using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
+﻿using CTSTools.DAL.Features.Management.Edashboard.Dashboard;
 using DevExpress.Data.Filtering;
 using System;
 using System.Linq;

@@ -4,7 +4,7 @@ using CTSTools.DAL.Features.Maintenance.Ticket;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Priority;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Priority;
 
 public class PriorityMap
 {

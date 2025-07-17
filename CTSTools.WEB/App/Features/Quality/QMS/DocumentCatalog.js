@@ -7,17 +7,17 @@
 import {
     HostResponse,
     ClearErrorFeedback
-} from '../../../common/utils/response.js'
-import { dxLoadPanel } from '../../../common/components/dxloadpanel.js'
-import { GetDXDepartmentDataSource } from '../../advancedsettings/locationmanagement/department/department_service.js'
-import { GetDXDocumentTypeDataSource } from './documenttype/documenttype_service.js'
-import { GetDXCustomerDataSource } from './customer/customer_service.js'
-import { GetDXProductDataSource } from './product/Product_Service.js'
-import { GetDXUserDataSource } from '../../advancedsettings/usermanagement/user/user_service.js'
-import { GetDXStatus_StatusTypeDataSource } from '../../advancedsettings/statusmanagement/Status_StatusType/Status_StatusType_Service.js'
-import { StatusType_Enum } from '../../advancedsettings/statusmanagement/StatusType/StatusType_Enum.js'
-import { Status_Enum } from '../../advancedsettings/statusmanagement/Status/Status_Enum.js'
-import { Facility_Enum } from '../../advancedsettings/locationmanagement/facility/Facility_Enum.js'
+} from '../../../Common/Utils/Response.js'
+import { dxLoadPanel } from '../../../Common/Components/dxLoadPanel.js'
+import { GetDXDepartmentDataSource } from '../../Advancedsettings/Locationmanagement/Department/Department_Service.js'
+import { GetDXDocumentTypeDataSource } from './Documenttype/Documenttype_Service.js'
+import { GetDXCustomerDataSource } from '../../Advancedsettings/Customer/Customer_Service.js'
+import { GetDXProductDataSource } from '../../Advancedsettings/Product/Product_Service.js'
+import { GetDXUserDataSource } from '../../Advancedsettings/Usermanagement/User/User_Service.js'
+import { GetDXStatus_StatusTypeDataSource } from '../../Advancedsettings/Statusmanagement/Status_StatusType/Status_StatusType_Service.js'
+import { StatusType_Enum } from '../../Advancedsettings/Statusmanagement/StatusType/StatusType_Enum.js'
+import { Status_Enum } from '../../Advancedsettings/Statusmanagement/Status/Status_Enum.js'
+import { Facility_Enum } from '../../Advancedsettings/Locationmanagement/Facility/Facility_Enum.js'
 
 document.addEventListener("DOMContentLoaded", () => {
     InitializeDocumentCatalogControls();
@@ -99,7 +99,7 @@ async function InitializeDocumentCatalogControls() {
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
                                     { text: "Log", icon: "fa regular fa-code-branch text-primary", value: 1 },
-                                    { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 3 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 3 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 4 },
                                 ]
                             }],
@@ -159,10 +159,7 @@ async function InitializeDocumentCatalogControls() {
                 },
                 {
                     caption: "Status",
-                    dataField: "StatusName",
-                    //filterOperations: ["contains", "="],
-                    //selectedFilterOperation: "contains",
-                    //filterValue: "Released"  
+                    dataField: "StatusName"
                 },
                 { caption: "Description", dataField: "Description" },
                 { caption: "Owner", dataField: "OwnerName" },
@@ -175,6 +172,7 @@ async function InitializeDocumentCatalogControls() {
                 { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
             ],
     });
     $("#dxAddedStartDateDateBox").dxDateBox({
@@ -185,69 +183,6 @@ async function InitializeDocumentCatalogControls() {
             $("#dxAddedEndDateDateBox").dxDateBox("instance").option("min", e.value);
         }
     });
-    //$("#dxAddedEndDateDateBox").dxDateBox({
-    //    type: "date",
-    //    format: "MM/dd/yyyy",
-
-    //    value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
-    //    onValueChanged: function (e) {
-    //        $("#dxAddedStartDateDateBox").dxDateBox("instance").option("max", e.value);
-    //    }
-    //});
-    //$("#dxLastUpdateStartDateDateBox").dxDateBox({
-    //    type: "date",
-    //    format: "MM/dd/yyyy",
-    //    value: new Date(now.getFullYear(), now.getMonth(), 1),
-    //    onValueChanged: function (e) {
-    //        $("#dxLastUpdateEndDateDateBox").dxDateBox("instance").option("min", e.value);
-    //    }
-    //});
-    //$("#dxLastUpdateEndDateDateBox").dxDateBox({
-    //    type: "date",
-    //    format: "MM/dd/yyyy",
-
-    //    value: new Date(now.getFullYear(), now.getMonth() + 1, 1),
-    //    onValueChanged: function (e) {
-    //        $("#dxLastUpdateStartDateDateBox").dxDateBox("instance").option("max", e.value);
-    //    }
-    //});
-    //$("#dxFilterStatusTagBox").dxTagBox({
-
-    //    dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.QMS_Documents }),
-    //    displayExpr: "StatusName",
-    //    valueExpr: "StatusID",
-    //    searchEnabled: true,
-    //    value: [5],
-    //    showSelectionControls: true,
-    //    applyValueMode: 'useButtons'
-    //});
-    //$("#dxFilterDepartmentTagBox").dxTagBox({
-
-    //    dataSource: await GetDXDepartmentDataSource({ FacilityID: Facility_Enum.Texas }),
-    //    displayExpr: "Name",
-    //    valueExpr: "ID",
-    //    searchEnabled: true,
-    //    showSelectionControls: true,
-    //    applyValueMode: 'useButtons'
-    //});
-    //$("#dxFilterOwnerTagBox").dxTagBox({
-
-    //    dataSource: await GetDXUserDataSource(),
-    //    displayExpr: "Name",
-    //    valueExpr: "ID",
-    //    searchEnabled: true,
-    //    showSelectionControls: true,
-    //    applyValueMode: 'useButtons'
-    //});
-    //$("#dxFilterDocumentTypeTagBox").dxTagBox({
-
-    //    dataSource: await GetDXDocumentTypeDataSource(),
-    //    displayExpr: "Name",
-    //    valueExpr: "ID",
-    //    searchEnabled: true,
-    //    showSelectionControls: true,
-    //    applyValueMode: 'useButtons'
-    //});
 
     $("#dxDocumentNameTextBox").dxTextBox({
         placeholder: 'Type name...'
@@ -339,7 +274,7 @@ function DocumentActionButtons(Action) {
     document.getElementById('DocumentModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewDocumentBtn").addEventListener("click", ClearDocumentFields);
-        document.getElementById('DocumentModalTitle').innerText = 'Add Document Form'
+        document.getElementById('DocumentModalTitle').innerText = 'Add Document'
         document.getElementById("DocumentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateDocumentButton" type="button">Save</button>' +
@@ -348,7 +283,7 @@ function DocumentActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('DocumentModalTitle').innerText = 'Update Document Form'
+        document.getElementById('DocumentModalTitle').innerText = 'Update Document'
         document.getElementById("DocumentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateDocumentButton" type="button">Update</button>' +

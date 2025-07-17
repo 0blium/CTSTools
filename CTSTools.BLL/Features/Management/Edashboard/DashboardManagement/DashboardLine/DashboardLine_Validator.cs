@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Common;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.KPI;
 using CTSTools.BLL.Features.Management.Edashboard.Settings.ValueType;
 using System;
 using System.Collections.Generic;
@@ -196,9 +196,6 @@ public class DashboardLine_Validator
                 }
 
             }
-
-            
-
 
             if (DashboardLineDTO.ValidatedByID == null || DashboardLineDTO.ValidatedByID == 0)
             {

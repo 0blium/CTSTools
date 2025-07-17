@@ -346,9 +346,9 @@
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryCatalog.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategory_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\DashboardCategory\Dashboard_Category_Enum.js" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.js" />
-    <Content Include="App\Features\Management\Edashboard\DashboardManagement\KPI\KPI_Service.js" />
+    <Content Include="App\Features\Management\Edashboard\KPI\KPICatalog.aspx" />
+    <Content Include="App\Features\Management\Edashboard\KPI\KPICatalog.js" />
+    <Content Include="App\Features\Management\Edashboard\KPI\KPI_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\CalculationType\CalculationType_Service.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\Catalog_Enum.js" />
     <Content Include="App\Features\Management\Edashboard\Settings\Equivalence\Equivalence_Service.js" />
@@ -364,9 +364,9 @@
     <Content Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard_KPI\Dashboard_KPI_Service.js" />
     <Content Include="App\Features\MasterPage\CTSTools.Master.css" />
     <Content Include="App\Features\MasterPage\CTSToolsMaster.js" />
-    <Content Include="App\Features\Quality\QMS\CustomerCatalog.aspx" />
-    <Content Include="App\Features\Quality\QMS\CustomerCatalog.js" />
-    <Content Include="App\Features\Quality\QMS\Customer\Customer_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\Customer\CustomerCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\Customer\CustomerCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\Customer\Customer_Service.js" />
     <Content Include="App\Features\Quality\QMS\DocumentCatalog.aspx" />
     <Content Include="App\Features\Quality\QMS\DocumentCatalog.js" />
     <Content Include="App\Features\Quality\QMS\DocumentRevisionCatalog.aspx" />
@@ -376,9 +376,9 @@
     <Content Include="App\Features\Quality\QMS\DocumentTypeCatalog.js" />
     <Content Include="App\Features\Quality\QMS\DocumentType\DocumentType_Service.js" />
     <Content Include="App\Features\Quality\QMS\Document\Document_Service.js" />
-    <Content Include="App\Features\Quality\QMS\ProductCatalog.aspx" />
-    <Content Include="App\Features\Quality\QMS\ProductCatalog.js" />
-    <Content Include="App\Features\Quality\QMS\Product\Product_Service.js" />
+    <Content Include="App\Features\AdvancedSettings\Product\ProductCatalog.aspx" />
+    <Content Include="App\Features\AdvancedSettings\Product\ProductCatalog.js" />
+    <Content Include="App\Features\AdvancedSettings\Product\Product_Service.js" />
     <Content Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.aspx" />
     <Content Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.js" />
     <Content Include="App\Features\AdvancedSettings\DataType\DataType_Enum.js" />
@@ -420,22 +420,22 @@
     <Content Include="App\Features\Maintenance\AMS\SupportGroupManagement\SupportGroupCatalog.aspx" />
     <Content Include="App\Features\Maintenance\AMS\SupportGroupManagement\SupportGroupCatalog.js" />
     <Content Include="App\Features\Maintenance\AMS\SupportGroupManagement\SupportGroup\SupportGroup_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Category\CategoriesCatalog.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Category\CategoryCatalog.css" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Category\CategoryCatalog.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Category\Category_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Consult\TicketConsult.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Consult\TicketConsult.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\CreateTicket\CreateTicket.css" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\CreateTicket\CreateTicket.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\CreateTicket\CreateTicket.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Priority\PriorityCatalog.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Priority\PriorityCatalog.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Priority\Priority_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\Ticket\Ticket_Service.js" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.aspx" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.css" />
-    <Content Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.js" />
+    <Content Include="App\Features\Maintenance\Tickets\Category\CategoriesCatalog.aspx" />
+    <Content Include="App\Features\Maintenance\Tickets\Category\CategoryCatalog.css" />
+    <Content Include="App\Features\Maintenance\Tickets\Category\CategoryCatalog.js" />
+    <Content Include="App\Features\Maintenance\Tickets\Category\Category_Service.js" />
+    <Content Include="App\Features\Maintenance\Tickets\Consult\TicketConsult.aspx" />
+    <Content Include="App\Features\Maintenance\Tickets\Consult\TicketConsult.js" />
+    <Content Include="App\Features\Maintenance\Tickets\CreateTicket\CreateTicket.css" />
+    <Content Include="App\Features\Maintenance\Tickets\CreateTicket\CreateTicket.aspx" />
+    <Content Include="App\Features\Maintenance\Tickets\CreateTicket\CreateTicket.js" />
+    <Content Include="App\Features\Maintenance\Tickets\Priority\PriorityCatalog.aspx" />
+    <Content Include="App\Features\Maintenance\Tickets\Priority\PriorityCatalog.js" />
+    <Content Include="App\Features\Maintenance\Tickets\Priority\Priority_Service.js" />
+    <Content Include="App\Features\Maintenance\Tickets\Ticket\Ticket_Service.js" />
+    <Content Include="App\Features\Maintenance\Tickets\ViewTicket\ViewTicket.aspx" />
+    <Content Include="App\Features\Maintenance\Tickets\ViewTicket\ViewTicket.css" />
+    <Content Include="App\Features\Maintenance\Tickets\ViewTicket\ViewTicket.js" />
     <Content Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOrigin_Service.js" />
     <Content Include="Content\dx-diagram.css" />
     <Content Include="Content\dx-diagram.min.css" />
@@ -814,14 +814,14 @@
     </Compile>
     <Compile Include="App\Features\Management\Edashboard\Settings\DashboardCategory\DashboardCategoryController.cs" />
     <Compile Include="App\Features\Management\Edashboard\DashboardManagement\Dashboard\DashboardController.cs" />
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx.cs">
+    <Compile Include="App\Features\Management\Edashboard\KPI\KPICatalog.aspx.cs">
       <DependentUpon>KPICatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\KPICatalog.aspx.designer.cs">
+    <Compile Include="App\Features\Management\Edashboard\KPI\KPICatalog.aspx.designer.cs">
       <DependentUpon>KPICatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Management\Edashboard\DashboardManagement\KPI\KPIController.cs" />
+    <Compile Include="App\Features\Management\Edashboard\KPI\KPIController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\CalculationType\CalculationTypeController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\Equivalence\EquivalenceController.cs" />
     <Compile Include="App\Features\Management\Edashboard\Settings\GoalRange\GoalRangeController.cs" />
@@ -850,14 +850,14 @@
     <Compile Include="App\Features\MasterPage\CTSTools.Master.designer.cs">
       <DependentUpon>CTSTools.Master</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Quality\QMS\CustomerCatalog.aspx.cs">
+    <Compile Include="App\Features\AdvancedSettings\Customer\CustomerCatalog.aspx.cs">
       <DependentUpon>CustomerCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Quality\QMS\CustomerCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\AdvancedSettings\Customer\CustomerCatalog.aspx.designer.cs">
       <DependentUpon>CustomerCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Quality\QMS\Customer\CustomerController.cs" />
+    <Compile Include="App\Features\AdvancedSettings\Customer\CustomerController.cs" />
     <Compile Include="App\Features\Quality\QMS\DocumentCatalog.aspx.cs">
       <DependentUpon>DocumentCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -882,14 +882,14 @@
     </Compile>
     <Compile Include="App\Features\Quality\QMS\DocumentType\DocumentTypeController.cs" />
     <Compile Include="App\Features\Quality\QMS\Document\DocumentController.cs" />
-    <Compile Include="App\Features\Quality\QMS\ProductCatalog.aspx.cs">
+    <Compile Include="App\Features\AdvancedSettings\Product\ProductCatalog.aspx.cs">
       <DependentUpon>ProductCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Quality\QMS\ProductCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\AdvancedSettings\Product\ProductCatalog.aspx.designer.cs">
       <DependentUpon>ProductCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Quality\QMS\Product\Product_Controller.cs" />
+    <Compile Include="App\Features\AdvancedSettings\Product\Product_Controller.cs" />
     <Compile Include="App\Features\AdvancedSettings\DataType\DataTypeCatalog.aspx.cs">
       <DependentUpon>DataTypeCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -976,42 +976,42 @@
       <DependentUpon>SupportGroupCatalog.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\Maintenance\AMS\SupportGroupManagement\SupportGroup\SupportGroupController.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Category\CategoriesCatalog.aspx.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Category\CategoriesCatalog.aspx.cs">
       <DependentUpon>CategoriesCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Category\CategoriesCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Category\CategoriesCatalog.aspx.designer.cs">
       <DependentUpon>CategoriesCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Category\CategoryController.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Consult\TicketConsult.aspx.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Category\CategoryController.cs" />
+    <Compile Include="App\Features\Maintenance\Tickets\Consult\TicketConsult.aspx.cs">
       <DependentUpon>TicketConsult.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Consult\TicketConsult.aspx.designer.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Consult\TicketConsult.aspx.designer.cs">
       <DependentUpon>TicketConsult.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\CreateTicket\CreateTicket.aspx.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\CreateTicket\CreateTicket.aspx.cs">
       <DependentUpon>CreateTicket.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\CreateTicket\CreateTicket.aspx.designer.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\CreateTicket\CreateTicket.aspx.designer.cs">
       <DependentUpon>CreateTicket.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Priority\PriorityCatalog.aspx.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Priority\PriorityCatalog.aspx.cs">
       <DependentUpon>PriorityCatalog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Priority\PriorityCatalog.aspx.designer.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Priority\PriorityCatalog.aspx.designer.cs">
       <DependentUpon>PriorityCatalog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Priority\PriorityController.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\Ticket\TicketController.cs" />
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.aspx.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\Priority\PriorityController.cs" />
+    <Compile Include="App\Features\Maintenance\Tickets\Ticket\TicketController.cs" />
+    <Compile Include="App\Features\Maintenance\Tickets\ViewTicket\ViewTicket.aspx.cs">
       <DependentUpon>ViewTicket.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="App\Features\Maintenance\AMS\Tickets\ViewTicket\ViewTicket.aspx.designer.cs">
+    <Compile Include="App\Features\Maintenance\Tickets\ViewTicket\ViewTicket.aspx.designer.cs">
       <DependentUpon>ViewTicket.aspx</DependentUpon>
     </Compile>
     <Compile Include="App\Features\AdvancedSettings\TransactionOrigin\TransactionOriginController.cs" />

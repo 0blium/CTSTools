@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Category;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Category;
 
 public class Category_Validator
 {

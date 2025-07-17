@@ -178,9 +178,9 @@ async function InitializeValueCatalogControls() {
 async function GetValueAttributeDataSource_Global() {
     let _filters = [
         ["ID", "<>", Attributes.Class], "and" ,
-        //["ID", "<>", Attributes.ComponentType], "and",
+        ["ID", "<>", Attributes.ComponentType], "and",
         ["ID", "<>", Attributes.SubClass], "and",
-        //["ID", "<>", Attributes.PartType], "and" , 
+        ["ID", "<>", Attributes.PartType], "and" , 
         ["ID", "<>", Attributes.ClassID]
 
     ];

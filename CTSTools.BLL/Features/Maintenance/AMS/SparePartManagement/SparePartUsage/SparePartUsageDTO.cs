@@ -2,7 +2,7 @@
 using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePart_Lot;
 using CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePartInventory;
-using CTSTools.BLL.Features.Maintenance.AMS.Tickets.Ticket;
+using CTSTools.BLL.Features.Maintenance.Tickets.Ticket;
 using System;
 
 namespace CTSTools.BLL.Features.Maintenance.AMS.SparePartManagement.SparePartUsage;

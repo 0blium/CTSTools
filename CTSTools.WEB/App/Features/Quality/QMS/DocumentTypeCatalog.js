@@ -102,7 +102,7 @@ async function InitializeDocumentTypeCatalogControls() {
                             items: [{
                                 icon: "fa-solid fa-ellipsis-vertical text-dark",
                                 items: [
-                                    { text: "Edit", icon: "fa fa-pen-to-square text-info", value: 1 },
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
                                     { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
                                 ]
                             }],
@@ -129,6 +129,7 @@ async function InitializeDocumentTypeCatalogControls() {
                 { caption: "Added Date", dataField: "AddedDate", dataType: 'datetime' },
                 { caption: "Last Update By ID", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
+                { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
                 { caption: "Is Active", dataField: "IsActive" },
             ],
     });

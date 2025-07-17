@@ -2,7 +2,7 @@
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard_KPI;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.KPI;
 using System;
 
 namespace CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;

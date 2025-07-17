@@ -2,7 +2,7 @@
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Dashboard;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardCategory;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.DashboardLine;
-using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.KPI;
+using CTSTools.BLL.Features.Management.Edashboard.KPI;
 using CTSTools.BLL.Features.Management.Edashboard.DashboardManagement.Report;
 using System;
 using System.Collections.Generic;

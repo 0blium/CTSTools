@@ -2,10 +2,6 @@
 using DevExpress.XtraReports.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace CTSTools.WEB.App.Features.Management.Edashboard.DashboardManagement
 {
@@ -40,7 +36,7 @@ namespace CTSTools.WEB.App.Features.Management.Edashboard.DashboardManagement
             catch (Exception ex)
             {
                 //ErrorSignal.FromCurrentContext().Raise(ex);
-                throw;
+                throw ex;
             }
         }
     }

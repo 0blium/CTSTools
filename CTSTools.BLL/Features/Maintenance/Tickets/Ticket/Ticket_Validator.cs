@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status.Status_Enum;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Ticket;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Ticket;
 
 public class Ticket_Validator
 {
@@ -31,26 +31,6 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.Title)}",
                 });
             }
-            //if (string.IsNullOrEmpty(TicketDTO.Solution))
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Solution Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Solution)}",
-            //    });
-            //}
-            //if (string.IsNullOrEmpty(TicketDTO.Resolution))
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Resolution Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Resolution)}",
-            //    });
-            //}
             if (TicketDTO.CreatedByID == null || TicketDTO.CreatedByID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -80,17 +60,6 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.DepartmentID)}",
                 });
             }
-
-            //if (TicketDTO.AssignedToID == null || TicketDTO.AssignedToID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "AssignedTo Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.AssignedToDTO)}",
-            //    });
-            //}
             if (string.IsNullOrEmpty(TicketDTO.Description))
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -101,16 +70,6 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.Description)}",
                 });
             }
-            //if (TicketDTO.Item_LineID == null || TicketDTO.Item_LineID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Item_Line Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Item_LineDTO)}",
-            //    });
-            //}
             if (TicketDTO.StatusID == null || TicketDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -202,16 +161,6 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.Title)}",
                 });
             }
-            //if (TicketDTO.CreatedByDTO.ID == null || TicketDTO.CreatedByDTO.ID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "CreatedBy Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.CreatedByDTO)}",
-            //    });
-            //}
             if (TicketDTO.FacilityID == null || TicketDTO.FacilityID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -236,16 +185,6 @@ public class Ticket_Validator
             {
 
             }
-            //if (TicketDTO.Item_LineID == null || TicketDTO.Item_LineID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "Item_Line Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.Item_LineDTO)}",
-            //    });
-            //}
             if (TicketDTO.StatusID == null || TicketDTO.StatusID == 0)
             {
                 _validation_ResultList.Add(new ValidationResultDTO
@@ -286,16 +225,6 @@ public class Ticket_Validator
                     Data = $"{nameof(Ticket)}{nameof(TicketDTO.SupportGroupID)}",
                 });
             }
-            //if (TicketDTO.ClosedByID == null || TicketDTO.ClosedByID == 0)
-            //{
-            //    _validation_ResultList.Add(new ValidationResultDTO
-            //    {
-            //        Result = false,
-            //        Message = "ClosedBy Field Empty",
-            //        Description = " Please, complete the missing information ",
-            //        Data = $"{nameof(Ticket)}{nameof(TicketDTO.ClosedByDTO)}",
-            //    });
-            //}
 
             if (TicketDTO.LastUpdateByID == null || TicketDTO.LastUpdateByID == 0)
             {

@@ -1,7 +1,7 @@
 ﻿using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
 using System;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Category;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Category;
 
 public class CategoryDTO
 {

@@ -9,7 +9,7 @@ import { Month_Enum } from '../../../../Common/Utils/Month_Enum.js';
 import { ValueType_Enum } from '../Settings/ValueType/ValueType_Enum.js';
 import { UnitOfMeasure_Enum } from '../../../AdvancedSettings/UnitOfMeasure/UnitOfMeasure_Enum.js'
 import { GetDXDashboard_KPIDataSource, UpdateDashboard_KPIOrder, DeleteDashboard_KPI, CreateDashboard_KPIFromKPIList } from './Dashboard_KPI/Dashboard_KPI_Service.js';
-import { GetDXKPIDataSource } from './KPI/KPI_Service.js'
+import { GetDXKPIDataSource } from '../KPI/KPI_Service.js'
 
 
 
@@ -74,7 +74,6 @@ async function GetDashboardIDByURL() {
     }
 }
 async function InitializeDashboardDataEntryControls() {
-
     $("#dxKPITendenceChart").dxChart({
         dataSource: "",
         title: {
@@ -147,7 +146,6 @@ function BuildTQCFormat(Dashboard_KPIList) {
     let _TQCFormatHTML = "";
     let _panelBodyCategory = document.getElementById(`DashboardPanel`);
     _panelBodyCategory.innerHTML = "";
-
     if (Dashboard_KPIList.length > 0) {
         _TQCFormatHTML += `
             <table class="table table-bordered">
@@ -170,7 +168,6 @@ function BuildTQCFormat(Dashboard_KPIList) {
             { id: Dashboard_Category_Enum.Cost, symbol: "C", name: "Cost" },
             { id: Dashboard_Category_Enum.Moral, symbol: "M", name: "Moral" },
             { id: Dashboard_Category_Enum.Environmental, symbol: "E", name: "Environmental" },
-
         ];
 
         categories.forEach(category => {
@@ -184,13 +181,11 @@ function BuildTQCFormat(Dashboard_KPIList) {
                                 <p><strong>${category.name}</strong></p>
                             </td>
                         </tr>`;
-
                 _sortedList.forEach(Dashboard_KPIDTO => {
                     let _fyGoalSymbol = Dashboard_KPIDTO.KPIDTO.ValueTypeID === ValueType_Enum.Percent ? "%" :
                         Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID !== UnitOfMeasure_Enum.Times ? Dashboard_KPIDTO.KPIDTO.UnitOfMeasureDTO.Abbreviation : "";
                     let _fyGoalFormat = Dashboard_KPIDTO.KPIDTO.UnitOfMeasureID === UnitOfMeasure_Enum.USD ?
                         ConvertToMoney(Dashboard_KPIDTO.KPIDTO.Goal) : Dashboard_KPIDTO.KPIDTO.Goal;
-
                     _TQCFormatHTML += `
                         <tr valign="middle">
                             <td style="width: 80px;">
@@ -229,9 +224,6 @@ function BuildTQCFormat(Dashboard_KPIList) {
                             }
                             _valueTypeIcon = _fyGoalSymbol === "$" ? "" : _fyGoalSymbol;
                         }
-
-                         
-
                         _TQCFormatHTML += `
                             <td class="btn-modal-KPI"
                                 data-monthname="${MonthDTO.name}"
@@ -243,10 +235,8 @@ function BuildTQCFormat(Dashboard_KPIList) {
                                 </a>
                             </td>`;
                     });
-
                     _TQCFormatHTML += `</tr>`;
                 });
-
                 _TQCFormatHTML += `</tbody>`;
             }
         });

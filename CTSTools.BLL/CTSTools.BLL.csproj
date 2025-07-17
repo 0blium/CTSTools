@@ -356,12 +356,12 @@
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Service.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Dashboard\Dashboard_Validator.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPIDTO.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPIMap.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_DXFilter.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Repository.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Service.cs" />
-    <Compile Include="Features\Management\Edashboard\DashboardManagement\KPI\KPI_Validator.cs" />
+    <Compile Include="Features\Management\Edashboard\KPI\KPIDTO.cs" />
+    <Compile Include="Features\Management\Edashboard\KPI\KPIMap.cs" />
+    <Compile Include="Features\Management\Edashboard\KPI\KPI_DXFilter.cs" />
+    <Compile Include="Features\Management\Edashboard\KPI\KPI_Repository.cs" />
+    <Compile Include="Features\Management\Edashboard\KPI\KPI_Service.cs" />
+    <Compile Include="Features\Management\Edashboard\KPI\KPI_Validator.cs" />
     <Compile Include="Features\Management\Edashboard\DashboardManagement\Report\DashboardReport.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -409,12 +409,12 @@
     <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Repository.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Service.cs" />
     <Compile Include="Features\Management\Edashboard\Settings\ValueType\ValueType_Validator.cs" />
-    <Compile Include="Features\Quality\QMS\Customer\CustomerDTO.cs" />
-    <Compile Include="Features\Quality\QMS\Customer\CustomerMap.cs" />
-    <Compile Include="Features\Quality\QMS\Customer\Customer_DXFilter.cs" />
-    <Compile Include="Features\Quality\QMS\Customer\Customer_Repository.cs" />
-    <Compile Include="Features\Quality\QMS\Customer\Customer_Service.cs" />
-    <Compile Include="Features\Quality\QMS\Customer\Customer_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\Customer\CustomerDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\Customer\CustomerMap.cs" />
+    <Compile Include="Features\AdvancedSettings\Customer\Customer_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\Customer\Customer_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\Customer\Customer_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\Customer\Customer_Validator.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevision\DocumentRevisionDTO.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevision\DocumentRevisionMap.cs" />
     <Compile Include="Features\Quality\QMS\DocumentRevision\DocumentRevision_DXFilter.cs" />
@@ -433,12 +433,12 @@
     <Compile Include="Features\Quality\QMS\Document\Document_Repository.cs" />
     <Compile Include="Features\Quality\QMS\Document\Document_Service.cs" />
     <Compile Include="Features\Quality\QMS\Document\Document_Validator.cs" />
-    <Compile Include="Features\Quality\QMS\Product\ProductDTO.cs" />
-    <Compile Include="Features\Quality\QMS\Product\ProductMap.cs" />
-    <Compile Include="Features\Quality\QMS\Product\Product_DXFilter.cs" />
-    <Compile Include="Features\Quality\QMS\Product\Product_Repository.cs" />
-    <Compile Include="Features\Quality\QMS\Product\Product_Service.cs" />
-    <Compile Include="Features\Quality\QMS\Product\Product_Validator.cs" />
+    <Compile Include="Features\AdvancedSettings\Product\ProductDTO.cs" />
+    <Compile Include="Features\AdvancedSettings\Product\ProductMap.cs" />
+    <Compile Include="Features\AdvancedSettings\Product\Product_DXFilter.cs" />
+    <Compile Include="Features\AdvancedSettings\Product\Product_Repository.cs" />
+    <Compile Include="Features\AdvancedSettings\Product\Product_Service.cs" />
+    <Compile Include="Features\AdvancedSettings\Product\Product_Validator.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\DataType\DataTypeDTO.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\DataType\DataTypeMap.cs" />
     <Compile Include="Features\Maintenance\AMS\ItemManagement\DataType\DataType_DXFilter.cs" />

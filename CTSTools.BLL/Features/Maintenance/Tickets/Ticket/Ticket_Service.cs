@@ -6,8 +6,8 @@ using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
 using CTSTools.BLL.Features.Maintenance.AMS.ItemManagement.Item_Line;
 using CTSTools.BLL.Features.Maintenance.AMS.SupportGroupManagement.SupportGroup;
-using CTSTools.BLL.Features.Maintenance.AMS.Tickets.Category;
-using CTSTools.BLL.Features.Maintenance.AMS.Tickets.Priority;
+using CTSTools.BLL.Features.Maintenance.Tickets.Category;
+using CTSTools.BLL.Features.Maintenance.Tickets.Priority;
 using CTSTools.DAL.Common;
 using Elmah;
 using System;
@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status.Status_Enum;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Ticket;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Ticket;
 
 public class Ticket_Service
 {

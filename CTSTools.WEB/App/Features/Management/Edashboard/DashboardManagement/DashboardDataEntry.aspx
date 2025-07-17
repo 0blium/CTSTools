@@ -219,7 +219,7 @@
                         <div class="col-md-12">
                             <label class="text-muted">Select the KPIs that you want to add to the selected dashboard</label>
                             <br />
-                            <label class="text-muted">(If the value to select doesn´t exits on the list below, create a new value clicking <a class="h6 text-color-link" href="/App/Features/Management/Edashboard/DashboardManagement/KPICatalog.aspx">here</a>)</label>
+                            <label class="text-muted">(If the value to select doesn´t exits on the list below, create a new value clicking <a class="h6 text-color-link" href="/App/Features/Management/Edashboard/KPI/KPICatalog.aspx">here</a>)</label>
 
                         </div>
                         <div class="col-md-12 mt-2">

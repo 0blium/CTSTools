@@ -2,9 +2,9 @@
 using CTSTools.BLL.Features.AdvancedSettings.LocationManagement.Department;
 using CTSTools.BLL.Features.AdvancedSettings.StatusManagement.Status;
 using CTSTools.BLL.Features.AdvancedSettings.UserManagement.User;
-using CTSTools.BLL.Features.Quality.QMS.Customer;
+using CTSTools.BLL.Features.AdvancedSettings.Customer;
 using CTSTools.BLL.Features.Quality.QMS.DocumentType;
-using CTSTools.BLL.Features.Quality.QMS.Product;
+using CTSTools.BLL.Features.AdvancedSettings.Product;
 using System;
 using System.Collections.Generic;
 

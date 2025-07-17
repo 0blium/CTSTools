@@ -3,7 +3,7 @@ using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Priority;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Priority;
 
 public class Priority_DXFilter
 {

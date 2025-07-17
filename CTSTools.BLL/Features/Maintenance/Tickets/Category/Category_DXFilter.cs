@@ -3,7 +3,7 @@ using DevExpress.Data.Filtering;
 using System;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Category;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Category;
 
 public class Category_DXFilter
 {

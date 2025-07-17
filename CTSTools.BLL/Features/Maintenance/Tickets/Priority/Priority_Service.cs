@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Priority;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Priority;
 
 public class Priority_Service
 {

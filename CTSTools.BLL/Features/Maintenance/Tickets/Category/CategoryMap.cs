@@ -4,7 +4,7 @@ using CTSTools.DAL.Features.Maintenance.Ticket;
 using DevExpress.Xpo;
 using System;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Category;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Category;
 
 public class CategoryMap
 {

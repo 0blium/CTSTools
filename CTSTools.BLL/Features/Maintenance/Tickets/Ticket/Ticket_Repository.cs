@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CTSTools.BLL.Features.Maintenance.AMS.Tickets.Ticket;
+namespace CTSTools.BLL.Features.Maintenance.Tickets.Ticket;
 
 public class Ticket_Repository
 {
