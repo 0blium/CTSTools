@@ -82,7 +82,7 @@ namespace CTSTools.DAL.Common
                 DataSet _ds = SQLCommonHelper.SQLQueryCommandNoParameterList(_ticketNumberSequence, "Error on getting data from server");
                 if (_ds.Tables.Count > 0)
                 {
-                    return Convert.ToInt32(_ds.Tables[0].Rows[0]["TicktNumber"]);
+                    return (int)Convert.ToInt64(_ds.Tables[0].Rows[0]["TicktNumber"]);
                 }
                 return 0;
             }

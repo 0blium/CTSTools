@@ -186,7 +186,9 @@ async function InitializeValueLinkerControls() {
 function ValueLinkActionButtons(Action) {
     $("#ValueLinkActionButtons").empty();
     document.getElementById("ValueLinkModalCloseButton").addEventListener("click", ClearValueLinkFields);
+    document.getElementById('ValueLinkModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('ValueLinkModalTitle').innerText = 'Add Value Link';
         document.getElementById("ValueLinkActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateValueLinkButton" type="button">Save</button>' +
@@ -195,6 +197,7 @@ function ValueLinkActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('ValueLinkModalTitle').innerText = 'Update Value Link';
         document.getElementById("ValueLinkActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="UpdateValueLinkButton" type="button">Update</button>' +

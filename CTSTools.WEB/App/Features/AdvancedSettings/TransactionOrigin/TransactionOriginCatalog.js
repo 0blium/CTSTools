@@ -143,7 +143,7 @@ function TransactionOriginActionButtons(Action) {
     document.getElementById('TransactionOriginModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewTransactionOriginBtn").addEventListener("click", ClearTransactionOriginFields);
-        document.getElementById('TransactionOriginModalTitle').innerText = 'Add Transaction Origin Form'
+        document.getElementById('TransactionOriginModalTitle').innerText = 'Add Transaction Origin'
         document.getElementById("TransactionOriginActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateTransactionOriginButton" type="button">Save</button>' +
@@ -154,7 +154,7 @@ function TransactionOriginActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('TransactionOriginModalTitle').innerText = 'Update Transaction Origin Form'
+        document.getElementById('TransactionOriginModalTitle').innerText = 'Update Transaction Origin'
         document.getElementById("TransactionOriginActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateTransactionOriginButton" type="button">Update</button>' +

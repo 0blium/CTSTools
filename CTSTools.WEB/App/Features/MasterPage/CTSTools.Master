@@ -144,7 +144,6 @@
                                             <div class="menu-text">Attributes</div>
                                         </a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -179,12 +178,11 @@
                                             <div class="menu-text">Settings</div>
                                         </a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <%-- Quality Modules --%>
                     <div id="Quality" class="menu-item has-sub menu-nav" data-tech="Quality QMS" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -211,7 +209,6 @@
                                             <div class="menu-text">Types</div>
                                         </a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -337,10 +334,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
+                    <%-- Advanced Settings Modules --%>
                     <div id="AdvancedSettings" class="menu-item has-sub submenu-nav" data-tech="AdvancedSettings" hidden>
                         <a href="javascript:;" class="menu-link">
                             <div class="menu-icon">
@@ -432,8 +428,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     <%--       <div class="menu-item has-sub">
                         <a href="javascript:;" class="menu-link">

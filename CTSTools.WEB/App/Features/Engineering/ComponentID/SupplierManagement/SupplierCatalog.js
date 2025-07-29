@@ -115,32 +115,6 @@ async function InitializeSupplierCatalogControls() {
         },
         columns:
             [
-                //{
-                //    caption: "Option",
-                //    alignment: "center",
-                //    allowFiltering: false,
-                //    allowSorting: false,
-                //    width: "auto",
-                //    cellTemplate: function (container, options) {
-                //        container.height(30);
-                //        $('<button type="button" data-bs-toggle="modal" data-bs-target="#SupplierModal" class="btn btn-success" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-pen-to-square"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenSupplierID").val(options.data.ID);
-
-                //            }).appendTo(container);
-                //        $('<button type="button" class="btn btn-danger ms-2" style="padding-top: 2px; ' +
-                //            'padding-bottom:5px"><i class="fa fa-trash-alt"></i><span>' +
-                //            + '</span></button>')
-                //            .height(30)
-                //            .on('dxclick', function () {
-                //                $("#hiddenSupplierID").val(options.data.ID);
-                //                ShowSupplierDeleteQuestion();
-                //            }).appendTo(container);
-                //    },
-                //},
                 {
                     caption: "Options",
                     alignment: "center",
@@ -183,8 +157,6 @@ async function InitializeSupplierCatalogControls() {
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
-
-
             ],
     });
     SupplierActionButtons("Save");
@@ -196,8 +168,9 @@ function SupplierActionButtons(Action) {
     $("#SupplierActionButtons").empty();
     document.getElementById("SupplierModalButton").addEventListener("click", ClearSupplierFields);
     document.getElementById("SupplierCloseModalButton").addEventListener("click", ClearSupplierFields);
-
+    document.getElementById('SupplierModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('SupplierModalTitle').innerText = 'Add Supplier';
         document.getElementById("SupplierActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateSupplierButton" type="button">Save</button>' +
@@ -206,6 +179,7 @@ function SupplierActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('SupplierModalTitle').innerText = 'Update Supplier';
         document.getElementById("SupplierActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearSupplierButton" type="button">Cancel</button>' +

@@ -164,7 +164,6 @@ async function InitializeUserCatalogControls() {
                             .height(30)
                             .on('dxclick', function () {
                                 $("#hiddenValueID").val(options.data.ID);
-
                             }).appendTo(container);
                     },
                 },
@@ -232,7 +231,9 @@ function ClearUserFields() {
 function UserActionButtons(Action) {
     $("#UserActionButtons").empty();
     document.getElementById("UserModalCloseButtton").addEventListener("click", ClearUserFields);
+    document.getElementById('UserModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('UserModalTitle').innerText = 'Add User';
         document.getElementById("UserActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateUserButton" type="button">Save</button>' +
@@ -241,6 +242,7 @@ function UserActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('UserModalTitle').innerText = 'Update User';
         document.getElementById("UserActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateUserButton" type="button">Update</button>' +
@@ -254,8 +256,10 @@ async function PopulateUserFields(UserDTO) {
     $("#dxUserNameTextBox").dxTextBox("instance").option("value", UserDTO.Name);
     $("#dxUserEmailTextBox").dxTextBox("instance").option("value", UserDTO.Email);
     $("#dxUserPositionTextBox").dxTextBox("instance").option("value", UserDTO.Position);
-    $("#dxUserFacilitySelectBox").dxSelectBox("instance").option("value", UserDTO.FacilityID);
-    $("#dxUserDepartmentSelectBox").dxSelectBox("instance").option("value", UserDTO.DepartmentID);
+    await $("#dxUserFacilitySelectBox").dxSelectBox("instance").option("value", UserDTO.FacilityID);
+    setTimeout(function () {
+        $("#dxUserDepartmentSelectBox").dxSelectBox("instance").option("value", UserDTO.DepartmentID);
+    }, 100);
     $("#dxUserRoleTagBox").dxTagBox("instance").option("value", UserDTO.RoleIDArray);
     $("#dxUserSendWelcomeEmailCheckBox").dxCheckBox("instance").option("value", true);
     $("#dxUserIsActiveCheckBox").dxCheckBox("instance").option("value", UserDTO.IsActive);
@@ -300,9 +304,8 @@ async function GetFacilityDXDatasource_Global() {
     let _departmentDTO = {
         FacilityID: $("#dxUserFacilitySelectBox").dxSelectBox("instance").option("value"),
         IsActive: true
-
     };
-    return await GetDXDepartmentDataSource(_departmentDTO, "")
+    return await GetDXDepartmentDataSource(_departmentDTO)
 }
 
 //#endregion

@@ -41,7 +41,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Facility Form</h1>
+                    <h1 id="FacilityModalTitle" class="modal-title fs-5">Facility</h1>
                     <button type="button" id="FacilityModalCloseButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -79,7 +79,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Department Form</h1>
+                    <h1 id="DepartmentModalTitle" class="modal-title fs-5">Department</h1>
                     <button type="button" id="DepartmentModalCloseButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

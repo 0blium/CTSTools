@@ -45,7 +45,6 @@ async function InitializeDecoderCatalogControls() {
         onValueChanged: async function (e) {
             $("#dxDecoderClassLookup").dxLookup("instance").reset();
             if (e.value != 0 && e.value != null) {
-
                 await $("#dxDecoderClassLookup").dxLookup("instance").option("dataSource", await GetClassFromComponentTypeDataSource_Global());
             }
             else {
@@ -169,19 +168,15 @@ async function InitializeDecoderCatalogControls() {
                 { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Is Active", dataField: "IsActive" },
-
-
             ],
     });
     DecoderActionButtons("Save");
 }
 async function PopulateDecoderFields(DecoderDTO) {
-
     $("#hiddenDecoderID").val(data.ID);
     $("#dxDecoderStatusLookup").dxLookup("instance").option("value", data.StatusDTO.ID);
     $("#DecoderDescription").val(data.Description);
     $("#dxDecoderIsActiveCheckBox").dxCheckBox("instance").option("value", data.IsActive);
-
 }
 async function ShowDeleteDecoderQuestion() {
     const _alert = await Swal.fire({
@@ -194,11 +189,12 @@ async function ShowDeleteDecoderQuestion() {
     } else {
         ClearDecoderFields();
     }
-
 }
 function DecoderActionButtons(Action) {
     $("#DecoderActionButtons").empty();
+    document.getElementById('DecoderModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('DecoderModalTitle').innerText = 'Add Decoder';
         document.getElementById("DecoderActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateDecoderButton" type="button">Save</button>' +
@@ -207,6 +203,7 @@ function DecoderActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('DecoderModalTitle').innerText = 'Update Decoder';
         document.getElementById("DecoderActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearDecoderButton" type="button">Cancel</button>' +

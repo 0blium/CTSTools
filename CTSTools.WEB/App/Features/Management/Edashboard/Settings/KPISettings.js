@@ -370,7 +370,6 @@ function SetModalTitle(Action) {
             _modalTitle += " Goal Range";
             break;
     }
-    _modalTitle += " Form"
     document.getElementById('DashboardCategoryModalTitle').innerText = _modalTitle;
 }
 

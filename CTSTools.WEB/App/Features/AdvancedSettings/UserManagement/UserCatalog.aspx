@@ -37,7 +37,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="userModalLabel">User Form</h1>
+                    <h1 class="modal-title fs-5" id="UserModalTitle"></h1>
                     <button type="button" id="UserModalCloseButtton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

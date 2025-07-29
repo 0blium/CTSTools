@@ -139,7 +139,9 @@ async function InitializeRoleCatalogControls() {
 }
 function RoleActionButtons(Action) {
     $("#RoleActionButtons").empty();
+    document.getElementById('RoleModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('RoleModalTitle').innerText = 'Add Role'
         document.getElementById("RoleActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateRoleButton" type="button">Save</button>' +
@@ -148,6 +150,7 @@ function RoleActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('RoleModalTitle').innerText = 'Update Role'
         document.getElementById("RoleActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearRoleButton" type="button">Cancel</button>' +
@@ -357,7 +360,9 @@ async function InitializeRoleTypeCatalogControls() {
 }
 function RoleTypeActionButtons(Action) {
     $("#RoleTypeActionButtons").empty();
+    document.getElementById('RoleTypeModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('RoleTypeModalTitle').innerText = 'Add Role Type'
         document.getElementById("RoleTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateRoleTypeButton" type="button">Save</button>' +
@@ -366,6 +371,7 @@ function RoleTypeActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('RoleTypeModalTitle').innerText = 'Update Role Type'
         document.getElementById("RoleTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearRoleTypeButton" type="button">Cancel</button>' +
@@ -574,7 +580,9 @@ async function InitializeRole_PermissionCatalogControls() {
 }
 function Role_PermissionActionButtons(Action) {
     $("#Role_PermissionActionButtons").empty();
+    document.getElementById('Role_PermissionModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('Role_PermissionModalTitle').innerText = 'Add Role Relation'
         document.getElementById("Role_PermissionActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateRole_PermissionButton" type="button">Save</button>' +
@@ -583,6 +591,7 @@ function Role_PermissionActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('Role_PermissionModalTitle').innerText = 'Update Role Relation'
         document.getElementById("Role_PermissionActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearRole_PermissionButton" type="button">Cancel</button>' +

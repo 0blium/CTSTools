@@ -155,7 +155,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Decoder Form</h1>
+                    <h1 class="modal-title fs-5" id="DecoderModalTitle"></h1>
                     <button id="DecoderStructureCloseModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -211,7 +211,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5">Supplier Form</h1>
+                    <h1 id="SupplierModalTitle" class="modal-title fs-5"></h1>
                     <button id="SubClass_SupplierCloseModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

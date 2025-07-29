@@ -60,7 +60,7 @@ export async function GetDepartmentInformation(DepartmentDTO) {
     }
     return _validation_resultDTO;
 }
-export async function GetDXDepartmentDataSource(DepartmentDTO, filters) {
+export async function GetDXDepartmentDataSource(DepartmentDTO) {
     let params = await BuildSearchParams(DepartmentDTO);
     let _store = new DevExpress.data.AspNet.createStore({
         loadUrl: `${APIURL}/Department/GetPagedList?` + params.toString(),
@@ -72,8 +72,7 @@ export async function GetDXDepartmentDataSource(DepartmentDTO, filters) {
     let _departmentDTOSource = new DevExpress.data.DataSource({
         store: _store,
         paginate: true,
-        pageSize: 15,
-        filter: filters
+        pageSize: 15
     });
     return _departmentDTOSource;
 }

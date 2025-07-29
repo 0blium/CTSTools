@@ -247,7 +247,7 @@ function DashboardActionButtons(Action) {
     document.getElementById('DashboardModalTitle').innerText = '';
     if (Action == "Save") {
         document.getElementById("NewDashboardBtn").addEventListener("click", ClearDashboardFields);
-        document.getElementById('DashboardModalTitle').innerText = 'Add Dashboard Form'
+        document.getElementById('DashboardModalTitle').innerText = 'Add Dashboard'
         document.getElementById("DashboardActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateDashboardButton" type="button">Save</button>' +
@@ -258,7 +258,7 @@ function DashboardActionButtons(Action) {
     }
     else {
         // Update
-        document.getElementById('DashboardModalTitle').innerText = 'Update Dashboard Form'
+        document.getElementById('DashboardModalTitle').innerText = 'Update Dashboard'
         document.getElementById("DashboardActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateDashboardButton" type="button">Update</button>' +

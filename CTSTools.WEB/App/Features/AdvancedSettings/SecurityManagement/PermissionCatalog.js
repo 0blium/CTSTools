@@ -146,7 +146,9 @@ async function InitializePermissionCatalogControls() {
 }
 function PermissionActionButtons(Action) {
     $("#PermissionActionButtons").empty();
+    document.getElementById('PermissionModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('PermissionModalTitle').innerText = 'Add Permission'
         document.getElementById("PermissionActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreatePermissionButton" type="button">Save</button>' +
@@ -157,6 +159,7 @@ function PermissionActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('PermissionModalTitle').innerText = 'Update Permission'
         document.getElementById("PermissionActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdatePermissionButton" type="button">Update</button>' +

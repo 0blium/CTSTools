@@ -132,6 +132,7 @@ async function InitializeMailGroupCatalogControls() {
 function MailGroupActionButtons(Action) {
     $("#MailGroupActionButtons").empty();
     if (Action == "Save") {
+        document.getElementById('MailGroupModalTitle').innerText = 'Add Mail Group'
         document.getElementById("MailGroupActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateMailGroupButton" type="button">Save</button>' +
@@ -140,6 +141,7 @@ function MailGroupActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('MailGroupModalTitle').innerText = 'Update Mail Group'
         document.getElementById("MailGroupActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearMailGroupButton" type="button">Cancel</button>' +
@@ -357,6 +359,7 @@ async function InitializeMailGroupMemberCatalogControls() {
 function MailGroupMemberActionButtons(Action) {
     $("#MailGroupMemberActionButtons").empty();
     if (Action == "Save") {
+        document.getElementById('MailGroupMemberModalTitle').innerText = 'Add Member'
         document.getElementById("MailGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateMailGroupMemberButton" type="button">Save</button>' +
@@ -365,6 +368,7 @@ function MailGroupMemberActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('MailGroupMemberModalTitle').innerText = 'Update Member'
         document.getElementById("MailGroupMemberActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearMailGroupMemberButton" type="button">Cancel</button>' +

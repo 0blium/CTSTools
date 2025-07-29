@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
         TicketNotFound()
     }
-
 });
 
 function TicketNotFound() {
@@ -120,23 +119,10 @@ function DisabledAdministrationFields(UserDTO) {
 }
 //#endregion
 
-
-
-
-
 //#region Initialize Ticket Controls
 
 async function InitializeTicketControls() {
     const now = new Date();
-    //$("#dxTicketRequestorSelectBox").dxSelectBox({
-    //    dataSource: await GetDXEmployeeTressDataSource({ IsActive: true }),
-    //    valueExpr: "ID",
-    //    displayExpr: "Name",
-    //    deferRendering: false,
-    //    readOnly: true,
-    //    searchEnabled: true
-    //});
-
     $("#dxTicketStatusSelectBox").dxSelectBox({
         dataSource: await GetDXStatus_StatusTypeDataSource({ StatusTypeID: StatusType_Enum.Tickets }),
         displayExpr: "StatusName",
@@ -178,7 +164,6 @@ async function InitializeTicketControls() {
         searchEnabled: true,
         placeholder: "Select a Department...",
     });
-
     $("#dxTicketSupportGroupSelectBox").dxSelectBox({
         dataSource: await GetDXSupportGroupDataSource({ IsActive: true }),
         valueExpr: "ID",
@@ -214,7 +199,6 @@ async function InitializeTicketControls() {
             }
         }
     });
-
     $("#dxTicketPrioritySelectBox").dxSelectBox({
         dataSource: [],
         valueExpr: "ID",
@@ -318,7 +302,6 @@ async function InitializeTicketControls() {
 
         },
     });
-
     $("#dxTicketSolutionTextArea").dxTextArea({
         placeholder: 'Type solution',
         height: 100,
@@ -366,7 +349,6 @@ async function InitializeTicketControls() {
     });
 }
 
-
 async function GetTicketInformation_Global() {
     const TicketDTO = {
         ID: $("#hiddenTicketID").val()
@@ -378,7 +360,6 @@ async function GetTicketInformation_Global() {
 }
 
 async function PopulateTicketInformation(TicketDTO) {
-
     if (TicketDTO != null) {
         await dxLoadPanel.show();
         await $("#dxTicketSupportGroupSelectBox").dxSelectBox("instance").option("value", TicketDTO.SupportGroupID);
@@ -386,7 +367,6 @@ async function PopulateTicketInformation(TicketDTO) {
         document.getElementById('TicketNumber').innerHTML = `Ticket #<span class="fw-bold">${TicketDTO.TicketNumber}<span>`;
         document.getElementById('CreatedBySection').innerHTML = `Created By : <span class="fw-bold">${TicketDTO.CreatedByName}<span>`;
         await PopulateStatusSection(TicketDTO.StatusID, TicketDTO.StatusName);
-        //await $("#dxTicketRequestorSelectBox").dxSelectBox("instance").option("value", TicketDTO.RequestorID);
         await $("#dxTicketFacilitySelectBox").dxSelectBox("instance").option("value", TicketDTO.FacilityID);
         await $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("value", TicketDTO.DepartmentID);      
         await $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("value", TicketDTO.CategoryID);
@@ -413,9 +393,7 @@ async function PopulateTicketInformation(TicketDTO) {
 
 async function PopulateStatusSection(StatusID, StatusName) {
     let selectBox = $("#dxTicketStatusSelectBox").dxSelectBox("instance");
-
     await selectBox.getDataSource().load();
-
     selectBox.option("value", StatusID);
     $("#hiddenCurrentStatusID").val(StatusID);
     let bgcolor;
@@ -512,23 +490,19 @@ async function InitializeSupportGroupDataSource(FacilityID) {
 async function InitializePriorityDataSource(SupportGroupID) {
     let _priorityDTO = { SupportGroupID: SupportGroupID, IsActive: true };
     $("#dxTicketPrioritySelectBox").dxSelectBox("instance").reset();
-    //$("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("readOnly", false);
     $("#dxTicketPrioritySelectBox").dxSelectBox("instance").option("dataSource", await GetDXPriorityDataSource(_priorityDTO));
 }
 
 async function InitializeCategoryDataSource(SupportGroupID) {
     let _categoryDTO = { HasParent: false, SupportGroupID: SupportGroupID, IsActive: true };
     await $("#dxTicketCategorySelectBox").dxSelectBox("instance").reset();
-    //$("#dxTicketCategorySelectBox").dxSelectBox("instance").option("readOnly", false);
     await $("#dxTicketCategorySelectBox").dxSelectBox("instance").option("dataSource", await GetDXCategoryDataSource(_categoryDTO));
 }
 
 async function InitializeAssignedToDataSource(SupportGroupID) {
     let _supportGroupMemberDTO = { SupportGroupID: SupportGroupID, IsActive: true };
     await $("#dxTicketAssignedToSelectBox").dxSelectBox("instance").reset();
-    //$("#dxTicketAssignedToSelectBox").dxSelectBox("instance").option("readOnly", false);
     await $("#dxTicketAssignedToSelectBox").dxSelectBox("instance").option("dataSource", await GetDXSupportGroupMemberDataSource(_supportGroupMemberDTO));
-
 }
 
 async function InitializeItemLineDataSource(SupportGroupID) {
@@ -538,7 +512,6 @@ async function InitializeItemLineDataSource(SupportGroupID) {
         }
     };
     await $("#dxTicketItemLookup").dxLookup("instance").reset();
-    //await $("#dxTicketItemLookup").dxLookup("instance").option("readOnly", false);
     await $("#dxTicketItemLookup").dxLookup("instance").option("dataSource", await GetItem_LineInformationBySupportGroup(_item_lineDTO));
 }
 
@@ -559,14 +532,12 @@ async function InitializeSparePart_LotDataSource(SupportGroupID) {
 async function InitializeSubcategoryDataSource(CategoryParentID) {
     let _categoryDTO = await GetCategoryDTO(CategoryParentID);
     $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").reset();
-    //$("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("readOnly", false);
     $("#dxTicketSubcategorySelectBox").dxSelectBox("instance").option("dataSource", await GetDXCategoryDataSource(_categoryDTO));
 }
 
 async function InitializeThirdLevelCategoryDataSource(CategoryParentID) {
     let _categoryDTO = await GetCategoryDTO(CategoryParentID);
     $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").reset();
-    //$("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("readOnly", false);
     $("#dxTicketThirdLevelCategorySelectBox").dxSelectBox("instance").option("dataSource", await GetDXCategoryDataSource(_categoryDTO));
 }
 
@@ -605,7 +576,6 @@ async function ClearSupportGroupFields() {
     $("#dxTicketItemLookup").dxLookup("instance").option("dataSource", []);
 
     $("#dxSparePart_LotSelectBox").dxSelectBox("instance").reset();
-    //$("#dxSparePart_LotSelectBox").dxSelectBox("instance").option("readOnly", true);
     $("#dxSparePart_LotSelectBox").dxSelectBox("instance").option("dataSource", []);
 }
 
@@ -624,7 +594,6 @@ async function ClearDepartmentDataSource() {
     $("#dxTicketDepartmentSelectBox").dxSelectBox("instance").option("dataSource", []);
 }
 //#endregion
-
 
 //#region Attachments
 
@@ -662,11 +631,9 @@ async function GetFileList() {
                     break;
             }
             let _attachmentName = attachment.Name;
-
             if (_attachmentName.length > 35) {
                 _attachmentName = _attachmentName.substring(0, 35) + "...";
             }
-
             //Exclusion list for unwanted files to display
             if (attachment.Extension.toLowerCase() != '.db') {
                 //Prepare preview for Images START
@@ -855,7 +822,6 @@ async function InitializeSparePartUsageControls() {
             onSelectionChanged: function (data) {
                 let _SparePartData = data.selectedRowsData[0];
                 if (_SparePartData != null) {
-                    //SparePartActionButtons("Update");
                     PopulateSparePartFields(_SparePartData);
                 }
             },
@@ -958,7 +924,6 @@ async function InitializeSparePartUsageControls() {
     }
 }
 
-
 async function GetSparePart_LotAvailableQty(SparePart_LotID) {
     let _sparePart_LotDTO = {
         ID: SparePart_LotID
@@ -1013,7 +978,6 @@ async function CreateSparePartUsage_Global() {
     dxLoadPanel.hide();
 }
 
-
 async function ShowSparePartDeleteQuestion() {
     const _alert = await Swal.fire({
         icon: 'warning',
@@ -1025,11 +989,8 @@ async function ShowSparePartDeleteQuestion() {
     });
     if (_alert.isConfirmed) {
         DeleteSparePartUsage_Global();
-    } else {
-
     }
 }
-
 
 async function DeleteSparePartUsage_Global() {
     await dxLoadPanel.show();

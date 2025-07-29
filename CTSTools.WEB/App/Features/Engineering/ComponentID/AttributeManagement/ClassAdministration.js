@@ -198,8 +198,6 @@ async function InitializeClassCatalogControls() {
                 { caption: "Last Update By ID", dataField: "ClassValueDTO.LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "ClassValueDTO.LastUpdateByName", visible: false },
                 { caption: "Is Active", dataField: "ClassValueDTO.IsActive", width: 200 },
-
-
             ],
     });
     document.getElementById("ClassButton").addEventListener("click", ClearClassFields);
@@ -209,7 +207,9 @@ async function InitializeClassCatalogControls() {
 }
 function ClassActionButtons(Action) {
     $("#ClassActionButtons").empty();
+    document.getElementById('ClassModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('ClassModalTitle').innerText = 'Add Class';
         document.getElementById("ClassActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateClassButton" type="button">Save</button>' +
@@ -219,6 +219,7 @@ function ClassActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('ClassModalTitle').innerText = 'Update Class';
         document.getElementById("ClassActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateClassButton" type="button">Update</button>' +
@@ -655,7 +656,6 @@ async function InitializeSubClassCatalogControls() {
                 { caption: "Class", dataField: "ClassDTO.Name" },
                 { caption: "Component Type", dataField: "ComponentTypeDTO.Name" },
                 { caption: "Part Type", dataField: "PartTypeDTO.Name" },
-
                 { caption: "Description", dataField: "SubClassValueDTO.Description" },
                 { caption: "Added Date", dataField: "SubClassValueDTO.AddedDate", dataType: 'datetime' },
                 { caption: "Last Update", dataField: "SubClassValueDTO.LastUpdate", dataType: 'datetime' },
@@ -664,8 +664,6 @@ async function InitializeSubClassCatalogControls() {
                 { caption: "Last Update By ID", dataField: "SubClassValueDTO.LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "SubClassValueDTO.LastUpdateByName", visible: false },
                 { caption: "Is Active", dataField: "SubClassValueDTO.IsActive", width: 200 },
-
-
             ],
     });
     document.getElementById("SubClassButton").addEventListener("click", ClearSubClassFields);
@@ -676,7 +674,9 @@ async function InitializeSubClassCatalogControls() {
 }
 function SubClassActionButtons(Action) {
     $("#SubClassActionButtons").empty();
+    document.getElementById('SubClassModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('SubClassModalTitle').innerText = 'Add Sub Class';
         document.getElementById("SubClassActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateSubClassButton" type="button">Save</button>' +
@@ -686,6 +686,7 @@ function SubClassActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('SubClassModalTitle').innerText = 'Update Sub Class';
         document.getElementById("SubClassActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateSubClassButton" type="button">Update</button>' +

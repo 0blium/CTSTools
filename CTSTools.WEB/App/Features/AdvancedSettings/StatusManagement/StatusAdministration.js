@@ -124,8 +124,6 @@ async function InitializeStatusCatalogControls() {
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Last Update", dataField: "LastUpdate", dataType: 'datetime' },
-
-
             ],
     });
     StatusActionButtons("Save");
@@ -133,7 +131,9 @@ async function InitializeStatusCatalogControls() {
 }
 function StatusActionButtons(Action) {
     $("#StatusActionButtons").empty();
+    document.getElementById('StatusModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('StatusModalTitle').innerText = 'Add Status'
         document.getElementById("StatusActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateStatusButton" type="button">Save</button>' +
@@ -142,6 +142,7 @@ function StatusActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('StatusModalTitle').innerText = 'Update Status'
         document.getElementById("StatusActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearStatusButton" type="button">Cancel</button>' +
@@ -346,7 +347,6 @@ async function InitializeStatusTypeCatalogControls() {
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Last Update ", dataField: "LastUpdate", dataType: "datetime" },
-
             ],
     });
     StatusTypeActionButtons("Save");
@@ -354,7 +354,9 @@ async function InitializeStatusTypeCatalogControls() {
 }
 function StatusTypeActionButtons(Action) {
     $("#StatusTypeActionButtons").empty();
+    document.getElementById('StatusTypeModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('StatusTypeModalTitle').innerText = 'Add Status Type'
         document.getElementById("StatusTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateStatusTypeButton" type="button">Save</button>' +
@@ -363,6 +365,7 @@ function StatusTypeActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('StatusTypeModalTitle').innerText = 'Update Status Type'
         document.getElementById("StatusTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearStatusTypeButton" type="button">Cancel</button>' +
@@ -575,15 +578,15 @@ async function InitializeStatus_StatusTypeCatalogControls() {
                 { caption: "Last Update By I D", dataField: "LastUpdateByID", visible: false },
                 { caption: "Last Update By", dataField: "LastUpdateByName" },
                 { caption: "Last Update", dataField: "LastUpdate", dataType: "datetime" },
-
-
             ],
     });
     Status_StatusTypeActionButtons("Save");
 }
 function Status_StatusTypeActionButtons(Action) {
     $("#Status_StatusTypeActionButtons").empty();
+    document.getElementById('Status_StatusTypeModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('Status_StatusTypeModalTitle').innerText = 'Add Status Relation'
         document.getElementById("Status_StatusTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateStatus_StatusTypeButton" type="button">Save</button>' +
@@ -592,6 +595,7 @@ function Status_StatusTypeActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('Status_StatusTypeModalTitle').innerText = 'Update Status Relation'
         document.getElementById("Status_StatusTypeActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-secondary float-end" id="ClearStatus_StatusTypeButton" type="button">Cancel</button>' +

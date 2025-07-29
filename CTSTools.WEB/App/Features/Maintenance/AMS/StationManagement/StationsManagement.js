@@ -231,7 +231,9 @@ async function InitializeStationCatalogControls() {
 }
 function StationActionButtons(Action) {
     $("#StationActionButtons").empty();
+    document.getElementById('StationModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('StationModalTitle').innerText = 'Add Station';
         document.getElementById("StationActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="CreateStationButton" type="button">Save</button>' +
@@ -242,6 +244,7 @@ function StationActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('StationModalTitle').innerText = 'Update Station';
         document.getElementById("StationActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success float-end" id="UpdateStationButton" type="button">Update</button>' +

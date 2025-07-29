@@ -5,6 +5,10 @@ using CTSTools.BLL.Features.Maintenance.Tickets.Ticket;
 using CTSTools.WEB.App_Start;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Web.Http;
 
 namespace CTSTools.WEB.App.Features.Maintenance.Tickets.Ticket;
@@ -15,7 +19,49 @@ public class TicketController : ApiController
     [Route("api/Ticket/GetPagedList")]
     public IHttpActionResult Get(DataSourceLoadOptions loadOptions, [FromUri] TicketDTO TicketDTO)
     {
+        //var _dxFilters = loadOptions.Filter?.Cast<object>().Select(f => f is string str ? str.Replace("ItemNameWithManufactureSerial", "Item_Header.Model") : f).ToList();
+    //    var _listavergera = loadOptions.Filter;
+    //    var _nuevalistavergera = _listavergera?.Cast<object>()  // Aseguramos que la colección es tratada como 'object'
+    //        .Select(item => item switch
+    //        {
+    //            List<string> sublista => sublista
+    //                .Select(subitem => {
+    //                    // Debugging: Mostrar qué estamos comparando
+    //                    Debug.WriteLine($"Comparando: {subitem}");
+    //                    return subitem == "ItemNameWithManufactureSerial" ? "Item_Header.Model" : subitem;
+    //                })
+    //                .ToList(),
+    //            _ => item  // Si no es una lista, lo dejamos igual
+    //        })
+    //        .ToList();
 
+
+    //    var _dxFilters = loadOptions.Filter?.Cast<object>().Select(f =>
+    //    {
+    //        // Caso 1: Si es un string (como "or", "and"), lo dejamos igual
+    //        if (f is string str)
+    //            return str;
+
+    //        // Caso 2: Si es un objeto con propiedad Selector (usamos dynamic para acceder fácil)
+    //        if (f != null)
+    //        {
+    //            dynamic dynamicObj = f; // Convertimos a dynamic para acceder a .Selector
+    //            try
+    //            {
+    //                //string selector = dynamicObj.Selector?.ToString();
+    //                //if (!string.IsNullOrEmpty(selector))
+    //                //{
+    //                    dynamicObj.Selector.Replace(
+    //                        "Item_LineDTO.ItemNameWithManufactureSerial",
+    //                        "Item_LineDTO.Item_Header.Model"
+    //                    );
+    //                //}
+    //            }
+    //            catch { } // Si falla, no es un objeto con Selector
+    //        }
+    //        return f;
+    //    })
+    //.ToList();
         var _pagedTicketDTO = new PagedResultDTO<TicketDTO>()
         {
             Skip = loadOptions.Skip,

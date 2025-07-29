@@ -664,7 +664,7 @@ function Item_HeaderActionButtons(Action) {
         document.getElementById("SelectItemTab").hidden = false;
         document.getElementById("SelectItem").hidden = false;
         document.getElementById("AddNewItemHeaderBtn").addEventListener("click", ClearItem_HeaderFields);
-        document.getElementById('Item_HeaderModalTitle').innerText = 'Add Item Form';
+        document.getElementById('Item_HeaderModalTitle').innerText = 'Add Item';
         document.getElementById('CreateTabTitle').innerText = 'Create';
         document.getElementById("Item_HeaderActionButtons").innerHTML =
             '<div class="col-md-12">' +
@@ -678,7 +678,7 @@ function Item_HeaderActionButtons(Action) {
         // Update
         document.getElementById("SelectItemTab").hidden = true;
         document.getElementById("SelectItem").hidden = true;
-        document.getElementById('Item_HeaderModalTitle').innerText = 'Update Item Form';
+        document.getElementById('Item_HeaderModalTitle').innerText = 'Update Item';
         document.getElementById('CreateTabTitle').innerText = 'Update';
         document.getElementById("Item_HeaderActionButtons").innerHTML =
             '<div class="col-md-12">' +

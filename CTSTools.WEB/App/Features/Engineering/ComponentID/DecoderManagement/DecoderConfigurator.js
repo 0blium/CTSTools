@@ -65,10 +65,10 @@ async function PopulateDecoderConfigurator() {
         if (_decoderDTO[0].PartTypeID == Value_Enum.Manufactured)
             document.getElementById("ComponentTypeGroup").hidden = false;
         let statusHTML = "";
-        if (_decoderDTO[0].StatusID == Status_Enum.Draft ) {
+        if (_decoderDTO[0].StatusID == Status_Enum.Draft) {
             document.getElementById("SubmitDecoderButton").hidden = false;
-            document.getElementById("DeleteDecoderButton").hidden = false;  
-            document.getElementById("EditDecoderButton").hidden = true;    
+            document.getElementById("DeleteDecoderButton").hidden = false;
+            document.getElementById("EditDecoderButton").hidden = true;
             document.getElementById("StatusGroup").innerHTML = ' <span style="font-weight: normal !important; font-size: 14px" class="badge text-bg-default form-label col-form-label col-xl-9 mt-2  col-md-12" id="DecoderStatusName"><b>' + _decoderDTO[0].StatusName + '</b></span>';
         }
         if (_decoderDTO[0].StatusID == Status_Enum.Editing) {
@@ -77,17 +77,13 @@ async function PopulateDecoderConfigurator() {
             document.getElementById("EditDecoderButton").hidden = true;
             document.getElementById("StatusGroup").innerHTML = ' <span style="font-weight: normal !important; font-size: 14px" class="badge text-bg-primary form-label col-form-label col-xl-9 mt-2  col-md-12" id="DecoderStatusName"><b>' + _decoderDTO[0].StatusName + '</b></span>';
         }
-       
         if (_decoderDTO[0].StatusID == Status_Enum.Released) {
             document.getElementById("SubmitDecoderButton").hidden = true;
             document.getElementById("DeleteDecoderButton").hidden = true;
             document.getElementById("EditDecoderButton").hidden = false;
-            document.getElementById("EditDecoderButton").addEventListener("click", ShowEditDecoderQuestion);            
+            document.getElementById("EditDecoderButton").addEventListener("click", ShowEditDecoderQuestion);
             document.getElementById("StatusGroup").innerHTML = ' <span style="font-weight: normal !important; font-size: 14px" class="badge text-bg-success form-label col-form-label col-xl-9 mt-2  col-md-12" id="DecoderStatusName"><b>' + _decoderDTO[0].StatusName + '</b></span>';
         }
-
-   
-
     }
 }
 async function ShowDeleteDecoderQuestion() {
@@ -183,22 +179,17 @@ async function PopulateDecoderStructureFieldsFromNumber(DecoderStructureDTO) {
     $("#dxNumberBodyCheckBox").dxCheckBox("instance").option("readOnly", true);
     $("#dxDecoderStructureValueLookup").dxLookup("instance").option("value", DecoderStructureDTO.ValueID);
     $("#dxDecoderStructureOptionsTagBox").dxTagBox("instance").option("value", DecoderStructureDTO.ValueIDArray);
-
 }
 async function PopulateDecoderStructureFieldsFromDescription(DecoderStructureDTO) {
     $("#dxDecoderStructureAttributeLookup").dxLookup("instance").option("readOnly", true);
-    $("#hiddenDecoderStructureID").val(DecoderStructureDTO.ID); 
-
-
+    $("#hiddenDecoderStructureID").val(DecoderStructureDTO.ID);
     $("#dxDescriptionBodyCheckBox").dxCheckBox("instance").option("value", DecoderStructureDTO.DescriptionBody);
     $("#dxNumberBodyCheckBox").dxCheckBox("instance").option("value", DecoderStructureDTO.NumberBody);
     $("#dxDescriptionBodyCheckBox").dxCheckBox("instance").option("readOnly", true)
     $("#DecoderConfiguratorDescriptionOrder").val(DecoderStructureDTO.DescriptionOrder);
     $("#dxDecoderStructureAttributeLookup").dxLookup("instance").option("value", DecoderStructureDTO.AttributeID);
-
     $("#dxDecoderStructureOptionsTagBox").dxTagBox("instance").option("value", DecoderStructureDTO.ValueIDArray);
     $("#dxDecoderStructureValueLookup").dxLookup("instance").option("value", DecoderStructureDTO.ValueID);
-
 }
 async function InitializeDecoderStructureControls() {
     document.getElementById("DecoderStructureOptionsGroup").hidden = true;
@@ -208,7 +199,7 @@ async function InitializeDecoderStructureControls() {
         dataSource: await GetAttributeDataSource_Global(),
         displayExpr: "Name",
         valueExpr: "ID",
-        searchEnabled: true,        
+        searchEnabled: true,
         dropDownOptions: {
             container: $('#DecoderStructureModal')
         },
@@ -221,9 +212,7 @@ async function InitializeDecoderStructureControls() {
                     //$("#dxDecoderStructureOptionsTagBox").dxTagBox("instance").reset();
                     //$("#dxDecoderStructureValueLookup").dxLookup("instance").reset();
                     await $("#dxDecoderStructureOptionsTagBox").dxTagBox("instance").option("dataSource", await GetValueDataSource_Global(_attributeDTO.ID));
-
                 }
-
                 else {
                     document.getElementById("DecoderStructureValueGroup").hidden = false;
                     document.getElementById("DecoderStructureOptionsGroup").hidden = true;
@@ -324,34 +313,31 @@ async function InitializeDecoderStructureControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
                     cellTemplate: function (container, options) {
-                        let _items = [];
                         if (Attributes.Variant == options.data.AttributeID || Attributes.Customer_Consigment == options.data.AttributeID) {
-                            $("<div />").dxDropDownButton({
-                                displayExpr: "name",
-                                icon: 'overflow',
-                                dropDownOptions: {
-                                    width: 120,
-                                },
+                            $('<div style="text-align: center;">').appendTo(container).dxMenu({
                                 items: [{
-                                    "id": 4,
-                                    "name": "Edit",
-                                    "icon": "edit",
-                                    onClick: function () {
+                                    icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                    items: [
+                                        { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 }
+                                    ]
+                                }],
+                                showFirstSubmenuMode: 'onClick',
+                                hideSubmenuOnMouseLeave: true,
+                                onItemClick: function (e) {
+                                    if (e.itemData.value == 1) {
                                         DecoderStructureActionButtons("Update");
                                         PopulateDecoderStructureFieldsFromNumber(options.data);
                                         $("#DecoderStructureModal").modal("toggle");
                                     }
-                                }],
-
-                            }).appendTo(container);
+                                },
+                            });
                         }
-                    },
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Order", width: 50, dataField: "NumberOrder", sortOrder: "asc" },
@@ -432,46 +418,36 @@ async function InitializeDecoderStructureControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
                     cellTemplate: function (container, options) {
                         if (Attributes.Class != options.data.AttributeID && Attributes.SubClass != options.data.AttributeID) {
-                            $("<div />").dxDropDownButton({
-                                displayExpr: "name",
-                                icon: 'overflow',
-                                dropDownOptions: {
-                                    width: 120,
+                            $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                                items: [{
+                                    icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                    items: [
+                                        { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                        { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                    ]
+                                }],
+                                showFirstSubmenuMode: 'onClick',
+                                hideSubmenuOnMouseLeave: true,
+                                onItemClick: function (e) {
+                                    if (e.itemData.value == 1) {
+                                        DecoderStructureActionButtons("Update");
+                                        $("#DecoderStructureModal").modal("toggle");
+                                        PopulateDecoderStructureFieldsFromDescription(options.data);
+                                    }
+                                    else if (e.itemData.value == 2) {
+                                        PopulateDecoderStructureFieldsFromDescription(options.data);
+                                        ShowDeleteDecoderStructureQuestion();
+                                    }
                                 },
-                                items: [
-                                    {
-                                        "id": 1,
-                                        "name": "Delete",
-                                        "icon": "trash",
-                                        onClick: function () {
-                                            PopulateDecoderStructureFieldsFromDescription(options.data);
-                                            ShowDeleteDecoderStructureQuestion();
-                                        }
-
-                                    },
-                                    {
-                                        "id": 4,
-                                        "name": "Edit",
-                                        "icon": "edit",
-                                        onClick: function () {
-                                            DecoderStructureActionButtons("Update");
-                                            $("#DecoderStructureModal").modal("toggle");
-
-                                            PopulateDecoderStructureFieldsFromDescription(options.data);
-                                        }
-                                    }],
-
-                            }).appendTo(container);
+                            });
                         }
-
-                    },
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Order", width: 50, dataField: "DescriptionOrder", sortOrder: "asc" },
@@ -511,7 +487,9 @@ async function DeleteDecoderStructure_Global() {
 }
 function DecoderStructureActionButtons(Action) {
     $("#DecoderStructureActionButtons").empty();
+    document.getElementById('DecoderModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('DecoderModalTitle').innerText = 'Add Decoder';
         document.getElementById("DecoderStructureActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateDecoderStructureButton" type="button">Save</button>' +
@@ -521,6 +499,7 @@ function DecoderStructureActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('DecoderModalTitle').innerText = 'Update Decoder';
         document.getElementById("DecoderStructureActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateDecoderStructureButton" type="button">Update</button>' +
@@ -534,7 +513,6 @@ function ClearDecoderStructureFields() {
     DecoderStructureActionButtons("Save");
     $("#dxDescriptionBodyCheckBox").dxCheckBox("instance").option("readOnly", false)
     $("#dxNumberBodyCheckBox").dxCheckBox("instance").option("readOnly", false)
-
     $("#hiddenDecoderStructureID").val("");
     $("#dxDecoderStructureAttributeLookup").dxLookup("instance").option("readOnly", false);
     $("#dxDecoderStructureAttributeLookup").dxLookup("instance").reset();
@@ -564,7 +542,6 @@ function GetDecoderStructureDTO() {
         NumberOrder: $("#DecoderConfiguratorNumberOrder").val(),
         DescriptionOrder: $("#DecoderConfiguratorDescriptionOrder").val(),
         SubClassID: $("#hiddenDecoderSubClassID").val()
-
     }
     return _decoderStructureDTO;
 }
@@ -626,7 +603,6 @@ async function ReorderDescriptionGrid(newDecoderStructureDTO, DecoderStructureDT
         $("#dxDecoderStructureNumberGrid").dxDataGrid("instance").refresh();
         $("#dxDecoderStructureDescriptionGrid").dxDataGrid("instance").refresh();
         ClearDecoderStructureFields();
-
     }
     HostResponse(_validationResultDTO);
     dxLoadPanel.hide();
@@ -689,7 +665,6 @@ const GetAttributeDataSource_Global = () => {
         ["ID", "<>", Attributes.ClassID]
     ];
     return GetDXAttributeDataSource(_attributeDTO, _filters);
-
 }
 
 // Manufacturer
@@ -756,44 +731,34 @@ async function InitializeSubClass_SupplierControls() {
         columns:
             [
                 {
-                    caption: "Option",
+                    caption: "Options",
                     alignment: "center",
                     allowFiltering: false,
                     allowSorting: false,
-                    width: "auto",
                     cellTemplate: function (container, options) {
-                        let _items = [
-                            {
-                                "id": 1,
-                                "name": "Delete",
-                                "icon": "trash",
-                                onClick: function () {
-                                    PopulateSubClass_SupplierFields(options.data);
-                                    ShowDeleteSubClass_SupplierQuestion();
-                                }
-
-                            },
-                            {
-                                "id": 4,
-                                "name": "Edit",
-                                "icon": "edit",
-                                onClick: function () {
+                        $('<div style="text-align: center;">').appendTo(container).dxMenu({
+                            items: [{
+                                icon: "fa-solid fa-ellipsis-vertical text-dark",
+                                items: [
+                                    { text: "Edit", icon: "fa fa-pen-to-square text-success", value: 1 },
+                                    { text: "Delete", icon: "fa fa-trash-alt text-danger", value: 2 },
+                                ]
+                            }],
+                            showFirstSubmenuMode: 'onClick',
+                            hideSubmenuOnMouseLeave: true,
+                            onItemClick: function (e) {
+                                if (e.itemData.value == 1) {
                                     SubClass_SupplierActionButtons("Update");
                                     PopulateSubClass_SupplierFields(options.data);
                                     $("#SubClass_SupplierModal").modal("toggle");
                                 }
-                            }];
-                        $("<div />").dxDropDownButton({
-                            displayExpr: "name",
-                            icon: 'overflow',
-                            dropDownOptions: {
-                                width: 120,
+                                else if (e.itemData.value == 2) {
+                                    PopulateSubClass_SupplierFields(options.data);
+                                    ShowDeleteSubClass_SupplierQuestion();
+                                }
                             },
-
-                            items: _items,
-
-                        }).appendTo(container);
-                    },
+                        });
+                    }
                 },
                 { caption: "ID", dataField: "ID", visible: false, width: "auto" },
                 { caption: "Supplier", dataField: "SupplierName" },
@@ -823,8 +788,9 @@ async function GetDXSubClass_SupplierDataSource_Global() {
 function SubClass_SupplierActionButtons(Action) {
     $("#SubClass_SupplierActionButtons").empty();
     document.getElementById("SubClass_SupplierCloseModalButton").addEventListener("click", ClearSubClass_SupplierFields);
-
+    document.getElementById('SupplierModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('SupplierModalTitle').innerText = 'Add Supplier';
         document.getElementById("SubClass_SupplierActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateSubClass_SupplierButton" type="button">Save</button>' +
@@ -833,6 +799,7 @@ function SubClass_SupplierActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('SupplierModalTitle').innerText = 'Update Supplier';
         document.getElementById("SubClass_SupplierActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateSubClass_SupplierButton" type="button">Update</button>' +

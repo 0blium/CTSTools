@@ -160,8 +160,6 @@ async function InitializeFacilityCatalogControls() {
                     dataField: "LastUpdate",
                     dataType: 'datetime'
                 },
-
-
             ],
     });
 
@@ -171,8 +169,9 @@ async function InitializeFacilityCatalogControls() {
 function FacilityActionButtons(Action) {
     $("#FacilityActionButtons").empty();
     document.getElementById("FacilityModalCloseButton").addEventListener("click", ClearFacilityFields);
-
+    document.getElementById('FacilityModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('FacilityModalTitle').innerText = 'Add Facility';
         document.getElementById("FacilityActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateFacilityButton" type="button">Save</button>' +
@@ -181,6 +180,7 @@ function FacilityActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('FacilityModalTitle').innerText = 'Update Facility';
         document.getElementById("FacilityActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateFacilityButton" type="button">Update</button>' +
@@ -418,8 +418,9 @@ async function InitializeDepartmentCatalogControls() {
 function DepartmentActionButtons(Action) {
     $("#DepartmentActionButtons").empty();
     document.getElementById("DepartmentModalCloseButton").addEventListener("click", ClearDepartmentFields);
-
+    document.getElementById('DepartmentModalTitle').innerText = '';
     if (Action == "Save") {
+        document.getElementById('DepartmentModalTitle').innerText = 'Add Department';
         document.getElementById("DepartmentActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateDepartmentButton" type="button">Save</button>' +
@@ -428,6 +429,7 @@ function DepartmentActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById('DepartmentModalTitle').innerText = 'Update Department';
         document.getElementById("DepartmentActionButtons").innerHTML =
             '<div class="col-md-12">' +            '<button class="btn btn-success me-1 m-b-15 float-end" id="UpdateDepartmentButton" type="button">Update</button>' +
             '</div>';

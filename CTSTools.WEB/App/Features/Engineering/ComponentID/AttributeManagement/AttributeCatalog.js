@@ -4,6 +4,7 @@ import { dxLoadPanel } from '../../../../Common/Components/dxLoadPanel.js';
 import { HostResponse, ClearErrorFeedback } from '../../../../Common/Utils/Response.js';
 import { Attributes } from './Attribute/Attribute_Enum.js'
 
+let _attributeName;
 
 //#region Attribute Catalog
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +20,9 @@ async function InitializeValueCatalogControls() {
         valueExpr: "ID",
         searchEnabled: true,
         onSelectionChanged: function (e) {
-            document.getElementById("ValueModalTitle").innerText = e.selectedItem.Name + " Form";
+            _attributeName = '';
+            _attributeName = e.selectedItem.Name;
+            document.getElementById("ValueModalTitle").innerText = "Add " + e.selectedItem.Name;
             document.getElementById("valuemodalbutton").style.visibility = null;
             document.getElementById("valuemodalbutton").innerHTML = "<i class=\"fa-solid fa-circle-plus\"></i> " + e.selectedItem.Name;
             GetValueGridDataSource();
@@ -208,7 +211,9 @@ async function ShowDeleteValueQuestion() {
 }
 function ValueActionButtons(Action) {
     $("#ValueActionButtons").empty();
+    document.getElementById("ValueModalTitle").innerText = '';
     if (Action == "Save") {
+        document.getElementById("ValueModalTitle").innerText = 'Add ' + _attributeName;
         document.getElementById("ValueActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="CreateValueButton" type="button">Save</button>' +
@@ -217,6 +222,7 @@ function ValueActionButtons(Action) {
     }
     else {
         // Update
+        document.getElementById("ValueModalTitle").innerText = 'Update ' + _attributeName;
         document.getElementById("ValueActionButtons").innerHTML =
             '<div class="col-md-12">' +
             '<button class="btn btn-success m-b-15 float-end" id="UpdateValueButton" type="button">Update</button>' +

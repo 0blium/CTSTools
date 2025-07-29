@@ -263,16 +263,24 @@ async function InitializeTicketConsultControls() {
                     caption: "Priority",
                     dataField: "PriorityName"
                 },
+                //{
+                //    caption: "Item",
+                //    dataField: "Item_LineDTO.ItemNameWithManufactureSerial",
+                //    calculateSortValue: "Item_LineDTO.Item_HeaderDTO.Model",
+                //    calculateFilterExpression: function (filterValue, selectedFilterOperation, target) {
+                //        // Build Filter Search Expression
+                //        return [["Item_LineDTO.Item_HeaderDTO.Model", "contains", filterValue],
+                //            "or",
+                //        ["Item_LineDTO.ManufactureSerialID", "contains", filterValue]];
+                //    }
+                //},
                 {
                     caption: "Item",
-                    dataField: "Item_LineDTO.ItemNameWithManufactureSerial",
-                    calculateSortValue: "Item_LineDTO.Item_HeaderDTO.Model",
-                    calculateFilterExpression: function (filterValue, selectedFilterOperation, target) {
-                        // Build Filter Search Expression 
-                        return [["Item_LineDTO.Item_HeaderDTO.Model", "contains", filterValue],
-                            "or",
-                        ["Item_LineDTO.ManufactureSerialID", "contains", filterValue]];
-                    }
+                    dataField: "Item_LineDTO.Item_HeaderDTO.Model",
+                },
+                {
+                    caption: "Manufacture Serial",
+                    dataField: "Item_LineDTO.ManufactureSerialID",
                 },
                 {
                     caption: "Title",
